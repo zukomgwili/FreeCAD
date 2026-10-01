@@ -296,6 +296,22 @@ class TestLinuxCNCPost(PathTestUtils.PathTestBase):
                 self.post._expand_prefix([])
                 self.assertEqual(self.post.values["PREAMBLE"], expected)
 
+    def test_tapping_g84_basic(self):
+        """
+        Test G84 tapping F-pitch to F-speed: it calls super() for non-rigid
+        """
+        # Setup - create G84 command with annotation
+        command = Path.Command("G84", {"Z": -10.0, "F": 1.5, "S": 10}, {"operation": "tapping"})
+
+        # Execute
+        result = self.post._convert_drill_cycle(command)
+
+        # pitch->speed: units metric, speeds mm/min
+        expected_f = command.Parameters["F"] * command.Parameters["S"]
+
+        # Verify
+        self.assertEqual(f"G84 Z-10.000 F{expected_f:.3f} S10", result)
+
     def test_rigid_tapping_g84_basic(self):
         """
         Test G84 rigid tapping conversion to G33.1 sequence.
@@ -459,6 +475,24 @@ class TestLinuxCNCPost(PathTestUtils.PathTestBase):
         # Verify - converted values (mm to inches)
         self.assertIn("Z-0.3937", result)  # -10mm / 25.4
         self.assertIn("K0.0591", result)  # 1.5mm / 25.4
+
+    def test_rotary_words_are_not_unit_converted(self):
+        """
+        A, B and C are angles. Imperial output converts X, Y, Z to inches but
+        must leave the rotary words in degrees.
+
+        Expected behavior:
+            BEFORE: G0 X10 A20 C-90 in imperial units
+
+            AFTER:  X0.3937, A20.000, C-90.000
+        """
+        self.post._machine.output.units = OutputUnits.IMPERIAL
+        self.post.apply_configuration_bundle()
+        precision = self.post.values["AXIS_PRECISION"]
+
+        self.assertEqual(self.post.format_parameter("X", 10.0, "G0"), f"{10 / 25.4:.{precision}f}")
+        self.assertEqual(self.post.format_parameter("A", 20.0, "G0"), f"{20.0:.{precision}f}")
+        self.assertEqual(self.post.format_parameter("C", -90.0, "G0"), f"{-90.0:.{precision}f}")
 
     def test_rigid_tapping_block_delete(self):
         """
