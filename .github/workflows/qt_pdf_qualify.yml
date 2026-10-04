@@ -93,7 +93,12 @@ jobs:
       - name: Configure and build native FreeCAD against locked baseline
         run: |
           pixi run configure-release
-          pixi run build-release
+          # Keep normal startup and every native qualification dependency/resource.
+          # The unchanged conda presets use Ninja directory aggregate targets.
+          pixi run build-release --target \
+            src/Main/all src/Gui/all \
+            src/Mod/Part/all src/Mod/PartDesign/all src/Mod/Sketcher/all \
+            src/Mod/TechDraw/all src/Mod/Material/all src/Mod/Test/all pivy
 
       - name: Compile the controlled mitigation bypass in this disposable checkout
         run: |

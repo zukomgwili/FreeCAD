@@ -119,6 +119,15 @@ and test reports. They expire after 30 days, so a promoted distribution needs
 a durable source/evidence archive. No workflow publishes a release or changes
 the active dependency pins.
 
+Native qualification uses the unchanged conda CMake configuration and builds
+the Ninja directory aggregates for Main, Gui, Part, PartDesign, Sketcher,
+TechDraw, Material and Test, plus bundled Pivy. These include normal default
+startup, linked dependencies, Python initialization, GUI resources and the
+complete TechDraw test package. Unrelated workbench and broad C++ test targets
+are omitted from this qualification application build. All 66 standalone PDF
+cases, ten Qt writer tests, 24 stock native PDFs and eleven TechDraw GUI tests
+remain required. This scope does not qualify a complete FreeCAD distribution.
+
 ## Artifact transport recovery
 
 The first build runs used GitHub's default exclusion of hidden files. Their

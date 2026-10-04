@@ -159,3 +159,20 @@ The local scratch relinker remains specific to macOS Ninja builds. The portable
 launcher and CI mode require successful native execution on each platform
 before claiming package coverage. This does not update dependency
 pins, replace the user runtime or qualify all supported FreeCAD distributions.
+
+The package qualification workflow keeps the normal conda CMake configuration
+and builds the following Ninja directory aggregates:
+
+```sh
+pixi run build-release --target \
+    src/Main/all src/Gui/all \
+    src/Mod/Part/all src/Mod/PartDesign/all src/Mod/Sketcher/all \
+    src/Mod/TechDraw/all src/Mod/Material/all src/Mod/Test/all pivy
+```
+
+The full aggregates retain core initialization, Python shims, normal default
+PartDesign startup with Sketcher, Material assets, bundled Pivy, TechDraw tools,
+templates, line definitions and the complete TDTest package. Linked App/Gui
+dependencies are built automatically. This builds the application needed for
+the unchanged 24-PDF and eleven-test native gates; unrelated workbenches and
+broad C++ test executables are outside this qualification build scope.
