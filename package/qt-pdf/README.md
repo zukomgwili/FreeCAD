@@ -26,6 +26,12 @@ isolated installer continues to require unchanged non-Qt packages.
 The [host variant receipt](host-variant-compatibility.json) records five
 successful metadata solves and 195 runtime dependency checks against the
 locked baselines. These checks qualify input compatibility, not binaries.
+The [original-package rejection receipt](original-package-rejection.json)
+retains actual archive identities, raw package indexes and exact conflicting
+requirements for the earlier Linux and macOS ARM builds. Those packages passed
+full recipe builds and native recipe tests but cannot preserve the locked
+non-Qt baseline. The receipt distinguishes verified package/index hashes from
+the outer artifact digest, which was not recomputed.
 
 Use Python 3 and an isolated work directory outside installed conda environments:
 
