@@ -19,12 +19,14 @@
 #                                                                              #
 ################################################################################
 
+import json
 import os
 import tempfile
 import unittest
 import FreeCAD as App
 from FreeCAD import Vector
 import Arch
+import ArchStructure
 import Part
 from bimtests import TestArchBase
 
@@ -35,6 +37,75 @@ class TestArchStructure(TestArchBase.TestArchBase):
         App.Console.PrintLog("Checking BIM Structure...\n")
         structure = Arch.makeStructure(length=2, width=3, height=5)
         self.assertTrue(structure, "BIM Structure failed")
+
+    def test_proxy_state_round_trip(self):
+        """Structure auxiliary state survives both Python and JSON round trips."""
+        structure = Arch.makeStructure(length=200, width=300, height=1000)
+        for uuid, property_sets in (
+            ("", []),
+            ("e21ef894-7328-46ce-839b-1183a908db39", ["Default", "Wide column"]),
+        ):
+            structure.Proxy.ArchSkPropSetPickedUuid = uuid
+            structure.Proxy.ArchSkPropSetListPrev = property_sets
+            state = structure.Proxy.dumps()
+            for serialized in (state, json.loads(json.dumps(state))):
+                with self.subTest(state=serialized):
+                    restored = ArchStructure._Structure.__new__(ArchStructure._Structure)
+                    restored.loads(serialized)
+                    self.assertEqual(restored.Type, "Structure")
+                    self.assertEqual(restored.ArchSkPropSetPickedUuid, uuid)
+                    self.assertEqual(restored.ArchSkPropSetListPrev, property_sets)
+                    self.assertEqual(restored.dumps(), state)
+
+    def test_proxy_state_legacy_formats(self):
+        """Keep the tagged and bare-pair formats used by earlier documents."""
+        uuid = "e21ef894-7328-46ce-839b-1183a908db39"
+        property_sets = ["Default", "Wide column"]
+        for state in (("Structure", uuid, property_sets), (uuid, property_sets), ("", [])):
+            for serialized in (state, json.loads(json.dumps(state))):
+                with self.subTest(state=serialized):
+                    restored = ArchStructure._Structure.__new__(ArchStructure._Structure)
+                    restored.loads(serialized)
+                    self.assertEqual(restored.Type, "Structure")
+                    self.assertEqual(restored.ArchSkPropSetPickedUuid, state[-2])
+                    self.assertEqual(restored.ArchSkPropSetListPrev, state[-1])
+
+    def test_proxy_state_without_archsketch_fields(self):
+        """Old documents acquire default auxiliary fields during restoration."""
+        structure = Arch.makeStructure(length=200, width=300, height=1000)
+        for state in (None, "Structure"):
+            with self.subTest(state=state):
+                restored = ArchStructure._Structure.__new__(ArchStructure._Structure)
+                restored.loads(state)
+                restored.setProperties(structure)
+                self.assertEqual(restored.Type, "Structure")
+                self.assertEqual(restored.ArchSkPropSetPickedUuid, "")
+                self.assertEqual(restored.ArchSkPropSetListPrev, [])
+
+    def test_proxy_state_document_round_trip(self):
+        """Closing, reopening and saving again preserves default and populated state."""
+        default = Arch.makeStructure(length=200, width=300, height=1000)
+        populated = Arch.makeStructure(length=400, width=300, height=1000)
+        populated.Proxy.ArchSkPropSetPickedUuid = "e21ef894-7328-46ce-839b-1183a908db39"
+        populated.Proxy.ArchSkPropSetListPrev = ["Default", "Wide column"]
+        self.document.recompute()
+        expected_states = {obj.Name: obj.Proxy.dumps() for obj in (default, populated)}
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = os.path.join(temp_dir, "structure_proxy_state.FCStd")
+            for _ in range(2):
+                self.document.saveAs(path)
+                App.closeDocument(self.document.Name)
+                self.document = App.openDocument(path)
+                for name, expected in expected_states.items():
+                    structure = self.document.getObject(name)
+                    self.assertEqual(structure.Proxy.dumps(), expected)
+                self.document.recompute(None, True, True)
+                for name, expected in expected_states.items():
+                    structure = self.document.getObject(name)
+                    self.assertEqual(structure.Proxy.dumps(), expected)
+                    self.assertFalse(structure.Shape.isNull())
+                    self.assertTrue(structure.Shape.isValid())
 
     #  Dimensions
     def test_makeStructure_explicit_dimensions(self):
