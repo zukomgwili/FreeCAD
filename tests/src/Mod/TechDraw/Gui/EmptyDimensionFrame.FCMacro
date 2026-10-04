@@ -1,0 +1,97 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+
+"""Manual stock-export reproducer for an empty dimension frame (FreeCAD-k3b).
+
+Run with a GUI-enabled FreeCAD. Output defaults to the system temporary directory;
+FREECAD_K3B_OUTPUT_DIR can select another directory. Before the fix, Poppler reports
+one 'No current point in closepath' warning for the Distance dimension PDF. Setting
+FREECAD_K3B_INCLUDE_AREA=1 also creates an Area dimension. Set
+FREECAD_K3B_EXIT_AFTER_EXPORT=1 only in a disposable, isolated GUI process.
+"""
+
+import os
+from pathlib import Path
+import tempfile
+import traceback
+
+import FreeCAD as App
+from PySide import QtCore
+
+
+def settle(milliseconds):
+    loop = QtCore.QEventLoop()
+    QtCore.QTimer.singleShot(milliseconds, loop.quit)
+    loop.exec_()
+
+
+colors = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/Colors")
+view_preferences = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/View")
+previous_color = colors.GetUnsigned("NormalColor", 0x000000FF)
+previous_light_on_dark = colors.GetBool("LightOnDark", False)
+previous_screen_mode = view_preferences.GetBool("ScreenMode", True)
+exit_code = 1
+
+try:
+    # A translucent pen exposes the malformed filled outline in Qt's PDF output.
+    colors.SetUnsigned("NormalColor", 0x000000D8)
+    colors.SetBool("LightOnDark", False)
+    # Use physical widths; screen widths depend on the hidden viewport's zoom.
+    view_preferences.SetBool("ScreenMode", False)
+
+    import Part
+    import TechDraw
+    import TechDrawGui
+
+    output = Path(os.environ.get("FREECAD_K3B_OUTPUT_DIR", tempfile.gettempdir()))
+    output.mkdir(parents=True, exist_ok=True)
+    document = App.newDocument("EmptyDimensionFrame", hidden=True)
+    box = document.addObject("Part::Box", "Box")
+    page = document.addObject("TechDraw::DrawPage", "Page")
+    template = document.addObject("TechDraw::DrawSVGTemplate", "Template")
+    template.Template = (
+        App.getResourceDir()
+        + "Mod/TechDraw/Templates/Default_Template_A4_Landscape.svg"
+    )
+    page.Template = template
+    view = document.addObject("TechDraw::DrawViewPart", "View")
+    view.Source = [box]
+    view.Direction = App.Vector(0, 0, 1)
+    view.X = 100
+    view.Y = 100
+    page.addView(view)
+    document.recompute()
+    page.ViewObject.show()
+    settle(2000)
+    assert len(view.getVisibleEdges()) == 4
+
+    distance = document.addObject("TechDraw::DrawViewDimension", "Distance")
+    distance.Type = "Distance"
+    distance.References2D = [(view, "Edge1")]
+    page.addView(distance)
+    document.recompute()
+    settle(500)
+    assert "Up-to-date" in distance.State
+    TechDrawGui.exportPageAsPdf(page, str(output / "empty-dimension-frame.pdf"))
+
+    if os.environ.get("FREECAD_K3B_INCLUDE_AREA") == "1":
+        area = document.addObject("TechDraw::DrawViewDimension", "Area")
+        area.Type = "Area"
+        area.References2D = [(view, "Face0")]
+        page.addView(area)
+        document.recompute()
+        settle(500)
+        assert "Up-to-date" in area.State
+        TechDrawGui.exportPageAsPdf(page, str(output / "empty-area-frame.pdf"))
+
+    document.saveAs(str(output / "empty-dimension-frame.FCStd"))
+    App.Console.PrintMessage("Native TechDraw exports saved to {}\n".format(output))
+    exit_code = 0
+except Exception:
+    App.Console.PrintError(traceback.format_exc())
+finally:
+    colors.SetUnsigned("NormalColor", previous_color)
+    colors.SetBool("LightOnDark", previous_light_on_dark)
+    view_preferences.SetBool("ScreenMode", previous_screen_mode)
+
+if os.environ.get("FREECAD_K3B_EXIT_AFTER_EXPORT") == "1":
+    os._exit(exit_code)
