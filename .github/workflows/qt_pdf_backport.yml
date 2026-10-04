@@ -1,0 +1,121 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+name: Qt PDF Backport Build
+
+on:
+  push:
+    branches: [codex/deliver-qt-pdf-stroker]
+    paths:
+      - .github/workflows/qt_pdf_backport.yml
+      - package/qt-pdf/build_backport.py
+      - tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    # Dependency experiments belong to the personal fork until reviewed.
+    if: github.repository == 'zukomgwili/FreeCAD'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { target: linux-64, os: ubuntu-24.04, jobs: 2 }
+          - { target: linux-aarch64, os: ubuntu-24.04-arm, jobs: 2 }
+          - { target: osx-64, os: macos-15-intel, jobs: 2 }
+          - { target: osx-arm64, os: macos-15, jobs: 1 }
+          - { target: win-64, os: windows-2022, jobs: 2 }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 330
+    env:
+      QT_PDF_TARGET: ${{ matrix.target }}
+      CPU_COUNT: ${{ matrix.jobs }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Make space for the complete Qt source build
+        if: runner.os == 'Linux'
+        uses: AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793 # v5
+        with:
+          remove-android: 'true'
+          remove-cached-tools: 'true'
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.81.0
+          run-install: false
+          cache: false
+
+      - name: Select recorded macOS SDK
+        if: runner.os == 'macOS'
+        run: |
+          test -d /Applications/Xcode_16.4.app
+          echo 'DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer' >> "$GITHUB_ENV"
+          QT_PDF_SDK=$(DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer xcrun --sdk macosx --show-sdk-path)
+          test -d "$QT_PDF_SDK"
+          echo "QT_PDF_SDK=$QT_PDF_SDK" >> "$GITHUB_ENV"
+
+      - name: Prepare pinned complete feedstock
+        run: |
+          qt_pdf_sdk_args=()
+          if [ -n "${QT_PDF_SDK:-}" ]; then qt_pdf_sdk_args=(--macos-sdk "$QT_PDF_SDK"); fi
+          pixi exec --spec python=3.13 -- python package/qt-pdf/build_backport.py --prepare \
+            --work-dir "$RUNNER_TEMP/qt-pdf-package" --platform "$QT_PDF_TARGET" \
+            "${qt_pdf_sdk_args[@]}"
+
+      - name: Record runner provenance
+        run: |
+          pixi exec --spec python=3.13 -- python - <<'PY'
+          import json, os, platform, subprocess
+          from pathlib import Path
+          record = {
+              "commit": os.environ["GITHUB_SHA"],
+              "run_url": f'{os.environ["GITHUB_SERVER_URL"]}/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{os.environ["GITHUB_RUN_ID"]}',
+              "target": os.environ["QT_PDF_TARGET"],
+              "system": platform.platform(), "machine": platform.machine(),
+              "sdk": os.environ.get("QT_PDF_SDK"),
+              "developer_dir": os.environ.get("DEVELOPER_DIR"),
+              "image_os": os.environ.get("ImageOS"),
+              "image_version": os.environ.get("ImageVersion"),
+              "cpu_count": os.environ.get("CPU_COUNT"),
+              "qualified": False,
+          }
+          if platform.system() == "Darwin":
+              record["sdk_version"] = subprocess.check_output(["xcrun", "--sdk", "macosx", "--show-sdk-version"], text=True).strip()
+          (Path(os.environ["RUNNER_TEMP"]) / "qt-pdf-runner.json").write_text(json.dumps(record, indent=2) + "\n")
+          PY
+
+      - name: Build complete Qt package and run native recipe tests
+        run: |
+          qt_pdf_sdk_args=()
+          if [ -n "${QT_PDF_SDK:-}" ]; then qt_pdf_sdk_args=(--macos-sdk "$QT_PDF_SDK"); fi
+          pixi exec --spec python=3.13 --spec rattler-build=0.76.1 -- \
+            python package/qt-pdf/build_backport.py --build \
+            --work-dir "$RUNNER_TEMP/qt-pdf-package" --platform "$QT_PDF_TARGET" \
+            "${qt_pdf_sdk_args[@]}" 2>&1 | tee "$RUNNER_TEMP/qt-pdf-build.log"
+
+      - name: Retain package, corresponding source and build evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-backport-${{ matrix.target }}
+          retention-days: 30
+          compression-level: 0
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/qt-pdf-package/feedstock.tar.gz
+            ${{ runner.temp }}/qt-pdf-package/feedstock
+            ${{ runner.temp }}/qt-pdf-package/recipe.diff
+            ${{ runner.temp }}/qt-pdf-package/build-scripts.diff
+            ${{ runner.temp }}/qt-pdf-package/provenance.json
+            ${{ runner.temp }}/qt-pdf-package/build.json
+            ${{ runner.temp }}/qt-pdf-package/output/${{ matrix.target }}/qt6-main-*.conda
+            ${{ runner.temp }}/qt-pdf-package/output/src_cache
+            ${{ runner.temp }}/qt-pdf-build.log
+            ${{ runner.temp }}/qt-pdf-runner.json
