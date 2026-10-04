@@ -1,0 +1,189 @@
+{
+  "SPDX-License-Identifier": "LGPL-2.1-or-later",
+  "schema_version": 1,
+  "qualification_scope": "Authenticated source-only LibPack Qt6.11.1 seam; no build/binary/package/native qualification",
+  "package_qualified": false,
+  "native_freecad_qualified": false,
+  "libpack_commits": {
+    "3.5.3": "94cda1f16a388b0a70b814d0f8d684301787f4da",
+    "3.5.5": "6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59"
+  },
+  "qt5_commit": "bfde7b892add48396756dc44a3e3fa03d98c5710",
+  "qtbase_commit": "59c81a3c2247b821b9b84b4eb8d939b77e07e276",
+  "qpdf_git_blob_sha1": "b1ea3f240f1cb7fda57afe9f481aa3cb0c40666e",
+  "qpdf_baseline_sha256": "ccd12fea8fc9824d0a3f7a676abace2e27d9eeebdb427c409b1b153ebba4bd30",
+  "qpdf_patched_sha256": "e898d324f423d8eb7b288efca815ee0ebc360ad9752635abe963c5becee6a19a",
+  "patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+  "exact_single_guard_change": true,
+  "git_version": "git version 2.56.0",
+  "generic_parser_test": {
+    "scope": "Actual pinned split_patch_data function extracted via AST; no builder/module side effects",
+    "retained_unified_diff_rejected": true,
+    "exit_code": 1,
+    "stdout": "ERROR: Bad patch file, must start with @@@ filename @@@\n"
+  },
+  "semantics": {
+    "first_initialization_line": 607,
+    "move_to_emits_coordinate_line": 576,
+    "move_to_sets_first_false_line": 577,
+    "per_stroke_reset_line": 653,
+    "terminal_fill_line": 656,
+    "change": "guard existing terminal h f with !first; all other bytes identical"
+  },
+  "maintainer_seam": {
+    "pinned_libpack_commit": "6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59",
+    "function": "Compiler.build_qt",
+    "apply_after": "successful _run_streaming(init_command, configure_log.txt)",
+    "apply_before": "_cmake_build()",
+    "source_root": "old_cwd",
+    "patch_strip_from_supermodule": 1,
+    "patch_strip_from_qtbase": 2,
+    "fresh_rebuild_option": "--rebuild qt",
+    "scope": "recommendation, not implemented or binary-qualified"
+  },
+  "source_receipts": [
+    {
+      "url": "https://api.github.com/repos/FreeCAD/FreeCAD-LibPack/commits/3.5.3",
+      "sha256": "379e9ab0ad86e0a4a949eb5e2817d226baa5c79134657d8b4254ed592132c202",
+      "bytes": 6914
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/94cda1f16a388b0a70b814d0f8d684301787f4da/config.json",
+      "sha256": "6128f565ca295351e6b308524e552c388ead578627884b485b761d6d4602827b",
+      "bytes": 13899
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/94cda1f16a388b0a70b814d0f8d684301787f4da/create_libpack.py",
+      "sha256": "44fc0ed4028073d8ac40c03159e3aac80074a0b828024d93db73c3f4f81510d0",
+      "bytes": 27666
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/94cda1f16a388b0a70b814d0f8d684301787f4da/compile_all.py",
+      "sha256": "936bb96c3f061ce5f436c8101bad03840fee1d59f6aaafc730f299312917f4cb",
+      "bytes": 106190
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/94cda1f16a388b0a70b814d0f8d684301787f4da/generate_patch.py",
+      "sha256": "1882eab73c1b6078ea567f5d91a137fca62c8e8d7f304c239907fe69c39b872d",
+      "bytes": 1078
+    },
+    {
+      "url": "https://api.github.com/repos/FreeCAD/FreeCAD-LibPack/commits/3.5.5",
+      "sha256": "72aef2292cb6e13f4cac76974f88ce98af27b3435ee5d032619a96cd2724bda5",
+      "bytes": 6490
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/config.json",
+      "sha256": "1b6425f4a2091d2feb95994e05dba185a65aab1589def5e51994351e9ce51c3e",
+      "bytes": 14759
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/create_libpack.py",
+      "sha256": "2418e3bafb65359530882555063479bcbe87c6eede8d1809342c472979fb99e5",
+      "bytes": 30463
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/compile_all.py",
+      "sha256": "f7f59220d72404f104bbdfec63205cb3ce2556d58b93b1a83ccb9d6cfb697a4e",
+      "bytes": 106297
+    },
+    {
+      "url": "https://raw.githubusercontent.com/FreeCAD/FreeCAD-LibPack/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/generate_patch.py",
+      "sha256": "1882eab73c1b6078ea567f5d91a137fca62c8e8d7f304c239907fe69c39b872d",
+      "bytes": 1078
+    },
+    {
+      "url": "https://api.github.com/repos/qt/qt5/commits/v6.11.1",
+      "sha256": "66958a5a7af9400492e42b7a1636f199c9f03442424911dab9394d755d94108c",
+      "bytes": 2849
+    },
+    {
+      "url": "https://api.github.com/repos/qt/qt5/git/trees/bfde7b892add48396756dc44a3e3fa03d98c5710",
+      "sha256": "2a529653e366315e52d038648fb3457b2eb734d3858149020d67fccd0b0bccb7",
+      "bytes": 10705
+    },
+    {
+      "url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/src/gui/painting/qpdf.cpp",
+      "sha256": "ccd12fea8fc9824d0a3f7a676abace2e27d9eeebdb427c409b1b153ebba4bd30",
+      "bytes": 107591
+    },
+    {
+      "url": "https://api.github.com/repos/qt/qtbase/contents/src/gui/painting/qpdf.cpp?ref=59c81a3c2247b821b9b84b4eb8d939b77e07e276",
+      "sha256": "f433d7dc1ccaedc39a30e4b3211c4cb1d3f3a8098a880a5cc8a2c7a2df45f62f",
+      "bytes": 149220
+    },
+    {
+      "url": "https://raw.githubusercontent.com/qt/qt5/bfde7b892add48396756dc44a3e3fa03d98c5710/configure.bat",
+      "sha256": "4f45d6e5422c37c851b506bd438cac380333069e81107a19983db33d2d613e46",
+      "bytes": 1067
+    },
+    {
+      "url": "https://raw.githubusercontent.com/qt/qt5/bfde7b892add48396756dc44a3e3fa03d98c5710/init-repository.pl",
+      "sha256": "d47c091d76f2c11276f1b7d497e00c74179fe4cf33221ed1eb4b08b625d09704",
+      "bytes": 21404
+    },
+    {
+      "url": "https://raw.githubusercontent.com/qt/qt5/bfde7b892add48396756dc44a3e3fa03d98c5710/cmake/QtTopLevelConfigureScript.cmake",
+      "sha256": "c7add6769f93e25fbe39a6e49ee7af2f69332a7f081fea6690b9132184f322f7",
+      "bytes": 416
+    }
+  ],
+  "patch_commands": [
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "-p1",
+        "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch"
+      ],
+      "cwd": "/private/tmp/freecad-t8a-libpack-seam-35jf8og7/qt",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "-p2",
+        "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch"
+      ],
+      "cwd": "/private/tmp/freecad-t8a-libpack-seam-35jf8og7/qt/qtbase",
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "-p1",
+        "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch"
+      ],
+      "cwd": "/private/tmp/freecad-t8a-libpack-seam-35jf8og7/qt",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "--reverse",
+        "--check",
+        "-p1",
+        "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch"
+      ],
+      "cwd": "/private/tmp/freecad-t8a-libpack-seam-35jf8og7/qt",
+      "exit_code": 0
+    }
+  ],
+  "source_equivalence": {
+    "qt_version": "6.11.2",
+    "path": "/private/tmp/freecad-t8a-qt/qtbase-6.11.2/src/gui/painting/qpdf.cpp",
+    "source_sha256": "e898d324f423d8eb7b288efca815ee0ebc360ad9752635abe963c5becee6a19a",
+    "byte_equal_patched_qt6_11_1": true,
+    "scope": "source equivalence only; does not transfer binary qualification"
+  },
+  "scratch_receipt_sha256": "095d490f28e984d994870817fe216a8e19f1f58567eade9cbc486ce7c6cc4764"
+}

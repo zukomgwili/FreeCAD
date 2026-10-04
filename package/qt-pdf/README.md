@@ -139,9 +139,26 @@ Application-local DLLs must be handled in a disposable application tree so
 their precedence cannot mask the candidate runtime. Keep both FreeCAD guards
 until every intended distribution path has qualified corrected dependencies.
 
+Source-only validation confirms the pinned QtBase 6.11.1 `qpdf.cpp` is
+byte-identical to the tested 6.11.2 file: SHA-256
+`ccd12fea8fc9824d0a3f7a676abace2e27d9eeebdb427c409b1b153ebba4bd30`.
+The retained unified patch applies cleanly with `-p1` at the Qt superproject
+root or `-p2` at the QtBase root. This establishes source compatibility only.
+LibPack's generic config patch hook runs before QtBase initialization and
+expects its own `@@@ filename @@@`/diff-match-patch format. Apply and verify
+the retained patch in a dedicated `build_qt` step after successful
+configuration/submodule initialization and before `_cmake_build()` instead.
+Use a fresh build or `--rebuild qt` so existing-build shortcuts cannot bypass
+that step. The current native/package qualification helpers require Qt 6.11.2;
+a LibPack 6.11.1 mode needs separate review and actual execution.
+The [source compatibility receipt](libpack-source-compatibility.json) retains
+the pinned identities, parser rejection, successful patch checks and seam.
+
 Pinned LibPack sources: [3.5.3](https://github.com/FreeCAD/FreeCAD-LibPack/blob/94cda1f16a388b0a70b814d0f8d684301787f4da/config.json),
 [3.5.5 configuration](https://github.com/FreeCAD/FreeCAD-LibPack/blob/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/config.json#L126),
 [Qt build procedure](https://github.com/FreeCAD/FreeCAD-LibPack/blob/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/compile_all.py#L1124),
+[patch initialization](https://github.com/FreeCAD/FreeCAD-LibPack/blob/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/create_libpack.py#L184),
+[generic patch parser](https://github.com/FreeCAD/FreeCAD-LibPack/blob/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/compile_all.py#L202),
 [QtBase 6.11.1 serializer](https://github.com/qt/qtbase/blob/59c81a3c2247b821b9b84b4eb8d939b77e07e276/src/gui/painting/qpdf.cpp#L657).
 
 Sources: [pinned upstream recipe](https://github.com/conda-forge/qt-main-feedstock/blob/5cd1156d41526330a116b6b441611b47357ec568/recipe/recipe.yaml),
