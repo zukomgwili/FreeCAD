@@ -77,6 +77,22 @@ jobs:
           run-install: false
           cache: false
 
+      - name: Create the isolated physical work directory
+        id: work-root
+        run: |
+          pixi exec --spec python=3.13 -- python - <<'PY'
+          import os, sys
+          from pathlib import Path
+          temporary = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
+          # MSVC's longest generated object exceeded MAX_PATH under RUNNER_TEMP.
+          # A real short root survives Python/rattler path canonicalization.
+          work = Path(temporary.anchor) / "q" if sys.platform == "win32" else temporary / "qt-pdf-package"
+          assert not (work.exists() or work.is_symlink() or work.is_junction()), "Work directory must be fresh"
+          work.mkdir(exist_ok=False)
+          with open(os.environ["GITHUB_ENV"], "a") as output:
+              output.write(f"QT_PDF_WORK_DIR={work.resolve(strict=True)}\n")
+          PY
+
       - name: Select recorded macOS SDK
         if: runner.os == 'macOS'
         run: |
@@ -91,7 +107,7 @@ jobs:
           qt_pdf_sdk_args=()
           if [ -n "${QT_PDF_SDK:-}" ]; then qt_pdf_sdk_args=(--macos-sdk "$QT_PDF_SDK"); fi
           pixi exec --spec python=3.13 -- python package/qt-pdf/build_backport.py --prepare \
-            --work-dir "$RUNNER_TEMP/qt-pdf-package" --platform "$QT_PDF_TARGET" \
+            --work-dir "$QT_PDF_WORK_DIR" --platform "$QT_PDF_TARGET" \
             "${qt_pdf_sdk_args[@]}"
 
       - name: Record runner provenance
@@ -109,6 +125,8 @@ jobs:
               "image_os": os.environ.get("ImageOS"),
               "image_version": os.environ.get("ImageVersion"),
               "cpu_count": os.environ.get("CPU_COUNT"),
+              "physical_work_dir": os.environ["QT_PDF_WORK_DIR"],
+              "artifact_work_dir": str(Path(os.environ["RUNNER_TEMP"]) / "qt-pdf-package"),
               "qualified": False,
           }
           if platform.system() == "Darwin":
@@ -122,11 +140,28 @@ jobs:
           if [ -n "${QT_PDF_SDK:-}" ]; then qt_pdf_sdk_args=(--macos-sdk "$QT_PDF_SDK"); fi
           pixi exec --spec python=3.13 --spec rattler-build=0.76.1 -- \
             python package/qt-pdf/build_backport.py --build \
-            --work-dir "$RUNNER_TEMP/qt-pdf-package" --platform "$QT_PDF_TARGET" \
+            --work-dir "$QT_PDF_WORK_DIR" --platform "$QT_PDF_TARGET" \
             "${qt_pdf_sdk_args[@]}" 2>&1 | tee "$RUNNER_TEMP/qt-pdf-build.log"
 
+      - name: Move Windows evidence to the recorded artifact layout
+        id: work-transport
+        if: always() && runner.os == 'Windows' && steps.work-root.outcome == 'success'
+        run: |
+          pixi exec --spec python=3.13 -- python - <<'PY'
+          import os
+          from pathlib import Path
+          temporary = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
+          work = Path(os.environ["QT_PDF_WORK_DIR"])
+          assert work == Path(temporary.anchor) / "q", "Unexpected physical work directory"
+          assert work.is_dir() and not (work.is_symlink() or work.is_junction()), "Work directory must be real"
+          destination = temporary / "qt-pdf-package"
+          assert not (destination.exists() or destination.is_symlink() or destination.is_junction()), "Artifact destination must be fresh"
+          # Same-volume rename preserves bytes and original build.json commands.
+          work.rename(destination)
+          PY
+
       - name: Retain package, corresponding source and build evidence
-        if: always()
+        if: always() && steps.work-root.outcome == 'success' && (runner.os != 'Windows' || steps.work-transport.outcome == 'success')
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: qt-pdf-backport-${{ matrix.target }}

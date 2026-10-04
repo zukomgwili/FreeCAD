@@ -38,6 +38,15 @@ Intel and ARM image inventories lack SDK 14.5; both list Xcode 16.4 with SDK
 15.5. The workflow may explicitly select that Xcode and record its SDK path as
 a controlled qualification input. No installed Qt or active FreeCAD pin is edited.
 
+Windows jobs create a fresh physical `q` directory at the runner temporary
+drive's root. The first full Windows compile reached a generated Qt Quick
+object whose absolute output path was 262 characters and failed with MSVC
+C1083. The shorter physical root reduces that path to 241 characters; a new
+native build must verify the remedy. After building, a same-volume rename
+moves the evidence into the existing artifact layout without rewriting the
+original commands in `build.json`. Existing or linked work/transport paths
+fail before use. No compiler, Qt feature or recipe pin changes for this retry.
+
 The helper verifies the pinned archive/recipe/retained patch, rejects archive
 links and unexpected paths, and verifies the complete prepared tree again
 before invoking the build. Repeating preparation validates existing contents;
