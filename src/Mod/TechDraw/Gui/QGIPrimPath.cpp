@@ -293,6 +293,5 @@ void QGIPrimPath::paint ( QPainter * painter, const QStyleOptionGraphicsItem * o
     setPen(m_pen);
     setBrush(m_brush);
 
-    QGraphicsPathItem::paint (painter, &myOption, widget);
+    QGCustomPath::paint (painter, &myOption, widget);
 }
-

@@ -33,6 +33,7 @@
 #include <Base/Parameter.h>
 
 #include "QGIUserTypes.h"
+#include "QGCustomPath.h"
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -42,7 +43,7 @@ QT_END_NAMESPACE
 namespace TechDrawGui
 {
 
-class TechDrawGuiExport QGIPrimPath : public QGraphicsPathItem
+class TechDrawGuiExport QGIPrimPath : public QGCustomPath
 {
 public:
     explicit QGIPrimPath();
