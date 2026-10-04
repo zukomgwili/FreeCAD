@@ -919,11 +919,12 @@ class _Structure(ArchComponent.Component):
 
     def loads(self, state):
         self.Type = "Structure"
-        if state == None:
+        if state is None:
             return
         elif state[0] == "S":  # state[1] == 't', behaviour before 2024.11.28
             return
-        elif state[0] == "Structure":
+        elif state[0] is None or state[0] == "Structure":
+            # Component.dumps() stores None; older documents stored the type name.
             self.ArchSkPropSetPickedUuid = state[1]
             self.ArchSkPropSetListPrev = state[2]
         elif state[0] != "Structure":  # model before merging super.dumps/loads()
