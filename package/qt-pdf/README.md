@@ -15,6 +15,18 @@ anchors are asserted and the changes are retained in `build-scripts.diff`.
 Rattler-build forwards `CPU_COUNT` into its strict build environment. This
 sets build concurrency without changing compiler, dependency or Qt feature pins.
 
+Two explicit build variants constrain the historical recipe's bare host
+requirements: `harfbuzz=14.4.0` and `libpng=1.6.58`, matching all five locked
+FreeCAD baselines. The initial unconstrained solve selected newer releases
+and emitted minimum runtime requirements that the baseline could not meet.
+The original variant files stay intact; preparation provenance and the actual
+build command record these choices. Qualification requires both exact
+overrides, together with the recorded SDK override where applicable. The
+isolated installer continues to require unchanged non-Qt packages.
+The [host variant receipt](host-variant-compatibility.json) records five
+successful metadata solves and 195 runtime dependency checks against the
+locked baselines. These checks qualify input compatibility, not binaries.
+
 Use Python 3 and an isolated work directory outside installed conda environments:
 
 ```sh

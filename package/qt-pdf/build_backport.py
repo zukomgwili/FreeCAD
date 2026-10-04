@@ -32,6 +32,9 @@ VARIANTS = {
     "osx-arm64": ".ci_support/osx_arm64_.yaml",
     "win-64": ".ci_support/win_64_.yaml",
 }
+# Bare historical host requirements otherwise select newer ABI dependencies
+# than FreeCAD's locked runtime. Keep these choices explicit in the evidence.
+DEPENDENCY_VARIANTS = {"harfbuzz": "14.4.0", "libpng": "1.6.58"}
 
 
 def sha256(data):
@@ -179,6 +182,37 @@ def macos_sdk(path, target):
     }
 
 
+def build_variants(sdk=None):
+    variants = [f"{name}={version}" for name, version in DEPENDENCY_VARIANTS.items()]
+    if sdk is not None:
+        variants.append(f"CONDA_BUILD_SYSROOT={sdk['path']}")
+    return variants
+
+
+def build_command(executable, work, target, sdk=None):
+    command = [
+        executable,
+        "build",
+        "--recipe",
+        str(work / "feedstock/recipe/recipe.yaml"),
+        "--variant-config",
+        str(work / "feedstock" / VARIANTS[target]),
+        "--target-platform",
+        target,
+        "--build-platform",
+        target,
+        "--package-format",
+        "conda",
+        "--test",
+        "native",
+        "--output-dir",
+        str(work / "output"),
+    ]
+    for variant in build_variants(sdk):
+        command.extend(["--variant", variant])
+    return command
+
+
 def expected_materialization(work, target, sdk=None):
     archive = work / "feedstock.tar.gz"
     if archive.exists():
@@ -206,6 +240,7 @@ def expected_materialization(work, target, sdk=None):
         "retained_patch_sha256": PATCH_SHA256,
         "target_platform": target,
         "variant": VARIANTS[target],
+        "dependency_variants": dict(DEPENDENCY_VARIANTS),
         "macos_sdk": sdk,
         "build_script_diff": scheduling_diff,
         "files": {name: sha256(data) for name, data in sorted(files.items())},
@@ -296,26 +331,7 @@ def build(work, target, executable, sdk=None):
     version = subprocess.run(
         [tool, "--version"], check=True, capture_output=True, text=True
     ).stdout.strip()
-    command = [
-        tool,
-        "build",
-        "--recipe",
-        str(work / "feedstock/recipe/recipe.yaml"),
-        "--variant-config",
-        str(work / "feedstock" / VARIANTS[target]),
-        "--target-platform",
-        target,
-        "--build-platform",
-        target,
-        "--package-format",
-        "conda",
-        "--test",
-        "native",
-        "--output-dir",
-        str(work / "output"),
-    ]
-    if sdk is not None:
-        command.extend(["--variant", f"CONDA_BUILD_SYSROOT={sdk['path']}"])
+    command = build_command(tool, work, target, sdk)
     record = {
         "schema_version": 1,
         "command": command,

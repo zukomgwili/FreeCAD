@@ -1,0 +1,668 @@
+{
+  "SPDX-License-Identifier": "LGPL-2.1-or-later",
+  "schema_version": 1,
+  "qualification_scope": "Actual rattler-build 0.76.1 render-only dependency solves and MatchSpec comparison against all five locked baselines; metadata compatibility only",
+  "package_qualified": false,
+  "native_freecad_qualified": false,
+  "package_compiled": false,
+  "environments_installed_or_mutated": false,
+  "dependency_variants": {
+    "harfbuzz": "14.4.0",
+    "libpng": "1.6.58"
+  },
+  "pixi_lock_sha256": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+  "rattler_build": {
+    "version": "rattler-build 0.76.1",
+    "executable": "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/rattler-build-f3b5f862c0551ac1/bin/rattler-build",
+    "executable_sha256": "34b6b9b7b92b0ed8a54d7a0820dbc9d23b8faa23aa1d6d1f3802a69cb168f949"
+  },
+  "matchspec_parser": {
+    "name": "py-rattler",
+    "version": "0.25.0",
+    "build": "py310h2dd3e6a_5",
+    "sha256": "f1549f5f3ed4cac1d5aa252b6aa244c024c84cede8b56e95213a7d8c40e5c037",
+    "url": "https://conda.anaconda.org/conda-forge/osx-arm64/py-rattler-0.25.0-py310h2dd3e6a_5.conda",
+    "api": "rattler.MatchSpec(spec, strict=True).matches(PackageRecord)",
+    "loaded_abi3_extension_sha256": "0d6a7d3cd83018c3d4aab74c5c389b297241f7882b32ce459f9872fb1b6064e0",
+    "interpreter": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/python",
+    "baseline_selection": "pixi.lock environments.default.packages for matching target subdir",
+    "virtual_packages": "Exact virtual-package versions/builds from each corresponding locked platform",
+    "run_constraint_semantics": "Checked if installed; sole qt==6.11.2 constraint is vacuous because qt metapackage is absent"
+  },
+  "variant_semantics": {
+    "applies_to": "bare build/host requirements with no version or build constraint",
+    "plain_numeric_value": "rattler adds startswith match; rendered host specs are harfbuzz14.4.0.* and libpng1.6.58.*",
+    "observed_current_solution": "All20 HarfBuzz/libpng host version/build/SHA256 identities match the corresponding exact baseline archives",
+    "runtime_export_editing": false
+  },
+  "summary": {
+    "runtime_dependency_matchspec_checks": 195,
+    "compatible_runtime_dependency_checks": 195,
+    "exact_host_archive_identity_checks": 20,
+    "optional_run_constraints_checked": 5,
+    "all_metadata_compatibility_checks_passed": true,
+    "target_platforms_resolved": 5
+  },
+  "source_receipts": [
+    {
+      "url": "https://raw.githubusercontent.com/prefix-dev/rattler-build/v0.76.1/crates/rattler_build_recipe/src/variant_render.rs",
+      "sha256": "75e7d82c2bf91f79aa350b6e40ad11fb6f3482d97232a0dc8f4e7862b735618f",
+      "bytes": 135531
+    },
+    {
+      "url": "https://raw.githubusercontent.com/prefix-dev/rattler-build/v0.76.1/crates/rattler_build_core/src/render/resolved_dependencies.rs",
+      "sha256": "6ca442adb06a66ecc86a363254e1a980a42363e633ac3e919d2623a5d6e9518e",
+      "bytes": 46007
+    },
+    {
+      "url": "https://raw.githubusercontent.com/prefix-dev/rattler-build/v0.76.1/crates/rattler_build_core/src/render/solver.rs",
+      "sha256": "6a106ba4978ab7e51b913a3a599e0ba24df6325627991f46ee11a8a516fef26d",
+      "bytes": 14647
+    },
+    {
+      "url": "https://raw.githubusercontent.com/prefix-dev/rattler-build/v0.76.1/crates/rattler_build_variant_config/src/config.rs",
+      "sha256": "ac002809a97593bb7bf6acaff29299cdcaf7ce56846cf3218765df9474026559",
+      "bytes": 13446
+    },
+    {
+      "url": "https://raw.githubusercontent.com/prefix-dev/rattler-build/v0.76.1/src/config.rs",
+      "sha256": "a7a4cfade9e40c33bf3273f6d64c90976708040456ebf593f98328d06129508b",
+      "bytes": 8362
+    },
+    {
+      "url": "https://raw.githubusercontent.com/conda-forge/qt-main-feedstock/5cd1156d41526330a116b6b441611b47357ec568/recipe/recipe.yaml",
+      "sha256": "2cd9dc4831840960f1d44cfb7753ba1a0315ea5ccc77796d771e612c186cb9c0",
+      "bytes": 10389
+    },
+    {
+      "url": "https://raw.githubusercontent.com/conda-forge/qt-main-feedstock/5cd1156d41526330a116b6b441611b47357ec568/.ci_support/linux_64_.yaml",
+      "sha256": "8f120ec9a34eefd14328cb66fbca028ab8120ee10ba4bb99809d6d6594d21021",
+      "bytes": 704
+    },
+    {
+      "url": "https://raw.githubusercontent.com/conda-forge/qt-main-feedstock/5cd1156d41526330a116b6b441611b47357ec568/.ci_support/linux_aarch64_.yaml",
+      "sha256": "cd8348b66c2224ee3ec913b07cb7bae54defab3a3251e4188a74c94998c27493",
+      "bytes": 710
+    },
+    {
+      "url": "https://raw.githubusercontent.com/conda-forge/qt-main-feedstock/5cd1156d41526330a116b6b441611b47357ec568/.ci_support/osx_64_.yaml",
+      "sha256": "74a72225f5e4ae97c0bfd1f7b6b29103b343a61c4e1bd8ceb19b4d9a41f0b301",
+      "bytes": 669
+    },
+    {
+      "url": "https://raw.githubusercontent.com/conda-forge/qt-main-feedstock/5cd1156d41526330a116b6b441611b47357ec568/.ci_support/osx_arm64_.yaml",
+      "sha256": "c7404a5fe977ee39329e14269349d9929e6b371b0c4a5fd5cc1c387539a74e55",
+      "bytes": 671
+    },
+    {
+      "url": "https://raw.githubusercontent.com/conda-forge/qt-main-feedstock/5cd1156d41526330a116b6b441611b47357ec568/.ci_support/win_64_.yaml",
+      "sha256": "674e5f545f091dc32b337062b068bc5c4272fa3ee2e320e11e82c843930bf46b",
+      "bytes": 396
+    }
+  ],
+  "targets": [
+    {
+      "target_platform": "linux-64",
+      "build_platform": "linux-64",
+      "command": [
+        "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/rattler-build-f3b5f862c0551ac1/bin/rattler-build",
+        "build",
+        "--recipe",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/recipe/recipe.yaml",
+        "--variant-config",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/.ci_support/linux_64_.yaml",
+        "--target-platform",
+        "linux-64",
+        "--build-platform",
+        "linux-64",
+        "--render-only",
+        "--with-solve",
+        "--output-dir",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/solved-two-pins-linux-64",
+        "--variant",
+        "harfbuzz=14.4.0",
+        "--variant",
+        "libpng=1.6.58"
+      ],
+      "exit_code": 0,
+      "rendered_metadata_sha256": "eb1eacbf4efe8179d2246738b329a504ec8422b814fa07cd9f9b202be5979316",
+      "solver_log_sha256": "4a134f6d9e8fbb1de0a1eee7351aaf09bbfc2b5aa2bd0e68c6b87c8fc990209c",
+      "run_dependency_count": 63,
+      "run_dependencies": [
+        "libxcb",
+        "xcb-util",
+        "xcb-util-wm",
+        "xcb-util-keysyms",
+        "xcb-util-image",
+        "xcb-util-renderutil",
+        "xcb-util-cursor",
+        "libgl-devel",
+        "libegl-devel",
+        "libgcc >=14",
+        "libstdcxx >=14",
+        "libgcc >=14",
+        "__glibc >=2.17,<3.0.a0",
+        "libbrotlicommon >=1.2.0,<1.3.0a0",
+        "libbrotlienc >=1.2.0,<1.3.0a0",
+        "libbrotlidec >=1.2.0,<1.3.0a0",
+        "zstd >=1.5.7,<1.6.0a0",
+        "libtiff >=4.7.2,<4.8.0a0",
+        "libxkbcommon >=1.13.2,<2.0a0",
+        "krb5 >=1.22.2,<1.23.0a0",
+        "libegl >=1.7.0,<2.0a0",
+        "libgl >=1.7.0,<2.0a0",
+        "xorg-libx11 >=1.8.13,<2.0a0",
+        "dbus >=1.16.2,<2.0a0",
+        "wayland >=1.26.0,<2.0a0",
+        "libxml2",
+        "libxml2-16 >=2.14.6",
+        "xorg-libxtst >=1.2.5,<2.0a0",
+        "fontconfig >=2.18.3,<3.0a0",
+        "fonts-conda-ecosystem",
+        "libpq >=18.6,<19.0a0",
+        "libcups >=2.3.3,<2.4.0a0",
+        "libdrm >=2.4.129,<2.5.0a0",
+        "libwebp-base >=1.6.0,<2.0a0",
+        "libfreetype >=2.14.3",
+        "libfreetype6 >=2.14.3",
+        "libzlib >=1.3.2,<2.0a0",
+        "xorg-libice >=1.1.2,<2.0a0",
+        "xorg-libsm >=1.2.6,<2.0a0",
+        "xcb-util-image >=0.4.0,<0.5.0a0",
+        "xcb-util >=0.4.1,<0.5.0a0",
+        "pcre2 >=10.47,<10.48.0a0",
+        "xorg-libxext >=1.3.7,<2.0a0",
+        "xcb-util-cursor >=0.1.6,<0.2.0a0",
+        "xorg-libxcomposite >=0.4.7,<1.0a0",
+        "xorg-libxdamage >=1.1.6,<2.0a0",
+        "libglib >=2.90.0,<3.0a0",
+        "double-conversion >=3.4.0,<3.5.0a0",
+        "libsqlite >=3.53.4,<4.0a0",
+        "libharfbuzz >=14.4.0",
+        "alsa-lib >=1.2.16.1,<1.3.0a0",
+        "libvulkan-loader >=1.4.357.0,<2.0a0",
+        "libpng >=1.6.58,<1.7.0a0",
+        "openssl >=3.5.9,<4.0a0",
+        "libxcb >=1.17.0,<2.0a0",
+        "xcb-util-keysyms >=0.4.1,<0.5.0a0",
+        "xorg-libxxf86vm >=1.1.7,<2.0a0",
+        "icu >=78.3,<79.0a0",
+        "libjpeg-turbo >=3.2.0,<4.0a0",
+        "xorg-libxcursor >=1.2.3,<2.0a0",
+        "xcb-util-renderutil >=0.3.10,<0.4.0a0",
+        "xcb-util-wm >=0.4.2,<0.5.0a0",
+        "xorg-libxrandr >=1.5.5,<2.0a0"
+      ],
+      "all_runtime_matchspec_checks_passed": true,
+      "run_constraints": [
+        {
+          "spec": "qt ==6.11.2",
+          "package_present": false,
+          "compatible": true
+        }
+      ],
+      "exact_host_baseline_archives": [
+        {
+          "name": "harfbuzz",
+          "version": "14.4.0",
+          "build": "ha770c72_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-64/harfbuzz-14.4.0-ha770c72_1.conda",
+          "sha256": "12b371fad335d0c27de968140088cc678233d7060c2743baf9cb687a9fa975a7",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz-devel",
+          "version": "14.4.0",
+          "build": "h23af247_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-64/libharfbuzz-devel-14.4.0-h23af247_1.conda",
+          "sha256": "11f08038c165e354c2a7064ce6bcb28dad2668b330931572666f418e2a8f623c",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz",
+          "version": "14.4.0",
+          "build": "h23af247_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-64/libharfbuzz-14.4.0-h23af247_1.conda",
+          "sha256": "979b14ba13054aab9e90363809aac470a58b7c37203c330216327356a98c8f60",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libpng",
+          "version": "1.6.58",
+          "build": "h922cc85_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-64/libpng-1.6.58-h922cc85_1.conda",
+          "sha256": "c19eefb87d70d9b4b0629fa48414a155a47a1be4f04583ae71ed8c5a9a32fdcb",
+          "solved_version_build_sha256_equal": true
+        }
+      ]
+    },
+    {
+      "target_platform": "linux-aarch64",
+      "build_platform": "linux-aarch64",
+      "command": [
+        "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/rattler-build-f3b5f862c0551ac1/bin/rattler-build",
+        "build",
+        "--recipe",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/recipe/recipe.yaml",
+        "--variant-config",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/.ci_support/linux_aarch64_.yaml",
+        "--target-platform",
+        "linux-aarch64",
+        "--build-platform",
+        "linux-aarch64",
+        "--render-only",
+        "--with-solve",
+        "--output-dir",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/solved-two-pins-linux-aarch64",
+        "--variant",
+        "harfbuzz=14.4.0",
+        "--variant",
+        "libpng=1.6.58"
+      ],
+      "exit_code": 0,
+      "rendered_metadata_sha256": "8a630a31606b4f77940447a65d23f390abb7915c25274a22c16c48d85abf1c33",
+      "solver_log_sha256": "0c4c28c8e3c9813c7bac799b296c7afba63b5804c79172e961716e1209375e79",
+      "run_dependency_count": 62,
+      "run_dependencies": [
+        "libxcb",
+        "xcb-util",
+        "xcb-util-wm",
+        "xcb-util-keysyms",
+        "xcb-util-image",
+        "xcb-util-renderutil",
+        "xcb-util-cursor",
+        "libgl-devel",
+        "libegl-devel",
+        "libstdcxx >=14",
+        "libgcc >=14",
+        "libgcc >=14",
+        "xorg-libxxf86vm >=1.1.7,<2.0a0",
+        "xcb-util-image >=0.4.0,<0.5.0a0",
+        "xorg-libxcursor >=1.2.3,<2.0a0",
+        "libzlib >=1.3.2,<2.0a0",
+        "xcb-util-renderutil >=0.3.10,<0.4.0a0",
+        "xcb-util-keysyms >=0.4.1,<0.5.0a0",
+        "libxml2",
+        "libxml2-16 >=2.14.6",
+        "libglib >=2.90.0,<3.0a0",
+        "xorg-libxdamage >=1.1.6,<2.0a0",
+        "zstd >=1.5.7,<1.6.0a0",
+        "libgl >=1.7.0,<2.0a0",
+        "xorg-libxext >=1.3.7,<2.0a0",
+        "xorg-libsm >=1.2.6,<2.0a0",
+        "libxcb >=1.17.0,<2.0a0",
+        "libpng >=1.6.58,<1.7.0a0",
+        "libegl >=1.7.0,<2.0a0",
+        "libharfbuzz >=14.4.0",
+        "fontconfig >=2.18.3,<3.0a0",
+        "fonts-conda-ecosystem",
+        "double-conversion >=3.4.0,<3.5.0a0",
+        "dbus >=1.16.2,<2.0a0",
+        "xorg-libxrandr >=1.5.5,<2.0a0",
+        "libvulkan-loader >=1.4.357.0,<2.0a0",
+        "libcups >=2.3.3,<2.4.0a0",
+        "libsqlite >=3.53.4,<4.0a0",
+        "libjpeg-turbo >=3.2.0,<4.0a0",
+        "libpq >=18.6,<19.0a0",
+        "xcb-util-cursor >=0.1.6,<0.2.0a0",
+        "xcb-util >=0.4.1,<0.5.0a0",
+        "krb5 >=1.22.2,<1.23.0a0",
+        "libfreetype >=2.14.3",
+        "libfreetype6 >=2.14.3",
+        "pcre2 >=10.47,<10.48.0a0",
+        "wayland >=1.26.0,<2.0a0",
+        "libwebp-base >=1.6.0,<2.0a0",
+        "openssl >=3.5.9,<4.0a0",
+        "libbrotlicommon >=1.2.0,<1.3.0a0",
+        "libbrotlienc >=1.2.0,<1.3.0a0",
+        "libbrotlidec >=1.2.0,<1.3.0a0",
+        "libdrm >=2.4.129,<2.5.0a0",
+        "libtiff >=4.7.2,<4.8.0a0",
+        "xorg-libice >=1.1.2,<2.0a0",
+        "libxkbcommon >=1.13.2,<2.0a0",
+        "xcb-util-wm >=0.4.2,<0.5.0a0",
+        "alsa-lib >=1.2.16.1,<1.3.0a0",
+        "xorg-libx11 >=1.8.13,<2.0a0",
+        "icu >=78.3,<79.0a0",
+        "xorg-libxtst >=1.2.5,<2.0a0",
+        "xorg-libxcomposite >=0.4.7,<1.0a0"
+      ],
+      "all_runtime_matchspec_checks_passed": true,
+      "run_constraints": [
+        {
+          "spec": "qt ==6.11.2",
+          "package_present": false,
+          "compatible": true
+        }
+      ],
+      "exact_host_baseline_archives": [
+        {
+          "name": "harfbuzz",
+          "version": "14.4.0",
+          "build": "h8af1aa0_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-aarch64/harfbuzz-14.4.0-h8af1aa0_1.conda",
+          "sha256": "3936f8696311d03fe165c46af0e43a5fa7ce02053ee687f01ef5b0650fa6f02a",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz-devel",
+          "version": "14.4.0",
+          "build": "h8f7ccb3_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-aarch64/libharfbuzz-devel-14.4.0-h8f7ccb3_1.conda",
+          "sha256": "964cedaf456f8cf4b589f0e05f314ee22494cd46d64a676fd525ff3e2ef41ef5",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz",
+          "version": "14.4.0",
+          "build": "h8f7ccb3_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-aarch64/libharfbuzz-14.4.0-h8f7ccb3_1.conda",
+          "sha256": "7a27b4011455fef1bbad02f815aaac125348a3a9ac229806dba7befead38376c",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libpng",
+          "version": "1.6.58",
+          "build": "hf9b7768_1",
+          "url": "https://conda.anaconda.org/conda-forge/linux-aarch64/libpng-1.6.58-hf9b7768_1.conda",
+          "sha256": "bd6e423b08342969689d8893c965aad78244b29724da2168aef3634fa0e1ebd7",
+          "solved_version_build_sha256_equal": true
+        }
+      ]
+    },
+    {
+      "target_platform": "osx-64",
+      "build_platform": "osx-64",
+      "command": [
+        "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/rattler-build-f3b5f862c0551ac1/bin/rattler-build",
+        "build",
+        "--recipe",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/recipe/recipe.yaml",
+        "--variant-config",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/.ci_support/osx_64_.yaml",
+        "--target-platform",
+        "osx-64",
+        "--build-platform",
+        "osx-64",
+        "--render-only",
+        "--with-solve",
+        "--output-dir",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/solved-two-pins-osx-64",
+        "--variant",
+        "harfbuzz=14.4.0",
+        "--variant",
+        "libpng=1.6.58"
+      ],
+      "exit_code": 0,
+      "rendered_metadata_sha256": "f3f454f6c9a0477e5847d317a4fa0eef96cb434daff8db423374bb4da553d339",
+      "solver_log_sha256": "5e252cd0b31c68728b63efb84dc2717e7386dcf8c3808de1831b52716e2ddc46",
+      "run_dependency_count": 22,
+      "run_dependencies": [
+        "__osx >=11.0",
+        "libcxx >=19",
+        "libbrotlicommon >=1.2.0,<1.3.0a0",
+        "libbrotlienc >=1.2.0,<1.3.0a0",
+        "libbrotlidec >=1.2.0,<1.3.0a0",
+        "libzlib >=1.3.2,<2.0a0",
+        "libwebp-base >=1.6.0,<2.0a0",
+        "libjpeg-turbo >=3.2.0,<4.0a0",
+        "libharfbuzz >=14.4.0",
+        "openssl >=3.5.9,<4.0a0",
+        "libtiff >=4.7.2,<4.8.0a0",
+        "pcre2 >=10.47,<10.48.0a0",
+        "zstd >=1.5.7,<1.6.0a0",
+        "double-conversion >=3.4.0,<3.5.0a0",
+        "libvulkan-loader >=1.4.357.0,<2.0a0",
+        "moltenvk >=1.4.2,<1.5.0a0",
+        "libpng >=1.6.58,<1.7.0a0",
+        "krb5 >=1.22.2,<1.23.0a0",
+        "libglib >=2.90.0,<3.0a0",
+        "libsqlite >=3.53.4,<4.0a0",
+        "libpq >=18.6,<19.0a0",
+        "icu >=78.3,<79.0a0"
+      ],
+      "all_runtime_matchspec_checks_passed": true,
+      "run_constraints": [
+        {
+          "spec": "qt ==6.11.2",
+          "package_present": false,
+          "compatible": true
+        }
+      ],
+      "exact_host_baseline_archives": [
+        {
+          "name": "harfbuzz",
+          "version": "14.4.0",
+          "build": "h694c41f_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-64/harfbuzz-14.4.0-h694c41f_1.conda",
+          "sha256": "79454079ed19494d139e5c9ce3079481220487c7e479cb3d450cd74e5bcc9290",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz-devel",
+          "version": "14.4.0",
+          "build": "h2974713_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-64/libharfbuzz-devel-14.4.0-h2974713_1.conda",
+          "sha256": "21e16d001df492dd3b01b4834b67a02164f21b4d334af402f4466c99e7eae248",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz",
+          "version": "14.4.0",
+          "build": "h2974713_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-64/libharfbuzz-14.4.0-h2974713_1.conda",
+          "sha256": "a4e18affbd1725cd55928cec10685eff419ebcc80ec1feac3d08875d192d0b44",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libpng",
+          "version": "1.6.58",
+          "build": "h4382c61_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-64/libpng-1.6.58-h4382c61_1.conda",
+          "sha256": "4677159f77da07eba37618f2e0c9887233dacf5e23290bb6d978732d0f5f896d",
+          "solved_version_build_sha256_equal": true
+        }
+      ]
+    },
+    {
+      "target_platform": "osx-arm64",
+      "build_platform": "osx-arm64",
+      "command": [
+        "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/rattler-build-f3b5f862c0551ac1/bin/rattler-build",
+        "build",
+        "--recipe",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/recipe/recipe.yaml",
+        "--variant-config",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/.ci_support/osx_arm64_.yaml",
+        "--target-platform",
+        "osx-arm64",
+        "--build-platform",
+        "osx-arm64",
+        "--render-only",
+        "--with-solve",
+        "--output-dir",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/solved-two-pins-osx-arm64",
+        "--variant",
+        "harfbuzz=14.4.0",
+        "--variant",
+        "libpng=1.6.58"
+      ],
+      "exit_code": 0,
+      "rendered_metadata_sha256": "be5f880e2fc136ba66728860b27776534f59239d62fbf97c3e33c8efca17f6b4",
+      "solver_log_sha256": "0beb60b5b7124321c1f85b99f8a98462e3dad751612d43e477886ac16d1c02ac",
+      "run_dependency_count": 22,
+      "run_dependencies": [
+        "libcxx >=19",
+        "__osx >=11.0",
+        "libzlib >=1.3.2,<2.0a0",
+        "libvulkan-loader >=1.4.357.0,<2.0a0",
+        "libharfbuzz >=14.4.0",
+        "pcre2 >=10.47,<10.48.0a0",
+        "libsqlite >=3.53.4,<4.0a0",
+        "libglib >=2.90.0,<3.0a0",
+        "openssl >=3.5.9,<4.0a0",
+        "zstd >=1.5.7,<1.6.0a0",
+        "libtiff >=4.7.2,<4.8.0a0",
+        "libbrotlicommon >=1.2.0,<1.3.0a0",
+        "libbrotlienc >=1.2.0,<1.3.0a0",
+        "libbrotlidec >=1.2.0,<1.3.0a0",
+        "krb5 >=1.22.2,<1.23.0a0",
+        "moltenvk >=1.4.2,<1.5.0a0",
+        "libpq >=18.6,<19.0a0",
+        "libwebp-base >=1.6.0,<2.0a0",
+        "libpng >=1.6.58,<1.7.0a0",
+        "icu >=78.3,<79.0a0",
+        "double-conversion >=3.4.0,<3.5.0a0",
+        "libjpeg-turbo >=3.2.0,<4.0a0"
+      ],
+      "all_runtime_matchspec_checks_passed": true,
+      "run_constraints": [
+        {
+          "spec": "qt ==6.11.2",
+          "package_present": false,
+          "compatible": true
+        }
+      ],
+      "exact_host_baseline_archives": [
+        {
+          "name": "harfbuzz",
+          "version": "14.4.0",
+          "build": "hce30654_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-arm64/harfbuzz-14.4.0-hce30654_1.conda",
+          "sha256": "c0a81c23a1b09831e46d925b5a32cfaca996ca513b81ad654696fb4288575610",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz-devel",
+          "version": "14.4.0",
+          "build": "hcda0f7c_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libharfbuzz-devel-14.4.0-hcda0f7c_1.conda",
+          "sha256": "91d988b496749f7cd5640b283bb3de942c1e8a90d484fd1d14a52fdf103864e3",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz",
+          "version": "14.4.0",
+          "build": "hcda0f7c_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libharfbuzz-14.4.0-hcda0f7c_1.conda",
+          "sha256": "a13bee65e7bcbc14b228351d3d5ba00d0c17c5840c471ab67a28b8ca930456d3",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libpng",
+          "version": "1.6.58",
+          "build": "hf5e6511_1",
+          "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libpng-1.6.58-hf5e6511_1.conda",
+          "sha256": "f88da60b348ee1f3e1a9c20fe02142fdafe889f08da0b1cc33c1f3f14460239d",
+          "solved_version_build_sha256_equal": true
+        }
+      ]
+    },
+    {
+      "target_platform": "win-64",
+      "build_platform": "win-64",
+      "command": [
+        "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/rattler-build-f3b5f862c0551ac1/bin/rattler-build",
+        "build",
+        "--recipe",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/recipe/recipe.yaml",
+        "--variant-config",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/feedstock/.ci_support/win_64_.yaml",
+        "--target-platform",
+        "win-64",
+        "--build-platform",
+        "win-64",
+        "--render-only",
+        "--with-solve",
+        "--output-dir",
+        "/private/tmp/freecad-t8a-host-pin-8srijgkz/solved-two-pins-win-64",
+        "--variant",
+        "harfbuzz=14.4.0",
+        "--variant",
+        "libpng=1.6.58"
+      ],
+      "exit_code": 0,
+      "rendered_metadata_sha256": "efd4adbd7d25dec677a60c4f121947b441eb59407b1a858d4944c2bcf2b953d8",
+      "solver_log_sha256": "0e163d9167488d67a1fe33333b387e892269608dddb16fa0d7a14f32d36f6a05",
+      "run_dependency_count": 26,
+      "run_dependencies": [
+        "vc >=14.3,<15",
+        "vc14_runtime >=14.44.35208",
+        "ucrt >=10.0.20348.0",
+        "vc >=14.3,<15",
+        "vc14_runtime >=14.44.35208",
+        "ucrt >=10.0.20348.0",
+        "libjpeg-turbo >=3.2.0,<4.0a0",
+        "libharfbuzz >=14.4.0",
+        "libwebp-base >=1.6.0,<2.0a0",
+        "libfreetype >=2.14.3",
+        "libfreetype6 >=2.14.3",
+        "icu >=78.3,<79.0a0",
+        "double-conversion >=3.4.0,<3.5.0a0",
+        "libzlib >=1.3.2,<2.0a0",
+        "libglib >=2.90.0,<3.0a0",
+        "openssl >=3.5.9,<4.0a0",
+        "krb5 >=1.22.2,<1.23.0a0",
+        "zstd >=1.5.7,<1.6.0a0",
+        "pcre2 >=10.47,<10.48.0a0",
+        "libvulkan-loader >=1.4.357.0,<2.0a0",
+        "libtiff >=4.7.2,<4.8.0a0",
+        "libbrotlicommon >=1.2.0,<1.3.0a0",
+        "libbrotlienc >=1.2.0,<1.3.0a0",
+        "libbrotlidec >=1.2.0,<1.3.0a0",
+        "libpng >=1.6.58,<1.7.0a0",
+        "libsqlite >=3.53.4,<4.0a0"
+      ],
+      "all_runtime_matchspec_checks_passed": true,
+      "run_constraints": [
+        {
+          "spec": "qt ==6.11.2",
+          "package_present": false,
+          "compatible": true
+        }
+      ],
+      "exact_host_baseline_archives": [
+        {
+          "name": "harfbuzz",
+          "version": "14.4.0",
+          "build": "h57928b3_1",
+          "url": "https://conda.anaconda.org/conda-forge/win-64/harfbuzz-14.4.0-h57928b3_1.conda",
+          "sha256": "8dbda7288e62945f5430789281c8dc21cf895b0781df6b95f1186301fe49ef2f",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz-devel",
+          "version": "14.4.0",
+          "build": "h03b5201_1",
+          "url": "https://conda.anaconda.org/conda-forge/win-64/libharfbuzz-devel-14.4.0-h03b5201_1.conda",
+          "sha256": "4f6dfd48df019a002b8b5a20966895790cbae3db00f261a746fe0caae595dce4",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libharfbuzz",
+          "version": "14.4.0",
+          "build": "h03b5201_1",
+          "url": "https://conda.anaconda.org/conda-forge/win-64/libharfbuzz-14.4.0-h03b5201_1.conda",
+          "sha256": "582f1fadfdc44e82ff937e1de5f6eff19f7114ce10a8051e306510220cb30275",
+          "solved_version_build_sha256_equal": true
+        },
+        {
+          "name": "libpng",
+          "version": "1.6.58",
+          "build": "hdc8cecf_1",
+          "url": "https://conda.anaconda.org/conda-forge/win-64/libpng-1.6.58-hdc8cecf_1.conda",
+          "sha256": "8c49c32adf3ba2c59783630b82377f54ab72204ea99e2bafc90a47a8e25c1032",
+          "solved_version_build_sha256_equal": true
+        }
+      ]
+    }
+  ],
+  "scratch_comparison_receipt_sha256": "e13903aac1e1fb9063caa4514fc4f096bfa6f813954bfe359ee4691fb03d9700",
+  "scratch_solver_receipt_sha256": "f843c85547db794297f3824b7cfc948c7271d8361ee4375c1ee09f9c797e7f4f",
+  "metadata_execution_host": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "foreign_target_metadata_only": true,
+    "native_compilation_or_execution": false
+  }
+}

@@ -145,13 +145,10 @@ def build_evidence(build_json, backport, relocated_sdk=None):
             Path(option_value(command, option)) == recorded_root / relative,
             f"Unexpected recorded relative build path {option}",
         )
-    if sdk is not None:
-        require(
-            option_value(command, "--variant") == f"CONDA_BUILD_SYSROOT={sdk['path']}",
-            "Package build command does not use the recorded SDK",
-        )
-    else:
-        require("--variant" not in command, "Unrecorded package variant override")
+    require(
+        command == backport.build_command(command[0], recorded_root, target, sdk),
+        "Package build command differs from the reviewed paths, dependencies, SDK and test gates",
+    )
     relative = Path(record["package"])
     require(
         not relative.is_absolute() and ".." not in relative.parts,
