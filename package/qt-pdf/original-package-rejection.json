@@ -29,7 +29,8 @@
     "required_matchspec_checks": 145,
     "compatible_required_matchspec_checks": 139,
     "incompatible_required_matchspec_checks": 6,
-    "compatible_optional_constraints": 3
+    "compatible_optional_constraints": 3,
+    "completed_run_log_zip_sha256": "25b645df5577ca25b94928f8319a5b245efdf6b97731f51e48495835adf231ac"
   },
   "packages": [
     {
@@ -128,7 +129,32 @@
         "complete_recipe_build_passed": true,
         "recipe_native_tests_passed": true,
         "evidence": "Original build.json status built / exit_code 0 with --test native, plus original CI build step success",
-        "recipe_native_test_log": null,
+        "recipe_native_test_log": {
+          "sha256": "0829fdae3508f7ccb820607322868da71b7fd6b6bc591d9c4d38047a2df2164d",
+          "bytes": 4505132,
+          "tests_passed": 3,
+          "tests_failed": 0,
+          "test_names": [
+            "test_qmimedatabase",
+            "test_qlibraryinfo_prefixpath",
+            "test_qvulkaninstance"
+          ],
+          "evidence_lines": [
+            36743,
+            36747
+          ],
+          "source": "original completed run log ZIP member bytes",
+          "pass_excerpts": [
+            {
+              "line": 36743,
+              "text": "2026-10-04T21:42:20.5475057Z  \u2502 100% tests passed out of 3"
+            },
+            {
+              "line": 36747,
+              "text": "2026-10-04T21:42:21.0724536Z  \u2714 all tests passed!"
+            }
+          ]
+        },
         "rattler_build_version": "rattler-build 0.76.1",
         "build_json_sha256": "b608a323206468233e83ff11bd0bedfe3613d4bcbce8eb0b355295f9e8c4713d",
         "preparation_provenance_sha256": "533edac0b6b603a171fed3e352d25fe55b6f9c6234d9d3071fcff6ba8ba04ba2",
@@ -232,7 +258,32 @@
         "complete_recipe_build_passed": true,
         "recipe_native_tests_passed": true,
         "evidence": "Original build.json status built / exit_code 0 with --test native, plus original CI build step success",
-        "recipe_native_test_log": null,
+        "recipe_native_test_log": {
+          "sha256": "16693b53d255bb53754d544e085fc2c373eb09e6bfe6f0bbef2ca5a547c90ffe",
+          "bytes": 4532054,
+          "tests_passed": 3,
+          "tests_failed": 0,
+          "test_names": [
+            "test_qmimedatabase",
+            "test_qlibraryinfo_prefixpath",
+            "test_qvulkaninstance"
+          ],
+          "evidence_lines": [
+            36968,
+            36972
+          ],
+          "source": "original completed run log ZIP member bytes",
+          "pass_excerpts": [
+            {
+              "line": 36968,
+              "text": "2026-10-04T21:41:58.5556314Z  \u2502 100% tests passed out of 3"
+            },
+            {
+              "line": 36972,
+              "text": "2026-10-04T21:41:58.8359087Z  \u2714 all tests passed!"
+            }
+          ]
+        },
         "rattler_build_version": "rattler-build 0.76.1",
         "build_json_sha256": "f2dfdf26ad1f6d5a5d6f680d3b93b3642f4eabdf548d5914d7423b05b8162ff5",
         "preparation_provenance_sha256": "e7dcb9239085e6ef012fa30e4da38fdec8b326ccc8bce4a073e41cdc62eb2871",
@@ -387,7 +438,6 @@
   ],
   "limitations": [
     "The complete outer artifact ZIPs were selectively range-read; their API-reported overall digests were not independently recomputed. Each complete extracted .conda package was independently SHA-256 checked against its original build.json.",
-    "Linux recipe native-test success is established by successful --test native build records and CI build steps; individual test transcripts were not retained locally by this audit. Mac ARM retains an independently hashed completed CI transcript showing all 3 CTest cases passed.",
     "Full per-requirement MatchSpec rows are represented by counts and the source report digest; only incompatibilities, virtual dependencies and optional constraints are embedded."
   ],
   "raw_index_base_dir": "original-package-indexes"
