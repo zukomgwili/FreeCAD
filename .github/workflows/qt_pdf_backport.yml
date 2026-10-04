@@ -9,23 +9,52 @@ on:
       - package/qt-pdf/build_backport.py
       - tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch
   workflow_dispatch:
+    inputs:
+      target:
+        description: Native package target
+        default: all
+        type: choice
+        options: [all, linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
 
 permissions:
   contents: read
 
 jobs:
+  select:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          # The other four targets are already building from e6b448f5d6.
+          # Branch pushes retry Windows; manual dispatch defaults to all five.
+          QT_PDF_SELECTION: ${{ inputs.target || 'win-64' }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          entries = [
+              {"target": "linux-64", "os": "ubuntu-24.04", "jobs": 2},
+              {"target": "linux-aarch64", "os": "ubuntu-24.04-arm", "jobs": 2},
+              {"target": "osx-64", "os": "macos-15-intel", "jobs": 2},
+              {"target": "osx-arm64", "os": "macos-15", "jobs": 1},
+              {"target": "win-64", "os": "windows-2022", "jobs": 2},
+          ]
+          selected = os.environ["QT_PDF_SELECTION"]
+          matrix = {"include": [row for row in entries if selected in ("all", row["target"])]}
+          assert matrix["include"], "Unsupported target"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
   package:
     # Dependency experiments belong to the personal fork until reviewed.
     if: github.repository == 'zukomgwili/FreeCAD'
+    needs: select
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - { target: linux-64, os: ubuntu-24.04, jobs: 2 }
-          - { target: linux-aarch64, os: ubuntu-24.04-arm, jobs: 2 }
-          - { target: osx-64, os: macos-15-intel, jobs: 2 }
-          - { target: osx-arm64, os: macos-15, jobs: 1 }
-          - { target: win-64, os: windows-2022, jobs: 2 }
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 330
     env:
@@ -41,6 +70,10 @@ jobs:
         with:
           remove-android: 'true'
           remove-cached-tools: 'true'
+
+      - name: Preserve reviewed checkout bytes on Windows
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
