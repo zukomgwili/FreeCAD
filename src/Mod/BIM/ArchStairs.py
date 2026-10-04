@@ -562,14 +562,13 @@ class _Stairs(ArchComponent.Component):
 
     def loads(self, state):
         self.Type = "Stairs"
-        if state == None:
+        if state is None or state == "Stairs":  # Legacy component-only state.
             return
-        elif state[0] == "S":  # state[1] == 't', behaviour before 2024.11.28
-            return
-        elif state[0] == "Stairs":
+        if len(state) == 3 and (state[0] is None or state[0] == "Stairs"):
+            # Component.dumps() stores None; older documents stored the type name.
             self.ArchSkPropSetPickedUuid = state[1]
             self.ArchSkPropSetListPrev = state[2]
-        elif state[0] != "Stairs":  # model before merging super.dumps/loads()
+        else:  # Model before merging super.dumps/loads(): (uuid, property sets).
             self.ArchSkPropSetPickedUuid = state[0]
             self.ArchSkPropSetListPrev = state[1]
 
