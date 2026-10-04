@@ -2,11 +2,13 @@
 name: Qt PDF Package Qualification
 
 on:
-  push:
-    branches: [codex/deliver-qt-pdf-stroker]
-    paths: [.github/workflows/qt_pdf_qualify.yml]
   workflow_dispatch:
     inputs:
+      target:
+        description: Native qualification target
+        default: all
+        type: choice
+        options: [all, linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
       build_run:
         description: Qt PDF Backport Build run containing package artifacts
         required: true
@@ -21,22 +23,43 @@ permissions:
   actions: read
 
 jobs:
+  select:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          QT_PDF_SELECTION: ${{ inputs.target }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          entries = [
+              {"target": "linux-64", "os": "ubuntu-24.04"},
+              {"target": "linux-aarch64", "os": "ubuntu-24.04-arm"},
+              {"target": "osx-64", "os": "macos-15-intel"},
+              {"target": "osx-arm64", "os": "macos-15"},
+              {"target": "win-64", "os": "windows-2022"},
+          ]
+          selected = os.environ["QT_PDF_SELECTION"]
+          matrix = {"include": [row for row in entries if selected in ("all", row["target"])]}
+          assert matrix["include"], "Unsupported target"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
   qualify:
     if: github.repository == 'zukomgwili/FreeCAD'
+    needs: select
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - { target: linux-64, os: ubuntu-24.04 }
-          - { target: linux-aarch64, os: ubuntu-24.04-arm }
-          - { target: osx-64, os: macos-15-intel }
-          - { target: osx-arm64, os: macos-15 }
-          - { target: win-64, os: windows-2022 }
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 330
     env:
       QT_PDF_TARGET: ${{ matrix.target }}
-      QT_PDF_BUILD_RUN: ${{ matrix.target == 'win-64' && (inputs.windows_build_run || inputs.build_run || '37231296268') || (inputs.build_run || '37231050773') }}
+      QT_PDF_BUILD_RUN: ${{ matrix.target == 'win-64' && (inputs.windows_build_run || inputs.build_run) || inputs.build_run }}
       CMAKE_BUILD_PARALLEL_LEVEL: '2'
     defaults:
       run:

@@ -98,9 +98,10 @@ with their SPDX notices and requires all ten upstream tests to pass.
 Its report is explicitly scoped to Qt; native FreeCAD remains a separate gate.
 
 The personal-fork workflows perform the complete recipe build on each native
-host and the separate package/native qualification. Build dispatch can select
+host and the separate package/native qualification. Both dispatches can select
 one target or all five; qualification dispatch accepts the build run ID and an
-optional separate Windows run ID. Artifacts retain corresponding source,
+optional separate Windows run ID. Selective retries preserve the independent
+jobs already running on other platforms. Artifacts retain corresponding source,
 package hashes, build logs, loaded runtime inventories, native documents/PDFs
 and test reports. They expire after 30 days, so a promoted distribution needs
 a durable source/evidence archive. No workflow publishes a release or changes
