@@ -58,9 +58,13 @@ void QGCustomRect::centerAt(double cX, double cY)
 
 
 void QGCustomRect::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget) {
+    // Qt's PDF stroker can emit an empty closepath for a null rectangle with a translucent pen.
+    if (rect().isNull()) {
+        return;
+    }
+
     QStyleOptionGraphicsItem myOption(*option);
     myOption.state &= ~QStyle::State_Selected;
 
     QGraphicsRectItem::paint (painter, &myOption, widget);
 }
-

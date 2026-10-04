@@ -32,6 +32,7 @@
 #include <Mod/TechDraw/App/Preferences.h>
 
 #include "PreferencesGui.h"
+#include "QGCustomRect.h"
 #include "QGCustomText.h"
 #include "QGIDatumLabel.h"
 #include "QGIViewDimension.h"
@@ -75,7 +76,7 @@ QGIDatumLabel::QGIDatumLabel() : m_dragState(DragState::NoDrag)
     m_unitText->setTightBounding(true);
     m_unitText->setParentItem(m_textItems);
 
-    m_frame = new QGraphicsRectItem();
+    m_frame = new QGCustomRect();
     QPen framePen;
     framePen.setWidthF(Rez::guiX(0.5));
     framePen.setColor(m_dimText->defaultTextColor());
