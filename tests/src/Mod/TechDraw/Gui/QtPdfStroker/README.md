@@ -33,6 +33,54 @@ PDF dash clamping can produce ink even when a public stroked outline is empty.
 The cosmetic scale and tiny-width controls also protect Qt-specific behavior.
 Whole-item omission would lose the fill/background controls' ink.
 
+### Paired PDF devices and package runtimes
+
+Configure with `-DWITH_QPRINTER=ON` to link Qt PrintSupport and Widgets, then
+run `qt_pdf_stroker_fixture --device both --output DIR`. Each of the 33 paint
+callbacks runs through a real `QPdfWriter` and a `QPrinter` in `PdfFormat`,
+producing 66 files. The default configuration retains the original 33
+QPdfWriter-only cases and Core/Gui dependencies.
+
+Each process also writes `runtime.json` using native loaded-module enumeration
+and SHA-256 hashing. The comparator can launch one or two fixture executables
+with separately selected package prefixes, library directories and platform
+plugins. Require this proof and both devices for package qualification:
+
+```sh
+python compare.py --baseline-executable /absolute/path/fixture \
+    --patched-executable /absolute/path/fixture --device both \
+    --baseline-prefix /absolute/path/baseline \
+    --patched-prefix /absolute/path/candidate \
+    --require-runtime --require-both-devices \
+    --output /absolute/path/fresh-results --report /absolute/path/comparison.json
+```
+
+`qualification-devices.json` records an actual isolated QtBase 6.11.2 source
+build on macOS arm64 with Widgets, PrintSupport, OpenGL, Cocoa and zstd-enabled
+Core. The 66-file baseline has 30 invalid closes across 26 failing outputs;
+the patched runtime has zero, with identical remaining operators and RGBA
+pixels. QPrinter and QPdfWriter pixels match within each runtime. Qt's own
+QPdfWriter suite passes all 10 tests. This evidence covers the stated source
+build and devices; full qt6-main packages and native FreeCAD exports require
+their separate gates.
+
+See [native stock-export qualification](NATIVE.md) and the
+[complete package backport](../../../../../../package/qt-pdf/README.md) for
+the separate delivery steps. Keep FreeCAD's mitigations and active pins until
+the supported dependency paths have qualified fixed binaries.
+
+`qualification-native.json` records the corresponding actual macOS arm64
+FreeCAD source-build comparison: twelve stock TechDraw scenarios through
+each device, with both FreeCAD guards bypassed in a scratch module. The 24-file
+baseline has 14 invalid closes and warnings; the corrected Qt has zero, with
+identical remaining operators, coordinates and pixels for each route. All 11
+TechDraw GUI tests pass on both runtimes. Area and relocated-area dimensions,
+the theoretical-exact frame and visible/opaque/PDF-A controls remain intact.
+Three unchanged installed QtSvg/QtSvgWidgets/QtUiTools libraries are explicitly
+identified because they are outside QtBase. This local evidence does not
+qualify a complete package or another platform. Stock QPrinter page rounding
+differs from Export PDF; its own baseline is the exact preservation reference.
+
 `compare.py` requires a genuinely failing baseline and a clean patched result,
 checks decoded PDF operators with strict pypdf parsing, checks Poppler stderr,
 and compares rendered pixels and coordinate operators. It also asserts visible

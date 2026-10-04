@@ -1,0 +1,188 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+name: Qt PDF Package Qualification
+
+on:
+  push:
+    branches: [codex/deliver-qt-pdf-stroker]
+    paths: [.github/workflows/qt_pdf_qualify.yml]
+  workflow_dispatch:
+    inputs:
+      build_run:
+        description: Qt PDF Backport Build run containing package artifacts
+        required: true
+        type: string
+      windows_build_run:
+        description: Optional separate Windows retry run
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  qualify:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { target: linux-64, os: ubuntu-24.04 }
+          - { target: linux-aarch64, os: ubuntu-24.04-arm }
+          - { target: osx-64, os: macos-15-intel }
+          - { target: osx-arm64, os: macos-15 }
+          - { target: win-64, os: windows-2022 }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 330
+    env:
+      QT_PDF_TARGET: ${{ matrix.target }}
+      QT_PDF_BUILD_RUN: ${{ matrix.target == 'win-64' && (inputs.windows_build_run || inputs.build_run || '37231296268') || (inputs.build_run || '37231050773') }}
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Make space for two runtimes and the native build
+        if: runner.os == 'Linux'
+        uses: AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793 # v5
+        with:
+          remove-android: 'true'
+          remove-cached-tools: 'true'
+
+      - name: Preserve reviewed checkout bytes on Windows
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Select the same recorded macOS SDK
+        if: runner.os == 'macOS'
+        run: echo 'DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer' >> "$GITHUB_ENV"
+
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.81.0
+          locked: true
+          cache: false
+
+      - name: Configure and build native FreeCAD against locked baseline
+        run: |
+          pixi run configure-release
+          pixi run build-release
+
+      - name: Compile the controlled mitigation bypass in this disposable checkout
+        run: |
+          pixi run python tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py \
+            --ci-checkout --source "$GITHUB_WORKSPACE" --build "$GITHUB_WORKSPACE/build/release" \
+            --output "$RUNNER_TEMP/qt-pdf-native-module" --parallel 2
+
+      - name: Wait for this native package artifact
+        timeout-minutes: 240
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          qt_pdf_artifact="qt-pdf-backport-$QT_PDF_TARGET"
+          while true; do
+            qt_pdf_found=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$QT_PDF_BUILD_RUN/artifacts" \
+              --jq ".artifacts[] | select(.name == \"$qt_pdf_artifact\" and .expired == false) | .id")
+            if [ -n "$qt_pdf_found" ]; then break; fi
+            qt_pdf_state=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$QT_PDF_BUILD_RUN" --jq .status)
+            if [ "$qt_pdf_state" = completed ]; then
+              echo "Required package artifact is absent from completed run $QT_PDF_BUILD_RUN"
+              exit 1
+            fi
+            sleep 60
+          done
+
+      - name: Download the actual package and corresponding source evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ env.QT_PDF_BUILD_RUN }}
+          name: qt-pdf-backport-${{ matrix.target }}
+          path: ${{ runner.temp }}
+
+      - name: Authenticate artifact transport and restore omitted public inputs
+        run: |
+          pixi exec --spec python=3.13 -- python package/qt-pdf/restore_evidence.py \
+            --artifact-work-dir "$RUNNER_TEMP/qt-pdf-package" \
+            --recovered-work-dir "$RUNNER_TEMP/qt-pdf-recovered"
+
+      - name: Install the exact package in an isolated candidate runtime
+        run: |
+          pixi exec --spec python=3.13 --spec micromamba=2.9.0 -- \
+            python package/qt-pdf/install_candidate.py \
+            --baseline-prefix "$GITHUB_WORKSPACE/.pixi/envs/default" \
+            --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
+            --candidate-prefix "$RUNNER_TEMP/qt-pdf-candidate"
+
+      - name: Qualify both Qt PDF devices and Qt's own writer tests
+        run: |
+          qt_pdf_source=$(pixi exec --spec python=3.13 -- python - <<'PY'
+          import os
+          from pathlib import Path
+          files = list((Path(os.environ["RUNNER_TEMP"]) / "qt-pdf-recovered/output/src_cache").rglob("*.tar.xz"))
+          assert len(files) == 1, f"Expected the retained Qt source archive: {files}"
+          print(files[0])
+          PY
+          )
+          # Use the locked compiler environment while supplying PDF tools through
+          # a separate pixi exec environment; this does not edit either Qt prefix.
+          pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python package/qt-pdf/qualify_package.py \
+            --baseline-prefix "$GITHUB_WORKSPACE/.pixi/envs/default" \
+            --patched-prefix "$RUNNER_TEMP/qt-pdf-candidate" \
+            --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
+            --qt-source-archive "$qt_pdf_source" --work-dir "$RUNNER_TEMP/qt-pdf-device-results"
+
+      - name: Qualify stock native exports with both guards bypassed
+        run: |
+          pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          baseline = source / ".pixi/envs/default"
+          candidate = temporary / "qt-pdf-candidate"
+          windows = sys.platform == "win32"
+          executable = source / "build/release/bin" / ("FreeCAD.exe" if windows else "FreeCAD")
+          modules = [p for p in (temporary / "qt-pdf-native-module").iterdir() if p.suffix in (".so", ".pyd")]
+          assert executable.is_file() and len(modules) == 1
+          if windows:
+              assert not list(executable.parent.glob("Qt6*.dll")), "App-directory Qt DLLs override selected runtime"
+          command = [sys.executable, str(source / "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py"),
+              "--freecad", str(executable),
+              "--baseline-python-runtime", str(baseline), "--patched-python-runtime", str(candidate),
+              "--bypass-module", str(modules[0]),
+              "--baseline-qt-lib", str(baseline / ("Library/bin" if windows else "lib")),
+              "--patched-qt-lib", str(candidate / ("Library/bin" if windows else "lib")),
+              "--baseline-qt-prefix", str(baseline), "--patched-qt-prefix", str(candidate),
+              "--output", str(temporary / "qt-pdf-native-results"),
+              "--report", str(temporary / "qt-pdf-native-report.json")]
+          if sys.platform.startswith("linux"):
+              command = ["xvfb-run", "-a", "-s", "-screen 0 1920x1080x24", *command]
+          subprocess.run(command, check=True)
+          PY
+
+      - name: Retain runtime inventories, PDFs and all qualification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-qualification-${{ matrix.target }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/qt-pdf-recovered/transport-recovery.json
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/*.json
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/*.log
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/*.txt
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/candidate-conda-meta
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/channel/*/repodata.json
+            ${{ runner.temp }}/qt-pdf-device-results
+            ${{ runner.temp }}/qt-pdf-native-module
+            ${{ runner.temp }}/qt-pdf-native-results
+            ${{ runner.temp }}/qt-pdf-native-report.json
+            ${{ github.workspace }}/build/release/CMakeCache.txt

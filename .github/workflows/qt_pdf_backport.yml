@@ -2,12 +2,6 @@
 name: Qt PDF Backport Build
 
 on:
-  push:
-    branches: [codex/deliver-qt-pdf-stroker]
-    paths:
-      - .github/workflows/qt_pdf_backport.yml
-      - package/qt-pdf/build_backport.py
-      - tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch
   workflow_dispatch:
     inputs:
       target:
@@ -28,9 +22,7 @@ jobs:
     steps:
       - id: matrix
         env:
-          # The other four targets are already building from e6b448f5d6.
-          # Branch pushes retry Windows; manual dispatch defaults to all five.
-          QT_PDF_SELECTION: ${{ inputs.target || 'win-64' }}
+          QT_PDF_SELECTION: ${{ inputs.target || 'all' }}
         run: |
           python3 - <<'PY'
           import json, os
@@ -140,6 +132,7 @@ jobs:
           name: qt-pdf-backport-${{ matrix.target }}
           retention-days: 30
           compression-level: 0
+          include-hidden-files: true
           if-no-files-found: error
           path: |
             ${{ runner.temp }}/qt-pdf-package/feedstock.tar.gz
@@ -149,6 +142,7 @@ jobs:
             ${{ runner.temp }}/qt-pdf-package/provenance.json
             ${{ runner.temp }}/qt-pdf-package/build.json
             ${{ runner.temp }}/qt-pdf-package/output/${{ matrix.target }}/qt6-main-*.conda
-            ${{ runner.temp }}/qt-pdf-package/output/src_cache
+            ${{ runner.temp }}/qt-pdf-package/output/src_cache/*_qt-everywhere-src-6.11.2.tar.xz
+            ${{ runner.temp }}/qt-pdf-package/output/src_cache/*_opengl32sw-64-mesa_12_0_rc2.7z
             ${{ runner.temp }}/qt-pdf-build.log
             ${{ runner.temp }}/qt-pdf-runner.json

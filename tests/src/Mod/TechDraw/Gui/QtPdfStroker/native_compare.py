@@ -1,0 +1,451 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Launch and compare isolated stock FreeCAD exports with mitigation bypassed.
+
+Pre-generated --baseline-dir/--patched-dir can be compared without app launches.
+For generation, provide --freecad, --python-runtime, --bypass-module, both Qt
+library directories and a new --output directory. The launcher overrides
+library/platform paths only for its child processes and uses fresh user/system
+configurations. Installed Qt and the user's configurations are never written.
+"""
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+
+from compare import compare, rasterize
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def check_report_destination(destination, directories):
+    """Refuse report writes to input evidence, loaded runtimes or protected files."""
+    destination = destination.resolve()
+    for directory in directories:
+        directory = directory.resolve()
+        if destination.is_relative_to(directory):
+            raise ValueError("Report must stay outside both input evidence directories")
+        provenance = json.loads((directory / "native-provenance.json").read_text())
+        launch_record = json.loads((directory / "launch.json").read_text())
+        prefixes = [
+            Path(provenance[key]).resolve()
+            for key in ("expected_qt_prefix", "expected_qt_lib", "expected_plugin_dir")
+        ]
+        prefixes.append(Path(launch_record["environment_overrides"]["PYTHONHOME"]).resolve())
+        prefixes.append(Path(provenance["module"]).resolve().parent)
+        if any(destination.is_relative_to(prefix) for prefix in prefixes):
+            raise ValueError(
+                "Report must stay outside selected runtimes and scratch module evidence"
+            )
+        protected = provenance["bypass_provenance"]["protected_original_sha256"]
+        if destination in {Path(path).resolve() for path in protected}:
+            raise ValueError("Report must not overwrite a protected source/build file")
+
+
+def launch(args, side):
+    directory = args.output.resolve() / side
+    directory.mkdir(parents=True, exist_ok=False)
+    qt_lib = getattr(args, side + "_qt_lib").resolve()
+    python_runtime = (getattr(args, side + "_python_runtime") or args.python_runtime).resolve()
+    plugin_directory = getattr(args, side + "_plugin_dir")
+    if plugin_directory:
+        plugin_directory = plugin_directory.resolve()
+    else:
+        candidates = [
+            qt_lib.parent / "plugins",
+            qt_lib / "qt6/plugins",
+            qt_lib.parent / "lib/qt6/plugins",
+        ]
+        plugin_directory = next(
+            (path for path in candidates if (path / "platforms").is_dir()), None
+        )
+    if plugin_directory is None:
+        raise ValueError(f"{side}: specify the selected runtime's --{side}-plugin-dir")
+    environment = os.environ.copy()
+    environment.update(
+        {
+            "QT_QPA_PLATFORM_PLUGIN_PATH": str(plugin_directory / "platforms"),
+            "QT_PLUGIN_PATH": str(plugin_directory),
+            "PYTHONHOME": str(python_runtime),
+            "TD_NATIVE_DISPOSABLE": "1",
+            "TD_NATIVE_OUTPUT": str(directory),
+            "TD_NATIVE_BYPASS_MODULE": str(args.bypass_module.resolve()),
+            "TD_NATIVE_QT_LIB": str(qt_lib),
+            "TD_NATIVE_QT_PREFIX": str(
+                (getattr(args, side + "_qt_prefix") or qt_lib.parent).resolve()
+            ),
+            "TD_NATIVE_PLUGIN_ROOT": str(plugin_directory),
+        }
+    )
+    if sys.platform == "darwin":
+        environment.update(
+            {
+                "DYLD_LIBRARY_PATH": str(qt_lib),
+                "DYLD_PRINT_LIBRARIES": "1",
+                "QT_QPA_PLATFORM": "cocoa",
+            }
+        )
+    elif sys.platform.startswith("linux"):
+        environment["LD_LIBRARY_PATH"] = os.pathsep.join(
+            filter(
+                None,
+                (
+                    str(qt_lib),
+                    str(python_runtime / "lib"),
+                    environment.get("LD_LIBRARY_PATH", ""),
+                ),
+            )
+        )
+        environment["QT_QPA_PLATFORM"] = "xcb"
+    elif sys.platform == "win32":
+        environment["PATH"] = os.pathsep.join((str(qt_lib), environment.get("PATH", "")))
+        environment["QT_QPA_PLATFORM"] = "windows"
+    else:
+        raise ValueError("The native launcher supports macOS, Linux and Windows")
+    command = [
+        str(args.freecad.resolve()),
+        "--hidden",
+        "--user-cfg",
+        str(directory / "user.cfg"),
+        "--system-cfg",
+        str(directory / "system.cfg"),
+        str(Path(__file__).with_name("native-freecad.FCMacro").resolve()),
+    ]
+    (directory / "launch.json").write_text(
+        json.dumps(
+            {
+                "command": command,
+                "environment_overrides": {
+                    key: environment[key]
+                    for key in environment
+                    if key.startswith(("TD_NATIVE_", "DYLD_", "QT_"))
+                    or key in ("PYTHONHOME", "LD_LIBRARY_PATH", "PATH", "DISPLAY")
+                },
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    with (directory / "runtime.log").open("w") as log:
+        subprocess.run(
+            command,
+            env=environment,
+            stdout=log,
+            stderr=subprocess.STDOUT,
+            check=True,
+            timeout=180,
+        )
+    if not all(
+        (directory / name).is_file() for name in ("manifest.json", "native-provenance.json")
+    ):
+        raise ValueError(f"{side}: FreeCAD did not complete the macro; inspect runtime.log")
+    return directory
+
+
+def check_provenance(baseline_dir, patched_dir, allow_external=()):
+    sides = {}
+    if set(allow_external) - {"Svg", "SvgWidgets", "UiTools"}:
+        raise ValueError("External Qt allowance is limited to Svg, SvgWidgets and UiTools")
+    for side, directory in (("baseline", baseline_dir), ("patched", patched_dir)):
+        provenance = json.loads((directory / "native-provenance.json").read_text())
+        module = Path(provenance["module"])
+        if digest(module) != provenance["module_sha256"]:
+            raise ValueError(f"{side}: scratch module changed after generation")
+        bypass = provenance["bypass_provenance"]
+        if bypass["module_sha256"] != provenance["module_sha256"]:
+            raise ValueError(f"{side}: incorrect bypassed module provenance")
+        for original, expected in bypass["protected_original_sha256"].items():
+            if digest(Path(original)) != expected:
+                raise ValueError(f"{side}: original source/build file changed: {original}")
+        qt_lib = Path(provenance["expected_qt_lib"])
+        prefix = Path(provenance["expected_qt_prefix"])
+        external = {}
+        observed = set()
+        for entry in provenance["qt_libraries"]:
+            path = Path(entry["real_path"])
+            match = re.match(r"(?:lib)?Qt6([^.]+)\.", path.name)
+            if not match:
+                raise ValueError(f"{side}: unrecognized loaded Qt library: {path}")
+            family = match[1]
+            observed.add(family)
+            if digest(path) != entry["sha256"]:
+                raise ValueError(f"{side}: loaded Qt library changed: {path}")
+            if not path.is_relative_to(prefix):
+                if family not in allow_external:
+                    raise ValueError(f"{side}: unexpected external Qt library: {path}")
+                external[family] = entry
+        if not {"Core", "Gui", "Widgets", "PrintSupport"}.issubset(observed):
+            raise ValueError(f"{side}: required native Qt modules were not captured")
+        active_plugins = []
+        qpa = {"cocoa": "qcocoa", "xcb": "qxcb", "windows": "qwindows"}[provenance["qpa_platform"]]
+        for entry in provenance["qt_plugins"]:
+            path = Path(entry["real_path"])
+            if digest(path) != entry["sha256"]:
+                raise ValueError(f"{side}: loaded Qt plugin changed: {path}")
+            if qpa in path.name and "platforms" in path.parts:
+                active_plugins.append(entry)
+                if not path.is_relative_to(Path(provenance["expected_plugin_dir"])):
+                    raise ValueError(f"{side}: QPA plugin came from another runtime")
+            if not path.is_relative_to(prefix):
+                if "svg" not in path.name.lower() or "Svg" not in allow_external:
+                    raise ValueError(f"{side}: unexpected external Qt plugin: {path}")
+                external["plugin:" + path.name] = entry
+        if len(active_plugins) != 1:
+            raise ValueError(f"{side}: expected exactly one loaded active QPA plugin")
+        gui = [
+            entry
+            for entry in provenance["qt_libraries"]
+            if Path(entry["real_path"]).name.lower().startswith(("libqt6gui.", "qt6gui."))
+        ]
+        if len(gui) != 1 or not Path(gui[0]["real_path"]).is_relative_to(qt_lib):
+            raise ValueError(f"{side}: loaded QtGui did not come from the selected runtime")
+        if digest(Path(gui[0]["real_path"])) != gui[0]["sha256"]:
+            raise ValueError(f"{side}: loaded QtGui changed after generation")
+        suite = [record for record in provenance["records"] if "gui_tests" in record]
+        if suite != [{"gui_tests": 11, "failures": 0, "errors": 0}]:
+            raise ValueError(f"{side}: full native GUI test suite was not successful")
+        area = [
+            record["area_value_mm2"]
+            for record in provenance["records"]
+            if "area_value_mm2" in record
+        ]
+        if len(area) != 1 or abs(area[0] - 100) >= 1e-9:
+            raise ValueError(f"{side}: measured Area control changed")
+        exports = [record for record in provenance["records"] if "name" in record]
+        manifest = json.loads((directory / "manifest.json").read_text())
+        if (
+            provenance["qt_version"] != manifest["qt_version"]
+            or provenance["qt_version"] != "6.11.2"
+        ):
+            raise ValueError(f"{side}: native qualification requires verified Qt 6.11.2")
+        scenarios = {
+            "box-only",
+            "short-gap",
+            "short-gap-opaque",
+            "short-solid",
+            "long-dashed",
+            "zero-width-translucent",
+            "zero-width-opaque",
+            "zero-width-archival",
+            "distance",
+            "theoretical-exact",
+            "area-and-theoretical-exact",
+            "area-relocated-and-theoretical-exact",
+        }
+        required = {
+            (device, scenario) for device in ("qpdfwriter", "qprinter") for scenario in scenarios
+        }
+        actual = [(case["device"], case["scenario"]) for case in manifest["cases"]]
+        if len(actual) != len(required) or set(actual) != required:
+            raise ValueError(f"{side}: all twelve scenarios are required for both stock devices")
+        if len(exports) != len(manifest["cases"]):
+            raise ValueError(f"{side}: export records do not match the manifest")
+        for record, case in zip(exports, manifest["cases"]):
+            if record["device"] != case["device"] or record["name"] != case["scenario"]:
+                raise ValueError(f"{side}: device/scenario provenance does not match")
+            if record["device"] == "qpdfwriter":
+                valid = record["stock_dialog"] == ["Gui::FileDialog"] and record[
+                    "screen_mode_before_after"
+                ] == [True, True]
+            else:
+                settings = record["printer_settings"]
+                valid = record["stock_dialog"] == ["QPrintDialog"] and record[
+                    "screen_mode_before_during_after"
+                ] == [True, False, True]
+                valid = (
+                    valid
+                    and bool(settings)
+                    and all(
+                        item["format"] == 1
+                        and item["resolution"] == 1200
+                        and item["full_page"]
+                        and item["pdf_version"] == case["pdf_version"]
+                        and Path(item["file"]).resolve() == (directory / case["pdf"]).resolve()
+                        for item in settings
+                    )
+                )
+                if provenance["qpa_platform"] == "windows":
+                    native_ui = record.get("native_ui_settings", [])
+                    valid = valid and len(settings) == 1 and len(native_ui) == 1
+                    valid = valid and native_ui[0].get("format") == 0
+                    valid = valid and native_ui[0].get("dialog_class") == "#32770"
+                    valid = valid and native_ui[0].get("button_id") == 1
+                else:
+                    valid = valid and len(settings) >= 2
+            if not valid:
+                raise ValueError(
+                    f"{side}/{case['name']}: stock dialog/physical mode verification failed"
+                )
+        sides[side] = {
+            "module_sha256": provenance["module_sha256"],
+            "qt_gui": gui[0],
+            "external_qt_modules": external,
+            "active_qpa_plugin": active_plugins[0],
+        }
+    if sides["baseline"]["module_sha256"] != sides["patched"]["module_sha256"]:
+        raise ValueError("Different FreeCAD module binaries were used on the two sides")
+    if sides["baseline"]["qt_gui"]["sha256"] == sides["patched"]["qt_gui"]["sha256"]:
+        raise ValueError("QtGui did not change between baseline and patched processes")
+    if sides["baseline"]["external_qt_modules"] != sides["patched"]["external_qt_modules"]:
+        raise ValueError("External same-version Qt modules/plugins changed between phases")
+    return sides
+
+
+def check_visible_controls(directory, dpi, pdftoppm, device="qpdfwriter"):
+    pixels = {}
+    for name in (
+        "box-only",
+        "short-gap",
+        "short-gap-opaque",
+        "short-solid",
+        "long-dashed",
+        "distance",
+        "theoretical-exact",
+        "zero-width-translucent",
+        "zero-width-opaque",
+        "zero-width-archival",
+    ):
+        filename = ("qprinter-" if device == "qprinter" else "") + name + ".pdf"
+        _, pixels[name] = rasterize(directory / filename, dpi, pdftoppm)
+    if pixels["short-gap"] != pixels["box-only"]:
+        raise ValueError(f"{directory}: short gap unexpectedly contributed visible ink")
+    if pixels["short-gap-opaque"] != pixels["box-only"]:
+        raise ValueError(f"{directory}: opaque short gap unexpectedly contributed visible ink")
+    for name in (
+        "short-solid",
+        "long-dashed",
+        "distance",
+        "zero-width-translucent",
+        "zero-width-opaque",
+        "zero-width-archival",
+    ):
+        if pixels[name] == pixels["box-only"]:
+            raise ValueError(f"{directory}: {name} control lost visible ink")
+    if pixels["theoretical-exact"] == pixels["distance"]:
+        raise ValueError(f"{directory}: theoretical-exact frame lost visible ink")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--baseline-dir", type=Path)
+    parser.add_argument("--patched-dir", type=Path)
+    parser.add_argument("--freecad", type=Path)
+    parser.add_argument("--python-runtime", type=Path)
+    parser.add_argument("--baseline-python-runtime", type=Path)
+    parser.add_argument("--patched-python-runtime", type=Path)
+    parser.add_argument("--bypass-module", type=Path)
+    parser.add_argument("--baseline-qt-lib", type=Path)
+    parser.add_argument("--patched-qt-lib", type=Path)
+    parser.add_argument("--baseline-plugin-dir", type=Path)
+    parser.add_argument("--patched-plugin-dir", type=Path)
+    parser.add_argument("--baseline-qt-prefix", type=Path)
+    parser.add_argument("--patched-qt-prefix", type=Path)
+    parser.add_argument("--allow-external-qt-module", action="append", default=[])
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--report", type=Path)
+    parser.add_argument("--pdftoppm", default=shutil.which("pdftoppm"))
+    args = parser.parse_args()
+    if not args.pdftoppm:
+        parser.error("pdftoppm is required")
+    generated = not (args.baseline_dir and args.patched_dir)
+    if bool(args.baseline_dir) != bool(args.patched_dir):
+        parser.error("Provide both --baseline-dir and --patched-dir")
+    if generated:
+        if not (sys.platform in ("darwin", "win32") or sys.platform.startswith("linux")):
+            parser.error("The native generation launcher supports macOS, Linux and Windows")
+        for key in (
+            "freecad",
+            "bypass_module",
+            "baseline_qt_lib",
+            "patched_qt_lib",
+            "output",
+        ):
+            if getattr(args, key) is None:
+                parser.error("Native generation requires --" + key.replace("_", "-"))
+        for side in ("baseline", "patched"):
+            if getattr(args, side + "_python_runtime") is None and args.python_runtime is None:
+                parser.error(
+                    "Native generation requires --" + side + "-python-runtime or --python-runtime"
+                )
+        if args.output.exists() or args.output.is_symlink():
+            parser.error("--output must be a new directory to preserve prior evidence")
+        if args.report is not None and any(
+            args.report.resolve().is_relative_to(args.output.resolve() / side)
+            for side in ("baseline", "patched")
+        ):
+            parser.error("Report must stay outside both generated input evidence directories")
+        prefixes = [args.freecad.resolve().parent, args.bypass_module.resolve().parent]
+        for side in ("baseline", "patched"):
+            qt_lib = getattr(args, side + "_qt_lib").resolve()
+            prefixes.extend(
+                (
+                    (getattr(args, side + "_qt_prefix") or qt_lib.parent).resolve(),
+                    (getattr(args, side + "_python_runtime") or args.python_runtime).resolve(),
+                )
+            )
+            plugins = getattr(args, side + "_plugin_dir")
+            if plugins is not None:
+                prefixes.append(plugins.resolve())
+        for destination in (args.output, args.report):
+            if destination is not None and any(
+                destination.resolve().is_relative_to(prefix) for prefix in prefixes
+            ):
+                parser.error(
+                    "Output and report must be outside the executable and selected runtime prefixes"
+                )
+        if args.report is not None:
+            try:
+                bypass = json.loads(
+                    (args.bypass_module.resolve().parent / "bypass-provenance.json").read_text()
+                )
+                protected = {Path(path).resolve() for path in bypass["protected_original_sha256"]}
+                if args.report.resolve() in protected:
+                    parser.error("Report must not overwrite a protected source/build file")
+            except (OSError, ValueError, KeyError) as error:
+                parser.error(str(error))
+    try:
+        baseline_dir = launch(args, "baseline") if generated else args.baseline_dir
+        patched_dir = launch(args, "patched") if generated else args.patched_dir
+        if args.report is not None:
+            try:
+                check_report_destination(args.report, (baseline_dir, patched_dir))
+            except (OSError, ValueError, KeyError) as error:
+                # An unsafe report path must not be used for an error report either.
+                parser.error(str(error))
+        provenance = check_provenance(baseline_dir, patched_dir, args.allow_external_qt_module)
+        report = compare(
+            baseline_dir, patched_dir, args.pdftoppm, require_device_pixel_parity=False
+        )
+        report["stock_device_rounding"] = (
+            "PagePrinter QPdfWriter computes its target from exact template millimetres; "
+            "QPrinter uses QPageLayout.fullRectPixels from rounded page points. "
+            "Cross-device pixels can differ; each device must retain exact operators and RGBA."
+        )
+        report["native_runtime_provenance"] = provenance
+        for directory in (baseline_dir, patched_dir):
+            for device in ("qpdfwriter", "qprinter"):
+                check_visible_controls(directory, report["raster_dpi"], args.pdftoppm, device)
+    except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+        report = {"passed": False, "failures": [str(error)]}
+    if args.report:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(json.dumps(report, indent=2) + "\n")
+    for failure in report["failures"]:
+        print(failure, file=sys.stderr)
+    if report["passed"]:
+        print(
+            f"PASS: {len(report['cases'])} stock exports, guards bypassed, "
+            "loaded QtGui hashes proven, operators and pixels preserved"
+        )
+    return 0 if report["passed"] else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
