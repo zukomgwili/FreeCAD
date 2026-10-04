@@ -1,0 +1,145 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+
+"""Manual stock-export reproducer for a short dashed edge (FreeCAD-hii).
+
+A translucent cosmetic line lies entirely within the initial gap of the shipped
+ASME Viewing-plane style. Before the fix, its PDF emits one bare closepath and
+Poppler reports 'No current point in closepath'. The path itself is nonempty.
+
+Run in GUI-enabled FreeCAD with no active task panel. Output defaults to the
+system temporary directory; FREECAD_HII_OUTPUT_DIR selects another directory.
+Set FREECAD_HII_EXIT_AFTER_EXPORT=1 only in a disposable, isolated GUI process.
+The FCStd preserves editable geometry and style. Cosmetic-edge RGB persistence
+does not retain alpha, so rerun this macro to reconstruct its translucent state.
+"""
+
+import os
+from pathlib import Path
+import tempfile
+import traceback
+
+import FreeCAD as App
+import FreeCADGui as Gui
+from PySide import QtCore, QtWidgets
+
+
+def settle(milliseconds):
+    loop = QtCore.QEventLoop()
+    QtCore.QTimer.singleShot(milliseconds, loop.quit)
+    loop.exec_()
+
+
+colors = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/Colors")
+view_preferences = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/View")
+standards = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/Standards")
+general = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/General")
+files = App.ParamGet("User parameter:BaseApp/Preferences/Mod/TechDraw/Files")
+mod_preferences = App.ParamGet("User parameter:BaseApp/Preferences/Mod")
+line_group_directory = App.getResourceDir() + "Mod/TechDraw/LineGroup/"
+previous_light_on_dark = colors.GetBool("LightOnDark", False)
+previous_screen_mode = view_preferences.GetBool("ScreenMode", True)
+previous_line_standard = standards.GetInt("LineStandard", 1)
+previous_cap_style = general.GetInt("EdgeCapStyle", 0x20)
+previous_line_definitions = files.GetString("LineDefLocation", line_group_directory)
+previous_line_elements = files.GetString("LineElementLocation", line_group_directory)
+previous_pdf_version = mod_preferences.GetInt("PDFVersion", 0)
+exit_code = 1
+
+try:
+    assert not Gui.Control.activeDialog(), "Close the active task panel before running this macro"
+    colors.SetBool("LightOnDark", False)
+    view_preferences.SetBool("ScreenMode", False)
+    standards.SetInt("LineStandard", 1)  # Shipped ASME Y14.2.2008 standard.
+    general.SetInt("EdgeCapStyle", 2)  # Flat caps, as selected in preferences.
+    files.SetString("LineDefLocation", line_group_directory)
+    files.SetString("LineElementLocation", line_group_directory)
+    mod_preferences.SetInt("PDFVersion", 0)  # PDF 1.4, which supports transparency.
+
+    import Part
+    import TechDraw
+    import TechDrawGui
+
+    output = Path(os.environ.get("FREECAD_HII_OUTPUT_DIR", tempfile.gettempdir()))
+    output.mkdir(parents=True, exist_ok=True)
+    Gui.activateWorkbench("TechDrawWorkbench")
+    document = App.newDocument("ShortDashedGap", hidden=True)
+    box = document.addObject("Part::Box", "Box")
+    page = document.addObject("TechDraw::DrawPage", "Page")
+    template = document.addObject("TechDraw::DrawSVGTemplate", "Template")
+    template.Template = (
+        App.getResourceDir()
+        + "Mod/TechDraw/Templates/Default_Template_A4_Landscape.svg"
+    )
+    page.Template = template
+    view = document.addObject("TechDraw::DrawViewPart", "View")
+    view.Source = [box]
+    view.Direction = App.Vector(0, 0, 1)
+    view.X = 100
+    view.Y = 100
+    page.addView(view)
+    document.recompute()
+    page.ViewObject.show()
+    settle(2000)
+    assert len(view.getVisibleEdges()) == 4
+
+    tag = view.makeCosmeticLine(
+        App.Vector(20, 20, 0), App.Vector(20.01, 20, 0),
+        1, 0.2, (0.0, 0.0, 0.0, 0.5)
+    )
+    view.touch()
+    document.recompute()
+    settle(300)
+
+    selection_name = None
+    for index in range(32):
+        candidate = "Edge" + str(index)
+        try:
+            if view.getCosmeticEdgeBySelection(candidate).Tag == tag:
+                selection_name = candidate
+                break
+        except ValueError:
+            pass
+    assert selection_name is not None
+
+    # Apply the real GUI line-format choice. The Python cosmetic Format API
+    # exposes Qt style but does not expose the standard's line number.
+    Gui.Selection.clearSelection()
+    Gui.Selection.addSelection(document.Name, view.Name, selection_name)
+    Gui.runCommand("TechDraw_DecorateLine")
+    settle(300)
+    task_dialog = Gui.Control.activeTaskDialog()
+    assert task_dialog is not None
+    styles = [
+        widget.findChild(QtWidgets.QComboBox, "cb_Style")
+        for widget in task_dialog.getDialogContent()
+    ]
+    styles = [style for style in styles if style is not None]
+    assert len(styles) == 1
+    style = styles[0]
+    assert style is not None and style.count() == 17
+    style.setCurrentIndex(9)  # ASME style 10: Viewing-plane.
+    task_dialog.accept()
+    settle(300)
+    assert not Gui.Control.activeDialog()
+    view.touch()
+    document.recompute()
+    settle(300)
+
+    assert "Up-to-date" in view.State
+    TechDrawGui.exportPageAsPdf(page, str(output / "short-dashed-gap.pdf"))
+    document.saveAs(str(output / "short-dashed-gap.FCStd"))
+    App.Console.PrintMessage("Native TechDraw exports saved to {}\n".format(output))
+    exit_code = 0
+except Exception:
+    App.Console.PrintError(traceback.format_exc())
+finally:
+    colors.SetBool("LightOnDark", previous_light_on_dark)
+    view_preferences.SetBool("ScreenMode", previous_screen_mode)
+    standards.SetInt("LineStandard", previous_line_standard)
+    general.SetInt("EdgeCapStyle", previous_cap_style)
+    files.SetString("LineDefLocation", previous_line_definitions)
+    files.SetString("LineElementLocation", previous_line_elements)
+    mod_preferences.SetInt("PDFVersion", previous_pdf_version)
+
+if os.environ.get("FREECAD_HII_EXIT_AFTER_EXPORT") == "1":
+    os._exit(exit_code)

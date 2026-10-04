@@ -242,6 +242,8 @@ SET(TechDrawGuiView_SRCS
     QGCustomText.h
     QGICaption.cpp
     QGICaption.h
+    QGCustomPath.cpp
+    QGCustomPath.h
     QGCustomRect.cpp
     QGCustomRect.h
     QGCustomSvg.cpp
