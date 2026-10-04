@@ -1,0 +1,19 @@
+Qt PDF: finish only outlines that emitted a subpath
+
+QPdf::Stroker resets first before stroking and moveToHook clears it only
+when a coordinate is written. An all-gap dashed outline emits no coordinates;
+closing and filling it otherwise generates a PDF closepath without a current
+point. Preserve every coordinated outline, fill and background operation.
+
+Qualification patch for QtBase 6.11.2; not applied by the FreeCAD build.
+Apply with -p1 in qt-everywhere, or -p2 in a standalone qtbase source tree.
+Original Qt source licensing is preserved.
+
+--- a/qtbase/src/gui/painting/qpdf.cpp
++++ b/qtbase/src/gui/painting/qpdf.cpp
+@@ -655,3 +655,4 @@
+     stroker->strokePath(path, this, cosmeticPen ? matrix : QTransform());
+-    *stream << "h f\n";
++    if (!first)
++        *stream << "h f\n";
+ }
