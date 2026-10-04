@@ -32,14 +32,17 @@ def build_ci_checkout(args, source, build, output):
     temporary = Path(os.environ["RUNNER_TEMP"]).resolve()
     if source != workspace or not output.is_relative_to(temporary):
         raise ValueError("CI source must be GITHUB_WORKSPACE and output must be under RUNNER_TEMP")
+    # Keep the guard expressions parsed so their internal helpers remain used under
+    # Clang's -Werror,-Wunneeded-internal-declaration. Short-circuiting still
+    # bypasses both mitigations, as in the scratch relink mode below.
     substitutions = {
         "QGCustomPath.cpp": (
             "if (brush().style()",
-            "if constexpr (false) if (brush().style()",
+            "if (false && brush().style()",
         ),
         "QGCustomRect.cpp": (
             "if (rect().isNull())",
-            "if constexpr (false) if (rect().isNull())",
+            "if (false && rect().isNull())",
         ),
     }
     originals = {}
