@@ -21,8 +21,11 @@
 
 # Unit tests for the Arch wall module
 
+import json
 import os
+import tempfile
 import Arch
+import ArchWall
 import Draft
 import Part
 import FreeCAD as App
@@ -30,6 +33,81 @@ from bimtests import TestArchBase
 
 
 class TestArchWall(TestArchBase.TestArchBase):
+
+    def test_proxy_state_round_trip(self):
+        """Wall auxiliary state survives both Python and JSON round trips."""
+        wall = Arch.makeWall(length=5000, width=200, height=3000)
+        for uuid, property_sets in (
+            ("", []),
+            ("e21ef894-7328-46ce-839b-1183a908db39", ["Default", "Wide wall"]),
+        ):
+            wall.Proxy.ArchSkPropSetPickedUuid = uuid
+            wall.Proxy.ArchSkPropSetListPrev = property_sets
+            state = wall.Proxy.dumps()
+            for serialized in (state, json.loads(json.dumps(state))):
+                with self.subTest(state=serialized):
+                    restored = ArchWall._Wall.__new__(ArchWall._Wall)
+                    restored.loads(serialized)
+                    self.assertEqual(restored.Type, "Wall")
+                    self.assertEqual(restored.ArchSkPropSetPickedUuid, uuid)
+                    self.assertEqual(restored.ArchSkPropSetListPrev, property_sets)
+                    self.assertEqual(restored.dumps(), state)
+
+    def test_proxy_state_legacy_formats(self):
+        """Restore tagged triples and bare pairs, including IDs matching type markers."""
+        property_sets = ["Default", "Wide wall"]
+        states = (
+            ("Wall", "e21ef894-7328-46ce-839b-1183a908db39", property_sets),
+            ("e21ef894-7328-46ce-839b-1183a908db39", property_sets),
+            ("", []),
+            ("W", property_sets),
+            ("Wall", property_sets),
+        )
+        for state in states:
+            for serialized in (state, json.loads(json.dumps(state))):
+                with self.subTest(state=serialized):
+                    restored = ArchWall._Wall.__new__(ArchWall._Wall)
+                    restored.loads(serialized)
+                    self.assertEqual(restored.Type, "Wall")
+                    self.assertEqual(restored.ArchSkPropSetPickedUuid, state[-2])
+                    self.assertEqual(restored.ArchSkPropSetListPrev, state[-1])
+
+    def test_proxy_state_without_archsketch_fields(self):
+        """Old documents acquire default auxiliary fields during restoration."""
+        wall = Arch.makeWall(length=5000, width=200, height=3000)
+        for state in (None, "Wall"):
+            with self.subTest(state=state):
+                restored = ArchWall._Wall.__new__(ArchWall._Wall)
+                restored.loads(state)
+                restored.setProperties(wall)
+                self.assertEqual(restored.Type, "Wall")
+                self.assertEqual(restored.ArchSkPropSetPickedUuid, "")
+                self.assertEqual(restored.ArchSkPropSetListPrev, [])
+
+    def test_proxy_state_document_round_trip(self):
+        """Closing, reopening and saving again preserves default and populated state."""
+        default = Arch.makeWall(length=5000, width=200, height=3000)
+        populated = Arch.makeWall(length=5000, width=400, height=3000)
+        populated.Proxy.ArchSkPropSetPickedUuid = "e21ef894-7328-46ce-839b-1183a908db39"
+        populated.Proxy.ArchSkPropSetListPrev = ["Default", "Wide wall"]
+        self.document.recompute()
+        expected_states = {obj.Name: obj.Proxy.dumps() for obj in (default, populated)}
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = os.path.join(temp_dir, "wall_proxy_state.FCStd")
+            for _ in range(2):
+                self.document.saveAs(path)
+                App.closeDocument(self.document.Name)
+                self.document = App.openDocument(path)
+                for name, expected in expected_states.items():
+                    wall = self.document.getObject(name)
+                    self.assertEqual(wall.Proxy.dumps(), expected)
+                self.document.recompute(None, True, True)
+                for name, expected in expected_states.items():
+                    wall = self.document.getObject(name)
+                    self.assertEqual(wall.Proxy.dumps(), expected)
+                    self.assertFalse(wall.Shape.isNull())
+                    self.assertTrue(wall.Shape.isValid())
 
     def testWall(self):
         operation = "Checking Arch Wall..."
