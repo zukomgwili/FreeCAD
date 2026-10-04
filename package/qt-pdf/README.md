@@ -185,11 +185,36 @@ LibPack's generic config patch hook runs before QtBase initialization and
 expects its own `@@@ filename @@@`/diff-match-patch format. Apply and verify
 the retained patch in a dedicated `build_qt` step after successful
 configuration/submodule initialization and before `_cmake_build()` instead.
-Use a fresh build or `--rebuild qt` so existing-build shortcuts cannot bypass
-that step. The current native/package qualification helpers require Qt 6.11.2;
+Use a fresh, owned SDK copy and a dedicated Qt build invocation so existing-build
+shortcuts cannot bypass that step. The generic `--rebuild qt --seed-from` command
+still upgrades pip and applies broader SDK cleanup; it does not prove that
+non-Qt inputs remain unchanged. A candidate adapter must verify those inputs
+before and after its Qt-only build. The current native/package qualification
+helpers require Qt 6.11.2;
 a LibPack 6.11.1 mode needs separate review and actual execution.
 The [source compatibility receipt](libpack-source-compatibility.json) retains
 the pinned identities, parser rejection, successful patch checks and seam.
+
+`libpack_baseline.py` separately captures the released Qt 6.11.1 behavior. Its
+manual workflow selects the standard 3.5.3 x64 SDK by default, or all three
+standard/experimental SDKs. Generation requires the matching native Windows
+host and MSVC v143 (14.4x), verifies the complete pinned release archive before
+extraction, and records unchanged SDK inventories and actual DLL/plugin
+origins, hashes and PE architectures. It builds the retained fixture with
+QPrinter enabled and captures 66 baseline PDFs using SDK-root offscreen plugins.
+Inspection on Linux verifies transported receipts and checks operators,
+Poppler diagnostics, ink controls and paired device pixels. The artifacts
+contain reports, fixture sources and PDFs; SDK DLLs remain on the native runner.
+Every report retains `baseline_only: true` and `qualified: false`. This diagnostic
+does not build a corrected SDK or exercise native FreeCAD exports.
+
+```sh
+python package/qt-pdf/libpack_baseline.py generate \
+  --sdk 3.5.3-x64 --work-dir D:/fresh-libpack-baseline
+python package/qt-pdf/libpack_baseline.py inspect \
+  --evidence-dir /absolute/path/downloaded-evidence \
+  --report /absolute/path/fresh-baseline-report.json
+```
 
 Pinned LibPack sources: [3.5.3](https://github.com/FreeCAD/FreeCAD-LibPack/blob/94cda1f16a388b0a70b814d0f8d684301787f4da/config.json),
 [3.5.5 configuration](https://github.com/FreeCAD/FreeCAD-LibPack/blob/6641ccccc9f6dd3541acaf0d5f53a89cde3ecf59/config.json#L126),

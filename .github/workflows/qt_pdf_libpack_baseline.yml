@@ -1,0 +1,122 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+name: Qt PDF LibPack Baseline
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdk:
+        description: Released SDK baseline (3.5.5 targets are experimental)
+        default: 3.5.3-x64
+        type: choice
+        options: [3.5.3-x64, 3.5.5-x64, 3.5.5-arm64, all]
+
+permissions:
+  contents: read
+
+jobs:
+  select:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          LIBPACK_SELECTION: ${{ inputs.sdk }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          entries = [
+              {"sdk": "3.5.3-x64", "os": "windows-2022", "python_arch": "x64"},
+              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64"},
+              {"sdk": "3.5.5-arm64", "os": "windows-11-arm", "python_arch": "arm64"},
+          ]
+          selected = os.environ["LIBPACK_SELECTION"]
+          matrix = {"include": [row for row in entries if selected in ("all", row["sdk"])]}
+          assert matrix["include"], "Unsupported SDK selection"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
+  generate:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - name: Preserve reviewed source bytes
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: '3.13'
+          architecture: ${{ matrix.python_arch }}
+
+      - name: Capture the authenticated SDK baseline on native Windows
+        id: generate
+        env:
+          LIBPACK_SDK: ${{ matrix.sdk }}
+        run: |
+          # The helper owns creation; a pre-existing or reparse root fails closed.
+          $work = Join-Path ([IO.Path]::GetPathRoot($env:RUNNER_TEMP)) 'l'
+          python package/qt-pdf/libpack_baseline.py generate --sdk $env:LIBPACK_SDK --work-dir $work
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain baseline PDFs and native receipts (no SDK/DLL bytes)
+        if: always() && steps.generate.outputs.evidence_dir != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-baseline-${{ matrix.sdk }}
+          path: ${{ steps.generate.outputs.evidence_dir }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  inspect:
+    if: always() && github.repository == 'zukomgwili/FreeCAD' && needs.select.result == 'success'
+    needs: [select, generate]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download this run's native baseline evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: qt-pdf-libpack-baseline-${{ matrix.sdk }}
+          path: ${{ runner.temp }}/libpack-input
+
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.81.0
+          run-install: false
+          cache: false
+
+      - name: Inspect both devices without requiring Windows ARM64 PDF tools
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python package/qt-pdf/libpack_baseline.py inspect \
+            --evidence-dir "$RUNNER_TEMP/libpack-input" --report "$RUNNER_TEMP/libpack-diagnostics.json"
+
+      - name: Retain baseline-only diagnostics and renders
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-diagnostics-${{ matrix.sdk }}
+          path: |
+            ${{ runner.temp }}/libpack-diagnostics.json
+            ${{ runner.temp }}/libpack-diagnostics.renders
+          if-no-files-found: warn
+          retention-days: 30
