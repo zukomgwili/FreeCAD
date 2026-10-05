@@ -15,7 +15,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import shutil
 import subprocess
@@ -405,6 +405,73 @@ def build_upstream_test(candidate, work, cmake, sources, comparison, cmake_args=
     }
 
 
+def fixture_compiler(build, platform=sys.platform):
+    """Read the configured compiler without evaluating generated CMake code."""
+    cache_path = build / "CMakeCache.txt"
+    require(
+        not any(
+            path.is_symlink() or path.is_junction() for path in (cache_path, *cache_path.parents)
+        ),
+        "Linked fixture compiler cache",
+    )
+    cache = cache_path.read_text()
+    entries = [
+        line.partition("=")[2]
+        for line in cache.splitlines()
+        if re.match(r"CMAKE_CXX_COMPILER:(?:FILEPATH|STRING)=", line)
+    ]
+    require(len(entries) <= 1, "Ambiguous fixture compiler cache entries")
+    if entries:
+        require(entries[0], "Empty fixture compiler cache entry")
+        return entries[0], {"source": str(cache_path), "source_sha256": digest(cache_path)}
+    # Visual Studio records its compiler in the generated language description,
+    # rather than CMakeCache.txt. Other missing-cache cases remain failures.
+    generators = re.findall(r"^CMAKE_GENERATOR:INTERNAL=([^\r\n]+)$", cache, re.M)
+    require(
+        platform == "win32"
+        and len(generators) == 1
+        and re.fullmatch(r"Visual Studio \d+ .+", generators[0]),
+        "Cannot identify the fixture compiler",
+    )
+    descriptions = list((build / "CMakeFiles").glob("*/CMakeCXXCompiler.cmake"))
+    require(len(descriptions) == 1, "Expected one generated C++ compiler description")
+    description = descriptions[0]
+    require(re.fullmatch(r"\d+(?:\.\d+)+", description.parent.name), "Unexpected CMake version")
+    require(
+        not any(
+            path.is_symlink() or path.is_junction() for path in (description, *description.parents)
+        )
+        and description.is_file(),
+        "Linked/missing C++ compiler description",
+    )
+    contents = description.read_text()
+
+    def setting(name):
+        values = re.findall(r"^set\(" + name + r' "([^"\r\n]*)"\)$', contents, re.M)
+        require(len(values) == 1, f"Expected one generated {name} value")
+        return values[0]
+
+    compiler = setting("CMAKE_CXX_COMPILER")
+    identity, compiler_version = setting("CMAKE_CXX_COMPILER_ID"), setting(
+        "CMAKE_CXX_COMPILER_VERSION"
+    )
+    path = PureWindowsPath(compiler)
+    require(
+        path.is_absolute()
+        and ".." not in path.parts
+        and path.name.lower() == "cl.exe"
+        and identity == "MSVC"
+        and re.fullmatch(r"19\.\d+(?:\.\d+)+", compiler_version),
+        "Invalid generated Visual Studio compiler identity",
+    )
+    return compiler, {
+        "source": str(description),
+        "source_sha256": digest(description),
+        "compiler_id": identity,
+        "configured_version": compiler_version,
+    }
+
+
 def build_and_compare(baseline, candidate, work, cmake, pdftoppm, comparison, cmake_args=()):
     """Run actual Qt binaries; package identity is validated separately above."""
     candidate_environment = comparison.package_environment(candidate)
@@ -464,14 +531,9 @@ def build_and_compare(baseline, candidate, work, cmake, pdftoppm, comparison, cm
     )
     require(len(report["cases"]) == 66, "Expected all 33 cases on each PDF device")
     (work / "comparison.json").write_text(json.dumps(report, indent=2) + "\n")
-    cache = (work / "fixture-build/CMakeCache.txt").read_text()
-    compiler_entries = [
-        line.partition("=")[2]
-        for line in cache.splitlines()
-        if line.startswith("CMAKE_CXX_COMPILER:FILEPATH=")
-    ]
-    require(len(compiler_entries) == 1, "Cannot identify the fixture compiler")
-    compiler = compiler_entries[0]
+    compiler, compiler_proof = fixture_compiler(work / "fixture-build")
+    require(Path(compiler).is_file(), "Configured fixture compiler executable is unavailable")
+    compiler_proof.update({"executable": compiler, "executable_sha256": digest(Path(compiler))})
     compiler_command = (
         [compiler] if Path(compiler).name.lower() == "cl.exe" else [compiler, "--version"]
     )
@@ -491,6 +553,7 @@ def build_and_compare(baseline, candidate, work, cmake, pdftoppm, comparison, cm
         "build_command": build,
         "fixture_executable": str(executable),
         "fixture_executable_sha256": digest(executable),
+        "compiler_proof": compiler_proof,
         "tool_versions": versions,
         "comparison": report,
     }
