@@ -73,6 +73,14 @@ directory after an intentional input change. The archive, `feedstock/`,
 `recipe.diff`, `build-scripts.diff`, `provenance.json`, `build.json` and `output/` provide reviewable
 build evidence. A completed package build remains `qualified: false`.
 
+The [corrected package build receipt](corrected-package-builds.json) retains the
+actual Linux x64/ARM64, macOS Intel/ARM64 and Windows packages from
+[run 37238935749](https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749).
+Their complete package hashes, decoded indexes, 190 compatible locked dependency
+checks, five optional constraints and 15 passed recipe tests were independently
+reviewed. The separate runtime qualification gates remain unasserted in this
+build receipt.
+
 The workflow must separately install each resulting package in a fresh runtime,
 prove its loaded library/plugin paths and digests, and pass QPdfWriter,
 QPrinter and native FreeCAD PDF controls with the mitigation bypassed. Package
@@ -221,12 +229,58 @@ inventories and actual Qt 6.11.1 module origins/PE architectures are recorded.
 These results reproduce the defect in the released binaries and establish
 controls for a future candidate; they do not qualify a corrected LibPack.
 
+`build_libpack_backport.py` prepares two physical SDK copies from an authenticated
+native baseline whose release archive and complete SDK still exist on that host.
+It authenticates the pinned LibPack compiler/configuration and Qt 6.11.1 Git
+sources, then calls only the original `build_qt` operation. Its post-configuration
+hook verifies the release/compiler/OpenGL/zstd inputs and applies the retained
+patch exactly once before compilation. Build tools and the tool Python remain
+outside all SDK copies; the generic pip/cleanup/SDK metadata operations are omitted.
+
+Admission requires the actual CMake installation manifest and finite namespaces
+derived from authenticated source declarations. Qt's versioned tool links are
+created through `install(CODE)` and omitted from that manifest. Their separate
+companion receipt requires the source-backed tool pair, admitted base executable,
+exact generated installer fragment, actual installation log and identical file
+bytes. The complete inventories reject other changed files and preserve both
+baselines and every non-Qt SDK input, including LibPack metadata.
+
+`qualify_libpack_backport.py` captures the complete 66-case QPdfWriter/QPrinter
+matrix and the ten upstream Qt writer tests on the same native host after a
+successful candidate build. It rechecks source, compiler, installation manifest,
+loaded DLL/plugin origins and hashes, and both complete SDK inventories. The
+portable inspection step validates those native receipts and runs the retained
+strict PDF operator, coordinate, pixel and device comparison. It records that
+DLL bytes were checked on the native capture host and are not rehashed on Linux.
+Passing these Qt-only checks does not establish native FreeCAD qualification.
+
+The separate manual `qt_pdf_libpack_backport.yml` workflow runs these checks and
+retains the complete candidate SDK, all corresponding sources/Git objects/licenses, compiler/configure
+records and installation evidence. Only compiled outputs within the disposable
+build tree are excluded from that evidence archive. Its default-disabled
+`libpack_candidate` bridge in `qt_pdf_backport.yml` selects one SDK or all three;
+enabling both baseline and candidate selectors fails. These candidate
+artifacts retain `qualified: false`; distribution and native FreeCAD qualification
+remain separate gates.
+
 ```sh
 python package/qt-pdf/libpack_baseline.py generate \
-  --sdk 3.5.3-x64 --work-dir D:/fresh-libpack-baseline
+  --sdk 3.5.3-x64 --work-dir D:/l
 python package/qt-pdf/libpack_baseline.py inspect \
   --evidence-dir /absolute/path/downloaded-evidence \
   --report /absolute/path/fresh-baseline-report.json
+
+# On that same native host, with a separate tool Python and diff-match-patch:
+python -B package/qt-pdf/build_libpack_backport.py prepare \
+  --sdk 3.5.3-x64 --baseline-evidence-dir D:/l/evidence --work-dir D:/c
+python -B package/qt-pdf/build_libpack_backport.py build --work-dir D:/c
+python -B package/qt-pdf/qualify_libpack_backport.py capture \
+  --build-work-dir D:/c --work-dir D:/f
+
+# On a host with pypdf, Pillow and Poppler, after transporting the capture evidence:
+python -B package/qt-pdf/qualify_libpack_backport.py inspect \
+  --evidence-dir /absolute/path/downloaded-candidate-evidence \
+  --report /absolute/path/fresh-candidate-report.json
 ```
 
 Pinned LibPack sources: [3.5.3](https://github.com/FreeCAD/FreeCAD-LibPack/blob/94cda1f16a388b0a70b814d0f8d684301787f4da/config.json),

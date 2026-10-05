@@ -1,0 +1,374 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+name: Qt PDF LibPack Candidate Checks
+
+on:
+  workflow_call:
+    inputs:
+      sdk:
+        description: Released SDK to copy, rebuild and check (no promotion)
+        default: 3.5.3-x64
+        type: string
+  workflow_dispatch:
+    inputs:
+      sdk:
+        description: SDK candidate checks (3.5.5 targets are experimental)
+        default: 3.5.3-x64
+        type: choice
+        options: [3.5.3-x64, 3.5.5-x64, 3.5.5-arm64, all]
+
+permissions:
+  contents: read
+
+jobs:
+  select:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          LIBPACK_SELECTION: ${{ inputs.sdk }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          entries = [
+              {"sdk": "3.5.3-x64", "os": "windows-2022", "python_arch": "x64"},
+              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64"},
+              {"sdk": "3.5.5-arm64", "os": "windows-11-arm", "python_arch": "arm64"},
+          ]
+          selected = os.environ["LIBPACK_SELECTION"]
+          matrix = {"include": [row for row in entries if selected in ("all", row["sdk"])]}
+          assert matrix["include"], "Unsupported SDK selection"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
+  build:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 330
+    env:
+      LIBPACK_SDK: ${{ matrix.sdk }}
+      PYTHONNOUSERSITE: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Preserve reviewed source bytes
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: '3.13'
+          architecture: ${{ matrix.python_arch }}
+
+      - name: Install the separate build-helper dependency
+        run: python -m pip install --disable-pip-version-check diff-match-patch==20241021
+
+      - name: Select fresh separate short physical roots
+        id: roots
+        run: |
+          $volumes = [IO.DriveInfo]::GetDrives() | Where-Object { $_.IsReady -and $_.DriveType -eq [IO.DriveType]::Fixed }
+          $volume = $volumes | Sort-Object AvailableFreeSpace -Descending | Select-Object -First 1
+          if ($null -eq $volume) { throw 'No fixed local build volume is available' }
+          $drive = $volume.RootDirectory.FullName
+          $baseline = Join-Path $drive 'l'
+          $candidate = Join-Path $drive 'c'
+          $capture = Join-Path $drive 'f'
+          # Python helpers own root creation and reject existing/reparse paths.
+          "LIBPACK_BASELINE_WORK=$baseline" >> $env:GITHUB_ENV
+          "LIBPACK_CANDIDATE_WORK=$candidate" >> $env:GITHUB_ENV
+          "LIBPACK_CAPTURE_WORK=$capture" >> $env:GITHUB_ENV
+          "candidate_evidence=$candidate\evidence" >> $env:GITHUB_OUTPUT
+          @{ selected_drive = $drive; build_only = $true; qualified = $false; volumes = @($volumes | ForEach-Object { @{ root = $_.RootDirectory.FullName; free_bytes = $_.AvailableFreeSpace; total_bytes = $_.TotalSize } }) } | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 "$env:RUNNER_TEMP/libpack-disk-selection.json"
+
+      - name: Generate the authenticated baseline and retain its SDK on this runner
+        id: baseline
+        run: |
+          python -B package/qt-pdf/libpack_baseline.py generate --sdk $env:LIBPACK_SDK --work-dir $env:LIBPACK_BASELINE_WORK
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Prepare independent baseline and candidate copies with pinned sources
+        id: prepare
+        env:
+          LIBPACK_BASELINE_EVIDENCE: ${{ steps.baseline.outputs.evidence_dir }}
+        run: |
+          @'
+          import json, os, shutil
+          from pathlib import Path
+          evidence = Path(os.environ["LIBPACK_BASELINE_EVIDENCE"])
+          generation = json.loads((evidence / "generation.json").read_text())
+          inventory = json.loads((evidence / "sdk-before.json").read_text())
+          sdk_bytes = sum(value["size"] for value in inventory["files"].values())
+          root = Path(os.environ["LIBPACK_CANDIDATE_WORK"]).anchor
+          usage = shutil.disk_usage(root)
+          minimum = 2 * sdk_bytes + generation["sdk"]["size"]
+          record = {
+              "build_only": True, "qualified": False, "stage": "before-prepare",
+              "sdk_bytes": sdk_bytes, "minimum_copy_bytes": minimum,
+              "free_bytes": usage.free, "total_bytes": usage.total,
+              "additional_space_required": "Qt source/Git/build trees and retained archives",
+          }
+          (Path(os.environ["RUNNER_TEMP"]) / "libpack-disk-before-prepare.json").write_text(json.dumps(record, indent=2) + "\n")
+          assert usage.free > minimum, "Insufficient disk for the two independent SDK copies and archive"
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B package/qt-pdf/build_libpack_backport.py prepare --sdk $env:LIBPACK_SDK --baseline-evidence-dir $env:LIBPACK_BASELINE_EVIDENCE --work-dir $env:LIBPACK_CANDIDATE_WORK 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/libpack-candidate-prepare.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build the Qt-only candidate without runtime qualification or promotion
+        id: candidate
+        run: |
+          @'
+          import json, os, shutil
+          from pathlib import Path
+          usage = shutil.disk_usage(Path(os.environ["LIBPACK_CANDIDATE_WORK"]).anchor)
+          record = {"build_only": True, "qualified": False, "stage": "before-build", "free_bytes": usage.free, "total_bytes": usage.total}
+          (Path(os.environ["RUNNER_TEMP"]) / "libpack-disk-before-build.json").write_text(json.dumps(record, indent=2) + "\n")
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B package/qt-pdf/build_libpack_backport.py build --work-dir $env:LIBPACK_CANDIDATE_WORK 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/libpack-candidate-build.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Capture both candidate PDF devices and the upstream Qt writer suite
+        id: capture
+        run: |
+          python -B package/qt-pdf/qualify_libpack_backport.py capture --build-work-dir $env:LIBPACK_CANDIDATE_WORK --work-dir $env:LIBPACK_CAPTURE_WORK 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/libpack-candidate-capture.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain owned candidate PDFs and native capture receipts
+        if: always() && steps.capture.outputs.evidence_dir != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-capture-${{ matrix.sdk }}
+          path: ${{ steps.capture.outputs.evidence_dir }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Retain capture errors without reading an unowned test root
+        if: always() && steps.capture.outcome == 'failure'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-capture-error-${{ matrix.sdk }}
+          path: ${{ runner.temp }}/libpack-candidate-capture.log
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Retain the owned native baseline evidence
+        if: always() && steps.baseline.outputs.evidence_dir != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-baseline-${{ matrix.sdk }}
+          path: ${{ steps.baseline.outputs.evidence_dir }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Retain owned candidate receipts before archiving
+        if: always() && steps.prepare.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-build-evidence-${{ matrix.sdk }}
+          path: |
+            ${{ steps.roots.outputs.candidate_evidence }}
+            ${{ runner.temp }}/libpack-candidate-prepare.log
+            ${{ runner.temp }}/libpack-candidate-build.log
+            ${{ runner.temp }}/libpack-disk-*.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Retain preparation errors without reading an unowned candidate root
+        if: always() && steps.prepare.outcome == 'failure'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-prepare-error-${{ matrix.sdk }}
+          path: |
+            ${{ runner.temp }}/libpack-candidate-prepare.log
+            ${{ runner.temp }}/libpack-disk-*.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Archive the complete candidate and corresponding source with bounded build evidence
+        id: transport
+        if: always() && steps.prepare.outcome == 'success'
+        env:
+          LIBPACK_CAPTURE_OUTCOME: ${{ steps.capture.outcome }}
+        run: |
+          @'
+          import hashlib, json, os, stat, tarfile
+          from pathlib import Path
+
+          def digest(path):
+              with path.open("rb") as source:
+                  return hashlib.file_digest(source, "sha256").hexdigest()
+
+          def real(path):
+              path = Path(path)
+              for parent in (path, *path.parents):
+                  assert not (parent.is_symlink() or parent.is_junction()), f"Linked path: {parent}"
+              return path.resolve(strict=True)
+
+          work = real(os.environ["LIBPACK_CANDIDATE_WORK"])
+          baseline = real(os.environ["LIBPACK_BASELINE_WORK"])
+          temporary = real(os.environ["RUNNER_TEMP"])
+          assert work == Path(work.anchor) / "c", "Unexpected candidate work root"
+          assert baseline == Path(baseline.anchor) / "l", "Unexpected original baseline root"
+          assert not temporary.is_relative_to(work) and not temporary.is_relative_to(baseline), "Artifacts must be outside the SDK work trees"
+          destination = temporary / "libpack-candidate-artifacts"
+          assert not (destination.exists() or destination.is_symlink() or destination.is_junction())
+          destination.mkdir()
+          excluded_suffixes = {
+              ".obj", ".o", ".a", ".lib", ".dll", ".exe", ".pdb", ".ilk",
+              ".exp", ".res", ".pch", ".idb", ".ipch", ".so", ".dylib",
+          }
+          receipt = {
+              "schema_version": 1, "build_only": True, "qualified": False,
+              "native_freecad_tested": False,
+              "candidate_pdf_tested": os.environ["LIBPACK_CAPTURE_OUTCOME"] == "success",
+              "candidate_capture_outcome": os.environ["LIBPACK_CAPTURE_OUTCOME"],
+              "promotion": False, "sdk": os.environ["LIBPACK_SDK"],
+              "commit": os.environ["GITHUB_SHA"],
+              "run_url": f'{os.environ["GITHUB_SERVER_URL"]}/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{os.environ["GITHUB_RUN_ID"]}',
+              "physical_work_dir": str(work), "archives": {},
+              "build_exclusion_policy": "Only listed compiled-artifact suffixes in b/r; source and SDK trees are complete.",
+              "excluded_build_suffixes": sorted(excluded_suffixes),
+              "excluded_build_files": {},
+          }
+
+          def archive(name, entries, filter_build=False):
+              if filter_build:
+                  assert entries == [work / "b/r"], "Only compiled build artifacts may be filtered"
+              output = destination / name
+              included = {}
+              with tarfile.open(output, "w:gz", compresslevel=1, format=tarfile.PAX_FORMAT) as stream:
+                  for entry in entries:
+                      entry = real(entry)
+                      assert entry.is_relative_to(work), "Archive input outside owned work"
+                      paths = [entry, *sorted(entry.rglob("*"))] if entry.is_dir() else [entry]
+                      for path in paths:
+                          real(path)
+                          relative = path.relative_to(work).as_posix()
+                          info = path.stat()
+                          assert stat.S_ISDIR(info.st_mode) or stat.S_ISREG(info.st_mode), "Nonregular archive input"
+                          if path.is_file():
+                              if filter_build and path.suffix.casefold() in excluded_suffixes:
+                                  assert ".git" not in path.parts, "Git metadata cannot be excluded"
+                                  assert not path.name.casefold().startswith(("license", "copying")), "Licenses cannot be excluded"
+                                  receipt["excluded_build_files"][relative] = {"size": info.st_size}
+                                  continue
+                              included[relative] = {"size": info.st_size, "sha256": digest(path)}
+                          stream.add(path, arcname=relative, recursive=False)
+              index = destination / (name + ".files.json")
+              index.write_text(json.dumps(included, indent=2) + "\n", encoding="utf-8")
+              receipt["archives"][name] = {
+                  "size": output.stat().st_size, "sha256": digest(output),
+                  "file_count": len(included), "file_index": index.name,
+                  "file_index_sha256": digest(index),
+              }
+              return included
+
+          sdk_files = archive("candidate-sdk.tar.gz", [work / "candidate"])
+          sdk_manifest = work / "evidence/candidate-after.json"
+          if sdk_manifest.is_file():
+              captured = json.loads(sdk_manifest.read_text())["files"]
+              expected = {
+                  "candidate/" + name: {"size": value["size"], "sha256": value["sha256"]}
+                  for name, value in captured.items()
+              }
+              assert sdk_files == expected, "Archived candidate differs from its captured inventory"
+          # Include every checked-out source and license and all .git metadata/objects,
+          # preserving superproject/submodule identities and the exact applied patch.
+          assert (work / "qt/.git").exists(), "Source Git identity must be retained"
+          assert (work / "libpack/LICENSE").is_file(), "LibPack license must be retained"
+          assert any(path.name.casefold().startswith("license") for path in (work / "qt").rglob("*")), "Qt licenses must be retained"
+          source_files = archive("corresponding-sources.tar.gz", [
+              work / "qt", work / "libpack", work / "empty-outline.patch",
+              work / "libpack-qt-ownership.json",
+          ])
+          build = work / "b/r"
+          build_files = {}
+          if build.exists():
+              build_files = archive("build-evidence.tar.gz", [build], filter_build=True)
+          evidence_files = archive("native-evidence.tar.gz", [work / "evidence", work / "compiler.cmd"])
+          build_record = work / "evidence/build.json"
+          receipt["build_status"] = json.loads(build_record.read_text())["status"] if build_record.is_file() else "not-started"
+          receipt["manifests"] = {}
+          for name, archive_name, member, index in [
+              ("candidate_inventory", "native-evidence.tar.gz", "evidence/candidate-after.json", evidence_files),
+              ("baseline_inventory", "native-evidence.tar.gz", "evidence/sdk-before.json", evidence_files),
+              ("preparation", "native-evidence.tar.gz", "evidence/preparation.json", evidence_files),
+              ("build", "native-evidence.tar.gz", "evidence/build.json", evidence_files),
+              ("ownership", "corresponding-sources.tar.gz", "libpack-qt-ownership.json", source_files),
+              ("cache", "build-evidence.tar.gz", "b/r/CMakeCache.txt", build_files),
+              ("install", "build-evidence.tar.gz", "b/r/install_manifest.txt", build_files),
+          ]:
+              if member in index:
+                  receipt["manifests"][name] = {"archive": archive_name, "member": member, **index[member]}
+          if receipt["build_status"] == "built":
+              assert len(receipt["manifests"]) == 7, "Successful build requires every SDK/source/build manifest"
+          (destination / "retention.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain the candidate SDK, complete corresponding source and archive hash receipts
+        if: always() && steps.transport.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-candidate-${{ matrix.sdk }}
+          path: ${{ runner.temp }}/libpack-candidate-artifacts
+          include-hidden-files: true
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+
+  inspect:
+    if: always() && github.repository == 'zukomgwili/FreeCAD' && needs.select.result == 'success'
+    needs: [select, build]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download this run's native candidate evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: qt-pdf-libpack-capture-${{ matrix.sdk }}
+          path: ${{ runner.temp }}/libpack-candidate-input
+
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.81.0
+          run-install: false
+          cache: false
+
+      - name: Compare operators, coordinates, pixels and both devices
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python -B package/qt-pdf/qualify_libpack_backport.py inspect \
+            --evidence-dir "$RUNNER_TEMP/libpack-candidate-input" \
+            --report "$RUNNER_TEMP/libpack-candidate-diagnostics.json"
+
+      - name: Retain Qt-only diagnostics and renders
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-candidate-diagnostics-${{ matrix.sdk }}
+          path: |
+            ${{ runner.temp }}/libpack-candidate-diagnostics.json
+            ${{ runner.temp }}/libpack-candidate-diagnostics.renders
+          if-no-files-found: warn
+          retention-days: 30

@@ -14,19 +14,38 @@ on:
         default: disabled
         type: choice
         options: [disabled, 3.5.3-x64, 3.5.5-x64, 3.5.5-arm64, all]
+      libpack_candidate:
+        description: Optional LibPack candidate checks (skips package builds)
+        default: disabled
+        type: choice
+        options: [disabled, 3.5.3-x64, 3.5.5-x64, 3.5.5-arm64, all]
 
 permissions:
   contents: read
 
 jobs:
   libpack-baseline:
-    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') != 'disabled'
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') != 'disabled' && (inputs.libpack_candidate || 'disabled') == 'disabled'
     uses: ./.github/workflows/qt_pdf_libpack_baseline.yml
     with:
       sdk: ${{ inputs.libpack_baseline }}
 
+  libpack-candidate:
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_candidate || 'disabled') != 'disabled' && (inputs.libpack_baseline || 'disabled') == 'disabled'
+    uses: ./.github/workflows/qt_pdf_libpack_backport.yml
+    with:
+      sdk: ${{ inputs.libpack_candidate }}
+
+  validate-selection:
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_candidate || 'disabled') != 'disabled' && (inputs.libpack_baseline || 'disabled') != 'disabled'
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          echo 'Select either a baseline diagnostic or a candidate build.' >&2
+          exit 1
+
   select:
-    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') == 'disabled'
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') == 'disabled' && (inputs.libpack_candidate || 'disabled') == 'disabled'
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
@@ -53,7 +72,7 @@ jobs:
 
   package:
     # Dependency experiments belong to the personal fork until reviewed.
-    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') == 'disabled'
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') == 'disabled' && (inputs.libpack_candidate || 'disabled') == 'disabled'
     needs: select
     strategy:
       fail-fast: false

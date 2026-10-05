@@ -1,0 +1,3857 @@
+{
+  "admission_rule": "A finite source-supported namespace is necessary but not sufficient: its owner repository gitlink must be actually initialized/authenticated, the exact file must occur in the actual candidate install manifest, and any non-Qt/unknown change remains rejected. Conditional-source presence here does not claim upstream build_qt initializes/builds that owner.",
+  "conditional_owners": [
+    "qtlanguageserver",
+    "qtshadertools",
+    "qtactiveqt",
+    "qtimageformats"
+  ],
+  "corpus_authentication": {
+    "bytes": 1502291,
+    "files": 449,
+    "original_research_receipt_sha256": "d336d82e2966cbf4b1e6c3947c7486c4f5b904f35cd3dba71f1b77a1c8fee560",
+    "receipts_sha256": "8ddd373d7de0c3d20069726eccb4ad7b61bb68098526702a30343b34d2e97d0e"
+  },
+  "declared_targets": {
+    "ActiveQt": [
+      {
+        "git_blob_sha1": "541bffff0236c3ce5aaccf2347b97c92d8e68d0d",
+        "kind": "module",
+        "line": 13,
+        "owner": "qtactiveqt",
+        "source_path": "src/activeqt/CMakeLists.txt",
+        "source_sha256": "d7c8708b28f6a2f7f2448271976ee5fc2a8637f006f42cd7ba68fddf3e2584a9"
+      }
+    ],
+    "AxBasePrivate": [
+      {
+        "git_blob_sha1": "c4fea594c718b7d99ebe417f2db4df680797e182",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtactiveqt",
+        "source_path": "src/activeqt/axbase/CMakeLists.txt",
+        "source_sha256": "9857cc357d482be7df2193f361deb01581f38cbf15aa3e77a5211eca328d4c77"
+      }
+    ],
+    "AxContainer": [
+      {
+        "git_blob_sha1": "412486a47676d2dc4b8c51599f9419905648ef59",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtactiveqt",
+        "source_path": "src/activeqt/container/CMakeLists.txt",
+        "source_sha256": "ddc0eb0701cce523e8863f628cdc018f3fe949dbb7b2b351b60315b212f86105"
+      }
+    ],
+    "AxServer": [
+      {
+        "git_blob_sha1": "a66b53ad462969bf64f6dd1ad829f604a5f05d82",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtactiveqt",
+        "source_path": "src/activeqt/control/CMakeLists.txt",
+        "source_sha256": "bb2522e114923738475b63b78791afcb19d7c28a3200d53ed686c3a7fac2dbf6"
+      }
+    ],
+    "BuildInternals": [
+      {
+        "git_blob_sha1": "c69d57e19c40b789ba29398caa5a8f662c6b66c3",
+        "kind": "explicit_cmake_package",
+        "line": 592,
+        "owner": "qtbase",
+        "source_path": "cmake/QtPostProcessHelpers.cmake",
+        "source_sha256": "6f861d1c3da4faec63edb9d0ceaf33f2637c7546c5a011463ed5261b6d686e01"
+      }
+    ],
+    "BundledFreetype": [
+      {
+        "git_blob_sha1": "dc23b58c8142b45ff7e7816f304e8ccabdf56943",
+        "kind": "3rdparty_library",
+        "line": 63,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/freetype/CMakeLists.txt",
+        "source_sha256": "9670e1c8a9c068c81d343cdd340308f7d1ebfb8ff36d0c9e03074d562f2d53b1"
+      }
+    ],
+    "BundledGlslang_Glslang": [
+      {
+        "git_blob_sha1": "b3b1250e8e3c55de3674bc38c1e0c95b58c09606",
+        "kind": "3rdparty_library",
+        "line": 104,
+        "owner": "qtshadertools",
+        "source_path": "src/glslang/CMakeLists.txt",
+        "source_sha256": "924fb9998ce05f89dd444c8baccb9c1181a59a7def714dd512d2f60d0acaa2c2"
+      }
+    ],
+    "BundledGlslang_Osdependent": [
+      {
+        "git_blob_sha1": "b3b1250e8e3c55de3674bc38c1e0c95b58c09606",
+        "kind": "3rdparty_library",
+        "line": 59,
+        "owner": "qtshadertools",
+        "source_path": "src/glslang/CMakeLists.txt",
+        "source_sha256": "924fb9998ce05f89dd444c8baccb9c1181a59a7def714dd512d2f60d0acaa2c2"
+      }
+    ],
+    "BundledGlslang_Spirv": [
+      {
+        "git_blob_sha1": "b3b1250e8e3c55de3674bc38c1e0c95b58c09606",
+        "kind": "3rdparty_library",
+        "line": 10,
+        "owner": "qtshadertools",
+        "source_path": "src/glslang/CMakeLists.txt",
+        "source_sha256": "924fb9998ce05f89dd444c8baccb9c1181a59a7def714dd512d2f60d0acaa2c2"
+      }
+    ],
+    "BundledHarfbuzz": [
+      {
+        "git_blob_sha1": "8c299a3daac5b4e9d5f42199464becfa0a4ec6a6",
+        "kind": "3rdparty_library",
+        "line": 7,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/harfbuzz-ng/CMakeLists.txt",
+        "source_sha256": "f8d56ce8b596445f5389ce2fa4c9159bd89860eeb19772194f49d819e6ed1757"
+      }
+    ],
+    "BundledLibjpeg": [
+      {
+        "git_blob_sha1": "f0bc4117cd9da9f46a44995be24f4ef986cd2b7f",
+        "kind": "3rdparty_library",
+        "line": 115,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/libjpeg/CMakeLists.txt",
+        "source_sha256": "e29062ca55a750d1e6988f1c240e080f0d4533a7db38849cc127765199ba0304"
+      }
+    ],
+    "BundledLibjpeg12bits": [
+      {
+        "git_blob_sha1": "f0bc4117cd9da9f46a44995be24f4ef986cd2b7f",
+        "kind": "3rdparty_library",
+        "line": 102,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/libjpeg/CMakeLists.txt",
+        "source_sha256": "e29062ca55a750d1e6988f1c240e080f0d4533a7db38849cc127765199ba0304"
+      }
+    ],
+    "BundledLibjpeg16bits": [
+      {
+        "git_blob_sha1": "f0bc4117cd9da9f46a44995be24f4ef986cd2b7f",
+        "kind": "3rdparty_library",
+        "line": 89,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/libjpeg/CMakeLists.txt",
+        "source_sha256": "e29062ca55a750d1e6988f1c240e080f0d4533a7db38849cc127765199ba0304"
+      }
+    ],
+    "BundledLibpng": [
+      {
+        "git_blob_sha1": "8b9a0430df8f1322dddb39b5738897837643919c",
+        "kind": "3rdparty_library",
+        "line": 7,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/libpng/CMakeLists.txt",
+        "source_sha256": "94d5fc4415b4ea27ca2fd955db033409cdcf7c0807cf63b92614f73321e76bb0"
+      }
+    ],
+    "BundledPcre2": [
+      {
+        "git_blob_sha1": "779e00ad4f182821b6a4da6e96f289dc477b852a",
+        "kind": "3rdparty_library",
+        "line": 7,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/pcre2/CMakeLists.txt",
+        "source_sha256": "13dc6fcc29552446a5d81500fb913d7c3d70206ebde6ce64a9294913f7c86ac8"
+      }
+    ],
+    "BundledSpirv_Cross": [
+      {
+        "git_blob_sha1": "4f2e7d25b6b6a2cdfe7bd1ce143f299ecec3e7e7",
+        "kind": "3rdparty_library",
+        "line": 10,
+        "owner": "qtshadertools",
+        "source_path": "src/SPIRV-Cross/CMakeLists.txt",
+        "source_sha256": "fd7fbae14f91b64e281f8fe407e6d5d0581f35dd8a331ef0dc5771f55b456792"
+      }
+    ],
+    "BundledZLIB": [
+      {
+        "git_blob_sha1": "e76fbd390be2be2fd2b10532fc9c5bd5f4a74928",
+        "kind": "3rdparty_library",
+        "line": 3,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/zlib/CMakeLists.txt",
+        "source_sha256": "e057d2a04d5bb507a58a3488d937c365331c368b48e156248136a8444fb5698f"
+      }
+    ],
+    "Concurrent": [
+      {
+        "git_blob_sha1": "58edeb0bc4d2bbc1a98953d2dc89d6a20b6970a0",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/concurrent/CMakeLists.txt",
+        "source_sha256": "06348af63951c1a83e92a2b17cdd2303471549fb0c5ef2277fa88828ed741c96"
+      }
+    ],
+    "Core": [
+      {
+        "git_blob_sha1": "e50838730cb2a8c67a720b6c438fd409b5d7ba31",
+        "kind": "module",
+        "line": 34,
+        "owner": "qtbase",
+        "source_path": "src/corelib/CMakeLists.txt",
+        "source_sha256": "4edeb70415b997fcf5ff88f6522da2b9880b52a7310ef8411025071474fc5a62"
+      }
+    ],
+    "DBus": [
+      {
+        "git_blob_sha1": "9ed0bad3e48f13bbba9fcfe47e23b5084cb3ed9f",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/dbus/CMakeLists.txt",
+        "source_sha256": "7d58de0f494fa23c2e008213cb873675d45cc148e3dc8408e53633559ed77aef"
+      }
+    ],
+    "Designer": [
+      {
+        "git_blob_sha1": "9afc5405e4ff658089c85a011cba34b7772afea1",
+        "kind": "module",
+        "line": 9,
+        "owner": "qttools",
+        "source_path": "src/designer/src/lib/CMakeLists.txt",
+        "source_sha256": "215587150d8d8eed4132200fa584533537900875a22faf71e4280b2725b42be7"
+      }
+    ],
+    "DesignerComponentsPrivate": [
+      {
+        "git_blob_sha1": "411acbe65ae4bb28f8fdfa59b29213717f556e9e",
+        "kind": "module",
+        "line": 8,
+        "owner": "qttools",
+        "source_path": "src/designer/src/components/lib/CMakeLists.txt",
+        "source_sha256": "65e7e7c19f9def655850819af46fbc730c814c98334868b6babfe79a634141a0"
+      }
+    ],
+    "DeviceDiscoverySupportPrivate": [
+      {
+        "git_blob_sha1": "5606451a487a9ea55dc65f71abf069ba6f569572",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/platformsupport/devicediscovery/CMakeLists.txt",
+        "source_sha256": "520df119b6cf17afeeb4e2e27b0636483ece2104f6deea654dd4a5793856a6ab"
+      }
+    ],
+    "EglFSDeviceIntegrationPrivate": [
+      {
+        "git_blob_sha1": "e0ed34e377b88a48097fbba1d1d654a438584b8f",
+        "kind": "module",
+        "line": 24,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/eglfs/CMakeLists.txt",
+        "source_sha256": "413f5c47c7471b08ad69dc76ed270411e9a1f5fb492d3d9099bd53d709e13de9"
+      }
+    ],
+    "EglFsKmsGbmSupportPrivate": [
+      {
+        "git_blob_sha1": "9f9d315202aa18782dbe870ca24ca5a1ba09c3d1",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/CMakeLists.txt",
+        "source_sha256": "7e69c9f508a46be9de70b040732c12432715ae7abe680db4f6cc8f2ee2279371"
+      }
+    ],
+    "EglFsKmsSupportPrivate": [
+      {
+        "git_blob_sha1": "5fcc0e1b1873a94014e2ffff0eb8611762415e27",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_kms_support/CMakeLists.txt",
+        "source_sha256": "af124d986d9961adfcfd87d5e1706c0c531106cd8634b994d170ce5bdaa646e8"
+      }
+    ],
+    "EntryPointImplementation": [
+      {
+        "git_blob_sha1": "1b0783da88b81d1247a72673abc326d21ce194a4",
+        "kind": "cmake_library",
+        "line": 69,
+        "owner": "qtbase",
+        "source_path": "src/entrypoint/CMakeLists.txt",
+        "source_sha256": "b53d747a926ff2482adacff2badc07241ef19360eb085d697721eed15ebc7dba"
+      }
+    ],
+    "EntryPointPrivate": [
+      {
+        "git_blob_sha1": "1b0783da88b81d1247a72673abc326d21ce194a4",
+        "kind": "module",
+        "line": 44,
+        "owner": "qtbase",
+        "source_path": "src/entrypoint/CMakeLists.txt",
+        "source_sha256": "b53d747a926ff2482adacff2badc07241ef19360eb085d697721eed15ebc7dba"
+      }
+    ],
+    "FbSupportPrivate": [
+      {
+        "git_blob_sha1": "7bd7daec0d0e3cf8ea7e44d6089b92c3819ba105",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/platformsupport/fbconvenience/CMakeLists.txt",
+        "source_sha256": "8da74c40d92805bbb7555295baac36dcc758738d2d377cab959a76308ec3328f"
+      }
+    ],
+    "FreetypePrivate": [
+      {
+        "git_blob_sha1": "dc23b58c8142b45ff7e7816f304e8ccabdf56943",
+        "kind": "3rdparty_header_module",
+        "line": 78,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/freetype/CMakeLists.txt",
+        "source_sha256": "9670e1c8a9c068c81d343cdd340308f7d1ebfb8ff36d0c9e03074d562f2d53b1"
+      }
+    ],
+    "Gui": [
+      {
+        "git_blob_sha1": "57991122a684a26a600d352e777224cfd86860df",
+        "kind": "module",
+        "line": 60,
+        "owner": "qtbase",
+        "source_path": "src/gui/CMakeLists.txt",
+        "source_sha256": "c136ad2ecaba18e3865f19f02830d58c7071f936211ced72d112d8583b57f7b6"
+      }
+    ],
+    "HarfbuzzPrivate": [
+      {
+        "git_blob_sha1": "8c299a3daac5b4e9d5f42199464becfa0a4ec6a6",
+        "kind": "3rdparty_header_module",
+        "line": 208,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/harfbuzz-ng/CMakeLists.txt",
+        "source_sha256": "f8d56ce8b596445f5389ce2fa4c9159bd89860eeb19772194f49d819e6ed1757"
+      }
+    ],
+    "Help": [
+      {
+        "git_blob_sha1": "c7a284967649fd4e98a18a6b2c9d9266da4cb970",
+        "kind": "module",
+        "line": 8,
+        "owner": "qttools",
+        "source_path": "src/assistant/help/CMakeLists.txt",
+        "source_sha256": "a226a1f7c966499e21dbe5f03c793fe9994d31922c47b16d36fb4ea1e05cbaca"
+      }
+    ],
+    "HostInfo": [
+      {
+        "git_blob_sha1": "c69d57e19c40b789ba29398caa5a8f662c6b66c3",
+        "kind": "explicit_cmake_package",
+        "line": 560,
+        "owner": "qtbase",
+        "source_path": "cmake/QtPostProcessHelpers.cmake",
+        "source_sha256": "6f861d1c3da4faec63edb9d0ceaf33f2637c7546c5a011463ed5261b6d686e01"
+      }
+    ],
+    "InputSupportPrivate": [
+      {
+        "git_blob_sha1": "15e71300e3030682cca9fda373e8998ee833167d",
+        "kind": "module",
+        "line": 13,
+        "owner": "qtbase",
+        "source_path": "src/platformsupport/input/CMakeLists.txt",
+        "source_sha256": "1ba37c4c3d821a60d8a10546562d380c8f617ecd0748c4631ccff83b15f591ac"
+      }
+    ],
+    "JpegPrivate": [
+      {
+        "git_blob_sha1": "f0bc4117cd9da9f46a44995be24f4ef986cd2b7f",
+        "kind": "3rdparty_header_module",
+        "line": 130,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/libjpeg/CMakeLists.txt",
+        "source_sha256": "e29062ca55a750d1e6988f1c240e080f0d4533a7db38849cc127765199ba0304"
+      }
+    ],
+    "JsonRpcPrivate": [
+      {
+        "git_blob_sha1": "c2950b4312df1554f6fb9f1ad5fd95f8946b2945",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtlanguageserver",
+        "source_path": "src/jsonrpc/CMakeLists.txt",
+        "source_sha256": "3a2b1bd9da8e123d58199a4b9499e2ee93f6c284f5d5a806c450cf3642838024"
+      }
+    ],
+    "KmsSupportPrivate": [
+      {
+        "git_blob_sha1": "fb0957c68c0c8ed9c89bd620401b0d1be247d97c",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtbase",
+        "source_path": "src/platformsupport/kmsconvenience/CMakeLists.txt",
+        "source_sha256": "f4467d3ab27e54aff63d455d3a46997138a925f0b64c7d1402f0931408530df2"
+      }
+    ],
+    "LabsAnimation": [
+      {
+        "git_blob_sha1": "a8594df5dd6addd4bab053da7b5df7543a6f160c",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/animation/CMakeLists.txt",
+        "source_sha256": "a3a3654246009d1afc505709f98581e35f1d71cd40486149863489c3a637071a"
+      }
+    ],
+    "LabsFolderListModel": [
+      {
+        "git_blob_sha1": "15bd72d4de562a27b895eb89f0059bad6603ff78",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/folderlistmodel/CMakeLists.txt",
+        "source_sha256": "17ecbc15522c6fc645e1f6262735b6882b6132b729b242d44d99f05338793c9c"
+      }
+    ],
+    "LabsPlatform": [
+      {
+        "git_blob_sha1": "adb36e22164c1a7d1223faf0e7f338da9ee0eee9",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/platform/CMakeLists.txt",
+        "source_sha256": "ab0c0a21dff8d1ebfc0b129fe30878969cb363e6796ff1879257d9dbec693d81"
+      }
+    ],
+    "LabsQmlModels": [
+      {
+        "git_blob_sha1": "cb78ff123485bdf20dea3223741767a1d8405bc7",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/models/CMakeLists.txt",
+        "source_sha256": "0565dceb48827e9f34f17f018dfd8509b227df48e65f517a46e650a94711ffdf"
+      }
+    ],
+    "LabsSettings": [
+      {
+        "git_blob_sha1": "6b14e974433f47144b9d03788b465b5d165c1f72",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/settings/CMakeLists.txt",
+        "source_sha256": "d4b052d64a7c48326fa83ba8feccd4f5ec87a008e3ca5f427a1ab5d0d27ca0e5"
+      }
+    ],
+    "LabsSharedImage": [
+      {
+        "git_blob_sha1": "497527e0eefade72e2b13ad342bb6acba46a9230",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/sharedimage/CMakeLists.txt",
+        "source_sha256": "77065f15d0679f4e5c6869b15defab4d6c3dca46604884d053db6f369435ba87"
+      }
+    ],
+    "LabsStyleKit": [
+      {
+        "git_blob_sha1": "b7e16bb9217dd050edd2f83b9c7ec18250c377be",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/stylekit/CMakeLists.txt",
+        "source_sha256": "746325e80a20e51f3af210d0b128b4a8aafc620264e62237bdba157b235630ff"
+      }
+    ],
+    "LabsStyleKitImpl": [
+      {
+        "git_blob_sha1": "44d5c9b1230539744b1346a6f71d0795e18e017c",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/stylekit/impl/CMakeLists.txt",
+        "source_sha256": "0e5063a33be032f20ee4078b674712fe1fde3ae47ee471597be7290672a4fedd"
+      }
+    ],
+    "LabsSynchronizer": [
+      {
+        "git_blob_sha1": "e42fbc64f04e97b0e05c87afdc90c19f90a6464f",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/synchronizer/CMakeLists.txt",
+        "source_sha256": "c0a335c2ade2ae3d22e549ecde691cd6a201c4cf289d7e559356c34730ec603f"
+      }
+    ],
+    "LabsWavefrontMesh": [
+      {
+        "git_blob_sha1": "93881c36c9d065f314443c357c87eda0d8f552ca",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/labs/wavefrontmesh/CMakeLists.txt",
+        "source_sha256": "5fc25b45a75a8b4a005df933b44cfa5bf11044c2449b0d60a35f5b9b428dff70"
+      }
+    ],
+    "LanguageServerPrivate": [
+      {
+        "git_blob_sha1": "e45916c5c7a10aaf302a6105b8002fa6995c7a33",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtlanguageserver",
+        "source_path": "src/languageserver/CMakeLists.txt",
+        "source_sha256": "ba4197d84838f075bec15195498c58793873202aafd262fd37cb939dec7f73ee"
+      }
+    ],
+    "Linguist": [
+      {
+        "git_blob_sha1": "195e4bb4aefe27a5b03f98cdef792808ef4a159f",
+        "kind": "module",
+        "line": 30,
+        "owner": "qttools",
+        "source_path": "src/linguist/CMakeLists.txt",
+        "source_sha256": "364549ad16bf414b43c08d3f17da9644d823e6af7309297e5a9d5c0ca227c9dc"
+      }
+    ],
+    "LinguistProject": [
+      {
+        "git_blob_sha1": "28f690ade4638226e4fe38ad667814dddec2a4af",
+        "kind": "cmake_library",
+        "line": 10,
+        "owner": "qttools",
+        "source_path": "src/linguist/shared/linguistproject/CMakeLists.txt",
+        "source_sha256": "53f80e808ba2ac05400d92072403c27c81d77c5221b85d37a2337536bf80073c"
+      }
+    ],
+    "Network": [
+      {
+        "git_blob_sha1": "2a15dca0635c3320415b481782e469c1ab1444d4",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/network/CMakeLists.txt",
+        "source_sha256": "93b8e210381a0e2e645fba8d5dc0db7d586b8ff02c1f0defa6a957f7193389b3"
+      }
+    ],
+    "OpenGL": [
+      {
+        "git_blob_sha1": "0e479497bf692edd93c7374de56a7c3e2f6480e5",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/opengl/CMakeLists.txt",
+        "source_sha256": "1da8a8ae6d5d41a77e8c0c13620f78d11da761523ac74d13dc48c6e66c4bcdbf"
+      }
+    ],
+    "OpenGLWidgets": [
+      {
+        "git_blob_sha1": "e9015ad1d53603b38564b1e64a2a9c8edc6fb12e",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/openglwidgets/CMakeLists.txt",
+        "source_sha256": "739f40afc823af88cf65f1f9fb6c9abdcd212789c9b49091e2a65168ce617af2"
+      }
+    ],
+    "PacketProtocolPrivate": [
+      {
+        "git_blob_sha1": "7a4c42101c67a971b33cb48e00ecadc1e4793e44",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtdeclarative",
+        "source_path": "src/plugins/qmltooling/packetprotocol/CMakeLists.txt",
+        "source_sha256": "141784a220fef70bfacace2838703af5be17cd1bd73ed292e0888667db8dfff1"
+      }
+    ],
+    "PngPrivate": [
+      {
+        "git_blob_sha1": "8b9a0430df8f1322dddb39b5738897837643919c",
+        "kind": "3rdparty_header_module",
+        "line": 37,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/libpng/CMakeLists.txt",
+        "source_sha256": "94d5fc4415b4ea27ca2fd955db033409cdcf7c0807cf63b92614f73321e76bb0"
+      }
+    ],
+    "PrintSupport": [
+      {
+        "git_blob_sha1": "4d28dea4cb1eb99ae080dd37e0b6aafd444d4edc",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/printsupport/CMakeLists.txt",
+        "source_sha256": "7e2d8040f0acc83cde32d757a90183fc22e7d6b91f24b24a58a64ebba2af3085"
+      }
+    ],
+    "QDocCatchConversionsPrivate": [
+      {
+        "git_blob_sha1": "48ddcc26fa394d7aa507996b2fe9e29b97341931",
+        "kind": "module",
+        "line": 1,
+        "owner": "qttools",
+        "source_path": "src/qdoc/catch_conversions/CMakeLists.txt",
+        "source_sha256": "c9ca0aae2e3bd895250a9dbdcd77cb8a62f2d8a45995676f9d8c05aab102407d"
+      }
+    ],
+    "QDocCatchGeneratorsPrivate": [
+      {
+        "git_blob_sha1": "18f2e6928c5674629e6b0ad00505b682d7cf2f1d",
+        "kind": "module",
+        "line": 1,
+        "owner": "qttools",
+        "source_path": "src/qdoc/catch_generators/CMakeLists.txt",
+        "source_sha256": "612d7a3aa4f577dc95777395deb8dec3a4abecbc4223c82e388beeb46d8f377f"
+      }
+    ],
+    "QDocCatchPrivate": [
+      {
+        "git_blob_sha1": "3f933a1ddeec19a6bcac36a1c4edcb0b76e0d163",
+        "kind": "3rdparty_header_module",
+        "line": 1,
+        "owner": "qttools",
+        "source_path": "src/qdoc/catch/CMakeLists.txt",
+        "source_sha256": "50128bc48c5c466e22f85919ef8761d46221c678574f75507b0c4e63661273c4"
+      }
+    ],
+    "QMakeParserCumulative": [
+      {
+        "git_blob_sha1": "8ecd03b5a2de29cf49769ff4c53615ced04dff28",
+        "kind": "cmake_library",
+        "line": 10,
+        "owner": "qttools",
+        "source_path": "src/linguist/shared/qmake-parser/CMakeLists.txt",
+        "source_sha256": "b9662e8b46d45a7dca0bdd0a8d93e51bd2ca1b0fb04e3cf971d08a16696fabef"
+      }
+    ],
+    "Qml": [
+      {
+        "git_blob_sha1": "68c3a57edc280ae9025dae4f11ea75c7d67862dd",
+        "kind": "qml_module",
+        "line": 24,
+        "owner": "qtdeclarative",
+        "source_path": "src/qml/CMakeLists.txt",
+        "source_sha256": "9428abfd0e7d764c1c1cc2159fa39db410bf64a5960c3243f97ded0ae4c085ac"
+      }
+    ],
+    "QmlCompiler": [
+      {
+        "git_blob_sha1": "ac8588cac3ff62db4bf4bc273abbafb131464f64",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlcompiler/CMakeLists.txt",
+        "source_sha256": "c11688e02ae4ff87b871b97b7a7e604fb45954ed515dde3ed721f149ece7a932"
+      }
+    ],
+    "QmlCore": [
+      {
+        "git_blob_sha1": "655bfce9c7c22804e0b414bb68485720b1d4ba6d",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/core/CMakeLists.txt",
+        "source_sha256": "f6aa7c2a23543c8b7f7dcb0da64bdd7b3412a0a4fb69c548a2cc98e61bbbc054"
+      }
+    ],
+    "QmlDebugPrivate": [
+      {
+        "git_blob_sha1": "242df24e1566fc7f9dd580bb3af69a9e1b32fc1e",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmldebug/CMakeLists.txt",
+        "source_sha256": "0e7ab95cc8049a71fbf5631478766dcd2aed1c87473155462540c088a4938a13"
+      }
+    ],
+    "QmlDomPrivate": [
+      {
+        "git_blob_sha1": "61401d9f421cffc6ca7a176722ab807d74e759c4",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmldom/CMakeLists.txt",
+        "source_sha256": "3f55c1191a6f6658b0573a1e4c124343ce7329f313cd128a4718459314bd1e0b"
+      }
+    ],
+    "QmlFormatPrivate": [
+      {
+        "git_blob_sha1": "f43f5dd8c59991129dd65ab94f47e042504d33e8",
+        "kind": "module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlformat/CMakeLists.txt",
+        "source_sha256": "ba86707939cb9e279d26a82a51ba0a8b3963ac09ae64d38f866bd19bbfd34a0b"
+      }
+    ],
+    "QmlImportScanner": [
+      {
+        "git_blob_sha1": "e30490532d1f7a4dc8baeee3fcb09e2c27553101",
+        "kind": "explicit_cmake_package",
+        "line": 28,
+        "owner": "qtdeclarative",
+        "source_path": "tools/qmlimportscanner/CMakeLists.txt",
+        "source_sha256": "e0099b9396fcf62caad26f8634180eb55435f4fcbb86c3f781f90e0368299d8a"
+      }
+    ],
+    "QmlIntegration": [
+      {
+        "git_blob_sha1": "755c77477cfe5201024a84ca854e679d035f49e3",
+        "kind": "module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlintegration/CMakeLists.txt",
+        "source_sha256": "68a0daba746772a83182fbe24d7a217421e205f72455fdd57db2448ab00db071"
+      }
+    ],
+    "QmlLSPrivate": [
+      {
+        "git_blob_sha1": "57b5300792f0c69b0c1aca287a979cb2dd8e5627",
+        "kind": "module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlls/CMakeLists.txt",
+        "source_sha256": "64ec965de9f7b930588290339b6c71fd3e90783adf17bea5f71eae4475474f1b"
+      }
+    ],
+    "QmlLocalStorage": [
+      {
+        "git_blob_sha1": "6c00f77e5382a70771fa08ceaf5c933b5bedeb8a",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmllocalstorage/CMakeLists.txt",
+        "source_sha256": "4d84c1ab788d9d3d9510bdbb1393bc0d4b7311eb6e75c9647d3b02ba6b3ee3a3"
+      }
+    ],
+    "QmlMeta": [
+      {
+        "git_blob_sha1": "473cf063cd95005b69872028cedd85b88cf8540b",
+        "kind": "qml_module",
+        "line": 31,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlmeta/CMakeLists.txt",
+        "source_sha256": "1d1e29ec3c15f3f92016625ada9cb8da3c30d35d434ac13052638ce31b187d8a"
+      }
+    ],
+    "QmlModels": [
+      {
+        "git_blob_sha1": "2d6eee50c91efe9341a51f04cdb650aa1bd13f65",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlmodels/CMakeLists.txt",
+        "source_sha256": "374e86420d8944bc05001ee134d472e5e3fda760984bd565549282f1155d2c05"
+      }
+    ],
+    "QmlNetwork": [
+      {
+        "git_blob_sha1": "697219b648b852514072461aece3b2914d887df3",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlnetwork/CMakeLists.txt",
+        "source_sha256": "5b22fad10dfbfdd68647285b0c40879c3cce0d69dc18052fb432b48a34cf82c3"
+      }
+    ],
+    "QmlToolingSettingsPrivate": [
+      {
+        "git_blob_sha1": "f5e456cd965b3e80a9b28d0dc1447758d0147aaa",
+        "kind": "module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmltoolingsettings/CMakeLists.txt",
+        "source_sha256": "f95e6a0fd888ef291176d3cb288666437f0bc2612371fe9c2ef511b6aeafbffc"
+      }
+    ],
+    "QmlTypeRegistrarPrivate": [
+      {
+        "git_blob_sha1": "e1f2b487190ed25d15ed62f466da65f3edef683f",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmltyperegistrar/CMakeLists.txt",
+        "source_sha256": "4c430de4d8da0c612a9f992ecdb7f26576be676cca8726627ad3ec69b382ebbc"
+      }
+    ],
+    "QmlWorkerScript": [
+      {
+        "git_blob_sha1": "8f2b8049c6c1dfa3d5dba5bd394eb414f30c7905",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlworkerscript/CMakeLists.txt",
+        "source_sha256": "c13880a28701531af08490c4c36672e4cd84491e3837798b66e1f93b61734dca"
+      }
+    ],
+    "QmlXmlListModel": [
+      {
+        "git_blob_sha1": "5b56f6388b347c62ba7d5c80406cf3d1a5e5dbed",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmlxmllistmodel/CMakeLists.txt",
+        "source_sha256": "5cd8dde927c918a1813ed840430c82e4157cbb696bd9fa1c8562e3f26008ebe6"
+      }
+    ],
+    "Quick": [
+      {
+        "git_blob_sha1": "561ca6d54565ac3cea330fe802dc2d32068d49a2",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/quick/CMakeLists.txt",
+        "source_sha256": "85ae197c40a6507d4b799a3c961a6f1f90fe4976e80358bad9a18a22d8c9eded"
+      }
+    ],
+    "QuickControls2": [
+      {
+        "git_blob_sha1": "578e0b683d1dba35419722501d5ece0b20ab59a9",
+        "kind": "qml_module",
+        "line": 38,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/CMakeLists.txt",
+        "source_sha256": "95c345b05a443ccc0a8a568500efae903905b81cf34ec28d3f036d968029fe38"
+      }
+    ],
+    "QuickControls2Basic": [
+      {
+        "git_blob_sha1": "c4f5f9f5276f3690b20442cca985d5e483ae9d36",
+        "kind": "qml_module",
+        "line": 178,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/basic/CMakeLists.txt",
+        "source_sha256": "1a9ce5112fa516c9d692781a0d846bef0c57a89ff5fb3121921aa70f051bce94"
+      }
+    ],
+    "QuickControls2BasicStyleImpl": [
+      {
+        "git_blob_sha1": "ac20ab78b08b14d4c8b9cdb278693ec181191b73",
+        "kind": "qml_module",
+        "line": 12,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/basic/impl/CMakeLists.txt",
+        "source_sha256": "55a6d916726fac9a20629dc0bfe83ed3ea30a7674699cff79f94febc4fe7c618"
+      }
+    ],
+    "QuickControls2FluentWinUI3StyleImpl": [
+      {
+        "git_blob_sha1": "e8ce5a03af1c85339e066a1db17f897f0c28a22f",
+        "kind": "qml_module",
+        "line": 37,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/fluentwinui3/impl/CMakeLists.txt",
+        "source_sha256": "275d8e6715750aa75f236a5a87660edb57b6151a92a23296e2b2b751cdb5a3be"
+      }
+    ],
+    "QuickControls2Fusion": [
+      {
+        "git_blob_sha1": "efe959f6e73bd3a28eac27b812450138454238a7",
+        "kind": "qml_module",
+        "line": 113,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/fusion/CMakeLists.txt",
+        "source_sha256": "b115e354c6472216d9c3c8791e7e1293950a135d4d01ee003e661b5300006df9"
+      }
+    ],
+    "QuickControls2FusionStyleImpl": [
+      {
+        "git_blob_sha1": "587a294290172722dfc9980bca1f88df6d3e8db8",
+        "kind": "qml_module",
+        "line": 43,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/fusion/impl/CMakeLists.txt",
+        "source_sha256": "89bbf87f772970886af64128a0b5a5260e5cfb92e2bdab7d569dce287c7338ad"
+      }
+    ],
+    "QuickControls2IOSStyleImpl": [
+      {
+        "git_blob_sha1": "cbe55f7083c1a1903caf6e2b7f0afda8c76ff251",
+        "kind": "qml_module",
+        "line": 30,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/ios/impl/CMakeLists.txt",
+        "source_sha256": "869bab5cd24960044083e97f6350de2127a0159ab262f69e32058d3fd73ef364"
+      }
+    ],
+    "QuickControls2Imagine": [
+      {
+        "git_blob_sha1": "f6db8e18452b191d781b032facc85df053e93b00",
+        "kind": "qml_module",
+        "line": 106,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/imagine/CMakeLists.txt",
+        "source_sha256": "fbca69de1132e86287d0c88c25b69ef62190a3b3ea866155098bb557931c5279"
+      }
+    ],
+    "QuickControls2ImagineStyleImpl": [
+      {
+        "git_blob_sha1": "1992e21adafa98e6bd11cef4f2e83703277392b8",
+        "kind": "qml_module",
+        "line": 17,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/imagine/impl/CMakeLists.txt",
+        "source_sha256": "cbea78b8317f5b181ed8310dd81bbfcd887171fc691e8eea06cd157c36562eda"
+      }
+    ],
+    "QuickControls2Impl": [
+      {
+        "git_blob_sha1": "8e1bcc8f7679a3a5852c25706a40d04b59440fba",
+        "kind": "qml_module",
+        "line": 20,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrolsimpl/CMakeLists.txt",
+        "source_sha256": "86a41593174267dce2f3dbca4a31f38613b8e7c1b75c615edfc6cc5af12ed608"
+      }
+    ],
+    "QuickControls2MacOSStyleImpl": [
+      {
+        "git_blob_sha1": "77cce152a7bba02f7408658aeeb3b2ba6bc63701",
+        "kind": "qml_module",
+        "line": 32,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/macos/impl/CMakeLists.txt",
+        "source_sha256": "b45b0d58445a0b11f890e7f430c24fc9900f91998aa3935285cbab560431ed49"
+      }
+    ],
+    "QuickControls2Material": [
+      {
+        "git_blob_sha1": "3a55de2a180b4784c15754ce22bde8dcbbce590a",
+        "kind": "qml_module",
+        "line": 115,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/material/CMakeLists.txt",
+        "source_sha256": "04dab6fad5e5c82d0d9e6fd37287dfa917c593ade537d3dabe0f264216a44321"
+      }
+    ],
+    "QuickControls2MaterialStyleImpl": [
+      {
+        "git_blob_sha1": "262b84c9e457d4a2f2945156880f7f15b07b01ea",
+        "kind": "qml_module",
+        "line": 25,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/material/impl/CMakeLists.txt",
+        "source_sha256": "c9895506fdc580e94fbd7b7f169fbc16254630c4253a19db4ccec3df57e41eb6"
+      }
+    ],
+    "QuickControls2Universal": [
+      {
+        "git_blob_sha1": "5990b5bb812643698395c92e547ee304266ddc35",
+        "kind": "qml_module",
+        "line": 113,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/universal/CMakeLists.txt",
+        "source_sha256": "a130193e15ab772eb92d93865f0909b72a695651211930ded36ee0594450dc90"
+      }
+    ],
+    "QuickControls2UniversalStyleImpl": [
+      {
+        "git_blob_sha1": "a954064e25efc7ec4543e5a7f2e8a3d019795898",
+        "kind": "qml_module",
+        "line": 35,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/universal/impl/CMakeLists.txt",
+        "source_sha256": "c53b31d9fe71a651077041ce08f16997b21dd20a8cc8f4920e031acd8fb2a3e3"
+      }
+    ],
+    "QuickControls2WindowsStyleImpl": [
+      {
+        "git_blob_sha1": "c9fc32666934c2e5f4ac3df2474937d37af46730",
+        "kind": "qml_module",
+        "line": 30,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrols/windows/impl/CMakeLists.txt",
+        "source_sha256": "ab0e00745f228d70eae41ba221e7f1835487a28679953ecf005d11245029d4f3"
+      }
+    ],
+    "QuickControlsTestUtilsPrivate": [
+      {
+        "git_blob_sha1": "b15299bc9de5d4e593035616733c1e337861bc7e",
+        "kind": "module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrolstestutils/CMakeLists.txt",
+        "source_sha256": "96a44fea3e9a6cb2e91da7cbdae499278baeb1fd8ee2a9a106130a1c884ee86d"
+      },
+      {
+        "git_blob_sha1": "b15299bc9de5d4e593035616733c1e337861bc7e",
+        "kind": "qml_module",
+        "line": 42,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickcontrolstestutils/CMakeLists.txt",
+        "source_sha256": "96a44fea3e9a6cb2e91da7cbdae499278baeb1fd8ee2a9a106130a1c884ee86d"
+      }
+    ],
+    "QuickDialogs2": [
+      {
+        "git_blob_sha1": "893ee7cad8fba3009a2990fea21a8a891992eead",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickdialogs/quickdialogs/CMakeLists.txt",
+        "source_sha256": "1393fedaebaf1a2cc3194b58cf5e40970b3f1e5841f7832b31ae25ea81472ee4"
+      }
+    ],
+    "QuickDialogs2QuickImpl": [
+      {
+        "git_blob_sha1": "ecf71268e560b0c19e8e7d133ea1d73df90f60b3",
+        "kind": "qml_module",
+        "line": 73,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickdialogs/quickdialogsquickimpl/CMakeLists.txt",
+        "source_sha256": "e4470db1290514d24ca1f61bf1920c37fdb2635e92ad4961dd624756ada3fc78"
+      }
+    ],
+    "QuickDialogs2Utils": [
+      {
+        "git_blob_sha1": "7254a98e441fd1742ca89aba3d38b758b87df8bf",
+        "kind": "module",
+        "line": 11,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickdialogs/quickdialogsutils/CMakeLists.txt",
+        "source_sha256": "8cee2e401a9bd1db63dbfd217a9e2adb41b2db7cc1f399df828db561326a40e7"
+      }
+    ],
+    "QuickEffects": [
+      {
+        "git_blob_sha1": "3398ffd5a06d801740bb391fec9f9327bbd685c8",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/effects/CMakeLists.txt",
+        "source_sha256": "650acb548607fa9380c426799a1aea689ae7ae6b1b8d08ee2ce2f8e95978f882"
+      }
+    ],
+    "QuickLayouts": [
+      {
+        "git_blob_sha1": "03fb37acecc8fd4cb2926729d1bd950ebf5baeb1",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/quicklayouts/CMakeLists.txt",
+        "source_sha256": "f6292f3be6bc0ea87e5e43156e84233a1bce556089e4619c4264fe24bc3c7256"
+      }
+    ],
+    "QuickParticlesPrivate": [
+      {
+        "git_blob_sha1": "7516f23b212c649b585594b4068c815a50c2943d",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/particles/CMakeLists.txt",
+        "source_sha256": "f2b1062f46833481402ff702e29912efa774aafa939376c8bf891b843a3c1cdb"
+      }
+    ],
+    "QuickShapes": [
+      {
+        "git_blob_sha1": "708737998e358ee6d1281766e29a4f181e62fc2d",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickshapes/CMakeLists.txt",
+        "source_sha256": "7936d27ab698399bdb3c2029df71323093717bf62dab41f24838cdf015fc7531"
+      }
+    ],
+    "QuickShapesDesignHelpersPrivate": [
+      {
+        "git_blob_sha1": "80769839918e34c412578d1a44fc2dfdcdd88cf9",
+        "kind": "qml_module",
+        "line": 4,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickshapes/designhelpers/CMakeLists.txt",
+        "source_sha256": "f39f9a7ebde4311266f5739956185e47eb435a0d56ff5449b6abbc7d10d88ec3"
+      }
+    ],
+    "QuickTemplates2": [
+      {
+        "git_blob_sha1": "755f466f78594d8ea984ab0a9f51b643a2ffe2d2",
+        "kind": "qml_module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/quicktemplates/CMakeLists.txt",
+        "source_sha256": "5e614b9a1a80907df22bb1c09b02a5fbb1d1c547a420fa27db83dfbefa8a98b7"
+      }
+    ],
+    "QuickTest": [
+      {
+        "git_blob_sha1": "908dd98a9665ea4731da8ff6ab45bd905b54bbae",
+        "kind": "qml_module",
+        "line": 16,
+        "owner": "qtdeclarative",
+        "source_path": "src/qmltest/CMakeLists.txt",
+        "source_sha256": "68ccb4601cd54e693a1966b7251fa511847db67951e50af2f4b7457dd26eae94"
+      }
+    ],
+    "QuickTestUtilsPrivate": [
+      {
+        "git_blob_sha1": "d87c93205f268c247ea1d1d073ffb580d4ba217e",
+        "kind": "module",
+        "line": 15,
+        "owner": "qtdeclarative",
+        "source_path": "src/quicktestutils/CMakeLists.txt",
+        "source_sha256": "59f6f0bdc879d4113ad356160dd896c2d99cbe910d20339f48bb3fbe9ad3df35"
+      }
+    ],
+    "QuickVectorImage": [
+      {
+        "git_blob_sha1": "99664ac7cd6dd6f4ad9e0e59d730c05ccb9b69d1",
+        "kind": "qml_module",
+        "line": 27,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickvectorimage/CMakeLists.txt",
+        "source_sha256": "91716790912d18d65ea94b6878177e5db74bc744b684a0a44cdaa61c6ee495c3"
+      }
+    ],
+    "QuickVectorImageGeneratorPrivate": [
+      {
+        "git_blob_sha1": "99664ac7cd6dd6f4ad9e0e59d730c05ccb9b69d1",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickvectorimage/CMakeLists.txt",
+        "source_sha256": "91716790912d18d65ea94b6878177e5db74bc744b684a0a44cdaa61c6ee495c3"
+      }
+    ],
+    "QuickVectorImageHelpers": [
+      {
+        "git_blob_sha1": "99664ac7cd6dd6f4ad9e0e59d730c05ccb9b69d1",
+        "kind": "qml_module",
+        "line": 43,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickvectorimage/CMakeLists.txt",
+        "source_sha256": "91716790912d18d65ea94b6878177e5db74bc744b684a0a44cdaa61c6ee495c3"
+      }
+    ],
+    "QuickWidgets": [
+      {
+        "git_blob_sha1": "a1aff7e247a345f02b51653614353dce2a285739",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtdeclarative",
+        "source_path": "src/quickwidgets/CMakeLists.txt",
+        "source_sha256": "b7842a44cf66e02199fcacd1c99324f22d09b434e14d5228f085ae1f69a4c0fc"
+      }
+    ],
+    "RemoteObjects": [
+      {
+        "git_blob_sha1": "39984800e6bf7403dd73b59769bafb7f5b990537",
+        "kind": "module",
+        "line": 11,
+        "owner": "qtremoteobjects",
+        "source_path": "src/remoteobjects/CMakeLists.txt",
+        "source_sha256": "f100ce08bab45ed1854a99420fffe5a237c91afe3ce3df7f6a78bdd0c20b3b56"
+      }
+    ],
+    "RemoteObjectsQml": [
+      {
+        "git_blob_sha1": "7233f465cae41614937c34acb8edaeb96bfcc613",
+        "kind": "qml_module",
+        "line": 9,
+        "owner": "qtremoteobjects",
+        "source_path": "src/remoteobjectsqml/CMakeLists.txt",
+        "source_sha256": "088b27dfbe3f58e2d65c5a5e39a81e736a889326bbcf54077524d2d05135351d"
+      }
+    ],
+    "RepParser": [
+      {
+        "git_blob_sha1": "d3e6800f6392ba2acd83271aaa8d6fee7a384d3c",
+        "kind": "module",
+        "line": 9,
+        "owner": "qtremoteobjects",
+        "source_path": "src/repparser/CMakeLists.txt",
+        "source_sha256": "6e8e9141f273c29fd37e9a7a2220466612667ede011ab4fc2fa6a2fe6e4527d2"
+      }
+    ],
+    "ShaderTools": [
+      {
+        "git_blob_sha1": "04371a5a38fcbe7c8cd955e9fa446500ec8bcf74",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtshadertools",
+        "source_path": "src/shadertools/CMakeLists.txt",
+        "source_sha256": "3b8e02fcdadd26521bf0ab1fea737c3d27e3fb86b28ef0b294539b8953656a49"
+      }
+    ],
+    "Sql": [
+      {
+        "git_blob_sha1": "10cdaf24bc0eec70196687ace0feffc09a83cfdf",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/sql/CMakeLists.txt",
+        "source_sha256": "d5adf106cc8dec2e395f21ff1a3c507aef06671038452b08ef7231229e6548f7"
+      }
+    ],
+    "Svg": [
+      {
+        "git_blob_sha1": "3286a581cc8097f48ea436d03f4c6ecf7f2259f8",
+        "kind": "module",
+        "line": 15,
+        "owner": "qtsvg",
+        "source_path": "src/svg/CMakeLists.txt",
+        "source_sha256": "310f1ac5575a96e70ae15f96c26a4bcd8aced766c78c6a881130ba4620f6733d"
+      }
+    ],
+    "SvgWidgets": [
+      {
+        "git_blob_sha1": "99d8d1e7c1afee1b2323ee62897f756b8cc0e922",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtsvg",
+        "source_path": "src/svgwidgets/CMakeLists.txt",
+        "source_sha256": "bfcdb216a1fca686d21b5611f29059be0f075ed2dde5395cf0e537098405b18d"
+      }
+    ],
+    "Test": [
+      {
+        "git_blob_sha1": "af2824f5be95a442e295748ddfa5ed3f1887a3d9",
+        "kind": "module",
+        "line": 12,
+        "owner": "qtbase",
+        "source_path": "src/testlib/CMakeLists.txt",
+        "source_sha256": "5795e58d7712a911f1eabab328018f459223f05d495a18592691862bb64e8e07"
+      }
+    ],
+    "TestInternalsPrivate": [
+      {
+        "git_blob_sha1": "edd8796c7e304d662b288a269e7968929a00af95",
+        "kind": "module",
+        "line": 16,
+        "owner": "qtbase",
+        "source_path": "src/testinternal/CMakeLists.txt",
+        "source_sha256": "e0955f504844be5fb1a41dd7f50506088b40fa94e6593a92a1311fdf69999928"
+      }
+    ],
+    "Tools": [
+      {
+        "git_blob_sha1": "b540d974c9bf1ba361df34364e0c97b8f4d4505d",
+        "kind": "module",
+        "line": 8,
+        "owner": "qttools",
+        "source_path": "src/global/CMakeLists.txt",
+        "source_sha256": "a0b68691de2740f0ad30cc80e0268ac7db0d1f3711a5134ee0d88817976501f8"
+      }
+    ],
+    "TrLib": [
+      {
+        "git_blob_sha1": "8d6a5bea2c3d668320505c05eeccaa5e12594a16",
+        "kind": "cmake_library",
+        "line": 10,
+        "owner": "qttools",
+        "source_path": "src/linguist/shared/trlib/CMakeLists.txt",
+        "source_sha256": "6b4bf16b1f4a8049baa7b46dbdaac221d0bbf64f69c3717f7a16b0bd56b67f55"
+      }
+    ],
+    "UiPlugin": [
+      {
+        "git_blob_sha1": "c0193dc3cd929cd6a3297b55d4338da6a711f5a9",
+        "kind": "module",
+        "line": 8,
+        "owner": "qttools",
+        "source_path": "src/uiplugin/CMakeLists.txt",
+        "source_sha256": "83365086d89d80f1f8bd3824ba7b06cc26b4248f94cb34a7a0bebb1ef6075d50"
+      }
+    ],
+    "UiTools": [
+      {
+        "git_blob_sha1": "0a098e5c24c9278f808a32142f5fc15f60d292f9",
+        "kind": "module",
+        "line": 8,
+        "owner": "qttools",
+        "source_path": "src/uitools/CMakeLists.txt",
+        "source_sha256": "5daafbaedc39ef3d520bd9717eebcde3190111e126c7ee1e22d9b6be693bf07f"
+      }
+    ],
+    "WaylandClient": [
+      {
+        "git_blob_sha1": "29503ff0edcf8a2668265060316f1344d1c88d76",
+        "kind": "module",
+        "line": 33,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/wayland/CMakeLists.txt",
+        "source_sha256": "8e70a56ee0e5b9eec24fa37f7292f2a802abfb524ed5de4db60df71290be433c"
+      }
+    ],
+    "WaylandGlobalPrivate": [
+      {
+        "git_blob_sha1": "29503ff0edcf8a2668265060316f1344d1c88d76",
+        "kind": "module",
+        "line": 14,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/wayland/CMakeLists.txt",
+        "source_sha256": "8e70a56ee0e5b9eec24fa37f7292f2a802abfb524ed5de4db60df71290be433c"
+      }
+    ],
+    "Widgets": [
+      {
+        "git_blob_sha1": "b1225a2e902476c86949a9e09305b984bd642d4e",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/widgets/CMakeLists.txt",
+        "source_sha256": "f22cca90ada79e7f90239ed07db3266cbea07425a2f665e35f5bd06fcbdf457e"
+      }
+    ],
+    "WlShellIntegrationPrivate": [
+      {
+        "git_blob_sha1": "4b92e6426f6c5624a069e9bde76c4cc3bed3957a",
+        "kind": "module",
+        "line": 10,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/wayland/plugins/shellintegration/wl-shell/CMakeLists.txt",
+        "source_sha256": "7e8b3f8a53c40fad790f889e738c6c0cf0176cf3d1c6e085819ab1bbfe67b2b4"
+      }
+    ],
+    "XcbQpaPrivate": [
+      {
+        "git_blob_sha1": "204acd72ba0852b10bb6c101c0791a72231fa73f",
+        "kind": "module",
+        "line": 13,
+        "owner": "qtbase",
+        "source_path": "src/plugins/platforms/xcb/CMakeLists.txt",
+        "source_sha256": "0d0a3be3c5d0f043aabd9c2ed4a54e57c438ef743a54b29f5bf0bb17ce31cf4e"
+      }
+    ],
+    "Xml": [
+      {
+        "git_blob_sha1": "207858450d7653a0390b2f5f46797f669b89be22",
+        "kind": "module",
+        "line": 8,
+        "owner": "qtbase",
+        "source_path": "src/xml/CMakeLists.txt",
+        "source_sha256": "f7da93354397b795cdcfef4d0999eb194ab911050c0d1223fef58cfc95a5a3df"
+      }
+    ],
+    "ZlibPrivate": [
+      {
+        "git_blob_sha1": "e76fbd390be2be2fd2b10532fc9c5bd5f4a74928",
+        "kind": "3rdparty_header_module",
+        "line": 45,
+        "owner": "qtbase",
+        "source_path": "src/3rdparty/zlib/CMakeLists.txt",
+        "source_sha256": "e057d2a04d5bb507a58a3488d937c365331c368b48e156248136a8444fb5698f"
+      }
+    ]
+  },
+  "derived_installer_fragment_license": {
+    "copyright_notice": "Copyright (C) 2022 The Qt Company Ltd.",
+    "license_source_git_blob_sha1": "b91bbd89468099ae5c3028f176783976ca538187",
+    "license_source_path": "LICENSES/BSD-3-Clause.txt",
+    "license_source_primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/LICENSES/BSD-3-Clause.txt",
+    "license_source_sha256": "9f0490f18656c6f2435bd14f603ef0c96434d1825615363dce43abb42ed1dcce",
+    "notice_conditions_and_disclaimer": "Copyright (C) 2022 The Qt Company Ltd.\n\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n    1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n    2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n    3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n",
+    "scope": "The exact Windows install(CODE) fragment reproduced by alias_fragment in build_libpack_backport.py is derived from QtInstallHelpers.cmake. Other helper logic is LGPL-2.1-or-later.",
+    "source_commit": "59c81a3c2247b821b9b84b4eb8d939b77e07e276",
+    "source_owner": "qtbase",
+    "source_path": "cmake/QtInstallHelpers.cmake",
+    "source_sha256": "07e528e994de16dd5abf520e2a13d8624fd5696abc09bfc4b839cf32a2030a0a",
+    "spdx_license_identifier": "BSD-3-Clause"
+  },
+  "directly_selected_owners": [
+    "qtbase",
+    "qtsvg",
+    "qtdeclarative",
+    "qttools",
+    "qtremoteobjects"
+  ],
+  "limitations": [
+    "Literal target definitions and exact generic export rules are authenticated, not a CMake configure trace. Conditional targets may not be installed on Windows.",
+    "Aliases represent source-supported private/interface/tool factories; actual install manifest and authenticated owner checks are still required.",
+    "Qt modules outside the selected five and conditionally authenticated owner repositories remain disallowed if not actually initialized."
+  ],
+  "namespace_factories": [
+    {
+      "line": 164,
+      "owner": "qtbase",
+      "path": "cmake/QtModuleHelpers.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/cmake/QtModuleHelpers.cmake",
+      "rule": "set(arg_MODULE_INTERFACE_NAME \"${CMAKE_MATCH_1}\")",
+      "source_sha256": "c29c1607cfeaee93c619e17371922a31a58eaea3cc18d802d5445e0f5821b6f0"
+    },
+    {
+      "line": 352,
+      "owner": "qtbase",
+      "path": "cmake/QtModuleHelpers.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/cmake/QtModuleHelpers.cmake",
+      "rule": "set(target_private \"${target}Private\")",
+      "source_sha256": "c29c1607cfeaee93c619e17371922a31a58eaea3cc18d802d5445e0f5821b6f0"
+    },
+    {
+      "line": 435,
+      "owner": "qtbase",
+      "path": "cmake/QtModuleHelpers.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/cmake/QtModuleHelpers.cmake",
+      "rule": "OUTPUT_NAME \"${INSTALL_CMAKE_NAMESPACE}${module_interface_name}${QT_LIBINFIX}\"",
+      "source_sha256": "c29c1607cfeaee93c619e17371922a31a58eaea3cc18d802d5445e0f5821b6f0"
+    },
+    {
+      "line": 222,
+      "owner": "qtbase",
+      "path": "cmake/Qt3rdPartyLibraryHelpers.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/cmake/Qt3rdPartyLibraryHelpers.cmake",
+      "rule": "OUTPUT_NAME \"${INSTALL_CMAKE_NAMESPACE}${target}\"",
+      "source_sha256": "167ebe648ee64b9ca7cd3a249a7b893211958547986b602447add38c3c69ef1c"
+    },
+    {
+      "line": 274,
+      "owner": "qtbase",
+      "path": "cmake/Qt3rdPartyLibraryHelpers.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/cmake/Qt3rdPartyLibraryHelpers.cmake",
+      "rule": "set(path_suffix \"${INSTALL_CMAKE_NAMESPACE}${target}\")",
+      "source_sha256": "167ebe648ee64b9ca7cd3a249a7b893211958547986b602447add38c3c69ef1c"
+    },
+    {
+      "line": 235,
+      "owner": "qtbase",
+      "path": "cmake/QtToolHelpers.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/cmake/QtToolHelpers.cmake",
+      "rule": "EXPORT \"${INSTALL_CMAKE_NAMESPACE}${arg_TOOLS_TARGET}ToolsTargets\"",
+      "source_sha256": "487d4194f454ba32c27da117800a1148f05e455a3165ac983950285244315b32"
+    },
+    {
+      "line": 165,
+      "owner": "qtdeclarative",
+      "path": "src/qml/Qt6QmlBuildInternals.cmake",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtdeclarative/a02bed441965ee1f18f856352c7d5ee5ba35d795/src/qml/Qt6QmlBuildInternals.cmake",
+      "rule": "qt_internal_add_module(${target} ${module_args})",
+      "source_sha256": "4af7d76450ed6e3c2b0a763e59f71f609c9d0316e8a2928c12b75e84bbf0269e"
+    }
+  ],
+  "observed_cmake_namespaces": {
+    "Qt6": {
+      "owner": "qtbase",
+      "source_rule": "QtPostProcessHelpers.cmake generic Qt6 package factory"
+    },
+    "Qt6ActiveQt": {
+      "declared_target": "ActiveQt",
+      "owner": "qtactiveqt"
+    },
+    "Qt6ActiveQtPrivate": {
+      "declared_target": "ActiveQt",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxBasePrivate": {
+      "declared_target": "AxBasePrivate",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxContainer": {
+      "declared_target": "AxContainer",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxContainerPrivate": {
+      "declared_target": "AxContainer",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxContainerTools": {
+      "declared_target": "AxContainer",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxServer": {
+      "declared_target": "AxServer",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxServerPrivate": {
+      "declared_target": "AxServer",
+      "owner": "qtactiveqt"
+    },
+    "Qt6AxServerTools": {
+      "declared_target": "AxServer",
+      "owner": "qtactiveqt"
+    },
+    "Qt6BuildInternals": {
+      "declared_target": "BuildInternals",
+      "owner": "qtbase"
+    },
+    "Qt6BundledFreetype": {
+      "declared_target": "BundledFreetype",
+      "owner": "qtbase"
+    },
+    "Qt6BundledLibjpeg": {
+      "declared_target": "BundledLibjpeg",
+      "owner": "qtbase"
+    },
+    "Qt6Concurrent": {
+      "declared_target": "Concurrent",
+      "owner": "qtbase"
+    },
+    "Qt6Core": {
+      "declared_target": "Core",
+      "owner": "qtbase"
+    },
+    "Qt6CorePrivate": {
+      "declared_target": "Core",
+      "owner": "qtbase"
+    },
+    "Qt6CoreTools": {
+      "declared_target": "Core",
+      "owner": "qtbase"
+    },
+    "Qt6DBus": {
+      "declared_target": "DBus",
+      "owner": "qtbase"
+    },
+    "Qt6DBusPrivate": {
+      "declared_target": "DBus",
+      "owner": "qtbase"
+    },
+    "Qt6DBusTools": {
+      "declared_target": "DBus",
+      "owner": "qtbase"
+    },
+    "Qt6Designer": {
+      "declared_target": "Designer",
+      "owner": "qttools"
+    },
+    "Qt6DesignerComponentsPrivate": {
+      "declared_target": "DesignerComponentsPrivate",
+      "owner": "qttools"
+    },
+    "Qt6DesignerPrivate": {
+      "declared_target": "Designer",
+      "owner": "qttools"
+    },
+    "Qt6DeviceDiscoverySupportPrivate": {
+      "declared_target": "DeviceDiscoverySupportPrivate",
+      "owner": "qtbase"
+    },
+    "Qt6EntryPointPrivate": {
+      "declared_target": "EntryPointPrivate",
+      "owner": "qtbase"
+    },
+    "Qt6FbSupportPrivate": {
+      "declared_target": "FbSupportPrivate",
+      "owner": "qtbase"
+    },
+    "Qt6FreetypePrivate": {
+      "declared_target": "FreetypePrivate",
+      "owner": "qtbase"
+    },
+    "Qt6Gui": {
+      "declared_target": "Gui",
+      "owner": "qtbase"
+    },
+    "Qt6GuiPrivate": {
+      "declared_target": "Gui",
+      "owner": "qtbase"
+    },
+    "Qt6GuiTools": {
+      "declared_target": "Gui",
+      "owner": "qtbase"
+    },
+    "Qt6HarfbuzzPrivate": {
+      "declared_target": "HarfbuzzPrivate",
+      "owner": "qtbase"
+    },
+    "Qt6Help": {
+      "declared_target": "Help",
+      "owner": "qttools"
+    },
+    "Qt6HelpPrivate": {
+      "declared_target": "Help",
+      "owner": "qttools"
+    },
+    "Qt6HostInfo": {
+      "declared_target": "HostInfo",
+      "owner": "qtbase"
+    },
+    "Qt6JpegPrivate": {
+      "declared_target": "JpegPrivate",
+      "owner": "qtbase"
+    },
+    "Qt6JsonRpcPrivate": {
+      "declared_target": "JsonRpcPrivate",
+      "owner": "qtlanguageserver"
+    },
+    "Qt6LabsAnimation": {
+      "declared_target": "LabsAnimation",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsAnimationPrivate": {
+      "declared_target": "LabsAnimation",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsFolderListModel": {
+      "declared_target": "LabsFolderListModel",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsFolderListModelPrivate": {
+      "declared_target": "LabsFolderListModel",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsPlatform": {
+      "declared_target": "LabsPlatform",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsPlatformPrivate": {
+      "declared_target": "LabsPlatform",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsQmlModels": {
+      "declared_target": "LabsQmlModels",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsQmlModelsPrivate": {
+      "declared_target": "LabsQmlModels",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsSettings": {
+      "declared_target": "LabsSettings",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsSettingsPrivate": {
+      "declared_target": "LabsSettings",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsSharedImage": {
+      "declared_target": "LabsSharedImage",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsSharedImagePrivate": {
+      "declared_target": "LabsSharedImage",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsStyleKit": {
+      "declared_target": "LabsStyleKit",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsStyleKitImpl": {
+      "declared_target": "LabsStyleKitImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsStyleKitImplPrivate": {
+      "declared_target": "LabsStyleKitImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsStyleKitPrivate": {
+      "declared_target": "LabsStyleKit",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsSynchronizer": {
+      "declared_target": "LabsSynchronizer",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsSynchronizerPrivate": {
+      "declared_target": "LabsSynchronizer",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsWavefrontMesh": {
+      "declared_target": "LabsWavefrontMesh",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LabsWavefrontMeshPrivate": {
+      "declared_target": "LabsWavefrontMesh",
+      "owner": "qtdeclarative"
+    },
+    "Qt6LanguageServerPrivate": {
+      "declared_target": "LanguageServerPrivate",
+      "owner": "qtlanguageserver"
+    },
+    "Qt6Linguist": {
+      "declared_target": "Linguist",
+      "owner": "qttools"
+    },
+    "Qt6LinguistTools": {
+      "declared_target": "Linguist",
+      "owner": "qttools"
+    },
+    "Qt6Network": {
+      "declared_target": "Network",
+      "owner": "qtbase"
+    },
+    "Qt6NetworkPrivate": {
+      "declared_target": "Network",
+      "owner": "qtbase"
+    },
+    "Qt6OpenGL": {
+      "declared_target": "OpenGL",
+      "owner": "qtbase"
+    },
+    "Qt6OpenGLPrivate": {
+      "declared_target": "OpenGL",
+      "owner": "qtbase"
+    },
+    "Qt6OpenGLWidgets": {
+      "declared_target": "OpenGLWidgets",
+      "owner": "qtbase"
+    },
+    "Qt6PacketProtocolPrivate": {
+      "declared_target": "PacketProtocolPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6PrintSupport": {
+      "declared_target": "PrintSupport",
+      "owner": "qtbase"
+    },
+    "Qt6PrintSupportPrivate": {
+      "declared_target": "PrintSupport",
+      "owner": "qtbase"
+    },
+    "Qt6QDocCatchConversionsPrivate": {
+      "declared_target": "QDocCatchConversionsPrivate",
+      "owner": "qttools"
+    },
+    "Qt6QDocCatchGeneratorsPrivate": {
+      "declared_target": "QDocCatchGeneratorsPrivate",
+      "owner": "qttools"
+    },
+    "Qt6QDocCatchPrivate": {
+      "declared_target": "QDocCatchPrivate",
+      "owner": "qttools"
+    },
+    "Qt6Qml": {
+      "declared_target": "Qml",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlCompiler": {
+      "declared_target": "QmlCompiler",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlCompilerPrivate": {
+      "declared_target": "QmlCompiler",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlCore": {
+      "declared_target": "QmlCore",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlCorePrivate": {
+      "declared_target": "QmlCore",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlDebugPrivate": {
+      "declared_target": "QmlDebugPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlDomPrivate": {
+      "declared_target": "QmlDomPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlFormatPrivate": {
+      "declared_target": "QmlFormatPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlImportScanner": {
+      "declared_target": "QmlImportScanner",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlIntegration": {
+      "declared_target": "QmlIntegration",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlLSPrivate": {
+      "declared_target": "QmlLSPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlLocalStorage": {
+      "declared_target": "QmlLocalStorage",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlLocalStoragePrivate": {
+      "declared_target": "QmlLocalStorage",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlMeta": {
+      "declared_target": "QmlMeta",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlMetaPrivate": {
+      "declared_target": "QmlMeta",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlModels": {
+      "declared_target": "QmlModels",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlModelsPrivate": {
+      "declared_target": "QmlModels",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlNetwork": {
+      "declared_target": "QmlNetwork",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlNetworkPrivate": {
+      "declared_target": "QmlNetwork",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlPrivate": {
+      "declared_target": "Qml",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlToolingSettingsPrivate": {
+      "declared_target": "QmlToolingSettingsPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlTools": {
+      "declared_target": "Qml",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlTypeRegistrarPrivate": {
+      "declared_target": "QmlTypeRegistrarPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlWorkerScript": {
+      "declared_target": "QmlWorkerScript",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlWorkerScriptPrivate": {
+      "declared_target": "QmlWorkerScript",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlXmlListModel": {
+      "declared_target": "QmlXmlListModel",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QmlXmlListModelPrivate": {
+      "declared_target": "QmlXmlListModel",
+      "owner": "qtdeclarative"
+    },
+    "Qt6Quick": {
+      "declared_target": "Quick",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2": {
+      "declared_target": "QuickControls2",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Basic": {
+      "declared_target": "QuickControls2Basic",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2BasicPrivate": {
+      "declared_target": "QuickControls2Basic",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2BasicStyleImpl": {
+      "declared_target": "QuickControls2BasicStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2BasicStyleImplPrivate": {
+      "declared_target": "QuickControls2BasicStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2FluentWinUI3StyleImpl": {
+      "declared_target": "QuickControls2FluentWinUI3StyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2FluentWinUI3StyleImplPrivate": {
+      "declared_target": "QuickControls2FluentWinUI3StyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Fusion": {
+      "declared_target": "QuickControls2Fusion",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2FusionPrivate": {
+      "declared_target": "QuickControls2Fusion",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2FusionStyleImpl": {
+      "declared_target": "QuickControls2FusionStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2FusionStyleImplPrivate": {
+      "declared_target": "QuickControls2FusionStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Imagine": {
+      "declared_target": "QuickControls2Imagine",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2ImaginePrivate": {
+      "declared_target": "QuickControls2Imagine",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2ImagineStyleImpl": {
+      "declared_target": "QuickControls2ImagineStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Impl": {
+      "declared_target": "QuickControls2Impl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2ImplPrivate": {
+      "declared_target": "QuickControls2Impl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Material": {
+      "declared_target": "QuickControls2Material",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2MaterialPrivate": {
+      "declared_target": "QuickControls2Material",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2MaterialStyleImpl": {
+      "declared_target": "QuickControls2MaterialStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2MaterialStyleImplPrivate": {
+      "declared_target": "QuickControls2MaterialStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Private": {
+      "declared_target": "QuickControls2",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2Universal": {
+      "declared_target": "QuickControls2Universal",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2UniversalPrivate": {
+      "declared_target": "QuickControls2Universal",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2UniversalStyleImpl": {
+      "declared_target": "QuickControls2UniversalStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2UniversalStyleImplPrivate": {
+      "declared_target": "QuickControls2UniversalStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControls2WindowsStyleImpl": {
+      "declared_target": "QuickControls2WindowsStyleImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickControlsTestUtilsPrivate": {
+      "declared_target": "QuickControlsTestUtilsPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickDialogs2": {
+      "declared_target": "QuickDialogs2",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickDialogs2Private": {
+      "declared_target": "QuickDialogs2",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickDialogs2QuickImpl": {
+      "declared_target": "QuickDialogs2QuickImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickDialogs2QuickImplPrivate": {
+      "declared_target": "QuickDialogs2QuickImpl",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickDialogs2Utils": {
+      "declared_target": "QuickDialogs2Utils",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickDialogs2UtilsPrivate": {
+      "declared_target": "QuickDialogs2Utils",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickEffects": {
+      "declared_target": "QuickEffects",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickEffectsPrivate": {
+      "declared_target": "QuickEffects",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickLayouts": {
+      "declared_target": "QuickLayouts",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickLayoutsPrivate": {
+      "declared_target": "QuickLayouts",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickParticlesPrivate": {
+      "declared_target": "QuickParticlesPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickPrivate": {
+      "declared_target": "Quick",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickShapes": {
+      "declared_target": "QuickShapes",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickShapesDesignHelpersPrivate": {
+      "declared_target": "QuickShapesDesignHelpersPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickShapesPrivate": {
+      "declared_target": "QuickShapes",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickTemplates2": {
+      "declared_target": "QuickTemplates2",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickTemplates2Private": {
+      "declared_target": "QuickTemplates2",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickTest": {
+      "declared_target": "QuickTest",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickTestPrivate": {
+      "declared_target": "QuickTest",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickTestUtilsPrivate": {
+      "declared_target": "QuickTestUtilsPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickTools": {
+      "declared_target": "Quick",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickVectorImage": {
+      "declared_target": "QuickVectorImage",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickVectorImageGeneratorPrivate": {
+      "declared_target": "QuickVectorImageGeneratorPrivate",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickVectorImageHelpers": {
+      "declared_target": "QuickVectorImageHelpers",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickVectorImageHelpersPrivate": {
+      "declared_target": "QuickVectorImageHelpers",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickVectorImagePrivate": {
+      "declared_target": "QuickVectorImage",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickWidgets": {
+      "declared_target": "QuickWidgets",
+      "owner": "qtdeclarative"
+    },
+    "Qt6QuickWidgetsPrivate": {
+      "declared_target": "QuickWidgets",
+      "owner": "qtdeclarative"
+    },
+    "Qt6RemoteObjects": {
+      "declared_target": "RemoteObjects",
+      "owner": "qtremoteobjects"
+    },
+    "Qt6RemoteObjectsPrivate": {
+      "declared_target": "RemoteObjects",
+      "owner": "qtremoteobjects"
+    },
+    "Qt6RemoteObjectsQml": {
+      "declared_target": "RemoteObjectsQml",
+      "owner": "qtremoteobjects"
+    },
+    "Qt6RemoteObjectsQmlPrivate": {
+      "declared_target": "RemoteObjectsQml",
+      "owner": "qtremoteobjects"
+    },
+    "Qt6RemoteObjectsTools": {
+      "declared_target": "RemoteObjects",
+      "owner": "qtremoteobjects"
+    },
+    "Qt6RepParser": {
+      "declared_target": "RepParser",
+      "owner": "qtremoteobjects"
+    },
+    "Qt6ShaderTools": {
+      "declared_target": "ShaderTools",
+      "owner": "qtshadertools"
+    },
+    "Qt6ShaderToolsPrivate": {
+      "declared_target": "ShaderTools",
+      "owner": "qtshadertools"
+    },
+    "Qt6ShaderToolsTools": {
+      "declared_target": "ShaderTools",
+      "owner": "qtshadertools"
+    },
+    "Qt6Sql": {
+      "declared_target": "Sql",
+      "owner": "qtbase"
+    },
+    "Qt6SqlPrivate": {
+      "declared_target": "Sql",
+      "owner": "qtbase"
+    },
+    "Qt6Svg": {
+      "declared_target": "Svg",
+      "owner": "qtsvg"
+    },
+    "Qt6SvgPrivate": {
+      "declared_target": "Svg",
+      "owner": "qtsvg"
+    },
+    "Qt6SvgWidgets": {
+      "declared_target": "SvgWidgets",
+      "owner": "qtsvg"
+    },
+    "Qt6Test": {
+      "declared_target": "Test",
+      "owner": "qtbase"
+    },
+    "Qt6TestInternalsPrivate": {
+      "declared_target": "TestInternalsPrivate",
+      "owner": "qtbase"
+    },
+    "Qt6TestPrivate": {
+      "declared_target": "Test",
+      "owner": "qtbase"
+    },
+    "Qt6Tools": {
+      "declared_target": "Tools",
+      "owner": "qttools"
+    },
+    "Qt6ToolsTools": {
+      "declared_target": "Tools",
+      "owner": "qttools"
+    },
+    "Qt6UiPlugin": {
+      "declared_target": "UiPlugin",
+      "owner": "qttools"
+    },
+    "Qt6UiTools": {
+      "declared_target": "UiTools",
+      "owner": "qttools"
+    },
+    "Qt6UiToolsPrivate": {
+      "declared_target": "UiTools",
+      "owner": "qttools"
+    },
+    "Qt6Widgets": {
+      "declared_target": "Widgets",
+      "owner": "qtbase"
+    },
+    "Qt6WidgetsPrivate": {
+      "declared_target": "Widgets",
+      "owner": "qtbase"
+    },
+    "Qt6WidgetsTools": {
+      "declared_target": "Widgets",
+      "owner": "qtbase"
+    },
+    "Qt6Xml": {
+      "declared_target": "Xml",
+      "owner": "qtbase"
+    },
+    "Qt6XmlPrivate": {
+      "declared_target": "Xml",
+      "owner": "qtbase"
+    }
+  },
+  "output_aliases": [
+    {
+      "git_blob_sha1": "f1cc66477b8424acbc5f3022c916521b9cc9717f",
+      "line": 21,
+      "owner": "qtdeclarative",
+      "rule": "literal OUTPUT_NAME",
+      "source_path": "tools/qml/CMakeLists.txt",
+      "source_sha256": "cd34b032c8cda8f5152e7b0dc357bdc0281e3cfa5a8bfd88b6303897616edb17",
+      "stem": "qml",
+      "target": "qml_tool"
+    },
+    {
+      "git_blob_sha1": "1b1083f84df7ba1335d451623ee3cd7755fc1441",
+      "line": 71,
+      "owner": "qtbase",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "qmake/CMakeLists.txt",
+      "source_sha256": "d9cea2828fe83f090ccac19a6ac473e0c226293ab2a7baf655a7a1490bdac1ee",
+      "stem": "qmake6",
+      "target": "qmake"
+    },
+    {
+      "git_blob_sha1": "d64caeb3c228997490b228405780caa6032593f5",
+      "line": 13,
+      "owner": "qtbase",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "src/tools/qtpaths/CMakeLists.txt",
+      "source_sha256": "47afcd669fc458d89597674d305165b8f0ab09355bb98f156522c234c24132af",
+      "stem": "qtpaths6",
+      "target": "qtpaths"
+    },
+    {
+      "git_blob_sha1": "9e2c24dccf3efd4e92aa4ab64fd1212973bf5a7b",
+      "line": 13,
+      "owner": "qtbase",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "src/tools/androiddeployqt/CMakeLists.txt",
+      "source_sha256": "4e719e068242230711b8fd2c37a7db4480a3066a9a5ccbbb5188b41f31243773",
+      "stem": "androiddeployqt6",
+      "target": "androiddeployqt"
+    },
+    {
+      "git_blob_sha1": "79ad0bc0a75d8f706cde69cfda2062772a3a99de",
+      "line": 12,
+      "owner": "qtbase",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "src/tools/macdeployqt/macdeployqt/CMakeLists.txt",
+      "source_sha256": "be59e92ebab1271600387cf861643d56f04674dd951ec72db63344dd8cb7f6ca",
+      "stem": "macdeployqt6",
+      "target": "macdeployqt"
+    },
+    {
+      "git_blob_sha1": "7305c14c2693fc9cd3f7dd128994816264914917",
+      "line": 12,
+      "owner": "qtbase",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "src/tools/wasmdeployqt/CMakeLists.txt",
+      "source_sha256": "1b75de7e2389b8b98ea880a84dd7b1ce82a95df40760b223095f058d22b9ec2b",
+      "stem": "wasmdeployqt6",
+      "target": "wasmdeployqt"
+    },
+    {
+      "git_blob_sha1": "8f15fea3d2deda05b9a13c8624c97f7705cece97",
+      "line": 12,
+      "owner": "qtbase",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "src/tools/windeployqt/CMakeLists.txt",
+      "source_sha256": "f55f5a14c10cd1e54b57b711973e182a29371043d4525cc1e9a4fbe018ead5c7",
+      "stem": "windeployqt6",
+      "target": "windeployqt"
+    },
+    {
+      "git_blob_sha1": "5f5cb95c80dc5761d8fc97d1ac6b09c6611df195",
+      "kind": "qt_internal_add_app",
+      "line": 9,
+      "owner": "qttools",
+      "rule": "INSTALL_VERSIONED_LINK plus PROJECT_VERSION_MAJOR=6",
+      "source_path": "src/qtdiag/CMakeLists.txt",
+      "source_sha256": "4c86737d29e062ac1de7d5fa243b634971704805fa69a55334f124f64f0f6f40",
+      "stem": "qtdiag6",
+      "target": "qtdiag"
+    }
+  ],
+  "owner_repository_gitlinks": {
+    "qtactiveqt": "45f7951467a60ff0e786ad758c19f60b94ea3894",
+    "qtbase": "59c81a3c2247b821b9b84b4eb8d939b77e07e276",
+    "qtdeclarative": "a02bed441965ee1f18f856352c7d5ee5ba35d795",
+    "qtimageformats": "77f35e5694885844c3eb3a737769b5ed290b8ccc",
+    "qtlanguageserver": "7ef3bccd89cc163a664b46fe80a4bd56084b1983",
+    "qtremoteobjects": "e5acd828cb0c8dfe833d66ffb952de088213b6c6",
+    "qtshadertools": "b3b8537b3c5ab01919e30b87d48d2f1ba1f2a3fe",
+    "qtsvg": "2596f43da2dc72d2afecc084355b0f5f87922a6c",
+    "qttools": "947c5f152f4abc06f9e135b411c06a6fbe608aed"
+  },
+  "plugin_tool_source_receipt_sha256": "74a76312a140aa8dd9866de9056e5888c608224168e2d8bc0546d115c5096b31",
+  "plugins": [
+    {
+      "git_blob_sha1": "53be12face3f66bc4727367d8ba01a160eac1440",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/evdevkeyboard/CMakeLists.txt",
+      "source_sha256": "d4e29d7666f515c3a51f689904d2a0548efe8da06dee6df2000efe37029de11c",
+      "stem": "qevdevkeyboardplugin"
+    },
+    {
+      "git_blob_sha1": "e0836ecccc5faf7145142d4980922b60b93e61fe",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/evdevmouse/CMakeLists.txt",
+      "source_sha256": "37e9ae6667f03e45116d2c75b47830b99d3b298da1a623bb7ca622a7cac4ee83",
+      "stem": "qevdevmouseplugin"
+    },
+    {
+      "git_blob_sha1": "ef21469f706a191fa268c808922352d5ebc492fe",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/evdevtablet/CMakeLists.txt",
+      "source_sha256": "0e7e7576911124941a267fdf4697262811b63e8a914b4b15d0db8004368b0840",
+      "stem": "qevdevtabletplugin"
+    },
+    {
+      "git_blob_sha1": "f3f489586a83221e263b5661ff0ebae4125ec5a4",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/evdevtouch/CMakeLists.txt",
+      "source_sha256": "be5cee007e90dc4125e4d6bdba59f6e842b1b01a3bee707644ffcbb876fa8beb",
+      "stem": "qevdevtouchplugin"
+    },
+    {
+      "git_blob_sha1": "f92b3d53530d5fd7d054733599f977757c2fcfa4",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/libinput/CMakeLists.txt",
+      "source_sha256": "5bf24a8ae520e17f170a44c467a5ff1bb0ee1b3f3561339d1dc0b4eb64680da9",
+      "stem": "qlibinputplugin"
+    },
+    {
+      "git_blob_sha1": "94fefbbacdb0da6b1977b7d66bfc494aee116c54",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/tslib/CMakeLists.txt",
+      "source_sha256": "8183d35c448044445f8f7d7cd9a717b33e4375ef941ca945e3563cccd0f2640c",
+      "stem": "qtslibplugin"
+    },
+    {
+      "git_blob_sha1": "b03ed9e360a2ac7a0ffdefb7f4ea812330e40cfb",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/tuiotouch/CMakeLists.txt",
+      "source_sha256": "d1ac71a9f2ec779ade4882779331ed7207a6a705e4498e4d9a029bff671f67cb",
+      "stem": "qtuiotouchplugin"
+    },
+    {
+      "git_blob_sha1": "953a26d5bfa9465cdbb42a8ea52ef33e764e36cf",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/vxkeyboard/CMakeLists.txt",
+      "source_sha256": "f3b93d909620464fb2dc9345f8863e02f814fad069367732951f3a4d139eeb53",
+      "stem": "qvxkeyboardplugin"
+    },
+    {
+      "git_blob_sha1": "2be07b6378f5523ea9e1e2795231f2607fa7d063",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/vxmouse/CMakeLists.txt",
+      "source_sha256": "7e667313df49d8159557745e13b09a10e9f3fe53b53286267126b7f5ad539b89",
+      "stem": "qvxmouseplugin"
+    },
+    {
+      "git_blob_sha1": "13811393eafc6a5a06e78c20c96ac8200e02b38e",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "generic",
+      "source_path": "src/plugins/generic/vxtouch/CMakeLists.txt",
+      "source_sha256": "445371d992e5c57034a0f2c45fdc003af11080bc0c03f3b031063eff8c0ac098",
+      "stem": "qvxtouchplugin"
+    },
+    {
+      "git_blob_sha1": "b56859a264ca40ebd605186c46326bb084a1f961",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/gif/CMakeLists.txt",
+      "source_sha256": "ce7fad24b6686daab65b3320b35187858772f4c266c0c34224b7e45ed8c5d4a4",
+      "stem": "qgif"
+    },
+    {
+      "git_blob_sha1": "c9cd0f0d40749ac539c42e520781e782d48e5298",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/ico/CMakeLists.txt",
+      "source_sha256": "f4efd568f7504c80db3d498b6acec9d08576f89230ebea67ca1ec63e851e395a",
+      "stem": "qico"
+    },
+    {
+      "git_blob_sha1": "27d4255de3c8f979ea994ed1bb797217fdc5a0e9",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/jpeg/CMakeLists.txt",
+      "source_sha256": "00abc9d9c4f95b1db0b6c4ec8ce2320ee24ca3fd378d491a193ef0023e70489b",
+      "stem": "qjpeg"
+    },
+    {
+      "git_blob_sha1": "ab8f5ad6fdebb8b2a3cd769a622e5e26f3284bab",
+      "line": 21,
+      "owner": "qtbase",
+      "plugin_type": "networkinformation",
+      "source_path": "src/plugins/networkinformation/android/CMakeLists.txt",
+      "source_sha256": "99a4015627c28d261212c4c3563254cfd102838883adc9adef8276ae074d05ea",
+      "stem": "qandroidnetworkinformation"
+    },
+    {
+      "git_blob_sha1": "7594e92eac1ed90d96ceb97f4b7d99b0b3fab5c1",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "networkinformation",
+      "source_path": "src/plugins/networkinformation/apple/CMakeLists.txt",
+      "source_sha256": "d9fed99e42b03e4d988f6f127fcdc64893adf0e97c02d1efd0c839a252fd8b13",
+      "stem": "qapplenetworkinformation"
+    },
+    {
+      "git_blob_sha1": "72262f25a41c7414288a7880f06091158fade817",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "networkinformation",
+      "source_path": "src/plugins/networkinformation/connman/CMakeLists.txt",
+      "source_sha256": "453650f1ba4196c9545287cba87e8c3b374bf94e0a558033e9ea93489b382f6f",
+      "stem": "qconnman"
+    },
+    {
+      "git_blob_sha1": "7a1dbabc3d9de72db2fe117515ec3dc199283711",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "networkinformation",
+      "source_path": "src/plugins/networkinformation/glib/CMakeLists.txt",
+      "source_sha256": "61ad85654ddaca987e164747cf5fc81a93f722c993fcbcf9116f68c1a1fc45e6",
+      "stem": "qglib"
+    },
+    {
+      "git_blob_sha1": "f471de5c2ab85660f2a5e5a1e5c72b5a376b79a5",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "networkinformation",
+      "source_path": "src/plugins/networkinformation/networklistmanager/CMakeLists.txt",
+      "source_sha256": "ab1f5b8e1b5884e1f2b36dd6ff85bfed8cc0fbac7a43696942cd493ba9756a20",
+      "stem": "qnetworklistmanager"
+    },
+    {
+      "git_blob_sha1": "555ab7b13cc717174f5e402470c0c442dcf4c012",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "networkinformation",
+      "source_path": "src/plugins/networkinformation/networkmanager/CMakeLists.txt",
+      "source_sha256": "28f2ddeef8a881eddc933956c0e9481d150b32aa49d6c66c86f48fc7807f0cab",
+      "stem": "qnetworkmanager"
+    },
+    {
+      "git_blob_sha1": "9b7cf1434f921da67f3bfac9a49fe5bccd6b8046",
+      "line": 10,
+      "owner": "qtbase",
+      "plugin_type": "platforminputcontexts",
+      "source_path": "src/plugins/platforminputcontexts/compose/CMakeLists.txt",
+      "source_sha256": "c6a67474ea6ab4a808f9b449bae84edc2691632afbd7bedd602c356770124627",
+      "stem": "composeplatforminputcontextplugin"
+    },
+    {
+      "git_blob_sha1": "54847e86fdea4d65a07973107f6d4e20ddec9f2f",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforminputcontexts",
+      "source_path": "src/plugins/platforminputcontexts/ibus/CMakeLists.txt",
+      "source_sha256": "f305d504b5ade176ce1e5307f9c8c92b05437571c26e837849b2547ae08d6315",
+      "stem": "ibusplatforminputcontextplugin"
+    },
+    {
+      "git_blob_sha1": "7c78252f4c8d5572897df7f921681f45fc62e773",
+      "line": 8,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/android/CMakeLists.txt",
+      "source_sha256": "31d8280388c0c35f9deb3af194f1ed5b54dd5ab690394f7e38ed48c2209e0fe5",
+      "stem": "qtforandroid"
+    },
+    {
+      "git_blob_sha1": "72d55c0791a76a57980afd1b54985719b95dd2eb",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/cocoa/CMakeLists.txt",
+      "source_sha256": "9f06730163264411d0737d8083c4ff011322af8f133c73ae098c66c3c5b2ee74",
+      "stem": "qcocoa"
+    },
+    {
+      "git_blob_sha1": "38d7e4160a566d6eac4f2ca42a8ee693ce9e8106",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/direct2d/CMakeLists.txt",
+      "source_sha256": "49255ed5fda53a88541a03e11f4ad7c5c320451699d72fe40d4583e31854fcf4",
+      "stem": "qdirect2d"
+    },
+    {
+      "git_blob_sha1": "60c68a8ef746d7ac0193f6165c70b4678fd1fced",
+      "line": 10,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/directfb/CMakeLists.txt",
+      "source_sha256": "5f1210150bd76d2e9201c19a5f921741d56fb0ccb50a0012132fed0d80262a3f",
+      "stem": "qdirectfb"
+    },
+    {
+      "git_blob_sha1": "e0ed34e377b88a48097fbba1d1d654a438584b8f",
+      "line": 92,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/eglfs/CMakeLists.txt",
+      "source_sha256": "413f5c47c7471b08ad69dc76ed270411e9a1f5fb492d3d9099bd53d709e13de9",
+      "stem": "qeglfs"
+    },
+    {
+      "git_blob_sha1": "fa744be0330db21780f36a6acdb0d4e8fea9e395",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_emu/CMakeLists.txt",
+      "source_sha256": "1c741bb6671d1cdb28f81057c882652b6ba908b1480427673db9690f35aa0524",
+      "stem": "qeglfs-emu-integration"
+    },
+    {
+      "git_blob_sha1": "9f9d315202aa18782dbe870ca24ca5a1ba09c3d1",
+      "line": 32,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_kms/CMakeLists.txt",
+      "source_sha256": "7e69c9f508a46be9de70b040732c12432715ae7abe680db4f6cc8f2ee2279371",
+      "stem": "qeglfs-kms-integration"
+    },
+    {
+      "git_blob_sha1": "3c3e5a8a6ca4d22eeb3e859f1df7fd535953b943",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_kms_egldevice/CMakeLists.txt",
+      "source_sha256": "5a471730d6f15ad945c36e006221c3222336ce5970f538dc5aa2e8ac9a2af8c4",
+      "stem": "qeglfs-kms-egldevice-integration"
+    },
+    {
+      "git_blob_sha1": "38981f87b98bb4f5cb3311bbfd8206bca2ac9f01",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_mali/CMakeLists.txt",
+      "source_sha256": "6a2ca205b78f3b6d3404c66d5d8e8ce502a16cb053ceb20de1d72f8ad768d066",
+      "stem": "qeglfs-mali-integration"
+    },
+    {
+      "git_blob_sha1": "7e2362e6271411c73f3f24be5ee313f85a7fca2b",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_openwfd/CMakeLists.txt",
+      "source_sha256": "fe9404b5dd0bb32e9adb8f6154a19b561b7e216cc2aadbbb0c06ef399a722f88",
+      "stem": "qeglfs-openwfd-integration"
+    },
+    {
+      "git_blob_sha1": "01defc92428e1e256f371dbf7df28a8b59defcca",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_viv/CMakeLists.txt",
+      "source_sha256": "7d270103d6c7f790ef07d8a917c42140dd566cd6de83cff90b191e9ac5b11831",
+      "stem": "qeglfs-viv-integration"
+    },
+    {
+      "git_blob_sha1": "6052e98ab8413e48365eee3bab0b839a5b9a8039",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_viv_wl/CMakeLists.txt",
+      "source_sha256": "552077a8d7001b0aa167e6ed5096dec59df9253a7a655a39e66f4690ff229c48",
+      "stem": "qeglfs-viv-wl-integration"
+    },
+    {
+      "git_blob_sha1": "9dde3090c8696188d485741bb767768d2ba1ae8b",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "egldeviceintegrations",
+      "source_path": "src/plugins/platforms/eglfs/deviceintegration/eglfs_x11/CMakeLists.txt",
+      "source_sha256": "2a51d889aa5da03d6b1fb3ceaf33d068d84248ae42ae5c728091f57e41810675",
+      "stem": "qeglfs-x11-integration"
+    },
+    {
+      "git_blob_sha1": "51c1b52cf33ef8c974e60384683c19cce974b76d",
+      "line": 20,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/ios/CMakeLists.txt",
+      "source_sha256": "e46170df7b952e713fb1654a5120e7451cd5c96a63f25ded63bb67e7ae8a6ca6",
+      "stem": "qios"
+    },
+    {
+      "git_blob_sha1": "663878bde796216e3614c615f0787d6d329c8b2f",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/ios/optional/nsphotolibrarysupport/CMakeLists.txt",
+      "source_sha256": "05d57a8208e1cea58dfa329531d3101fb42cb4dd94dbcf2dcabbfeaeec7d502d",
+      "stem": "qiosnsphotolibrarysupport"
+    },
+    {
+      "git_blob_sha1": "ba18cea50ce6dc81a0b7e81dbe3f8c57b7eec2f5",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/linuxfb/CMakeLists.txt",
+      "source_sha256": "2b18c69468e7556f580e54972bc062d99d2d8efdca53e3fd90f696c4374e2c91",
+      "stem": "qlinuxfb"
+    },
+    {
+      "git_blob_sha1": "06bf34129d052973070fc1e9f54f5fa3871339cb",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/minimal/CMakeLists.txt",
+      "source_sha256": "70730e026e80065b9d9adc5b1b51c86d0b9e8968468da85411c858737112a5d0",
+      "stem": "qminimal"
+    },
+    {
+      "git_blob_sha1": "cb4f2cabd1d0efca3ded1f1bda3d21cc4817d4f8",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/minimalegl/CMakeLists.txt",
+      "source_sha256": "dee81539222f05b7a00772c893e1cc4073fdc179d4904ce96768d4b72b8e633c",
+      "stem": "qminimalegl"
+    },
+    {
+      "git_blob_sha1": "907c2c9cc6069fdab4039996208adb544a0fe415",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/offscreen/CMakeLists.txt",
+      "source_sha256": "686c53ae47c90c096b2dd6e5e7f8bcc1769d9cc85dd09d50f7464eb969099582",
+      "stem": "qoffscreen"
+    },
+    {
+      "git_blob_sha1": "c5c02b39bead397a7aaeaf9f4dd6903f6b92c462",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/qnx/CMakeLists.txt",
+      "source_sha256": "2a4b3a6adb01bfe3d7297da19c23fcef469eddc5a7ffeb61c6dfb97c87ca4186",
+      "stem": "qqnx"
+    },
+    {
+      "git_blob_sha1": "dfbca92ccc0e089ec9e78e1f0c18c5d815b73bcd",
+      "line": 5,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/vkkhrdisplay/CMakeLists.txt",
+      "source_sha256": "79259e4b23845faf131ae3b52e24c80e6ecc694266cb2cd901352355b7e53fea",
+      "stem": "qvkkhrdisplay"
+    },
+    {
+      "git_blob_sha1": "34370807ae716bd31d6b0979c4ceece87559250c",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/vnc/CMakeLists.txt",
+      "source_sha256": "b4c10ede879392a2decd85f7247aa8bb031f03a81cc64e02c19d95af70cf9e0c",
+      "stem": "qvnc"
+    },
+    {
+      "git_blob_sha1": "7e9beb7e832c151508bc4f4856d899e6eb6f7e7f",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/wasm/CMakeLists.txt",
+      "source_sha256": "d949225f073bda3d552027acbed8cfcd2f40d2c195dba7b7189aef2bafa5b510",
+      "stem": "qwasm"
+    },
+    {
+      "git_blob_sha1": "29503ff0edcf8a2668265060316f1344d1c88d76",
+      "line": 122,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/wayland/CMakeLists.txt",
+      "source_sha256": "8e70a56ee0e5b9eec24fa37f7292f2a802abfb524ed5de4db60df71290be433c",
+      "stem": "qwayland"
+    },
+    {
+      "git_blob_sha1": "bc25aeb2d4d251724525a7858564730b69c95b06",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-decoration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/decorations/bradient/CMakeLists.txt",
+      "source_sha256": "9d7a9c719c12911b821f08f5a65d52b1d15bacf801aa28a7cbfd2148932717f7",
+      "stem": "bradient"
+    },
+    {
+      "git_blob_sha1": "a292ae202f3e902cb09cd71f2b933128c026d14b",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/brcm-egl/CMakeLists.txt",
+      "source_sha256": "523e63cf5122fa277c89dee86a7df3e8bad50a696db02e9fc4b5da7eb0db7369",
+      "stem": "brcm-egl"
+    },
+    {
+      "git_blob_sha1": "5153ce2c5c3363ea2e1a582b38d9cb4488df0621",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/dmabuf-server/CMakeLists.txt",
+      "source_sha256": "c182bb0c99620b9dd35f95d6c2211784ec2906c97a7188dad967eeba602912d9",
+      "stem": "dmabuf-server"
+    },
+    {
+      "git_blob_sha1": "a1d673e52626df82c44f919826ba197928300915",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/drm-egl-server/CMakeLists.txt",
+      "source_sha256": "2931cd23f4618e3fba698d039dfebd77287e9e7b4b28b9839d7ae5d575edd8db",
+      "stem": "drm-egl-server"
+    },
+    {
+      "git_blob_sha1": "669891548261fd9a973f092ca7287bcc873348e6",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/libhybris-egl-server/CMakeLists.txt",
+      "source_sha256": "ab6fcac070090e4a977ef9f4ddd9ebc90ea0e594e744af9fc6a1b1d21ac138cd",
+      "stem": "libhybris-egl-server"
+    },
+    {
+      "git_blob_sha1": "481d1de5877b2e646c4b41739a1a4f9de1feba0f",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/shm-emulation-server/CMakeLists.txt",
+      "source_sha256": "482897bbddbe94870d09292f15c353a19894e965a9dc103e15f3e3f72f47789c",
+      "stem": "shm-emulation-server"
+    },
+    {
+      "git_blob_sha1": "a6207d73ba592402a8fdf467fcf0800ef57c60a9",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/vulkan-server/CMakeLists.txt",
+      "source_sha256": "bb403301491d79a12f8a65d541bf1df1324adf9bf43fc25e8efa641be9bed8dc",
+      "stem": "vulkan-server"
+    },
+    {
+      "git_blob_sha1": "ff93adfa52b4a078cb88bcc3692f477037ac3c53",
+      "line": 10,
+      "owner": "qtbase",
+      "plugin_type": "wayland-graphics-integration-client",
+      "source_path": "src/plugins/platforms/wayland/plugins/hardwareintegration/wayland-egl/CMakeLists.txt",
+      "source_sha256": "bf33174686245852e4860caa62f3d21b6b853719e9c51daf99cdd7a6e310033d",
+      "stem": "qt-plugin-wayland-egl"
+    },
+    {
+      "git_blob_sha1": "365f6db23c2955efe14089e9ec71c6a6505d9751",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-shell-integration",
+      "source_path": "src/plugins/platforms/wayland/plugins/shellintegration/fullscreen-shell-v1/CMakeLists.txt",
+      "source_sha256": "b4a6af92405d6074d1a38ce41889d6c249b42a02a0a9eaebac798a66977697cf",
+      "stem": "fullscreen-shell-v1"
+    },
+    {
+      "git_blob_sha1": "4b92e6426f6c5624a069e9bde76c4cc3bed3957a",
+      "line": 49,
+      "owner": "qtbase",
+      "plugin_type": "wayland-shell-integration",
+      "source_path": "src/plugins/platforms/wayland/plugins/shellintegration/wl-shell/CMakeLists.txt",
+      "source_sha256": "7e8b3f8a53c40fad790f889e738c6c0cf0176cf3d1c6e085819ab1bbfe67b2b4",
+      "stem": "wl-shell-plugin"
+    },
+    {
+      "git_blob_sha1": "4e1d95df7b226f3423e85e4699ac932a02b981f0",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "wayland-shell-integration",
+      "source_path": "src/plugins/platforms/wayland/plugins/shellintegration/xdg-shell/CMakeLists.txt",
+      "source_sha256": "d9eca47eed4d297ccc22a09120b174f7bf0c5534b2cc195e5e241881c744c1e2",
+      "stem": "xdg-shell"
+    },
+    {
+      "git_blob_sha1": "40f173c8c82f81d5ea73a56a07d12382bf61033e",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/windows/CMakeLists.txt",
+      "source_sha256": "0860c178f2d9f38ef2bbcffe7d5f7f214eb444f48917a0851334620da79204c3",
+      "stem": "qwindows"
+    },
+    {
+      "git_blob_sha1": "204acd72ba0852b10bb6c101c0791a72231fa73f",
+      "line": 144,
+      "owner": "qtbase",
+      "plugin_type": "platforms",
+      "source_path": "src/plugins/platforms/xcb/CMakeLists.txt",
+      "source_sha256": "0d0a3be3c5d0f043aabd9c2ed4a54e57c438ef743a54b29f5bf0bb17ce31cf4e",
+      "stem": "qxcb"
+    },
+    {
+      "git_blob_sha1": "921cdd667fa2a33100a5fe9a29e802170730581a",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "xcbglintegrations",
+      "source_path": "src/plugins/platforms/xcb/gl_integrations/xcb_egl/CMakeLists.txt",
+      "source_sha256": "9eaa198a9c6e2b293d49a51e9360998f8ec1322a9617ebf9b2d23978f0aca2f7",
+      "stem": "qxcb-egl-integration"
+    },
+    {
+      "git_blob_sha1": "f9f78ad1eb22f684f45dc1462518c19cdd6f8386",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "xcbglintegrations",
+      "source_path": "src/plugins/platforms/xcb/gl_integrations/xcb_glx/CMakeLists.txt",
+      "source_sha256": "f08bba221ca90d5c86c98ed80a50f1948e7b829d79817f8da244ef591dbc3b86",
+      "stem": "qxcb-glx-integration"
+    },
+    {
+      "git_blob_sha1": "362f1a8b7e1832991466a99a47e5c8e50142b8b5",
+      "line": 13,
+      "owner": "qtbase",
+      "plugin_type": "platformthemes",
+      "source_path": "src/plugins/platformthemes/gtk3/CMakeLists.txt",
+      "source_sha256": "e255c76da1999758f63589708c65d6fdd36063111a3f93c728c45fc6eef3ae4e",
+      "stem": "qgtk3"
+    },
+    {
+      "git_blob_sha1": "6228e83ec7de86ec4657b2e6e539c9c76594f927",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "platformthemes",
+      "source_path": "src/plugins/platformthemes/xdgdesktopportal/CMakeLists.txt",
+      "source_sha256": "445eccccdac33a79601ccc13c6c3146c0504854d2014bfdb54e713855361be6e",
+      "stem": "qxdgdesktopportal"
+    },
+    {
+      "git_blob_sha1": "6811fca10a20f364c05702a42047cdfe2be6c4ba",
+      "line": 14,
+      "owner": "qtbase",
+      "plugin_type": "printsupport",
+      "source_path": "src/plugins/printsupport/cups/CMakeLists.txt",
+      "source_sha256": "0f183d803e29ddf2cea037ac2dfa274d8c982b06c7bc2c729c47b68af5abfd62",
+      "stem": "cupsprintersupport"
+    },
+    {
+      "git_blob_sha1": "119a5b53c96904f6f67424421f6968978ab18ba3",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/db2/CMakeLists.txt",
+      "source_sha256": "b5af2b56ab60500ea33cb96837f87fe2b23208e22ac33306b721d94749a2e913",
+      "stem": "qsqldb2"
+    },
+    {
+      "git_blob_sha1": "b8f2d2561f984e5b0278b342cb0f4fa6180749e5",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/ibase/CMakeLists.txt",
+      "source_sha256": "c9fa6ed3ccc335977504f052b2d9a545a037bb9169bd50be89c981b37e261d60",
+      "stem": "qsqlibase"
+    },
+    {
+      "git_blob_sha1": "0c16ae036e46affbf7350c336973ca1e7875fba6",
+      "line": 8,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/mimer/CMakeLists.txt",
+      "source_sha256": "bc4b6de201d42b253782daeaf03ed395dcea4a60866d1765a44114a461332305",
+      "stem": "qsqlmimer"
+    },
+    {
+      "git_blob_sha1": "2e3d028584473c1f8cc5b6dd585bcdf98b661e22",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/mysql/CMakeLists.txt",
+      "source_sha256": "17de5737cd001efeedca9b6065afda4a3e594d9b467781d89679bc3cb42433b0",
+      "stem": "qsqlmysql"
+    },
+    {
+      "git_blob_sha1": "11c60c7f49350a3ff9aebfc0834e407701e8bcd6",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/oci/CMakeLists.txt",
+      "source_sha256": "7424f4971cddd2709240508a47507d38962e2a765ab5834a9810c44cf689a201",
+      "stem": "qsqloci"
+    },
+    {
+      "git_blob_sha1": "7812aced2c57503737a37a9a773db2083039860d",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/odbc/CMakeLists.txt",
+      "source_sha256": "9b2fe0f52e925f2871554f392048946241797333fafb2c3e29076da23d4397fc",
+      "stem": "qsqlodbc"
+    },
+    {
+      "git_blob_sha1": "9c0bc6df18c27ad77c5ba5faf0ed948ee11ae407",
+      "line": 9,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/psql/CMakeLists.txt",
+      "source_sha256": "315d57acbfbe715dad10825e675e0dd67166568169ee7f3cf0f65e9afeae397b",
+      "stem": "qsqlpsql"
+    },
+    {
+      "git_blob_sha1": "827cae9530bdfad673dbb480f310f85d15585d8d",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "sqldrivers",
+      "source_path": "src/plugins/sqldrivers/sqlite/CMakeLists.txt",
+      "source_sha256": "29ea261e9997279d6038e8815716533e21adc284118ec9e22c529c12c222ecbd",
+      "stem": "qsqlite"
+    },
+    {
+      "git_blob_sha1": "b8bda6fd5f557217f6ea1fbe56e243236fcc6edd",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "styles",
+      "source_path": "src/plugins/styles/android/CMakeLists.txt",
+      "source_sha256": "c739f2857badbea96d92ee517c48b36d07fbf2c0fb685fdec5e4df472c186b98",
+      "stem": "qandroidstyle"
+    },
+    {
+      "git_blob_sha1": "9dc8d01cc748a885b4be312e7d43d493baee5529",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "styles",
+      "source_path": "src/plugins/styles/mac/CMakeLists.txt",
+      "source_sha256": "cd6936f2f7151c3ffd62dcfd240007f34eb613b0de409c14ff8fabc93f03dbbd",
+      "stem": "qmacstyle"
+    },
+    {
+      "git_blob_sha1": "41d2797f2a29ed5908f74353cad76567c2b28a49",
+      "line": 7,
+      "owner": "qtbase",
+      "plugin_type": "styles",
+      "source_path": "src/plugins/styles/modernwindows/CMakeLists.txt",
+      "source_sha256": "b11f2607f7561514a297c0145168b7c9defd69768b202aaebc92b0fa0b1ee09f",
+      "stem": "qmodernwindowsstyle"
+    },
+    {
+      "git_blob_sha1": "0afe27608ff7b8aa2985cd3f72ddd487ba057d64",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "tls",
+      "source_path": "src/plugins/tls/certonly/CMakeLists.txt",
+      "source_sha256": "4fa0c20ef75a0264efaa60b68a7098056176027ad9fe98740b8fb22c474ca3df",
+      "stem": "qcertonlybackend"
+    },
+    {
+      "git_blob_sha1": "f90d9c2eda1517b54e3fbd1008bac4ac466fb76c",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "tls",
+      "source_path": "src/plugins/tls/openssl/CMakeLists.txt",
+      "source_sha256": "3d612db672f7b5a6c684b65299e1558a50b80885997c6dd225fd70ef88d0b4c3",
+      "stem": "qopensslbackend"
+    },
+    {
+      "git_blob_sha1": "567ef75d239fb279662a59568efc3cf76cdf54ed",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "tls",
+      "source_path": "src/plugins/tls/schannel/CMakeLists.txt",
+      "source_sha256": "47a7107933711d43a35eab11076b9e8acbba5fd6a62d699e27fd8f286ca5c331",
+      "stem": "qschannelbackend"
+    },
+    {
+      "git_blob_sha1": "05616e29c719799d67ccc97fba0bde739cf27783",
+      "line": 3,
+      "owner": "qtbase",
+      "plugin_type": "tls",
+      "source_path": "src/plugins/tls/securetransport/CMakeLists.txt",
+      "source_sha256": "7d58c3ca1a7a901cf4460b90d05d97060e746ced8edc95e7114380d887f9a707",
+      "stem": "qsecuretransportbackend"
+    },
+    {
+      "git_blob_sha1": "b3d6918d08c5aec75bf14dba4f3434875b460698",
+      "line": 3,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmllint",
+      "source_path": "src/plugins/qmllint/qds/CMakeLists.txt",
+      "source_sha256": "5af9e07abf29b2e0092c9c2681fa6561ce0f1e6502421d180b77086cf5d74321",
+      "stem": "qdslintplugin"
+    },
+    {
+      "git_blob_sha1": "cf729cf3d77b1395f407317e5c7b52a5abfde38e",
+      "line": 3,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmllint",
+      "source_path": "src/plugins/qmllint/quick/CMakeLists.txt",
+      "source_sha256": "d8fbf0f4f60b05e7293d6ecd0afc550a049ee5369a8e704f66bb45cba7e6af5d",
+      "stem": "quicklintplugin"
+    },
+    {
+      "git_blob_sha1": "d3069560270d2626ef5fbbc876d522968a439163",
+      "line": 3,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmlls",
+      "source_path": "src/plugins/qmlls/quick/CMakeLists.txt",
+      "source_sha256": "4eb1977aca44514b9459b4bf2128606102bc2ddd5e15354736ae41e8563cf64a",
+      "stem": "qmllsquickplugin"
+    },
+    {
+      "git_blob_sha1": "7ff705995c2b3fee3cfc7325349c9f31e32c2853",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_debugger/CMakeLists.txt",
+      "source_sha256": "29260d45af2a09d947713945088a6a6fbadcfbdc96c79f2f00fdb6919e27cc20",
+      "stem": "qmldbg_debugger"
+    },
+    {
+      "git_blob_sha1": "401473671dd46c75f943751c2f6c66e109177786",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_inspector/CMakeLists.txt",
+      "source_sha256": "0338db75ed9ac0c14d2a300c3598c595ed3f1fa5237b4ae8a391a6c05111fb99",
+      "stem": "qmldbg_inspector"
+    },
+    {
+      "git_blob_sha1": "13021f0b3d815b7cc9cc52e746379c3af633e499",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_local/CMakeLists.txt",
+      "source_sha256": "83c48e10a506f16edc0098c7a7714f17c28d190c8ef5609ed61a25eba0b4d48f",
+      "stem": "qmldbg_local"
+    },
+    {
+      "git_blob_sha1": "79328398a7286f0ceb25a9c9a4bc613dce4ef7b0",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_messages/CMakeLists.txt",
+      "source_sha256": "8523c937bfb5fa00db724f388b973362869a0fdc212a798f5c445df79ee981cf",
+      "stem": "qmldbg_messages"
+    },
+    {
+      "git_blob_sha1": "b88d73a2b567960921d94548ef102746cd534bc5",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_native/CMakeLists.txt",
+      "source_sha256": "382c000107400dc81c56179b0ef709500afa27ec3a9864fdb41b9239a23f46cd",
+      "stem": "qmldbg_native"
+    },
+    {
+      "git_blob_sha1": "17296dc8630d30a8ca5fb5825f15494ff12588f2",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_nativedebugger/CMakeLists.txt",
+      "source_sha256": "f9862d0eea9f2da9f40fe0c4f2a910ef5b8cb83678d4963dde84b62f0efff821",
+      "stem": "qmldbg_nativedebugger"
+    },
+    {
+      "git_blob_sha1": "2e65dc3d4005aeb0a51ba40173f18c87ca0cb687",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_preview/CMakeLists.txt",
+      "source_sha256": "2108a160c51e6c75a17c2b9dc70cd5a91c0e40bd2a83869e8f04769b77862c1d",
+      "stem": "qmldbg_preview"
+    },
+    {
+      "git_blob_sha1": "3d7e4e610e4fc0245f0c81be9507cd0d4977cc57",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_profiler/CMakeLists.txt",
+      "source_sha256": "02f264a7901416727314851a2f1c3a1e00a6fd47c50d660e8d98503c8d32e7dc",
+      "stem": "qmldbg_profiler"
+    },
+    {
+      "git_blob_sha1": "6bb0e3564b90af51c6f13546513f8e6c5aefba7f",
+      "line": 7,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_quickeventreplay/CMakeLists.txt",
+      "source_sha256": "029e38a636653c86bd62f2ee3bad13368f0a9d9eccad585359dbed72bd0d5b5f",
+      "stem": "qmldbg_quickeventreplay"
+    },
+    {
+      "git_blob_sha1": "247c858c532474816ab59691993d4df11338b90d",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_quickprofiler/CMakeLists.txt",
+      "source_sha256": "0aad2ff9ad3ec1d804296e89e67f7ce8c1ba4fdd8e300cb36c478747d52d5bd2",
+      "stem": "qmldbg_quickprofiler"
+    },
+    {
+      "git_blob_sha1": "a88a6f4f8fcbcbd47db9406c0f0428b46b9d7f03",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_server/CMakeLists.txt",
+      "source_sha256": "fa6e4f3beb4bba81630808550ccbd9cd7be0516f162092f25cb8c868644dc52c",
+      "stem": "qmldbg_server"
+    },
+    {
+      "git_blob_sha1": "c63c24e797112ab81b9a3b251fb96f54fbdabb6a",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "qmltooling",
+      "source_path": "src/plugins/qmltooling/qmldbg_tcp/CMakeLists.txt",
+      "source_sha256": "7fb79ce300abda6637329762e3325b31da8e3fa21bdd198895449b6e73f5f19a",
+      "stem": "qmldbg_tcp"
+    },
+    {
+      "git_blob_sha1": "74329d927b241c2eac9c625f44e91335235d1c1f",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "plugin_type": "scenegraph",
+      "source_path": "src/plugins/scenegraph/openvg/CMakeLists.txt",
+      "source_sha256": "30e07f73c9bba80128e11d351fe084ee2fae039b09d3c0e35dc5171170206bf1",
+      "stem": "qsgopenvgbackend"
+    },
+    {
+      "git_blob_sha1": "14742971ce69e7010e4398f07ff6077f08e8d77d",
+      "line": 3,
+      "owner": "qttools",
+      "plugin_type": "help",
+      "source_path": "src/assistant/plugins/help/CMakeLists.txt",
+      "source_sha256": "088cab58a298fb98e3cb8616845e5c4d6b8748c5b5124f54759803e9cfad6158",
+      "stem": "helpplugin"
+    },
+    {
+      "git_blob_sha1": "907ecb18bbc9147696c5460931ec245a7d12493d",
+      "line": 7,
+      "owner": "qttools",
+      "plugin_type": "designer",
+      "source_path": "src/designer/src/plugins/activeqt/CMakeLists.txt",
+      "source_sha256": "91d2202eea71b8909ca72a3b494578b8899362d805ae3936a7ef07955ff5860d",
+      "stem": "qaxwidget"
+    },
+    {
+      "git_blob_sha1": "f98d9fd318386a3b2f6ef70dda73fc801cd8b822",
+      "line": 7,
+      "owner": "qttools",
+      "plugin_type": "designer",
+      "source_path": "src/designer/src/plugins/qquickwidget/CMakeLists.txt",
+      "source_sha256": "c59443c56ccb24777c06092540eaef600047fe4a9515925cb4ae728320d09e55",
+      "stem": "qquickwidget"
+    },
+    {
+      "git_blob_sha1": "de392ffe9538835707a3d03071304d7023958f03",
+      "line": 7,
+      "owner": "qttools",
+      "plugin_type": "designer",
+      "source_path": "src/designer/src/plugins/qwebview/CMakeLists.txt",
+      "source_sha256": "12d253d8ffd62b01913a0dd427aa12a2ffaf48aa143468a402e642717547f002",
+      "stem": "qwebview"
+    },
+    {
+      "git_blob_sha1": "c54d2ee44a12c9c7aa7eea802423ede2910ec5a3",
+      "line": 7,
+      "owner": "qttools",
+      "plugin_type": "designer",
+      "source_path": "src/designer/src/plugins/tools/view3d/CMakeLists.txt",
+      "source_sha256": "c28377265cdacd7367bc718d19742527e803672bc816ca6c0c9ee795e330e3dc",
+      "stem": "view3d"
+    },
+    {
+      "git_blob_sha1": "7e4c4a67fd3cfef293d2cb09dbd7430eba078054",
+      "line": 7,
+      "owner": "qtsvg",
+      "plugin_type": "iconengines",
+      "source_path": "src/plugins/iconengines/svgiconengine/CMakeLists.txt",
+      "source_sha256": "244e63d62d14381f6413f2a15eb589fe67bbbe3a4435c094fe0f1900dbd2290e",
+      "stem": "qsvgicon"
+    },
+    {
+      "git_blob_sha1": "ec69a02a4511b2c1559b73c19a6c61ebf6aa0b79",
+      "line": 7,
+      "owner": "qtsvg",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/svg/CMakeLists.txt",
+      "source_sha256": "1311f90f417b1de964cd9e468c841d9bf76befb1e03919cdc5485503aebb8033",
+      "stem": "qsvg"
+    },
+    {
+      "git_blob_sha1": "49ee9ed3d64dc68f5e9befe1e9af1c1e73cb8478",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/icns/CMakeLists.txt",
+      "source_sha256": "5b7767822e56f828f2c81dbbeb74b6ddc692b69e612b76b3441c64c9ca3782d0",
+      "stem": "qicns"
+    },
+    {
+      "git_blob_sha1": "a2819d1dad0fcf2cf2f997548abbf9be51ba8470",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/jp2/CMakeLists.txt",
+      "source_sha256": "bfa35f6c96603bafc1bdc1b5351546de3b9e39481f2ce90627577546164fe2ff",
+      "stem": "qjp2"
+    },
+    {
+      "git_blob_sha1": "44fe3bd7aca9e89d531bbc291b453b0230bdaef7",
+      "line": 12,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/macheif/CMakeLists.txt",
+      "source_sha256": "61bba5dfddefdfffa52a915a8fbf1aa1cbb3ad092aa1ad855539d6ffa5a69669",
+      "stem": "qmacheif"
+    },
+    {
+      "git_blob_sha1": "4079b7c6547f92f403a4ce23e63ec5690fa51265",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/macjp2/CMakeLists.txt",
+      "source_sha256": "de88e6b07295ef057481b3afcb65a86b6789680f5915eae9e07a40914932439f",
+      "stem": "qmacjp2"
+    },
+    {
+      "git_blob_sha1": "2e68b6c90ca05ff191891e21b2078cb35c9a8101",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/mng/CMakeLists.txt",
+      "source_sha256": "aca2ba13e73c6959f1fdfc123af74f2441f46ba09cd6e17dc3039916c9a70aa9",
+      "stem": "qmng"
+    },
+    {
+      "git_blob_sha1": "b5a11fb8d4bfee993db15ee70351b74ada491cf3",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/tga/CMakeLists.txt",
+      "source_sha256": "cba625c58ed5c49d4f8d4331e1396f09075a8e39f008fb9418e62cbf77f623f2",
+      "stem": "qtga"
+    },
+    {
+      "git_blob_sha1": "902ae78ef2ef899ea86938c9a97bcaa50069a5a2",
+      "line": 14,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/tiff/CMakeLists.txt",
+      "source_sha256": "9bc18612a5dab0bd76192077ca4977a969bbec4475dcf27a7608762904f87f16",
+      "stem": "qtiff"
+    },
+    {
+      "git_blob_sha1": "8462f2fb68c58537ac7ed5eda45c9d8096d5dd0e",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/wbmp/CMakeLists.txt",
+      "source_sha256": "1a63b774270cc2249d7e69170b586ccc70761a4b5c98a5af61f5793e157db20d",
+      "stem": "qwbmp"
+    },
+    {
+      "git_blob_sha1": "8bfada6d47cfa1a48ed00a863268dbde35615419",
+      "line": 7,
+      "owner": "qtimageformats",
+      "plugin_type": "imageformats",
+      "source_path": "src/plugins/imageformats/webp/CMakeLists.txt",
+      "source_sha256": "d22c2cd37977176d6c7d021cf20ba47baa069ba049283533b9408dabe609d9a0",
+      "stem": "qwebp"
+    }
+  ],
+  "primary_source_url_template": "https://raw.githubusercontent.com/qt/{owner}/{owner_repository_gitlinks[owner]}/{source_path}",
+  "qt_superproject_commit": "bfde7b892add48396756dc44a3e3fa03d98c5710",
+  "qualified": false,
+  "schema_version": 1,
+  "scope": "Pinned Qt6.11.1 source namespace ownership proof only; no build, installation or runtime qualification",
+  "spdx_license_identifier": "LGPL-2.1-or-later",
+  "tool_output_factory": {
+    "git_blob_sha1": "ff541bb0d47308728435bb5b1b5447c9b8769fa2",
+    "line": 799,
+    "line_end": 817,
+    "owner": "qtbase",
+    "rule": "qt_get_tool_target_name adds _native only for QT_WILL_RENAME_TOOL_TARGETS; qt_internal_add_tool sets OUTPUT_NAME to qt_tool_target_to_name at lines178-182",
+    "source_path": "cmake/QtToolHelpers.cmake",
+    "source_sha256": "487d4194f454ba32c27da117800a1148f05e455a3165ac983950285244315b32"
+  },
+  "tools": [
+    {
+      "git_blob_sha1": "9e2c24dccf3efd4e92aa4ab64fd1212973bf5a7b",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/androiddeployqt/CMakeLists.txt",
+      "source_sha256": "4e719e068242230711b8fd2c37a7db4480a3066a9a5ccbbb5188b41f31243773",
+      "stem": "androiddeployqt"
+    },
+    {
+      "git_blob_sha1": "3db50762756ffad83b102ce523ece57750599ebe",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/androidtestrunner/CMakeLists.txt",
+      "source_sha256": "24434fcbd663c613f70bf68faf9f93eb14db969318efa08b1429d8f081974404",
+      "stem": "androidtestrunner"
+    },
+    {
+      "git_blob_sha1": "f6619eb010b20855e19f215a96cf30163b62ba31",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/cmake_automoc_parser/CMakeLists.txt",
+      "source_sha256": "c6d9c2eb3a7676d0861a52ba745246c8fbd4b4e6e0cab23eed52fc5ad39752ab",
+      "stem": "cmake_automoc_parser"
+    },
+    {
+      "git_blob_sha1": "79ad0bc0a75d8f706cde69cfda2062772a3a99de",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/macdeployqt/macdeployqt/CMakeLists.txt",
+      "source_sha256": "be59e92ebab1271600387cf861643d56f04674dd951ec72db63344dd8cb7f6ca",
+      "stem": "macdeployqt"
+    },
+    {
+      "git_blob_sha1": "5b165a803e48699e839c500476b318c3dfa7ade3",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/moc/CMakeLists.txt",
+      "source_sha256": "8875dc3c4e8d61a83443d4cd5c1328470ba03c0b8e07a5c0eeaaaded1527370c",
+      "stem": "moc"
+    },
+    {
+      "git_blob_sha1": "501bd3505dcdb355a52a59bceadfe6aad250c964",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/qdbuscpp2xml/CMakeLists.txt",
+      "source_sha256": "554439d2343e036f654851db36adcbd42f0573044239a8da09636a28558ae1fb",
+      "stem": "qdbuscpp2xml"
+    },
+    {
+      "git_blob_sha1": "7f68c84502b62ad5176e6d35b6fa86a327631f63",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/qdbusxml2cpp/CMakeLists.txt",
+      "source_sha256": "3391f95f67a5699d4fbee28fb3c21e0510a54d92d32fbbfeee5837f1198878a4",
+      "stem": "qdbusxml2cpp"
+    },
+    {
+      "git_blob_sha1": "b7c9cee67b265dfee78586d1c327fb88e846149c",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/qlalr/CMakeLists.txt",
+      "source_sha256": "4ac4d3fb66b2afe122ddd3f5da1edba4baabf04958926456455f007c53c9f197",
+      "stem": "qlalr"
+    },
+    {
+      "git_blob_sha1": "d64caeb3c228997490b228405780caa6032593f5",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/qtpaths/CMakeLists.txt",
+      "source_sha256": "47afcd669fc458d89597674d305165b8f0ab09355bb98f156522c234c24132af",
+      "stem": "qtpaths"
+    },
+    {
+      "git_blob_sha1": "95f4b1f961ed725829c44441abd928d0369d75a4",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtbase",
+      "source_path": "src/tools/qtwaylandscanner/CMakeLists.txt",
+      "source_sha256": "b7f016c7a737fd536bc33e994151dfa251513aed7ae7823a38914f6d4db96a39",
+      "stem": "qtwaylandscanner"
+    },
+    {
+      "git_blob_sha1": "73da08c30e8d95c3c041e1ec5351075378f4b10b",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/qvkgen/CMakeLists.txt",
+      "source_sha256": "c822097f2a836d6d479ae63caf1ed86c423fefc75ef0c763a1a032b44d7349da",
+      "stem": "qvkgen"
+    },
+    {
+      "git_blob_sha1": "4473f15bd84459650ed6cf663cf73e81d8b2d234",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/rcc/CMakeLists.txt",
+      "source_sha256": "8bec88e6929e8eb66fb53f20240d29b919e0ed7e27ff59a29d8c84b77a43acb3",
+      "stem": "rcc"
+    },
+    {
+      "git_blob_sha1": "b54dd72774e2ce9a669d2a09693b15874bf6c0a4",
+      "kind": "qt_get_tool_target_name",
+      "line": 34,
+      "owner": "qtbase",
+      "source_path": "src/tools/syncqt/CMakeLists.txt",
+      "source_sha256": "db47ba0acc95c960e161ffea92f1fa309002f685bd56ed010624bcd175a64bcb",
+      "stem": "syncqt"
+    },
+    {
+      "git_blob_sha1": "f5f6b2e1842e2df9db2ae8a8ae26d28fda902181",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/tracegen/CMakeLists.txt",
+      "source_sha256": "16f63fc65f67218010098da9ab8a036fc609d1a76469f1de6b12be8ab2266f55",
+      "stem": "tracegen"
+    },
+    {
+      "git_blob_sha1": "2f473d376af47334dc60a3964981ea915a87959f",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/tracepointgen/CMakeLists.txt",
+      "source_sha256": "487d026cd7dcdb74c592878cf8ab85ff63dba1e66ce36c71c0d8c7ad22269f74",
+      "stem": "tracepointgen"
+    },
+    {
+      "git_blob_sha1": "c48ad99ad7acfa359da275770d70e0437d95f6fc",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/uic/CMakeLists.txt",
+      "source_sha256": "cf2b775481f01e13e844036967b04d722e305362fd4528bf6030a935066c6e6e",
+      "stem": "uic"
+    },
+    {
+      "git_blob_sha1": "7305c14c2693fc9cd3f7dd128994816264914917",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/wasmdeployqt/CMakeLists.txt",
+      "source_sha256": "1b75de7e2389b8b98ea880a84dd7b1ce82a95df40760b223095f058d22b9ec2b",
+      "stem": "wasmdeployqt"
+    },
+    {
+      "git_blob_sha1": "8f15fea3d2deda05b9a13c8624c97f7705cece97",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtbase",
+      "source_path": "src/tools/windeployqt/CMakeLists.txt",
+      "source_sha256": "f55f5a14c10cd1e54b57b711973e182a29371043d4525cc1e9a4fbe018ead5c7",
+      "stem": "windeployqt"
+    },
+    {
+      "git_blob_sha1": "f1cc66477b8424acbc5f3022c916521b9cc9717f",
+      "kind": "qt_internal_add_app",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qml/CMakeLists.txt",
+      "source_sha256": "cd34b032c8cda8f5152e7b0dc357bdc0281e3cfa5a8bfd88b6303897616edb17",
+      "stem": "qml_tool"
+    },
+    {
+      "git_blob_sha1": "1511f19e4bd03089b730bb4dd45025b455b3e0a1",
+      "kind": "qt_get_tool_target_name",
+      "line": 4,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlaotstats/CMakeLists.txt",
+      "source_sha256": "020bfa91c1a86246d6dc482a44a0882220793f39440bd4d2777aca8cbe4e582c",
+      "stem": "qmlaotstats"
+    },
+    {
+      "git_blob_sha1": "59239373647810eb89739d23fdb69aece73fe7d6",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlcachegen/CMakeLists.txt",
+      "source_sha256": "fe471cf3f79ffcd8399214cb83176ce380026d8b26f0a3f00b46261f0871a3c7",
+      "stem": "qmlcachegen"
+    },
+    {
+      "git_blob_sha1": "3c7a0d5b8718c5b1de39643a2802201c4d36798d",
+      "kind": "qt_get_tool_target_name",
+      "line": 4,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlcontextpropertydump/CMakeLists.txt",
+      "source_sha256": "696cad22733b325e06a9a22c85c388fa70c1a0f1071aafce572f700e08030e04",
+      "stem": "qmlcontextpropertydump"
+    },
+    {
+      "git_blob_sha1": "86e1a10d29628242a372ad5f42951ea84000a43f",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmldom/CMakeLists.txt",
+      "source_sha256": "02e7410499fda923af06cf864d5a391bb47b0fb91d918e8523333d03188f0823",
+      "stem": "qmldom"
+    },
+    {
+      "git_blob_sha1": "7bbb0ce7db8f3630c08c9042fbd9dba6146107e5",
+      "kind": "qt_internal_add_app",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmleasing/CMakeLists.txt",
+      "source_sha256": "1beffbe3804854fc1b00de5d019daae095071350b8ac315b35be54878f2fed38",
+      "stem": "qmleasing"
+    },
+    {
+      "git_blob_sha1": "04c0c5bc22a6cfaef40ffdfd338de1698d0dc269",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlformat/CMakeLists.txt",
+      "source_sha256": "741b17af8098949cf9e1d040627e8c24b93c2c15357f7f8ee6b41716389b8be7",
+      "stem": "qmlformat"
+    },
+    {
+      "git_blob_sha1": "e30490532d1f7a4dc8baeee3fcb09e2c27553101",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlimportscanner/CMakeLists.txt",
+      "source_sha256": "e0099b9396fcf62caad26f8634180eb55435f4fcbb86c3f781f90e0368299d8a",
+      "stem": "qmlimportscanner"
+    },
+    {
+      "git_blob_sha1": "40faa5d0131b7bb312620997945e3624bf77cbf7",
+      "kind": "qt_internal_add_app",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmljs/CMakeLists.txt",
+      "source_sha256": "c4c5e8cce6b4ad6106959ee567aa4543015d87ce4ec90dfb9ccdf0af03f60161",
+      "stem": "qmljs"
+    },
+    {
+      "git_blob_sha1": "c81494b6645c7432ac808f45d5b2c94353c13c82",
+      "kind": "qt_get_tool_target_name",
+      "line": 4,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmljsrootgen/CMakeLists.txt",
+      "source_sha256": "f97b9e2fa39d5d3f39474e1fdb37917c715df181862e7f970683dba97752c22c",
+      "stem": "qmljsrootgen"
+    },
+    {
+      "git_blob_sha1": "ae3de5901decd64dfde0793d36a67971de0be6a2",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmllint/CMakeLists.txt",
+      "source_sha256": "add850de84cf5eb295c62cb5b2c97c2995961388ee23f92a0ac96300c15dda33",
+      "stem": "qmllint"
+    },
+    {
+      "git_blob_sha1": "1fb38bf9fcdbc2441ec2c045524f746a2cfe834a",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlls/CMakeLists.txt",
+      "source_sha256": "4ddb97588e99f3afe5553b86f651e0a4617a07550e3be5f093452d7a44ab60f6",
+      "stem": "qmlls"
+    },
+    {
+      "git_blob_sha1": "c2788f03a08bb47f18208090d46687b0b71bee86",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlplugindump/CMakeLists.txt",
+      "source_sha256": "91841ac944c7289a925fdb45befded5f1cdba857af21351cdee7c05cf663b051",
+      "stem": "qmlplugindump"
+    },
+    {
+      "git_blob_sha1": "eb39cbd8cd830b51af244b70ee7b8515035a8748",
+      "kind": "qt_internal_add_app",
+      "line": 9,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlpreview/CMakeLists.txt",
+      "source_sha256": "ed98151bcf1cd9865a6ea1f9db6bd2de1d3d208f4540f4ae75e23d959253a953",
+      "stem": "qmlpreview"
+    },
+    {
+      "git_blob_sha1": "ca4c6e12295e74c2e26e39effadf205cc48a5729",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlprofiler/CMakeLists.txt",
+      "source_sha256": "36e730e6ab2c132cdfc1b2bd7287008a9d500d6011351cc760004f1866ffd929",
+      "stem": "qmlprofiler"
+    },
+    {
+      "git_blob_sha1": "305420d471d10b4595175efa2e60f4a752fa43d4",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmlscene/CMakeLists.txt",
+      "source_sha256": "75260619560414c0c5bfd047fdd8e7f3abe7d5818b83008eebba9df9cda015a2",
+      "stem": "qmlscene"
+    },
+    {
+      "git_blob_sha1": "42e47e24da4e0514b6b8ff1a565e4635e2ba37be",
+      "kind": "qt_get_tool_target_name",
+      "line": 4,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmltc/CMakeLists.txt",
+      "source_sha256": "368463de927cdc1a086b535ee7416f1f2699d056f5e595d64fafcdbacf3f3507",
+      "stem": "qmltc"
+    },
+    {
+      "git_blob_sha1": "2bf40e7c4c119e4684c98a9d5f82ba80e228f175",
+      "kind": "qt_get_tool_target_name",
+      "line": 44,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmltestrunner/CMakeLists.txt",
+      "source_sha256": "73bdd4515a301de9c243223871bc52304836b8046cddc960b45850d78ccf80c0",
+      "stem": "qmltestrunner"
+    },
+    {
+      "git_blob_sha1": "e3c62e2cf9b9efc0b9639e4242b3f8462c61cb81",
+      "kind": "qt_get_tool_target_name",
+      "line": 10,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmltime/CMakeLists.txt",
+      "source_sha256": "c8f129fe05a7ffec97e9938378281d968c7918a133601e24917d3ddc0dea674d",
+      "stem": "qmltime"
+    },
+    {
+      "git_blob_sha1": "74b1134e6433f4df7daa2c2ce519feada8543066",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtdeclarative",
+      "source_path": "tools/qmltyperegistrar/CMakeLists.txt",
+      "source_sha256": "dd66eb10136299e065ba7e1f38c36abd611d255b56ddbf1066f9077c86ae7e49",
+      "stem": "qmltyperegistrar"
+    },
+    {
+      "git_blob_sha1": "ed70ea592dc2a5831053eebea30e39094a4f9220",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtdeclarative",
+      "source_path": "tools/svgtoqml/CMakeLists.txt",
+      "source_sha256": "90807e9d5d41677dbb90afe08cdf5efe28984e66feb92f470809d86835ee2a7d",
+      "stem": "svgtoqml"
+    },
+    {
+      "git_blob_sha1": "b2a0ae0a814df34b586bc57990a1c79b4b305305",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/assistant/assistant/CMakeLists.txt",
+      "source_sha256": "09a067216ceaf0689f4371b13bf5b48c29cb04524f5e40ede43f9d9725385553",
+      "stem": "assistant"
+    },
+    {
+      "git_blob_sha1": "19a4d4ff145741520864e8b12ce73ca5268d8b9a",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/assistant/qhelpgenerator/CMakeLists.txt",
+      "source_sha256": "27de592d74e874da8b7fd2585e7972c7b5404e779ced8430531d4e8447b6f0e2",
+      "stem": "qhelpgenerator"
+    },
+    {
+      "git_blob_sha1": "4c5b61a5d9d4aa86940e45d0eecb953aeb121f9e",
+      "kind": "qt_internal_add_app",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/designer/src/designer/CMakeLists.txt",
+      "source_sha256": "a522f53b64aa0c573e7c78b61aa5d725c112bd8ed7836c1bd4a80fd1f90caa3c",
+      "stem": "designer"
+    },
+    {
+      "git_blob_sha1": "01d6fccae4fc7d9b2962e2911dfc0b779f218990",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/distancefieldgenerator/CMakeLists.txt",
+      "source_sha256": "565efe4d380ccde8a73c367823cc8944847c3d9b1d8bb8f66a79e570382f81c6",
+      "stem": "qdistancefieldgenerator"
+    },
+    {
+      "git_blob_sha1": "0d65160aee184eb4a45c2de75070a84244acfefd",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/kmap2qmap/CMakeLists.txt",
+      "source_sha256": "78aea148be5073cd469037e439b3c4711e64980baf559d026ffa69a7a688a723",
+      "stem": "kmap2qmap"
+    },
+    {
+      "git_blob_sha1": "a9a13ccfef257f6ff9888525fd51be029e449e03",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/lcheck/CMakeLists.txt",
+      "source_sha256": "edfacd12f894848489ed256a914fb34b9e85d845702a4f25372aea69124297b4",
+      "stem": "lcheck"
+    },
+    {
+      "git_blob_sha1": "8991f21e1ba676f3663b7109dd3ebc878db1c7f1",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/lconvert/CMakeLists.txt",
+      "source_sha256": "b371691f02170ce6b5ffd0b7348b2770da8a3c8f5f417dc4fb565f1b3bd91705",
+      "stem": "lconvert"
+    },
+    {
+      "git_blob_sha1": "e21861c028bb9fc28b5f23f93132bbe316ac70e0",
+      "kind": "qt_internal_add_app",
+      "line": 16,
+      "owner": "qttools",
+      "source_path": "src/linguist/linguist/CMakeLists.txt",
+      "source_sha256": "827109ad8e0f18f737761fff47a6f48b5969692e49fbb24ab0d9b46440022f67",
+      "stem": "linguist"
+    },
+    {
+      "git_blob_sha1": "e546b5da766448bf5fe83ddd5409422536f54042",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/lrelease/CMakeLists.txt",
+      "source_sha256": "6f50d5739efde271f2e2534f2a935314cedbdd70e22820af8d530f64d0a29391",
+      "stem": "lrelease"
+    },
+    {
+      "git_blob_sha1": "618df7796cdbc87ceb23309a07907dda6e4ca841",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/lrelease-pro/CMakeLists.txt",
+      "source_sha256": "7728b22d29c1577005bf282d8024661b50c19d35db2b5ead9b418b1e085502b8",
+      "stem": "lrelease-pro"
+    },
+    {
+      "git_blob_sha1": "099bfedeb5013c63a442e6a3e5a6069a109f9566",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/ltext2id/CMakeLists.txt",
+      "source_sha256": "d462e7a00801af0558d13a2d33406094e292858905823e5a80ebdd8e55de11d9",
+      "stem": "ltext2id"
+    },
+    {
+      "git_blob_sha1": "9fefec31aea1557d98cefec3d530962a5b0675ee",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/lupdate/CMakeLists.txt",
+      "source_sha256": "536247a357131c44e2326edbbcdb8ff0ebd23a38ed462521174965da8c268414",
+      "stem": "lupdate"
+    },
+    {
+      "git_blob_sha1": "b978bb61bae55b7bc00c72be050580a740bb1d55",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/linguist/lupdate-pro/CMakeLists.txt",
+      "source_sha256": "64e4b3eec366f55d5bef41c6156e8679427eed9f1758a02791fc3493a4adde16",
+      "stem": "lupdate-pro"
+    },
+    {
+      "git_blob_sha1": "613e2c25f386299848fe55f09814473e76ecc131",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/pixeltool/CMakeLists.txt",
+      "source_sha256": "b09395a83551858962ccbfd9143bc7c3725ca5d6ab708761ce2d24a18caf3a5b",
+      "stem": "pixeltool"
+    },
+    {
+      "git_blob_sha1": "4d0b2830de00fe549edb7b9cdc9bf8a7a67ea3c3",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/qdbus/qdbus/CMakeLists.txt",
+      "source_sha256": "0c8b4a0d3eed6bca5453d0c578baf330dd4e21d09160aab8894e3d4de33f1d0e",
+      "stem": "qdbus"
+    },
+    {
+      "git_blob_sha1": "dcc809e563e00dc5eaf1b3628631130674c9fd27",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/qdbus/qdbusviewer/CMakeLists.txt",
+      "source_sha256": "513c22b30d57119ba9411f4334d9246bee6530e0103c542a6c8a153c4372be01",
+      "stem": "qdbusviewer"
+    },
+    {
+      "git_blob_sha1": "81accae8267751fed15707f4bf1985bbcdc1297b",
+      "kind": "qt_get_tool_target_name",
+      "line": 18,
+      "owner": "qttools",
+      "source_path": "src/qdoc/qdoc/CMakeLists.txt",
+      "source_sha256": "45f03422e46d73f3d4067019fea190e82aaf538eb4630e781e98195f07b5dd34",
+      "stem": "qdoc"
+    },
+    {
+      "git_blob_sha1": "a2023eb78b6c23f85b7e84c2f9a1b5c70d7c12a2",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/qev/CMakeLists.txt",
+      "source_sha256": "83f1e42898808e2bd0ea82698a18288c026a7db8ed8f909b94ff140bc923630b",
+      "stem": "qev"
+    },
+    {
+      "git_blob_sha1": "2027875d08a42ff82c6990e394085450abe9795e",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qttools",
+      "source_path": "src/qtattributionsscanner/CMakeLists.txt",
+      "source_sha256": "819267a5d5019069405acd1710c046c98f2a3c7dcaf228c5590b17f41c398dd0",
+      "stem": "qtattributionsscanner"
+    },
+    {
+      "git_blob_sha1": "5f5cb95c80dc5761d8fc97d1ac6b09c6611df195",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/qtdiag/CMakeLists.txt",
+      "source_sha256": "4c86737d29e062ac1de7d5fa243b634971704805fa69a55334f124f64f0f6f40",
+      "stem": "qtdiag"
+    },
+    {
+      "git_blob_sha1": "d89de15ca32d96c1097a4f588d84a9a08732c067",
+      "kind": "qt_internal_add_app",
+      "line": 7,
+      "owner": "qttools",
+      "source_path": "src/qtplugininfo/CMakeLists.txt",
+      "source_sha256": "bb2185e9edef307580cbf6b38313a3bfb0a9d1750b88bedad935e5a9d5df8600",
+      "stem": "qtplugininfo"
+    },
+    {
+      "git_blob_sha1": "f1d784e96dc4e46083e6a458a16bd0c06b7bcf74",
+      "kind": "qt_get_tool_target_name",
+      "line": 8,
+      "owner": "qtactiveqt",
+      "source_path": "src/tools/idc/CMakeLists.txt",
+      "source_sha256": "4f1efca46ce1d20dd29f5e04ea6a52d519510ee8cd3e46211e25a482d3bcf3ac",
+      "stem": "idc"
+    },
+    {
+      "declaration": "qt_get_tool_target_name",
+      "git_blob_sha1": "1b1083f84df7ba1335d451623ee3cd7755fc1441",
+      "line": 66,
+      "owner": "qtbase",
+      "source_path": "qmake/CMakeLists.txt",
+      "source_sha256": "d9cea2828fe83f090ccac19a6ac473e0c226293ab2a7baf655a7a1490bdac1ee",
+      "stem": "qmake"
+    },
+    {
+      "declaration": "qt_get_tool_target_name",
+      "git_blob_sha1": "334fb0aa01a654a5780ae825a7f4c9992a369a59",
+      "line": 10,
+      "owner": "qtshadertools",
+      "source_path": "tools/qsb/CMakeLists.txt",
+      "source_sha256": "0d864adb29a8fa17f314bfbd95ea42be9e06ff3b4d3ab16c28055f1724c11ba9",
+      "stem": "qsb"
+    },
+    {
+      "declaration": "qt_get_tool_target_name",
+      "git_blob_sha1": "571f830514839ebf65e6f37482e1f0a20e74ee29",
+      "line": 8,
+      "owner": "qtactiveqt",
+      "source_path": "tools/dumpcpp/CMakeLists.txt",
+      "source_sha256": "467c8a6bee9ce8b4d22d2432c3fdc0e51d8bf0ae9773999652012aec953ed021",
+      "stem": "dumpcpp"
+    },
+    {
+      "declaration": "qt_get_tool_target_name",
+      "git_blob_sha1": "84b401811bb2ab0b5219d194982b2b97886fed3b",
+      "line": 8,
+      "owner": "qtactiveqt",
+      "source_path": "tools/dumpdoc/CMakeLists.txt",
+      "source_sha256": "624e45b72dc357e1369f09145ae52d576afaccd34a9f1b173bf6c988546843eb",
+      "stem": "dumpdoc"
+    },
+    {
+      "declaration": "qt_internal_add_app",
+      "git_blob_sha1": "c939fd8aa106fd8e160f58bd9df24e969969bf9f",
+      "line": 8,
+      "owner": "qtactiveqt",
+      "source_path": "tools/testcon/CMakeLists.txt",
+      "source_sha256": "8efd36aa79d099f603fdf735846d624850156da45d33ac6b387b29ffe34644f9",
+      "stem": "testcon"
+    },
+    {
+      "declaration": "qt_get_tool_target_name",
+      "git_blob_sha1": "990b1242f34763dbe07fe17c9de47bfbc0745a5d",
+      "line": 10,
+      "owner": "qtremoteobjects",
+      "source_path": "tools/repc/CMakeLists.txt",
+      "source_sha256": "c5d9f40e75fe34ac12fbdb7daa35dd1542d29ba497a8fb0520fad003115663d4",
+      "stem": "repc"
+    }
+  ],
+  "versioned_alias_factory": {
+    "git_blob_sha1": "deab48cda5c13f50928f5e8a05960ed3c1a09eb4",
+    "line": 118,
+    "line_end": 185,
+    "owner": "qtbase",
+    "rule": "qt_internal_install_versioned_link delegates to _qt_internal_create_versioned_link_or_copy, generating base_name + PROJECT_VERSION_MAJOR + suffix only if QT_WILL_INSTALL and QT_CREATE_VERSIONED_HARD_LINK; COPY_ON_ERROR is enabled",
+    "source_path": "cmake/QtInstallHelpers.cmake",
+    "source_sha256": "07e528e994de16dd5abf520e2a13d8624fd5696abc09bfc4b839cf32a2030a0a"
+  }
+}
