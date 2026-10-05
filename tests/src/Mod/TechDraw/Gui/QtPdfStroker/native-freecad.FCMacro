@@ -2,7 +2,8 @@
 """Stock TechDraw qualification in a disposable GUI process.
 
 The launcher must provide isolated user/system configurations, TD_NATIVE_OUTPUT,
-TD_NATIVE_BYPASS_MODULE and TD_NATIVE_QT_LIB. The module is a scratch build with
+TD_NATIVE_BYPASS_MODULE, TD_NATIVE_QT_LIB and authenticated TD_NATIVE_MACRO_PATH/
+TD_NATIVE_MACRO_SHA256. The module is a scratch build with
 both FreeCAD mitigations bypassed. Only public model/view properties and stock
 GUI export commands create the drawing. No graphics item or pen is injected.
 This macro exits the disposable process after saving its evidence.
@@ -12,6 +13,7 @@ import ctypes
 from ctypes import wintypes
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -32,6 +34,82 @@ def settle(milliseconds=300):
     loop = QtCore.QEventLoop()
     QtCore.QTimer.singleShot(milliseconds, loop.quit)
     loop.exec()
+
+
+def color_rgba(color):
+    return [color.red(), color.green(), color.blue(), color.alpha()]
+
+
+def text_palette_record():
+    # Read Qt's constructor default with an unattached item; never add it to the scene.
+    text = QtWidgets.QGraphicsTextItem()
+    return {
+        "application_rgba": color_rgba(QtWidgets.QApplication.palette().color(QtGui.QPalette.Text)),
+        "widget_text_control_rgba": color_rgba(
+            QtWidgets.QApplication.palette("QWidgetTextControl").color(QtGui.QPalette.Text)
+        ),
+        "new_graphics_text_rgba": color_rgba(text.defaultTextColor()),
+    }
+
+
+def null_origin_frame_expectation(scene, palette, required_count):
+    # QGIViewDimension always frames its unused origin label. QGIDatumLabel
+    # initializes that pen from the text-control palette, and setNormalColorAll
+    # leaves it unchanged. Only a translucent pen takes Qt PDF's stroker route.
+    assert type(required_count) is int and required_count >= 0, required_count
+    assert set(palette) == {
+        "application_rgba",
+        "widget_text_control_rgba",
+        "new_graphics_text_rgba",
+    }, palette
+    for rgba in palette.values():
+        assert len(rgba) == 4 and all(
+            type(value) is int and 0 <= value <= 255 for value in rgba
+        ), palette
+    assert palette["new_graphics_text_rgba"] == palette["widget_text_control_rgba"], palette
+    for frame in scene["rectangles"]:
+        assert all(
+            type(frame[key]) is bool for key in ("visible", "null", "qt_pen_is_cosmetic")
+        ), frame
+        assert all(
+            type(frame[key]) is int
+            for key in ("type", "alpha", "pen_style", "pen_brush_style", "brush_style")
+        ), frame
+        assert len(frame["rgba"]) == 4 and all(
+            type(value) is int and 0 <= value <= 255 for value in frame["rgba"]
+        ), frame
+        for key, count in (("rect", 4), ("scene_transform", 9)):
+            assert len(frame[key]) == count and all(
+                type(value) in (int, float) and math.isfinite(value) for value in frame[key]
+            ), frame
+        assert all(
+            type(frame[key]) in (int, float) and math.isfinite(frame[key])
+            for key in ("width_scene", "effective_opacity")
+        ), frame
+    frames = [frame for frame in scene["rectangles"] if frame["visible"] and frame["null"]]
+    assert len(frames) == required_count, (required_count, frames)
+    for frame in frames:
+        assert frame["type"] == 65540 and frame["rect"] == [0.0, 0.0, 0.0, 0.0], frame
+        assert frame["rgba"] == palette["new_graphics_text_rgba"], (frame, palette)
+        assert frame["alpha"] == frame["rgba"][3] and 0 < frame["alpha"] <= 255, frame
+        assert frame["width_scene"] == 5.0 and not frame["qt_pen_is_cosmetic"], frame
+        assert frame["pen_style"] == QtCore.Qt.SolidLine.value, frame
+        assert frame["pen_brush_style"] == QtCore.Qt.SolidPattern.value, frame
+        assert frame["brush_style"] == QtCore.Qt.NoBrush.value, frame
+        assert frame["effective_opacity"] == 1.0, frame
+        transform = frame["scene_transform"]
+        assert len(transform) == 9 and all(math.isfinite(value) for value in transform), frame
+        # An affine transform preserves a null rectangle; no identity assumption is needed.
+        assert [transform[2], transform[5], transform[8]] == [0.0, 0.0, 1.0], frame
+    frames.sort(key=lambda frame: json.dumps(frame, sort_keys=True))
+    translucent = sum(0 < frame["alpha"] < 255 for frame in frames)
+    return {
+        "required_count": required_count,
+        "actual_count": len(frames),
+        "translucent_count": translucent,
+        "baseline_invalid_closes": translucent,
+        "frames": frames,
+    }
 
 
 def loaded_images():
@@ -283,6 +361,9 @@ assert os.environ.get("TD_NATIVE_DISPOSABLE") == "1", "Use the isolated native l
 expected_qt_version = os.environ.get("TD_NATIVE_EXPECTED_QT_VERSION", "6.11.2")
 assert expected_qt_version in ("6.11.1", "6.11.2"), "Unsupported expected Qt version"
 assert QtCore.qVersion() == expected_qt_version, "Actual Qt version differs from the selected mode"
+macro_path = Path(os.environ["TD_NATIVE_MACRO_PATH"]).resolve()
+macro_source = {"path": str(macro_path), "sha256": digest(macro_path)}
+assert macro_source["sha256"] == os.environ["TD_NATIVE_MACRO_SHA256"], "Macro source changed"
 output.mkdir(parents=True, exist_ok=True)
 assert not (output / "manifest.json").exists(), "Preserve existing evidence"
 log = open(output / "macro.log", "w", buffering=1)
@@ -396,8 +477,10 @@ try:
                     if isinstance(item, QtWidgets.QGraphicsRectItem) and item.type() in (3, 65540):
                         rect = item.rect()
                         pen = item.pen()
+                        transform = item.sceneTransform()
                         rectangles.append(
                             {
+                                "type": item.type(),
                                 "rect": [
                                     rect.x(),
                                     rect.y(),
@@ -407,12 +490,71 @@ try:
                                 "visible": item.isVisible(),
                                 "null": rect.isNull(),
                                 "alpha": pen.color().alpha(),
+                                "rgba": color_rgba(pen.color()),
                                 "width_scene": pen.widthF(),
+                                "qt_pen_is_cosmetic": pen.isCosmetic(),
+                                "pen_style": pen.style().value,
+                                "pen_brush_style": pen.brush().style().value,
+                                "brush_style": item.brush().style().value,
+                                "effective_opacity": item.effectiveOpacity(),
+                                "scene_transform": [
+                                    transform.m11(),
+                                    transform.m12(),
+                                    transform.m13(),
+                                    transform.m21(),
+                                    transform.m22(),
+                                    transform.m23(),
+                                    transform.m31(),
+                                    transform.m32(),
+                                    transform.m33(),
+                                ],
                             }
                         )
         return {"paths": paths, "rectangles": rectangles}
 
-    def export_printer(name):
+    def pre_export_evidence(name, device, baseline_closes):
+        required = {
+            "distance": 1,
+            "theoretical-exact": 1,
+            "area-and-theoretical-exact": 2,
+            "area-relocated-and-theoretical-exact": 2,
+        }.get(name, 0)
+        scene = scene_record()
+        palette = text_palette_record()
+        expectation = null_origin_frame_expectation(scene, palette, required)
+        assert digest(macro_path) == macro_source["sha256"], "Macro source changed before export"
+        evidence = {
+            "phase": "before-stock-command",
+            "macro_source": macro_source,
+            "device": device,
+            "scenario": name,
+            "pdf_version": preferences["Mod"].GetInt("PDFVersion", 0),
+            "text_palette": palette,
+            "scene": scene,
+            "null_origin_frame_expectation": expectation,
+            "baseline_invalid_closes": baseline_closes + expectation["baseline_invalid_closes"],
+        }
+        assert required == 0 or evidence["pdf_version"] == 0, evidence
+        path = output / ("pre-export-" + device + "-" + name + ".json")
+        assert not path.exists(), "Preserve prospective input evidence"
+        path.write_text(json.dumps(evidence, indent=2) + "\n")
+        print("PRE_EXPORT_EVIDENCE", device, name, evidence)
+        log.flush()
+        return evidence
+
+    def post_export_scene(evidence):
+        scene = scene_record()
+        palette = text_palette_record()
+        assert palette == evidence["text_palette"], (evidence, palette)
+        expectation = null_origin_frame_expectation(
+            scene,
+            palette,
+            evidence["null_origin_frame_expectation"]["required_count"],
+        )
+        assert expectation == evidence["null_origin_frame_expectation"], (evidence, expectation)
+        return scene
+
+    def export_printer(name, baseline_closes):
         pdf = output / ("qprinter-" + name + ".pdf")
         assert not pdf.exists()
         before = preferences["View"].GetBool("ScreenMode", True)
@@ -586,6 +728,7 @@ try:
         watchdog.timeout.connect(reject_print_timeout)
         preferences["View"].SetBool("ScreenMode", False)
         try:
+            evidence = pre_export_evidence(name, "qprinter", baseline_closes)
             timer.start()
             watchdog.start(20000)
             Gui.runCommand("Std_Print")
@@ -602,6 +745,8 @@ try:
             "stock_dialog": dialogs,
             "printer_settings": printer_settings,
             "native_ui_settings": native_ui_settings,
+            "pre_export_evidence": evidence,
+            **post_export_scene(evidence),
             "panel_states": panel_states,
             "screen_mode_before_during_after": [before, False, before],
             "native_panel_acceptance": {
@@ -696,6 +841,7 @@ try:
                 os._exit(1)
 
         watchdog.timeout.connect(reject_timeout)
+        evidence = pre_export_evidence(name, "qpdfwriter", baseline_closes)
         timer.start()
         watchdog.start(20000)
         Gui.runCommand("TechDraw_ExportPagePDF")
@@ -722,7 +868,7 @@ try:
                 "pdf": pdf.name,
                 "expect_ink": True,
                 "expected_color": "",
-                "baseline_invalid_closes": baseline_closes,
+                "baseline_invalid_closes": evidence["baseline_invalid_closes"],
                 "pdf_version": pdf_version,
             }
         )
@@ -734,11 +880,12 @@ try:
                 "selected_files": selected_files,
                 "file_dialog_states": dialog_states,
                 "screen_mode_before_after": [before, before],
-                **scene_record(),
+                "pre_export_evidence": evidence,
+                **post_export_scene(evidence),
             }
         )
-        print("EXPORTED", "qpdfwriter", name, baseline_closes)
-        printer_pdf, printer_record = export_printer(name)
+        print("EXPORTED", "qpdfwriter", name, evidence["baseline_invalid_closes"])
+        printer_pdf, printer_record = export_printer(name, baseline_closes)
         cases.append(
             {
                 "name": "qprinter:" + name,
@@ -747,12 +894,19 @@ try:
                 "pdf": printer_pdf.name,
                 "expect_ink": True,
                 "expected_color": "",
-                "baseline_invalid_closes": baseline_closes,
+                "baseline_invalid_closes": printer_record["pre_export_evidence"][
+                    "baseline_invalid_closes"
+                ],
                 "pdf_version": pdf_version,
             }
         )
-        records.append({"name": name, "device": "qprinter", **printer_record, **scene_record()})
-        print("EXPORTED", "qprinter", name, baseline_closes)
+        records.append({"name": name, "device": "qprinter", **printer_record})
+        print(
+            "EXPORTED",
+            "qprinter",
+            name,
+            printer_record["pre_export_evidence"]["baseline_invalid_closes"],
+        )
 
     def set_gui_style(line_number):
         Gui.Selection.clearSelection()
@@ -856,11 +1010,11 @@ try:
     document.recompute()
     settle(500)
     assert "Up-to-date" in distance.State
-    export("distance", 1)
+    export("distance", 0)
     distance.TheoreticalExact = True
     document.recompute()
     settle()
-    export("theoretical-exact", 1)
+    export("theoretical-exact", 0)
     area = document.addObject("TechDraw::DrawViewDimension", "Area")
     area.Type = "Area"
     area.References2D = [(view, "Face0")]
@@ -870,13 +1024,13 @@ try:
     document.recompute()
     settle(500)
     assert "Up-to-date" in area.State and abs(area.getRawValue() - 100) < 1e-9
-    export("area-and-theoretical-exact", 2)
+    export("area-and-theoretical-exact", 0)
     area.UseAreaLeaderPoint = True
     area.AreaLeaderPoint = App.Vector(2, 3, 0)
     document.recompute()
     settle()
     assert abs(area.getRawValue() - 100) < 1e-9
-    export("area-relocated-and-theoretical-exact", 2)
+    export("area-relocated-and-theoretical-exact", 0)
     document.saveAs(str(output / "dimension-controls.FCStd"))
     records.append({"area_value_mm2": area.getRawValue()})
 
@@ -938,6 +1092,7 @@ try:
         "freecad_version": App.Version(),
         "qt_version": QtCore.qVersion(),
         "expected_qt_version": expected_qt_version,
+        "macro_source": macro_source,
         "native_runtime_images": native_runtime_images,
         "qt_libraries": libraries,
         "qt_plugins": plugins,

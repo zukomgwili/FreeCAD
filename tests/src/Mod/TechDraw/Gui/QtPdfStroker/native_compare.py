@@ -11,6 +11,7 @@ configurations. Installed Qt and the user's configurations are never written.
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path, PureWindowsPath
 import re
@@ -79,6 +80,7 @@ def launch(args, side):
     if plugin_directory is None:
         raise ValueError(f"{side}: specify the selected runtime's --{side}-plugin-dir")
     environment = os.environ.copy()
+    macro = Path(__file__).with_name("native-freecad.FCMacro").resolve()
     environment.update(
         {
             "QT_QPA_PLATFORM_PLUGIN_PATH": str(plugin_directory / "platforms"),
@@ -90,6 +92,8 @@ def launch(args, side):
             "PYTHONNOUSERSITE": "1",
             "TD_NATIVE_OUTPUT": str(directory),
             "TD_NATIVE_BYPASS_MODULE": str(args.bypass_module.resolve()),
+            "TD_NATIVE_MACRO_PATH": str(macro),
+            "TD_NATIVE_MACRO_SHA256": digest(macro),
             "TD_NATIVE_QT_LIB": str(qt_lib),
             "TD_NATIVE_QT_PREFIX": str(
                 (getattr(args, side + "_qt_prefix") or qt_lib.parent).resolve()
@@ -132,7 +136,7 @@ def launch(args, side):
         str(directory / "user.cfg"),
         "--system-cfg",
         str(directory / "system.cfg"),
-        str(Path(__file__).with_name("native-freecad.FCMacro").resolve()),
+        str(macro),
     ]
     (directory / "launch.json").write_text(
         json.dumps(
@@ -173,8 +177,124 @@ def launch(args, side):
     return directory
 
 
+def check_pre_export_evidence(record, case, macro_source):
+    """Predict null-frame warnings from prospective scene inputs, never PDF results."""
+    evidence = record["pre_export_evidence"]
+    if (
+        evidence["phase"] != "before-stock-command"
+        or evidence["macro_source"] != macro_source
+        or evidence["device"] != case["device"]
+        or evidence["scenario"] != case["scenario"]
+        or type(evidence["pdf_version"]) is not int
+        or type(case["pdf_version"]) is not int
+        or evidence["pdf_version"] != case["pdf_version"]
+    ):
+        raise ValueError("Prospective native inputs do not match the exported case/source")
+    palette = evidence["text_palette"]
+    if set(palette) != {
+        "application_rgba",
+        "widget_text_control_rgba",
+        "new_graphics_text_rgba",
+    } or any(
+        len(rgba) != 4 or any(type(value) is not int or not 0 <= value <= 255 for value in rgba)
+        for rgba in palette.values()
+    ):
+        raise ValueError("Invalid prospective text palette")
+    if palette["new_graphics_text_rgba"] != palette["widget_text_control_rgba"]:
+        raise ValueError("Default text pen differs from its source palette")
+    required = {
+        "distance": 1,
+        "theoretical-exact": 1,
+        "area-and-theoretical-exact": 2,
+        "area-relocated-and-theoretical-exact": 2,
+    }.get(case["scenario"], 0)
+
+    def origin_frames(scene):
+        if any(
+            type(frame["visible"]) is not bool or type(frame["null"]) is not bool
+            for frame in scene["rectangles"]
+        ):
+            raise ValueError("Frame visibility/null state must be Boolean")
+        return sorted(
+            (frame for frame in scene["rectangles"] if frame["visible"] and frame["null"]),
+            key=lambda frame: json.dumps(frame, sort_keys=True),
+        )
+
+    frames = origin_frames(evidence["scene"])
+    if len(frames) != required or frames != origin_frames(record):
+        raise ValueError("Required null origin frames changed before/after export")
+    for frame in frames:
+        transform = frame["scene_transform"]
+        if (
+            type(frame["type"]) is not int
+            or frame["type"] != 65540
+            or len(frame["rect"]) != 4
+            or any(
+                type(value) not in (int, float) or not math.isfinite(value)
+                for value in frame["rect"]
+            )
+            or frame["rect"] != [0.0, 0.0, 0.0, 0.0]
+            or any(type(value) is not int for value in frame["rgba"])
+            or frame["rgba"] != palette["new_graphics_text_rgba"]
+            or type(frame["alpha"]) is not int
+            or frame["alpha"] != frame["rgba"][3]
+            or not 0 < frame["alpha"] <= 255
+            or type(frame["width_scene"]) not in (int, float)
+            or frame["width_scene"] != 5.0
+            or frame["qt_pen_is_cosmetic"] is not False
+            or type(frame["pen_style"]) is not int
+            or frame["pen_style"] != 1  # Qt::SolidLine
+            or type(frame["pen_brush_style"]) is not int
+            or frame["pen_brush_style"] != 1  # Qt::SolidPattern
+            or type(frame["brush_style"]) is not int
+            or frame["brush_style"] != 0  # Qt::NoBrush
+            or type(frame["effective_opacity"]) not in (int, float)
+            or frame["effective_opacity"] != 1.0
+            or len(transform) != 9
+            or any(
+                type(value) not in (int, float) or not math.isfinite(value) for value in transform
+            )
+            or [transform[2], transform[5], transform[8]] != [0.0, 0.0, 1.0]
+        ):
+            raise ValueError("Null origin frame left the independently verified PDF branch")
+    translucent = sum(0 < frame["alpha"] < 255 for frame in frames)
+    expectation = {
+        "required_count": required,
+        "actual_count": len(frames),
+        "translucent_count": translucent,
+        "baseline_invalid_closes": translucent,
+        "frames": frames,
+    }
+    expected = int(case["scenario"] == "short-gap") + translucent
+    if (
+        any(
+            type(evidence["null_origin_frame_expectation"][key]) is not int
+            for key in (
+                "required_count",
+                "actual_count",
+                "translucent_count",
+                "baseline_invalid_closes",
+            )
+        )
+        or type(evidence["baseline_invalid_closes"]) is not int
+        or type(case["baseline_invalid_closes"]) is not int
+        or evidence["null_origin_frame_expectation"] != expectation
+        or evidence["baseline_invalid_closes"] != expected
+        or case["baseline_invalid_closes"] != expected
+        or (required and case["pdf_version"] != 0)
+    ):
+        raise ValueError("Baseline expectation was not derived from prospective pen inputs")
+    return {"text_palette": palette, "null_origin_frame_expectation": expectation}
+
+
 def check_stock_records(
-    provenance, manifest, directory, expected_qt_version="6.11.2", path_type=Path, side="native"
+    provenance,
+    manifest,
+    directory,
+    expected_qt_version="6.11.2",
+    path_type=Path,
+    side="native",
+    require_prospective=False,
 ):
     """Validate the same stock model/dialog controls on native or transported paths."""
     if expected_qt_version not in ("6.11.1", "6.11.2"):
@@ -223,11 +343,39 @@ def check_stock_records(
         raise ValueError(f"{side}: all twelve scenarios are required for both stock devices")
     if len(exports) != len(manifest["cases"]):
         raise ValueError(f"{side}: export records do not match the manifest")
+    prospective = "macro_source" in provenance
+    if require_prospective and not prospective:
+        raise ValueError(f"{side}: current launch requires prospective source/input evidence")
+    if prospective != any("pre_export_evidence" in record for record in exports):
+        raise ValueError(f"{side}: prospective source and input evidence must occur together")
+    expectations = []
     for record, case in zip(exports, manifest["cases"]):
         if Path(case["pdf"]).name != case["pdf"] or "\\" in case["pdf"]:
             raise ValueError(f"{side}: expected a PDF filename")
         if record["device"] != case["device"] or record["name"] != case["scenario"]:
             raise ValueError(f"{side}: device/scenario provenance does not match")
+        if prospective:
+            expectations.append(check_pre_export_evidence(record, case, provenance["macro_source"]))
+            if path_type is Path:
+                snapshot = Path(directory) / f"pre-export-{case['device']}-{case['scenario']}.json"
+                if json.loads(snapshot.read_text()) != record["pre_export_evidence"]:
+                    raise ValueError(f"{side}: persisted prospective snapshot changed")
+        elif "pre_export_evidence" in record:
+            raise ValueError(f"{side}: partial prospective evidence")
+        elif type(case["baseline_invalid_closes"]) is not int or case[
+            "baseline_invalid_closes"
+        ] != {
+            "short-gap": 1,
+            "distance": 1,
+            "theoretical-exact": 1,
+            "area-and-theoretical-exact": 2,
+            "area-relocated-and-theoretical-exact": 2,
+        }.get(
+            case["scenario"], 0
+        ):
+            raise ValueError(
+                f"{side}: legacy capture must retain its original baseline expectations"
+            )
         if record["device"] == "qpdfwriter":
             valid = record["stock_dialog"] == ["Gui::FileDialog"] and record[
                 "screen_mode_before_after"
@@ -262,6 +410,7 @@ def check_stock_records(
             raise ValueError(
                 f"{side}/{case['name']}: stock dialog/physical mode verification failed"
             )
+    return expectations
 
 
 def check_provenance(baseline_dir, patched_dir, allow_external=(), expected_qt_version="6.11.2"):
@@ -324,12 +473,37 @@ def check_provenance(baseline_dir, patched_dir, allow_external=(), expected_qt_v
         if digest(Path(gui[0]["real_path"])) != gui[0]["sha256"]:
             raise ValueError(f"{side}: loaded QtGui changed after generation")
         manifest = json.loads((directory / "manifest.json").read_text())
-        check_stock_records(provenance, manifest, directory, expected_qt_version, side=side)
+        launch_record = json.loads((directory / "launch.json").read_text())
+        require_prospective = any(
+            key in launch_record["environment_overrides"]
+            for key in ("TD_NATIVE_MACRO_PATH", "TD_NATIVE_MACRO_SHA256")
+        )
+        expectations = check_stock_records(
+            provenance,
+            manifest,
+            directory,
+            expected_qt_version,
+            side=side,
+            require_prospective=require_prospective,
+        )
+        if expectations:
+            macro_source = provenance["macro_source"]
+            macro = Path(__file__).with_name("native-freecad.FCMacro").resolve()
+            if (
+                Path(macro_source["path"]).resolve() != macro
+                or digest(macro) != macro_source["sha256"]
+                or launch_record["command"][-1] != str(macro)
+                or launch_record["environment_overrides"]["TD_NATIVE_MACRO_SHA256"]
+                != macro_source["sha256"]
+                or launch_record["environment_overrides"]["TD_NATIVE_MACRO_PATH"] != str(macro)
+            ):
+                raise ValueError(f"{side}: prospective source differs from the executed macro")
         sides[side] = {
             "module_sha256": provenance["module_sha256"],
             "qt_gui": gui[0],
             "external_qt_modules": external,
             "active_qpa_plugin": active_plugins[0],
+            "pre_export_expectations": expectations,
         }
     if sides["baseline"]["module_sha256"] != sides["patched"]["module_sha256"]:
         raise ValueError("Different FreeCAD module binaries were used on the two sides")
@@ -337,6 +511,8 @@ def check_provenance(baseline_dir, patched_dir, allow_external=(), expected_qt_v
         raise ValueError("QtGui did not change between baseline and patched processes")
     if sides["baseline"]["external_qt_modules"] != sides["patched"]["external_qt_modules"]:
         raise ValueError("External same-version Qt modules/plugins changed between phases")
+    if sides["baseline"]["pre_export_expectations"] != sides["patched"]["pre_export_expectations"]:
+        raise ValueError("Prospective palette/null-frame inputs changed between Qt runtimes")
     return sides
 
 
@@ -477,7 +653,14 @@ def main():
         for directory in (baseline_dir, patched_dir):
             for device in ("qpdfwriter", "qprinter"):
                 check_visible_controls(directory, report["raster_dpi"], args.pdftoppm, device)
-    except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+    except (
+        OSError,
+        ValueError,
+        KeyError,
+        TypeError,
+        IndexError,
+        subprocess.SubprocessError,
+    ) as error:
         report = {"passed": False, "failures": [str(error)]}
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)

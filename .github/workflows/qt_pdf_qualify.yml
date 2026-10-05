@@ -17,6 +17,15 @@ on:
         description: Optional separate Windows retry run
         default: ''
         type: string
+      stage:
+        description: All checks or Linux native capture with authenticated passed Qt checks
+        default: all
+        type: choice
+        options: [all, native]
+      reuse_run:
+        description: Prior Linux qualification run whose Qt checks passed (native stage only)
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -32,6 +41,9 @@ jobs:
       - id: matrix
         env:
           QT_PDF_SELECTION: ${{ inputs.target }}
+          QT_PDF_STAGE: ${{ inputs.stage }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+          QT_PDF_PACKAGE_RUN: ${{ inputs.build_run }}
         run: |
           python3 - <<'PY'
           import json, os
@@ -43,6 +55,15 @@ jobs:
               {"target": "win-64", "os": "windows-2022"},
           ]
           selected = os.environ["QT_PDF_SELECTION"]
+          stage = os.environ["QT_PDF_STAGE"]
+          reuse = os.environ["QT_PDF_REUSE_RUN"]
+          assert stage in ("all", "native"), "Unsupported qualification stage"
+          if stage == "native":
+              prior = {"linux-64": "37252425998", "linux-aarch64": "37252439637"}
+              assert selected in prior and reuse == prior[selected], "Native retry needs the matching reviewed Linux run"
+              assert os.environ["QT_PDF_PACKAGE_RUN"] == "37238935749", "Native retry requires the reviewed package build"
+          else:
+              assert not reuse, "Passed-stage reuse is only available for a Linux native retry"
           matrix = {"include": [row for row in entries if selected in ("all", row["target"])]}
           assert matrix["include"], "Unsupported target"
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
@@ -90,21 +111,16 @@ jobs:
           locked: true
           cache: false
 
-      - name: Configure and build native FreeCAD against locked baseline
+      - name: Authenticate the reviewed passed Linux Qt checks
+        if: inputs.stage == 'native'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
         run: |
-          pixi run configure-release
-          # Keep normal startup and every native qualification dependency/resource.
-          # The unchanged conda presets use Ninja directory aggregate targets.
-          pixi run build-release --target \
-            src/Main/all src/Gui/all \
-            src/Mod/Part/all src/Mod/PartDesign/all src/Mod/Sketcher/all \
-            src/Mod/TechDraw/all src/Mod/Material/all src/Mod/Test/all pivy
-
-      - name: Compile the controlled mitigation bypass in this disposable checkout
-        run: |
-          pixi run python tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py \
-            --ci-checkout --source "$GITHUB_WORKSPACE" --build "$GITHUB_WORKSPACE/build/release" \
-            --output "$RUNNER_TEMP/qt-pdf-native-module" --parallel 2
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_linux_qt_qualification.py recover \
+            --target "$QT_PDF_TARGET" --prior-run-id "$QT_PDF_REUSE_RUN" \
+            --work-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
 
       - name: Wait for this native package artifact
         timeout-minutes: 240
@@ -146,7 +162,44 @@ jobs:
             --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
             --candidate-prefix "$RUNNER_TEMP/qt-pdf-candidate"
 
+      - name: Bind the passed Qt checks to these exact runtime binaries
+        if: inputs.stage == 'native'
+        run: |
+          qt_pdf_source=$(pixi exec --spec python=3.13 -- python - <<'PY'
+          import os
+          from pathlib import Path
+          files = list((Path(os.environ["RUNNER_TEMP"]) / "qt-pdf-recovered/output/src_cache").rglob("*.tar.xz"))
+          assert len(files) == 1, f"Expected the retained Qt source archive: {files}"
+          print(files[0])
+          PY
+          )
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_linux_qt_qualification.py validate \
+            --proof-dir "$RUNNER_TEMP/qt-pdf-reused-qt" \
+            --baseline-prefix "$GITHUB_WORKSPACE/.pixi/envs/default" \
+            --patched-prefix "$RUNNER_TEMP/qt-pdf-candidate" \
+            --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
+            --qt-source-archive "$qt_pdf_source"
+
+      - name: Configure and build native FreeCAD against locked baseline
+        run: |
+          pixi run configure-release
+          # Keep normal startup and every native qualification dependency/resource.
+          # The unchanged conda presets use Ninja directory aggregate targets.
+          # Prior Linux captures did not retain the app/core binaries needed here.
+          pixi run build-release --target \
+            src/Main/all src/Gui/all \
+            src/Mod/Part/all src/Mod/PartDesign/all src/Mod/Sketcher/all \
+            src/Mod/TechDraw/all src/Mod/Material/all src/Mod/Test/all pivy
+
+      - name: Compile the controlled mitigation bypass in this disposable checkout
+        run: |
+          pixi run python tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py \
+            --ci-checkout --source "$GITHUB_WORKSPACE" --build "$GITHUB_WORKSPACE/build/release" \
+            --output "$RUNNER_TEMP/qt-pdf-native-module" --parallel 2
+
       - name: Qualify both Qt PDF devices and Qt's own writer tests
+        if: inputs.stage == 'all'
         run: |
           qt_pdf_source=$(pixi exec --spec python=3.13 -- python - <<'PY'
           import os
@@ -195,6 +248,15 @@ jobs:
           subprocess.run(command, check=True)
           PY
 
+      - name: Bind the new native capture to the reused passed Qt checks
+        if: inputs.stage == 'native'
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_linux_qt_qualification.py verify-native \
+            --proof-dir "$RUNNER_TEMP/qt-pdf-reused-qt" \
+            --native-results "$RUNNER_TEMP/qt-pdf-native-results" \
+            --native-report "$RUNNER_TEMP/qt-pdf-native-report.json"
+
       - name: Retain runtime inventories, PDFs and all qualification evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -210,6 +272,7 @@ jobs:
             ${{ runner.temp }}/qt-pdf-candidate.install-evidence/candidate-conda-meta
             ${{ runner.temp }}/qt-pdf-candidate.install-evidence/channel/*/repodata.json
             ${{ runner.temp }}/qt-pdf-device-results
+            ${{ runner.temp }}/qt-pdf-reused-qt
             ${{ runner.temp }}/qt-pdf-native-module
             ${{ runner.temp }}/qt-pdf-native-results
             ${{ runner.temp }}/qt-pdf-native-report.json

@@ -120,10 +120,20 @@ configuration is overwritten.
 
 Each phase runs all 11 existing `TestTechDrawGui` tests, creates editable FCStd
 documents and exports twelve scenarios through both stock devices, producing
-24 PDFs. The baseline must show exactly seven invalid close/fill pairs and
-seven Poppler warnings per device: one each for the short
-ASME dash gap, Distance and theoretical-exact Distance, and two each for Area
-and relocated Area combined with the theoretical-exact dimension. Box,
+24 PDFs. The short ASME dash gap must reproduce one invalid close/fill pair and
+one Poppler warning per baseline device. The dimension-frame expectations also
+depend on Qt's actual text palette: the unused origin-label frames keep the
+`QGraphicsTextItem` constructor's text colour. Cocoa's observed alpha 216 takes
+the translucent PDF stroker route; Linux xcb's observed alpha 255 takes the
+opaque route and contributes no invalid close. The harness requires exactly
+one visible null origin frame for Distance and theoretical-exact Distance,
+and two for Area and relocated Area combined with theoretical-exact Distance.
+Before each stock command it records the application/class/default-text palette
+and the actual frame rectangle, pen, brush, opacity and affine transform. The
+baseline warning count is one per proven translucent null frame, plus the
+short-gap count. Thus the observed Cocoa baseline totals seven per device,
+while the observed Linux baseline totals one. The patched counts remain zero.
+Box,
 opaque-gap, short-solid and long-dashed controls must be clean. Additional
 public ASME zero-width controls cover translucent, opaque and PDF/A output,
 with visible ink and no syntax warnings.
@@ -142,11 +152,19 @@ to match the box-only page, visible solid/dashed strokes and a visible
 theoretical-exact frame. The saved cosmetic edge preserves editable RGB/style
 data but FCStd currently omits its alpha; the macro reconstructs alpha through
 the public model API rather than treating reload as equivalent runtime state.
-The recorded graphics-item values are diagnostic snapshots taken after
-PagePrinter refreshes the scene following export. A refreshed item's pen can
-remain at its default before its next paint; those values do not establish the
-effective pen used during export.
-Acceptance uses the public model controls, emitted PDF operators and pixels.
+General graphics-item values remain diagnostic snapshots taken after
+PagePrinter refreshes the scene following export. A refreshed path item's pen
+can remain at its default before its next paint; those values do not establish
+its effective export pen. The null origin-label frames have a separate
+prospective contract: their constructor pen is source-backed, their input
+snapshots are persisted before either stock command, and the same complete
+frame state must remain afterward. The launcher binds the exact executed macro
+path and digest to those snapshots. The checker independently validates the
+palette, known frame counts and supported pen/brush/transform branch before
+using its predicted baseline count; it never derives that count from PDF output.
+The same prospective inputs are required on both Qt runtimes. Acceptance still
+requires the public model controls and exact emitted operators and pixels.
+Old post-export-only captures cannot supply this new prospective evidence.
 
 For GitHub Actions, `build-native-bypass.py --ci-checkout` provides a portable
 alternative to the macOS scratch relinker. It requires `GITHUB_ACTIONS=true`,
@@ -180,3 +198,16 @@ templates, line definitions and the complete TDTest package. Linked App/Gui
 dependencies are built automatically. This builds the application needed for
 the unchanged 24-PDF and eleven-test native gates; unrelated workbenches and
 broad C++ test executables are outside this qualification build scope.
+
+For the two reviewed Linux retries, the workflow's `stage=native` option reuses
+the authenticated passed Qt checks from run 37252425998 (`linux-64`) or
+37252439637 (`linux-aarch64`) and package build 37238935749. The bounded
+`reuse_linux_qt_qualification.py` helper verifies the complete artifact transport,
+66-case result, ten-test transcript, source and binary identities, then binds
+the newly installed prefixes and newly loaded native Qt binaries to that proof.
+It does not execute the standalone fixture or upstream test again. Those old
+runs retain their failed native outcome. Their artifacts omitted the FreeCAD
+executable, core modules and native resources, so a scoped FreeCAD build is
+necessary to capture the new prospective inputs. Select one Linux target and
+its matching `reuse_run`; the workflow rejects other native-stage selections
+before scheduling a build. The default `stage=all` retains the complete checks.
