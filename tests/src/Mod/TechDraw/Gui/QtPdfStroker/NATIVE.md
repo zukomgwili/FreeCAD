@@ -234,6 +234,34 @@ followed. This raw diagnostic archive does not qualify restoration, and runtime
 prefixes are not bundled. A failed retention step cannot skip the ordinary
 native acceptance or final reused-Qt binding.
 
+The Windows pending-stage retry selects `target=win-64`,
+`stage=windows-pending`, `reuse_run=37250196345` and package build 37238935749.
+`reuse_windows_qt_qualification.py` authenticates only that failed run's passed
+66 PDF comparisons. The old upstream executable returned zero but its captured
+transcript was empty; its ten-test and native outcomes remain unverified.
+After installing and authenticating the exact dependencies, the workflow runs
+the retained upstream executable before rebuilding FreeCAD. A paired launch
+records the original logging environment and the Windows child-only
+`QT_FORCE_STDERR_LOGGING=1` override. The corrected launch must report the exact
+Qt/Testlib 6.11.2 version and ten passing tests. A new host may capture the
+original route successfully; that does not establish the old host's console
+state. The shared upstream child environment also serves the LibPack 6.11.1
+capture while preserving its separate version and ten-test gates.
+
+The Windows artifact omitted FreeCAD's executable, core modules and resources,
+so the subsequent native capture requires a scoped application and bypass
+build. It uses the unchanged stock Windows save/Print dialog handling and
+prospective frame/palette checks. All 24 native comparisons, eleven GUI tests
+on each runtime, exact operators/coordinates/RGBA and selected managed Qt DLL
+and active Windows plugin origins remain mandatory. The passed standalone
+fixture and package build are not executed again.
+
+`retain_windows_native_build.py` optionally retains bounded application/module
+and resource bytes for diagnosis. It rejects junctions, symlinks and other
+reparse points, records source/cache/bypass bindings, and does not bundle
+dependency prefixes or qualify restoration. Retention failure cannot skip
+native capture or its final binding.
+
 Linux native retries also retain the application binaries, native modules and
 resources after the controlled bypass build, together with their source,
 CMake-cache and reused-runtime bindings. This is diagnostic build evidence,

@@ -18,12 +18,12 @@ on:
         default: ''
         type: string
       stage:
-        description: All checks or native capture with authenticated passed Qt checks
+        description: All checks, native retry, or pending Windows upstream/native checks
         default: all
         type: choice
-        options: [all, native]
+        options: [all, native, windows-pending]
       reuse_run:
-        description: Matching reviewed qualification run whose Qt checks passed (native stage only)
+        description: Matching reviewed qualification run whose passed checks can be reused
         default: ''
         type: string
 
@@ -44,6 +44,7 @@ jobs:
           QT_PDF_STAGE: ${{ inputs.stage }}
           QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
           QT_PDF_PACKAGE_RUN: ${{ inputs.build_run }}
+          QT_PDF_WINDOWS_PACKAGE_RUN: ${{ inputs.windows_build_run }}
         run: |
           python3 - <<'PY'
           import json, os
@@ -57,11 +58,15 @@ jobs:
           selected = os.environ["QT_PDF_SELECTION"]
           stage = os.environ["QT_PDF_STAGE"]
           reuse = os.environ["QT_PDF_REUSE_RUN"]
-          assert stage in ("all", "native"), "Unsupported qualification stage"
+          assert stage in ("all", "native", "windows-pending"), "Unsupported qualification stage"
           if stage == "native":
               prior = {"linux-64": "37252425998", "linux-aarch64": "37252439637", "osx-64": "37248191467"}
               assert selected in prior and reuse == prior[selected], "Native retry needs the matching reviewed run"
               assert os.environ["QT_PDF_PACKAGE_RUN"] == "37238935749", "Native retry requires the reviewed package build"
+          elif stage == "windows-pending":
+              assert selected == "win-64" and reuse == "37250196345", "Windows retry needs the reviewed partial run"
+              assert os.environ["QT_PDF_PACKAGE_RUN"] == "37238935749", "Windows retry requires the reviewed package build"
+              assert os.environ["QT_PDF_WINDOWS_PACKAGE_RUN"] in ("", "37238935749"), "Windows package override differs"
           else:
               assert not reuse, "Passed-stage reuse is only available for a reviewed native retry"
           matrix = {"include": [row for row in entries if selected in ("all", row["target"])]}
@@ -133,6 +138,17 @@ jobs:
             --target "$QT_PDF_TARGET" --prior-run-id "$QT_PDF_REUSE_RUN" \
             --work-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
 
+      - name: Authenticate only the reviewed passed Windows PDF comparisons
+        if: inputs.stage == 'windows-pending' && matrix.target == 'win-64'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_windows_qt_qualification.py recover \
+            --target "$QT_PDF_TARGET" --prior-run-id "$QT_PDF_REUSE_RUN" \
+            --work-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
+
       - name: Wait for this native package artifact
         timeout-minutes: 240
         env:
@@ -174,7 +190,7 @@ jobs:
             --candidate-prefix "$RUNNER_TEMP/qt-pdf-candidate"
 
       - name: Bind the passed Qt checks to these exact runtime binaries
-        if: inputs.stage == 'native'
+        if: inputs.stage == 'native' || inputs.stage == 'windows-pending'
         run: |
           qt_pdf_source=$(pixi exec --spec python=3.13 -- python - <<'PY'
           import os
@@ -187,6 +203,8 @@ jobs:
           qt_pdf_reuse_helper=package/qt-pdf/reuse_linux_qt_qualification.py
           if [ "$QT_PDF_TARGET" = osx-64 ]; then
             qt_pdf_reuse_helper=package/qt-pdf/reuse_macos_qt_qualification.py
+          elif [ "$QT_PDF_TARGET" = win-64 ]; then
+            qt_pdf_reuse_helper=package/qt-pdf/reuse_windows_qt_qualification.py
           fi
           pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
             python "$qt_pdf_reuse_helper" validate \
@@ -196,12 +214,20 @@ jobs:
             --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
             --qt-source-archive "$qt_pdf_source"
 
+      - name: Capture the pending Windows upstream transcript before rebuilding FreeCAD
+        if: inputs.stage == 'windows-pending' && matrix.target == 'win-64'
+        timeout-minutes: 10
+        run: |
+          pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_windows_qt_qualification.py run-upstream \
+            --proof-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
+
       - name: Configure and build native FreeCAD against locked baseline
         run: |
           pixi run configure-release
           # Keep normal startup and every native qualification dependency/resource.
           # The unchanged conda presets use Ninja directory aggregate targets.
-          # Prior Linux/Intel captures did not retain the app/core binaries needed here.
+          # Prior Linux/Intel/Windows captures omitted the app/core binaries needed here.
           pixi run build-release --target \
             src/Main/all src/Gui/all \
             src/Mod/Part/all src/Mod/PartDesign/all src/Mod/Sketcher/all \
@@ -251,6 +277,26 @@ jobs:
               "--head-sha", os.environ["GITHUB_SHA"], "--bypass-module", str(modules[0]),
               "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
               "--work-dir", str(temporary / "qt-pdf-macos-native-build")], check=True)
+          PY
+
+      - name: Retain the native build for a focused Windows retry
+        id: retain_windows_native
+        if: inputs.stage == 'windows-pending' && matrix.target == 'win-64'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          modules = list((temporary / "qt-pdf-native-module").glob("*.pyd"))
+          assert len(modules) == 1
+          subprocess.run([sys.executable, "package/qt-pdf/retain_windows_native_build.py",
+              "--build-root", str(source / "build/release"), "--source-root", str(source),
+              "--head-sha", os.environ["GITHUB_SHA"], "--bypass-module", str(modules[0]),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-windows-native-build")], check=True)
           PY
 
       - name: Qualify both Qt PDF devices and Qt's own writer tests
@@ -326,11 +372,13 @@ jobs:
           PY
 
       - name: Bind the new native capture to the reused passed Qt checks
-        if: inputs.stage == 'native'
+        if: inputs.stage == 'native' || inputs.stage == 'windows-pending'
         run: |
           qt_pdf_reuse_helper=package/qt-pdf/reuse_linux_qt_qualification.py
           if [ "$QT_PDF_TARGET" = osx-64 ]; then
             qt_pdf_reuse_helper=package/qt-pdf/reuse_macos_qt_qualification.py
+          elif [ "$QT_PDF_TARGET" = win-64 ]; then
+            qt_pdf_reuse_helper=package/qt-pdf/reuse_windows_qt_qualification.py
           fi
           pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
             python "$qt_pdf_reuse_helper" verify-native \
@@ -357,6 +405,7 @@ jobs:
             ${{ runner.temp }}/qt-pdf-native-module
             ${{ steps.retain_native.outputs.native_build_dir }}
             ${{ steps.retain_macos_native.outputs.macos_native_build_dir }}
+            ${{ steps.retain_windows_native.outputs.windows_native_build_dir }}
             ${{ steps.diagnose_native.outputs.crash_diagnostics_dir }}
             ${{ runner.temp }}/qt-pdf-native-results
             ${{ runner.temp }}/qt-pdf-native-report.json

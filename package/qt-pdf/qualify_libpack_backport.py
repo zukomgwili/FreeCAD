@@ -418,12 +418,15 @@ def capture(args, helper):
             and helper.pe_machine(test) == helper.MACHINES[sdk["architecture"]],
             "Upstream test has unexpected local DLLs/architecture",
         )
+        test_environment = adapter.load_module(
+            "qt_pdf_qtest_logging", Path(__file__).with_name("qtest_logging.py")
+        ).qtest_child_environment(runtime_environment)
         suite = adapter.command(
             [str(test)],
             evidence,
             "upstream-tests",
             cwd=destination,
-            environment=runtime_environment,
+            environment=test_environment,
         )
         adapter.require(
             re.search(r"Totals:\s+10 passed,\s+0 failed,\s+0 skipped,\s+0 blacklisted", suite)

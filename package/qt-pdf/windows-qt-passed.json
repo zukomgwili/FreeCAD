@@ -1,0 +1,376 @@
+{
+  "schema_version": 1,
+  "purpose": "Reuse only the authenticated passed Windows Qt66 PDF comparison from an old failed aggregate; all upstream/native acceptance remains outstanding.",
+  "qualified": false,
+  "native_freecad_qualified": false,
+  "distribution_promoted": false,
+  "original_run": {
+    "repository": "zukomgwili/FreeCAD",
+    "run_id": 37250196345,
+    "job_id": 111576115668,
+    "head_sha": "a0e3bdf8a89495e95c6d97ce5f30f93c35909b12",
+    "status": "completed",
+    "conclusion": "failure",
+    "stages": {
+      "Set up job": "success",
+      "Make space for two runtimes and the native build": "skipped",
+      "Preserve reviewed checkout bytes on Windows": "success",
+      "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+      "Select the same recorded macOS SDK": "skipped",
+      "Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+      "Configure and build native FreeCAD against locked baseline": "success",
+      "Compile the controlled mitigation bypass in this disposable checkout": "success",
+      "Wait for this native package artifact": "success",
+      "Download the actual package and corresponding source evidence": "success",
+      "Authenticate artifact transport and restore omitted public inputs": "success",
+      "Install the exact package in an isolated candidate runtime": "success",
+      "Qualify both Qt PDF devices and Qt's own writer tests": "failure",
+      "Qualify stock native exports with both guards bypassed": "skipped",
+      "Retain runtime inventories, PDFs and all qualification evidence": "success",
+      "Post Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+      "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+      "Complete job": "success"
+    }
+  },
+  "artifact": {
+    "id": 11323427780,
+    "name": "qt-pdf-qualification-win-64",
+    "size_in_bytes": 12606036,
+    "whole_zip_sha256": "c06ec9b2e0dee94b5e1895835c99373abc5fa8b95758edd053514ccc829cf62a",
+    "all_crc_and_safe_names_verified": true,
+    "regular_files": 828,
+    "unpacked_bytes": 71668029,
+    "extracted_inventory_sha256": "050d8a0b40e1f887e94fb98016d8f27021e311c8b99a47cb952d06c8e22f1081",
+    "api_sha256": {
+      "run-api.json": "7af13b0771b162342ce1f61305c78e4877b267cb2fa21d8608f1cceb992a613d",
+      "job-api.json": "f7ccb4fa39a7a1eebda3443b25c993c7a392c4550c800ce380d6d0a292d1c198",
+      "artifact-list-api.json": "2091e716f79b1d6817648df3bfc54d3156c10e8439af3ca6f8f0649d55a3dfbc",
+      "artifact-api.json": "3a913f3a52b79c5361326513b7636d7f92845a80c1a8c7e54f1646b05450fbd6"
+    }
+  },
+  "read_only_audits": {
+    "transport_review_sha256": "35105385bfb3042153bb7bb63a562449fc622c18078219650a77a3492b80c473",
+    "qt_readback_review_sha256": "43e259d3ba3bd2ee9cc37a5237cec00e5ee5e0a4e3f05d88be3703330e722d85",
+    "retained_raw_job_log_sha256": "2f629248628424074847c5485b841bf2d8527b3d6b8df34cdc60efd8e667da12",
+    "qt_readback_script_sha256": "24c8d16d21ca998693d3cac47255d6429e5b334698ff805ff6953c2b781a9379"
+  },
+  "qt66": {
+    "passed": true,
+    "cases": 66,
+    "pdf_files": 132,
+    "retained_png_files": 132,
+    "baseline_invalid_closes": 30,
+    "baseline_reproduced_cases": 26,
+    "patched_invalid_closes": 0,
+    "exact_remaining_operators_coordinates_rgba": true,
+    "cross_device_pixel_pairs": 66,
+    "fixture_runtime": {
+      "baseline": {
+        "runtime_json_sha256": "652398c3c28cb53bfce6711109fa185dbc03bdf5827894c6492754e3490f1809",
+        "configured_prefix": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library",
+        "runtime_prefix": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default",
+        "architecture": "x86_64",
+        "qpa": "offscreen",
+        "qt_library_count": 5,
+        "plugin_count": 10,
+        "qt_modules": [
+          {
+            "kind": "library",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/bin/Qt6Core.dll",
+            "sha256": "7e07ba9e4fb4e29507b6e505b88376ce31c18a3a85739edc270e0e8ef405da70"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/bin/Qt6Gui.dll",
+            "sha256": "80c44c775355baf2c53db15c8305d8e028b4bdad1c878010b91c4cb267d7404a"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/bin/Qt6PrintSupport.dll",
+            "sha256": "de67a6e2f4b9f07b9cc48851a6945fe55f76e18a8b5114e061cd58d4913b69d2"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/bin/Qt6Svg.dll",
+            "sha256": "b06cced0a3bff9f811e8299459f80c714fc478c402936b43a745bda6c8178d31"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/bin/Qt6Widgets.dll",
+            "sha256": "cddaeac6c83174fd9f147e1c2dbdb0db9d6892f37aaba71eb3286bc419216c62"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qgif.dll",
+            "sha256": "51e1b1f2b78a30aca27b14a83305fffd4e90790f1107bfdcf2faba5f0b5f0d79"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qicns.dll",
+            "sha256": "8e8e43fd062bfcc83bd0709b8656b21cd7810568f766c0c2333a7c11de6d2073"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qico.dll",
+            "sha256": "2647f05a1ea240dbb1bb9be43f30597e318c9e709127f7b2ebae58206ed18b7a"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+            "sha256": "599f1c15b4e0255e3200bfefc5573a2f17cf3439c1caca421e7a6b354ac6e666"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qsvg.dll",
+            "sha256": "ae8437aefe26c8c70ae8eeb28705aab5a37c681ae1690f208e9b1142416196e8"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qtga.dll",
+            "sha256": "b7d91970e1d4078dd19ef47fc83eda0aa315f49f87e71fa99d06ebda5a005ec4"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qtiff.dll",
+            "sha256": "09f97b672e32ba9b30e9c127d7fda27ed96502f4443d09179a16fb96dd7b1a55"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+            "sha256": "9be24051291148ee56f5f328566eb892e6b6d4d95b89d5dbce8e0b39764a534c"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/imageformats/qwebp.dll",
+            "sha256": "f5e95e60e1190cc776674b5c8110480e100ab2ac94d76e91f1ab8e343ed7e11d"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/FreeCAD/FreeCAD/.pixi/envs/default/Library/lib/qt6/plugins/platforms/qoffscreen.dll",
+            "sha256": "5b83c9c4b3c11fca34824479eb3ff68b85bd04c8ede3960105798b79e3e17842"
+          }
+        ]
+      },
+      "patched": {
+        "runtime_json_sha256": "b28cfe49474bcdd30c032a0c01a5e62feb58893139d33802ce657a6eaa56aca2",
+        "configured_prefix": "D:/a/_temp/qt-pdf-candidate/Library",
+        "runtime_prefix": "D:\\a\\_temp\\qt-pdf-candidate",
+        "architecture": "x86_64",
+        "qpa": "offscreen",
+        "qt_library_count": 5,
+        "plugin_count": 10,
+        "qt_modules": [
+          {
+            "kind": "library",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/bin/Qt6Core.dll",
+            "sha256": "f9e64692a6036c48cb65a9941f57f89fd2046f5d7be734f7722ad2528d9aa1f3"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/bin/Qt6Gui.dll",
+            "sha256": "a46d333bff34e7005acadd1c375598ea48dc57dbe2f5cbabde7f095cc8280e77"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/bin/Qt6PrintSupport.dll",
+            "sha256": "e9dba0cf61ffa35f33335389e3ce2259858da2db0db79d576783c2327c740a12"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/bin/Qt6Svg.dll",
+            "sha256": "78034b27454970ca847d06437c4a3b744c7e61cb8971e013166b5652f5bd964f"
+          },
+          {
+            "kind": "library",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/bin/Qt6Widgets.dll",
+            "sha256": "afec855ff2aa948b7f17cff4ad7d5cbc263990d82cda27c49f66dae97b36b803"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qgif.dll",
+            "sha256": "66aad7c37e3cbb11618c23404175c2f98449bf97caf4d3de1eb8c58d2ecfec1f"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qicns.dll",
+            "sha256": "48bec9c523e034f706c7f30cb0b83299dc20092cc1c42c6af0d073c666eea146"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qico.dll",
+            "sha256": "22046c3b6013f1d090209acd6246a4f46aa587e9c9ac878f5acb8c2ed62e5e98"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+            "sha256": "53b1c00aa8e1bd8df706d399fcec7d2e142ec44c2e41dd6a93067e36bf75b91f"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qsvg.dll",
+            "sha256": "6de6d279e5ed66c1c911cafb7684522cf25161778fe32096d085e6fef9a794a3"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qtga.dll",
+            "sha256": "59cfc10319645da899227046cfe4776a5c980069e784d0fcab4c24d831d5f2d1"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qtiff.dll",
+            "sha256": "e26eb5db545b4ac742a46276fd8fcab5d71830dd852341d83efcfdf72a710c0c"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+            "sha256": "06584753d970ef45cb31a4b167692350f31ad158c6ae5ab3f98941b4b82f8b3f"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/imageformats/qwebp.dll",
+            "sha256": "156e5d9cfe676c9e808af4c448fd0661e05a1caf7b2174e9054f976f5d3b6659"
+          },
+          {
+            "kind": "plugin",
+            "path": "D:/a/_temp/qt-pdf-candidate/Library/lib/qt6/plugins/platforms/qoffscreen.dll",
+            "sha256": "baea609de74ba18584c8234896b43e348f7b842952bbc06208a5f89872dc1f7a"
+          }
+        ]
+      }
+    }
+  },
+  "original_upstream": {
+    "aggregate_failed": true,
+    "transcript_bytes": 0,
+    "transcript_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "verified_test_cases": null,
+    "retained_executable": "_temp/qt-pdf-device-results/upstream-test-build/Release/tst_qpdfwriter.exe",
+    "executable_sha256": "bf4373491cbb0ccda76f9005800e90e2f3c4d01612c6f88e2a5f57eb81f76e84",
+    "source_sha256": {
+      "CMakeLists.txt": "ecfc1d5ddcec6f08270ff61de7c15b664be1bfac8e3a8523a1c09d35c128d7a6",
+      "tst_qpdfwriter.cpp": "b058a9fa9343229337beb9ff3965af6eb1eb32cd416f1434b5b2687129fa6245"
+    },
+    "source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+    "sdk_version": "10.0.26100.0",
+    "target_windows_version": "10.0.20348",
+    "compiler_proof": {
+      "source": "D:\\a\\_temp\\qt-pdf-device-results\\fixture-build\\CMakeFiles\\4.4.3\\CMakeCXXCompiler.cmake",
+      "source_sha256": "bb062545dc361a5cf70754e1e7760c05868be5eb5a4127ebb78a5645dfa20858",
+      "compiler_id": "MSVC",
+      "configured_version": "19.44.35229.0",
+      "executable": "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+      "executable_sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619"
+    },
+    "no_upstream_pass_claim": true
+  },
+  "original_native": {
+    "step": "skipped",
+    "gui_test_runs": 0,
+    "pdf_exports": 0,
+    "complete_build_retained": false,
+    "retained_freecad_build_files": [
+      "FreeCAD/FreeCAD/build/release/CMakeCache.txt"
+    ],
+    "retained_bypass_module_sha256": "4aec1a64f858aaa381a76a17c1b70f83761883e9952b68fcd5b7991d9ebd9fb4",
+    "missing_binary_reason": "Only FreeCAD CMakeCache and isolated bypass TechDrawGui.pyd were uploaded. FreeCAD.exe, App/Gui/Part core/modules, required Mod/data/share/resources, runtime prefixes and their Qt/non-Qt DLL bytes were not retained; the native app cannot be restored from this artifact."
+  },
+  "managed_runtime": {
+    "package_build_run_id": 37238935749,
+    "package_build_json_sha256": "fd4da3eca45b4d971b876df2fe207060f6d9f40f2ae75329bdeb78a5293f143c",
+    "package_sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73",
+    "package_filename": "qt6-main-6.11.2-pl5321h17b71ab_1.conda",
+    "installed_metadata_sha256": "fa9d9ee84c9618c08223a0294cd84ce258c73cda5843725dbe53a4990439a5f3",
+    "baseline_before_after_sha256": "8bf099e6e88f2457e92da104b83712263a3c6cb387c48f1674fec97b9475e6cc",
+    "baseline_qt_files": 10437,
+    "packages_each_prefix": 361,
+    "non_qt_package_identities_unchanged": 360,
+    "only_changed_package": "qt6-main",
+    "baseline_qt_record": {
+      "name": "qt6-main",
+      "version": "6.11.2",
+      "build": "pl5321hfcac499_0",
+      "subdir": "win-64",
+      "checksum": {
+        "sha256": "042c94a5a7a89b0b28a24f6ae6a2d3d609751edab78454057973ec5cc3e77d7d"
+      }
+    },
+    "candidate_qt_record": {
+      "name": "qt6-main",
+      "version": "6.11.2",
+      "build": "pl5321h17b71ab_1",
+      "subdir": "win-64",
+      "checksum": {
+        "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73"
+      }
+    },
+    "additional_upstream_native_qt_sha256": {
+      "Library/bin/Qt6Core.dll": {
+        "baseline": "7e07ba9e4fb4e29507b6e505b88376ce31c18a3a85739edc270e0e8ef405da70",
+        "candidate": "f9e64692a6036c48cb65a9941f57f89fd2046f5d7be734f7722ad2528d9aa1f3"
+      },
+      "Library/bin/Qt6Gui.dll": {
+        "baseline": "80c44c775355baf2c53db15c8305d8e028b4bdad1c878010b91c4cb267d7404a",
+        "candidate": "a46d333bff34e7005acadd1c375598ea48dc57dbe2f5cbabde7f095cc8280e77"
+      },
+      "Library/bin/Qt6Widgets.dll": {
+        "baseline": "cddaeac6c83174fd9f147e1c2dbdb0db9d6892f37aaba71eb3286bc419216c62",
+        "candidate": "afec855ff2aa948b7f17cff4ad7d5cbc263990d82cda27c49f66dae97b36b803"
+      },
+      "Library/bin/Qt6PrintSupport.dll": {
+        "baseline": "de67a6e2f4b9f07b9cc48851a6945fe55f76e18a8b5114e061cd58d4913b69d2",
+        "candidate": "e9dba0cf61ffa35f33335389e3ce2259858da2db0db79d576783c2327c740a12"
+      },
+      "Library/bin/Qt6Test.dll": {
+        "baseline": "57ad8cebf2bae7142ebe894ac1b7d742f0fd0fdbb126faa05e91f155227c1bd4",
+        "candidate": "a6d7e134b920a7c6507a369fcfb2ba8922845154dbed2476bde25ce186f1d75d"
+      },
+      "Library/lib/qt6/plugins/platforms/qwindows.dll": {
+        "baseline": "79cf62d8a07b4e1b8bc43bd865e574f35064197f3dce4d9a8c9dc36c10e3b59f",
+        "candidate": "bc518282f33aac834230d59c37be53fca5487adfa3958b522e50d48fff6c009f"
+      }
+    },
+    "runtime_prefixes_retained": false,
+    "qt_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+    "qt_patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3"
+  },
+  "source_sha256": {
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/CMakeLists.txt": "ef1301c04a6f32fa3955e18fdbe72d58547bfd3893dfe1f46219419295d4a4fb",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/compare.py": "e3cf4909c7c1781a3d56a34b981346a1b4c72d44275c48d63289d1cb2a1e0d85",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+    "package/qt-pdf/qualify_package.py": "537faa59587f2ba580d1581b4d721d8486b92bb88f4d130a273424130a1766a8",
+    "pixi.lock": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+    ".github/workflows/qt_pdf_qualify.yml": "8692359eb18845e93f41d2dac7e96baa8940cd04137dea72472f50e6c0d2279f"
+  },
+  "input_sha256": {
+    "_temp/qt-pdf-device-results/comparison.json": "bbdabe548b15d05d2bcd4c39c67721cd5eee0d272aa888faef444eadbc81225e",
+    "_temp/qt-pdf-device-results/qualification.json": "8f524f9b6ff849382721c9f71517eb63c9986a704eea4c90082465ad0e6c85a1",
+    "_temp/qt-pdf-device-results/inputs.json": "c02ad5fc1b751d9b2419a3d293b18be386b9b94a8e4ce84593c3188422fe4dba",
+    "_temp/qt-pdf-device-results/upstream-test.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "_temp/qt-pdf-device-results/upstream-test-configure.log": "4797a53ca626acf31ddee01aaa61a28c01f9c6a2a09e6bc4ff9bd7bcf033f752",
+    "_temp/qt-pdf-device-results/upstream-test-build.log": "0f35d6342146893084ebf03b69ed5da3fb39d4b748f1589f3f39594b294471b7",
+    "_temp/qt-pdf-candidate.install-evidence/installation.json": "ee3120aed8e03633727c9a22b0f4b165ebe76df4c890f9cdde4977a7e1d9bbbf",
+    "_temp/qt-pdf-candidate.install-evidence/baseline-before.json": "8bf099e6e88f2457e92da104b83712263a3c6cb387c48f1674fec97b9475e6cc",
+    "_temp/qt-pdf-candidate.install-evidence/baseline-after.json": "8bf099e6e88f2457e92da104b83712263a3c6cb387c48f1674fec97b9475e6cc",
+    "_temp/qt-pdf-candidate.install-evidence/candidate-conda-meta/qt6-main-6.11.2-pl5321h17b71ab_1.json": "fa9d9ee84c9618c08223a0294cd84ce258c73cda5843725dbe53a4990439a5f3",
+    "_temp/qt-pdf-device-results/fixture-build/Release/qt_pdf_stroker_fixture.exe": "ce47af4ca1dc3c8d8e57bf0c2a4249e8be98b9f5c1d5e2330874a3630cc74a5d",
+    "_temp/qt-pdf-device-results/upstream-test-build/Release/tst_qpdfwriter.exe": "bf4373491cbb0ccda76f9005800e90e2f3c4d01612c6f88e2a5f57eb81f76e84",
+    "_temp/qt-pdf-native-module/TechDrawGui.pyd": "4aec1a64f858aaa381a76a17c1b70f83761883e9952b68fcd5b7991d9ebd9fb4",
+    "_temp/qt-pdf-native-module/bypass-provenance.json": "0d0e03e418132757a8e8c6c3fc41bc5456610c5926b5744a0b185645a23a5766",
+    "FreeCAD/FreeCAD/build/release/CMakeCache.txt": "18227a0673f6f9d48d5ec4a614ab59cf7f32e8d48657929624b20698e81b705a"
+  },
+  "minimum_remaining_stages": [
+    "Reuse authenticated Qt66 comparison only after exact fresh source/package/managed runtime digest binding. Do not rerun fixture PDFs.",
+    "Recreate isolated locked baseline and same candidate package runtimes; authenticate DLL/QPA origins and hashes.",
+    "Use retained tst_qpdfwriter.exe with authenticated original source/compiler/SDK and freshly bound dependencies; execute upstream10 once with file transcript logging and require strict complete suite output. No compiler rebuild is necessary solely because stdout was empty.",
+    "Scoped native FreeCAD and controlled bypass rebuild are required because executable/core/resources were not retained.",
+    "Run fresh stock native24 plus GUI11 in both runtimes with prospective source/palette/frame and full observed native DLL/QWindows maps. Conjoin new upstream pass and native pass with old Qt66; preserve old aggregate failure."
+  ],
+  "limitations": [
+    "The retained old aggregate is failed; upstream10 has no authenticated transcript and native/GUI never ran.",
+    "Runtime DLL bytes were not uploaded; this review verifies retained live SHA receipts against authenticated managed package metadata, not current installed bytes.",
+    "Windows SDK tools and package/source archives are identified by retained provenance/cache/log hashes but are not themselves retained in this ZIP.",
+    "Retained PNG diagnostics are authenticated/read but Poppler was not rerun.",
+    "No distribution, active pins or mitigation removal qualification."
+  ]
+}

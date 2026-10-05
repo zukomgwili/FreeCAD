@@ -493,8 +493,11 @@ def build_upstream_test(candidate, work, cmake, sources, comparison, cmake_args=
     )
     require(executable is not None, "Upstream QPdfWriter test executable was not built")
     loader_policy = test_loader_policy(executable, work / "upstream-test-build")
+    test_environment = load_module(
+        "qt_pdf_qtest_logging", Path(__file__).with_name("qtest_logging.py")
+    ).qtest_child_environment(environment)
     output = command_result(
-        [str(executable)], environment, cwd=work, log=work / "upstream-test.log"
+        [str(executable)], test_environment, cwd=work, log=work / "upstream-test.log"
     )
     require(
         re.search(r"Totals:\s+10 passed,\s+0 failed,\s+0 skipped,\s+0 blacklisted", output),
