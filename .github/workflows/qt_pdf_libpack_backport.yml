@@ -172,16 +172,58 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Retain owned candidate receipts before archiving
+      - name: Stage owned candidate receipts under one physical upload root
+        id: receipts
         if: always() && steps.prepare.outcome == 'success'
+        run: |
+          @'
+          import json, os, shutil, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path("package/qt-pdf").resolve()))
+          import libpack_baseline as helper
+
+          work = helper.real_path(Path(os.environ["LIBPACK_CANDIDATE_WORK"]))
+          assert work == Path(work.anchor) / "c", "Unexpected candidate root"
+          evidence = helper.real_path(work / "evidence")
+          prepared = json.loads((evidence / "preparation.json").read_text())
+          assert prepared["status"] == "prepared" and prepared["work"] == str(work)
+          assert prepared["sdk"] == helper.sdk_identity(os.environ["LIBPACK_SDK"])
+          before = helper.inventory(evidence)
+          runner = helper.real_path(Path(os.environ["RUNNER_TEMP"]))
+          stage = helper.fresh_work(runner / "libpack-candidate-build-evidence")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write(f"evidence_dir={stage}\n")
+          shutil.copytree(evidence, stage / "candidate-evidence", copy_function=shutil.copy2)
+          assert helper.inventory(stage / "candidate-evidence") == before
+          assert helper.inventory(evidence) == before, "Original evidence changed"
+          logs = stage / "runner-logs"
+          logs.mkdir()
+          paths = [runner / name for name in ("libpack-candidate-prepare.log", "libpack-candidate-build.log")]
+          paths += [runner / name for name in ("libpack-disk-selection.json", "libpack-disk-before-prepare.json", "libpack-disk-before-build.json")]
+          log_receipts = {}
+          for path in paths:
+              path = helper.real_path(path)
+              assert path.is_file(), "Missing owned runner log"
+              shutil.copy2(path, logs / path.name)
+              source = helper.digest(path)
+              assert helper.digest(logs / path.name) == source
+              log_receipts[path.name] = {"source": str(path), "sha256": source}
+          receipt = {
+              "build_only": True, "qualified": False,
+              "source_evidence": str(evidence), "original_evidence_unchanged": True,
+              "preparation_sha256": helper.digest(evidence / "preparation.json"),
+              "runner_logs": log_receipts,
+          }
+          (stage / "staging.json").write_text(json.dumps(receipt, indent=2) + "\n")
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain owned candidate receipts before archiving
+        if: always() && steps.prepare.outcome == 'success' && steps.receipts.outputs.evidence_dir != ''
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: qt-pdf-libpack-build-evidence-${{ matrix.sdk }}
-          path: |
-            ${{ steps.roots.outputs.candidate_evidence }}
-            ${{ runner.temp }}/libpack-candidate-prepare.log
-            ${{ runner.temp }}/libpack-candidate-build.log
-            ${{ runner.temp }}/libpack-disk-*.json
+          path: ${{ steps.receipts.outputs.evidence_dir }}
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 30

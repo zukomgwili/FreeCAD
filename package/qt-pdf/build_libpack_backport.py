@@ -620,14 +620,26 @@ def native_environment(environment, compiler, helper):
     return source_environment(environment)
 
 
+def parse_cmake_cache(path):
+    """Read complete CMake cache keys, including quoted names containing colons."""
+    values = {}
+    for line in path.read_text().splitlines():
+        line = line.lstrip()
+        if not line or line.startswith(("#", "//")):
+            continue
+        # CMake's cache writer quotes keys such as ICU::data. The type
+        # separator follows the closing quote rather than the first colon.
+        match = re.fullmatch(r'(?:"([^"]+)"|([^":=]+)):([^=]+)=(.*)', line)
+        require(match is not None, "Malformed CMake cache entry")
+        key = match[1] if match[1] is not None else match[2]
+        require(key not in values, "Duplicate CMake cache key")
+        values[key] = match[4]
+    return values
+
+
 def configured_cache(build_root, candidate, compiler, helper):
     cache = helper.real_path(build_root / "CMakeCache.txt")
-    values = {}
-    for line in cache.read_text().splitlines():
-        match = re.fullmatch(r"([^:#=]+):[^=]+=(.*)", line)
-        if match:
-            require(match[1] not in values, "Duplicate CMake cache key")
-            values[match[1]] = match[2]
+    values = parse_cmake_cache(cache)
     require(values.get("CMAKE_BUILD_TYPE") == "Release", "Upstream Qt release mode changed")
     require(
         helper.real_path(Path(values["CMAKE_INSTALL_PREFIX"])) == candidate,
