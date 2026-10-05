@@ -477,24 +477,65 @@ try:
         dialogs = []
         selected_files = []
         staged = []
+        owned_dialog = []
+        dialog_states = []
+        callback_errors = []
         timer = QtCore.QTimer()
         timer.setInterval(100)
 
+        def record_pdf_dialog(widget, stage):
+            editor = widget.findChild(QtWidgets.QLineEdit, "fileNameEdit")
+            state = {
+                "stage": stage,
+                "class": widget.metaObject().className(),
+                "directory": widget.directory().absolutePath(),
+                "selected_files": widget.selectedFiles(),
+                "filename_text": editor.text() if editor is not None else None,
+                "filename_has_focus": editor.hasFocus() if editor is not None else None,
+            }
+            dialog_states.append(state)
+            print("PDF_DIALOG_STATE", name, state)
+
         def accept_pdf_dialog():
             for widget in QtWidgets.QApplication.instance().topLevelWidgets():
-                if isinstance(widget, QtWidgets.QFileDialog) and widget.isVisible():
-                    if not staged:
-                        widget.setDirectory(str(output))
-                        widget.selectFile(pdf.name)
-                        staged.append(True)
-                        return
-                    selected = widget.selectedFiles()
-                    print("PDF_DIALOG_SELECTION", name, selected)
-                    assert len(selected) == 1 and Path(selected[0]).resolve() == pdf.resolve()
-                    selected_files.append(selected)
-                    dialogs.append(widget.metaObject().className())
-                    timer.stop()
-                    widget.accept()
+                if (
+                    isinstance(widget, QtWidgets.QFileDialog)
+                    and widget.isVisible()
+                    and widget.metaObject().className() == "Gui::FileDialog"
+                ):
+                    try:
+                        if not staged:
+                            owned_dialog.append(widget)
+                            widget.setDirectory(str(output))
+                            staged.append("directory")
+                            record_pdf_dialog(widget, "directory")
+                            return
+                        assert widget is owned_dialog[0], "Stock PDF dialog changed"
+                        if staged == ["directory"]:
+                            # Qt selectFile leaves a focused filename edit untouched.
+                            # Clear only this dialog's focus before selecting the name,
+                            # on a separate turn from the directory model update.
+                            focused = QtWidgets.QApplication.focusWidget()
+                            if focused is not None and widget.isAncestorOf(focused):
+                                focused.clearFocus()
+                            widget.selectFile(pdf.name)
+                            staged.append("filename")
+                            record_pdf_dialog(widget, "filename")
+                            return
+                        selected = widget.selectedFiles()
+                        record_pdf_dialog(widget, "accept")
+                        assert len(selected) == 1 and Path(selected[0]).resolve() == pdf.resolve()
+                        selected_files.append(selected)
+                        dialogs.append(widget.metaObject().className())
+                        timer.stop()
+                        watchdog.stop()
+                        widget.accept()
+                    except Exception:
+                        callback_errors.append(traceback.format_exc())
+                        traceback.print_exc()
+                        timer.stop()
+                        watchdog.stop()
+                        widget.reject()
                     return
 
         timer.timeout.connect(accept_pdf_dialog)
@@ -503,9 +544,14 @@ try:
 
         def reject_timeout():
             timer.stop()
-            for widget in QtWidgets.QApplication.instance().topLevelWidgets():
-                if isinstance(widget, QtWidgets.QDialog) and widget.isVisible():
-                    widget.reject()
+            callback_errors.append("Timed out while staging the stock PDF dialog")
+            if owned_dialog:
+                record_pdf_dialog(owned_dialog[0], "timeout")
+                owned_dialog[0].reject()
+            else:
+                print(callback_errors[-1])
+                log.flush()
+                os._exit(1)
 
         watchdog.timeout.connect(reject_timeout)
         timer.start()
@@ -513,6 +559,7 @@ try:
         Gui.runCommand("TechDraw_ExportPagePDF")
         timer.stop()
         watchdog.stop()
+        assert not callback_errors, callback_errors
         assert dialogs == ["Gui::FileDialog"], dialogs
         if not pdf.exists():
             print("ACTIVE_VIEW", Gui.activeDocument().activeView())
@@ -543,6 +590,7 @@ try:
                 "device": "qpdfwriter",
                 "stock_dialog": dialogs,
                 "selected_files": selected_files,
+                "file_dialog_states": dialog_states,
                 "screen_mode_before_after": [before, before],
                 **scene_record(),
             }
