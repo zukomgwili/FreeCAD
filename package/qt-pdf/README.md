@@ -115,6 +115,12 @@ python package/qt-pdf/qualify_package.py \
 
 The qualifier requires the native target, successful recipe tests, original
 preparation/diff checksums and the installed candidate's exact package identity.
+On Linux, isolated fixture and upstream-test links preserve compiler activation
+flags and append `--enable-new-dtags`. Before either runtime launches, the helper
+records the actual executable's hash and RUNPATH and rejects old RPATH. This
+allows the selected process library path to take effect; loaded-library origin
+and hash checks still independently require the requested runtime.
+
 It compiles the paired standalone fixture against candidate development files,
 proves loaded Qt/QPA origins on both sides, and checks all 66 PDFs with strict
 parsing, Poppler stderr, operator equality, rendered pixels and cross-device

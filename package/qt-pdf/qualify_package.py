@@ -18,6 +18,7 @@ import json
 from pathlib import Path, PureWindowsPath
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tarfile
@@ -285,6 +286,114 @@ def fixture_configuration(prefix):
     raise ValueError(f"Cannot find candidate Qt development CMake files in {prefix}")
 
 
+def test_linker_arguments(arguments, environment, platform=sys.platform):
+    """Allow the selected runtime to override only these isolated Linux tests."""
+    result = list(arguments)
+    if not platform.startswith("linux"):
+        return result
+    entries = [
+        number
+        for number, argument in enumerate(result)
+        if argument.startswith("-DCMAKE_EXE_LINKER_FLAGS=")
+        or argument.startswith("-DCMAKE_EXE_LINKER_FLAGS:")
+    ]
+    require(len(entries) <= 1, "Ambiguous test executable linker flags")
+    if entries:
+        number = entries[0]
+        require("=" in result[number], "Missing test executable linker flags value")
+        key, flags = result[number].split("=", 1)
+    else:
+        number = len(result)
+        key, flags = "-DCMAKE_EXE_LINKER_FLAGS:STRING", environment.get("LDFLAGS", "")
+    require(
+        isinstance(flags, str) and not any(character in flags for character in "\0\r\n"),
+        "Unsafe test executable linker flags",
+    )
+    # Pixi's compiler activation can request old DT_RPATH, which precedes
+    # LD_LIBRARY_PATH. Keep its other flags and request overridable DT_RUNPATH.
+    value = key + "=" + flags + " -Wl,--enable-new-dtags"
+    if entries:
+        result[number] = value
+    else:
+        result.append(value)
+    return result
+
+
+def test_loader_policy(executable, build_root, platform=sys.platform):
+    """Read back the actual owned Linux ELF before either test runtime launches."""
+    if not platform.startswith("linux"):
+        return None
+    require(
+        executable.is_file()
+        and not any(path.is_symlink() for path in (executable, *executable.parents))
+        and executable.resolve().is_relative_to(build_root.resolve()),
+        "Test executable must be a physical file in its owned build directory",
+    )
+    raw = executable.read_bytes()
+
+    def unpack(format, offset):
+        require(0 <= offset <= len(raw) - struct.calcsize(format), "Truncated test executable ELF")
+        return struct.unpack_from(format, raw, offset)
+
+    header = unpack("<16sHHIQQQIHHHHHH", 0)
+    require(
+        raw[:7] == b"\x7fELF\x02\x01\x01"
+        and header[1] in (2, 3)
+        and header[2] in (62, 183)
+        and header[3] == 1
+        and header[8] == 64
+        and header[9] == 56
+        and 0 < header[10] < 0xFFFF,
+        "Expected a supported ELF64 Linux test executable",
+    )
+    segments = [unpack("<IIQQQQQQ", header[5] + number * header[9]) for number in range(header[10])]
+    dynamic = [entry for entry in segments if entry[0] == 2]
+    require(len(dynamic) == 1, "Missing/ambiguous ELF dynamic segment")
+    segment = dynamic[0]
+    require(
+        segment[5] >= 16 and segment[5] % 16 == 0 and segment[2] <= len(raw) - segment[5],
+        "Invalid ELF dynamic segment bounds",
+    )
+    tags = []
+    for offset in range(segment[2], segment[2] + segment[5], 16):
+        tag, value = unpack("<qQ", offset)
+        if tag == 0:
+            break
+        tags.append((tag, value))
+    else:
+        raise ValueError("Unterminated ELF dynamic segment")
+    require(
+        not any(tag == 15 for tag, _ in tags), "Test executable retains nonoverridable DT_RPATH"
+    )
+    paths = [value for tag, value in tags if tag == 29]
+    pointers = [value for tag, value in tags if tag == 5]
+    sizes = [value for tag, value in tags if tag == 10]
+    require(
+        len(paths) == len(pointers) == len(sizes) == 1 and sizes[0] > 0,
+        "Expected one actual DT_RUNPATH and dynamic string table",
+    )
+    loads = [
+        entry
+        for entry in segments
+        if entry[0] == 1
+        and entry[3] <= pointers[0]
+        and pointers[0] + sizes[0] <= entry[3] + entry[5]
+    ]
+    require(len(loads) == 1, "Invalid/ambiguous ELF string-table mapping")
+    start = loads[0][2] + pointers[0] - loads[0][3]
+    require(start <= len(raw) - sizes[0], "Truncated ELF dynamic string table")
+    strings = raw[start : start + sizes[0]]
+    require(paths[0] < len(strings), "Invalid ELF RUNPATH string offset")
+    end = strings.find(b"\0", paths[0])
+    require(end >= 0, "Unterminated ELF RUNPATH string")
+    runpath = strings[paths[0] : end].decode("utf-8")
+    require(
+        runpath and not any(character in runpath for character in "\r\n"),
+        "Empty/unsafe ELF RUNPATH",
+    )
+    return {"executable_sha256": digest(executable), "machine": header[2], "runpath": runpath}
+
+
 def extract_upstream_test(archive_path, destination):
     archive_path = archive_path.resolve(strict=True)
     md5 = hashlib.md5()
@@ -358,7 +467,7 @@ def build_upstream_test(candidate, work, cmake, sources, comparison, cmake_args=
         configure.append(f"-D{component}_DIR={cmake_root / component}")
     if sys.platform == "darwin":
         configure.append("-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0")
-    configure.extend(cmake_args)
+    configure.extend(test_linker_arguments(cmake_args, environment))
     build = [
         cmake,
         "--build",
@@ -383,6 +492,7 @@ def build_upstream_test(candidate, work, cmake, sources, comparison, cmake_args=
         None,
     )
     require(executable is not None, "Upstream QPdfWriter test executable was not built")
+    loader_policy = test_loader_policy(executable, work / "upstream-test-build")
     output = command_result(
         [str(executable)], environment, cwd=work, log=work / "upstream-test.log"
     )
@@ -401,6 +511,7 @@ def build_upstream_test(candidate, work, cmake, sources, comparison, cmake_args=
         "build_command": build,
         "run_command": [str(executable)],
         "executable_sha256": digest(executable),
+        "loader_policy": loader_policy,
         "log": str(work / "upstream-test.log"),
     }
 
@@ -491,7 +602,7 @@ def build_and_compare(baseline, candidate, work, cmake, pdftoppm, comparison, cm
         configure.append(f"-D{component}_DIR={cmake_root / component}")
     if sys.platform == "darwin":
         configure.append("-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0")
-    configure.extend(cmake_args)
+    configure.extend(test_linker_arguments(cmake_args, candidate_environment))
     build = [
         cmake,
         "--build",
@@ -512,6 +623,7 @@ def build_and_compare(baseline, candidate, work, cmake, pdftoppm, comparison, cm
     ]
     executable = next((path for path in executables if path.is_file()), None)
     require(executable is not None, "Fixture executable was not built")
+    loader_policy = test_loader_policy(executable, work / "fixture-build")
     baseline_output = comparison.generate(
         executable, work / "generated/baseline", "both", baseline_environment
     )
@@ -553,6 +665,7 @@ def build_and_compare(baseline, candidate, work, cmake, pdftoppm, comparison, cm
         "build_command": build,
         "fixture_executable": str(executable),
         "fixture_executable_sha256": digest(executable),
+        "fixture_loader_policy": loader_policy,
         "compiler_proof": compiler_proof,
         "tool_versions": versions,
         "comparison": report,
