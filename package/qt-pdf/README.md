@@ -212,6 +212,14 @@ the diagnostic through its `libpack_baseline` input. Select `all` or an SDK key
 to call the separate baseline workflow without starting package builds. The
 default `disabled` value preserves normal conda package dispatch. This bridge
 permits branch testing before the new workflow is registered on the default branch.
+The [actual LibPack baseline receipt](libpack-baseline.json) records successful
+native generation and Linux inspection for all three released SDKs in
+[run 37245806362](https://github.com/zukomgwili/FreeCAD/actions/runs/37245806362).
+Each kit emits 30 invalid closes across 26 of its 66 PDFs; all 33 device pairs
+have identical pixels. Full release-archive verification, unchanged SDK
+inventories and actual Qt 6.11.1 module origins/PE architectures are recorded.
+These results reproduce the defect in the released binaries and establish
+controls for a future candidate; they do not qualify a corrected LibPack.
 
 ```sh
 python package/qt-pdf/libpack_baseline.py generate \
