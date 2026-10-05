@@ -9,13 +9,24 @@ on:
         default: all
         type: choice
         options: [all, linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
+      libpack_baseline:
+        description: Optional baseline-only LibPack diagnostic (skips package builds)
+        default: disabled
+        type: choice
+        options: [disabled, 3.5.3-x64, 3.5.5-x64, 3.5.5-arm64, all]
 
 permissions:
   contents: read
 
 jobs:
+  libpack-baseline:
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') != 'disabled'
+    uses: ./.github/workflows/qt_pdf_libpack_baseline.yml
+    with:
+      sdk: ${{ inputs.libpack_baseline }}
+
   select:
-    if: github.repository == 'zukomgwili/FreeCAD'
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') == 'disabled'
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
@@ -42,7 +53,7 @@ jobs:
 
   package:
     # Dependency experiments belong to the personal fork until reviewed.
-    if: github.repository == 'zukomgwili/FreeCAD'
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.libpack_baseline || 'disabled') == 'disabled'
     needs: select
     strategy:
       fail-fast: false

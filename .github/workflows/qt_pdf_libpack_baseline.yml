@@ -2,6 +2,12 @@
 name: Qt PDF LibPack Baseline
 
 on:
+  workflow_call:
+    inputs:
+      sdk:
+        description: Released SDK baseline selection
+        default: 3.5.3-x64
+        type: string
   workflow_dispatch:
     inputs:
       sdk:

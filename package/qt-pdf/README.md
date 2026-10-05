@@ -207,6 +207,11 @@ Poppler diagnostics, ink controls and paired device pixels. The artifacts
 contain reports, fixture sources and PDFs; SDK DLLs remain on the native runner.
 Every report retains `baseline_only: true` and `qualified: false`. This diagnostic
 does not build a corrected SDK or exercise native FreeCAD exports.
+For this draft branch, the registered `qt_pdf_backport.yml` workflow also exposes
+the diagnostic through its `libpack_baseline` input. Select `all` or an SDK key
+to call the separate baseline workflow without starting package builds. The
+default `disabled` value preserves normal conda package dispatch. This bridge
+permits branch testing before the new workflow is registered on the default branch.
 
 ```sh
 python package/qt-pdf/libpack_baseline.py generate \
