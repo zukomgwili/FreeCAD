@@ -1,0 +1,383 @@
+{
+  "spdx_license_identifier": "BSD-3-Clause",
+  "schema_version": 1,
+  "scope": "API/wholeZIP-authenticated original macOS Intel Qt-only passed stage, retained PDF/PNG readback and missing native binary assessment for a focused native-only retry. Original native failure is preserved.",
+  "qualified": false,
+  "native_freecad_qualified": false,
+  "distribution_promoted": false,
+  "qt_only_passed_reused": true,
+  "prior_head_sha": "fad5154281bede3144c71820933e5b05812161fb",
+  "package_build_run_id": 37238935749,
+  "package_build_run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749",
+  "package_build_head_sha": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+  "corpus": {
+    "pixi.lock": {
+      "sha256": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/fad5154281bede3144c71820933e5b05812161fb/pixi.lock"
+    },
+    "generator.cpp": {
+      "sha256": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/fad5154281bede3144c71820933e5b05812161fb/tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp"
+    },
+    "CMakeLists.txt": {
+      "sha256": "ef1301c04a6f32fa3955e18fdbe72d58547bfd3893dfe1f46219419295d4a4fb",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/fad5154281bede3144c71820933e5b05812161fb/tests/src/Mod/TechDraw/Gui/QtPdfStroker/CMakeLists.txt"
+    },
+    "compare.py": {
+      "sha256": "e3cf4909c7c1781a3d56a34b981346a1b4c72d44275c48d63289d1cb2a1e0d85",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/fad5154281bede3144c71820933e5b05812161fb/tests/src/Mod/TechDraw/Gui/QtPdfStroker/compare.py"
+    }
+  },
+  "qt_source_archive": {
+    "sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+    "recipe_md5": "669c1f3a41c37fdda389094882044d7a",
+    "status": "Original passed stage authenticated the archive; bytes are not present in this small qualification artifact. Fresh package source archive must match before reuse."
+  },
+  "targets": {
+    "osx-64": {
+      "run_id": 37248191467,
+      "run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37248191467",
+      "job_id": 111570214009,
+      "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37248191467/job/111570214009",
+      "head_sha": "fad5154281bede3144c71820933e5b05812161fb",
+      "original_run_conclusion": "failure",
+      "original_job_conclusion": "failure",
+      "passed_step": "Qualify both Qt PDF devices and Qt's own writer tests",
+      "later_failed_step": "Qualify stock native exports with both guards bypassed",
+      "stage_conclusions": {
+        "Set up job": "success",
+        "Make space for two runtimes and the native build": "skipped",
+        "Preserve reviewed checkout bytes on Windows": "skipped",
+        "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+        "Select the same recorded macOS SDK": "success",
+        "Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+        "Configure and build native FreeCAD against locked baseline": "success",
+        "Compile the controlled mitigation bypass in this disposable checkout": "success",
+        "Wait for this native package artifact": "success",
+        "Download the actual package and corresponding source evidence": "success",
+        "Authenticate artifact transport and restore omitted public inputs": "success",
+        "Install the exact package in an isolated candidate runtime": "success",
+        "Qualify both Qt PDF devices and Qt's own writer tests": "success",
+        "Qualify stock native exports with both guards bypassed": "failure",
+        "Retain runtime inventories, PDFs and all qualification evidence": "success",
+        "Post Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+        "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+        "Complete job": "success"
+      },
+      "artifact": {
+        "id": 11323656361,
+        "name": "qt-pdf-qualification-osx-64",
+        "size": 13993780,
+        "whole_zip_sha256": "5236af18b437128de7b15b43dbdecb3488685938b8c7008a39f9bf1087bfb5d6",
+        "all_member_crc_checked": true,
+        "safe_extraction_checked": true,
+        "file_count": 778,
+        "unpacked_bytes": 71451600,
+        "canonical_file_inventory_sha256": "c51aa8a797124386119f84254800ca23b906d37b34945adf3f56bfc37cb15ef7",
+        "api_sha256": {
+          "run-api.json": "3e0b79d2e09af3b667cade214a19680e2880784ae207740e6adcc4470716e912",
+          "jobs-api.json": "d0d71e8a8d86a95746ed2f37365a74efa24f8267413ec34e6d0c55cd780af0e8",
+          "artifact-api.json": "902a95990572ae049555b0da24f862ed34de629b13a922c9f923a20c9eecde0c",
+          "artifact-list-api.json": "50b06edbfe4b29d01af28f4fb6e475a16eb99f9649049dea94b7d1f932750c13"
+        }
+      },
+      "original_package": {
+        "filename": "qt6-main-6.11.2-pl5321h7c35b53_1.conda",
+        "sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+        "build_json_sha256": "85469bfacd14cc6251a70e988084e750939a168571deea2a37cdebbd77ad19c6",
+        "installed_metadata_sha256": "8e935eba80c7659315fd0625ea7fa22f73b7e8f32f635518a426ac559db2736f",
+        "feedstock_commit": "5cd1156d41526330a116b6b441611b47357ec568",
+        "feedstock_archive_sha256": "30a20fe87b59ef0709e4785e8a28a8fcb7ef5f7776b8ac71daf8b2a823ec104a",
+        "upstream_recipe_sha256": "2cd9dc4831840960f1d44cfb7753ba1a0315ea5ccc77796d771e612c186cb9c0",
+        "retained_patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+        "preparation_canonical_json_sha256": "4721aecd3ccc3e7c946d36b02192821df6dadcf13bf621144a1fe0ad3e7aa785",
+        "dependency_variants": {
+          "harfbuzz": "14.4.0",
+          "libpng": "1.6.58"
+        },
+        "macos_sdk": {
+          "path": "/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+          "metadata_file": "SDKSettings.json",
+          "metadata_sha256": "58a133735f0a55a624a1703067059f6e78925e51725ec6e1f966072e142c9c42"
+        }
+      },
+      "qt_only": {
+        "qualified_in_original_stage": true,
+        "qt_cases_per_side": 66,
+        "device_scenarios_per_side": 33,
+        "devices": [
+          "qpdfwriter",
+          "qprinter"
+        ],
+        "cross_device_pairs_both_sides": 66,
+        "baseline_defective_cases": 26,
+        "baseline_defective_cases_by_device": {
+          "qpdfwriter": 13,
+          "qprinter": 13
+        },
+        "baseline_invalid_closes": 30,
+        "patched_invalid_closes": 0,
+        "upstream_tests_passed": 10,
+        "upstream_tests_failed": 0,
+        "upstream_tests_skipped": 0,
+        "pdfs_read": 132,
+        "existing_pngs_read": 132,
+        "remaining_operators_coordinates_and_retained_rgba_equal": true,
+        "all_retained_ink_color_and_recorded_diagnostics_checked": true,
+        "comparison_sha256": "86d5a6d6ff8329e6a2bdd7ba79a1c13a002c3a32fbfa1ee0db2046df1011d472",
+        "qualification_sha256": "c1d3bafac411253172bcc17f12b18169e311dadb86bfd81a50e4ca0ceb9a39a0",
+        "inputs_sha256": "aa6061d5aa95d7821c72a007dda71f0fe6ccef173aca0777349c77afa52d5802",
+        "upstream_log_sha256": "468dbb572723ccc5a13a2f2c1f529d544f64dac81123f7525dbc83c1420f189d",
+        "fixture_executable_sha256": "ea9c449ae895d0cc8e8587076c4515e930bac97c39c33529fc433b36ea8dd9c8",
+        "upstream_executable_sha256": "d082bc7357fae9de05893fcf987d629450dfeb3240bdc0acfe91b0dddfcee19f",
+        "upstream_source_sha256": {
+          "CMakeLists.txt": "ecfc1d5ddcec6f08270ff61de7c15b664be1bfac8e3a8523a1c09d35c128d7a6",
+          "tst_qpdfwriter.cpp": "b058a9fa9343229337beb9ff3965af6eb1eb32cd416f1434b5b2687129fa6245"
+        }
+      },
+      "original_native": {
+        "passed": false,
+        "failures": [
+          "Command '['/Users/runner/work/FreeCAD/FreeCAD/build/release/bin/FreeCAD', '--hidden', '--user-cfg', '/Users/runner/work/_temp/qt-pdf-native-results/baseline/user.cfg', '--system-cfg', '/Users/runner/work/_temp/qt-pdf-native-results/baseline/system.cfg', '/Users/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro']' returned non-zero exit status 1."
+        ],
+        "native_report_sha256": "7bdd665a0e7a764a96c7372fd067b67117b46569c7323e3e19cf3da69c69137b",
+        "native_provenance_present": false,
+        "native_provenance_sha256": {},
+        "completed_exports": 0,
+        "baseline_gui_tests_passed": 11,
+        "baseline_gui_seconds": 21.587,
+        "patched_gui_test_evidence_present": false,
+        "filename_selection_assertions": 137,
+        "failure_reason": "First stock Gui::FileDialog selectedFiles returned only the directory; old dialog staging assertions prevented any completed export or native provenance.",
+        "macro_log_sha256": "d7507d2437521f2c2d454717449ff29f91b87e70ee667a6a8d288cf8f8cfa561",
+        "runtime_log_sha256": "3acb2d3bd0a08791968f621a30535ae2faaa599a6fbbac7e16890994d6f520d0"
+      },
+      "fixture_qt_hash_maps_to_rebind": {
+        "baseline": {
+          "prefix": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+          "platform": "darwin",
+          "architecture": "x86_64",
+          "qpa": "offscreen",
+          "runtime_json_sha256": "beb38f8f3902889f262ff037ad78441848c28082f43b2a5244a4e6a9681e18d7",
+          "qt_libraries": [
+            {
+              "relative_path": "lib/libQt6Core.6.11.2.dylib",
+              "sha256": "2bea61f580020ad82b3b4308795d2ae1ec7fc4f6de9ddbaf120797d470a6fbc1"
+            },
+            {
+              "relative_path": "lib/libQt6DBus.6.11.2.dylib",
+              "sha256": "375f692036edebb9a2b8ea0efbf4d5a5a92eab1ebeb6931ce77261b5cb28c61a"
+            },
+            {
+              "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+              "sha256": "7d701dd99e68f66480325e76c77803d322bbad85fe260c73389875b732049276"
+            },
+            {
+              "relative_path": "lib/libQt6PrintSupport.6.11.2.dylib",
+              "sha256": "cf35f56445d1846ecad47de1c498996a8bcb85f2b8f736ee772d6b8057e90964"
+            },
+            {
+              "relative_path": "lib/libQt6Svg.6.11.2.dylib",
+              "sha256": "fc12e1557d4db7690bbc368212bf6c004ba93a13574aae1830e441c2717f5963"
+            },
+            {
+              "relative_path": "lib/libQt6Widgets.6.11.2.dylib",
+              "sha256": "1e861e067caa4929b11ba6ee8d7ead745cd8e9f169be2ce5d1d3869b59a8f70e"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqgif.dylib",
+              "sha256": "d1d5607dbbc4aa3b8bd41bae0f631ef5c6f9164cc61d839aeec76962933b0154"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqicns.dylib",
+              "sha256": "b7c13bf02446d3c58bbd9c02039f84a34af9ba63118ce585e4094a40826341ca"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqico.dylib",
+              "sha256": "d2598e82d93418c9c374903a8bd8c8812bfb07fc599f90f0d898bf142d8f886c"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.dylib",
+              "sha256": "bf0da9c6be143e2a3c56e4055852fffb45f26857f5feceaace1e6ab519c8f151"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqmacheif.dylib",
+              "sha256": "6be68aedbcbbb75b780438a3230d7776de5f7d61bf0bcfb7d74f05b39141ce81"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+              "sha256": "56fdc43157a12559cc8b67b82686a3d89a848bc953eb6d8a02fea1a048b066dd"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqsvg.dylib",
+              "sha256": "4c52c7eae9f8e74a099fc1f333dbb9860d2bdb84057e6028f177664647a2aeb8"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtga.dylib",
+              "sha256": "8e50f396d2e1d2026518938c31f77df5420235dfb3ff919541c1bc6bc7a81777"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtiff.dylib",
+              "sha256": "8a311e9296de8f0ea36129ef50b335ec94e116c5c5d2efd318a8e4a0e37b8be5"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.dylib",
+              "sha256": "90f3d18d4e8ed3e38aa62460b0a0b8643f49b7938f5d71468980ed8bbef2fca9"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwebp.dylib",
+              "sha256": "ffd9f00e5ca3d2f81251ec32ed874017c54b53c1c34f71c52569a8efd94008d1"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforms/libqoffscreen.dylib",
+              "sha256": "26f959827eb45fed7151d87c5a72f10d5b4d252b493ce7e6c9cf52efc5bf0d63"
+            }
+          ]
+        },
+        "patched": {
+          "prefix": "/Users/runner/work/_temp/qt-pdf-candidate",
+          "platform": "darwin",
+          "architecture": "x86_64",
+          "qpa": "offscreen",
+          "runtime_json_sha256": "eec60932d281555a13b71a2e3b0914bfbe0edc98c277284d6271427975e12b47",
+          "qt_libraries": [
+            {
+              "relative_path": "lib/libQt6Core.6.11.2.dylib",
+              "sha256": "91c51756876fee95d67d7995271ff979b3e766959d6f4fab569b736200d5323c"
+            },
+            {
+              "relative_path": "lib/libQt6DBus.6.11.2.dylib",
+              "sha256": "ed626e4e1cf341860ca0ecda1f65aff7e556b672a7c760c86fd5761d3703062e"
+            },
+            {
+              "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+              "sha256": "18297c4d9572b09781c6d51f8ddf42039c1eca6cd23e6e7e1dee05cb6eb0884d"
+            },
+            {
+              "relative_path": "lib/libQt6PrintSupport.6.11.2.dylib",
+              "sha256": "aceffaf9e9073e3fc16df9d7f8998f781710035f696bcd661e4949af42756dac"
+            },
+            {
+              "relative_path": "lib/libQt6Svg.6.11.2.dylib",
+              "sha256": "5f6057c91d0be4d36e388ba124098967461b8d10e5a7a3bc235d7a7bfd7803f0"
+            },
+            {
+              "relative_path": "lib/libQt6Widgets.6.11.2.dylib",
+              "sha256": "b40fb608bcdfdf103d263944e142307dca3fb85b8fa400f1ce398ade913c40ce"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqgif.dylib",
+              "sha256": "7befa34447146f200068b0491ffd2e8977f6d8c61b4d66bcb6c333ef579b9f73"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqicns.dylib",
+              "sha256": "3acd0ab5ef63a0601e6710504b4b191dffac7a9ae1bac5b76d9bea99ce51a737"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqico.dylib",
+              "sha256": "91b717005496dc95f9a36e8a795e841e1082397f590619f759392d7d5fa63579"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.dylib",
+              "sha256": "285296bbbbd29c1a74e8b0aeeb706aedc43a7b6205146ade029135c3c38498e1"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqmacheif.dylib",
+              "sha256": "abac3a6119fe478625d969827311e8bc19796065744644a6bf60d0d408991aac"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+              "sha256": "850c6c1a66b66362a7b346a9c0d61b9d26b2ad01a35201bbbc114f17b6c70442"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqsvg.dylib",
+              "sha256": "6b5578dbbdbb8ebb164cfa9577486955394918787598cf738cdf15ad4c13e9dd"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtga.dylib",
+              "sha256": "895643a9d1f956b4227ff5120d3aee844b8776396f79721cde4681e94a5e44e5"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtiff.dylib",
+              "sha256": "801068916d6efd6f3f6c89375c5ebe0d55c1f4b7150ba4fa91eea1961292e910"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.dylib",
+              "sha256": "bb3dc168abb1235ba1cdd4f4d76297c58f511452e8b4510bfe1ac990c3645637"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwebp.dylib",
+              "sha256": "770ac41a4acaa006acd454f3d49b73ed04c4a935177cf436bc18befca55c9bb8"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforms/libqoffscreen.dylib",
+              "sha256": "323d8d06d22ed0ffbb3e758047b0a0440c33ab85bf27db75420b6e739f7d2dbe"
+            }
+          ]
+        }
+      },
+      "native_qt_hash_maps_to_rebind": null,
+      "managed_qt_hash_metadata": {
+        "baseline_snapshot_sha256": "a13572e92902933cdd93c77729e01037590a8be9d477d8df08beeb1255087196",
+        "baseline_before_after_bytes_equal": true,
+        "baseline_qt_file_count": 11413,
+        "baseline_shape": "qt_files[relative_path] = {sha256, symlink}; metadata file hashes also retained.",
+        "candidate_conda_metadata_sha256": "8e935eba80c7659315fd0625ea7fa22f73b7e8f32f635518a426ac559db2736f",
+        "candidate_shape": "paths_data.paths entries use _path and sha256_in_prefix for installed file bytes; path_type, size and any prefix placeholder remain significant.",
+        "installation_sha256": "d54831b3d7383d6b94086dbc7af910c65dcbc34aaea340d02d13781471a0ccb4",
+        "package_count_each_prefix": 383,
+        "only_changed_package": "qt6-main",
+        "non_qt_exact_package_identities_equal": true,
+        "rebind_requirement": "Authenticate exact old/new baseline and candidate package identities and all required installed hashes; capture a new full native loaded Qt/Cocoa map. Do not substitute six-library/offscreen fixture origins for complete native origins."
+      },
+      "missing_native_binary_inventory": {
+        "reason": "Upload retained only the native bypass module and CMakeCache, not FreeCAD executable, App/Gui libraries, Mod/share/resources or runtime prefixes. Complete native execution cannot be restored; a scoped baseline/controlled bypass build and fresh managed runtimes are required.",
+        "retained_native_module": {
+          "relative_path": "_temp/qt-pdf-native-module/TechDrawGui.so",
+          "sha256": "8e5edd9871a97c141fa18ba30d9376089c507e4446ee56b93560b322cf72cc2f",
+          "size": 11019920,
+          "format": "x86_64 Mach-O"
+        },
+        "native_build_artifact_members": [
+          "FreeCAD/FreeCAD/build/release/CMakeCache.txt"
+        ],
+        "missing_native_targets": [
+          "FreeCAD executable",
+          "FreeCAD App/Gui/Part libraries",
+          "native Mod binaries other than the bypass TechDrawGui module"
+        ],
+        "missing_native_resources_and_runtime_prefixes": true,
+        "source_sha256": {
+          "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro": "0377fdbf318081e91c102fd36457aca1d1f528b8b13f911bca90addcc58af421",
+          "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py": "2eb5a2bb93da539d12226df33f249ba49023ae7009860f0ef1df2d467d9857e7",
+          "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py": "fc4a029b85441a723af2112b73d577cd415681f901e5d460c979a87ba3f359b0",
+          "src/Mod/TechDraw/Gui/QGCustomPath.cpp": "e9cc358a15f88f62c87f79556c6e74bf77f93447aa3bf392eb286ff69e1c1107",
+          "src/Mod/TechDraw/Gui/QGCustomRect.cpp": "c6504c4ec1b52c03eaecba09c42e1d4fd910ce252b1343e00ace35f3ace2eaa4"
+        },
+        "original_launch_sha256": "aad0fd1f38c79e219ad6dda15d80274776c4943c02e55586057a79ea8014b18a",
+        "original_cmake_cache_sha256": "60c22b6efbb6d528d72b82ed05ec0d6fa142a7196858edd60cbff3db46b6e431",
+        "bypass_provenance_sha256": "f521ae5d63ec147a626dcb874e837fa588f4084dd2618b9542f6173661caf6d8",
+        "focused_rebuild_required": true,
+        "gui_reuse_limit": "Baseline GUI11 remains original passed evidence. Rebuilt native bytes require new GUI11 on both freshly bound runtimes; no old patched GUI result exists."
+      },
+      "independent_review": {
+        "transport_review_sha256": "83eb92200165f739a2ea1816fefb541eb5f65de7bd04324a54634c1230d6d4cf",
+        "retained_pdf_metadata_review_sha256": "43828ad201f298199c6248d32c0b7a1806f7c7492dc8c75f0804e5a59bc9c72e",
+        "reader_script_sha256": "2e03b1ccd98f5729637d2518bc9201417e6418859719510c48372a0908100e41",
+        "original_failure_review_sha256": "91c74834e3cf47e962190e66a341bd0fc7a90ba41591a169fc2c7cc5fa6fddea"
+      }
+    }
+  },
+  "limitations": [
+    "Original overall/native run failed; this receipt only retains the authenticated passed Qt-only and baseline GUI stages.",
+    "No workflow, build, install, app, fixture, upstream executable or renderer was rerun; existing132PDF operators and132PNG bytes were independently read. Poppler diagnostics remain authenticated original records.",
+    "The six-library fixture uses QPAoffscreen; no full original native captured digest map or patched native process exists. Fresh complete native origins remain required.",
+    "Qt and FreeCAD runtime binaries, full source archive and full native resource tree were not uploaded; metadata hashes are not physical runtime availability.",
+    "Do not rerun passed Qt66/upstream10 unless changed inputs invalidate the proof. Scoped native rebuild is necessary because required native binaries were not retained.",
+    "No dependency pins, runtime/distribution promotion, mitigation removal or other platform qualification follows from this receipt."
+  ]
+}

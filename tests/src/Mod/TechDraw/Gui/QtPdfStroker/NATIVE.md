@@ -199,7 +199,7 @@ dependencies are built automatically. This builds the application needed for
 the unchanged 24-PDF and eleven-test native gates; unrelated workbenches and
 broad C++ test executables are outside this qualification build scope.
 
-For the two reviewed Linux retries, the workflow's `stage=native` option reuses
+For the reviewed Linux retries, the workflow's `stage=native` option reuses
 the authenticated passed Qt checks from run 37252425998 (`linux-64`) or
 37252439637 (`linux-aarch64`) and package build 37238935749. The bounded
 `reuse_linux_qt_qualification.py` helper verifies the complete artifact transport,
@@ -209,8 +209,30 @@ It does not execute the standalone fixture or upstream test again. Those old
 runs retain their failed native outcome. Their artifacts omitted the FreeCAD
 executable, core modules and native resources, so a scoped FreeCAD build is
 necessary to capture the new prospective inputs. Select one Linux target and
-its matching `reuse_run`; the workflow rejects other native-stage selections
+its matching `reuse_run`; the workflow rejects unreviewed native-stage selections
 before scheduling a build. The default `stage=all` retains the complete checks.
+
+The Intel retry selects `target=osx-64`, `stage=native`,
+`reuse_run=37248191467` and the same package build 37238935749.
+`reuse_macos_qt_qualification.py` authenticates that run's passed 66 Qt cases,
+ten upstream tests, package/source identities and installed Qt file inventories.
+The old native attempt passed the baseline GUI suite but failed its first stock
+save dialog before exporting a PDF or recording native library provenance.
+Its native result remains failed. The new native capture uses the corrected
+staged filename selection, active owned AppKit print panel and prospective
+palette/frame evidence. Every newly loaded Qt library and plugin must match
+the authenticated selected runtime inventory, including the active Cocoa
+plugin; an old native library map is not inferred from the incomplete capture.
+Qt and upstream executables are not rerun. The old artifact omitted the
+application and core modules, requiring a scoped FreeCAD rebuild.
+
+Intel retries optionally retain bounded physical build outputs through
+`retain_macos_native_build.py`. The archive includes the executable, modules
+and copied resources in the six selected output roots, with exact source,
+cache, bypass and reused-Qt bindings. Symlinks are stored as link text and never
+followed. This raw diagnostic archive does not qualify restoration, and runtime
+prefixes are not bundled. A failed retention step cannot skip the ordinary
+native acceptance or final reused-Qt binding.
 
 Linux native retries also retain the application binaries, native modules and
 resources after the controlled bypass build, together with their source,
