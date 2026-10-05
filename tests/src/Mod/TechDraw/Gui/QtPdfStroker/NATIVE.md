@@ -211,3 +211,18 @@ executable, core modules and native resources, so a scoped FreeCAD build is
 necessary to capture the new prospective inputs. Select one Linux target and
 its matching `reuse_run`; the workflow rejects other native-stage selections
 before scheduling a build. The default `stage=all` retains the complete checks.
+
+Linux native retries also retain the application binaries, native modules and
+resources after the controlled bypass build, together with their source,
+CMake-cache and reused-runtime bindings. This is diagnostic build evidence,
+not a distribution or a qualification result. Any future restoration must
+authenticate the entire bundle and the exact installed dependency prefixes.
+Objects and unrelated build directories are omitted.
+
+If the ARM native process crashes, a separate bounded GDB run uses its recorded
+baseline command and runtime bindings with fresh configurations, output and
+Xvfb display. It records all-thread backtraces and loader information while
+preserving the original failed artifacts. A successful diagnostic execution
+does not change the failed qualification result. All 24 native PDF comparisons,
+both eleven-test GUI suites and the final reused-Qt binding still have to pass
+in the ordinary native stage.

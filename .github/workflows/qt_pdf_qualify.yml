@@ -198,6 +198,24 @@ jobs:
             --ci-checkout --source "$GITHUB_WORKSPACE" --build "$GITHUB_WORKSPACE/build/release" \
             --output "$RUNNER_TEMP/qt-pdf-native-module" --parallel 2
 
+      - name: Retain the native build for a focused Linux retry
+        id: retain_native
+        if: inputs.stage == 'native'
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          modules = list((temporary / "qt-pdf-native-module").glob("*.so"))
+          assert len(modules) == 1
+          subprocess.run([sys.executable, "package/qt-pdf/linux_native_diagnostics.py", "retain",
+              "--build-root", str(source / "build/release"), "--source-root", str(source),
+              "--head-sha", os.environ["GITHUB_SHA"], "--bypass-module", str(modules[0]),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-native-build")], check=True)
+          PY
+
       - name: Qualify both Qt PDF devices and Qt's own writer tests
         if: inputs.stage == 'all'
         run: |
@@ -219,6 +237,7 @@ jobs:
             --qt-source-archive "$qt_pdf_source" --work-dir "$RUNNER_TEMP/qt-pdf-device-results"
 
       - name: Qualify stock native exports with both guards bypassed
+        id: native_capture
         run: |
           pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
             python - <<'PY'
@@ -248,6 +267,27 @@ jobs:
           subprocess.run(command, check=True)
           PY
 
+      - name: Diagnose the failed ARM native process
+        id: diagnose_native
+        if: failure() && inputs.stage == 'native' && matrix.target == 'linux-aarch64' && steps.native_capture.conclusion == 'failure'
+        run: |
+          xvfb-run -a -s '-screen 0 1920x1080x24' \
+            pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec gdb -- \
+            python - <<'PY'
+          import os, shutil, subprocess, sys
+          from pathlib import Path
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          gdb = shutil.which("gdb")
+          assert gdb and Path(gdb).is_file()
+          subprocess.run([sys.executable, "package/qt-pdf/linux_native_diagnostics.py", "diagnose",
+              "--failed-results", str(temporary / "qt-pdf-native-results"),
+              "--native-report", str(temporary / "qt-pdf-native-report.json"),
+              "--build-bundle", str(temporary / "qt-pdf-native-build"),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-native-crash-diagnostics"),
+              "--gdb", str(Path(gdb).resolve()), "--timeout", "180"], check=True)
+          PY
+
       - name: Bind the new native capture to the reused passed Qt checks
         if: inputs.stage == 'native'
         run: |
@@ -274,6 +314,8 @@ jobs:
             ${{ runner.temp }}/qt-pdf-device-results
             ${{ runner.temp }}/qt-pdf-reused-qt
             ${{ runner.temp }}/qt-pdf-native-module
+            ${{ steps.retain_native.outputs.native_build_dir }}
+            ${{ steps.diagnose_native.outputs.crash_diagnostics_dir }}
             ${{ runner.temp }}/qt-pdf-native-results
             ${{ runner.temp }}/qt-pdf-native-report.json
             ${{ github.workspace }}/build/release/CMakeCache.txt
