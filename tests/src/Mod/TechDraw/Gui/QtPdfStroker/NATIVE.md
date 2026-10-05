@@ -15,7 +15,11 @@ public `printer()` setters. It requires PdfFormat, a unique scratch filename,
 macOS and Linux also verify those settings before acceptance. A failed
 accepted callback terminates the disposable process before C++ printing can
 continue. On macOS Qt always opens a native NSPrintPanel; the harness completes
-that existing panel through AppKit's public
+that existing panel after AppKit reports an active visible modal NSPanel titled
+Print in this process's own window inventory. Qt wrapper visibility can precede
+the native modal session, so polling continues until that owned English panel
+exists; its identity is checked again before completion. Bounded state records
+and watchdog diagnostics are retained beside each printer PDF. Completion uses AppKit's public
 [stopModal(withCode:) API](https://developer.apple.com/documentation/appkit/nsapplication/stopmodal%28withcode%3A%29).
 Linux accepts the QPrintDialog directly. Windows Qt caches its native engine
 while `PrintDlgEx` reads back the UI settings, so replacing that engine before

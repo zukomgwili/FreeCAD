@@ -99,8 +99,77 @@ def loaded_images():
     raise RuntimeError("Native loaded-library proof is unsupported on this platform")
 
 
-def accept_cocoa_print_panel(result=1):
-    """Complete the existing native panel through the public AppKit modal API."""
+def cocoa_print_panel_state():
+    """Read the active modal window belonging to this process's AppKit application."""
+    objc = ctypes.CDLL("/usr/lib/libobjc.A.dylib")
+    objc.objc_getClass.argtypes = [ctypes.c_char_p]
+    objc.objc_getClass.restype = ctypes.c_void_p
+    objc.sel_registerName.argtypes = [ctypes.c_char_p]
+    objc.sel_registerName.restype = ctypes.c_void_p
+    objc.object_getClassName.argtypes = [ctypes.c_void_p]
+    objc.object_getClassName.restype = ctypes.c_char_p
+    send_object = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)(
+        ("objc_msgSend", objc)
+    )
+    send_bool = ctypes.CFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)(
+        ("objc_msgSend", objc)
+    )
+    send_kind = ctypes.CFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p)(
+        ("objc_msgSend", objc)
+    )
+    send_count = ctypes.CFUNCTYPE(ctypes.c_ulong, ctypes.c_void_p, ctypes.c_void_p)(
+        ("objc_msgSend", objc)
+    )
+    send_index = ctypes.CFUNCTYPE(
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_ulong
+    )(("objc_msgSend", objc))
+    send_utf8 = ctypes.CFUNCTYPE(ctypes.c_char_p, ctypes.c_void_p, ctypes.c_void_p)(
+        ("objc_msgSend", objc)
+    )
+    application = send_object(
+        objc.objc_getClass(b"NSApplication"),
+        objc.sel_registerName(b"sharedApplication"),
+    )
+    window = send_object(application, objc.sel_registerName(b"modalWindow"))
+    windows = send_object(application, objc.sel_registerName(b"windows"))
+    count = send_count(windows, objc.sel_registerName(b"count"))
+    assert count < 1000, "Unexpected AppKit window inventory"
+    owned = [
+        send_index(windows, objc.sel_registerName(b"objectAtIndex:"), index)
+        for index in range(count)
+    ]
+    title = send_object(window, objc.sel_registerName(b"title")) if window else None
+    return {
+        "window": window or 0,
+        "class": objc.object_getClassName(window).decode() if window else None,
+        "visible": send_bool(window, objc.sel_registerName(b"isVisible")) if window else False,
+        "owned": window in owned if window else False,
+        "panel": (
+            send_kind(
+                window, objc.sel_registerName(b"isKindOfClass:"), objc.objc_getClass(b"NSPanel")
+            )
+            if window
+            else False
+        ),
+        "title": send_utf8(title, objc.sel_registerName(b"UTF8String")).decode() if title else None,
+    }
+
+
+def ready_cocoa_print_panel(state):
+    # Native qualification uses the English Print panel, as on the Windows route.
+    return bool(
+        state["window"]
+        and state["visible"]
+        and state["owned"]
+        and state["panel"]
+        and state["title"] == "Print"
+    )
+
+
+def accept_cocoa_print_panel(result, expected_window):
+    """Complete only the observed active owned Print panel through public AppKit API."""
+    state = cocoa_print_panel_state()
+    assert ready_cocoa_print_panel(state) and state["window"] == expected_window, state
     objc = ctypes.CDLL("/usr/lib/libobjc.A.dylib")
     objc.objc_getClass.argtypes = [ctypes.c_char_p]
     objc.objc_getClass.restype = ctypes.c_void_p
@@ -351,6 +420,10 @@ try:
         printer_settings = []
         native_ui_settings = []
         callback_errors = []
+        panel_states = []
+        observed_states = set()
+        panel_window = []
+        diagnostic_file = output / ("qprinter-" + name + "-diagnostics.json")
         version = preferences["Mod"].GetInt("PDFVersion", 0)
         pdf_version = {
             0: QtGui.QPagedPaintDevice.PdfVersion_1_4,
@@ -358,6 +431,40 @@ try:
         }[version]
         timer = QtCore.QTimer()
         timer.setInterval(100)
+
+        def record_print_state(stage, state=None):
+            value = {
+                "stage": stage,
+                "visible_qt_dialogs": [
+                    widget.metaObject().className()
+                    for widget in QtWidgets.QApplication.instance().topLevelWidgets()
+                    if isinstance(widget, QtPrintSupport.QPrintDialog) and widget.isVisible()
+                ],
+            }
+            if sys.platform == "darwin":
+                value["cocoa"] = state if state is not None else cocoa_print_panel_state()
+            key = json.dumps(value, sort_keys=True)
+            if key not in observed_states and len(panel_states) < 20:
+                observed_states.add(key)
+                panel_states.append(value)
+                print("PRINT_DIALOG_STATE", name, value)
+                log.flush()
+                diagnostic_file.write_text(json.dumps(panel_states, indent=2) + "\n")
+
+        def fatal_print_failure(reason):
+            try:
+                print("PRINT_FATAL", name, reason)
+                record_print_state("fatal: " + reason)
+            except Exception:
+                try:
+                    traceback.print_exc()
+                except Exception:
+                    pass  # A failed log must still terminate this disposable process.
+            finally:
+                try:
+                    log.flush()
+                finally:
+                    os._exit(1)
 
         def configure_printer(dialog):
             printer = dialog.printer()
@@ -382,57 +489,88 @@ try:
             )
 
         def accept_print_dialog():
-            for widget in QtWidgets.QApplication.instance().topLevelWidgets():
-                if isinstance(widget, QtPrintSupport.QPrintDialog) and widget.isVisible():
-                    dialogs.append(widget.metaObject().className())
+            visible_dialogs = [
+                widget
+                for widget in QtWidgets.QApplication.instance().topLevelWidgets()
+                if isinstance(widget, QtPrintSupport.QPrintDialog) and widget.isVisible()
+            ]
+            for widget in visible_dialogs:
+                if sys.platform == "darwin":
+                    state = cocoa_print_panel_state()
+                    record_print_state("poll", state)
+                    assert len(visible_dialogs) == 1, "Expected one visible stock Print dialog"
+                    # Qt makes the wrapper visible, then processes events before
+                    # AppKit enters runModal. Keep polling through that interval.
+                    if not ready_cocoa_print_panel(state):
+                        return
+                    panel_window.append(state["window"])
+                    assert len(panel_window) == 1, "Expected one owned Cocoa Print panel"
+                    record_print_state("owned Print panel active", state)
+                dialogs.append(widget.metaObject().className())
 
-                    # The native dialog can map destination settings before emitting
-                    # accepted; keep this actual printer configured for PDF afterward.
-                    def accepted():
-                        try:
-                            configure_printer(widget)
-                        except Exception:
-                            # Do not continue stock printing with a failed PDF setup.
-                            traceback.print_exc()
-                            log.flush()
-                            os._exit(1)
-
-                    widget.accepted.connect(accepted)
+                # The native dialog can map destination settings before emitting
+                # accepted; keep this actual printer configured for PDF afterward.
+                def accepted():
                     try:
-                        if sys.platform == "win32":
-                            # Qt caches the native engine through PrintDlgEx's
-                            # readback. Replace it only in accepted(), after that
-                            # readback and before stock PagePrinter receives it.
-                            assert (
-                                widget.printer().outputFormat()
-                                == QtPrintSupport.QPrinter.NativeFormat
-                            )
-                            native_ui_settings.append(
-                                {"format": widget.printer().outputFormat().value}
-                            )
-                        else:
-                            configure_printer(widget)
-                        timer.stop()
-                        if sys.platform == "darwin":
-                            accept_cocoa_print_panel()
-                        elif sys.platform == "win32":
-                            native_ui_settings[-1].update(accept_windows_print_panel())
-                        else:
-                            widget.accept()
+                        configure_printer(widget)
+                        record_print_state("accepted printer configured")
                     except Exception:
-                        callback_errors.append(traceback.format_exc())
+                        # Do not continue stock printing with a failed PDF setup.
                         traceback.print_exc()
-                        timer.stop()
-                        if sys.platform == "win32":
-                            log.flush()
-                            os._exit(1)
-                        elif sys.platform == "darwin":
-                            accept_cocoa_print_panel(0)
-                        else:
-                            widget.reject()
-                    return
+                        fatal_print_failure("accepted PDF printer configuration failed")
 
-        timer.timeout.connect(accept_print_dialog)
+                widget.accepted.connect(accepted)
+                try:
+                    if sys.platform == "win32":
+                        # Qt caches the native engine through PrintDlgEx's
+                        # readback. Replace it only in accepted(), after that
+                        # readback and before stock PagePrinter receives it.
+                        assert (
+                            widget.printer().outputFormat() == QtPrintSupport.QPrinter.NativeFormat
+                        )
+                        native_ui_settings.append({"format": widget.printer().outputFormat().value})
+                    else:
+                        configure_printer(widget)
+                    record_print_state("initial printer configured")
+                    timer.stop()
+                    if sys.platform == "darwin":
+                        record_print_state("Cocoa completion requested")
+                        accept_cocoa_print_panel(1, panel_window[0])
+                    elif sys.platform == "win32":
+                        native_ui_settings[-1].update(accept_windows_print_panel())
+                    else:
+                        widget.accept()
+                except Exception:
+                    callback_errors.append(traceback.format_exc())
+                    traceback.print_exc()
+                    timer.stop()
+                    if sys.platform == "win32":
+                        fatal_print_failure("native Windows printer callback failed")
+                    elif sys.platform == "darwin":
+                        try:
+                            record_print_state("cancel after callback failure")
+                            accept_cocoa_print_panel(0, panel_window[0])
+                        except Exception:
+                            traceback.print_exc()
+                            fatal_print_failure("owned Cocoa Print panel cancellation failed")
+                    else:
+                        widget.reject()
+                return
+
+        def observe_print_dialog():
+            try:
+                accept_print_dialog()
+            except Exception:
+                callback_errors.append(traceback.format_exc())
+                traceback.print_exc()
+                timer.stop()
+                if sys.platform in ("darwin", "win32"):
+                    fatal_print_failure("native Print dialog observation failed")
+                for widget in QtWidgets.QApplication.instance().topLevelWidgets():
+                    if isinstance(widget, QtPrintSupport.QPrintDialog) and widget.isVisible():
+                        widget.reject()
+
+        timer.timeout.connect(observe_print_dialog)
         watchdog = QtCore.QTimer()
         watchdog.setSingleShot(True)
 
@@ -440,8 +578,7 @@ try:
             timer.stop()
             if sys.platform in ("darwin", "win32"):
                 # The disposable process must not leave a native modal panel open.
-                log.flush()
-                os._exit(1)
+                fatal_print_failure("native Print panel watchdog timed out")
             for widget in QtWidgets.QApplication.instance().topLevelWidgets():
                 if isinstance(widget, QtPrintSupport.QPrintDialog) and widget.isVisible():
                     widget.reject()
@@ -452,6 +589,7 @@ try:
             timer.start()
             watchdog.start(20000)
             Gui.runCommand("Std_Print")
+            record_print_state("stock print command returned")
         finally:
             timer.stop()
             watchdog.stop()
@@ -464,6 +602,7 @@ try:
             "stock_dialog": dialogs,
             "printer_settings": printer_settings,
             "native_ui_settings": native_ui_settings,
+            "panel_states": panel_states,
             "screen_mode_before_during_after": [before, False, before],
             "native_panel_acceptance": {
                 "darwin": "NSApplication.stopModalWithCode",
