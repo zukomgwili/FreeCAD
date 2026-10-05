@@ -219,6 +219,13 @@ not a distribution or a qualification result. Any future restoration must
 authenticate the entire bundle and the exact installed dependency prefixes.
 Objects and unrelated build directories are omitted.
 
+Diagnostic retention is optional and cannot skip the ordinary native gates.
+Before strict resource-link validation, it retains a bounded diagnostic archive
+of physical runtime outputs with symlinks preserved as links. This fallback is
+unvalidated build evidence; its links must not be followed or restored without
+separate authentication and review. A failed strict retention step is recorded
+and skips GDB replay, while native PDF and GUI qualification proceeds normally.
+
 If the ARM native process crashes, a separate bounded GDB run uses its recorded
 baseline command and runtime bindings with fresh configurations, output and
 Xvfb display. It records all-thread backtraces and loader information while

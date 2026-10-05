@@ -1,11 +1,11 @@
 {
   "SPDX-License-Identifier": "BSD-3-Clause",
   "schema_version": 1,
-  "scope": "Independent whole-artifact Linux native qualification progress audit; Linux64 passed, LinuxARM native failed. Exact earlier passed Qt66/upstream10 proof reused without executing those cases again.",
-  "reviewed_at_utc": "2026-10-05T09:37:30.964168+00:00",
+  "scope": "Independent whole-artifact Linux native qualification progress audit: Linux64 passed; original LinuxARM native failed. A later ARM diagnostic retry failed during retention and never launched native/GDB; it adds no native result.",
+  "reviewed_at_utc": "2026-10-05T11:52:33.250677+00:00",
   "repository": "zukomgwili/FreeCAD",
   "head_sha": "4e5691bd6b45aeffa07dd8e40efd96a76f376fb5",
-  "status": "partial: linux-64 passed; linux-aarch64 failed before exports",
+  "status": "partial: linux-64 passed; linux-aarch64 original native failed; diagnostic retry retention failed before native",
   "qualified": false,
   "all_linux_native_qualified": false,
   "distribution_promoted": false,
@@ -940,5 +940,167 @@
     "Hosted Qt/runtime bytes are authenticated by API-bound live-origin/SHA receipts and exact fresh-runtime maps; uploaded bypass-module bytes are rehashed locally. Original runtime prefixes are not available locally.",
     "Cross-device page rounding may differ; exact before/after preservation is required separately within each device.",
     "No active dependency pins, distribution promotion or FreeCAD mitigation removal is authorized by this receipt."
-  ]
+  ],
+  "previous_receipt_sha256": "717aa1d747a964f8b3edd84963a4841950f4fd15141d94a3fb96491de4fa2d80",
+  "diagnostic_retention_retry": {
+    "scope": "Authenticated helper/retention-only failure; native_result is not_run and does not replace the original ARM SIGSEGV result.",
+    "native_result": "not_run",
+    "qualified": false,
+    "native_freecad_qualified": false,
+    "failure_review_sha256": "7820073240c1a735adb3731407971cc293a2988d1be101e7b36bff18c9a8f4ad",
+    "failure_review": {
+      "schema_version": 1,
+      "scope": "API/wholeZIP-authenticated ARM native retry failure audit. Failure is retention preflight, so this retry provides no new native execution or GDB diagnosis. Prior Linux64pass and original ARMnativefailure remain unchanged.",
+      "qualified": false,
+      "native_freecad_qualified": false,
+      "run_id": 37296214790,
+      "job_id": 111717969564,
+      "head_sha": "7184b872016358e31d59a0f2af647c03dc8f1898",
+      "artifact": {
+        "artifact_id": 11342319531,
+        "artifact_name": "qt-pdf-qualification-linux-aarch64",
+        "artifact_size": 40259075,
+        "artifact_zip_sha256": "f042028cfe581598faa4c9624c750c6a9ed62be77be8238dae0f46d485734b64",
+        "member_count": 1512,
+        "artifact_files_sha256": "5eb280c0dbde9a2bea895344e2d3718f257d02609216b270785fafb2ec7d8a7a"
+      },
+      "download_review_sha256": "b46faa1cad03676c6df211edb3897b769eda88e50b03293019137c87c73e116f",
+      "steps": [
+        {
+          "name": "Configure and build native FreeCAD against locked baseline",
+          "conclusion": "success",
+          "started_at": "2026-10-05T10:26:27Z",
+          "completed_at": "2026-10-05T11:43:42Z"
+        },
+        {
+          "name": "Compile the controlled mitigation bypass in this disposable checkout",
+          "conclusion": "success",
+          "started_at": "2026-10-05T11:43:42Z",
+          "completed_at": "2026-10-05T11:43:47Z"
+        },
+        {
+          "name": "Retain the native build for a focused Linux retry",
+          "conclusion": "failure",
+          "started_at": "2026-10-05T11:43:47Z",
+          "completed_at": "2026-10-05T11:43:55Z"
+        },
+        {
+          "name": "Qualify both Qt PDF devices and Qt's own writer tests",
+          "conclusion": "skipped",
+          "started_at": "2026-10-05T11:43:55Z",
+          "completed_at": "2026-10-05T11:43:55Z"
+        },
+        {
+          "name": "Qualify stock native exports with both guards bypassed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-05T11:43:55Z",
+          "completed_at": "2026-10-05T11:43:55Z"
+        },
+        {
+          "name": "Diagnose the failed ARM native process",
+          "conclusion": "skipped",
+          "started_at": "2026-10-05T11:43:55Z",
+          "completed_at": "2026-10-05T11:43:55Z"
+        },
+        {
+          "name": "Bind the new native capture to the reused passed Qt checks",
+          "conclusion": "skipped",
+          "started_at": "2026-10-05T11:43:55Z",
+          "completed_at": "2026-10-05T11:43:55Z"
+        }
+      ],
+      "failure": {
+        "stage": "Retain the native build for a focused Linux retry",
+        "error": "Compile/Git scratch in runtime outputs",
+        "exact_rejected_path_available": false,
+        "retention_receipt_or_archive_available": false,
+        "new_native_outputs_available": false,
+        "gdb_executed": false,
+        "root_cause_scope": "Exact name-based source gate is proved; actual first rejected path/class is not named or retained.",
+        "source_helper_sha256": "b3befd1e4d82a5d3390e0edc4a22bb7e0fb0ddc2414b2011ce6e5fd6d91f1398",
+        "source_gate_lines": [
+          200
+        ],
+        "why_no_owned_retention_receipt": "output_inventory rejects before the fresh work directory is created/emitted."
+      },
+      "retained_build_evidence": {
+        "cmake_cache_sha256": "76c253b7ca8b26865d58a329fd995ca9589f9cf6f9b18e46f9ed72a0fe567689",
+        "module_sha256": "a0651304fc32cdc05256d7c1da16f599578f5bc01e4bfc3591df93b557c30556",
+        "bypass_provenance_sha256": "46befed96ed5e7bbbde37c03804fcdeab2fc72f2fd52f361130fcf429d0723c2",
+        "full_runtime_output_tree_uploaded": false
+      },
+      "reused_qt": {
+        "validation_sha256": "1c8f6a48272c1e6d4e2029967ebeb668937657e39bbc92112ef0e202b93db66b",
+        "prior_run_id": 37252439637,
+        "prior_head_sha": "19abecfd53ec03798fbdf2bdfbe9450626e96699",
+        "prior_run_conclusion": "failure",
+        "original_native_passed": false,
+        "qt_cases": 66,
+        "upstream_test_cases": 10,
+        "package_build_run_id": 37238935749,
+        "package_sha256": "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b",
+        "executables_reinvoked": false
+      },
+      "logs": {
+        "failed.raw.log": {
+          "size": 5531,
+          "sha256": "f31880e6bc8545a509aa8646995c5f3de9250d2ddc7767a81580eceb1b6291bd"
+        },
+        "full.raw.log": {
+          "size": 2645294,
+          "sha256": "e7c068334978989709b83891d155fa0ad587cde8b8b59c3bc1b82e71ea6cbec4"
+        }
+      },
+      "limitations": [
+        "No Qt fixtures/upstream/native/GDB/build/source controls rerun locally; complete API artifact and log reads only.",
+        "No source/helper edits or workflow dispatch performed.",
+        "No new native success/failure beyond retention preflight is inferred from old nested reused native files.",
+        "The original ARM SIGSEGV still lacks a stack/core diagnosis; this retry never reached native capture."
+      ]
+    },
+    "complete_artifact_authentication": {
+      "scope": "Completed fixed-run/head/job API identity, whole ZIP SHA/size and safe member CRC/tree authentication only; actual native result not accepted by transport.",
+      "qualified": false,
+      "native_freecad_qualified": false,
+      "run": 37296214790,
+      "job": 111717969564,
+      "head_sha": "7184b872016358e31d59a0f2af647c03dc8f1898",
+      "run_conclusion": "failure",
+      "job_conclusion": "failure",
+      "artifact_id": 11342319531,
+      "artifact_name": "qt-pdf-qualification-linux-aarch64",
+      "artifact_size": 40259075,
+      "artifact_zip_sha256": "f042028cfe581598faa4c9624c750c6a9ed62be77be8238dae0f46d485734b64",
+      "serialized_api_sha256": {
+        "run-api.json": "8b39b988679c194108f504c68966ec5d60affecdabacf222ceeaf4a113b8fc1a",
+        "jobs-api.json": "3dacda8e93e17f9b941fb2d3df263b2f1cf5a2e7b4e110143f8360017db7d2b0",
+        "artifact-api.json": "6a34258c839c3c3de55ddefc134019f75ddda78e923bfd3fcc65e8fcdcb2cfa3",
+        "artifact-list-api.json": "7cb2e8b12bf43a6c327f5fbedfede81b4e183d723e3024447081e0f571270f8b"
+      },
+      "artifact_files_sha256": "5eb280c0dbde9a2bea895344e2d3718f257d02609216b270785fafb2ec7d8a7a",
+      "member_count": 1512,
+      "whole_zip_verified": true,
+      "all_member_crcs_verified": true,
+      "unchanged_extracted_tree_verified": true,
+      "extracted_root": "/private/tmp/freecad-t8a3-linux-native-acceptance-ssa6akwb/arm-diagnostic-retry-37296214790/attempt-1/artifact",
+      "source_sha256": {
+        "package/qt-pdf/linux_native_diagnostics.py": "b3befd1e4d82a5d3390e0edc4a22bb7e0fb0ddc2414b2011ce6e5fd6d91f1398",
+        "package/qt-pdf/reuse_linux_qt_qualification.py": "241a8ffa3354cf0fd32495cf99f101bdbbf8d1916527b0c041e46336c33c3c7e",
+        ".github/workflows/qt_pdf_qualify.yml": "1d9a39e2e519da68b96964bd1cafb838b7a074f24c0411e7f050d099b634235f",
+        "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01",
+        "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py": "563c29eaa1bbbc727c08930ab84cdace620914df4e9c59d610b0b905757dc9f0",
+        "tests/src/Mod/TechDraw/Gui/QtPdfStroker/compare.py": "e3cf4909c7c1781a3d56a34b981346a1b4c72d44275c48d63289d1cb2a1e0d85",
+        "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py": "fc4a029b85441a723af2112b73d577cd415681f901e5d460c979a87ba3f359b0",
+        "package/qt-pdf/linux-qt-passed.json": "5ef111409e379736e1267fb81441edf10f695549c286e39f62ac6677cc9a7731",
+        "pixi.lock": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644"
+      },
+      "zip_limits": {
+        "maximum_archive_bytes": 10737418240,
+        "maximum_zip_unpacked_bytes": 10737418240,
+        "maximum_zip_members": 5000
+      },
+      "prior_failure_and_linux64_pass_receipt_unchanged": true
+    },
+    "original_linux64_pass_and_arm_native_failure_unchanged": true
+  }
 }

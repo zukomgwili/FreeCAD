@@ -26,7 +26,14 @@ from types import SimpleNamespace
 
 import reuse_linux_qt_qualification as reuse
 
-OUTPUT_DIRS = ("bin", "lib", "Mod", "Ext", "data")
+# GNUInstallDirs places copied native resources in share on the Linux builds.
+OUTPUT_DIRS = ("bin", "lib", "Mod", "Ext", "data", "share")
+REQUIRED_RESOURCES = {
+    "share/Mod/TechDraw/Templates/Default_Template_A4_Landscape.svg",
+    "share/Mod/TechDraw/Resources/fonts/osifont-lgpl3fe.ttf",
+    "share/Mod/TechDraw/LineGroup/LineGroup.csv",
+}
+SCRATCH_NAMES = {"CMakeFiles", ".git", "__pycache__"}
 MAX_BYTES = 8 * 1024**3
 MAX_FILES = 60000
 MAX_LOG = 64 * 1024**2
@@ -188,30 +195,37 @@ def emit_owned(key, path):
 
 def output_inventory(build, source, tracked):
     """Dereference only selected build outputs or exact tracked source resources."""
-    files, directories, missing = {}, {}, []
+    files, directories, missing, excluded = {}, {}, [], []
     total = 0
     selected = [build / name for name in OUTPUT_DIRS]
 
     def walk(path, name, ancestors):
         nonlocal total
         reuse.safe_name(name)
-        require(
-            not {"CMakeFiles", ".git"}.intersection(Path(name).parts),
-            "Compile/Git scratch in runtime outputs",
-        )
+        if path.name in SCRATCH_NAMES:
+            require(not path.is_symlink(), f"Linked compile/Git scratch: {path}")
+            require(
+                path.is_dir() or (path.name == ".git" and path.is_file()),
+                f"Unexpected compile/Git/cache scratch type: {path}",
+            )
+            excluded.append({"path": name, "reason": "compile/Git/Python-cache scratch"})
+            return
         target = path.resolve(strict=True)
         in_build = any(target.is_relative_to(root) for root in selected)
-        require(in_build or target.is_relative_to(source), "External output link/target")
+        require(
+            in_build or target.is_relative_to(source),
+            f"External output link/target: {path} -> {target}",
+        )
         if not in_build and target.is_file():
             record = tracked["files"].get(str(target.relative_to(source)))
             require(
                 record is not None
                 and record["mode"] in ("100644", "100755")
                 and digest(target) == record["sha256"],
-                "Output link target is not exact tracked HEAD",
+                f"Output link target is not exact tracked HEAD: {path} -> {target}",
             )
         if target.is_dir():
-            require(target not in ancestors, "Cyclic output directory link")
+            require(target not in ancestors, f"Cyclic output directory link: {path} -> {target}")
             directories[name] = {
                 "source_path": str(path),
                 "resolved_path": str(target),
@@ -221,10 +235,12 @@ def output_inventory(build, source, tracked):
                 walk(child, name + "/" + child.name, ancestors | {target})
             return
         info = target.stat()
-        require(stat.S_ISREG(info.st_mode), "Nonregular runtime output")
-        require(target.suffix not in (".o", ".obj"), "Compile object in runtime output")
+        require(stat.S_ISREG(info.st_mode), f"Nonregular runtime output: {path}")
+        require(target.suffix not in (".o", ".obj"), f"Compile object in runtime output: {path}")
         total += info.st_size
-        require(total <= MAX_BYTES and len(files) < MAX_FILES, "Runtime bundle exceeds bound")
+        require(
+            total <= MAX_BYTES and len(files) < MAX_FILES, f"Runtime bundle exceeds bound: {path}"
+        )
         files[name] = {
             "source_path": str(path),
             "resolved_path": str(target),
@@ -254,7 +270,13 @@ def output_inventory(build, source, tracked):
         <= files.keys(),
         "Scoped native modules absent",
     )
-    return {"files": files, "directories": directories, "missing_optional": missing}
+    require(REQUIRED_RESOURCES <= files.keys(), "Required TechDraw native resources absent")
+    return {
+        "files": files,
+        "directories": directories,
+        "missing_optional": missing,
+        "excluded": excluded,
+    }
 
 
 def check_unchanged(inventory):
@@ -266,15 +288,24 @@ def check_unchanged(inventory):
             and (os.readlink(path) if path.is_symlink() else None) == entry["symlink"],
             "Original runtime directory changed",
         )
+
     for entry in inventory["files"].values():
         path = Path(entry["source_path"])
         require(
             str(path.resolve(strict=True)) == entry["resolved_path"]
             and (os.readlink(path) if path.is_symlink() else None) == entry["symlink"]
             and path.stat().st_size == entry["size"]
+            and stat.S_IMODE(path.stat().st_mode) == entry["mode"]
             and digest(path) == entry["sha256"],
-            "Original runtime output changed",
+            f"Original runtime output changed: {path}",
         )
+
+
+def same_runtime_inventory(original, current):
+    # Interpreter/build metadata may appear without changing any retained runtime bytes.
+    return all(
+        original[key] == current[key] for key in ("files", "directories", "missing_optional")
+    )
 
 
 def elf_machine(path):
@@ -312,6 +343,110 @@ def check_archive(archive, inventory):
                     sha.update(raw)
                 require(sha.hexdigest() == record["sha256"], "Runtime TAR bytes differ")
     require(observed == expected.keys(), "Incomplete runtime TAR")
+
+
+def raw_output_inventory(build):
+    """Inventory only physical output bytes; preserve, never follow, link text."""
+    entries, excluded, total = {}, [], 0
+
+    def walk(path, name):
+        nonlocal total
+        reuse.safe_name(name)
+        if path.name in SCRATCH_NAMES:
+            excluded.append(
+                {"path": name, "reason": "compile/Git/Python-cache scratch; not traversed"}
+            )
+            return
+        info = path.lstat()
+        record = {"mode": stat.S_IMODE(info.st_mode), "size": 0}
+        if stat.S_ISLNK(info.st_mode):
+            record.update(type="symlink", link_target=os.readlink(path))
+        elif stat.S_ISDIR(info.st_mode):
+            record.update(type="directory")
+        elif stat.S_ISREG(info.st_mode):
+            physical(path)
+            record.update(type="file", size=info.st_size, sha256=digest(path))
+            total += info.st_size
+        else:
+            raise ValueError(f"Nonregular raw diagnostic output: {path}")
+        require(
+            len(entries) < MAX_FILES and total <= MAX_BYTES,
+            f"Raw diagnostic bundle exceeds bound: {path}",
+        )
+        entries[name] = record
+        if record["type"] == "directory":
+            for child in sorted(path.iterdir()):
+                walk(child, name + "/" + child.name)
+
+    for name in OUTPUT_DIRS:
+        path = build / name
+        if path.exists() or path.is_symlink():
+            walk(path, name)
+    return {"entries": entries, "excluded": excluded, "physical_file_bytes": total}
+
+
+def retain_raw_archive(build, root):
+    inventory = raw_output_inventory(build)
+    write_json(root / "raw-runtime-files.json", inventory)
+    archive = root / "native-build-raw.tar.gz"
+    with tarfile.open(archive, "w:gz", format=tarfile.PAX_FORMAT) as stream:
+        for name, record in sorted(inventory["entries"].items()):
+            member = tarfile.TarInfo("runtime/" + name)
+            member.mode = record["mode"]
+            if record["type"] == "symlink":
+                member.type, member.linkname = tarfile.SYMTYPE, record["link_target"]
+                stream.addfile(member)
+            elif record["type"] == "directory":
+                member.type = tarfile.DIRTYPE
+                stream.addfile(member)
+            else:
+                member.size = record["size"]
+                with physical(build / name).open("rb") as file:
+                    stream.addfile(member, file)
+    seen = set()
+    with tarfile.open(archive, "r:gz") as stream:
+        for member in stream:
+            name = str(reuse.safe_name(member.name)).removeprefix("runtime/")
+            require(
+                name in inventory["entries"] and name not in seen, "Raw archive namespace differs"
+            )
+            seen.add(name)
+            record = inventory["entries"][name]
+            require(member.mode == record["mode"], f"Raw archive mode differs: {name}")
+            if record["type"] == "symlink":
+                require(
+                    member.issym() and member.linkname == record["link_target"],
+                    f"Raw archive link differs: {name}",
+                )
+            elif record["type"] == "directory":
+                require(member.isdir(), f"Raw archive directory differs: {name}")
+            else:
+                require(
+                    member.isfile() and member.size == record["size"],
+                    f"Raw archive file differs: {name}",
+                )
+                sha = hashlib.sha256()
+                with stream.extractfile(member) as file:
+                    while data := file.read(1024 * 1024):
+                        sha.update(data)
+                require(sha.hexdigest() == record["sha256"], f"Raw archive bytes differ: {name}")
+    require(seen == inventory["entries"].keys(), "Incomplete raw archive")
+    require(
+        raw_output_inventory(build) == inventory,
+        "Physical output bytes changed during raw retention",
+    )
+    return {
+        "name": archive.name,
+        "size": archive.stat().st_size,
+        "sha256": digest(archive),
+        "inventory_sha256": digest(root / "raw-runtime-files.json"),
+        "entries": len(inventory["entries"]),
+        "physical_file_bytes": inventory["physical_file_bytes"],
+        "symlinks_followed": False,
+        "link_targets_validated": False,
+        "restoration_validated": False,
+        "scope": "raw unvalidated diagnostic bytes; separate review required before any restoration",
+    }
 
 
 def checked_bypass(source, build, module, tracked):
@@ -361,7 +496,6 @@ def retain(args):
     validation = validated_proof(proof)
     reuse.native_host(validation["target"])
     tracked = source_inventory(source, args.head_sha)
-    inventory = output_inventory(build, source, tracked)
     cache = physical(build / "CMakeCache.txt")
     homes = re.findall(r"^CMAKE_HOME_DIRECTORY:INTERNAL=(.*)$", cache.read_text(), re.MULTILINE)
     require(homes == [str(source)], "Build source differs or is ambiguous")
@@ -371,11 +505,11 @@ def retain(args):
         and bypass["original_build_outputs_unchanged"] is False
         and bypass["module"] == str(module)
         and digest(module) == bypass["module_sha256"]
-        and inventory["files"]["Mod/TechDraw/TechDrawGui.so"]["sha256"] == digest(module),
+        and digest(physical(build / "Mod/TechDraw/TechDrawGui.so")) == digest(module),
         "Controlled module differs from compiled native module",
     )
     require(
-        elf_machine(build / "bin/FreeCAD")
+        elf_machine(physical(build / "bin/FreeCAD"))
         == elf_machine(module)
         == reuse.TARGETS[validation["target"]]["elf_machine"],
         "Native app/module architecture differs",
@@ -392,15 +526,6 @@ def retain(args):
         "head_sha": args.head_sha,
     }
     try:
-        payload = root / "runtime"
-        payload.mkdir()
-        for directory in inventory["directories"]:
-            (payload / directory).mkdir(parents=True, exist_ok=True)
-        for name, entry in inventory["files"].items():
-            destination = payload / name
-            shutil.copyfile(entry["resolved_path"], destination)
-            destination.chmod(entry["mode"])
-            require(digest(destination) == entry["sha256"], "Copied runtime differs")
         for filename, origin in {
             "CMakeCache.txt": cache,
             "TechDrawGui.so": module,
@@ -411,7 +536,32 @@ def retain(args):
         }.items():
             shutil.copyfile(origin, root / filename)
         write_json(root / "source-files.json", tracked)
+        receipt.update(
+            target=validation["target"],
+            source_inventory_sha256=digest(root / "source-files.json"),
+            cmake_cache_sha256=digest(cache),
+            validation_sha256=digest(proof / "validation.json"),
+            recovery_sha256=digest(proof / "recovery.json"),
+            bypass_module_sha256=digest(module),
+            bypass_provenance_sha256=digest(module.parent / "bypass-provenance.json"),
+            macro_sha256=tracked["files"][MACRO]["sha256"],
+            package_sha256=validation["package_evidence"]["package_sha256"],
+            runtime_prefix_bytes_bundled=False,
+        )
+        receipt["raw_archive"] = retain_raw_archive(build, root)
+        receipt.update(status="raw-diagnostic-retained", strict_runtime_selection_passed=False)
+        write_json(root / "native-build.json", receipt)
+        inventory = output_inventory(build, source, tracked)
         write_json(root / "runtime-files.json", inventory)
+        payload = root / "runtime"
+        payload.mkdir()
+        for directory in inventory["directories"]:
+            (payload / directory).mkdir(parents=True, exist_ok=True)
+        for name, entry in inventory["files"].items():
+            destination = payload / name
+            shutil.copyfile(entry["resolved_path"], destination)
+            destination.chmod(entry["mode"])
+            require(digest(destination) == entry["sha256"], "Copied runtime differs")
         archive = root / "native-build.tar.gz"
         with tarfile.open(archive, "w:gz", format=tarfile.PAX_FORMAT) as stream:
             # File copies contain no symlinks; tar adds only finite selected output paths.
@@ -419,7 +569,7 @@ def retain(args):
         check_archive(archive, inventory)
         check_unchanged(inventory)
         require(
-            output_inventory(build, source, tracked) == inventory,
+            same_runtime_inventory(inventory, output_inventory(build, source, tracked)),
             "Build namespace changed during copy",
         )
         require(
@@ -429,10 +579,11 @@ def retain(args):
         require(
             checked_bypass(source, build, module, tracked) == bypass, "Bypass changed during copy"
         )
-        # Keep one bounded, portable copy, rather than upload the same payload twice.
+        # Remove the temporary dereferenced tree; retain the strict and raw archives.
         shutil.rmtree(payload)
         receipt.update(
             status="retained",
+            strict_runtime_selection_passed=True,
             target=validation["target"],
             build_inventory_sha256=digest(root / "runtime-files.json"),
             source_inventory_sha256=digest(root / "source-files.json"),
@@ -466,6 +617,7 @@ def checked_bundle(bundle, validation):
     report = read_json(bundle / "native-build.json")
     require(
         report["status"] == "retained"
+        and report["strict_runtime_selection_passed"] is True
         and report["diagnostic_only"] is True
         and report["qualified"] is False
         and report["target"] == "linux-aarch64"
@@ -502,7 +654,9 @@ def checked_bundle(bundle, validation):
         "Current source differs from retained build",
     )
     require(
-        output_inventory(physical(Path(report["build_root"])), source, tracked) == inventory,
+        same_runtime_inventory(
+            inventory, output_inventory(physical(Path(report["build_root"])), source, tracked)
+        ),
         "Current build namespace differs from retained outputs",
     )
     bypass = checked_bypass(

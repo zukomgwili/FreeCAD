@@ -201,6 +201,8 @@ jobs:
       - name: Retain the native build for a focused Linux retry
         id: retain_native
         if: inputs.stage == 'native'
+        continue-on-error: true
+        timeout-minutes: 15
         run: |
           pixi exec --spec python=3.13 --spec pypdf --spec pillow -- python - <<'PY'
           import os, subprocess, sys
@@ -269,7 +271,7 @@ jobs:
 
       - name: Diagnose the failed ARM native process
         id: diagnose_native
-        if: failure() && inputs.stage == 'native' && matrix.target == 'linux-aarch64' && steps.native_capture.conclusion == 'failure'
+        if: failure() && inputs.stage == 'native' && matrix.target == 'linux-aarch64' && steps.native_capture.conclusion == 'failure' && steps.retain_native.outcome == 'success'
         run: |
           xvfb-run -a -s '-screen 0 1920x1080x24' \
             pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec gdb -- \
