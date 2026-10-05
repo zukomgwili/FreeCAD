@@ -265,9 +265,37 @@ retains the complete candidate SDK, all corresponding sources/Git objects/licens
 records and installation evidence. Only compiled outputs within the disposable
 build tree are excluded from that evidence archive. Its default-disabled
 `libpack_candidate` bridge in `qt_pdf_backport.yml` selects one SDK or all three;
-enabling both baseline and candidate selectors fails. These candidate
+enabling multiple LibPack selectors fails. These candidate
 artifacts retain `qualified: false`; distribution and native FreeCAD qualification
 remain separate gates.
+
+`qt_pdf_libpack_native.yml` restores a completed candidate run for native FreeCAD
+checks on the matching Windows architecture. The workflow downloads three complete
+same-run artifact ZIPs: the candidate/source archives, native Qt capture and passed
+Qt-only diagnostics. `restore_libpack_candidate.py` authenticates fixed-repository
+API metadata and whole-ZIP hashes, requires the capture-bound 66-case comparison,
+and restores the original short physical SDK roots. Complete source/Git/license
+indices, installation and companion-tool proofs, and SDK inventories are checked
+again. Candidate timestamps come from authenticated inventories after file content
+checks; an independently downloaded original SDK establishes the unchanged baseline.
+
+`qualify_libpack_native.py` builds the scoped FreeCAD application against that
+baseline with LibPack enabled and dependency copying disabled. The disposable
+TechDraw module bypasses both mitigations, then the same compiled application
+exercises 24 stock PDF exports and eleven GUI tests on each SDK. Actual Qt DLLs
+and QPA must load from the selected SDK's `bin` and `plugins` directories; Python,
+bindings and FreeCAD core binaries also carry byte and PE-origin checks. Both
+complete SDK inventories must remain unchanged. The capture needs only a separate
+tool Python; Linux inspection supplies the PDF libraries and Poppler, reruns the
+matching 66-case PDF comparison, revalidates the recorded ten-test upstream proof,
+and checks all native outputs.
+
+For branch testing, select `libpack_native` and supply `libpack_candidate_run_id`
+through the registered `qt_pdf_backport.yml` bridge. All LibPack selectors default
+to `disabled`, preserving normal package dispatch. An unfinished or failed candidate
+cannot pass restoration. Native reports set `native_freecad_passed` only after
+actual checks; `qualified` and promotion flags remain false. Source controls and
+review alone do not establish an executed native SDK result or authorize distribution.
 
 ```sh
 python package/qt-pdf/libpack_baseline.py generate \

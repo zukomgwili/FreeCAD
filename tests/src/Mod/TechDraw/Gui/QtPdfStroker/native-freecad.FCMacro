@@ -211,6 +211,9 @@ plugin_root = Path(
     os.environ.get("TD_NATIVE_PLUGIN_ROOT", str(qt_lib.parent / "plugins"))
 ).resolve()
 assert os.environ.get("TD_NATIVE_DISPOSABLE") == "1", "Use the isolated native launcher"
+expected_qt_version = os.environ.get("TD_NATIVE_EXPECTED_QT_VERSION", "6.11.2")
+assert expected_qt_version in ("6.11.1", "6.11.2"), "Unsupported expected Qt version"
+assert QtCore.qVersion() == expected_qt_version, "Actual Qt version differs from the selected mode"
 output.mkdir(parents=True, exist_ok=True)
 assert not (output / "manifest.json").exists(), "Preserve existing evidence"
 log = open(output / "macro.log", "w", buffering=1)
@@ -776,10 +779,27 @@ try:
         "raster_dpi": 150,
         "cases": cases,
     }
+    native_runtime_images = []
+    if sys.platform == "win32":
+        for name in images:
+            path = Path(name)
+            stem = path.name.casefold()
+            if stem in (
+                "freecad.exe",
+                "freecadapp.dll",
+                "freecadbase.dll",
+                "freecadgui.dll",
+                "techdrawgui.pyd",
+            ) or (stem.startswith(("python3", "pyside6", "shiboken6")) and stem.endswith(".dll")):
+                native_runtime_images.append(
+                    {"real_path": str(path.resolve()), "sha256": digest(path)}
+                )
     provenance = {
         "schema_version": 1,
         "freecad_version": App.Version(),
         "qt_version": QtCore.qVersion(),
+        "expected_qt_version": expected_qt_version,
+        "native_runtime_images": native_runtime_images,
         "qt_libraries": libraries,
         "qt_plugins": plugins,
         "qpa_platform": QtGui.QGuiApplication.platformName(),

@@ -12,13 +12,23 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import shutil
 import subprocess
 import sys
 
-from compare import compare, rasterize
+
+def compare(*args, **kwargs):
+    from compare import compare as compare_pdfs
+
+    return compare_pdfs(*args, **kwargs)
+
+
+def rasterize(*args, **kwargs):
+    from compare import rasterize as rasterize_pdf
+
+    return rasterize_pdf(*args, **kwargs)
 
 
 def digest(path):
@@ -75,6 +85,9 @@ def launch(args, side):
             "QT_PLUGIN_PATH": str(plugin_directory),
             "PYTHONHOME": str(python_runtime),
             "TD_NATIVE_DISPOSABLE": "1",
+            "TD_NATIVE_EXPECTED_QT_VERSION": getattr(args, "expected_qt_version", "6.11.2"),
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "PYTHONNOUSERSITE": "1",
             "TD_NATIVE_OUTPUT": str(directory),
             "TD_NATIVE_BYPASS_MODULE": str(args.bypass_module.resolve()),
             "TD_NATIVE_QT_LIB": str(qt_lib),
@@ -105,7 +118,10 @@ def launch(args, side):
         )
         environment["QT_QPA_PLATFORM"] = "xcb"
     elif sys.platform == "win32":
-        environment["PATH"] = os.pathsep.join((str(qt_lib), environment.get("PATH", "")))
+        extra = getattr(args, side + "_runtime_dll_dirs", ())
+        environment["PATH"] = os.pathsep.join(
+            (str(qt_lib), *(str(path.resolve()) for path in extra), environment.get("PATH", ""))
+        )
         environment["QT_QPA_PLATFORM"] = "windows"
     else:
         raise ValueError("The native launcher supports macOS, Linux and Windows")
@@ -126,7 +142,15 @@ def launch(args, side):
                     key: environment[key]
                     for key in environment
                     if key.startswith(("TD_NATIVE_", "DYLD_", "QT_"))
-                    or key in ("PYTHONHOME", "LD_LIBRARY_PATH", "PATH", "DISPLAY")
+                    or key
+                    in (
+                        "PYTHONHOME",
+                        "PYTHONDONTWRITEBYTECODE",
+                        "PYTHONNOUSERSITE",
+                        "LD_LIBRARY_PATH",
+                        "PATH",
+                        "DISPLAY",
+                    )
                 },
             },
             indent=2,
@@ -149,7 +173,98 @@ def launch(args, side):
     return directory
 
 
-def check_provenance(baseline_dir, patched_dir, allow_external=()):
+def check_stock_records(
+    provenance, manifest, directory, expected_qt_version="6.11.2", path_type=Path, side="native"
+):
+    """Validate the same stock model/dialog controls on native or transported paths."""
+    if expected_qt_version not in ("6.11.1", "6.11.2"):
+        raise ValueError("Unsupported expected native Qt version")
+    if path_type not in (Path, PureWindowsPath):
+        raise ValueError("Unsupported recorded path protocol")
+
+    def recorded_path(value):
+        path = path_type(value)
+        return path.resolve() if path_type is Path else path
+
+    suite = [record for record in provenance["records"] if "gui_tests" in record]
+    if suite != [{"gui_tests": 11, "failures": 0, "errors": 0}]:
+        raise ValueError(f"{side}: full native GUI test suite was not successful")
+    area = [
+        record["area_value_mm2"] for record in provenance["records"] if "area_value_mm2" in record
+    ]
+    if len(area) != 1 or abs(area[0] - 100) >= 1e-9:
+        raise ValueError(f"{side}: measured Area control changed")
+    exports = [record for record in provenance["records"] if "name" in record]
+    if (
+        provenance["qt_version"] != manifest["qt_version"]
+        or provenance["qt_version"] != expected_qt_version
+        or provenance.get("expected_qt_version", "6.11.2") != expected_qt_version
+    ):
+        raise ValueError(f"{side}: native qualification requires verified Qt {expected_qt_version}")
+    scenarios = {
+        "box-only",
+        "short-gap",
+        "short-gap-opaque",
+        "short-solid",
+        "long-dashed",
+        "zero-width-translucent",
+        "zero-width-opaque",
+        "zero-width-archival",
+        "distance",
+        "theoretical-exact",
+        "area-and-theoretical-exact",
+        "area-relocated-and-theoretical-exact",
+    }
+    required = {
+        (device, scenario) for device in ("qpdfwriter", "qprinter") for scenario in scenarios
+    }
+    actual = [(case["device"], case["scenario"]) for case in manifest["cases"]]
+    if len(actual) != len(required) or set(actual) != required:
+        raise ValueError(f"{side}: all twelve scenarios are required for both stock devices")
+    if len(exports) != len(manifest["cases"]):
+        raise ValueError(f"{side}: export records do not match the manifest")
+    for record, case in zip(exports, manifest["cases"]):
+        if Path(case["pdf"]).name != case["pdf"] or "\\" in case["pdf"]:
+            raise ValueError(f"{side}: expected a PDF filename")
+        if record["device"] != case["device"] or record["name"] != case["scenario"]:
+            raise ValueError(f"{side}: device/scenario provenance does not match")
+        if record["device"] == "qpdfwriter":
+            valid = record["stock_dialog"] == ["Gui::FileDialog"] and record[
+                "screen_mode_before_after"
+            ] == [True, True]
+        else:
+            settings = record["printer_settings"]
+            valid = record["stock_dialog"] == ["QPrintDialog"] and record[
+                "screen_mode_before_during_after"
+            ] == [True, False, True]
+            valid = (
+                valid
+                and bool(settings)
+                and all(
+                    item["format"] == 1
+                    and item["resolution"] == 1200
+                    and item["full_page"]
+                    and item["pdf_version"] == case["pdf_version"]
+                    and recorded_path(item["file"])
+                    == recorded_path(path_type(directory) / case["pdf"])
+                    for item in settings
+                )
+            )
+            if provenance["qpa_platform"] == "windows":
+                native_ui = record.get("native_ui_settings", [])
+                valid = valid and len(settings) == 1 and len(native_ui) == 1
+                valid = valid and native_ui[0].get("format") == 0
+                valid = valid and native_ui[0].get("dialog_class") == "#32770"
+                valid = valid and native_ui[0].get("button_id") == 1
+            else:
+                valid = valid and len(settings) >= 2
+        if not valid:
+            raise ValueError(
+                f"{side}/{case['name']}: stock dialog/physical mode verification failed"
+            )
+
+
+def check_provenance(baseline_dir, patched_dir, allow_external=(), expected_qt_version="6.11.2"):
     sides = {}
     if set(allow_external) - {"Svg", "SvgWidgets", "UiTools"}:
         raise ValueError("External Qt allowance is limited to Svg, SvgWidgets and UiTools")
@@ -208,81 +323,8 @@ def check_provenance(baseline_dir, patched_dir, allow_external=()):
             raise ValueError(f"{side}: loaded QtGui did not come from the selected runtime")
         if digest(Path(gui[0]["real_path"])) != gui[0]["sha256"]:
             raise ValueError(f"{side}: loaded QtGui changed after generation")
-        suite = [record for record in provenance["records"] if "gui_tests" in record]
-        if suite != [{"gui_tests": 11, "failures": 0, "errors": 0}]:
-            raise ValueError(f"{side}: full native GUI test suite was not successful")
-        area = [
-            record["area_value_mm2"]
-            for record in provenance["records"]
-            if "area_value_mm2" in record
-        ]
-        if len(area) != 1 or abs(area[0] - 100) >= 1e-9:
-            raise ValueError(f"{side}: measured Area control changed")
-        exports = [record for record in provenance["records"] if "name" in record]
         manifest = json.loads((directory / "manifest.json").read_text())
-        if (
-            provenance["qt_version"] != manifest["qt_version"]
-            or provenance["qt_version"] != "6.11.2"
-        ):
-            raise ValueError(f"{side}: native qualification requires verified Qt 6.11.2")
-        scenarios = {
-            "box-only",
-            "short-gap",
-            "short-gap-opaque",
-            "short-solid",
-            "long-dashed",
-            "zero-width-translucent",
-            "zero-width-opaque",
-            "zero-width-archival",
-            "distance",
-            "theoretical-exact",
-            "area-and-theoretical-exact",
-            "area-relocated-and-theoretical-exact",
-        }
-        required = {
-            (device, scenario) for device in ("qpdfwriter", "qprinter") for scenario in scenarios
-        }
-        actual = [(case["device"], case["scenario"]) for case in manifest["cases"]]
-        if len(actual) != len(required) or set(actual) != required:
-            raise ValueError(f"{side}: all twelve scenarios are required for both stock devices")
-        if len(exports) != len(manifest["cases"]):
-            raise ValueError(f"{side}: export records do not match the manifest")
-        for record, case in zip(exports, manifest["cases"]):
-            if record["device"] != case["device"] or record["name"] != case["scenario"]:
-                raise ValueError(f"{side}: device/scenario provenance does not match")
-            if record["device"] == "qpdfwriter":
-                valid = record["stock_dialog"] == ["Gui::FileDialog"] and record[
-                    "screen_mode_before_after"
-                ] == [True, True]
-            else:
-                settings = record["printer_settings"]
-                valid = record["stock_dialog"] == ["QPrintDialog"] and record[
-                    "screen_mode_before_during_after"
-                ] == [True, False, True]
-                valid = (
-                    valid
-                    and bool(settings)
-                    and all(
-                        item["format"] == 1
-                        and item["resolution"] == 1200
-                        and item["full_page"]
-                        and item["pdf_version"] == case["pdf_version"]
-                        and Path(item["file"]).resolve() == (directory / case["pdf"]).resolve()
-                        for item in settings
-                    )
-                )
-                if provenance["qpa_platform"] == "windows":
-                    native_ui = record.get("native_ui_settings", [])
-                    valid = valid and len(settings) == 1 and len(native_ui) == 1
-                    valid = valid and native_ui[0].get("format") == 0
-                    valid = valid and native_ui[0].get("dialog_class") == "#32770"
-                    valid = valid and native_ui[0].get("button_id") == 1
-                else:
-                    valid = valid and len(settings) >= 2
-            if not valid:
-                raise ValueError(
-                    f"{side}/{case['name']}: stock dialog/physical mode verification failed"
-                )
+        check_stock_records(provenance, manifest, directory, expected_qt_version, side=side)
         sides[side] = {
             "module_sha256": provenance["module_sha256"],
             "qt_gui": gui[0],
@@ -348,6 +390,7 @@ def main():
     parser.add_argument("--baseline-qt-prefix", type=Path)
     parser.add_argument("--patched-qt-prefix", type=Path)
     parser.add_argument("--allow-external-qt-module", action="append", default=[])
+    parser.add_argument("--expected-qt-version", choices=("6.11.1", "6.11.2"), default="6.11.2")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--pdftoppm", default=shutil.which("pdftoppm"))
@@ -419,7 +462,9 @@ def main():
             except (OSError, ValueError, KeyError) as error:
                 # An unsafe report path must not be used for an error report either.
                 parser.error(str(error))
-        provenance = check_provenance(baseline_dir, patched_dir, args.allow_external_qt_module)
+        provenance = check_provenance(
+            baseline_dir, patched_dir, args.allow_external_qt_module, args.expected_qt_version
+        )
         report = compare(
             baseline_dir, patched_dir, args.pdftoppm, require_device_pixel_parity=False
         )
