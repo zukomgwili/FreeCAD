@@ -1,0 +1,441 @@
+{
+  "spdx_license_identifier": "BSD-3-Clause",
+  "schema_version": 1,
+  "scope": "Actual completed macOS ARM exact-package Qt/upstream/native qualification, independently reviewed from historical producer source and original uploaded PDF/PNG bytes",
+  "repository": "zukomgwili/FreeCAD",
+  "target": "osx-arm64",
+  "qualified": true,
+  "distribution_promoted": false,
+  "run": {
+    "id": 37256687273,
+    "attempt": 1,
+    "job_id": 111595185400,
+    "head_sha": "76b5c81865fbac20c4dc684d1a5218411e56eb9a",
+    "conclusion": "success",
+    "job_conclusion": "success",
+    "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37256687273"
+  },
+  "artifact": {
+    "bytes": 14335874,
+    "id": 11325267718,
+    "sha256": "a51e76cc537d78c25d8dd779a754e8cdbb76b9beb85441cae230473e1ff75f53"
+  },
+  "package": {
+    "filename": "qt6-main-6.11.2-pl5321h5ab96b3_1.conda",
+    "sha256": "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99",
+    "qt_version": "6.11.2"
+  },
+  "gates": {
+    "qt_pdf_device_pairs": 66,
+    "upstream_qpdfwriter_tests": 10,
+    "native_pdf_device_pairs": 24,
+    "native_gui_tests_per_runtime": 11,
+    "baseline_qt_invalid_closes": 30,
+    "patched_qt_invalid_closes": 0,
+    "baseline_native_invalid_closes": 14,
+    "patched_native_invalid_closes": 0,
+    "coordinates_and_remaining_operators_preserved": true,
+    "retained_rgba_pixels_preserved": true
+  },
+  "unchanged_other_managed_package_identities": 394,
+  "independent_reviews": {
+    "actual_pdf_png_runtime_provenance": {
+      "reviewer": "libpack_transport",
+      "sha256": "8a9edfeacfd0f733ccc8867521db413d7244454f4e02653e2c3e0640473c11cc",
+      "evidence_path": "reviews/macarm/actual-macarm-review.json"
+    },
+    "visual_readback": {
+      "reviewer": "libpack_transport",
+      "sha256": "2d8ed265bb84c40193463b1a3aef65f8ca0a8ff2160f5042a9f98e01d278843a",
+      "evidence_path": "reviews/macarm/visual-review.json"
+    }
+  },
+  "historical_source_sha256": {
+    ".github/workflows/qt_pdf_qualify.yml": "8692359eb18845e93f41d2dac7e96baa8940cd04137dea72472f50e6c0d2279f",
+    "package/qt-pdf/build_backport.py": "30a5b144cdd42ebae01963dd2cc288010a4b9e56b52ae5958cd5df039cb4abf7",
+    "package/qt-pdf/install_candidate.py": "32fe699e8ef8f99123d4d73f9b246e8160c33c36979f64101e2bdf4bb6aeea3a",
+    "package/qt-pdf/qualify_package.py": "ff1f8122e172e4278c2800d4b4226e9c942713d3e4fd99a75e0a2e7642dffb17",
+    "package/qt-pdf/restore_evidence.py": "396c9b0351ec7bcaaf479a54151e8791d5299c731d7813d4521bfc8f9d84320f",
+    "src/Mod/TechDraw/Gui/QGCustomPath.cpp": "e9cc358a15f88f62c87f79556c6e74bf77f93447aa3bf392eb286ff69e1c1107",
+    "src/Mod/TechDraw/Gui/QGCustomRect.cpp": "c6504c4ec1b52c03eaecba09c42e1d4fd910ce252b1343e00ace35f3ace2eaa4",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/CMakeLists.txt": "ef1301c04a6f32fa3955e18fdbe72d58547bfd3893dfe1f46219419295d4a4fb",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py": "fc4a029b85441a723af2112b73d577cd415681f901e5d460c979a87ba3f359b0",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/compare.py": "e3cf4909c7c1781a3d56a34b981346a1b4c72d44275c48d63289d1cb2a1e0d85",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro": "f94e79eb2c30f6518e3b15570093c16564f363ac6ae684f1cc59c1eb51a7a2d7",
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py": "26cce37d98178b1dbac810669c71a5647fe82fae0ad94ef837dcf0c2cf60b962"
+  },
+  "limitations": [
+    "Historical Cocoa schema has no later Windows face-readiness fields or full native_runtime_images; no such claim is synthesized.",
+    "Loaded library hashes were recorded by original processes and corroborated against their retained managed-file inventories; remote physical runtime files are unavailable for fresh rehash.",
+    "PNG bytes are original retained Poppler output; no new renderer was invoked. Poppler stderr is authenticated historical output, not newly produced diagnostics.",
+    "Native stock device rounding is preserved per device; cross-device native pixel equality is not required.",
+    "This qualifies the exact package PDF routes, not a complete distributable FreeCAD app or arbitrary system Qt.",
+    "Original builds and runtime receipts remain immutable."
+  ],
+  "runtime_tests_or_rendering_repeated": false,
+  "durable_evidence_asset": "qt-pdf-qualification-evidence.tar.zst",
+  "runtime": {
+    "baseline": {
+      "active_owned_Cocoa_panels": 12,
+      "active_qpa": {
+        "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+        "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+        "sha256": "01718a3e37874a9ac5a7533a89bc74ca1393851dfc4dbaff48ad79784c3dc2c1"
+      },
+      "bypass_module_sha256": "1d01ef9f9418b3184f22b043d253fe8ae9e861f4e3ed104e1a0030b2868b19d7",
+      "external_same_version": {},
+      "gui_tests": 11,
+      "launch": {
+        "command": [
+          "/Users/runner/work/FreeCAD/FreeCAD/build/release/bin/FreeCAD",
+          "--hidden",
+          "--user-cfg",
+          "/Users/runner/work/_temp/qt-pdf-native-results/baseline/user.cfg",
+          "--system-cfg",
+          "/Users/runner/work/_temp/qt-pdf-native-results/baseline/system.cfg",
+          "/Users/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro"
+        ],
+        "environment_overrides": {
+          "DYLD_LIBRARY_PATH": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib",
+          "DYLD_PRINT_LIBRARIES": "1",
+          "PATH": "/Users/runner/Library/Caches/rattler/cache/cached-envs-v0/7868fce21fe163a3/bin:/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/bin:/Users/runner/.pixi/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin:/opt/homebrew/opt/ruby@3.3/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONHOME": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+          "PYTHONNOUSERSITE": "1",
+          "QT_PDF_BUILD_RUN": "37238935749",
+          "QT_PDF_TARGET": "osx-arm64",
+          "QT_PLUGIN_PATH": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins",
+          "QT_QPA_PLATFORM": "cocoa",
+          "QT_QPA_PLATFORM_PLUGIN_PATH": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms",
+          "TD_NATIVE_BYPASS_MODULE": "/Users/runner/work/_temp/qt-pdf-native-module/TechDrawGui.so",
+          "TD_NATIVE_DISPOSABLE": "1",
+          "TD_NATIVE_EXPECTED_QT_VERSION": "6.11.2",
+          "TD_NATIVE_OUTPUT": "/Users/runner/work/_temp/qt-pdf-native-results/baseline",
+          "TD_NATIVE_PLUGIN_ROOT": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins",
+          "TD_NATIVE_QT_LIB": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib",
+          "TD_NATIVE_QT_PREFIX": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default"
+        }
+      },
+      "native_scenarios": 24,
+      "prefix": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+      "qt_libraries": [
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Core.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Core.6.11.2.dylib",
+          "sha256": "6a93603837c7c154ba9cfeb167c11da8a66f13f83196f13d968c2f9276f0b180"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6DBus.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6DBus.6.11.2.dylib",
+          "sha256": "dfb2a6290a2ebc02337836beff7270093fc0196542867a27cb70632da72a71ff"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Gui.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Gui.6.11.2.dylib",
+          "sha256": "8a4606765b326c83caf5957d2cb19a90ce1786134d206ae652db6b56e032680d"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Network.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Network.6.11.2.dylib",
+          "sha256": "c971ff30c9b466fc8a61c8ffedb466c559ad645c305e96a0fb682fb86b88a013"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGL.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGL.6.11.2.dylib",
+          "sha256": "279e85a4d31a4906620fd896b7954daac39c1389e51d4e4a0b28c5a50950f95a"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+          "sha256": "08eb28d02bc7e747c5fc5ba3cd9577fc52396f7c1770ecdc523478f93631d366"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6PrintSupport.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6PrintSupport.6.11.2.dylib",
+          "sha256": "0f172a4a49d9d6b9da2e432eff5b8cfb01ad2495c26c0c06222fb073896aafb0"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Svg.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Svg.6.11.2.dylib",
+          "sha256": "a73f13ee108d450a038f5e41f18750dcbd7857cd5e153f0ca2831566670f5eea"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6SvgWidgets.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6SvgWidgets.6.11.2.dylib",
+          "sha256": "a910eddb124287f60ea999c1eeaf050ff6fdd4107df27aa9735eb897055c6f5c"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6UiTools.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6UiTools.6.11.2.dylib",
+          "sha256": "da2b9b992cbf2456ddb01c87137bf8ee4d1d0f3aa4d6217fe6be2342e08a13c4"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Widgets.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Widgets.6.11.2.dylib",
+          "sha256": "04ae5f865c378318073c2efecbf1f7f58032f96c3ecbc536b0ed3c86fe71246b"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Xml.6.11.2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Xml.6.11.2.dylib",
+          "sha256": "10ff0c9b680c1a7ac2afed029a2a59b15d3ba31b49e67bfd7dd33f4def77fd26"
+        }
+      ],
+      "qt_plugins": [
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+          "sha256": "25f5af26fa1faf13376a56e2e9ec2572771611550f9aba88d93cc144bc7de0b3"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqgif.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqgif.dylib",
+          "sha256": "ad96ad43d56e3bf58c956a90eba6ea73731c2ce328620a80de08416d948d0000"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqicns.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqicns.dylib",
+          "sha256": "f4b08717eb93af9a88881c000bfc88b404ccb493e6d2a76e45f3f5d026cd956c"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqico.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqico.dylib",
+          "sha256": "91a19d20ed2a9f10d2af60ac3a63cf62f9292e3ef371bdb87b8b83c288921502"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+          "sha256": "dc8fe265740f618369d98eee3ac0efbb5d19ad914ee446c30252529d8b6f3ad2"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+          "sha256": "248d2fbe34d0ed9ab39fd62a29a39eefc4db04919126175c1aed38ef149a6bfa"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+          "sha256": "a1a142f567e64d7281330f5842729c340052eba3da8f03bdab1307fd3b7468a7"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqsvg.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqsvg.dylib",
+          "sha256": "dd51a8aaa70172b7ff5ca1243f41c863fb260a622fa299a01656196fe8a7ad26"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtga.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtga.dylib",
+          "sha256": "7ee55e9e8b708de2c9b405f2aed1957682c2ac2a967703dd09672ca5740c72cb"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtiff.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtiff.dylib",
+          "sha256": "eebdb9e20d9f16a10b47db676c1d2cebde8bd812defa42c1db80cd825c37e57f"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+          "sha256": "26cf4ae56fcda977aecaade659a5f4de3a55b43f582a8b625646ea2030e37619"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwebp.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwebp.dylib",
+          "sha256": "d18036172b03e81cb407369dca8b5fa7c7cae2d8ba21504374d465097a54b383"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+          "sha256": "01718a3e37874a9ac5a7533a89bc74ca1393851dfc4dbaff48ad79784c3dc2c1"
+        },
+        {
+          "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/styles/libqmacstyle.dylib",
+          "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/styles/libqmacstyle.dylib",
+          "sha256": "b957b69d58510596b41284b0a63940bbec4dcada8e47c1da76e7d0d4b1aed81e"
+        }
+      ]
+    },
+    "patched": {
+      "active_owned_Cocoa_panels": 12,
+      "active_qpa": {
+        "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+        "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+        "sha256": "e8e0f9b2ab3c7a36a818e01561a2c7faec0283388008e5a3629e2bf353df4c22"
+      },
+      "bypass_module_sha256": "1d01ef9f9418b3184f22b043d253fe8ae9e861f4e3ed104e1a0030b2868b19d7",
+      "external_same_version": {},
+      "gui_tests": 11,
+      "launch": {
+        "command": [
+          "/Users/runner/work/FreeCAD/FreeCAD/build/release/bin/FreeCAD",
+          "--hidden",
+          "--user-cfg",
+          "/Users/runner/work/_temp/qt-pdf-native-results/patched/user.cfg",
+          "--system-cfg",
+          "/Users/runner/work/_temp/qt-pdf-native-results/patched/system.cfg",
+          "/Users/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro"
+        ],
+        "environment_overrides": {
+          "DYLD_LIBRARY_PATH": "/Users/runner/work/_temp/qt-pdf-candidate/lib",
+          "DYLD_PRINT_LIBRARIES": "1",
+          "PATH": "/Users/runner/Library/Caches/rattler/cache/cached-envs-v0/7868fce21fe163a3/bin:/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/bin:/Users/runner/.pixi/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin:/opt/homebrew/opt/ruby@3.3/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONHOME": "/Users/runner/work/_temp/qt-pdf-candidate",
+          "PYTHONNOUSERSITE": "1",
+          "QT_PDF_BUILD_RUN": "37238935749",
+          "QT_PDF_TARGET": "osx-arm64",
+          "QT_PLUGIN_PATH": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins",
+          "QT_QPA_PLATFORM": "cocoa",
+          "QT_QPA_PLATFORM_PLUGIN_PATH": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms",
+          "TD_NATIVE_BYPASS_MODULE": "/Users/runner/work/_temp/qt-pdf-native-module/TechDrawGui.so",
+          "TD_NATIVE_DISPOSABLE": "1",
+          "TD_NATIVE_EXPECTED_QT_VERSION": "6.11.2",
+          "TD_NATIVE_OUTPUT": "/Users/runner/work/_temp/qt-pdf-native-results/patched",
+          "TD_NATIVE_PLUGIN_ROOT": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins",
+          "TD_NATIVE_QT_LIB": "/Users/runner/work/_temp/qt-pdf-candidate/lib",
+          "TD_NATIVE_QT_PREFIX": "/Users/runner/work/_temp/qt-pdf-candidate"
+        }
+      },
+      "native_scenarios": 24,
+      "prefix": "/Users/runner/work/_temp/qt-pdf-candidate",
+      "qt_libraries": [
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Core.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Core.6.11.2.dylib",
+          "sha256": "41d4478a8ec456589982d1a4eb098fe38964848de1061c3388f56f28ed3aac6f"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6DBus.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6DBus.6.11.2.dylib",
+          "sha256": "2e8ecbe3630cb1ca79fff9b0fe5f4a04221f46869f8366afbdf49142286bf866"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Gui.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Gui.6.11.2.dylib",
+          "sha256": "93831a86f6b1cc2e27b533c658595ea26517a54ccc07efadc6a081b3c254c291"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Network.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Network.6.11.2.dylib",
+          "sha256": "466ada061e59dfd78a8cccc5a0463411f335e0bcd3fc76b07be006ff9e7a9f81"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGL.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGL.6.11.2.dylib",
+          "sha256": "fe35d8df68be8907f466b797f0acf5b3e70e1e495b038d162b4781e9fadffb25"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+          "sha256": "56e33583d82d91cb0d51d7273c5b7501202f1f9a7c4325558ccb0b8096e4c44e"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6PrintSupport.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6PrintSupport.6.11.2.dylib",
+          "sha256": "e20784bec6759f659b19204cfcca8615f17df11dc04e77edab71c571b75f7dba"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Svg.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Svg.6.11.2.dylib",
+          "sha256": "2445f4aeda4201ddabb211a24124af147f00f0fc26a2f67dbbdf0efc72509226"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6SvgWidgets.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6SvgWidgets.6.11.2.dylib",
+          "sha256": "6d597e925cc84b910c0322b19b4f9732a058ccf988a0252d4b8b732eb54be39b"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6UiTools.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6UiTools.6.11.2.dylib",
+          "sha256": "f1e81ddf5808428d38481ac24adec8afc811ea333562682e72c57fa7058ed636"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Widgets.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Widgets.6.11.2.dylib",
+          "sha256": "e754ab9c0777351692347e1cda591300ebe2ab3544c8fa27d4aa20e91b402023"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Xml.6.11.2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Xml.6.11.2.dylib",
+          "sha256": "cb745603d8c14db1c3e5e210ddc1d2ef3af4f0e47576939b68e234a0fb5a518a"
+        }
+      ],
+      "qt_plugins": [
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+          "sha256": "24b0ac1b8618cfb75d83da460afa07faf4476d8f7f4b9f6693544e5293b7b4d4"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqgif.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqgif.dylib",
+          "sha256": "70b072fdea39c4a8e0c8f820dc200b2f0a8b040be009f34f2f59ec2d172336f6"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqicns.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqicns.dylib",
+          "sha256": "6264c69f1c8b6c9e714a7b9515b233f7c6b553a0a4a648da886152d33071119b"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqico.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqico.dylib",
+          "sha256": "330a81f4010da8d59ca9e716a0cd5d70ec4a658edf4fe2b86f909452f00423b8"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+          "sha256": "89bb8eecdeca4331d8d0eda8ace9b45ad182de513ad34ccff6d896b5e3c9d105"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+          "sha256": "5fc024dcac84e8efaadd7b71324edcd215737fb5bf82ff1b051e007068be62a6"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+          "sha256": "7bac070dac2ab1cb41f4af1478c8fb218c226ddcb37e94431b61c43fd7795bed"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqsvg.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqsvg.dylib",
+          "sha256": "2fd44c380118b71d5544392b8ab252e99cd1b1242b90b846986dcd67c81cb4ef"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtga.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtga.dylib",
+          "sha256": "2750c11ee91e7a3bd89e202ed2bc26d5611892d481542683cd947ab251dab400"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtiff.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtiff.dylib",
+          "sha256": "e5cbdee245d9c2fd04bfedbc72e6b448250bd30b4d742c8932f02acae6c9fba2"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+          "sha256": "082ff10d892ddbc876843f7c24bb39eb7e3b3b8a31ba64641cbcde5292d180a0"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwebp.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwebp.dylib",
+          "sha256": "294bd3d260c9c17e84e373e2a2dafd2455d3e7542d871253fe44e42ee7916b51"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+          "sha256": "e8e0f9b2ab3c7a36a818e01561a2c7faec0283388008e5a3629e2bf353df4c22"
+        },
+        {
+          "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/styles/libqmacstyle.dylib",
+          "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/styles/libqmacstyle.dylib",
+          "sha256": "3f267b227c468880b0993c73667039260783ed8432ccad86b720196a6b0ded92"
+        }
+      ]
+    }
+  },
+  "original_upstream_transcript": {
+    "passed": true,
+    "raw_transcript_sha256": "9fb35756980c01ec15e00b23a85af39fbe0c3c41f21299094c45c01cc190cb1b",
+    "test_cases": 10
+  }
+}

@@ -1,0 +1,3935 @@
+{
+  "all_eight_dependency_pdf_routes_passed": true,
+  "arbitrary_system_qt_qualified": false,
+  "catalog": {
+    "path": "package/qt-pdf/distribution.json",
+    "sha256": "8b83650efa39e6866d569f4f7f4f5f3d76a244f1966bfcb21f88b70a1aa23ed2"
+  },
+  "complete_signed_freecad_bundle_qualified": false,
+  "conda": {
+    "linux-64": {
+      "all_other_package_identities_preserved": true,
+      "binary": {
+        "build": "pl5321h23691f9_1",
+        "build_number": 1,
+        "filename": "qt6-main-6.11.2-pl5321h23691f9_1.conda",
+        "license": "LGPL-3.0-only",
+        "sha256": "a5ec19b2367f45020d98aa08be0a1d3a6370f2d8a2eace03fa47cef68880947b",
+        "size": 60654189,
+        "subdir": "linux-64",
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h23691f9_1.conda",
+        "version": "6.11.2"
+      },
+      "build_job_id": 111543566030,
+      "build_run": {
+        "id": 37238935749,
+        "source_commit": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "source_commit_url": "https://github.com/zukomgwili/FreeCAD/commit/1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749"
+      },
+      "limits": [
+        "Only the exact Linux package Qt/native PDF gates are qualified. Other platforms, delivery, pins and mitigation review remain open.",
+        "Linux64 passed at4e5691bd; ARM passed at7136be99. Common production/locked/native test inputs are unchanged; no new Linux64 run is implied.",
+        "Earlier failed native runs and the separate retention-only failure are preserved. GDB was skipped; no diagnostic replay replaces ordinary qualification.",
+        "Hosted live-library evidence is authenticated through recorded hashes/maps. Runtime prefixes are not bundled; no restored local runtime is qualified.",
+        "Raw links remain text-only and unvalidated for restoration. Neither TAR was extracted or executed by the audits.",
+        "Stock device rounding can differ; exact before/after operators, coordinates and RGBA are required per device."
+      ],
+      "native_receipt": {
+        "repository_path": "package/qt-pdf/linux-native-qualification.json",
+        "sha256": "12fe88f9a8c652ca14679c4cf6fbf4455f23907afad7e05d5438de3cc715a3da"
+      },
+      "original_result_archive": {
+        "artifact_api_sha256": "70641e1e8b5c470cdc8fd75b2e251e4fb19fa9e1537644d1e01d9c57e0a808a6",
+        "artifact_files_sha256": "7b681074eca4620a31f3c0a575264911ca70c3c9c79bd9a3ced3f6dd9a661a9a",
+        "artifact_id": 11334986160,
+        "artifact_size": 40995753,
+        "artifact_zip_sha256": "ba61a820f02bf36a80abcd77f6b3629939c3cd73d1938c2959304e8185949503",
+        "jobs_api_sha256": "a4d8e321eba5fcdd84529475e7ee52d78c09040af163520737aa5532e86ce9dc",
+        "member_count": 1730,
+        "run_api_sha256": "e890fff7a8fe90f04ea0bc83816071c71bb92329865696f1d258f99028f09b05"
+      },
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification_run": {
+        "head_sha": "4e5691bd6b45aeffa07dd8e40efd96a76f376fb5",
+        "job_conclusion": "success",
+        "job_id": 111667875059,
+        "run_conclusion": "success",
+        "run_id": 37280698607
+      },
+      "retained_evidence_path": "original-results/conda-linux-64.zip",
+      "reused_qt_stage": {
+        "build_json_sha256": "eec63a85d62dfa21706fdb38bb8064c6987069475d27c5a6167814d3d197bab2",
+        "executables_rerun": false,
+        "fresh_planned_runtime_map_sha256": {
+          "baseline": "b743e1fe20cafb4f63eabb2fbe2d532f16da1d4907eb4d770660f558b0f2f44a",
+          "patched": "502c63d5020d82b076852ce97ccc820b23bebdb73cef521850ad19d01448196f"
+        },
+        "installed_package_metadata_sha256": "ec5c2f0e24181120232b9ba99defe05e92a3b9f104186d6c89fe53bfcd89e5fe",
+        "original_native_passed": false,
+        "package_build_head_sha": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "package_build_run_id": 37238935749,
+        "package_sha256": "a5ec19b2367f45020d98aa08be0a1d3a6370f2d8a2eace03fa47cef68880947b",
+        "prior_artifact_id": 11323981287,
+        "prior_artifact_size": 13893385,
+        "prior_artifact_zip_sha256": "310212a0d01c6e3fb866e3bcd082fb4ece2f4b2c58c7147c9d46e0f9adc9c657",
+        "prior_head_sha": "19abecfd53ec03798fbdf2bdfbe9450626e96699",
+        "prior_run_conclusion": "failure",
+        "prior_run_id": 37252425998,
+        "qt_cases": 66,
+        "qt_only_passed_reused": true,
+        "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+        "recovery_sha256": "5942886abc4d420ad177a7d64e6a6a4a2617372e76114335941b14625b99bc00",
+        "upstream_test_cases": 10,
+        "validation_sha256": "d3dc54b1699fecae150e0fbbb8a39fd2b13c1a5935f7d6e3e4f123f4c273b4f5"
+      },
+      "runtime": {
+        "baseline": {
+          "area_value_mm2": 99.99999999999999,
+          "gui_seconds": 20.385,
+          "gui_tests_passed": 11,
+          "live_qpa": "xcb",
+          "live_qt_library_count": 14,
+          "module_sha256": "57c12e690879dfc661a3adf040a717c43fa73a1c84747e8bd57ebaf1d6891f45",
+          "pre_export_snapshot_count": 24,
+          "runtime_map_sha256": "b743e1fe20cafb4f63eabb2fbe2d532f16da1d4907eb4d770660f558b0f2f44a"
+        },
+        "patched": {
+          "area_value_mm2": 99.99999999999999,
+          "gui_seconds": 20.798,
+          "gui_tests_passed": 11,
+          "live_qpa": "xcb",
+          "live_qt_library_count": 14,
+          "module_sha256": "57c12e690879dfc661a3adf040a717c43fa73a1c84747e8bd57ebaf1d6891f45",
+          "pre_export_snapshot_count": 24,
+          "runtime_map_sha256": "502c63d5020d82b076852ce97ccc820b23bebdb73cef521850ad19d01448196f"
+        }
+      }
+    },
+    "linux-aarch64": {
+      "all_other_package_identities_preserved": true,
+      "binary": {
+        "build": "pl5321h8194227_1",
+        "build_number": 1,
+        "filename": "qt6-main-6.11.2-pl5321h8194227_1.conda",
+        "license": "LGPL-3.0-only",
+        "sha256": "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b",
+        "size": 63535865,
+        "subdir": "linux-aarch64",
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h8194227_1.conda",
+        "version": "6.11.2"
+      },
+      "build_job_id": 111543565951,
+      "build_run": {
+        "id": 37238935749,
+        "source_commit": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "source_commit_url": "https://github.com/zukomgwili/FreeCAD/commit/1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749"
+      },
+      "limits": [
+        "Only the exact Linux package Qt/native PDF gates are qualified. Other platforms, delivery, pins and mitigation review remain open.",
+        "Linux64 passed at4e5691bd; ARM passed at7136be99. Common production/locked/native test inputs are unchanged; no new Linux64 run is implied.",
+        "Earlier failed native runs and the separate retention-only failure are preserved. GDB was skipped; no diagnostic replay replaces ordinary qualification.",
+        "Hosted live-library evidence is authenticated through recorded hashes/maps. Runtime prefixes are not bundled; no restored local runtime is qualified.",
+        "Raw links remain text-only and unvalidated for restoration. Neither TAR was extracted or executed by the audits.",
+        "Stock device rounding can differ; exact before/after operators, coordinates and RGBA are required per device."
+      ],
+      "native_receipt": {
+        "repository_path": "package/qt-pdf/linux-native-qualification.json",
+        "sha256": "12fe88f9a8c652ca14679c4cf6fbf4455f23907afad7e05d5438de3cc715a3da"
+      },
+      "original_result_archive": {
+        "id": 11348671917,
+        "name": "qt-pdf-qualification-linux-aarch64",
+        "sha256": "2922b44226081f2f61167b747b044a99c62fdd07efbcb3d4a0ada1cf0c29704b",
+        "size_in_bytes": 150534407
+      },
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification_run": {
+        "head_sha": "7136be99a713458e9e68d1095bd6c079d59f692a",
+        "job_conclusion": "success",
+        "job_id": 111758217994,
+        "run_conclusion": "success",
+        "run_id": 37308593317
+      },
+      "retained_evidence_path": "original-results/conda-linux-aarch64.zip",
+      "reused_qt_stage": {
+        "build_json_sha256": "2e424174cb25edf710dbfe159e9153f83cff252ced403340fead895f9870800e",
+        "conjunction_sha256": "8d09c5de91df948f2edfa84ad61543324a3f2fe11fec49748db6b21b8bb3ce79",
+        "original_native_passed": false,
+        "package_build_run_id": 37238935749,
+        "package_sha256": "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b",
+        "prior_run_conclusion": "failure",
+        "prior_run_id": 37252439637,
+        "qt_cases": 66,
+        "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+        "upstream_test_cases": 10,
+        "validation_sha256": "1211836926dc8e832195df34466d83866f577734dfd305274353ea9308150a06"
+      },
+      "runtime": {
+        "baseline": {
+          "area_value_mm2": 99.99999999999999,
+          "gui_seconds": 20.078,
+          "gui_tests_passed": 11,
+          "live_qpa": "xcb",
+          "live_qt_library_count": 14,
+          "macro_source": {
+            "path": "/home/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+            "sha256": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01"
+          },
+          "module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7",
+          "null_origin_expectations": [
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "box-only",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "box-only",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 1,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "short-gap",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 1,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "short-gap",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "short-gap-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "short-gap-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "short-solid",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "short-solid",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "long-dashed",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "long-dashed",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "zero-width-translucent",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "zero-width-translucent",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "zero-width-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "zero-width-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "zero-width-archival",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "zero-width-archival",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 1,
+              "scenario": "distance",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 1,
+              "scenario": "distance",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 1,
+              "scenario": "theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 1,
+              "scenario": "theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 2,
+              "scenario": "area-and-theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 2,
+              "scenario": "area-and-theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 2,
+              "scenario": "area-relocated-and-theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 2,
+              "scenario": "area-relocated-and-theoretical-exact",
+              "translucent_count": 0
+            }
+          ],
+          "pre_export_snapshot_count": 24,
+          "runtime_map_sha256": "685623f0add7db75ef95a6e5331f49cbc069a548c2aa6bb7965ffe8c78298378",
+          "text_palettes": [
+            "{\"application_rgba\": [0, 0, 0, 255], \"new_graphics_text_rgba\": [0, 0, 0, 255], \"widget_text_control_rgba\": [0, 0, 0, 255]}"
+          ]
+        },
+        "patched": {
+          "area_value_mm2": 99.99999999999999,
+          "gui_seconds": 20.534,
+          "gui_tests_passed": 11,
+          "live_qpa": "xcb",
+          "live_qt_library_count": 14,
+          "macro_source": {
+            "path": "/home/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+            "sha256": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01"
+          },
+          "module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7",
+          "null_origin_expectations": [
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "box-only",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "box-only",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 1,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "short-gap",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 1,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "short-gap",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "short-gap-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "short-gap-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "short-solid",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "short-solid",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "long-dashed",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "long-dashed",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "zero-width-translucent",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "zero-width-translucent",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "zero-width-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "zero-width-opaque",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 0,
+              "scenario": "zero-width-archival",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 0,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 0,
+              "scenario": "zero-width-archival",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 1,
+              "scenario": "distance",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 1,
+              "scenario": "distance",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 1,
+              "scenario": "theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 1,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 1,
+              "scenario": "theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 2,
+              "scenario": "area-and-theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 2,
+              "scenario": "area-and-theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qpdfwriter",
+              "required_count": 2,
+              "scenario": "area-relocated-and-theoretical-exact",
+              "translucent_count": 0
+            },
+            {
+              "actual_count": 2,
+              "baseline_invalid_closes": 0,
+              "device": "qprinter",
+              "required_count": 2,
+              "scenario": "area-relocated-and-theoretical-exact",
+              "translucent_count": 0
+            }
+          ],
+          "pre_export_snapshot_count": 24,
+          "runtime_map_sha256": "670fb56b7f5941ad0de33172013f16f060bf8ec15641f25b6a185d4fc8e96e4a",
+          "text_palettes": [
+            "{\"application_rgba\": [0, 0, 0, 255], \"new_graphics_text_rgba\": [0, 0, 0, 255], \"widget_text_control_rgba\": [0, 0, 0, 255]}"
+          ]
+        }
+      }
+    },
+    "osx-64": {
+      "all_other_package_identities_preserved": true,
+      "binary": {
+        "build": "pl5321h7c35b53_1",
+        "build_number": 1,
+        "filename": "qt6-main-6.11.2-pl5321h7c35b53_1.conda",
+        "license": "LGPL-3.0-only",
+        "sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+        "size": 51018241,
+        "subdir": "osx-64",
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h7c35b53_1.conda",
+        "version": "6.11.2"
+      },
+      "build_job_id": 111543565984,
+      "build_run": {
+        "id": 37238935749,
+        "source_commit": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "source_commit_url": "https://github.com/zukomgwili/FreeCAD/commit/1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749"
+      },
+      "limits": [
+        "This receipt qualifies only the exact osx-64 package/native PDF gates; other open delivery children and the parent remain outstanding.",
+        "The original Intel native attempt remains failed; its passed Qt66/upstream10 evidence was authenticated and reused without execution.",
+        "No package build, passed Linux/macOS ARM/Windows/LibPack workflow or Qt-only test suite was rerun for this child.",
+        "Fresh native app binaries required GUI11 on each selected runtime; exact per-device preservation is mandatory, cross-device rounding equality is informational.",
+        "Production dependency pins, installed user runtimes and production mitigations remain unchanged.",
+        "Raw retained native bytes are diagnostic only; archive-member readback does not establish validated restoration.",
+        "Qt source/package archive bytes and the physical Xcode SDK are absent from this upload; recorded identities and successful same-host validation are bound without claiming foreign-host byte or SDK revalidation.",
+        "Hosted runtime bytes are bound through recorded live origins and exact managed-file hashes; independent review launches no FreeCAD process."
+      ],
+      "native_receipt": {
+        "repository_path": "package/qt-pdf/macintel-native-qualification.json",
+        "sha256": "e1ea692e1cca5fd2f3276f3dadb493131bec189fde66b01b4c1c6923e921f6c3"
+      },
+      "original_result_archive": {
+        "all_extracted_regular_sha_verified": true,
+        "all_member_crc_verified": true,
+        "api_sha256": {
+          "artifact-api.json": "8e3e9cefee068d0ce641dd8ef51da49d9401700d172dbadb99623aeef484280e",
+          "artifact-list-api.json": "38d4b660104594f1658c66d358ac4fd7f51300aa963f8e499b8a7187d186e52e",
+          "jobs-api.json": "b9ce752dd629d43d0743584898f2efad6214d19762484653c6e9e1e6d48e499a",
+          "run-api.json": "36977238a96be9c61d1fc0fb028fb6eb187cd59c94c87b3a11e92468b63693dc"
+        },
+        "artifact_files_sha256": "4e6810f25d5035bebcb8ab1fcb547570f86bec7439a8980852d1a7ef63562c1c",
+        "artifact_id": 11363164535,
+        "artifact_name": "qt-pdf-qualification-osx-64",
+        "artifact_size": 96777578,
+        "artifact_zip_sha256": "77f9597462d6a41b2d98ab0f30327c51e9627b09615f576a6d1eed1ea88186e9",
+        "file_count": 1381,
+        "head_sha": "6ed7acf87ceb8a41bcbdfc3c99c6b671c05db942",
+        "job_conclusion": "success",
+        "job_id": 111834401824,
+        "run_conclusion": "success",
+        "run_id": 37331171839,
+        "stage_conclusions": {
+          "Authenticate artifact transport and restore omitted public inputs": "success",
+          "Authenticate the reviewed passed Intel Qt checks": "success",
+          "Authenticate the reviewed passed Linux Qt checks": "skipped",
+          "Bind the new native capture to the reused passed Qt checks": "success",
+          "Bind the passed Qt checks to these exact runtime binaries": "success",
+          "Compile the controlled mitigation bypass in this disposable checkout": "success",
+          "Complete job": "success",
+          "Configure and build native FreeCAD against locked baseline": "success",
+          "Diagnose the failed ARM native process": "skipped",
+          "Download the actual package and corresponding source evidence": "success",
+          "Install the exact package in an isolated candidate runtime": "success",
+          "Make space for two runtimes and the native build": "skipped",
+          "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+          "Post Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+          "Preserve reviewed checkout bytes on Windows": "skipped",
+          "Qualify both Qt PDF devices and Qt's own writer tests": "skipped",
+          "Qualify stock native exports with both guards bypassed": "success",
+          "Retain runtime inventories, PDFs and all qualification evidence": "success",
+          "Retain the native build for a focused Intel retry": "success",
+          "Retain the native build for a focused Linux retry": "skipped",
+          "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+          "Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+          "Select the same recorded macOS SDK": "success",
+          "Set up job": "success",
+          "Wait for this native package artifact": "success"
+        },
+        "unpacked_bytes": 218077278,
+        "whole_zip_api_sha_size_verified": true
+      },
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification_run": {
+        "completed_at": "2026-10-05T18:21:44Z",
+        "conclusion": "success",
+        "event": "workflow_dispatch",
+        "head_sha": "6ed7acf87ceb8a41bcbdfc3c99c6b671c05db942",
+        "id": 37331171839,
+        "inputs": {
+          "build_run": "37238935749",
+          "reuse_run": "37248191467",
+          "stage": "native",
+          "target": "osx-64"
+        },
+        "job_id": 111834401824,
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37331171839"
+      },
+      "retained_evidence_path": "original-results/conda-osx-64.zip",
+      "reused_qt_stage": {
+        "build_json_sha256": "85469bfacd14cc6251a70e988084e750939a168571deea2a37cdebbd77ad19c6",
+        "conjunction_sha256": "ee65338aa95975cb096257bfa57dc056ce3ea75740c12395d9db4867f6d8a58e",
+        "durable_receipt": "package/qt-pdf/macintel-qt-passed.json",
+        "durable_receipt_sha256": "99315f0e4c784161f9ec2132ec7815a963c193f8e4a3eee7d500f647fef30f54",
+        "original_native_passed": false,
+        "package_build_run_id": 37238935749,
+        "package_sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+        "prior_artifact_id": 11323656361,
+        "prior_artifact_sha256": "5236af18b437128de7b15b43dbdecb3488685938b8c7008a39f9bf1087bfb5d6",
+        "prior_head_sha": "fad5154281bede3144c71820933e5b05812161fb",
+        "prior_run_conclusion": "failure",
+        "prior_run_id": 37248191467,
+        "qt_cases": 66,
+        "qt_executors_skipped": true,
+        "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+        "upstream_test_cases": 10,
+        "validation_executables_invoked": false,
+        "validation_pdfs_rerendered": false,
+        "validation_sha256": "98a984e8c4d04ce1e0bd15c5141bc3b234d7b3ade50ee2e77c46ccff02e3a676"
+      },
+      "runtime": {
+        "baseline": {
+          "available_qt_libraries": 72,
+          "available_qt_plugins": 42,
+          "gui_seconds": 20.617,
+          "gui_tests_passed": 11,
+          "loaded_qt": {
+            "qt_libraries": [
+              {
+                "relative_path": "lib/libQt6Core.6.11.2.dylib",
+                "sha256": "2bea61f580020ad82b3b4308795d2ae1ec7fc4f6de9ddbaf120797d470a6fbc1"
+              },
+              {
+                "relative_path": "lib/libQt6DBus.6.11.2.dylib",
+                "sha256": "375f692036edebb9a2b8ea0efbf4d5a5a92eab1ebeb6931ce77261b5cb28c61a"
+              },
+              {
+                "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+                "sha256": "7d701dd99e68f66480325e76c77803d322bbad85fe260c73389875b732049276"
+              },
+              {
+                "relative_path": "lib/libQt6Network.6.11.2.dylib",
+                "sha256": "6722e7e04e0bff7a9f07b17cbda040d29e798c6e003cb41df63d11562da2ccb6"
+              },
+              {
+                "relative_path": "lib/libQt6OpenGL.6.11.2.dylib",
+                "sha256": "78176f86f9d5a099ba780b1f57b70b3b77d8bb7dd636bd3560a7ca0eddd3521d"
+              },
+              {
+                "relative_path": "lib/libQt6OpenGLWidgets.6.11.2.dylib",
+                "sha256": "f5efae91d2e26bba19c96f6ff5490c01e05b656fa4c5e7b976a6bf7bfca825c2"
+              },
+              {
+                "relative_path": "lib/libQt6PrintSupport.6.11.2.dylib",
+                "sha256": "cf35f56445d1846ecad47de1c498996a8bcb85f2b8f736ee772d6b8057e90964"
+              },
+              {
+                "relative_path": "lib/libQt6Svg.6.11.2.dylib",
+                "sha256": "fc12e1557d4db7690bbc368212bf6c004ba93a13574aae1830e441c2717f5963"
+              },
+              {
+                "relative_path": "lib/libQt6SvgWidgets.6.11.2.dylib",
+                "sha256": "f74b374c76d5e4a38447d2bfbacebf4aa609206505bd3dd7f239d3409b738714"
+              },
+              {
+                "relative_path": "lib/libQt6UiTools.6.11.2.dylib",
+                "sha256": "0e964d17f332237864bff866431a7ae0fffbb5341573edc89bf793d97dd0fe5f"
+              },
+              {
+                "relative_path": "lib/libQt6Widgets.6.11.2.dylib",
+                "sha256": "1e861e067caa4929b11ba6ee8d7ead745cd8e9f169be2ce5d1d3869b59a8f70e"
+              },
+              {
+                "relative_path": "lib/libQt6Xml.6.11.2.dylib",
+                "sha256": "75d609f128ba1697087af8d8ff076884fecdb49d27129ff27790ce9167c03239"
+              }
+            ],
+            "qt_plugins": [
+              {
+                "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+                "sha256": "4311642cff368e3788974ca4b9ffa1a9c649f6ad0b02d4729216c951243e49d3"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqgif.dylib",
+                "sha256": "d1d5607dbbc4aa3b8bd41bae0f631ef5c6f9164cc61d839aeec76962933b0154"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqicns.dylib",
+                "sha256": "b7c13bf02446d3c58bbd9c02039f84a34af9ba63118ce585e4094a40826341ca"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqico.dylib",
+                "sha256": "d2598e82d93418c9c374903a8bd8c8812bfb07fc599f90f0d898bf142d8f886c"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.dylib",
+                "sha256": "bf0da9c6be143e2a3c56e4055852fffb45f26857f5feceaace1e6ab519c8f151"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqmacheif.dylib",
+                "sha256": "6be68aedbcbbb75b780438a3230d7776de5f7d61bf0bcfb7d74f05b39141ce81"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+                "sha256": "56fdc43157a12559cc8b67b82686a3d89a848bc953eb6d8a02fea1a048b066dd"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqsvg.dylib",
+                "sha256": "4c52c7eae9f8e74a099fc1f333dbb9860d2bdb84057e6028f177664647a2aeb8"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqtga.dylib",
+                "sha256": "8e50f396d2e1d2026518938c31f77df5420235dfb3ff919541c1bc6bc7a81777"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqtiff.dylib",
+                "sha256": "8a311e9296de8f0ea36129ef50b335ec94e116c5c5d2efd318a8e4a0e37b8be5"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.dylib",
+                "sha256": "90f3d18d4e8ed3e38aa62460b0a0b8643f49b7938f5d71468980ed8bbef2fca9"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqwebp.dylib",
+                "sha256": "ffd9f00e5ca3d2f81251ec32ed874017c54b53c1c34f71c52569a8efd94008d1"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/platforms/libqcocoa.dylib",
+                "sha256": "25dd7414229f033bc849a54b7d9ac9f81abcf91480b078e5d946aff0af8f8443"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/styles/libqmacstyle.dylib",
+                "sha256": "f5ad8815b24fb33b006919e7d3f95bda6e80c34b733b20fb9e40a57682eed46a"
+              }
+            ]
+          },
+          "managed_package_count": 383,
+          "module_sha256": "dae45b52690f382d2d48d0504a66f0f0b43a02ff42f379a577dd4978f61f6901",
+          "prefix": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+          "prospective_snapshots": 24,
+          "provenance_sha256": "8de6f08e6b319cabbfd1d65f25c413dfdf905ede6f174f4170b7b2fde7d9b9d6",
+          "qpa_platform": "cocoa",
+          "qt_package_identity": {
+            "build": "pl5321h7191676_0",
+            "checksum": {
+              "sha256": "153132a5796b414db05a32aed03f0483e58a8d6782e40709e3b4d2bcd16933b4"
+            },
+            "name": "qt6-main",
+            "subdir": "osx-64",
+            "version": "6.11.2"
+          }
+        },
+        "patched": {
+          "available_qt_libraries": 72,
+          "available_qt_plugins": 42,
+          "gui_seconds": 20.921,
+          "gui_tests_passed": 11,
+          "loaded_qt": {
+            "qt_libraries": [
+              {
+                "relative_path": "lib/libQt6Core.6.11.2.dylib",
+                "sha256": "91c51756876fee95d67d7995271ff979b3e766959d6f4fab569b736200d5323c"
+              },
+              {
+                "relative_path": "lib/libQt6DBus.6.11.2.dylib",
+                "sha256": "ed626e4e1cf341860ca0ecda1f65aff7e556b672a7c760c86fd5761d3703062e"
+              },
+              {
+                "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+                "sha256": "18297c4d9572b09781c6d51f8ddf42039c1eca6cd23e6e7e1dee05cb6eb0884d"
+              },
+              {
+                "relative_path": "lib/libQt6Network.6.11.2.dylib",
+                "sha256": "b368fc4cc3cab21cf1016bfa9065e293f511b1da7015149ebf5e1d5fc195b33d"
+              },
+              {
+                "relative_path": "lib/libQt6OpenGL.6.11.2.dylib",
+                "sha256": "0ac94f4c2025227a7a8c9e49adb2085d16c4999e51c80ffb0266fdb74eaab720"
+              },
+              {
+                "relative_path": "lib/libQt6OpenGLWidgets.6.11.2.dylib",
+                "sha256": "d6abdf2030ff3bcd47d8c60c84610b5c84152461133fd98e24af81d8224eeb3f"
+              },
+              {
+                "relative_path": "lib/libQt6PrintSupport.6.11.2.dylib",
+                "sha256": "aceffaf9e9073e3fc16df9d7f8998f781710035f696bcd661e4949af42756dac"
+              },
+              {
+                "relative_path": "lib/libQt6Svg.6.11.2.dylib",
+                "sha256": "5f6057c91d0be4d36e388ba124098967461b8d10e5a7a3bc235d7a7bfd7803f0"
+              },
+              {
+                "relative_path": "lib/libQt6SvgWidgets.6.11.2.dylib",
+                "sha256": "b71e5f3d15e102c05d7c3dc3311fd7177448a14b547f5ea07eaa9b599c5b3bb1"
+              },
+              {
+                "relative_path": "lib/libQt6UiTools.6.11.2.dylib",
+                "sha256": "229d1a94c841bc18d53767d8d4722a2777e781dd1bf915905e213e4d73a145cd"
+              },
+              {
+                "relative_path": "lib/libQt6Widgets.6.11.2.dylib",
+                "sha256": "b40fb608bcdfdf103d263944e142307dca3fb85b8fa400f1ce398ade913c40ce"
+              },
+              {
+                "relative_path": "lib/libQt6Xml.6.11.2.dylib",
+                "sha256": "9bd549a0b30ba3467c284e9a92ff85adde927bff63f2b81dcf415e10c6d4f51a"
+              }
+            ],
+            "qt_plugins": [
+              {
+                "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+                "sha256": "e2e26ef6410ae798dc9a817185c4d6d074ee04a6c64cccddea480f904c04b96e"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqgif.dylib",
+                "sha256": "7befa34447146f200068b0491ffd2e8977f6d8c61b4d66bcb6c333ef579b9f73"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqicns.dylib",
+                "sha256": "3acd0ab5ef63a0601e6710504b4b191dffac7a9ae1bac5b76d9bea99ce51a737"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqico.dylib",
+                "sha256": "91b717005496dc95f9a36e8a795e841e1082397f590619f759392d7d5fa63579"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.dylib",
+                "sha256": "285296bbbbd29c1a74e8b0aeeb706aedc43a7b6205146ade029135c3c38498e1"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqmacheif.dylib",
+                "sha256": "abac3a6119fe478625d969827311e8bc19796065744644a6bf60d0d408991aac"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+                "sha256": "850c6c1a66b66362a7b346a9c0d61b9d26b2ad01a35201bbbc114f17b6c70442"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqsvg.dylib",
+                "sha256": "6b5578dbbdbb8ebb164cfa9577486955394918787598cf738cdf15ad4c13e9dd"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqtga.dylib",
+                "sha256": "895643a9d1f956b4227ff5120d3aee844b8776396f79721cde4681e94a5e44e5"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqtiff.dylib",
+                "sha256": "801068916d6efd6f3f6c89375c5ebe0d55c1f4b7150ba4fa91eea1961292e910"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.dylib",
+                "sha256": "bb3dc168abb1235ba1cdd4f4d76297c58f511452e8b4510bfe1ac990c3645637"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/imageformats/libqwebp.dylib",
+                "sha256": "770ac41a4acaa006acd454f3d49b73ed04c4a935177cf436bc18befca55c9bb8"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/platforms/libqcocoa.dylib",
+                "sha256": "b8148cfa5d3c051850fd5d536cb25c654bbf76712a061c468a97a9e77c2d667a"
+              },
+              {
+                "relative_path": "lib/qt6/plugins/styles/libqmacstyle.dylib",
+                "sha256": "189c45d5c11c21e597777fca6b08c92ab2f280a9d49bcffae3bdb6387ff274dd"
+              }
+            ]
+          },
+          "managed_package_count": 383,
+          "module_sha256": "dae45b52690f382d2d48d0504a66f0f0b43a02ff42f379a577dd4978f61f6901",
+          "prefix": "/Users/runner/work/_temp/qt-pdf-candidate",
+          "prospective_snapshots": 24,
+          "provenance_sha256": "a540bb2946770997537e45a5fc22c2637b6390f251aba2355f4eed56ef3496a1",
+          "qpa_platform": "cocoa",
+          "qt_package_identity": {
+            "build": "pl5321h7c35b53_1",
+            "checksum": {
+              "sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631"
+            },
+            "name": "qt6-main",
+            "subdir": "osx-64",
+            "version": "6.11.2"
+          }
+        }
+      }
+    },
+    "osx-arm64": {
+      "all_other_package_identities_preserved": true,
+      "binary": {
+        "build": "pl5321h5ab96b3_1",
+        "build_number": 1,
+        "filename": "qt6-main-6.11.2-pl5321h5ab96b3_1.conda",
+        "license": "LGPL-3.0-only",
+        "sha256": "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99",
+        "size": 47634985,
+        "subdir": "osx-arm64",
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h5ab96b3_1.conda",
+        "version": "6.11.2"
+      },
+      "build_job_id": 111543565956,
+      "build_run": {
+        "id": 37238935749,
+        "source_commit": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "source_commit_url": "https://github.com/zukomgwili/FreeCAD/commit/1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749"
+      },
+      "limits": [
+        "Historical Cocoa schema has no later Windows face-readiness fields or full native_runtime_images; no such claim is synthesized.",
+        "Loaded library hashes were recorded by original processes and corroborated against their retained managed-file inventories; remote physical runtime files are unavailable for fresh rehash.",
+        "PNG bytes are original retained Poppler output; no new renderer was invoked. Poppler stderr is authenticated historical output, not newly produced diagnostics.",
+        "Native stock device rounding is preserved per device; cross-device native pixel equality is not required.",
+        "This qualifies the exact package PDF routes, not a complete distributable FreeCAD app or arbitrary system Qt.",
+        "Original builds and runtime receipts remain immutable."
+      ],
+      "native_receipt": {
+        "repository_path": "package/qt-pdf/macarm-native-qualification.json",
+        "sha256": "eb56ea825db08305108814e4e2101c805d0f99e0ebb72a5b4cf40d12a5fbc261"
+      },
+      "original_result_archive": {
+        "bytes": 14335874,
+        "id": 11325267718,
+        "sha256": "a51e76cc537d78c25d8dd779a754e8cdbb76b9beb85441cae230473e1ff75f53"
+      },
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification_run": {
+        "attempt": 1,
+        "conclusion": "success",
+        "head_sha": "76b5c81865fbac20c4dc684d1a5218411e56eb9a",
+        "id": 37256687273,
+        "job_conclusion": "success",
+        "job_id": 111595185400,
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37256687273"
+      },
+      "retained_evidence_path": "original-results/conda-osx-arm64.zip",
+      "reused_qt_stage": {},
+      "runtime": {
+        "baseline": {
+          "active_owned_Cocoa_panels": 12,
+          "active_qpa": {
+            "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+            "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+            "sha256": "01718a3e37874a9ac5a7533a89bc74ca1393851dfc4dbaff48ad79784c3dc2c1"
+          },
+          "bypass_module_sha256": "1d01ef9f9418b3184f22b043d253fe8ae9e861f4e3ed104e1a0030b2868b19d7",
+          "external_same_version": {},
+          "gui_tests": 11,
+          "launch": {
+            "command": [
+              "/Users/runner/work/FreeCAD/FreeCAD/build/release/bin/FreeCAD",
+              "--hidden",
+              "--user-cfg",
+              "/Users/runner/work/_temp/qt-pdf-native-results/baseline/user.cfg",
+              "--system-cfg",
+              "/Users/runner/work/_temp/qt-pdf-native-results/baseline/system.cfg",
+              "/Users/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro"
+            ],
+            "environment_overrides": {
+              "DYLD_LIBRARY_PATH": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib",
+              "DYLD_PRINT_LIBRARIES": "1",
+              "PATH": "/Users/runner/Library/Caches/rattler/cache/cached-envs-v0/7868fce21fe163a3/bin:/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/bin:/Users/runner/.pixi/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin:/opt/homebrew/opt/ruby@3.3/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools",
+              "PYTHONDONTWRITEBYTECODE": "1",
+              "PYTHONHOME": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+              "PYTHONNOUSERSITE": "1",
+              "QT_PDF_BUILD_RUN": "37238935749",
+              "QT_PDF_TARGET": "osx-arm64",
+              "QT_PLUGIN_PATH": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins",
+              "QT_QPA_PLATFORM": "cocoa",
+              "QT_QPA_PLATFORM_PLUGIN_PATH": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms",
+              "TD_NATIVE_BYPASS_MODULE": "/Users/runner/work/_temp/qt-pdf-native-module/TechDrawGui.so",
+              "TD_NATIVE_DISPOSABLE": "1",
+              "TD_NATIVE_EXPECTED_QT_VERSION": "6.11.2",
+              "TD_NATIVE_OUTPUT": "/Users/runner/work/_temp/qt-pdf-native-results/baseline",
+              "TD_NATIVE_PLUGIN_ROOT": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins",
+              "TD_NATIVE_QT_LIB": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib",
+              "TD_NATIVE_QT_PREFIX": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default"
+            }
+          },
+          "native_scenarios": 24,
+          "prefix": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+          "qt_libraries": [
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Core.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Core.6.11.2.dylib",
+              "sha256": "6a93603837c7c154ba9cfeb167c11da8a66f13f83196f13d968c2f9276f0b180"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6DBus.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6DBus.6.11.2.dylib",
+              "sha256": "dfb2a6290a2ebc02337836beff7270093fc0196542867a27cb70632da72a71ff"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Gui.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Gui.6.11.2.dylib",
+              "sha256": "8a4606765b326c83caf5957d2cb19a90ce1786134d206ae652db6b56e032680d"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Network.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Network.6.11.2.dylib",
+              "sha256": "c971ff30c9b466fc8a61c8ffedb466c559ad645c305e96a0fb682fb86b88a013"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGL.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGL.6.11.2.dylib",
+              "sha256": "279e85a4d31a4906620fd896b7954daac39c1389e51d4e4a0b28c5a50950f95a"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+              "sha256": "08eb28d02bc7e747c5fc5ba3cd9577fc52396f7c1770ecdc523478f93631d366"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6PrintSupport.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6PrintSupport.6.11.2.dylib",
+              "sha256": "0f172a4a49d9d6b9da2e432eff5b8cfb01ad2495c26c0c06222fb073896aafb0"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Svg.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Svg.6.11.2.dylib",
+              "sha256": "a73f13ee108d450a038f5e41f18750dcbd7857cd5e153f0ca2831566670f5eea"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6SvgWidgets.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6SvgWidgets.6.11.2.dylib",
+              "sha256": "a910eddb124287f60ea999c1eeaf050ff6fdd4107df27aa9735eb897055c6f5c"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6UiTools.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6UiTools.6.11.2.dylib",
+              "sha256": "da2b9b992cbf2456ddb01c87137bf8ee4d1d0f3aa4d6217fe6be2342e08a13c4"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Widgets.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Widgets.6.11.2.dylib",
+              "sha256": "04ae5f865c378318073c2efecbf1f7f58032f96c3ecbc536b0ed3c86fe71246b"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Xml.6.11.2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Xml.6.11.2.dylib",
+              "sha256": "10ff0c9b680c1a7ac2afed029a2a59b15d3ba31b49e67bfd7dd33f4def77fd26"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+              "sha256": "25f5af26fa1faf13376a56e2e9ec2572771611550f9aba88d93cc144bc7de0b3"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqgif.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqgif.dylib",
+              "sha256": "ad96ad43d56e3bf58c956a90eba6ea73731c2ce328620a80de08416d948d0000"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqicns.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqicns.dylib",
+              "sha256": "f4b08717eb93af9a88881c000bfc88b404ccb493e6d2a76e45f3f5d026cd956c"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqico.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqico.dylib",
+              "sha256": "91a19d20ed2a9f10d2af60ac3a63cf62f9292e3ef371bdb87b8b83c288921502"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+              "sha256": "dc8fe265740f618369d98eee3ac0efbb5d19ad914ee446c30252529d8b6f3ad2"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+              "sha256": "248d2fbe34d0ed9ab39fd62a29a39eefc4db04919126175c1aed38ef149a6bfa"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+              "sha256": "a1a142f567e64d7281330f5842729c340052eba3da8f03bdab1307fd3b7468a7"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqsvg.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqsvg.dylib",
+              "sha256": "dd51a8aaa70172b7ff5ca1243f41c863fb260a622fa299a01656196fe8a7ad26"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtga.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtga.dylib",
+              "sha256": "7ee55e9e8b708de2c9b405f2aed1957682c2ac2a967703dd09672ca5740c72cb"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtiff.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqtiff.dylib",
+              "sha256": "eebdb9e20d9f16a10b47db676c1d2cebde8bd812defa42c1db80cd825c37e57f"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+              "sha256": "26cf4ae56fcda977aecaade659a5f4de3a55b43f582a8b625646ea2030e37619"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwebp.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/imageformats/libqwebp.dylib",
+              "sha256": "d18036172b03e81cb407369dca8b5fa7c7cae2d8ba21504374d465097a54b383"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+              "sha256": "01718a3e37874a9ac5a7533a89bc74ca1393851dfc4dbaff48ad79784c3dc2c1"
+            },
+            {
+              "loaded_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/styles/libqmacstyle.dylib",
+              "real_path": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/styles/libqmacstyle.dylib",
+              "sha256": "b957b69d58510596b41284b0a63940bbec4dcada8e47c1da76e7d0d4b1aed81e"
+            }
+          ]
+        },
+        "patched": {
+          "active_owned_Cocoa_panels": 12,
+          "active_qpa": {
+            "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+            "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+            "sha256": "e8e0f9b2ab3c7a36a818e01561a2c7faec0283388008e5a3629e2bf353df4c22"
+          },
+          "bypass_module_sha256": "1d01ef9f9418b3184f22b043d253fe8ae9e861f4e3ed104e1a0030b2868b19d7",
+          "external_same_version": {},
+          "gui_tests": 11,
+          "launch": {
+            "command": [
+              "/Users/runner/work/FreeCAD/FreeCAD/build/release/bin/FreeCAD",
+              "--hidden",
+              "--user-cfg",
+              "/Users/runner/work/_temp/qt-pdf-native-results/patched/user.cfg",
+              "--system-cfg",
+              "/Users/runner/work/_temp/qt-pdf-native-results/patched/system.cfg",
+              "/Users/runner/work/FreeCAD/FreeCAD/tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro"
+            ],
+            "environment_overrides": {
+              "DYLD_LIBRARY_PATH": "/Users/runner/work/_temp/qt-pdf-candidate/lib",
+              "DYLD_PRINT_LIBRARIES": "1",
+              "PATH": "/Users/runner/Library/Caches/rattler/cache/cached-envs-v0/7868fce21fe163a3/bin:/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/bin:/Users/runner/.pixi/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin:/opt/homebrew/opt/ruby@3.3/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools",
+              "PYTHONDONTWRITEBYTECODE": "1",
+              "PYTHONHOME": "/Users/runner/work/_temp/qt-pdf-candidate",
+              "PYTHONNOUSERSITE": "1",
+              "QT_PDF_BUILD_RUN": "37238935749",
+              "QT_PDF_TARGET": "osx-arm64",
+              "QT_PLUGIN_PATH": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins",
+              "QT_QPA_PLATFORM": "cocoa",
+              "QT_QPA_PLATFORM_PLUGIN_PATH": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms",
+              "TD_NATIVE_BYPASS_MODULE": "/Users/runner/work/_temp/qt-pdf-native-module/TechDrawGui.so",
+              "TD_NATIVE_DISPOSABLE": "1",
+              "TD_NATIVE_EXPECTED_QT_VERSION": "6.11.2",
+              "TD_NATIVE_OUTPUT": "/Users/runner/work/_temp/qt-pdf-native-results/patched",
+              "TD_NATIVE_PLUGIN_ROOT": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins",
+              "TD_NATIVE_QT_LIB": "/Users/runner/work/_temp/qt-pdf-candidate/lib",
+              "TD_NATIVE_QT_PREFIX": "/Users/runner/work/_temp/qt-pdf-candidate"
+            }
+          },
+          "native_scenarios": 24,
+          "prefix": "/Users/runner/work/_temp/qt-pdf-candidate",
+          "qt_libraries": [
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Core.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Core.6.11.2.dylib",
+              "sha256": "41d4478a8ec456589982d1a4eb098fe38964848de1061c3388f56f28ed3aac6f"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6DBus.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6DBus.6.11.2.dylib",
+              "sha256": "2e8ecbe3630cb1ca79fff9b0fe5f4a04221f46869f8366afbdf49142286bf866"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Gui.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Gui.6.11.2.dylib",
+              "sha256": "93831a86f6b1cc2e27b533c658595ea26517a54ccc07efadc6a081b3c254c291"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Network.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Network.6.11.2.dylib",
+              "sha256": "466ada061e59dfd78a8cccc5a0463411f335e0bcd3fc76b07be006ff9e7a9f81"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGL.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGL.6.11.2.dylib",
+              "sha256": "fe35d8df68be8907f466b797f0acf5b3e70e1e495b038d162b4781e9fadffb25"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6OpenGLWidgets.6.11.2.dylib",
+              "sha256": "56e33583d82d91cb0d51d7273c5b7501202f1f9a7c4325558ccb0b8096e4c44e"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6PrintSupport.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6PrintSupport.6.11.2.dylib",
+              "sha256": "e20784bec6759f659b19204cfcca8615f17df11dc04e77edab71c571b75f7dba"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Svg.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Svg.6.11.2.dylib",
+              "sha256": "2445f4aeda4201ddabb211a24124af147f00f0fc26a2f67dbbdf0efc72509226"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6SvgWidgets.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6SvgWidgets.6.11.2.dylib",
+              "sha256": "6d597e925cc84b910c0322b19b4f9732a058ccf988a0252d4b8b732eb54be39b"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6UiTools.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6UiTools.6.11.2.dylib",
+              "sha256": "f1e81ddf5808428d38481ac24adec8afc811ea333562682e72c57fa7058ed636"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Widgets.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Widgets.6.11.2.dylib",
+              "sha256": "e754ab9c0777351692347e1cda591300ebe2ab3544c8fa27d4aa20e91b402023"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Xml.6.11.2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/libQt6Xml.6.11.2.dylib",
+              "sha256": "cb745603d8c14db1c3e5e210ddc1d2ef3af4f0e47576939b68e234a0fb5a518a"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+              "sha256": "24b0ac1b8618cfb75d83da460afa07faf4476d8f7f4b9f6693544e5293b7b4d4"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqgif.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqgif.dylib",
+              "sha256": "70b072fdea39c4a8e0c8f820dc200b2f0a8b040be009f34f2f59ec2d172336f6"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqicns.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqicns.dylib",
+              "sha256": "6264c69f1c8b6c9e714a7b9515b233f7c6b553a0a4a648da886152d33071119b"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqico.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqico.dylib",
+              "sha256": "330a81f4010da8d59ca9e716a0cd5d70ec4a658edf4fe2b86f909452f00423b8"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqjpeg.dylib",
+              "sha256": "89bb8eecdeca4331d8d0eda8ace9b45ad182de513ad34ccff6d896b5e3c9d105"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacheif.dylib",
+              "sha256": "5fc024dcac84e8efaadd7b71324edcd215737fb5bf82ff1b051e007068be62a6"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+              "sha256": "7bac070dac2ab1cb41f4af1478c8fb218c226ddcb37e94431b61c43fd7795bed"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqsvg.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqsvg.dylib",
+              "sha256": "2fd44c380118b71d5544392b8ab252e99cd1b1242b90b846986dcd67c81cb4ef"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtga.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtga.dylib",
+              "sha256": "2750c11ee91e7a3bd89e202ed2bc26d5611892d481542683cd947ab251dab400"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtiff.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqtiff.dylib",
+              "sha256": "e5cbdee245d9c2fd04bfedbc72e6b448250bd30b4d742c8932f02acae6c9fba2"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwbmp.dylib",
+              "sha256": "082ff10d892ddbc876843f7c24bb39eb7e3b3b8a31ba64641cbcde5292d180a0"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwebp.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/imageformats/libqwebp.dylib",
+              "sha256": "294bd3d260c9c17e84e373e2a2dafd2455d3e7542d871253fe44e42ee7916b51"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/platforms/libqcocoa.dylib",
+              "sha256": "e8e0f9b2ab3c7a36a818e01561a2c7faec0283388008e5a3629e2bf353df4c22"
+            },
+            {
+              "loaded_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/styles/libqmacstyle.dylib",
+              "real_path": "/Users/runner/work/_temp/qt-pdf-candidate/lib/qt6/plugins/styles/libqmacstyle.dylib",
+              "sha256": "3f267b227c468880b0993c73667039260783ed8432ccad86b720196a6b0ded92"
+            }
+          ]
+        }
+      }
+    },
+    "win-64": {
+      "all_other_package_identities_preserved": true,
+      "binary": {
+        "build": "pl5321h17b71ab_1",
+        "build_number": 1,
+        "filename": "qt6-main-6.11.2-pl5321h17b71ab_1.conda",
+        "license": "LGPL-3.0-only",
+        "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73",
+        "size": 89678442,
+        "subdir": "win-64",
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h17b71ab_1.conda",
+        "version": "6.11.2"
+      },
+      "build_job_id": 111543565955,
+      "build_run": {
+        "id": 37238935749,
+        "source_commit": "1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "source_commit_url": "https://github.com/zukomgwili/FreeCAD/commit/1e2bf68f7f74a4a63a41990c4402f9f411386c53",
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749"
+      },
+      "limits": [
+        "This receipt qualifies only the exact win-64 conda PDF/native gates. Pending SDK and delivery children and the parent remain outstanding.",
+        "The original Windows attempt3 remains failed; its passed upstream10, prior Qt66 and compiled application/bypass bytes are reused without executing passed suites or recompiling.",
+        "The required fresh dependency-prefix installation and binding are runtime preparation, not a package build.",
+        "Live Python DLLs originate from the rattler cached execution environment. Their hashes match the selected Python package paths_data; this receipt does not claim every runtime image originates within the selected prefix.",
+        "Selected tracked source bytes and initialized submodule heads match the retained build; submodule file bytes were not inventoried.",
+        "The original raw diagnostic receipt remains restoration_validated=false. The separate actual Windows restoration receipt and fresh acceptance establish this narrow reuse.",
+        "Runtime logs retain OpenGL1.1, unregistered-command/FaceFinder and shutdown-notify/thread diagnostics; these do not prevent the recorded native PDF and GUI tests.",
+        "Hosted live origins and managed-file hashes are audited read-only. The review host launches no Windows executable.",
+        "Cross-device rounding differences are allowed; exact baseline/patched operators, coordinates and RGBA remain mandatory for each device.",
+        "Production dependency pins, installed user runtimes and production mitigations remain unchanged. No distribution or LibPack qualification is transferred."
+      ],
+      "native_receipt": {
+        "repository_path": "package/qt-pdf/windows-native-qualification.json",
+        "sha256": "cb53ba3eff76315cda18cc57dc55093b13840a87f491286349f35ea1ac752fb5"
+      },
+      "original_result_archive": {
+        "all_extracted_regular_sha_verified": true,
+        "all_member_crc_verified": true,
+        "api_sha256": {
+          "artifact-api.json": "65325d4cbf8165dcb7259b2f268fb857e3e73468e147881962bc4a9a229ceefe",
+          "artifact-list-api.json": "7d304141d607f8f9dcdfa22357dbef7d80c656259d42ea2de6f45109f9b9f8c8",
+          "attempt-api.json": "1f47ebaf3307ee41c5db997ec86efbb9a8f0d197cd33b5968b18b1f1b129b0ec",
+          "jobs-api.json": "2037ab7e25533ac4cd7feb49090368a842c08762bb8135f43fdb9aabe3df9816",
+          "run-api.json": "33b158333499409020a6ba9700746558cbe4a0589b7b3cd529241f668d5468ef"
+        },
+        "artifact_files_sha256": "2d2e768c11b90f4bbf8fad4c587941984be4ee472a4519dd9a698591fec452b2",
+        "artifact_id": 11406350942,
+        "artifact_name": "qt-pdf-qualification-win-64",
+        "artifact_size": 200666798,
+        "artifact_zip_sha256": "0f7d690cfd53ce588b5c3c57793090980a8276fde19d8ffdc29c828ec57e80e3",
+        "file_count": 2641,
+        "unpacked_bytes": 421404694,
+        "whole_zip_api_sha_size_verified": true
+      },
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification_run": {
+        "completed_at": "2026-10-06T10:29:50Z",
+        "conclusion": "success",
+        "dispatch_receipt_sha256": "9d7990bdab5deb9d7715f69e29ad78cebf3fa00a573207955602ab6edef650f1",
+        "event": "workflow_dispatch",
+        "head_branch": "codex/deliver-qt-pdf-stroker",
+        "head_sha": "6dde6ba6b53582a587cc11e2b832bedb34fdfc05",
+        "id": 37448399397,
+        "inputs": {
+          "build_run": "37238935749",
+          "reuse_run": "37367983867",
+          "stage": "windows-native",
+          "target": "win-64"
+        },
+        "job_id": 112218735834,
+        "job_name": "qualify (win-64, windows-2022)",
+        "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37448399397/job/112218735834",
+        "run_attempt": 1,
+        "runner_labels": [
+          "windows-2022"
+        ],
+        "selector_job_id": 112218696426,
+        "started_at": "2026-10-06T10:14:09Z",
+        "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37448399397",
+        "workflow_path": ".github/workflows/qt_pdf_qualify.yml"
+      },
+      "retained_evidence_path": "original-results/conda-win-64.zip",
+      "reused_qt_stage": {
+        "bypass_recompiled": false,
+        "durable_upstream_receipt": {
+          "path": "package/qt-pdf/windows-upstream-passed.json",
+          "sha256": "68cfbb287c464811a4797be6013b3e832c8b819bee8a1648cd5ea42529de590a"
+        },
+        "native_build_recompiled": false,
+        "package_build_run_id": 37238935749,
+        "passed_qt_pdfs_rerendered": false,
+        "qt66": {
+          "artifact_id": 11323427780,
+          "artifact_zip_sha256": "c06ec9b2e0dee94b5e1895835c99373abc5fa8b95758edd053514ccc829cf62a",
+          "executed_again": false,
+          "member_count": 828,
+          "passed_cases": 66,
+          "receipt": "package/qt-pdf/windows-qt-passed.json",
+          "receipt_sha256": "ae660f0b07f250289eef75c5efdc71ed8f404095f77508d3710efc46f0e1ceaa",
+          "run_id": 37250196345
+        },
+        "qt_executors_skipped": true,
+        "upstream10": {
+          "executed_again": false,
+          "head_sha": "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47",
+          "job_id": 112131196553,
+          "passed_test_cases": 10,
+          "qt_version": "6.11.2",
+          "receipt_sha256": "6ddab194a500bc78077092043d2e27179661aabe4ccaa614e4a8bdf6a343b929",
+          "run_attempt": 3,
+          "run_id": 37367983867
+        },
+        "upstream_executors_skipped": true
+      },
+      "runtime": {
+        "baseline": {
+          "available_qt_libraries": 70,
+          "available_qt_plugins": 42,
+          "freecad_version": [
+            "27",
+            "1",
+            "0",
+            "20261005 (Git shallow)",
+            "https://github.com/zukomgwili/FreeCAD codex/deliver-qt-pdf-stroker",
+            "2026/10/05 20:08:48",
+            "codex/deliver-qt-pdf-stroker",
+            "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47"
+          ],
+          "gui_tests": {
+            "errors": 0,
+            "failures": 0,
+            "gui_tests": 11
+          },
+          "launch_sha256": "67d4977806595f7bad81468cf6af62dfe3cd36777e55a82582e765ac57922052",
+          "loaded_qt": {
+            "qt_libraries": [
+              {
+                "relative_path": "Library/bin/Qt6Core.dll",
+                "sha256": "7e07ba9e4fb4e29507b6e505b88376ce31c18a3a85739edc270e0e8ef405da70"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Gui.dll",
+                "sha256": "80c44c775355baf2c53db15c8305d8e028b4bdad1c878010b91c4cb267d7404a"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Network.dll",
+                "sha256": "f462aa3c96aa46b20698cf7c039142e91c6fb5a1be1ce3290efa8cfe9e5b420b"
+              },
+              {
+                "relative_path": "Library/bin/Qt6OpenGL.dll",
+                "sha256": "5a02759a4c8fd1f32524e71fb552d19b80784b103b8cfc9f45b975c2ebaf8a98"
+              },
+              {
+                "relative_path": "Library/bin/Qt6OpenGLWidgets.dll",
+                "sha256": "795d49d5535fff0feb83468c1bd6e63ee9535e5400aadf09c4d451963f1a6b7d"
+              },
+              {
+                "relative_path": "Library/bin/Qt6PrintSupport.dll",
+                "sha256": "de67a6e2f4b9f07b9cc48851a6945fe55f76e18a8b5114e061cd58d4913b69d2"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Svg.dll",
+                "sha256": "b06cced0a3bff9f811e8299459f80c714fc478c402936b43a745bda6c8178d31"
+              },
+              {
+                "relative_path": "Library/bin/Qt6SvgWidgets.dll",
+                "sha256": "71098d878eed40c11b95424141f288157b12d7e2979880c2627231d0e7b2153d"
+              },
+              {
+                "relative_path": "Library/bin/Qt6UiTools.dll",
+                "sha256": "f00c4b5e0b3d039b4030e2828380a013a085e60dd4f91ba9296ef70aba835a2d"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Widgets.dll",
+                "sha256": "cddaeac6c83174fd9f147e1c2dbdb0db9d6892f37aaba71eb3286bc419216c62"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Xml.dll",
+                "sha256": "4505fb734fba24791be4a0e97ca36861b39fb30b019ed40eb0466dd329260039"
+              }
+            ],
+            "qt_plugins": [
+              {
+                "relative_path": "Library/lib/qt6/plugins/iconengines/qsvgicon.dll",
+                "sha256": "dd3bf0b8e0eaebc12095d3f2264c40976c60b6726aaae46ba9ea4454810b385e"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qgif.dll",
+                "sha256": "51e1b1f2b78a30aca27b14a83305fffd4e90790f1107bfdcf2faba5f0b5f0d79"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qicns.dll",
+                "sha256": "8e8e43fd062bfcc83bd0709b8656b21cd7810568f766c0c2333a7c11de6d2073"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qico.dll",
+                "sha256": "2647f05a1ea240dbb1bb9be43f30597e318c9e709127f7b2ebae58206ed18b7a"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+                "sha256": "599f1c15b4e0255e3200bfefc5573a2f17cf3439c1caca421e7a6b354ac6e666"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qsvg.dll",
+                "sha256": "ae8437aefe26c8c70ae8eeb28705aab5a37c681ae1690f208e9b1142416196e8"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qtga.dll",
+                "sha256": "b7d91970e1d4078dd19ef47fc83eda0aa315f49f87e71fa99d06ebda5a005ec4"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qtiff.dll",
+                "sha256": "09f97b672e32ba9b30e9c127d7fda27ed96502f4443d09179a16fb96dd7b1a55"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+                "sha256": "9be24051291148ee56f5f328566eb892e6b6d4d95b89d5dbce8e0b39764a534c"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qwebp.dll",
+                "sha256": "f5e95e60e1190cc776674b5c8110480e100ab2ac94d76e91f1ab8e343ed7e11d"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/platforms/qwindows.dll",
+                "sha256": "79cf62d8a07b4e1b8bc43bd865e574f35064197f3dce4d9a8c9dc36c10e3b59f"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/styles/qmodernwindowsstyle.dll",
+                "sha256": "b1f1724d1f141519ecb95de31e87c3e09542f0acac05501c9e14504992014930"
+              }
+            ]
+          },
+          "managed_package_count": 361,
+          "module_sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876",
+          "native_runtime_images": [
+            {
+              "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python3.dll",
+              "sha256": "592a2ef1d3cdc18771ab56b695aafdebccb87b4ba6e59af2f7efa533c0980ed5"
+            },
+            {
+              "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python313.dll",
+              "sha256": "fac233daefc2f81e4050f9a6c1882c0d070dbe624f5bee27fec8749f6ca51e5a"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default\\Library\\bin\\pyside6.cp313-win_amd64.dll",
+              "sha256": "3fd5fc9cd95693bcee1081dce40a5ffef864c4c900e6aee1e0f2d22b8246a6c3"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default\\Library\\bin\\shiboken6.cp313-win_amd64.dll",
+              "sha256": "4ba924b4facb6f8c8d79dc651ab237a40a966b052f85aa3ec127c19533d0b6d7"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCAD.exe",
+              "sha256": "b30bcb87deeaf2a3ddde1ba162904db7898f2563f21bf75cbbbb0b50073ab0c2"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADApp.dll",
+              "sha256": "80767a3127b94af942eb90d8226fc68106d377481961146b7646715558052c6c"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADBase.dll",
+              "sha256": "d777854396dacf89b40e6089e95b79806c29eaf1807697ab34a9bd4f047d5d71"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADGui.dll",
+              "sha256": "4ea4c26e6342cc11e76eea90142600497efd4f5d0e4f27524325d4f5cf7ccea0"
+            },
+            {
+              "real_path": "D:\\a\\_temp\\qt-pdf-native-module\\TechDrawGui.pyd",
+              "sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876"
+            }
+          ],
+          "prefix": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default",
+          "provenance_sha256": "1e81685101dc1d98dcbe94d5b0dcbfdb6611bf60de4e3b8203bcb47d81a94d09",
+          "qpa_platform": "windows",
+          "qt_package_identity": {
+            "build": "pl5321hfcac499_0",
+            "checksum": {
+              "sha256": "042c94a5a7a89b0b28a24f6ae6a2d3d609751edab78454057973ec5cc3e77d7d"
+            },
+            "name": "qt6-main",
+            "subdir": "win-64",
+            "version": "6.11.2"
+          },
+          "runtime_log_sha256": "d1b497b9ceca0166a0e461164503ee9ceb0d5422bf9cadeb017f64bf6ca05408",
+          "selected_package_identities": {
+            "occt": {
+              "build": "all_h6eddace_201",
+              "checksum": {
+                "sha256": "a2500d885709fbfb8246da4469f26ff0595ab0965c75fd04df168826c02de76a"
+              },
+              "name": "occt",
+              "subdir": "win-64",
+              "version": "8.0.1"
+            },
+            "pyside6": {
+              "build": "py313hdceff89_1",
+              "checksum": {
+                "sha256": "285551c448e6ee251e1f5323fbcb0e873b0323ca11691eaca4778dd387f934f0"
+              },
+              "name": "pyside6",
+              "subdir": "win-64",
+              "version": "6.11.2"
+            },
+            "python": {
+              "build": "h254dcb4_103_cp313",
+              "checksum": {
+                "sha256": "097e081574bf96282082915f78a83480361285137370c8cc35e2c51d693a0690"
+              },
+              "name": "python",
+              "subdir": "win-64",
+              "version": "3.13.15"
+            },
+            "qt6-main": {
+              "build": "pl5321hfcac499_0",
+              "checksum": {
+                "sha256": "042c94a5a7a89b0b28a24f6ae6a2d3d609751edab78454057973ec5cc3e77d7d"
+              },
+              "name": "qt6-main",
+              "subdir": "win-64",
+              "version": "6.11.2"
+            }
+          }
+        },
+        "patched": {
+          "available_qt_libraries": 70,
+          "available_qt_plugins": 42,
+          "freecad_version": [
+            "27",
+            "1",
+            "0",
+            "20261005 (Git shallow)",
+            "https://github.com/zukomgwili/FreeCAD codex/deliver-qt-pdf-stroker",
+            "2026/10/05 20:08:48",
+            "codex/deliver-qt-pdf-stroker",
+            "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47"
+          ],
+          "gui_tests": {
+            "errors": 0,
+            "failures": 0,
+            "gui_tests": 11
+          },
+          "launch_sha256": "508d0ba9ca06771d0425fd2cf19daa328a64f475b85346eb482ce1acd43aa0a3",
+          "loaded_qt": {
+            "qt_libraries": [
+              {
+                "relative_path": "Library/bin/Qt6Core.dll",
+                "sha256": "f9e64692a6036c48cb65a9941f57f89fd2046f5d7be734f7722ad2528d9aa1f3"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Gui.dll",
+                "sha256": "a46d333bff34e7005acadd1c375598ea48dc57dbe2f5cbabde7f095cc8280e77"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Network.dll",
+                "sha256": "1228739876502b7833f8cf99e7d4fcdd77fc3d7e557534702877c9a09b5a9188"
+              },
+              {
+                "relative_path": "Library/bin/Qt6OpenGL.dll",
+                "sha256": "18679f495c4ffc3c9c38e18f7e0efed7024d1ecce78a6e84e7a87b5644455134"
+              },
+              {
+                "relative_path": "Library/bin/Qt6OpenGLWidgets.dll",
+                "sha256": "77cfb88ae87e3c8180447959177f2d167d87c6095e9b84313e5c39ac4337c0ca"
+              },
+              {
+                "relative_path": "Library/bin/Qt6PrintSupport.dll",
+                "sha256": "e9dba0cf61ffa35f33335389e3ce2259858da2db0db79d576783c2327c740a12"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Svg.dll",
+                "sha256": "78034b27454970ca847d06437c4a3b744c7e61cb8971e013166b5652f5bd964f"
+              },
+              {
+                "relative_path": "Library/bin/Qt6SvgWidgets.dll",
+                "sha256": "3ed7040b3dd93008d1fc3ab00a51ce05ce9bec60f1c19d095884f5a857e355fc"
+              },
+              {
+                "relative_path": "Library/bin/Qt6UiTools.dll",
+                "sha256": "eeb2b7887b6770d22c80cf7118c84a884c0a61a3a680ecb0f865e7b544964ab3"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Widgets.dll",
+                "sha256": "afec855ff2aa948b7f17cff4ad7d5cbc263990d82cda27c49f66dae97b36b803"
+              },
+              {
+                "relative_path": "Library/bin/Qt6Xml.dll",
+                "sha256": "5f67bfd6147a18b7dc6f0b3b7bacfb0ac92947822a5d4f981298f30421368bf8"
+              }
+            ],
+            "qt_plugins": [
+              {
+                "relative_path": "Library/lib/qt6/plugins/iconengines/qsvgicon.dll",
+                "sha256": "32206003c65719cbab398acc8829b2071cc81ae864b2e8b65e372d68b490494e"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qgif.dll",
+                "sha256": "66aad7c37e3cbb11618c23404175c2f98449bf97caf4d3de1eb8c58d2ecfec1f"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qicns.dll",
+                "sha256": "48bec9c523e034f706c7f30cb0b83299dc20092cc1c42c6af0d073c666eea146"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qico.dll",
+                "sha256": "22046c3b6013f1d090209acd6246a4f46aa587e9c9ac878f5acb8c2ed62e5e98"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+                "sha256": "53b1c00aa8e1bd8df706d399fcec7d2e142ec44c2e41dd6a93067e36bf75b91f"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qsvg.dll",
+                "sha256": "6de6d279e5ed66c1c911cafb7684522cf25161778fe32096d085e6fef9a794a3"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qtga.dll",
+                "sha256": "59cfc10319645da899227046cfe4776a5c980069e784d0fcab4c24d831d5f2d1"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qtiff.dll",
+                "sha256": "e26eb5db545b4ac742a46276fd8fcab5d71830dd852341d83efcfdf72a710c0c"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+                "sha256": "06584753d970ef45cb31a4b167692350f31ad158c6ae5ab3f98941b4b82f8b3f"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/imageformats/qwebp.dll",
+                "sha256": "156e5d9cfe676c9e808af4c448fd0661e05a1caf7b2174e9054f976f5d3b6659"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/platforms/qwindows.dll",
+                "sha256": "bc518282f33aac834230d59c37be53fca5487adfa3958b522e50d48fff6c009f"
+              },
+              {
+                "relative_path": "Library/lib/qt6/plugins/styles/qmodernwindowsstyle.dll",
+                "sha256": "33e23c38e0ee5ebcdd416497ea432b6156fc7a9c99f9f51be3050505fa40dca0"
+              }
+            ]
+          },
+          "managed_package_count": 361,
+          "module_sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876",
+          "native_runtime_images": [
+            {
+              "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python3.dll",
+              "sha256": "592a2ef1d3cdc18771ab56b695aafdebccb87b4ba6e59af2f7efa533c0980ed5"
+            },
+            {
+              "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python313.dll",
+              "sha256": "fac233daefc2f81e4050f9a6c1882c0d070dbe624f5bee27fec8749f6ca51e5a"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCAD.exe",
+              "sha256": "b30bcb87deeaf2a3ddde1ba162904db7898f2563f21bf75cbbbb0b50073ab0c2"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADApp.dll",
+              "sha256": "80767a3127b94af942eb90d8226fc68106d377481961146b7646715558052c6c"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADBase.dll",
+              "sha256": "d777854396dacf89b40e6089e95b79806c29eaf1807697ab34a9bd4f047d5d71"
+            },
+            {
+              "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADGui.dll",
+              "sha256": "4ea4c26e6342cc11e76eea90142600497efd4f5d0e4f27524325d4f5cf7ccea0"
+            },
+            {
+              "real_path": "D:\\a\\_temp\\qt-pdf-candidate\\Library\\bin\\pyside6.cp313-win_amd64.dll",
+              "sha256": "3fd5fc9cd95693bcee1081dce40a5ffef864c4c900e6aee1e0f2d22b8246a6c3"
+            },
+            {
+              "real_path": "D:\\a\\_temp\\qt-pdf-candidate\\Library\\bin\\shiboken6.cp313-win_amd64.dll",
+              "sha256": "4ba924b4facb6f8c8d79dc651ab237a40a966b052f85aa3ec127c19533d0b6d7"
+            },
+            {
+              "real_path": "D:\\a\\_temp\\qt-pdf-native-module\\TechDrawGui.pyd",
+              "sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876"
+            }
+          ],
+          "prefix": "D:\\a\\_temp\\qt-pdf-candidate",
+          "provenance_sha256": "4c46b805c7f71d47a3496b49b55820d18efdb34d31f0723830c4f02a21dc0e72",
+          "qpa_platform": "windows",
+          "qt_package_identity": {
+            "build": "pl5321h17b71ab_1",
+            "checksum": {
+              "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73"
+            },
+            "name": "qt6-main",
+            "subdir": "win-64",
+            "version": "6.11.2"
+          },
+          "runtime_log_sha256": "403aad1ac85e22f42dd84f9b7b9b20fa221ea671dc529808cb7ff5cecc005a42",
+          "selected_package_identities": {
+            "occt": {
+              "build": "all_h6eddace_201",
+              "checksum": {
+                "sha256": "a2500d885709fbfb8246da4469f26ff0595ab0965c75fd04df168826c02de76a"
+              },
+              "name": "occt",
+              "subdir": "win-64",
+              "version": "8.0.1"
+            },
+            "pyside6": {
+              "build": "py313hdceff89_1",
+              "checksum": {
+                "sha256": "285551c448e6ee251e1f5323fbcb0e873b0323ca11691eaca4778dd387f934f0"
+              },
+              "name": "pyside6",
+              "subdir": "win-64",
+              "version": "6.11.2"
+            },
+            "python": {
+              "build": "h254dcb4_103_cp313",
+              "checksum": {
+                "sha256": "097e081574bf96282082915f78a83480361285137370c8cc35e2c51d693a0690"
+              },
+              "name": "python",
+              "subdir": "win-64",
+              "version": "3.13.15"
+            },
+            "qt6-main": {
+              "build": "pl5321h17b71ab_1",
+              "checksum": {
+                "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73"
+              },
+              "name": "qt6-main",
+              "subdir": "win-64",
+              "version": "6.11.2"
+            }
+          }
+        }
+      }
+    }
+  },
+  "durable_evidence_asset": {
+    "filename": "qt-pdf-qualification-evidence.tar.zst",
+    "member_count": 410,
+    "qualification_receipt": "package/qt-pdf/distribution-qualification.json",
+    "sha256": "732cc5ba20adf06347b2282b8d6812c7d5cb41b500799186b71ee6a88e52c6a7",
+    "size": 1049797092,
+    "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt-pdf-qualification-evidence.tar.zst"
+  },
+  "libpacks": {
+    "3.5.3-x64": {
+      "binary": {
+        "directory_count": 4402,
+        "file_count": 60094,
+        "filename": "LibPack-26.3.0-v3.5.3-x64-Release-qt-pdf.tar.gz",
+        "index_path": "package/qt-pdf/distribution-indexes/3.5.3-x64.json.gz",
+        "index_sha256": "5a65c9994adfa4ea3b66020ee0bd3ce2226aa28760e3514fbde31ae786bd8913",
+        "index_uncompressed_sha256": "dbb699f8677529a83f7b2896f88957112970395d5540e19e2ec5bae87460614c",
+        "qt_version": "6.11.1",
+        "sha256": "9d54c145862f0ce004b59cd02a74f92c7a05642bbcc139ae986833c2b9e5445a",
+        "size": 1149392860,
+        "unpacked_file_bytes": 3140175032,
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/LibPack-26.3.0-v3.5.3-x64-Release-qt-pdf.tar.gz"
+      },
+      "build_commit": "ba37708eecef736d9caafdbae5f07618887d675b",
+      "build_run": 37254793061,
+      "independent_reviews": {
+        "independent_pdf_png_review": {
+          "evidence_path": "reviews/libpack-native-pdf/standard-review.json",
+          "sha256": "4b7e54d5a84476452e7d09c22b02ce87c8f8e939b01b732ab7e56c74d8625a96"
+        },
+        "independent_runtime_sdk_review": {
+          "evidence_path": "reviews/libpack-runtime/standard-actual-review.json",
+          "sha256": "c4c44af069ee8356b5b132c9e6f8e68f7b3022ac7cf5dc37b4c6c997d08c5b05"
+        },
+        "reused_independent_qt_review": {
+          "evidence_path": "reviews/libpack-qt-standard/review.json",
+          "sha256": "251d4283d5b5e0506f570bdc87b0974a03ea4bfd4238551d0ca2dafb951eca4c"
+        },
+        "transport_review": {
+          "evidence_path": "transport/libpack-native-3.5.3-x64/transport-review.json",
+          "sha256": "01a1dba1a790230d0fd124334d297fc19d87d8d4cfaae00f68df5f27e63b25c5"
+        }
+      },
+      "original_result_path": "original-results/libpack-native-3.5.3-x64.zip",
+      "original_reused_qt_result_path": "original-results/libpack-reused-qt-3.5.3-x64.zip",
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification": {
+        "artifact": {
+          "id": 11440268389,
+          "name": "qt-pdf-libpack-recovered-qualification-3.5.3-x64",
+          "sha256": "6cd26b4d52070019a9bf2b9682e262013d476ada8ad2b5d317bfdd4316d95b2b",
+          "size": 86486393
+        },
+        "baseline_reproduced_by_device": {
+          "qpdfwriter": 1,
+          "qprinter": 1
+        },
+        "compiled_source": {
+          "binary_source_commit": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+          "bypass_recompiled": false,
+          "compiled_tracked_inputs_equal": true,
+          "freecad_recompiled": false,
+          "qualification_source_commit": "81454d2c3aae723c9d516c077d68c308f74e3ee0",
+          "selected_paths": [
+            ".",
+            ":(exclude).beads/issues.jsonl",
+            ":(exclude).github/workflows/qt_pdf_libpack_recover.yml",
+            ":(exclude)package/qt-pdf/README.md",
+            ":(exclude)package/qt-pdf/prepare_libpack_host_tools.py",
+            ":(exclude)package/qt-pdf/qualify_libpack_backport.py",
+            ":(exclude)package/qt-pdf/qualify_libpack_native.py",
+            ":(exclude)package/qt-pdf/restore_libpack_native_completed.py",
+            ":(exclude)package/qt-pdf/libpack_readonly_sdk.py",
+            ":(exclude)tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+            ":(exclude)tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py"
+          ],
+          "source_timestamps_modified": false
+        },
+        "gui_tests_per_runtime": 11,
+        "job_id": 112452488132,
+        "native_capture_sha256": "c7b8cb72b7b7c8b00eaff7f7e6455e92846660a3a141a5139f4d54ba754915a6",
+        "native_inspection_sha256": "073d760329a237e5f849b923a2f42560de5165c1c1aa21b117fce47b9ad92a68",
+        "native_pairs_passed": 24,
+        "original_qt_head": "6e8306a4d0c2e377411e3cb554a1081955c2bf61",
+        "original_qt_run": 37465187347,
+        "patched_invalid_closes": 0,
+        "promotion_allowed": false,
+        "qualified": false,
+        "reused_qt_inspection_sha256": "b1db81079f826cba2266d82fc2cb0e6683df48180f2e4bcd67cd9202b23d7d78",
+        "sdk": "3.5.3-x64",
+        "sdk_contents_preserved": true,
+        "sdk_dacl_entries": 128807,
+        "sdk_dacl_restored": true,
+        "sdk_protection_sha256": "1c248d9389101f491ed115d78f4c306d53f5fc9acaff868b45118afeb4c1f071"
+      },
+      "runtime_origin_review": {
+        "actual_QtGui_sha256s": {
+          "baseline": "1f9e8dd61f5b8ba816b2baa193529e1f085938a244142bf8b461d56d6a466f31",
+          "patched": "b915904cd39c2cbd9e6d6381ce53f8bf78b09dd81b510e7f1a80d616dfb369cb"
+        },
+        "artifact_dir": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-t8a6-4rub1frr/finite-admissions-standard/artifact",
+        "axis": "independent actual native runtime/origin review",
+        "baseline_reproduced_by_device": {
+          "qpdfwriter": 1,
+          "qprinter": 1
+        },
+        "bypass_recompiled": false,
+        "checks": [
+          {
+            "name": "Actual native capture/source/compiler/SDK/evidence and preservation",
+            "passed": true
+          },
+          {
+            "name": "Exact original completed failure/source/core pins; whole tracked input equality; no compiler/app/bypass reexecution",
+            "passed": true
+          },
+          {
+            "name": "Exact original SDK admission/compiled source, native cache and unchanged passedQt receipt bindings",
+            "passed": true
+          },
+          {
+            "name": "Actual retained baseline Python/Qt configuration and scoped original CMake selection; no build run",
+            "passed": true
+          },
+          {
+            "name": "Separate actual finite host profile with historical compile provenance intact",
+            "passed": true
+          },
+          {
+            "name": "Actual real Windows seven-denial preflight and full per-path original/protected/restored ACL/control/API/effective-rights SDK proof; all SDK snapshots and after inventories exact",
+            "passed": true
+          },
+          {
+            "name": "Actual retained five FreeCAD/core/bypass PE binary bytes",
+            "passed": true
+          },
+          {
+            "name": "Only two literal mitigations bypassed; exact producer original source bytes preserved",
+            "passed": true
+          },
+          {
+            "name": "baseline actual native24 GUI11 stock dialogs and exact Qt/Python/binding/core origins",
+            "passed": true
+          },
+          {
+            "name": "patched actual native24 GUI11 stock dialogs and exact Qt/Python/binding/core origins",
+            "passed": true
+          },
+          {
+            "name": "Actual retained native comparison result all24 and per-device baseline reproduction; pixels not rerendered",
+            "passed": true
+          }
+        ],
+        "downloaded": false,
+        "freecad_recompiled": false,
+        "gui_tests_per_runtime": {
+          "baseline": [
+            {
+              "errors": 0,
+              "failures": 0,
+              "gui_tests": 11
+            }
+          ],
+          "patched": [
+            {
+              "errors": 0,
+              "failures": 0,
+              "gui_tests": 11
+            }
+          ]
+        },
+        "head_sha": "81454d2c3aae723c9d516c077d68c308f74e3ee0",
+        "loaded_origins": {
+          "baseline": {
+            "core": [
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCAD.exe",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCAD.exe",
+                "sha256": "09e7cc6e6474ea36da7a69fbfc486890e68d08d0472dbfd27c90c1a58de392d0"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADApp.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADApp.dll",
+                "sha256": "582370e6ab247fa12e0d58d35adaf6e6b28cedf66a72517e22abec1809200d03"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADBase.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADBase.dll",
+                "sha256": "333b2a939a5b07c75c0ead85891692373403e9b85df913b2d4de47e0833619a2"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADGui.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADGui.dll",
+                "sha256": "c5e1f06b35ae37118f055b3f9752fbfadb4504016c9348b986cc76fee18527f4"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\module\\TechDrawGui.pyd",
+                "pe_machine": 34404,
+                "retained": "native-binaries/TechDrawGui.pyd",
+                "sha256": "5dd8708a8f44ea2f5ae4ff9497a3a4048ca77cf2fa86dda12a28a5d1c950687b"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Lib\\site-packages\\PySide6\\pyside6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "6fc463491c2cf4315dd4e7f53efb3d5a6faea07c0b3281673a4d747659e09125"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Lib\\site-packages\\shiboken6\\shiboken6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "8664742677916c928bf91b36d9c3dfe073fec7a595ea34fbc08410fe83a1da09"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\python3.dll",
+                "pe_machine": 34404,
+                "sha256": "414ecad4aec5e5a6068d70bd3f0f59ca7a58a84f7064431c2f544428fbb68f08"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\python314.dll",
+                "pe_machine": 34404,
+                "sha256": "908ca8fba987d116cd3ad257b886031b67a8265f4442bf36a4c6852dc5b8d577"
+              }
+            ],
+            "qt": [
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6Core.dll",
+                "pe_machine": 34404,
+                "sha256": "a05fc226b7b398e976487652ec63ca14aa8e7fbe13487f8add5aaba3c30861cc"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6Gui.dll",
+                "pe_machine": 34404,
+                "sha256": "1f9e8dd61f5b8ba816b2baa193529e1f085938a244142bf8b461d56d6a466f31"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6Network.dll",
+                "pe_machine": 34404,
+                "sha256": "f641ba60fbb69d91c4d7d6bc692ce4db611a092df567a48121d2f1d7232eda93"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6OpenGL.dll",
+                "pe_machine": 34404,
+                "sha256": "abf5fb995e213195eb76b61f477c7184a50e276c95bdb7fb3be6195870720419"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6OpenGLWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "1a318b2510e124c444dea5c79daad660df8cc85c3e3ff39f4db6321726c5eb8b"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6PrintSupport.dll",
+                "pe_machine": 34404,
+                "sha256": "b8f5a6a30e48986ea456e17528984988ce183212c56c07b8649f7d70ad30d8b4"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6Svg.dll",
+                "pe_machine": 34404,
+                "sha256": "2e78e31f7db7b4f469c282abde66ce1a297fb48438f01bfbc3fb4a8651d41e0d"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6SvgWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "9f06f693f2c2c4ccdbce224c6b2035ae3e85551a3b368e98c808f6d7a1d4e465"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6UiTools.dll",
+                "pe_machine": 34404,
+                "sha256": "be78cf572dacae56d5396e7bd886f75f6d2d9db7d2a7133a622884b3710cb366"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6Widgets.dll",
+                "pe_machine": 34404,
+                "sha256": "b041579e9b4df0e168d080b258facef36cb1adc348e487b8efb0edddcd347587"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\bin\\Qt6Xml.dll",
+                "pe_machine": 34404,
+                "sha256": "b8c2468bc8c769d3ea2bf98b39ccb63600b32bc1d6e5a66c601b5a2f54899ca1"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\iconengines\\qsvgicon.dll",
+                "pe_machine": 34404,
+                "sha256": "db68331d3586a2fcb3a6e075eb75ff6a40f9018a6f6a3cf3c2f7cef475b593fd"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qgif.dll",
+                "pe_machine": 34404,
+                "sha256": "c48b2cb862f8dd95349653dfcf3d9b91512c853a21c19c2500e1b5a6d23d5932"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qicns.dll",
+                "pe_machine": 34404,
+                "sha256": "da2d9bb6a7daaa09f63e066ccc5d45599ebd542d1f8f639029bce7cfe5618572"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qico.dll",
+                "pe_machine": 34404,
+                "sha256": "9edd892079bbfd06637b290a29b0c6eede469e12cc8bef46638612b51e5ba255"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qjpeg.dll",
+                "pe_machine": 34404,
+                "sha256": "e4f503da7fd54f225f7c5439a16f184fd3807e883db7271ebabda7c7a0b9c249"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qsvg.dll",
+                "pe_machine": 34404,
+                "sha256": "0ba0a8f502543e1b10c4b61efcf62c9460f1b41fe377b9a2221383bcbc542950"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qtga.dll",
+                "pe_machine": 34404,
+                "sha256": "838481adbe79a3132bd030e9fcc7ad9d7242284050d97d39767b18bc81863b60"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qtiff.dll",
+                "pe_machine": 34404,
+                "sha256": "51fffcdd06f4ed855a39569dfe4adb5f12d189aeb2b89b1ead36708088abe974"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qwbmp.dll",
+                "pe_machine": 34404,
+                "sha256": "6b84db7c77c2e0990d7d2fad6adc44f858316ed8a4456cdede48cc2d538eccac"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\imageformats\\qwebp.dll",
+                "pe_machine": 34404,
+                "sha256": "55498dc33000db017b57f749640e7fce7824a31d517dc2346300fc74578cdb55"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\platforms\\qwindows.dll",
+                "pe_machine": 34404,
+                "sha256": "5589c01f76aec5b06fc478879276735a95d46d0942ff0f3c82f6865cc334c208"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.3-x64-Release\\plugins\\styles\\qmodernwindowsstyle.dll",
+                "pe_machine": 34404,
+                "sha256": "2deb48a5bf8feabd73c7d1482e3519446aaa044dde07d94e3d92493ef1a764e3"
+              }
+            ]
+          },
+          "patched": {
+            "core": [
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCAD.exe",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCAD.exe",
+                "sha256": "09e7cc6e6474ea36da7a69fbfc486890e68d08d0472dbfd27c90c1a58de392d0"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADApp.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADApp.dll",
+                "sha256": "582370e6ab247fa12e0d58d35adaf6e6b28cedf66a72517e22abec1809200d03"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADBase.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADBase.dll",
+                "sha256": "333b2a939a5b07c75c0ead85891692373403e9b85df913b2d4de47e0833619a2"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADGui.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADGui.dll",
+                "sha256": "c5e1f06b35ae37118f055b3f9752fbfadb4504016c9348b986cc76fee18527f4"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\module\\TechDrawGui.pyd",
+                "pe_machine": 34404,
+                "retained": "native-binaries/TechDrawGui.pyd",
+                "sha256": "5dd8708a8f44ea2f5ae4ff9497a3a4048ca77cf2fa86dda12a28a5d1c950687b"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\Lib\\site-packages\\PySide6\\pyside6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "6fc463491c2cf4315dd4e7f53efb3d5a6faea07c0b3281673a4d747659e09125"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\Lib\\site-packages\\shiboken6\\shiboken6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "8664742677916c928bf91b36d9c3dfe073fec7a595ea34fbc08410fe83a1da09"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\python3.dll",
+                "pe_machine": 34404,
+                "sha256": "414ecad4aec5e5a6068d70bd3f0f59ca7a58a84f7064431c2f544428fbb68f08"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\python314.dll",
+                "pe_machine": 34404,
+                "sha256": "908ca8fba987d116cd3ad257b886031b67a8265f4442bf36a4c6852dc5b8d577"
+              }
+            ],
+            "qt": [
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Core.dll",
+                "pe_machine": 34404,
+                "sha256": "8f4a0acb8008cba6767fa62a89ae348c49183401f083395084554976dce8b96d"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Gui.dll",
+                "pe_machine": 34404,
+                "sha256": "b915904cd39c2cbd9e6d6381ce53f8bf78b09dd81b510e7f1a80d616dfb369cb"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Network.dll",
+                "pe_machine": 34404,
+                "sha256": "c6bafda286643ede7f34c46734f7a4920eab2800cad40da8d4693a2a11c0b0af"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6OpenGL.dll",
+                "pe_machine": 34404,
+                "sha256": "7f7b79386a7901982f641d9d401ff63946cf18903fcc5f161e7b589f27407fb1"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6OpenGLWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "12ba301245f1b6ba2726a0e0aa1012d5f2d2144024a0ffd571f332fcd4254959"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6PrintSupport.dll",
+                "pe_machine": 34404,
+                "sha256": "6785e9f1b14b75d647790c26b544bc655f4f8c3be268ac1b1630655b2ed54a94"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Svg.dll",
+                "pe_machine": 34404,
+                "sha256": "cac2a397d84b6c22306c8cc4e48dee15b96f6011e63128545ca088569ad14dab"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6SvgWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "6fe45be50095fae0079678601ccfd0fdb0c7f71e449f80d049d755791ddfb4b4"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6UiTools.dll",
+                "pe_machine": 34404,
+                "sha256": "2fd5849e88813bfd8e30dbb3aacaaedf2e2649150f1a0f2971d163610b0c6d79"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Widgets.dll",
+                "pe_machine": 34404,
+                "sha256": "08e24f8d5df6587ea804a936162404e05d9085df9042a9b2722bc98a749249cf"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Xml.dll",
+                "pe_machine": 34404,
+                "sha256": "a6e83d8d938ecde30dc7bf24ce5ad0fcaae0fbd84bbb8ea388811d00c3505995"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\iconengines\\qsvgicon.dll",
+                "pe_machine": 34404,
+                "sha256": "740c76096f98eebee33eb067d2c478f75cf2cd8996311e8c2462ee10dea386fc"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qgif.dll",
+                "pe_machine": 34404,
+                "sha256": "d20ac0e0d65b16e901adf5a3fc641fc742bbfeaca8c6bfc944b7dec11af43ced"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qicns.dll",
+                "pe_machine": 34404,
+                "sha256": "a1ebc216939fae9f952b01e293da4c068e343d4ce1751b2e1c2ccc345b9196b4"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qico.dll",
+                "pe_machine": 34404,
+                "sha256": "906bdab12cd2967f4d562fd8917d990143eb218793e61f2f457f487af95cc9cd"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qjpeg.dll",
+                "pe_machine": 34404,
+                "sha256": "26305fe7315d6a5ceff9047de30ea812b2c987fd1a230c8d81dfeadade658d2e"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qsvg.dll",
+                "pe_machine": 34404,
+                "sha256": "a14ca90e7564eb2eba0b7a2c6bb66b27fdc9436f9fd3bad07c358e9c58438ea7"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qtga.dll",
+                "pe_machine": 34404,
+                "sha256": "69a93a3994947eb3cf3ef0b54b7bc5356ae4c5d2f4c48e44e91497d28ed5f854"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qtiff.dll",
+                "pe_machine": 34404,
+                "sha256": "1fe9596d669ead414d9968a87263d05f4a6b24f0bb191b3d6ba4a161dc8ad88a"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qwbmp.dll",
+                "pe_machine": 34404,
+                "sha256": "9bb99ea5bffde8d9e67df6decfda4088304638e8644d38d331d877ed69a90e5d"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qwebp.dll",
+                "pe_machine": 34404,
+                "sha256": "bbdd58d34ac372ba31bae794e8da31fc8d6a0c298356b85528a2d45cd687d119"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\platforms\\qwindows.dll",
+                "pe_machine": 34404,
+                "sha256": "73ddd92fc596b0a9cfa631fae0f872727515d27eec8bf28f2c52e3a4a089c175"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\styles\\qmodernwindowsstyle.dll",
+                "pe_machine": 34404,
+                "sha256": "63c301c50def4a624293b1c0e4b76bbd561b806b760c745e0d9a66d3c44d5bd6"
+              }
+            ]
+          }
+        },
+        "material_findings": [],
+        "native_capture_sha256": "c7b8cb72b7b7c8b00eaff7f7e6455e92846660a3a141a5139f4d54ba754915a6",
+        "native_cases_per_runtime": {
+          "baseline": 24,
+          "patched": 24
+        },
+        "native_inspection_sha256": "073d760329a237e5f849b923a2f42560de5165c1c1aa21b117fce47b9ad92a68",
+        "original_completed_head": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+        "qualified": false,
+        "real_preflight": {
+          "operations": [
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "overwrite",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "append",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "create",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "create-directory",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "mtime",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "delete",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "rename",
+              "winerror": 5
+            }
+          ],
+          "protection_sha256": "30300ece2e1ba14f9e65362c00399f99b9b2a6c5fae9240ee919cd348dea230c",
+          "report_sha256": "5d048fe28a23da4e420849a66c96d4a8eb58ec5dbe061a03caad5baf87299145",
+          "shared_public_contract": "errno13-all7/FileIO-winerrorNone-first3/native-winerror5-last4"
+        },
+        "run_id": 37517014618,
+        "runtime_log_sha256s": {
+          "baseline": "b104948deec91f2934726c343a2238d55a72e38bd3b23ed78a650066a006dac8",
+          "patched": "4c0bfd5cd070b3689e2872e7d466b3a7f038d5ddea415f937771f6711a76b52b"
+        },
+        "scope": "Actual transported native runtime/source/SDK/dialog/manifest/operator-result receipt audit; independent raw PDF operators/pixels belong to root review. No executable/test/rasterizer run.",
+        "sdk": "3.5.3-x64",
+        "sdk_protection": {
+          "entries": 128807,
+          "helper_sha256": "fc71a718839df08fe91608341a9798d1dfd6902f8141365da7bce0cecfdfeb15",
+          "mismatch_count": 0,
+          "report_sha256": "1c248d9389101f491ed115d78f4c306d53f5fc9acaff868b45118afeb4c1f071",
+          "stages": [
+            "before",
+            "protected",
+            "baseline-finished",
+            "patched-finished",
+            "after-runtime",
+            "restored"
+          ],
+          "writer_policy": "legacy-SetFileSecurityW/auto-inherited-SetNamedSecurityInfoW-v1"
+        },
+        "source_snapshot": "/private/tmp/freecad-t8a6-source-8145-2xzmv8r6",
+        "source_snapshot_sha256": "5ad3e048dc84fd630cce2bebb4f17258bd8762fd2caa1ca2b0d7217b6f61bedd",
+        "status": "passed",
+        "tests_or_PDFs_rerun": false
+      },
+      "source": {
+        "file_index_sha256": "4f72d701cacb1230928dfd3853241c9b85fe3029e392a3ee97e98d359ac01cc0",
+        "filename": "qt-6.11.1-LibPack-v3.5.3-x64-corresponding-sources.tar.gz",
+        "sha256": "2836a2ecc49d88e17dda4bda88737076b15717b5c292a15b807d0df16a069520",
+        "size": 1136582456,
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt-6.11.1-LibPack-v3.5.3-x64-corresponding-sources.tar.gz"
+      }
+    },
+    "3.5.5-arm64": {
+      "binary": {
+        "directory_count": 4355,
+        "file_count": 59329,
+        "filename": "LibPack-26.3.0-v3.5.5-arm64-Release-qt-pdf.tar.gz",
+        "index_path": "package/qt-pdf/distribution-indexes/3.5.5-arm64.json.gz",
+        "index_sha256": "054c9aef5d81011622d91e0a972b396ee33e8a1f6a7067c5dd65fcb3aed5f644",
+        "index_uncompressed_sha256": "d1ad010cf4b4b093940f184dbc1cd03950627d57b7d5ddf9f94f284be3705fd2",
+        "qt_version": "6.11.1",
+        "sha256": "492d75c3e31ad4b6ba1f2b80011107ca22e21949647fcb9e9b8a9547a47bad17",
+        "size": 1039826386,
+        "unpacked_file_bytes": 3016580282,
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/LibPack-26.3.0-v3.5.5-arm64-Release-qt-pdf.tar.gz"
+      },
+      "build_commit": "ba37708eecef736d9caafdbae5f07618887d675b",
+      "build_run": 37254793061,
+      "independent_reviews": {
+        "independent_pdf_png_review": {
+          "evidence_path": "reviews/libpack-native-pdf/arm-review.json",
+          "sha256": "1ab6da7451fb2847fe3d88985b62a2b0b133697fdb2e5b285de7cb7ec0609b8d"
+        },
+        "independent_runtime_sdk_review": {
+          "evidence_path": "reviews/libpack-runtime/arm-actual-review.json",
+          "sha256": "15c71372c3c6b261235746c2cbcf9ef5e379f22137fa9097f92a5b43b422c06b"
+        },
+        "reused_independent_qt_review": {
+          "evidence_path": "reviews/libpack-qt-arm/review.json",
+          "sha256": "06798dc4e484719c4d23ac5aa34d145a3224e3a61ed927af480f0bc98fa0031d"
+        },
+        "transport_review": {
+          "evidence_path": "transport/libpack-native-3.5.5-arm64/transport-review.json",
+          "sha256": "64a9950eca1af4bbf1f00d0a268920dca10bea263c3b071fddc90cfd63d735b3"
+        }
+      },
+      "original_result_path": "original-results/libpack-native-3.5.5-arm64.zip",
+      "original_reused_qt_result_path": "original-results/libpack-reused-qt-3.5.5-arm64.zip",
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification": {
+        "artifact": {
+          "id": 11441119741,
+          "name": "qt-pdf-libpack-recovered-qualification-3.5.5-arm64",
+          "sha256": "68ff1a0c1935389f77916c94b5ad9d8807a4889065722659455b203809787cf3",
+          "size": 84802576
+        },
+        "baseline_reproduced_by_device": {
+          "qpdfwriter": 5,
+          "qprinter": 5
+        },
+        "compiled_source": {
+          "binary_source_commit": "44039b11d1c18549faa12026b542abf415ad4aaa",
+          "bypass_recompiled": false,
+          "compiled_tracked_inputs_equal": true,
+          "freecad_recompiled": false,
+          "qualification_source_commit": "81454d2c3aae723c9d516c077d68c308f74e3ee0",
+          "selected_paths": [
+            ".",
+            ":(exclude).beads/issues.jsonl",
+            ":(exclude).github/workflows/qt_pdf_libpack_recover.yml",
+            ":(exclude)package/qt-pdf/README.md",
+            ":(exclude)package/qt-pdf/prepare_libpack_host_tools.py",
+            ":(exclude)package/qt-pdf/qualify_libpack_backport.py",
+            ":(exclude)package/qt-pdf/qualify_libpack_native.py",
+            ":(exclude)package/qt-pdf/restore_libpack_native_completed.py",
+            ":(exclude)package/qt-pdf/libpack_readonly_sdk.py",
+            ":(exclude)tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+            ":(exclude)tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py"
+          ],
+          "source_timestamps_modified": false
+        },
+        "gui_tests_per_runtime": 11,
+        "job_id": 112452488167,
+        "native_capture_sha256": "5572c09dc09ab11cf2e682d403c610f4d59f3bf76650c9a2f57f6f1665ee56e5",
+        "native_inspection_sha256": "a61d4ddf80d468d8b57e86e6aca60f8ab69010c99f5f9da78505446d3293b27e",
+        "native_pairs_passed": 24,
+        "original_qt_head": "6e8306a4d0c2e377411e3cb554a1081955c2bf61",
+        "original_qt_run": 37465187347,
+        "patched_invalid_closes": 0,
+        "promotion_allowed": false,
+        "qualified": false,
+        "reused_qt_inspection_sha256": "2a623ae9911304815cb391d75a976308243bd33c2a38597a7f658ab17e4fd555",
+        "sdk": "3.5.5-arm64",
+        "sdk_contents_preserved": true,
+        "sdk_dacl_entries": 127191,
+        "sdk_dacl_restored": true,
+        "sdk_protection_sha256": "5f2906d253b5398dfea834ce0dcbfa59c9278ad8d046f7673f398ab3aed8e29b"
+      },
+      "runtime_origin_review": {
+        "actual_QtGui_sha256s": {
+          "baseline": "73cf037e56998e4aa84832b4bfea8335637ab859f7970749a9a9a40e9cbfa4f5",
+          "patched": "d0e87beb13f29a0892606a211bd6e1148ba3ce2aec012535d78726e47ce9f86d"
+        },
+        "artifact_dir": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-t8a6-4rub1frr/finite-admissions-arm/artifact",
+        "axis": "independent actual native runtime/origin review",
+        "baseline_reproduced_by_device": {
+          "qpdfwriter": 5,
+          "qprinter": 5
+        },
+        "bypass_recompiled": false,
+        "checks": [
+          {
+            "name": "Actual native capture/source/compiler/SDK/evidence and preservation",
+            "passed": true
+          },
+          {
+            "name": "Exact original completed failure/source/core pins; whole tracked input equality; no compiler/app/bypass reexecution",
+            "passed": true
+          },
+          {
+            "name": "Exact original SDK admission/compiled source, native cache and unchanged passedQt receipt bindings",
+            "passed": true
+          },
+          {
+            "name": "Actual retained baseline Python/Qt configuration and scoped original CMake selection; no build run",
+            "passed": true
+          },
+          {
+            "name": "Separate actual finite host profile with historical compile provenance intact",
+            "passed": true
+          },
+          {
+            "name": "Actual real Windows seven-denial preflight and full per-path original/protected/restored ACL/control/API/effective-rights SDK proof; all SDK snapshots and after inventories exact",
+            "passed": true
+          },
+          {
+            "name": "Actual retained five FreeCAD/core/bypass PE binary bytes",
+            "passed": true
+          },
+          {
+            "name": "Only two literal mitigations bypassed; exact producer original source bytes preserved",
+            "passed": true
+          },
+          {
+            "name": "baseline actual native24 GUI11 stock dialogs and exact Qt/Python/binding/core origins",
+            "passed": true
+          },
+          {
+            "name": "patched actual native24 GUI11 stock dialogs and exact Qt/Python/binding/core origins",
+            "passed": true
+          },
+          {
+            "name": "Actual retained native comparison result all24 and per-device baseline reproduction; pixels not rerendered",
+            "passed": true
+          }
+        ],
+        "downloaded": false,
+        "freecad_recompiled": false,
+        "gui_tests_per_runtime": {
+          "baseline": [
+            {
+              "errors": 0,
+              "failures": 0,
+              "gui_tests": 11
+            }
+          ],
+          "patched": [
+            {
+              "errors": 0,
+              "failures": 0,
+              "gui_tests": 11
+            }
+          ]
+        },
+        "head_sha": "81454d2c3aae723c9d516c077d68c308f74e3ee0",
+        "loaded_origins": {
+          "baseline": {
+            "core": [
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCAD.exe",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCAD.exe",
+                "sha256": "872eb12f60b3d64661204cf1694ba90af6fca2c03ad665ba86d492de9d3884c2"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADApp.dll",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCADApp.dll",
+                "sha256": "7575b526393d30c3467fcdcd0d623461780d82481ebfcef4064f747b2cecd008"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADBase.dll",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCADBase.dll",
+                "sha256": "fe0fb4d9970db87bdb5f9162dddf6cd351784474bbf60969ec8b60f357d0a7e3"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADGui.dll",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCADGui.dll",
+                "sha256": "918e55a2ea39405c4f807613a814c997688d6501c91599fe0e1fc3ba3487ff4f"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\module\\TechDrawGui.pyd",
+                "pe_machine": 43620,
+                "retained": "native-binaries/TechDrawGui.pyd",
+                "sha256": "e3f5a1a9a94531099cd649f4a2fd41fbfb6e7ad1518ca025064405c884d646c7"
+              },
+              {
+                "native_path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Lib\\site-packages\\PySide6\\pyside6.abi3.dll",
+                "pe_machine": 43620,
+                "sha256": "5c1831823c5d4e01d16fa8ce3ef863756de8012250363e2060e0b45d82a43af9"
+              },
+              {
+                "native_path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Lib\\site-packages\\shiboken6\\shiboken6.abi3.dll",
+                "pe_machine": 43620,
+                "sha256": "8c0da1b9c3e9cdb7d3dfc89a296d75f3954f7e94cf886bf003f7cb280883401a"
+              },
+              {
+                "native_path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\python3.dll",
+                "pe_machine": 43620,
+                "sha256": "57f5ab7be5fd7a27f1e2a50b76fcba848df32959ec66d1f121efb35eed8b154e"
+              },
+              {
+                "native_path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\python314.dll",
+                "pe_machine": 43620,
+                "sha256": "208acacb78d90d85effeb65dee9c2f3e1d3f80db284c796be2a84d92b9211420"
+              }
+            ],
+            "qt": [
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6Core.dll",
+                "pe_machine": 43620,
+                "sha256": "23cbd1638210351ddc8205fe3b2d8028c2ae1a92038437d288024943d0806ab9"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6Gui.dll",
+                "pe_machine": 43620,
+                "sha256": "73cf037e56998e4aa84832b4bfea8335637ab859f7970749a9a9a40e9cbfa4f5"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6Network.dll",
+                "pe_machine": 43620,
+                "sha256": "c2b6db48b2f3432eb79b95b5fa7d6466aaff21d200c23dfc915835192ab52c3d"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6OpenGL.dll",
+                "pe_machine": 43620,
+                "sha256": "0b9d98cad47dd64d1e31b59e81d479d0de709a7691c99f1707eb4b6cf79c3550"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6OpenGLWidgets.dll",
+                "pe_machine": 43620,
+                "sha256": "afa8ac1dd74a2844e65e5b61e3b3079b930710071246534dff39145dbbf5e4a6"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6PrintSupport.dll",
+                "pe_machine": 43620,
+                "sha256": "196c992ac34770ab02940b6cb67009a6bd9e920321b205b4037a9d387ace26ff"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6Svg.dll",
+                "pe_machine": 43620,
+                "sha256": "53020d67a8448c80a91fff10b98b669d3793ce6d823aead2daad4b1fdf2e6957"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6SvgWidgets.dll",
+                "pe_machine": 43620,
+                "sha256": "fffc426bd43dfbbf0ec1cc61ea04de53d95572cbda1fb2906baa0535d797feaa"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6UiTools.dll",
+                "pe_machine": 43620,
+                "sha256": "a096e89c894bb16ea6da90c27cc615c3897199e3056d073d7449ddc8d64266a1"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6Widgets.dll",
+                "pe_machine": 43620,
+                "sha256": "588a49ca83e3e967119b7f6c5c99608067cb7035997ace3e3cf9c9b642758486"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\bin\\Qt6Xml.dll",
+                "pe_machine": 43620,
+                "sha256": "cb5af6284a694bc8376e14bffd021bcc2362ee8a6394d696052fc02c43638212"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\iconengines\\qsvgicon.dll",
+                "pe_machine": 43620,
+                "sha256": "867b14e8848076bc91547126c5025ad49c89dabf5c12466f566ef70837cc4b8d"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qgif.dll",
+                "pe_machine": 43620,
+                "sha256": "6484ccd58f4c312a73d027f1ffc365fb93ce663b3597a0e2438ebf67008d5151"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qicns.dll",
+                "pe_machine": 43620,
+                "sha256": "d8728c48f0920887e376551e58f23ce4797c655295044b3cf3a3542d0b58ea01"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qico.dll",
+                "pe_machine": 43620,
+                "sha256": "7f35506ea608d0fc5d2fa4a4793d26cf1b2b0b6bb026504f248bf7cdb97710ec"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qjpeg.dll",
+                "pe_machine": 43620,
+                "sha256": "7f1aa73e0c113d3e27874da5e40a1a025e0b4c0196679f23f58b86245eaeb331"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qsvg.dll",
+                "pe_machine": 43620,
+                "sha256": "3400472897d707a4e419faa80d690c070b1df5d4b250b08ddf1af54110e483e7"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qtga.dll",
+                "pe_machine": 43620,
+                "sha256": "f157edcf2617f8732669d1905b817c7fdef229fd4d5234ebff305230bda518fd"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qtiff.dll",
+                "pe_machine": 43620,
+                "sha256": "1090504d16d8198194bd2a951b2ab40ba5ab10decb143f538e5097a56fe7e7d6"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qwbmp.dll",
+                "pe_machine": 43620,
+                "sha256": "fbba75ea0f4f6c42873afb4e029c5c0438cdd741a47a0fc65b3f8184f30545f6"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\imageformats\\qwebp.dll",
+                "pe_machine": 43620,
+                "sha256": "7fe7ae01bd01643ff940de53743de325dfaf0791d936efd20b4a1bae8e77222b"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\platforms\\qwindows.dll",
+                "pe_machine": 43620,
+                "sha256": "7e49a2253e4bd1a8b4e833387a6915925ffeeb700edaee537f1f6840aa0bb1e7"
+              },
+              {
+                "path": "C:\\l\\LibPack-26.3.0-v3.5.5-ARM64-Release\\plugins\\styles\\qmodernwindowsstyle.dll",
+                "pe_machine": 43620,
+                "sha256": "72894ce99d857bec48254f08161ce914d05a39457e31ec57330bb584d3816425"
+              }
+            ]
+          },
+          "patched": {
+            "core": [
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCAD.exe",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCAD.exe",
+                "sha256": "872eb12f60b3d64661204cf1694ba90af6fca2c03ad665ba86d492de9d3884c2"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADApp.dll",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCADApp.dll",
+                "sha256": "7575b526393d30c3467fcdcd0d623461780d82481ebfcef4064f747b2cecd008"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADBase.dll",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCADBase.dll",
+                "sha256": "fe0fb4d9970db87bdb5f9162dddf6cd351784474bbf60969ec8b60f357d0a7e3"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADGui.dll",
+                "pe_machine": 43620,
+                "retained": "native-binaries/FreeCADGui.dll",
+                "sha256": "918e55a2ea39405c4f807613a814c997688d6501c91599fe0e1fc3ba3487ff4f"
+              },
+              {
+                "native_path": "C:\\a\\_temp\\libpack-native\\module\\TechDrawGui.pyd",
+                "pe_machine": 43620,
+                "retained": "native-binaries/TechDrawGui.pyd",
+                "sha256": "e3f5a1a9a94531099cd649f4a2fd41fbfb6e7ad1518ca025064405c884d646c7"
+              },
+              {
+                "native_path": "C:\\c\\candidate\\bin\\Lib\\site-packages\\PySide6\\pyside6.abi3.dll",
+                "pe_machine": 43620,
+                "sha256": "5c1831823c5d4e01d16fa8ce3ef863756de8012250363e2060e0b45d82a43af9"
+              },
+              {
+                "native_path": "C:\\c\\candidate\\bin\\Lib\\site-packages\\shiboken6\\shiboken6.abi3.dll",
+                "pe_machine": 43620,
+                "sha256": "8c0da1b9c3e9cdb7d3dfc89a296d75f3954f7e94cf886bf003f7cb280883401a"
+              },
+              {
+                "native_path": "C:\\c\\candidate\\bin\\python3.dll",
+                "pe_machine": 43620,
+                "sha256": "57f5ab7be5fd7a27f1e2a50b76fcba848df32959ec66d1f121efb35eed8b154e"
+              },
+              {
+                "native_path": "C:\\c\\candidate\\bin\\python314.dll",
+                "pe_machine": 43620,
+                "sha256": "208acacb78d90d85effeb65dee9c2f3e1d3f80db284c796be2a84d92b9211420"
+              }
+            ],
+            "qt": [
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6Core.dll",
+                "pe_machine": 43620,
+                "sha256": "effb7fef59b002e3edbf04776635e141c67bb81c444f3178082526f235daf407"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6Gui.dll",
+                "pe_machine": 43620,
+                "sha256": "d0e87beb13f29a0892606a211bd6e1148ba3ce2aec012535d78726e47ce9f86d"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6Network.dll",
+                "pe_machine": 43620,
+                "sha256": "dcafa0654ac9f24b9005b2d74d7adc8194b27fb7b791b85e736075ff1ad9c227"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6OpenGL.dll",
+                "pe_machine": 43620,
+                "sha256": "316ff5d977ee073133866d52b201819023c0ba521952cf72c6be0f21685c5ab2"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6OpenGLWidgets.dll",
+                "pe_machine": 43620,
+                "sha256": "16093f1f2e13d370edb3ff509d5246fe1a49c0e4d75271eb067ed639c4a81f03"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6PrintSupport.dll",
+                "pe_machine": 43620,
+                "sha256": "a20a6bdfb201586e7646c39b7e76e133d7349e499e395e3de0fc6487f7de4dfc"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6Svg.dll",
+                "pe_machine": 43620,
+                "sha256": "00cbba55697a1bdf8ac9efef85f80c67fcb41623abc68511aab7bbb0e7d4a5b0"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6SvgWidgets.dll",
+                "pe_machine": 43620,
+                "sha256": "3812c812df830205898bb24db2d8022564587c3b227c042ac9494a9f26941a6f"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6UiTools.dll",
+                "pe_machine": 43620,
+                "sha256": "aec3ce390064a3e9166beb81642b5dc69690d79988bdab671338e9dd120850b9"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6Widgets.dll",
+                "pe_machine": 43620,
+                "sha256": "3037760f38c1d5e4b29accfbd2a592d3a364c8122e9716c44492787ddb2e5da7"
+              },
+              {
+                "path": "C:\\c\\candidate\\bin\\Qt6Xml.dll",
+                "pe_machine": 43620,
+                "sha256": "70b73b6f3cb6014a8ae8200ef8be3d30f33a353ac548907c0e5fc1bca280ce30"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\iconengines\\qsvgicon.dll",
+                "pe_machine": 43620,
+                "sha256": "42356e0ac8ade811958ded2d6af61d6cc58e05cf35f36b0547d19c7285b8270d"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qgif.dll",
+                "pe_machine": 43620,
+                "sha256": "173e7d55cc88659512297cdeb51206a4c4aea1fc5c7d691a7e00d05ba740bcd1"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qicns.dll",
+                "pe_machine": 43620,
+                "sha256": "1c2610aa6aab36d586775d78336f7a55c78be1b4ede35b4a0c4edf4dba59d82b"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qico.dll",
+                "pe_machine": 43620,
+                "sha256": "4f0875563f1179928a42b1709abb0e4a5a4908ee510b7ac720b5518dba0e2f91"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qjpeg.dll",
+                "pe_machine": 43620,
+                "sha256": "372e3f232b83f0a7c6df48fd4147e00021897efab123350f6aa6cc9d4dd5a89a"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qsvg.dll",
+                "pe_machine": 43620,
+                "sha256": "6a26cc7152305498214741507d8b73aa7cfa39e93fd89955aaec5165dcd9b750"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qtga.dll",
+                "pe_machine": 43620,
+                "sha256": "df5e927b726429fb9c162bf52299eec79bf6971e7d1f61bec8c9893796c25535"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qtiff.dll",
+                "pe_machine": 43620,
+                "sha256": "b8f0a72832757e62425d968881856e61b848a4bf1fad80abd851498eca383299"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qwbmp.dll",
+                "pe_machine": 43620,
+                "sha256": "e35615a179d478fd3266226aee89d3255f9ecc199da026ba2074e617a9b74fc6"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\imageformats\\qwebp.dll",
+                "pe_machine": 43620,
+                "sha256": "aeef400d1e76342b6805bed64eca526ef63913d588a6271f06b6b1d1396c8f7d"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\platforms\\qwindows.dll",
+                "pe_machine": 43620,
+                "sha256": "9214e52ec538f354d651d0d8a03bd5c9adf05a3c9ca7debfafb6332f4f30f874"
+              },
+              {
+                "path": "C:\\c\\candidate\\plugins\\styles\\qmodernwindowsstyle.dll",
+                "pe_machine": 43620,
+                "sha256": "117bb6781abff318c023df24fecdfa31ec1f08c3d8a14a8d6eeeaa5c238a1078"
+              }
+            ]
+          }
+        },
+        "material_findings": [],
+        "native_capture_sha256": "5572c09dc09ab11cf2e682d403c610f4d59f3bf76650c9a2f57f6f1665ee56e5",
+        "native_cases_per_runtime": {
+          "baseline": 24,
+          "patched": 24
+        },
+        "native_inspection_sha256": "a61d4ddf80d468d8b57e86e6aca60f8ab69010c99f5f9da78505446d3293b27e",
+        "original_completed_head": "44039b11d1c18549faa12026b542abf415ad4aaa",
+        "qualified": false,
+        "real_preflight": {
+          "operations": [
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "overwrite",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "append",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "create",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "create-directory",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "mtime",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "delete",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "rename",
+              "winerror": 5
+            }
+          ],
+          "protection_sha256": "4dff1edf53b7d6da46269259493b6aebaadec449b104eb60fd3f3924db251a15",
+          "report_sha256": "50786ee121ecab520909c03d84a7979e593d3a0b913bb7aa52360d02ef249a23",
+          "shared_public_contract": "errno13-all7/FileIO-winerrorNone-first3/native-winerror5-last4"
+        },
+        "run_id": 37517014618,
+        "runtime_log_sha256s": {
+          "baseline": "9c7935f39c8128476f59affe698c7231cecd5b505d24e0e6bf6dd0b843c1ceaf",
+          "patched": "1a3a734c9b22a82917f79d6bb54ff99bcd9c102e23e59af9334198942616bc8f"
+        },
+        "scope": "Actual transported native runtime/source/SDK/dialog/manifest/operator-result receipt audit; independent raw PDF operators/pixels belong to root review. No executable/test/rasterizer run.",
+        "sdk": "3.5.5-arm64",
+        "sdk_protection": {
+          "entries": 127191,
+          "helper_sha256": "fc71a718839df08fe91608341a9798d1dfd6902f8141365da7bce0cecfdfeb15",
+          "mismatch_count": 0,
+          "report_sha256": "5f2906d253b5398dfea834ce0dcbfa59c9278ad8d046f7673f398ab3aed8e29b",
+          "stages": [
+            "before",
+            "protected",
+            "baseline-finished",
+            "patched-finished",
+            "after-runtime",
+            "restored"
+          ],
+          "writer_policy": "legacy-SetFileSecurityW/auto-inherited-SetNamedSecurityInfoW-v1"
+        },
+        "source_snapshot": "/private/tmp/freecad-t8a6-source-8145-2xzmv8r6",
+        "source_snapshot_sha256": "5ad3e048dc84fd630cce2bebb4f17258bd8762fd2caa1ca2b0d7217b6f61bedd",
+        "status": "passed",
+        "tests_or_PDFs_rerun": false
+      },
+      "source": {
+        "file_index_sha256": "975994f7ef2400cfc7bed54bb58926dcc6b313dbfe3a34d35bf13e4d3cfbd0b3",
+        "filename": "qt-6.11.1-LibPack-v3.5.5-arm64-corresponding-sources.tar.gz",
+        "sha256": "1087d3ce82fb778f81e2758f1ce24ff4962a33d8ff32d5270112d8591a1a949b",
+        "size": 1136907830,
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt-6.11.1-LibPack-v3.5.5-arm64-corresponding-sources.tar.gz"
+      }
+    },
+    "3.5.5-x64": {
+      "binary": {
+        "directory_count": 4406,
+        "file_count": 60130,
+        "filename": "LibPack-26.3.0-v3.5.5-x64-Release-qt-pdf.tar.gz",
+        "index_path": "package/qt-pdf/distribution-indexes/3.5.5-x64.json.gz",
+        "index_sha256": "adf28e496c4e59353f987430188f45988441cb6cd950084461379f4651b23369",
+        "index_uncompressed_sha256": "362afda3bdb1fa8e94178f032bca5032999b4f9b2ae54fcd0238e3ead2e08424",
+        "qt_version": "6.11.1",
+        "sha256": "bae3c85fc9e8e9b3fcbe184113f4928bbc3f26322667946cc0b44b7bac6a6958",
+        "size": 1151670631,
+        "unpacked_file_bytes": 3144711619,
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/LibPack-26.3.0-v3.5.5-x64-Release-qt-pdf.tar.gz"
+      },
+      "build_commit": "ba37708eecef736d9caafdbae5f07618887d675b",
+      "build_run": 37254793061,
+      "independent_reviews": {
+        "independent_pdf_png_review": {
+          "evidence_path": "reviews/libpack-native-pdf/experimental-review.json",
+          "sha256": "8cb8829acbc6a10b1f38ed5de2e7b5ee799962f48a70c34d8a63f05dddc6e216"
+        },
+        "independent_runtime_sdk_review": {
+          "evidence_path": "reviews/libpack-runtime/experimental-actual-review.json",
+          "sha256": "88fa74aef90104f1ee8970b5247e4c3d818ca07af710f0df0cba8d40575c14a4"
+        },
+        "reused_independent_qt_review": {
+          "evidence_path": "reviews/libpack-qt-x55/qt-review.json",
+          "sha256": "9b5b8f94feb5e258263f94507b58c7beaf3523cd7b2a4c643f5a17e96f24ea13"
+        },
+        "transport_review": {
+          "evidence_path": "transport/libpack-native-3.5.5-x64/transport-review.json",
+          "sha256": "d65504a6b9a1ab6135fcd403e316331eb7673f93cb73565c812156d96af79361"
+        }
+      },
+      "original_result_path": "original-results/libpack-native-3.5.5-x64.zip",
+      "original_reused_qt_result_path": "original-results/libpack-reused-qt-3.5.5-x64.zip",
+      "passed_gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "qualification": {
+        "artifact": {
+          "id": 11441230293,
+          "name": "qt-pdf-libpack-recovered-qualification-3.5.5-x64",
+          "sha256": "12cef493c22c3185f1f2b5b9b7b2c81de816d448b8fdfa27ab6f009f271ef50c",
+          "size": 98231002
+        },
+        "baseline_reproduced_by_device": {
+          "qpdfwriter": 1,
+          "qprinter": 1
+        },
+        "compiled_source": {
+          "binary_source_commit": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+          "bypass_recompiled": false,
+          "compiled_tracked_inputs_equal": true,
+          "freecad_recompiled": false,
+          "qualification_source_commit": "81454d2c3aae723c9d516c077d68c308f74e3ee0",
+          "selected_paths": [
+            ".",
+            ":(exclude).beads/issues.jsonl",
+            ":(exclude).github/workflows/qt_pdf_libpack_recover.yml",
+            ":(exclude)package/qt-pdf/README.md",
+            ":(exclude)package/qt-pdf/prepare_libpack_host_tools.py",
+            ":(exclude)package/qt-pdf/qualify_libpack_backport.py",
+            ":(exclude)package/qt-pdf/qualify_libpack_native.py",
+            ":(exclude)package/qt-pdf/restore_libpack_native_completed.py",
+            ":(exclude)package/qt-pdf/libpack_readonly_sdk.py",
+            ":(exclude)tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+            ":(exclude)tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py"
+          ],
+          "source_timestamps_modified": false
+        },
+        "gui_tests_per_runtime": 11,
+        "job_id": 112452488045,
+        "native_capture_sha256": "85d0bf9f947d58d6637f0b85168009a8d3bf0ea0c0a2fdb0f88fde3afcf394ab",
+        "native_inspection_sha256": "9626afa46e9d17712a12879735351c11fdde76b01c6458833b4829733445e486",
+        "native_pairs_passed": 24,
+        "original_qt_head": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+        "original_qt_run": 37481334440,
+        "patched_invalid_closes": 0,
+        "promotion_allowed": false,
+        "qualified": false,
+        "reused_qt_inspection_sha256": "2d6da01b0ffc131967ee23dc267eb18d8162b02189562c4b57286edff1c8c864",
+        "sdk": "3.5.5-x64",
+        "sdk_contents_preserved": true,
+        "sdk_dacl_entries": 128887,
+        "sdk_dacl_restored": true,
+        "sdk_protection_sha256": "b4f6d2f8f0c41c3f087dd7d3321cc93355751d19a52140df160d0e3da88eaf78"
+      },
+      "runtime_origin_review": {
+        "actual_QtGui_sha256s": {
+          "baseline": "a625f451f25d6f20f3a8d6639a8c228aafa331847d9d5921b5143f7b856a0b9d",
+          "patched": "b04da5f026e4522ed65daf55300f627e0ebd55188807e6580418ebdfcf6d7417"
+        },
+        "artifact_dir": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-t8a6-4rub1frr/finite-admissions-experimental/artifact",
+        "axis": "independent actual native runtime/origin review",
+        "baseline_reproduced_by_device": {
+          "qpdfwriter": 1,
+          "qprinter": 1
+        },
+        "bypass_recompiled": false,
+        "checks": [
+          {
+            "name": "Actual native capture/source/compiler/SDK/evidence and preservation",
+            "passed": true
+          },
+          {
+            "name": "Exact original completed failure/source/core pins; whole tracked input equality; no compiler/app/bypass reexecution",
+            "passed": true
+          },
+          {
+            "name": "Exact original SDK admission/compiled source, native cache and unchanged passedQt receipt bindings",
+            "passed": true
+          },
+          {
+            "name": "Actual retained baseline Python/Qt configuration and scoped original CMake selection; no build run",
+            "passed": true
+          },
+          {
+            "name": "Separate actual finite host profile with historical compile provenance intact",
+            "passed": true
+          },
+          {
+            "name": "Actual real Windows seven-denial preflight and full per-path original/protected/restored ACL/control/API/effective-rights SDK proof; all SDK snapshots and after inventories exact",
+            "passed": true
+          },
+          {
+            "name": "Actual retained five FreeCAD/core/bypass PE binary bytes",
+            "passed": true
+          },
+          {
+            "name": "Only two literal mitigations bypassed; exact producer original source bytes preserved",
+            "passed": true
+          },
+          {
+            "name": "baseline actual native24 GUI11 stock dialogs and exact Qt/Python/binding/core origins",
+            "passed": true
+          },
+          {
+            "name": "patched actual native24 GUI11 stock dialogs and exact Qt/Python/binding/core origins",
+            "passed": true
+          },
+          {
+            "name": "Actual retained native comparison result all24 and per-device baseline reproduction; pixels not rerendered",
+            "passed": true
+          }
+        ],
+        "downloaded": false,
+        "freecad_recompiled": false,
+        "gui_tests_per_runtime": {
+          "baseline": [
+            {
+              "errors": 0,
+              "failures": 0,
+              "gui_tests": 11
+            }
+          ],
+          "patched": [
+            {
+              "errors": 0,
+              "failures": 0,
+              "gui_tests": 11
+            }
+          ]
+        },
+        "head_sha": "81454d2c3aae723c9d516c077d68c308f74e3ee0",
+        "loaded_origins": {
+          "baseline": {
+            "core": [
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCAD.exe",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCAD.exe",
+                "sha256": "d7be1180afb7b23b18eb664adf27df8f49f0f68c7ed9ffa7f5629973bb1e3e5c"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADApp.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADApp.dll",
+                "sha256": "f8e5b0d9c5d5fa76eba671abc4ed2e2b4d2d10eeff333da3d80d9873ab8f853d"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADBase.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADBase.dll",
+                "sha256": "6ce7850747028f6979e9a1df5ed224c797aeee62606aed819d8445422e7b3d20"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADGui.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADGui.dll",
+                "sha256": "aa4d53775269f8236759b6bce4ad36bc47c8dbed9a81a1feeaa5360556736d22"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\module\\TechDrawGui.pyd",
+                "pe_machine": 34404,
+                "retained": "native-binaries/TechDrawGui.pyd",
+                "sha256": "a8145044f3161e2861ebbca0741e0c8c39d8ea55ccbd3cb29e8e86f77298f7be"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Lib\\site-packages\\PySide6\\pyside6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "24f70c2f3612df166bfb9408b796f21173a68c0c8c9db08fb5642cf1792a4fd9"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Lib\\site-packages\\shiboken6\\shiboken6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "688682fac9b62ed002436c3fd28b406ea6ef221991da546e904ed108ef3b51c1"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\python3.dll",
+                "pe_machine": 34404,
+                "sha256": "c5662a05069d4e591a6fe2135194b1215d65c43a6108cc4f05971294a858f9f0"
+              },
+              {
+                "native_path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\python314.dll",
+                "pe_machine": 34404,
+                "sha256": "ba6b558e09af25a9a1be3e20124a0fce287469dca645efc2044376c5c51a9ec0"
+              }
+            ],
+            "qt": [
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6Core.dll",
+                "pe_machine": 34404,
+                "sha256": "56aac2a80ac4f3dfae1e9dfc3bb0e391dff3c79f34383893c4eda5c9fe238efc"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6Gui.dll",
+                "pe_machine": 34404,
+                "sha256": "a625f451f25d6f20f3a8d6639a8c228aafa331847d9d5921b5143f7b856a0b9d"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6Network.dll",
+                "pe_machine": 34404,
+                "sha256": "51f82b1869b3c8773a45cd8cb58524dacb8e58260103d6a7be1b9abfbb444b28"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6OpenGL.dll",
+                "pe_machine": 34404,
+                "sha256": "a71422175739bbfe882812fddb02689d344515d26f5d78188d7e7824807ba577"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6OpenGLWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "f719666b61241c115feccf911c922bc4efb0d3d02785fee9c2bf744f0397288b"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6PrintSupport.dll",
+                "pe_machine": 34404,
+                "sha256": "99d53537e2a217da88e488d25d478c89b48a031c0080da5b501c322adb6f656e"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6Svg.dll",
+                "pe_machine": 34404,
+                "sha256": "2a0c09f160f6b6008ad7ec5d6f06d50361a330de21377dbfc293196dfeeaae36"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6SvgWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "cb2d08f546d4242fa594f4ad8b4654f837c62d218ff839bdedad57d5629d0ed2"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6UiTools.dll",
+                "pe_machine": 34404,
+                "sha256": "5c61725e0840cb60a139e0a0c668c0d581f6cd22d6d89e7017fb36ce212d84e5"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6Widgets.dll",
+                "pe_machine": 34404,
+                "sha256": "de017d86e3a6df329b0ec72fe5ebe547bf39b52a190514898fddd614a7552211"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\bin\\Qt6Xml.dll",
+                "pe_machine": 34404,
+                "sha256": "47bb5e380fc6479f8e9c03215b8d90203a5489f11af342d314c8e29af0cfc9dd"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\iconengines\\qsvgicon.dll",
+                "pe_machine": 34404,
+                "sha256": "0d2a45f03e6010f90754733b41ba9809feea911c9bab39365cb49e11f6424f9d"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qgif.dll",
+                "pe_machine": 34404,
+                "sha256": "fd780ea6ce360c0e2a1e597b0a0d600ad2c23421a0d2043bb794f61c4b69f4af"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qicns.dll",
+                "pe_machine": 34404,
+                "sha256": "f5459f2b48c44af905cf68b4f6ecdee71cc4951879f2854c5bcbf6bb572c9f21"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qico.dll",
+                "pe_machine": 34404,
+                "sha256": "849a0645b1759f761d5c244b488194754a80264e780700b3bcf8b74c90d8b8c9"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qjpeg.dll",
+                "pe_machine": 34404,
+                "sha256": "643e0f1c12fadb465f6c103bb9bf6786ad343ce456a3bfea98ea7948ff3419ff"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qsvg.dll",
+                "pe_machine": 34404,
+                "sha256": "14ecd406902bb4f22a5fbeea934ace8260c56273e29a2ca07ec64ea2604d451e"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qtga.dll",
+                "pe_machine": 34404,
+                "sha256": "09bd9a53c2e255da31965b01c0a1e1a734678842a4aee0b3905e6d65e431f785"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qtiff.dll",
+                "pe_machine": 34404,
+                "sha256": "f6d428bc066bbc77fd44beb24b2ca5ef93ea16bb1125aab8cc6b183ad5d8a19e"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qwbmp.dll",
+                "pe_machine": 34404,
+                "sha256": "9f0cc734e0c98fd628d942f666912613631e9f9ba4e403ef917413a38f29aa68"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\imageformats\\qwebp.dll",
+                "pe_machine": 34404,
+                "sha256": "59b5d0dee76987b84bb83fe61f38f47d9c59208684cb17bc0ef7820446e36121"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\platforms\\qwindows.dll",
+                "pe_machine": 34404,
+                "sha256": "3875c760059f1a7a51788737c3e561baf2b90f9a8f61f6e581ad14c6ae594b6b"
+              },
+              {
+                "path": "D:\\l\\LibPack-26.3.0-v3.5.5-x64-Release\\plugins\\styles\\qmodernwindowsstyle.dll",
+                "pe_machine": 34404,
+                "sha256": "0b02d0d589a7b8c435c281958d67dbe52c9cab5c4aa6b81c7861939f97a042d4"
+              }
+            ]
+          },
+          "patched": {
+            "core": [
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCAD.exe",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCAD.exe",
+                "sha256": "d7be1180afb7b23b18eb664adf27df8f49f0f68c7ed9ffa7f5629973bb1e3e5c"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADApp.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADApp.dll",
+                "sha256": "f8e5b0d9c5d5fa76eba671abc4ed2e2b4d2d10eeff333da3d80d9873ab8f853d"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADBase.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADBase.dll",
+                "sha256": "6ce7850747028f6979e9a1df5ed224c797aeee62606aed819d8445422e7b3d20"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\b\\bin\\FreeCADGui.dll",
+                "pe_machine": 34404,
+                "retained": "native-binaries/FreeCADGui.dll",
+                "sha256": "aa4d53775269f8236759b6bce4ad36bc47c8dbed9a81a1feeaa5360556736d22"
+              },
+              {
+                "native_path": "D:\\a\\_temp\\libpack-native\\module\\TechDrawGui.pyd",
+                "pe_machine": 34404,
+                "retained": "native-binaries/TechDrawGui.pyd",
+                "sha256": "a8145044f3161e2861ebbca0741e0c8c39d8ea55ccbd3cb29e8e86f77298f7be"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\Lib\\site-packages\\PySide6\\pyside6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "24f70c2f3612df166bfb9408b796f21173a68c0c8c9db08fb5642cf1792a4fd9"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\Lib\\site-packages\\shiboken6\\shiboken6.abi3.dll",
+                "pe_machine": 34404,
+                "sha256": "688682fac9b62ed002436c3fd28b406ea6ef221991da546e904ed108ef3b51c1"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\python3.dll",
+                "pe_machine": 34404,
+                "sha256": "c5662a05069d4e591a6fe2135194b1215d65c43a6108cc4f05971294a858f9f0"
+              },
+              {
+                "native_path": "D:\\c\\candidate\\bin\\python314.dll",
+                "pe_machine": 34404,
+                "sha256": "ba6b558e09af25a9a1be3e20124a0fce287469dca645efc2044376c5c51a9ec0"
+              }
+            ],
+            "qt": [
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Core.dll",
+                "pe_machine": 34404,
+                "sha256": "ecbfa3c524153ed66344777d5b74a8d52cd5c480d0438436a85780af1274cfe1"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Gui.dll",
+                "pe_machine": 34404,
+                "sha256": "b04da5f026e4522ed65daf55300f627e0ebd55188807e6580418ebdfcf6d7417"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Network.dll",
+                "pe_machine": 34404,
+                "sha256": "7a81fc822b58d3edd19548e3aec7e6fa555e78b650169cfdc27bf650edac1103"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6OpenGL.dll",
+                "pe_machine": 34404,
+                "sha256": "55f6de45548599d2c9fce83d2f19893ad12c29716530dd23b47ea2ddf5d3d3cb"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6OpenGLWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "7956a16c75d2295af22ff175f76227dee5633fcd81f4400a3fbfd187dd753123"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6PrintSupport.dll",
+                "pe_machine": 34404,
+                "sha256": "cd79fb953f6ec923c7474b31d8c9ad572676ec33cdd3d715090833173860544e"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Svg.dll",
+                "pe_machine": 34404,
+                "sha256": "d0a5b73766437573e7d09857fe8065c6b6ae35cd423555fedc012d7ca09d5a20"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6SvgWidgets.dll",
+                "pe_machine": 34404,
+                "sha256": "e2b72c1b0a008d61ff17c1282f7416916113d2e05316fbb2ddf2408dbf15b885"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6UiTools.dll",
+                "pe_machine": 34404,
+                "sha256": "1db8c414563019260ce952745e79731aa3df5366c1d811ef3a8f4ee71c50e0d6"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Widgets.dll",
+                "pe_machine": 34404,
+                "sha256": "461790d2beb6ec59e063da29f2df36726c2b438a7d0ecc92b0ba9d7a0ebb35f1"
+              },
+              {
+                "path": "D:\\c\\candidate\\bin\\Qt6Xml.dll",
+                "pe_machine": 34404,
+                "sha256": "150381ece3c24ac3f629d829f6b8331e776f40f404475a70041f77dfeb1bde26"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\iconengines\\qsvgicon.dll",
+                "pe_machine": 34404,
+                "sha256": "8162cf5cceb991b47878c82bb72e32ad1a78bcf9fb3c2427c980206ec9596ad5"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qgif.dll",
+                "pe_machine": 34404,
+                "sha256": "85d76a0ee417a3ee4d44976734dfdeaf90476d048d18340564631940a16478ed"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qicns.dll",
+                "pe_machine": 34404,
+                "sha256": "fedbea64c87b17ad6ddb35a96d148bd21c45374edf739fa6839db47aa11ea76c"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qico.dll",
+                "pe_machine": 34404,
+                "sha256": "723770084745fdbef8ec5220e0cf7ea8f67c8ceaaeba0183cabc3deb337b7dd0"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qjpeg.dll",
+                "pe_machine": 34404,
+                "sha256": "958084c5d7fab8c45613a7ea31976731afc16ef0d1e820705fa776c2df69bdd9"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qsvg.dll",
+                "pe_machine": 34404,
+                "sha256": "4e926a3616c0a5f51545a0bfc56e7e74c7622811b9c80323692483889afd27cc"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qtga.dll",
+                "pe_machine": 34404,
+                "sha256": "915b28492e843b62db4947405f7199fba94747a67b422645e4b9319155b6dc5c"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qtiff.dll",
+                "pe_machine": 34404,
+                "sha256": "91ce659f17004fa7b308dd76205e57dc720d4a335172feecab69242b1c48f387"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qwbmp.dll",
+                "pe_machine": 34404,
+                "sha256": "68f876297fb4863830207fc713db2b09cef33f527f11f70e5aae6d35c3c06971"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\imageformats\\qwebp.dll",
+                "pe_machine": 34404,
+                "sha256": "398cf1aee241a657a3cd21f15a91aa03ddc0252b55644f59216e673edf821c96"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\platforms\\qwindows.dll",
+                "pe_machine": 34404,
+                "sha256": "13c621ce1113b27de4ab1d8d53d9c63ceac92379381f3691ab74075d427fe39e"
+              },
+              {
+                "path": "D:\\c\\candidate\\plugins\\styles\\qmodernwindowsstyle.dll",
+                "pe_machine": 34404,
+                "sha256": "67c34a5e14e5f2c9f70bab012cddf296a0bb46d3a293442071485d8f7aa0bfa6"
+              }
+            ]
+          }
+        },
+        "material_findings": [],
+        "native_capture_sha256": "85d0bf9f947d58d6637f0b85168009a8d3bf0ea0c0a2fdb0f88fde3afcf394ab",
+        "native_cases_per_runtime": {
+          "baseline": 24,
+          "patched": 24
+        },
+        "native_inspection_sha256": "9626afa46e9d17712a12879735351c11fdde76b01c6458833b4829733445e486",
+        "original_completed_head": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+        "qualified": false,
+        "real_preflight": {
+          "operations": [
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "overwrite",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "append",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "create",
+              "winerror": null
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "create-directory",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "mtime",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "delete",
+              "winerror": 5
+            },
+            {
+              "denied": true,
+              "errno": 13,
+              "operation": "rename",
+              "winerror": 5
+            }
+          ],
+          "protection_sha256": "1a4993f6bf0fbcd1abd44ea2703fd82391626c26d482cd3a4695a2d409266e96",
+          "report_sha256": "4d87ef9774465baf08d477a8acdd578088797b46595996e1c9d75c863d963d3d",
+          "shared_public_contract": "errno13-all7/FileIO-winerrorNone-first3/native-winerror5-last4"
+        },
+        "run_id": 37517014618,
+        "runtime_log_sha256s": {
+          "baseline": "2540ff21c7dd51fbc568e81bb4de9e41dc3df74dd0e9b44ab786760c2c69f8e8",
+          "patched": "a7deea8dde1b3671b1e9c0b1d2b4eb20f80df05dfbf3bb32b9bd4dcdbe8b1dd2"
+        },
+        "scope": "Actual transported native runtime/source/SDK/dialog/manifest/operator-result receipt audit; independent raw PDF operators/pixels belong to root review. No executable/test/rasterizer run.",
+        "sdk": "3.5.5-x64",
+        "sdk_protection": {
+          "entries": 128887,
+          "helper_sha256": "fc71a718839df08fe91608341a9798d1dfd6902f8141365da7bce0cecfdfeb15",
+          "mismatch_count": 0,
+          "report_sha256": "b4f6d2f8f0c41c3f087dd7d3321cc93355751d19a52140df160d0e3da88eaf78",
+          "stages": [
+            "before",
+            "protected",
+            "baseline-finished",
+            "patched-finished",
+            "after-runtime",
+            "restored"
+          ],
+          "writer_policy": "legacy-SetFileSecurityW/auto-inherited-SetNamedSecurityInfoW-v1"
+        },
+        "source_snapshot": "/private/tmp/freecad-t8a6-source-8145-2xzmv8r6",
+        "source_snapshot_sha256": "5ad3e048dc84fd630cce2bebb4f17258bd8762fd2caa1ca2b0d7217b6f61bedd",
+        "status": "passed",
+        "tests_or_PDFs_rerun": false
+      },
+      "source": {
+        "file_index_sha256": "22f9fdabb2235124dd503057cc7e8f411fd0ba6770e049f9fd123f23ea1fb885",
+        "filename": "qt-6.11.1-LibPack-v3.5.5-x64-corresponding-sources.tar.gz",
+        "sha256": "7532e5b878b23c933534b3bec30a617440f38403686723f0b6e2681804420451",
+        "size": 1136590985,
+        "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt-6.11.1-LibPack-v3.5.5-x64-corresponding-sources.tar.gz"
+      }
+    }
+  },
+  "limitations": [
+    "Native origins are authenticated producer observations with independent inventory joins; remote physical installations are not claimed to be freshly rehashed locally.",
+    "Whole delivered .conda and inner SDK/source archive SHA-256 identities are verified. Historical selectively fetched outer Actions ZIP digests remain API-only in their original receipts.",
+    "Original producer receipts retain their original qualified/promotion fields. This conjunction admits their specifically passed stages, without rewriting failed runs or original scope.",
+    "Conda source includes all seven recipe patches and complete Qt source. LibPack corresponding source covers Qt and retained build inputs; no blanket non-Qt source completeness or legal compliance conclusion is added.",
+    "Unchanged private Qt libraries in LibPack PySide directories require the documented Qt-first host selection; arbitrary PySide console and post-signing/repackaged FreeCAD qualification remain outside this receipt."
+  ],
+  "production_guards_changed": false,
+  "repository": "zukomgwili/FreeCAD",
+  "schema_version": 1,
+  "scope": "Authenticated retained qualification of the exact eight dependency build routes, reviewed complete patched Qt source and reproducible build evidence. Public delivery and changed selection/relocation verification are recorded separately.",
+  "source_audits": {
+    "conda_complete_patched_source": {
+      "all_seven_patch_outputs_independently_reproduced": true,
+      "counts": {
+        "changed_regular_files": 7,
+        "directories": 43548,
+        "hardlinks": 0,
+        "members": 434524,
+        "regular_bytes_original": 4744006832,
+        "regular_bytes_patched": 4744007384,
+        "regular_files": 390976,
+        "symlinks": 0,
+        "unchanged_regular_files": 390969
+      },
+      "evidence_path": "reviews/source-and-sdk/conda-complete-patched-source.json",
+      "sha256": "f1af46589892cb290eea79aaceb7793a71da78fa925e6036931561987db0e816"
+    },
+    "libpacks": [
+      {
+        "archive_sha256": "9d54c145862f0ce004b59cd02a74f92c7a05642bbcc139ae986833c2b9e5445a",
+        "counts": {
+          "directories": 4403,
+          "empty_directories": 1,
+          "git_files": 0,
+          "git_indices": 0,
+          "git_objects_files": 0,
+          "hardlinks": 6,
+          "indexed_logical_byte_total": 3140175032,
+          "license_notice_reuse_files": 296,
+          "members": 64497,
+          "regular_byte_total": 3137827000,
+          "regular_files": 60088
+        },
+        "evidence_path": "reviews/source-and-sdk/standard-sdk.json",
+        "kind": "sdk",
+        "original_index_sha256": "0ba53b918dbd958930600564db05565aaf15542dbded899c047db71d16bbed5f",
+        "receipt_sha256": "07b4b4e359c8bd7e291184197b11e923bf89d02d9f2913cdb24403b7b9ff5c74",
+        "sdk": "3.5.3-x64"
+      },
+      {
+        "archive_sha256": "2836a2ecc49d88e17dda4bda88737076b15717b5c292a15b807d0df16a069520",
+        "counts": {
+          "directories": 9842,
+          "empty_directories": 74,
+          "git_files": 419,
+          "git_indices": 14,
+          "git_objects_files": 42,
+          "hardlinks": 0,
+          "indexed_logical_byte_total": 1541319301,
+          "license_notice_reuse_files": 350,
+          "members": 100225,
+          "regular_byte_total": 1541319301,
+          "regular_files": 90383
+        },
+        "evidence_path": "reviews/source-and-sdk/standard-source.json",
+        "kind": "source",
+        "original_index_sha256": "4f72d701cacb1230928dfd3853241c9b85fe3029e392a3ee97e98d359ac01cc0",
+        "receipt_sha256": "0e5aba2a62adf9d4a5b21c1a92505fa532abeb04b747ceb844803cebe70d5a10",
+        "sdk": "3.5.3-x64"
+      },
+      {
+        "archive_sha256": "bae3c85fc9e8e9b3fcbe184113f4928bbc3f26322667946cc0b44b7bac6a6958",
+        "counts": {
+          "directories": 4407,
+          "empty_directories": 1,
+          "git_files": 0,
+          "git_indices": 0,
+          "git_objects_files": 0,
+          "hardlinks": 6,
+          "indexed_logical_byte_total": 3144711619,
+          "license_notice_reuse_files": 296,
+          "members": 64537,
+          "regular_byte_total": 3142363587,
+          "regular_files": 60124
+        },
+        "evidence_path": "reviews/source-and-sdk/experimental-sdk.json",
+        "kind": "sdk",
+        "original_index_sha256": "e93e6a60b0d01bc7dff62e1e36d759dfdc604215706ee36e6bfae43c5e4b4a82",
+        "receipt_sha256": "72190649d56c3818455184c7331a55c5cad4a597f7fca5378df4a0cd946802b1",
+        "sdk": "3.5.5-x64"
+      },
+      {
+        "archive_sha256": "7532e5b878b23c933534b3bec30a617440f38403686723f0b6e2681804420451",
+        "counts": {
+          "directories": 9842,
+          "empty_directories": 74,
+          "git_files": 419,
+          "git_indices": 14,
+          "git_objects_files": 42,
+          "hardlinks": 0,
+          "indexed_logical_byte_total": 1541320268,
+          "license_notice_reuse_files": 350,
+          "members": 100225,
+          "regular_byte_total": 1541320268,
+          "regular_files": 90383
+        },
+        "evidence_path": "reviews/source-and-sdk/experimental-source.json",
+        "kind": "source",
+        "original_index_sha256": "22f9fdabb2235124dd503057cc7e8f411fd0ba6770e049f9fd123f23ea1fb885",
+        "receipt_sha256": "a6c56cd5ca4229715813e80e8693e88c05c29aa65637782fa0006e467736bd7d",
+        "sdk": "3.5.5-x64"
+      },
+      {
+        "archive_sha256": "492d75c3e31ad4b6ba1f2b80011107ca22e21949647fcb9e9b8a9547a47bad17",
+        "counts": {
+          "directories": 4356,
+          "empty_directories": 1,
+          "git_files": 0,
+          "git_indices": 0,
+          "git_objects_files": 0,
+          "hardlinks": 6,
+          "indexed_logical_byte_total": 3016580282,
+          "license_notice_reuse_files": 295,
+          "members": 63685,
+          "regular_byte_total": 3014210746,
+          "regular_files": 59323
+        },
+        "evidence_path": "reviews/source-and-sdk/arm-sdk.json",
+        "kind": "sdk",
+        "original_index_sha256": "ab0a6d5f3e434ff7294553532f7a091dc1fbfdc8d8756e30f289d71885320cd6",
+        "receipt_sha256": "d273deb5ac70d6290b0239ec5f93ded6f10e54911c66e60a427f57b9c3437c0b",
+        "sdk": "3.5.5-arm64"
+      },
+      {
+        "archive_sha256": "1087d3ce82fb778f81e2758f1ce24ff4962a33d8ff32d5270112d8591a1a949b",
+        "counts": {
+          "directories": 9842,
+          "empty_directories": 74,
+          "git_files": 419,
+          "git_indices": 14,
+          "git_objects_files": 42,
+          "hardlinks": 0,
+          "indexed_logical_byte_total": 1541320268,
+          "license_notice_reuse_files": 350,
+          "members": 100225,
+          "regular_byte_total": 1541320268,
+          "regular_files": 90383
+        },
+        "evidence_path": "reviews/source-and-sdk/arm-source.json",
+        "kind": "source",
+        "original_index_sha256": "975994f7ef2400cfc7bed54bb58926dcc6b313dbfe3a34d35bf13e4d3cfbd0b3",
+        "receipt_sha256": "b4c64af84fae3308ddddfa3c2ec3236bbe22e688c95f99a75368fe7c7a5fbd83",
+        "sdk": "3.5.5-arm64"
+      }
+    ]
+  },
+  "spdx_license_identifier": "BSD-3-Clause",
+  "tests_builds_or_rasterizations_repeated": false
+}

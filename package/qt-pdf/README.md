@@ -1,6 +1,128 @@
 <!-- SPDX-License-Identifier: LGPL-2.1-or-later -->
 
-# Qt PDF 6.11.2 package backport
+# Reviewed Qt PDF dependencies
+
+The [delivery catalogue](distribution.json) selects the five reviewed Qt 6.11.2
+conda packages and three complete Qt 6.11.1 LibPacks from the
+[versioned dependency release](https://github.com/zukomgwili/FreeCAD/releases/tag/qt-pdf-stroker-2026-10-06).
+The [qualification record](distribution-qualification.json) joins their actual
+build, binary, source and native runtime evidence. Earlier receipts below retain
+their original stage-specific limits; their original `distribution_promoted`
+flags are not rewritten retrospectively.
+
+| Dependency route | Qt version | Retained qualification per route |
+| --- | --- | --- |
+| linux-64, linux-aarch64, osx-64, osx-arm64, win-64 conda | 6.11.2, build 1 | 66 Qt PDF device pairs, 10 upstream tests, 24 native PDF pairs, 11 GUI tests per runtime |
+| LibPack 3.5.3 x64, 3.5.5 x64, 3.5.5 ARM64 | 6.11.1 | The same Qt/upstream/native gates, plus original SDK ownership and preservation evidence |
+
+All binaries are unchanged from the qualified builds. The catalogue records
+whole archive SHA-256, finite critical library hashes, exact Python/PySide
+identities, source identities and corresponding release URLs. The complete
+original build and qualification archives, raw test transcripts, PDFs, retained
+PNG readbacks and independent reviews travel in
+`qt-pdf-qualification-evidence.tar.zst`; its internal `evidence-index.json`
+authenticates each retained member. Historical failed overall runs remain
+failed; only their independently admitted passed Qt stages are reused.
+
+## Conda and explicit source/CMake selection
+
+Use the repository's root Pixi manifest and lock. Each platform's `qt6-main`
+dependency uses its exact release asset URL and SHA-256; the other locked package
+identities and membership stay unchanged. `package/bundle` has its own packaging
+tools environment and does not supply the application Qt runtime.
+
+For a macOS ARM source build, run:
+
+```sh
+pixi install --locked
+pixi run python package/qt-pdf/verify_delivered_qt.py \
+  --catalog package/qt-pdf/distribution.json --platform osx-arm64 \
+  --prefix .pixi/envs/default --load-python
+pixi run cmake --preset conda-macos-release \
+  -DFREECAD_QUALIFIED_QT_PREFIX="$PWD/.pixi/envs/default" \
+  -DFREECAD_QUALIFIED_QT_PLATFORM=osx-arm64
+```
+
+Choose the catalogue's native platform and existing `conda-linux-release`,
+`conda-macos-release` or `conda-windows-release` preset for other hosts. On
+Windows, use an absolute prefix path and the existing preset's generator/toolset
+settings. Run the loader command within that same selected Pixi environment.
+CMake selects the reviewed Qt, Python, PySide and Shiboken package roots before
+Qt discovery, then checks the actual imported shared libraries and Windows
+import libraries. It writes `qualified-qt-selection.json` and
+`qualified-qt-targets.json` in the build directory. The independent
+`--load-python` command verifies actual loaded Qt Core/Gui/Widgets/PrintSupport,
+QPA, PySide and Shiboken paths, native architecture and bytes.
+
+These commands reject a different package, a foreign or modified critical
+library, or a mixed Python/bindings selection. CMake's offline proof explicitly
+has `runtime_verified=false`; only the loader proof establishes loaded origins.
+Other system Qt installations require their own qualification. Source selection
+is opt-in, so the catalogue does not implicitly qualify an ordinary system build.
+
+## Complete Windows LibPack installation
+
+The ordinary Windows build selects `3.5.3-x64`; the experimental reusable
+release build defaults to `3.5.5-x64`, with its ARM route selecting `3.5.5-arm64`.
+The shared action uses the catalogue and caches by archive and index SHA-256.
+Every cache hit checks exact file/directory membership, file sizes and hashes;
+added Python caches or other changed files fail verification.
+
+For a manual source build, choose a fresh destination outside the source tree:
+
+```powershell
+python package/qt-pdf/install_delivered_libpack.py --sdk 3.5.3-x64 --destination C:/FC/qualified-libpack
+python package/qt-pdf/install_delivered_libpack.py --sdk 3.5.3-x64 --destination C:/FC/qualified-libpack --verify
+python package/qt-pdf/verify_delivered_libpack_runtime.py --sdk 3.5.3-x64 --prefix C:/FC/qualified-libpack --qt-first --receipt C:/FC/libpack-runtime.json
+cmake --preset release -DFREECAD_LIBPACK_USE=ON -DFREECAD_LIBPACK_DIR=C:/FC/qualified-libpack
+```
+
+Create the destination's parent directory first. `--archive` accepts an existing
+complete archive instead of downloading it; the same whole SHA check applies.
+Installation restores the exact original files, empty directories and indexed
+file modification times. The six original earlier-target executable aliases
+are materialized as independent copies. Directory times preserve the archived
+representable value; no exact original directory nanosecond index was retained.
+The existing destination is never overlaid or repaired in place. Verification
+allows timestamp-only cache drift and still requires every original byte/member.
+
+The runtime helper executes the SDK's authenticated `bin/python.exe -I -B`.
+`--qt-first` explicitly preloads the four authenticated top-level Qt libraries,
+modeling startup by a C++ Qt host before it imports PySide. It checks the actual
+loaded libraries and offscreen QPA at the new location. Untouched private Qt
+copies in the SDK's PySide directories remain baseline bytes; an arbitrary bare
+PySide console is outside this qualified startup path. The fresh delivery
+workflow checks only download/install/cache/CMake-import/relocation behaviour;
+it does not repeat the original Qt PDF suites or FreeCAD builds.
+
+## Source, licences and reproduction
+
+`qt-everywhere-src-6.11.2-freecad-pdf-build1.tar.zst` retains the complete reviewed
+Qt source with all seven recipe patches applied in build order. Its independent
+byte audit preserves all 434,524 members and all unchanged source bytes. The
+original archive SHA/MD5, all seven patch identities, recipe and scheduling
+diffs, native build commands, variants, dependencies and complete feedstock
+inputs are retained alongside each actual build. The original source can be
+retrieved from the SHA-pinned official URL in the catalogue. Use that original
+input with the retained recipe to rebuild; the already patched source archive
+would otherwise receive the patches twice. The separate Windows Mesa input
+retains its original source URL and SHA in the recipe.
+
+The three LibPack corresponding-source archives retain the actual patched Qt
+repositories, their Git objects and indices, source notices, the retained patch
+and LibPack build configuration. They cover Qt and those build inputs; they do
+not claim to contain every non-Qt SDK dependency's complete source. The original
+SDK notices are preserved. The conda package metadata declares `LGPL-3.0-only`
+and retains its licence file; the complete Qt source keeps all module and
+third-party licences and REUSE/notice files. SPDX markers on FreeCAD tooling or
+review receipts describe those files, rather than replacing Qt's licence metadata.
+
+Qualification applies to the recorded dependency and native FreeCAD PDF routes.
+A subsequently signed or repackaged application needs verification of its own
+loaded binaries. Production TechDraw guards remain in place; the separate
+`FreeCAD-t8a.8` decision controls their removal.
+
+## Historical conda build and qualification procedure
 
 `build_backport.py` materializes the complete conda-forge Qt 6.11.2 feedstock
 recipe at commit `5cd1156d41526330a116b6b441611b47357ec568`. The archive SHA-256

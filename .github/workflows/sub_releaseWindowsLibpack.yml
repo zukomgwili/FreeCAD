@@ -29,14 +29,11 @@ on:
         required: false
         type: string
         default: ""
-      libpackDownloadUrl:
+      libpackSdk:
+        description: "Reviewed SDK catalogue selection"
         required: false
         type: string
-        default: "https://github.com/FreeCAD/FreeCAD-LibPack/releases/download/3.5.5/LibPack-26.3.0-v3.5.5-x64-Release.7z"
-      libpackName:
-        required: false
-        type: string
-        default: "LibPack-26.3.0-v3.5.5-x64-Release"
+        default: "3.5.5-x64"
       makeInstaller:
         description: "Whether to also build the NSIS installer (x64 only for now)"
         required: false
@@ -77,15 +74,13 @@ jobs:
 
       - name: Make needed directories
         run: |
-          mkdir ${{ env.libpackdir }}
           mkdir ${{ env.builddir }}
 
       - name: Get Libpack
         uses: ./.github/workflows/actions/windows/getLibpack
         with:
           libpackdir: ${{ env.libpackdir }}
-          libpackdownloadurl: ${{ inputs.libpackDownloadUrl }}
-          libpackname: ${{ inputs.libpackName }}
+          libpacksdk: ${{ inputs.libpackSdk }}
 
       - name: Install cmake
         uses: jwlawson/actions-setup-cmake@0d6a7d60b009d01c9e7523be22153ff8f19460d3 # v2.2.0

@@ -311,15 +311,13 @@ jobs:
             runner: windows-11-arm
             cmakeArchitecture: ARM64
             makeInstaller: "false"
-            libpackDownloadUrl: https://github.com/FreeCAD/FreeCAD-LibPack/releases/download/3.5.5/LibPack-26.3.0-v3.5.5-ARM64-Release.7z
-            libpackName: LibPack-26.3.0-v3.5.5-ARM64-Release
+            libpackSdk: 3.5.5-arm64
     uses: ./.github/workflows/sub_releaseWindowsLibpack.yml
     with:
       build_tag: ${{ needs.upload_src.outputs.build_tag }}
       arch: ${{ matrix.arch }}
       runner: ${{ matrix.runner }}
       cmakeArchitecture: ${{ matrix.cmakeArchitecture }}
-      libpackDownloadUrl: ${{ matrix.libpackDownloadUrl }}
-      libpackName: ${{ matrix.libpackName }}
-      makeInstaller: ${{ matrix.makeInstaller }}
+      libpackSdk: ${{ matrix.libpackSdk }}
+      makeInstaller: ${{ format('{0}', matrix.makeInstaller) }}
     secrets: inherit
