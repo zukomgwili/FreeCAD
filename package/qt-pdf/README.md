@@ -44,7 +44,9 @@ ARM CMake and runtime passed in the
 reusing its authenticated passed cache receipt. Only ARM needed a fresh SDK
 installation as setup because the previous runner's SDK tree was not retained.
 The x64 jobs, passed cache execution, original PDF suites and Qt/FreeCAD builds
-were not repeated. Production guard decisions remain with `FreeCAD-t8a.8`.
+were not repeated. The separate [mitigation review](MITIGATIONS.md) completed
+`FreeCAD-t8a.8` with a decision to retain both production guards unchanged: generic
+source builds can still select unqualified Qt.
 
 ## Conda and explicit source/CMake selection
 
@@ -161,8 +163,8 @@ review receipts describe those files, rather than replacing Qt's licence metadat
 
 Qualification applies to the recorded dependency and native FreeCAD PDF routes.
 A subsequently signed or repackaged application needs verification of its own
-loaded binaries. Production TechDraw guards remain in place; the separate
-`FreeCAD-t8a.8` decision controls their removal.
+loaded binaries. The reviewed [retention decision](MITIGATIONS.md) keeps both
+production TechDraw guards in place and records the limits of any future removal.
 
 ## Historical conda build and qualification procedure
 

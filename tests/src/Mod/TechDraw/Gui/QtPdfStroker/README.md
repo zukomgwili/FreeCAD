@@ -16,8 +16,12 @@ PDF strokes keep their existing behavior. See the pinned
 
 This directory is a standalone dependency qualification fixture. The FreeCAD
 build does not apply the patch or run it against an arbitrary installed Qt.
-The earlier `QGCustomPath` mitigation remains necessary while supported Qt
-packages lack the correction.
+The [completed delivery](../../../../../../package/qt-pdf/README.md) qualifies
+eight exact dependency routes. The separate
+[mitigation review](../../../../../../package/qt-pdf/MITIGATIONS.md) retains both
+`QGCustomPath` and `QGCustomRect` guards because ordinary source builds can still
+select unqualified Qt. The qualification below keeps its historical stage-specific
+scope.
 
 ## Fixture
 
@@ -195,9 +199,10 @@ runtime and per-case result digests. This validates the serializer correction
 on that build; it does not qualify other platforms, native QPrinter integration
 or a patched Qt 6.8.3 runtime.
 
-## Dependency delivery
+## Historical dependency delivery audit
 
-Source and recipe audit performed on 2026-10-04:
+Source and recipe audit performed on 2026-10-04, before the linked completed
+delivery above:
 
 - FreeCAD's `pixi.toml` requires `qt6-main >=6.11,<6.12`; its lock resolves
   6.11.2 build 0 on linux-64, linux-aarch64, osx-64, osx-arm64 and win-64.

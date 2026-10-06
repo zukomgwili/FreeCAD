@@ -1,0 +1,71 @@
+{
+  "decision_identity": {
+    "repository_path": "package/qt-pdf/mitigation-review.json",
+    "sha256": "f3623b9471a3f91f6c3788841dbde2f20a5d70cc0ab32053d28cc3bcf587990a",
+    "size": 18016
+  },
+  "final_independent_reviews": [
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/final-control-review.json",
+      "sha256": "b5004434b999800128efb12734d537597c4d6734655ec6068cb344fb6c860ccb",
+      "size": 2283
+    },
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/final-standards-review.json",
+      "sha256": "5cb19e02b5355e9ad4c0b5ac2072c3f05946ba9c0cb29870ddf3c7cb71a626e4",
+      "size": 5218
+    },
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/final-spec-review.json",
+      "sha256": "b85d2e1404a4a5949087db96b2d771a57a36867ed3742d1c667278ae757be84a",
+      "size": 5471
+    }
+  ],
+  "findings": [],
+  "fixed_starting_commit": "29004fbd85825273205861375a3e243ca189f119",
+  "issue": "FreeCAD-t8a.8",
+  "limits": [
+    "This is a static retention/evidence review. Git commit, synchronization and successful push remain the root landing steps at review sealing; no runtime or application qualification claim is added.",
+    "Historical qualification, producer limits, dependency release assets and versioned selection tools remain unchanged."
+  ],
+  "retained_both_decision": true,
+  "review_axes": {
+    "Control mapping": "passed, zero material findings",
+    "Spec": "passed, zero findings",
+    "Standards": "passed, zero findings"
+  },
+  "reviewed_documents": [
+    {
+      "repository_path": "package/qt-pdf/MITIGATIONS.md",
+      "sha256": "26668651081ea49b99d7aeca7902034855634bd42ba7ffc5dc04d1ab60c96d76",
+      "size": 6571
+    },
+    {
+      "repository_path": "package/qt-pdf/README.md",
+      "sha256": "deec4c6c2cf382fdd5895913273fcebc441b51519426359a93e4b8113cac156c",
+      "size": 40738
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/README.md",
+      "sha256": "419fc094949f7cd4ec71bf52cec97d7a4846a57eb455ba2adabdd1ed55155b60",
+      "size": 13337
+    }
+  ],
+  "schema_version": 1,
+  "spdx_license_identifier": "LGPL-2.1-or-later",
+  "status": "passed",
+  "tracking": {
+    "all_six_parent_children_closed": true,
+    "child_status": "closed",
+    "other_fourteen_raw_records_unchanged": true,
+    "parent_status": "closed",
+    "preserved_ids": 16,
+    "preserved_original_dependency_objects": 17
+  },
+  "tracking_identity": {
+    "repository_path": ".beads/issues.jsonl",
+    "sha256": "4fa1d987b86256e3e34b8f36449e8a1a20879cd54bab407e7e3b336df7c07887",
+    "size": 221206
+  },
+  "validation": "No new tests, builds, workflows, rasterizations, runtime execution or large archive work. Source/evidence SHA checks, JSON joins, local documentation links, whitespace and the original Beads graph are the current gates."
+}
