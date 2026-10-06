@@ -1,0 +1,1303 @@
+{
+  "spdx_license_identifier": "BSD-3-Clause",
+  "schema_version": 1,
+  "scope": "Actual macOS Intel exact-package Qt reuse and newly completed native PDF qualification",
+  "reviewed_at_utc": "2026-10-05T18:32:18.521131+00:00",
+  "repository": "zukomgwili/FreeCAD",
+  "target": "osx-64",
+  "qualified": true,
+  "native_freecad_qualified": true,
+  "all_supported_platforms_qualified": false,
+  "distribution_promoted": false,
+  "run": {
+    "id": 37331171839,
+    "job_id": 111834401824,
+    "head_sha": "6ed7acf87ceb8a41bcbdfc3c99c6b671c05db942",
+    "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37331171839",
+    "conclusion": "success",
+    "completed_at": "2026-10-05T18:21:44Z",
+    "event": "workflow_dispatch",
+    "inputs": {
+      "target": "osx-64",
+      "stage": "native",
+      "reuse_run": "37248191467",
+      "build_run": "37238935749"
+    }
+  },
+  "artifact": {
+    "run_id": 37331171839,
+    "job_id": 111834401824,
+    "head_sha": "6ed7acf87ceb8a41bcbdfc3c99c6b671c05db942",
+    "run_conclusion": "success",
+    "job_conclusion": "success",
+    "artifact_id": 11363164535,
+    "artifact_name": "qt-pdf-qualification-osx-64",
+    "artifact_size": 96777578,
+    "artifact_zip_sha256": "77f9597462d6a41b2d98ab0f30327c51e9627b09615f576a6d1eed1ea88186e9",
+    "all_member_crc_verified": true,
+    "whole_zip_api_sha_size_verified": true,
+    "all_extracted_regular_sha_verified": true,
+    "file_count": 1381,
+    "unpacked_bytes": 218077278,
+    "artifact_files_sha256": "4e6810f25d5035bebcb8ab1fcb547570f86bec7439a8980852d1a7ef63562c1c",
+    "api_sha256": {
+      "run-api.json": "36977238a96be9c61d1fc0fb028fb6eb187cd59c94c87b3a11e92468b63693dc",
+      "jobs-api.json": "b9ce752dd629d43d0743584898f2efad6214d19762484653c6e9e1e6d48e499a",
+      "artifact-api.json": "8e3e9cefee068d0ce641dd8ef51da49d9401700d172dbadb99623aeef484280e",
+      "artifact-list-api.json": "38d4b660104594f1658c66d358ac4fd7f51300aa963f8e499b8a7187d186e52e"
+    },
+    "stage_conclusions": {
+      "Set up job": "success",
+      "Make space for two runtimes and the native build": "skipped",
+      "Preserve reviewed checkout bytes on Windows": "skipped",
+      "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+      "Select the same recorded macOS SDK": "success",
+      "Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+      "Authenticate the reviewed passed Linux Qt checks": "skipped",
+      "Authenticate the reviewed passed Intel Qt checks": "success",
+      "Wait for this native package artifact": "success",
+      "Download the actual package and corresponding source evidence": "success",
+      "Authenticate artifact transport and restore omitted public inputs": "success",
+      "Install the exact package in an isolated candidate runtime": "success",
+      "Bind the passed Qt checks to these exact runtime binaries": "success",
+      "Configure and build native FreeCAD against locked baseline": "success",
+      "Compile the controlled mitigation bypass in this disposable checkout": "success",
+      "Retain the native build for a focused Linux retry": "skipped",
+      "Retain the native build for a focused Intel retry": "success",
+      "Qualify both Qt PDF devices and Qt's own writer tests": "skipped",
+      "Qualify stock native exports with both guards bypassed": "success",
+      "Diagnose the failed ARM native process": "skipped",
+      "Bind the new native capture to the reused passed Qt checks": "success",
+      "Retain runtime inventories, PDFs and all qualification evidence": "success",
+      "Post Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+      "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+      "Complete job": "success"
+    }
+  },
+  "reused_passed_stages": {
+    "prior_run_id": 37248191467,
+    "prior_run_conclusion": "failure",
+    "original_native_passed": false,
+    "qt_cases": 66,
+    "upstream_test_cases": 10,
+    "package_build_run_id": 37238935749,
+    "package_sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+    "build_json_sha256": "85469bfacd14cc6251a70e988084e750939a168571deea2a37cdebbd77ad19c6",
+    "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+    "validation_sha256": "98a984e8c4d04ce1e0bd15c5141bc3b234d7b3ade50ee2e77c46ccff02e3a676",
+    "conjunction_sha256": "ee65338aa95975cb096257bfa57dc056ce3ea75740c12395d9db4867f6d8a58e",
+    "qt_executors_skipped": true,
+    "prior_head_sha": "fad5154281bede3144c71820933e5b05812161fb",
+    "prior_artifact_id": 11323656361,
+    "prior_artifact_sha256": "5236af18b437128de7b15b43dbdecb3488685938b8c7008a39f9bf1087bfb5d6",
+    "durable_receipt": "package/qt-pdf/macintel-qt-passed.json",
+    "durable_receipt_sha256": "99315f0e4c784161f9ec2132ec7815a963c193f8e4a3eee7d500f647fef30f54",
+    "validation_executables_invoked": false,
+    "validation_pdfs_rerendered": false
+  },
+  "package": {
+    "package_sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+    "build_json_sha256": "85469bfacd14cc6251a70e988084e750939a168571deea2a37cdebbd77ad19c6",
+    "verified_sdk": {
+      "path": "/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "metadata_file": "SDKSettings.json",
+      "metadata_sha256": "58a133735f0a55a624a1703067059f6e78925e51725ec6e1f966072e142c9c42"
+    }
+  },
+  "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+  "native_result": {
+    "comparison_report_sha256": "b6bffb020136638896f5fd8e25e85d1d0c3d7f7e9345579f5bd3f7b37bbf0d92",
+    "conjunction_sha256": "ee65338aa95975cb096257bfa57dc056ce3ea75740c12395d9db4867f6d8a58e",
+    "validation_sha256": "98a984e8c4d04ce1e0bd15c5141bc3b234d7b3ade50ee2e77c46ccff02e3a676",
+    "recovery_sha256": "4a15c23fc338411aa4900601c9d38a915e93b98bfc9ae2cfe71b157b71e9f588",
+    "native_cases": 24,
+    "actual_native_pdfs": 48,
+    "raster_dpi": 150,
+    "gui_tests_per_runtime": 11,
+    "baseline_reproduced_cases": 10,
+    "baseline_reproduced_by_device": {
+      "qpdfwriter": 5,
+      "qprinter": 5
+    },
+    "per_device": {
+      "qpdfwriter": {
+        "baseline_invalid_closes": 7,
+        "patched_invalid_closes": 0,
+        "native_pdf_pairs": 12,
+        "exact_preservation_pairs": 12
+      },
+      "qprinter": {
+        "baseline_invalid_closes": 7,
+        "patched_invalid_closes": 0,
+        "native_pdf_pairs": 12,
+        "exact_preservation_pairs": 12
+      }
+    },
+    "visible_controls": [
+      {
+        "side": "baseline",
+        "device": "qpdfwriter",
+        "gap_and_opaque_gap_no_added_ink": true,
+        "solid_dash_distance_zero_width_visible": true,
+        "exact_frame_and_area_visible": true,
+        "area_relocation_changes_pixels": true
+      },
+      {
+        "side": "baseline",
+        "device": "qprinter",
+        "gap_and_opaque_gap_no_added_ink": true,
+        "solid_dash_distance_zero_width_visible": true,
+        "exact_frame_and_area_visible": true,
+        "area_relocation_changes_pixels": true
+      },
+      {
+        "side": "patched",
+        "device": "qpdfwriter",
+        "gap_and_opaque_gap_no_added_ink": true,
+        "solid_dash_distance_zero_width_visible": true,
+        "exact_frame_and_area_visible": true,
+        "area_relocation_changes_pixels": true
+      },
+      {
+        "side": "patched",
+        "device": "qprinter",
+        "gap_and_opaque_gap_no_added_ink": true,
+        "solid_dash_distance_zero_width_visible": true,
+        "exact_frame_and_area_visible": true,
+        "area_relocation_changes_pixels": true
+      }
+    ],
+    "exact_preservation_each_pair": true,
+    "require_device_pixel_parity": false,
+    "stock_device_rounding": "PagePrinter QPdfWriter computes its target from exact template millimetres; QPrinter uses QPageLayout.fullRectPixels from rounded page points. Cross-device pixels can differ; each device must retain exact operators and RGBA.",
+    "device_pairs": [
+      {
+        "side": "baseline",
+        "scenario": "box-only",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "short-gap",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "short-gap-opaque",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "short-solid",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "long-dashed",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "zero-width-translucent",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "zero-width-opaque",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "zero-width-archival",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "distance",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "theoretical-exact",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "area-and-theoretical-exact",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "baseline",
+        "scenario": "area-relocated-and-theoretical-exact",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "box-only",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "short-gap",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "short-gap-opaque",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "short-solid",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "long-dashed",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "zero-width-translucent",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "zero-width-opaque",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "zero-width-archival",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "distance",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "theoretical-exact",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "area-and-theoretical-exact",
+        "pair_present": true,
+        "same_pixels": false
+      },
+      {
+        "side": "patched",
+        "scenario": "area-relocated-and-theoretical-exact",
+        "pair_present": true,
+        "same_pixels": false
+      }
+    ],
+    "cases": [
+      {
+        "name": "qpdfwriter:box-only",
+        "device": "qpdfwriter",
+        "scenario": "box-only",
+        "baseline_pdf_sha256": "0e84e6d4835437f8db19197e47ed6453d68560cc07da420bb3bf011b71371612",
+        "patched_pdf_sha256": "2ba25b10852a1b276f7cb8c1056c919c603b8e5f51ad4c3746a6f5ee77514c5a",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "99b4ce870b49ca5a58f2201e95ecb93854f7e1d4c9be01d72ae3801bc48edfda",
+          "coordinates_sha256": "b6832f06043e40adfb7138c91df2134c4d89aa46e219c34a5f02375950089bbb",
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5278
+        }
+      },
+      {
+        "name": "qprinter:box-only",
+        "device": "qprinter",
+        "scenario": "box-only",
+        "baseline_pdf_sha256": "55af6669140bc3faa36b70234b353a9cbc179e05fad6ed0988d02be2e7175796",
+        "patched_pdf_sha256": "5871559af9c6e5c0ca2b427e7008075ff3fc333ae9fa3cdfc2f3916ace0cc0d0",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "d5509062a58d0069cfb73ea623a8b563ebfcf692263140c4d8f442ba87d716fa",
+          "coordinates_sha256": "f51f3c4664dc556e18f23c7b1ff9509f369195ec2707072e95b53bd256d38cae",
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6914
+        }
+      },
+      {
+        "name": "qpdfwriter:short-gap",
+        "device": "qpdfwriter",
+        "scenario": "short-gap",
+        "baseline_pdf_sha256": "2f34d4c44de4896c87d4dfd4f86c5acc14823181e4cc4fde74e3e883e3db0eea",
+        "patched_pdf_sha256": "29fb3d0f233d3cea0f70f63cc835a8efb80a48a0c1876fba46cb0d33b1cbbe1e",
+        "baseline_invalid_closes": 1,
+        "baseline_closepath_warnings": 1,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "31001e58b1bd8c637d6631094fd4616cf44f5cf07428bf5cd46eecb39e8bae39",
+          "coordinates_sha256": "b6832f06043e40adfb7138c91df2134c4d89aa46e219c34a5f02375950089bbb",
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5278
+        }
+      },
+      {
+        "name": "qprinter:short-gap",
+        "device": "qprinter",
+        "scenario": "short-gap",
+        "baseline_pdf_sha256": "114e1b3ba2cc8002f9aff4175aa3f077e722bceddb50e9ddae7666e1c9120e79",
+        "patched_pdf_sha256": "ed2f4ec4a2e0dc394d8783eb6a907b2355b286b06f27f89f853c86d8bd7d0e5d",
+        "baseline_invalid_closes": 1,
+        "baseline_closepath_warnings": 1,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "9e315917e5afbd3f3ed8ed4c93a810d3fa1bbb38fe4499943eadca9a0380d835",
+          "coordinates_sha256": "f51f3c4664dc556e18f23c7b1ff9509f369195ec2707072e95b53bd256d38cae",
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6914
+        }
+      },
+      {
+        "name": "qpdfwriter:short-gap-opaque",
+        "device": "qpdfwriter",
+        "scenario": "short-gap-opaque",
+        "baseline_pdf_sha256": "d7acb3568368423f6071a4d6a59e4a6222ddee6410517590a67d443148b5bc6b",
+        "patched_pdf_sha256": "0dfdce5c89a70f2b78db3685714c407c54133675f2b828981cb6102591a2d347",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "e8a5ec72d250d21d913965a95bba277e868217da00ebc11245696addd46b9671",
+          "coordinates_sha256": "f591a9afbe6455f97b65ec329c17388515f02b7b6dd737f4fab4792223b5c038",
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5278
+        }
+      },
+      {
+        "name": "qprinter:short-gap-opaque",
+        "device": "qprinter",
+        "scenario": "short-gap-opaque",
+        "baseline_pdf_sha256": "bb465e1e0b1293a08940ffabedf8be9778793146d90679566a57e4b75d3bfb7f",
+        "patched_pdf_sha256": "f5546ef7c4d85905fdad2c6f2753e7c28de1db0f2d54008e624cd7846ac2fffa",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "db245251ccefb7a01f9328a87349f8bdc2ac2fc4cbea7d89545131a8d7a34d0d",
+          "coordinates_sha256": "294d8ac9660a5144864337e8171258651bc3fb4463748d653e017b103335e6a4",
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6914
+        }
+      },
+      {
+        "name": "qpdfwriter:short-solid",
+        "device": "qpdfwriter",
+        "scenario": "short-solid",
+        "baseline_pdf_sha256": "ceb35a4f9214ff7ba5a7277746ba0983dba54a4937db5493dee25f94bfb23c6c",
+        "patched_pdf_sha256": "e76115ee33e9f43e6414e4d0d502c197a5a2dd7e9db60c558154b1e71a65f175",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "47dc9650e3867c7e442954ee9429223a626e2ba8f2279fdcec4e6a749f69978e",
+          "coordinates_sha256": "782c0bdad8a9e4be9458dddb28aeba9c55616b46c10dec81849f878b643aab3c",
+          "rgba_sha256": "dfb7f4cd2b53e38c76b3bcae756b9eed455c4bc55a5f133ad2b73a0169ece907",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5280
+        }
+      },
+      {
+        "name": "qprinter:short-solid",
+        "device": "qprinter",
+        "scenario": "short-solid",
+        "baseline_pdf_sha256": "3ee1f98bcd5f5fd8bbf7f11b0406dde629c194e582ec0c8694cc6078bd8cc20e",
+        "patched_pdf_sha256": "42623806abd18bd830babfbae041d686d654eabcc8ee412285defb0c23fffd09",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "fb038af71c443303ae9629b3692aab0ff952766de66738abe5cf393baa80815f",
+          "coordinates_sha256": "300a3ef5e95ad397621ee7b867deb6433e5b6f0ee06befb16c2c5e02f36d1179",
+          "rgba_sha256": "9daadca6fefbcd88502dfedec1dd8672cffbd859d6d057de2241a5bb1e0a647f",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6915
+        }
+      },
+      {
+        "name": "qpdfwriter:long-dashed",
+        "device": "qpdfwriter",
+        "scenario": "long-dashed",
+        "baseline_pdf_sha256": "f55709c7868093a8442d9ff5a0cb8fcc0653036256141cac05ae2a689984f00a",
+        "patched_pdf_sha256": "9c569a77563deb484e36e632598cd0e52ff292bd5370edc85822b21bbcb2ae39",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "3e67c0e9877d9eb797a19215ffdff1720ba99b9c446e816d335ead3259a9cc16",
+          "coordinates_sha256": "24234cd06ea03d42c4163725c02b0a8d84ba377fd614203a5ba3289c0a85b0d5",
+          "rgba_sha256": "8afe1173074b4e40f45ff67a9da41f6b4449b40e602076e6f913aa973b33e35d",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5344
+        }
+      },
+      {
+        "name": "qprinter:long-dashed",
+        "device": "qprinter",
+        "scenario": "long-dashed",
+        "baseline_pdf_sha256": "617c86af8610790b2794e5ebc522e27c51b01f23d42143f786271e07269fddbd",
+        "patched_pdf_sha256": "abe08028b445cc7e7cb690a233e383f85ed9b97289676d1ca8cdb711da7213ca",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "216262d216c8a2e1ccb67b53fe8b4ad424954ce5f91981f0e899cd4002e335fe",
+          "coordinates_sha256": "74eac8badd0e16e574d7cea7a103a8588ac38e6615a07d7144b21343243cf905",
+          "rgba_sha256": "882e26c964ed619635e7aa701850530aeef112cd24ec0fb61a595dfeeb3c5889",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6978
+        }
+      },
+      {
+        "name": "qpdfwriter:zero-width-translucent",
+        "device": "qpdfwriter",
+        "scenario": "zero-width-translucent",
+        "baseline_pdf_sha256": "177b1730581314670db098136ba99f67fc64e2254cecfdea2798b09e71a4a865",
+        "patched_pdf_sha256": "7c0a1a184bc27ff8583d8bf2bdb29d28d164f15cfd5d85989c9b9dd9f98e9113",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "410f5e37a7d99cc69871a9c228864522ae7b678ad207e966e1fe4363780f72d5",
+          "coordinates_sha256": "0f51dc93343c535c23cc634fe9ff37986678062ab3d8a5c66f3566e31f46cd20",
+          "rgba_sha256": "ecf95ce6d3da6006282c37406948a71152b8bb5e4a7612635e97aeb585d4b579",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5279
+        }
+      },
+      {
+        "name": "qprinter:zero-width-translucent",
+        "device": "qprinter",
+        "scenario": "zero-width-translucent",
+        "baseline_pdf_sha256": "0a381b82e6d6b1ad06f569b8e47864c0ecdf850c24b6990de8e646259aae4d7c",
+        "patched_pdf_sha256": "7fea2ffd143e96cb6c529eefa2043594cc99e4d7aedac99953bb60cc391f30cd",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "ccda7c0c9b88eb3b64b19d02d12bcecc644f812d8bee4add97733869ce129bf7",
+          "coordinates_sha256": "bff5bff628402774e60632520237b3606b4f6ee04e83ae9b094878fff4adf3be",
+          "rgba_sha256": "2fb6df3db847c6654305ec36085ed08c62a098ad284daa99923e540900c34c00",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6915
+        }
+      },
+      {
+        "name": "qpdfwriter:zero-width-opaque",
+        "device": "qpdfwriter",
+        "scenario": "zero-width-opaque",
+        "baseline_pdf_sha256": "0ae237b69e7920159863a68f33a560289ab1101e27c0bcba4517eb01cfbb658b",
+        "patched_pdf_sha256": "dfc9548b35e19484f93c17381f4f9c38adb884ab17f162d616fdc10287eb2953",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "364641d1a50b17b5441e03e133c80ad34b1694aed805c8c002882a1ac8b0d925",
+          "coordinates_sha256": "f250bcbd167bfff33a93ddcbf20263e498a74c0919b8b75229bc5b7158d0bb04",
+          "rgba_sha256": "2aa86d84ef52df72ee848daa74a24764547e098d8bcdbe2b2381829aa0054566",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5328
+        }
+      },
+      {
+        "name": "qprinter:zero-width-opaque",
+        "device": "qprinter",
+        "scenario": "zero-width-opaque",
+        "baseline_pdf_sha256": "937936a974b24258926140f1358fe3b7fd1416c47f22c651591407f8c73bc7dd",
+        "patched_pdf_sha256": "260f548514cf90384350304dae8af0ad6297ace82bff7c8ff865b35f02343a00",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "d0023b2bde04940266b048ac53a6da3143155bf7e47f7ff5e023252b435e8fb4",
+          "coordinates_sha256": "d30b081ee8e76dca9c6619fd7bbe66ccc73eb6abee6626123b64711fe775fa10",
+          "rgba_sha256": "f3fc2715ba8adebb48f2b0864af51213ae845a15ddac58770c786601310d4c09",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6965
+        }
+      },
+      {
+        "name": "qpdfwriter:zero-width-archival",
+        "device": "qpdfwriter",
+        "scenario": "zero-width-archival",
+        "baseline_pdf_sha256": "deaf81b1482b33779b053176c8e17234cc6a676b7dcb448ca3a50d6117db2010",
+        "patched_pdf_sha256": "e66127eaf083c31f0cb508ed2233623efd6c81a1112f43a4216da1ac4d6e9126",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "364641d1a50b17b5441e03e133c80ad34b1694aed805c8c002882a1ac8b0d925",
+          "coordinates_sha256": "f250bcbd167bfff33a93ddcbf20263e498a74c0919b8b75229bc5b7158d0bb04",
+          "rgba_sha256": "2aa86d84ef52df72ee848daa74a24764547e098d8bcdbe2b2381829aa0054566",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 5328
+        }
+      },
+      {
+        "name": "qprinter:zero-width-archival",
+        "device": "qprinter",
+        "scenario": "zero-width-archival",
+        "baseline_pdf_sha256": "f97b3fd7d88488ffb76083456eca17981b4831c484ec01fd394e00d97576cb5c",
+        "patched_pdf_sha256": "1485b2cea59cf2fb07a9fd9e49ff9bd68db12376e7d79cbbc435b3f101a958da",
+        "baseline_invalid_closes": 0,
+        "baseline_closepath_warnings": 0,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "d0023b2bde04940266b048ac53a6da3143155bf7e47f7ff5e023252b435e8fb4",
+          "coordinates_sha256": "d30b081ee8e76dca9c6619fd7bbe66ccc73eb6abee6626123b64711fe775fa10",
+          "rgba_sha256": "f3fc2715ba8adebb48f2b0864af51213ae845a15ddac58770c786601310d4c09",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6965
+        }
+      },
+      {
+        "name": "qpdfwriter:distance",
+        "device": "qpdfwriter",
+        "scenario": "distance",
+        "baseline_pdf_sha256": "135bcae416fced07d4fffb72a17eae309958cdcbba2f23dde1193456fea11609",
+        "patched_pdf_sha256": "f1b8cee8c54138129bdfa088bd843ee2f24180c20493a142afcabe939ac2b4fc",
+        "baseline_invalid_closes": 1,
+        "baseline_closepath_warnings": 1,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "4e0ddfede7f01221efa72da993db4c04bbcdd615401a6dd17698fdca079ef005",
+          "coordinates_sha256": "47f193344d2f22d140b30c051b8c126443839c2da4fdac31faf3159607a367a6",
+          "rgba_sha256": "e612298b7cbfe2b6f5e55b4e5932364b6bf72eedd6a3c1d5cdabf385be9038fb",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6360
+        }
+      },
+      {
+        "name": "qprinter:distance",
+        "device": "qprinter",
+        "scenario": "distance",
+        "baseline_pdf_sha256": "6f66731c5888dbb528360d75811bce17bf92d02096618c488e5de2f71b98fcd2",
+        "patched_pdf_sha256": "e6efb23ea72c1167305ad6f47b0015bd664ef272706cbe84a23d35f823bd8f27",
+        "baseline_invalid_closes": 1,
+        "baseline_closepath_warnings": 1,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "0b1fcae5b54d9d43b5a0fc77311ce5498e80b0e5830705687a557e96fe94c4cf",
+          "coordinates_sha256": "bab33844d1387ca56ca690a514c8c042853bdce6e525f78831c306a1b3d76dac",
+          "rgba_sha256": "6f9b39555b9f9471a5ac91a20471b32318b4108114ae13280418cc0f178c375e",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 8001
+        }
+      },
+      {
+        "name": "qpdfwriter:theoretical-exact",
+        "device": "qpdfwriter",
+        "scenario": "theoretical-exact",
+        "baseline_pdf_sha256": "c9e6ca099248073c0266698f49fe37f157620bd9fd0355d29bae2e3d57215650",
+        "patched_pdf_sha256": "218406be4fdab0d303d9de6b293189d93bbbd4b2e2339aa48e3db22e51ee0357",
+        "baseline_invalid_closes": 1,
+        "baseline_closepath_warnings": 1,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "82e72edba5af822f8b2c2dab59ea64f045cd5412b04b27acdf649120d3e3ebc3",
+          "coordinates_sha256": "0b1ce13836f7b599b73f4c302ef4520965ad61c92ebcdbf70187bafd208165ff",
+          "rgba_sha256": "e79966a411b7f795fba932ba2d809e1b0c7acdf678d18d2873ea753d55c590d1",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 6684
+        }
+      },
+      {
+        "name": "qprinter:theoretical-exact",
+        "device": "qprinter",
+        "scenario": "theoretical-exact",
+        "baseline_pdf_sha256": "4fbed59e7ea8a167359a4e684dcfdf46181f7dd098687aa85fc8ea9a6534af12",
+        "patched_pdf_sha256": "6e8878a3578a1bbce2db2728fba9cf5fc100c8caac17c25087d4f3f0e8c2a1ef",
+        "baseline_invalid_closes": 1,
+        "baseline_closepath_warnings": 1,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "192b5b6d8cae9606fd4e747e9ec9604f2a303333a116c66a0f9175146efae601",
+          "coordinates_sha256": "567eacc82f968ffc310affba470ecaaa165e42ffd481e8cb6fbc763caaa5336c",
+          "rgba_sha256": "ae6f3fd4890f8f1d7517c92d50bc75e588050b9dea6ce0af0b6ca46d369b9216",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 8329
+        }
+      },
+      {
+        "name": "qpdfwriter:area-and-theoretical-exact",
+        "device": "qpdfwriter",
+        "scenario": "area-and-theoretical-exact",
+        "baseline_pdf_sha256": "0c3c0a55d6c14a2d36b768be288a754dc397eb7788bd85f54e276c071eb6e6b3",
+        "patched_pdf_sha256": "9890a794411365cb7deffae5da1d2f458b9761a299ccb0c040429212800518ba",
+        "baseline_invalid_closes": 2,
+        "baseline_closepath_warnings": 2,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "360ef9c3ce554906208300d77a330e5da2eba13680cf338790991c4a2e77a691",
+          "coordinates_sha256": "824e3ab7c11dbf257098dd733da49b517c49944ae8c5e99c9ed18a3461f9551d",
+          "rgba_sha256": "733cbe647a3bc71465ee4c8dea2f3933482f1f6518c864590c1b5200ef8b6d42",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 8231
+        }
+      },
+      {
+        "name": "qprinter:area-and-theoretical-exact",
+        "device": "qprinter",
+        "scenario": "area-and-theoretical-exact",
+        "baseline_pdf_sha256": "e0a60d2df7bc826d5abe16a22c11d1a90f59e0c4224c0c9b48e024634d8b6228",
+        "patched_pdf_sha256": "6ec9a78501a89965c4f911d4a3995f684873c5183dcfd7403addf4257d9eede0",
+        "baseline_invalid_closes": 2,
+        "baseline_closepath_warnings": 2,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "ac64254cf2ff9c0f17fa8542360f8d9bd4c0e1720eaf3a141d77c1067c5a0047",
+          "coordinates_sha256": "77c15413c0c7c1caa5cdd0f06a9bd073c6e1cf874ec2c0340ec2801b9ec25528",
+          "rgba_sha256": "ae1bc9190586ca914b5210119358f4de765537c0336f345cac7d4f6c452c609e",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 9868
+        }
+      },
+      {
+        "name": "qpdfwriter:area-relocated-and-theoretical-exact",
+        "device": "qpdfwriter",
+        "scenario": "area-relocated-and-theoretical-exact",
+        "baseline_pdf_sha256": "a5a238dbd87b58ac9aa232862f44ac8d879285a183e320fad20cfd953ad5fb98",
+        "patched_pdf_sha256": "bf8e666dc91a34f28f55bbc0af1491491ed775f78f8a7ccfe8377b812a7fb003",
+        "baseline_invalid_closes": 2,
+        "baseline_closepath_warnings": 2,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "3316ac40815c0bbfd32994b77729314ccc9d51c58753dbd8e8d90c9f4bfdaab8",
+          "coordinates_sha256": "a963c59293153c83a86627780d9f833357ca161866f7edeed761b9624287630a",
+          "rgba_sha256": "0cee760a1c48aebedef070b07ca7bcf5f887c47ef2264e7b568508ab24cf7842",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 8242
+        }
+      },
+      {
+        "name": "qprinter:area-relocated-and-theoretical-exact",
+        "device": "qprinter",
+        "scenario": "area-relocated-and-theoretical-exact",
+        "baseline_pdf_sha256": "4d3747d35fe2ba773123924fa595d4f2972812685f5961a58814a67ee83142cb",
+        "patched_pdf_sha256": "7d15b784511518dc72aff59982ddc689c31dc6d2c13736a2eb97309cc295a462",
+        "baseline_invalid_closes": 2,
+        "baseline_closepath_warnings": 2,
+        "patched_invalid_closes": 0,
+        "patched_closepath_warnings": 0,
+        "preserved": {
+          "normalized_operations_sha256": "418b665085956fc77d309f4828f45ad90ad3a6a182fe3ff938fceca3b6e074a4",
+          "coordinates_sha256": "7ce3a31800f309f3db3db39a7c032effefa7e1881c43522e9a9af0338318c02e",
+          "rgba_sha256": "817c99f9b3a78421234ab134937de4c1aab012769912982796adda9ca8db4785",
+          "size": [
+            1755,
+            1240
+          ],
+          "ink_pixels": 9888
+        }
+      }
+    ]
+  },
+  "runtime": {
+    "baseline": {
+      "prefix": "/Users/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+      "managed_package_count": 383,
+      "qt_package_identity": {
+        "name": "qt6-main",
+        "version": "6.11.2",
+        "build": "pl5321h7191676_0",
+        "subdir": "osx-64",
+        "checksum": {
+          "sha256": "153132a5796b414db05a32aed03f0483e58a8d6782e40709e3b4d2bcd16933b4"
+        }
+      },
+      "available_qt_libraries": 72,
+      "available_qt_plugins": 42,
+      "qpa_platform": "cocoa",
+      "provenance_sha256": "8de6f08e6b319cabbfd1d65f25c413dfdf905ede6f174f4170b7b2fde7d9b9d6",
+      "module_sha256": "dae45b52690f382d2d48d0504a66f0f0b43a02ff42f379a577dd4978f61f6901",
+      "gui_tests_passed": 11,
+      "gui_seconds": 20.617,
+      "prospective_snapshots": 24,
+      "loaded_qt": {
+        "qt_libraries": [
+          {
+            "relative_path": "lib/libQt6Core.6.11.2.dylib",
+            "sha256": "2bea61f580020ad82b3b4308795d2ae1ec7fc4f6de9ddbaf120797d470a6fbc1"
+          },
+          {
+            "relative_path": "lib/libQt6DBus.6.11.2.dylib",
+            "sha256": "375f692036edebb9a2b8ea0efbf4d5a5a92eab1ebeb6931ce77261b5cb28c61a"
+          },
+          {
+            "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+            "sha256": "7d701dd99e68f66480325e76c77803d322bbad85fe260c73389875b732049276"
+          },
+          {
+            "relative_path": "lib/libQt6Network.6.11.2.dylib",
+            "sha256": "6722e7e04e0bff7a9f07b17cbda040d29e798c6e003cb41df63d11562da2ccb6"
+          },
+          {
+            "relative_path": "lib/libQt6OpenGL.6.11.2.dylib",
+            "sha256": "78176f86f9d5a099ba780b1f57b70b3b77d8bb7dd636bd3560a7ca0eddd3521d"
+          },
+          {
+            "relative_path": "lib/libQt6OpenGLWidgets.6.11.2.dylib",
+            "sha256": "f5efae91d2e26bba19c96f6ff5490c01e05b656fa4c5e7b976a6bf7bfca825c2"
+          },
+          {
+            "relative_path": "lib/libQt6PrintSupport.6.11.2.dylib",
+            "sha256": "cf35f56445d1846ecad47de1c498996a8bcb85f2b8f736ee772d6b8057e90964"
+          },
+          {
+            "relative_path": "lib/libQt6Svg.6.11.2.dylib",
+            "sha256": "fc12e1557d4db7690bbc368212bf6c004ba93a13574aae1830e441c2717f5963"
+          },
+          {
+            "relative_path": "lib/libQt6SvgWidgets.6.11.2.dylib",
+            "sha256": "f74b374c76d5e4a38447d2bfbacebf4aa609206505bd3dd7f239d3409b738714"
+          },
+          {
+            "relative_path": "lib/libQt6UiTools.6.11.2.dylib",
+            "sha256": "0e964d17f332237864bff866431a7ae0fffbb5341573edc89bf793d97dd0fe5f"
+          },
+          {
+            "relative_path": "lib/libQt6Widgets.6.11.2.dylib",
+            "sha256": "1e861e067caa4929b11ba6ee8d7ead745cd8e9f169be2ce5d1d3869b59a8f70e"
+          },
+          {
+            "relative_path": "lib/libQt6Xml.6.11.2.dylib",
+            "sha256": "75d609f128ba1697087af8d8ff076884fecdb49d27129ff27790ce9167c03239"
+          }
+        ],
+        "qt_plugins": [
+          {
+            "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+            "sha256": "4311642cff368e3788974ca4b9ffa1a9c649f6ad0b02d4729216c951243e49d3"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqgif.dylib",
+            "sha256": "d1d5607dbbc4aa3b8bd41bae0f631ef5c6f9164cc61d839aeec76962933b0154"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqicns.dylib",
+            "sha256": "b7c13bf02446d3c58bbd9c02039f84a34af9ba63118ce585e4094a40826341ca"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqico.dylib",
+            "sha256": "d2598e82d93418c9c374903a8bd8c8812bfb07fc599f90f0d898bf142d8f886c"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.dylib",
+            "sha256": "bf0da9c6be143e2a3c56e4055852fffb45f26857f5feceaace1e6ab519c8f151"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqmacheif.dylib",
+            "sha256": "6be68aedbcbbb75b780438a3230d7776de5f7d61bf0bcfb7d74f05b39141ce81"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+            "sha256": "56fdc43157a12559cc8b67b82686a3d89a848bc953eb6d8a02fea1a048b066dd"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqsvg.dylib",
+            "sha256": "4c52c7eae9f8e74a099fc1f333dbb9860d2bdb84057e6028f177664647a2aeb8"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtga.dylib",
+            "sha256": "8e50f396d2e1d2026518938c31f77df5420235dfb3ff919541c1bc6bc7a81777"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtiff.dylib",
+            "sha256": "8a311e9296de8f0ea36129ef50b335ec94e116c5c5d2efd318a8e4a0e37b8be5"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.dylib",
+            "sha256": "90f3d18d4e8ed3e38aa62460b0a0b8643f49b7938f5d71468980ed8bbef2fca9"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwebp.dylib",
+            "sha256": "ffd9f00e5ca3d2f81251ec32ed874017c54b53c1c34f71c52569a8efd94008d1"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/platforms/libqcocoa.dylib",
+            "sha256": "25dd7414229f033bc849a54b7d9ac9f81abcf91480b078e5d946aff0af8f8443"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/styles/libqmacstyle.dylib",
+            "sha256": "f5ad8815b24fb33b006919e7d3f95bda6e80c34b733b20fb9e40a57682eed46a"
+          }
+        ]
+      }
+    },
+    "patched": {
+      "prefix": "/Users/runner/work/_temp/qt-pdf-candidate",
+      "managed_package_count": 383,
+      "qt_package_identity": {
+        "name": "qt6-main",
+        "version": "6.11.2",
+        "build": "pl5321h7c35b53_1",
+        "subdir": "osx-64",
+        "checksum": {
+          "sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631"
+        }
+      },
+      "available_qt_libraries": 72,
+      "available_qt_plugins": 42,
+      "qpa_platform": "cocoa",
+      "provenance_sha256": "a540bb2946770997537e45a5fc22c2637b6390f251aba2355f4eed56ef3496a1",
+      "module_sha256": "dae45b52690f382d2d48d0504a66f0f0b43a02ff42f379a577dd4978f61f6901",
+      "gui_tests_passed": 11,
+      "gui_seconds": 20.921,
+      "prospective_snapshots": 24,
+      "loaded_qt": {
+        "qt_libraries": [
+          {
+            "relative_path": "lib/libQt6Core.6.11.2.dylib",
+            "sha256": "91c51756876fee95d67d7995271ff979b3e766959d6f4fab569b736200d5323c"
+          },
+          {
+            "relative_path": "lib/libQt6DBus.6.11.2.dylib",
+            "sha256": "ed626e4e1cf341860ca0ecda1f65aff7e556b672a7c760c86fd5761d3703062e"
+          },
+          {
+            "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+            "sha256": "18297c4d9572b09781c6d51f8ddf42039c1eca6cd23e6e7e1dee05cb6eb0884d"
+          },
+          {
+            "relative_path": "lib/libQt6Network.6.11.2.dylib",
+            "sha256": "b368fc4cc3cab21cf1016bfa9065e293f511b1da7015149ebf5e1d5fc195b33d"
+          },
+          {
+            "relative_path": "lib/libQt6OpenGL.6.11.2.dylib",
+            "sha256": "0ac94f4c2025227a7a8c9e49adb2085d16c4999e51c80ffb0266fdb74eaab720"
+          },
+          {
+            "relative_path": "lib/libQt6OpenGLWidgets.6.11.2.dylib",
+            "sha256": "d6abdf2030ff3bcd47d8c60c84610b5c84152461133fd98e24af81d8224eeb3f"
+          },
+          {
+            "relative_path": "lib/libQt6PrintSupport.6.11.2.dylib",
+            "sha256": "aceffaf9e9073e3fc16df9d7f8998f781710035f696bcd661e4949af42756dac"
+          },
+          {
+            "relative_path": "lib/libQt6Svg.6.11.2.dylib",
+            "sha256": "5f6057c91d0be4d36e388ba124098967461b8d10e5a7a3bc235d7a7bfd7803f0"
+          },
+          {
+            "relative_path": "lib/libQt6SvgWidgets.6.11.2.dylib",
+            "sha256": "b71e5f3d15e102c05d7c3dc3311fd7177448a14b547f5ea07eaa9b599c5b3bb1"
+          },
+          {
+            "relative_path": "lib/libQt6UiTools.6.11.2.dylib",
+            "sha256": "229d1a94c841bc18d53767d8d4722a2777e781dd1bf915905e213e4d73a145cd"
+          },
+          {
+            "relative_path": "lib/libQt6Widgets.6.11.2.dylib",
+            "sha256": "b40fb608bcdfdf103d263944e142307dca3fb85b8fa400f1ce398ade913c40ce"
+          },
+          {
+            "relative_path": "lib/libQt6Xml.6.11.2.dylib",
+            "sha256": "9bd549a0b30ba3467c284e9a92ff85adde927bff63f2b81dcf415e10c6d4f51a"
+          }
+        ],
+        "qt_plugins": [
+          {
+            "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.dylib",
+            "sha256": "e2e26ef6410ae798dc9a817185c4d6d074ee04a6c64cccddea480f904c04b96e"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqgif.dylib",
+            "sha256": "7befa34447146f200068b0491ffd2e8977f6d8c61b4d66bcb6c333ef579b9f73"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqicns.dylib",
+            "sha256": "3acd0ab5ef63a0601e6710504b4b191dffac7a9ae1bac5b76d9bea99ce51a737"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqico.dylib",
+            "sha256": "91b717005496dc95f9a36e8a795e841e1082397f590619f759392d7d5fa63579"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.dylib",
+            "sha256": "285296bbbbd29c1a74e8b0aeeb706aedc43a7b6205146ade029135c3c38498e1"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqmacheif.dylib",
+            "sha256": "abac3a6119fe478625d969827311e8bc19796065744644a6bf60d0d408991aac"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqmacjp2.dylib",
+            "sha256": "850c6c1a66b66362a7b346a9c0d61b9d26b2ad01a35201bbbc114f17b6c70442"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqsvg.dylib",
+            "sha256": "6b5578dbbdbb8ebb164cfa9577486955394918787598cf738cdf15ad4c13e9dd"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtga.dylib",
+            "sha256": "895643a9d1f956b4227ff5120d3aee844b8776396f79721cde4681e94a5e44e5"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtiff.dylib",
+            "sha256": "801068916d6efd6f3f6c89375c5ebe0d55c1f4b7150ba4fa91eea1961292e910"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.dylib",
+            "sha256": "bb3dc168abb1235ba1cdd4f4d76297c58f511452e8b4510bfe1ac990c3645637"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwebp.dylib",
+            "sha256": "770ac41a4acaa006acd454f3d49b73ed04c4a935177cf436bc18befca55c9bb8"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/platforms/libqcocoa.dylib",
+            "sha256": "b8148cfa5d3c051850fd5d536cb25c654bbf76712a061c468a97a9e77c2d667a"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/styles/libqmacstyle.dylib",
+            "sha256": "189c45d5c11c21e597777fca6b08c92ab2f280a9d49bcffae3bdb6387ff274dd"
+          }
+        ]
+      }
+    }
+  },
+  "unchanged_other_managed_package_identities": 382,
+  "new_native_harness_sha256": {
+    "native_compare.py": "563c29eaa1bbbc727c08930ab84cdace620914df4e9c59d610b0b905757dc9f0",
+    "native-freecad.FCMacro": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01"
+  },
+  "qualification_helper_sha256": {
+    "reuse_macos_qt_qualification.py": "b609270382f0da2c7dd8d2cdb84938184fe4539eb84f91c7da31c2274f9dbd25",
+    "reuse_linux_qt_qualification.py": "241a8ffa3354cf0fd32495cf99f101bdbbf8d1916527b0c041e46336c33c3c7e",
+    "install_candidate.py": "32fe699e8ef8f99123d4d73f9b246e8160c33c36979f64101e2bdf4bb6aeea3a",
+    "qualify_package.py": "ff1f8122e172e4278c2800d4b4226e9c942713d3e4fd99a75e0a2e7642dffb17"
+  },
+  "independent_reviews": {
+    "native_pdf": {
+      "path": "/private/tmp/freecad-t8a4-current-fcth0wqs/native-independent-review.json",
+      "sha256": "d56f2db39486802b07d7efa7153609f9cc2f91c808dcb9a99b4f1fb6fb0dcbd4",
+      "passed": true,
+      "scope": "Independent completed API-authenticated macOS Intel native artifact audit, prospective inputs and native PDFs freshly decoded/rendered. Earlier passed Qt cases reused, never rerun.",
+      "findings": []
+    },
+    "visual": {
+      "path": "/private/tmp/freecad-t8a4-current-fcth0wqs/native-visual-review.json",
+      "sha256": "a3978bc2b70b8407ffe1433b3ff2ff655f729f9b1971c8b22857b93c73f931c3",
+      "passed": true,
+      "scope": "Read-only visual inspection of selected fresh Poppler 150dpi renders from authenticated completed osx-64 native run; all 48 actual PDFs independently decoded/rasterized in separately bound receipt. No Qt fixture/app/build execution.",
+      "findings": []
+    },
+    "runtime": {
+      "path": "/private/tmp/freecad-t8a4-current-fcth0wqs/runtime-independent-review.json",
+      "sha256": "53f51c6c7a3d546b8605b753b03b85e6c73ed0de9400798e8891ed48274177f5",
+      "passed": true,
+      "scope": "Read-only actual Intel reused-Qt, managed/runtime/source/SDK and final native receipt binding. Fresh native PDF/raster and stock-protocol audits are separate.",
+      "findings": []
+    },
+    "dialog_source_gui": {
+      "path": "/private/tmp/freecad-t8a4-current-fcth0wqs/dialog-independent-review.json",
+      "sha256": "ab77cdb7471decfa666709306d6129ec4ea7328cc2972ea15a542b16bf910bbf",
+      "passed": true,
+      "scope": "Independent read-only actual macOS Intel native prospective/source/palette/frame/stock dialog/editable-model protocol review. PDF operators/ink/RGBA and finite live Qt/package/reuse origins are separately reviewed by peers. No app/test/Qt/build/workflow/download/fixture/repository mutation. Raw TAR diagnostic remains opaque.",
+      "findings": []
+    }
+  },
+  "native_protocol": {
+    "counts": {
+      "prospective_snapshots": 48,
+      "before_after_complete_scene_pairs": 48,
+      "baseline_patched_complete_scene_pairs": 24,
+      "ordered_owned_file_dialog_accepts": 24,
+      "ordered_owned_active_Print_panel_accepts": 24,
+      "gui_tests_each_side": 11,
+      "gui_failures_errors": 0,
+      "required_frame_counts": [
+        1,
+        1,
+        2,
+        2
+      ],
+      "expected_baseline_invalid_closes_each_side_from_inputs": 14
+    },
+    "null_frame_branch": {
+      "palette_RGBA": [
+        0,
+        0,
+        0,
+        216
+      ],
+      "frame_type": 65540,
+      "rect": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "width_scene": 5,
+      "Qt_pen_cosmetic": false,
+      "pen_style": "SolidLine",
+      "pen_brush_style": "SolidPattern",
+      "item_brush": "NoBrush",
+      "effective_opacity": 1,
+      "transform": "finite affine; exact before/after and across runtimes",
+      "expectation_basis": "One independently predicted invalid close per positive translucent null origin frame, plus short-gap1 per device. No expected count derives from output PDFs."
+    },
+    "stock_routes": {
+      "QPdfWriter": "TechDraw_ExportPagePDF; exact staged owned Gui::FileDialog filename; ScreenModeTrue before/after",
+      "QPrinter": "Std_Print; active owned visible NSPanel/Print identity stable through configure/completion; accepted PdfFormat/path/1200dpi/version/fullpage before return; ScreenModeTrue/False/True",
+      "all_diagnostics_match_actual_log_and_export_order": true
+    }
+  },
+  "source_sdk_arch_review": {
+    "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+    "source_archive_bytes_present_in_artifact": false,
+    "package_archive_bytes_present_in_artifact": false,
+    "macos_sdk": {
+      "path": "/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "metadata_file": "SDKSettings.json",
+      "metadata_sha256": "58a133735f0a55a624a1703067059f6e78925e51725ec6e1f966072e142c9c42"
+    },
+    "physical_sdk_present_on_review_host": false,
+    "native_module_macho": {
+      "architecture": "x86_64",
+      "cpu_type": 16777223,
+      "file_type": 6,
+      "sha256": "dae45b52690f382d2d48d0504a66f0f0b43a02ff42f379a577dd4978f61f6901"
+    },
+    "native_app_macho_sha256": "0b9fa37de251020724cd84a0a2b22a6beb62c7ce48b5ef8c46508b0c8365aa07",
+    "source_repositories": 8,
+    "tracked_git_blobs_sha256_rechecked": 17806
+  },
+  "live_runtime_corroboration": {
+    "baseline": {
+      "qt_libraries": 12,
+      "qt_plugins": 14,
+      "qpa_platform": "cocoa",
+      "dyld_log_corroborated_qt_images": 26,
+      "map_sha256": "9e19a305fec2d7c327863fd3941584dd5c02ac0e68de9603c518d1c54edacc74",
+      "qt_gui": {
+        "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+        "sha256": "7d701dd99e68f66480325e76c77803d322bbad85fe260c73389875b732049276"
+      },
+      "cocoa": {
+        "relative_path": "lib/qt6/plugins/platforms/libqcocoa.dylib",
+        "sha256": "25dd7414229f033bc849a54b7d9ac9f81abcf91480b078e5d946aff0af8f8443"
+      },
+      "native_receipt_sha256": "8de6f08e6b319cabbfd1d65f25c413dfdf905ede6f174f4170b7b2fde7d9b9d6"
+    },
+    "patched": {
+      "qt_libraries": 12,
+      "qt_plugins": 14,
+      "qpa_platform": "cocoa",
+      "dyld_log_corroborated_qt_images": 26,
+      "map_sha256": "6a6761fb9ad50cc6d9df5298ffb99a98763c55129e3c15fec0c3dd17ab2b7a85",
+      "qt_gui": {
+        "relative_path": "lib/libQt6Gui.6.11.2.dylib",
+        "sha256": "18297c4d9572b09781c6d51f8ddf42039c1eca6cd23e6e7e1dee05cb6eb0884d"
+      },
+      "cocoa": {
+        "relative_path": "lib/qt6/plugins/platforms/libqcocoa.dylib",
+        "sha256": "b8148cfa5d3c051850fd5d536cb25c654bbf76712a061c468a97a9e77c2d667a"
+      },
+      "native_receipt_sha256": "a540bb2946770997537e45a5fc22c2637b6390f251aba2355f4eed56ef3496a1"
+    }
+  },
+  "visual_observations": [
+    "The box, dimension lines, arrowheads, readable 10 label and its theoretical-exact frame remain visible.",
+    "The Area control has a readable 1 cm\u00b2 label and a visible leader; the relocated control visibly moves them.",
+    "The long dashed control adds two faint segments and the short solid adds a tiny visible dot at the expected remote location.",
+    "Translucent and opaque all-gap pages show only the box; the zero-width opaque and archival controls retain the remote horizontal ink.",
+    "Inspected baseline QPrinter dimension/Area pages have the same visible content as patched pages, consistent with exact RGBA equality for all 24 per-device pairs."
+  ],
+  "raw_native_retention": {
+    "diagnostic_only": true,
+    "qualified": false,
+    "restoration_validated": false,
+    "runtime_prefix_bytes_bundled": false,
+    "receipt_sha256": "c09a8f71237e6f6c2ab7489277423b33b48455c734abbfcac5d61b74297d14d0",
+    "native_macho": {
+      "bin/FreeCAD": {
+        "architecture": "x86_64",
+        "cpu_type": 16777223,
+        "file_type": 2,
+        "sha256": "0b9fa37de251020724cd84a0a2b22a6beb62c7ce48b5ef8c46508b0c8365aa07"
+      },
+      "Mod/TechDraw/TechDrawGui.so": {
+        "architecture": "x86_64",
+        "cpu_type": 16777223,
+        "file_type": 6,
+        "sha256": "dae45b52690f382d2d48d0504a66f0f0b43a02ff42f379a577dd4978f61f6901"
+      }
+    },
+    "raw_archive": {
+      "name": "native-build-raw.tar.gz",
+      "size": 48149113,
+      "sha256": "406b1b4782828cfdaae535ede247c65a1d275b01b0b0d4cefee45f023fa64634",
+      "inventory_sha256": "2e3e290c7fb31372f7089747909d8852c07fbd4d46571d846718b8e12f99b073",
+      "entries": 1633,
+      "physical_file_bytes": 123818058,
+      "symlinks_followed": false,
+      "link_targets_validated": false,
+      "restoration_validated": false,
+      "scope": "raw unvalidated diagnostic bytes; separate review required before any restoration"
+    },
+    "independent_archive_readback": {
+      "diagnostic_only": true,
+      "restoration_validated": false,
+      "runtime_prefix_bytes_bundled": false,
+      "raw_entries_read_without_extraction": 1633,
+      "physical_files_rehashed": 1458,
+      "physical_file_bytes": 123818058,
+      "symlink_entries_text_only_unvalidated": 2,
+      "source_app_architecture_binding": true
+    }
+  },
+  "build_timing": {
+    "current_seconds": 9895,
+    "prior_seconds": 7877,
+    "additional_seconds": 2018,
+    "configured_parallel_jobs": 2,
+    "same_nine_scoped_targets": true,
+    "ninja_actions": 4313,
+    "prior_cpp_compilations": 2432,
+    "diagnostic_sha256": "ff88bd64552a836f2ed7842fad6bb6f35631879ace6f5594fec70967b982dc2c",
+    "additional_delay_cause": "Unmeasured: current CPU utilisation and ccache hit rate are not logged.",
+    "required_rebuild_reason": "The prior artifact omitted the FreeCAD app/core/modules/resources/runtime prefixes."
+  },
+  "limitations": [
+    "This receipt qualifies only the exact osx-64 package/native PDF gates; other open delivery children and the parent remain outstanding.",
+    "The original Intel native attempt remains failed; its passed Qt66/upstream10 evidence was authenticated and reused without execution.",
+    "No package build, passed Linux/macOS ARM/Windows/LibPack workflow or Qt-only test suite was rerun for this child.",
+    "Fresh native app binaries required GUI11 on each selected runtime; exact per-device preservation is mandatory, cross-device rounding equality is informational.",
+    "Production dependency pins, installed user runtimes and production mitigations remain unchanged.",
+    "Raw retained native bytes are diagnostic only; archive-member readback does not establish validated restoration.",
+    "Qt source/package archive bytes and the physical Xcode SDK are absent from this upload; recorded identities and successful same-host validation are bound without claiming foreign-host byte or SDK revalidation.",
+    "Hosted runtime bytes are bound through recorded live origins and exact managed-file hashes; independent review launches no FreeCAD process."
+  ]
+}

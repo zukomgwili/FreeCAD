@@ -1,0 +1,1220 @@
+{
+  "actual_run": {
+    "completed_at": "2026-10-06T08:22:30Z",
+    "conclusion": "failure",
+    "event": "workflow_dispatch",
+    "head_sha": "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47",
+    "job_id": 112131196553,
+    "job_name": "qualify (win-64, windows-2022)",
+    "repository": "zukomgwili/FreeCAD",
+    "run_attempt": 3,
+    "run_id": 37367983867,
+    "runner_labels": [
+      "windows-2022"
+    ],
+    "started_at": "2026-10-06T05:59:58Z",
+    "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37367983867/job/112131196553",
+    "workflow_path": ".github/workflows/qt_pdf_qualify.yml"
+  },
+  "all_supported_build_paths_qualified": false,
+  "artifact": {
+    "api_sha256": {
+      "artifact-api.json": "a4c7136b0a5791c0f63cc6b7070ca3640459e1ca1ca16ddae52df1d00f4b091a",
+      "artifact-list-api.json": "6eda4d7b37a04bbe8da4068eb095cc8758529e0d36153e47d575c00d445513e8",
+      "attempt-api.json": "e95ca0b9408cf280d45588cf4946394aa8a986d0fbf58c09628411bb0ce08fe5",
+      "jobs-api.json": "6309c58ff7ff129612be3817a3d18fb7ecbe3a6f5aa330e156d144cef05e4134",
+      "run-api.json": "2cff4c85a4de2ac0cc0459ce358b2421cc7b04e41a0422a3e3a557ae5c86ac32"
+    },
+    "artifact_files_sha256": "574b53c1081ba37088719e9085d42a4939f963056a23e156646345efcd28227a",
+    "artifact_id": 11399230772,
+    "artifact_name": "qt-pdf-qualification-win-64",
+    "artifact_size": 81825695,
+    "artifact_zip_sha256": "3358565d617818cf765c42c69dd7aeb7f21baddd2feac501fc3dc2c4e54ed69a",
+    "file_count": 1232,
+    "unpacked_bytes": 192710479
+  },
+  "completed_stages": {
+    "controlled_bypass_stage": {
+      "completed_at": "2026-10-06T08:20:50Z",
+      "conclusion": "success",
+      "name": "Compile the controlled mitigation bypass in this disposable checkout",
+      "number": 17,
+      "started_at": "2026-10-06T08:20:38Z",
+      "status": "completed"
+    },
+    "native_build_stage": {
+      "completed_at": "2026-10-06T08:20:38Z",
+      "conclusion": "success",
+      "name": "Configure and build native FreeCAD against locked baseline",
+      "number": 16,
+      "started_at": "2026-10-06T06:08:18Z",
+      "status": "completed"
+    },
+    "new_upstream_stage": {
+      "completed_at": "2026-10-06T06:08:18Z",
+      "conclusion": "success",
+      "name": "Capture the pending Windows upstream transcript before rebuilding FreeCAD",
+      "number": 15,
+      "started_at": "2026-10-06T06:08:00Z",
+      "status": "completed"
+    },
+    "retained_build_stage": {
+      "completed_at": "2026-10-06T08:21:44Z",
+      "conclusion": "success",
+      "name": "Retain the native build for a focused Windows retry",
+      "number": 20,
+      "started_at": "2026-10-06T08:20:50Z",
+      "status": "completed"
+    }
+  },
+  "distribution_promoted": false,
+  "first_failed_stage": {
+    "completed_at": "2026-10-06T08:21:59Z",
+    "conclusion": "failure",
+    "name": "Qualify stock native exports with both guards bypassed",
+    "number": 22,
+    "started_at": "2026-10-06T08:21:44Z",
+    "status": "completed"
+  },
+  "input_sha256": {
+    "_temp/qt-pdf-native-module/bypass-provenance.json": {
+      "sha256": "0786ac6996ff2b6df5b72309438a160f88ec270e2d1ab842ea9038e2d7c86384",
+      "size": 1518
+    },
+    "_temp/qt-pdf-native-report.json": {
+      "sha256": "47ac607ab3e16cdbd88ce41f1b3671057cc0ef04790cdff024081e80a24ca929",
+      "size": 121
+    },
+    "_temp/qt-pdf-native-results/baseline/launch.json": {
+      "sha256": "9c516776a648143f35948a975847bd44bbc48d17b1788e491936ef6cb7ca4a1b",
+      "size": 7939
+    },
+    "_temp/qt-pdf-native-results/baseline/runtime.log": {
+      "sha256": "8d52f437ae7018fcbf25ec4cec4fb65fa0c5435d57223a3a11a4a443fd21789b",
+      "size": 619
+    },
+    "_temp/qt-pdf-reused-qt/recovery.json": {
+      "sha256": "0f71b54773baa7a6bd9b550f168bdbc5fafc0e6fc2ddbf59d76c67ac2c960ac0",
+      "size": 417315
+    },
+    "_temp/qt-pdf-reused-qt/upstream-check/forced-stderr.log": {
+      "sha256": "60e95fbb239a99ecb057c5a0f622ebfb0199e411dfdbe2c905c30631d8662164",
+      "size": 1050
+    },
+    "_temp/qt-pdf-reused-qt/upstream-check/old-routing.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "_temp/qt-pdf-reused-qt/upstream-check/upstream.json": {
+      "sha256": "6ddab194a500bc78077092043d2e27179661aabe4ccaa614e4a8bdf6a343b929",
+      "size": 1548
+    },
+    "_temp/qt-pdf-reused-qt/validation.json": {
+      "sha256": "4090839c89f5cd6e6b932b42e62ba2b6550751c205e87e44377660749b05f48d",
+      "size": 262645
+    },
+    "_temp/qt-pdf-windows-native-build/native-build.json": {
+      "sha256": "e2f35ab9b4723c44d3c101ed1a6218c223574574c8699623364cebeeb72d17af",
+      "size": 3025
+    },
+    "_temp/qt-pdf-windows-native-build/native-build.zip": {
+      "sha256": "bff02f1fb0c78a9c8e87b6390499d0c835677c3f7d349ae5aae367459b8d58d5",
+      "size": 44375910
+    },
+    "_temp/qt-pdf-windows-native-build/native-output-files.json": {
+      "sha256": "d76d0bfcff3f0db64513781b9b62ae5c673f6ad894e4e324d7b8521cb157779e",
+      "size": 302283
+    },
+    "_temp/qt-pdf-windows-native-build/source-files.json": {
+      "sha256": "97a3b48c4e2181d1392579e4e329668da34f51b742b9cc5d2e47a8413ddc49c7",
+      "size": 2980758
+    }
+  },
+  "limitations": [
+    "Upstream10 is actual Windows process evidence. Local import/path controls cannot qualify native Windows PDF or GUI behavior.",
+    "Complete native build retention is diagnostic evidence; this receipt does not establish restoration.",
+    "The earlier empty upstream transcript was rejected despite rc0. This actual old-routing control again emitted no transcript, while forced-stderr passed strict ten-test/version gates.",
+    "No installed user runtime, dependency pins, or production PDF guards were changed."
+  ],
+  "managed_runtime": {
+    "candidate": {
+      "build": "pl5321h17b71ab_1",
+      "checksum": {
+        "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73"
+      },
+      "name": "qt6-main",
+      "subdir": "win-64",
+      "version": "6.11.2"
+    },
+    "dll_count_per_side": 70,
+    "inventories_sha256": "4090839c89f5cd6e6b932b42e62ba2b6550751c205e87e44377660749b05f48d",
+    "native_live_origins_captured": false,
+    "native_runtime": {
+      "baseline": {
+        "prefix": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default",
+        "qpa_platform": "windows",
+        "qt_libraries": [
+          {
+            "relative_path": "Library/bin/Qt6Concurrent.dll",
+            "sha256": "f274c7453958b514b9f232273a2305c010be81b754138ce992cb082bc6287cc3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Core.dll",
+            "sha256": "7e07ba9e4fb4e29507b6e505b88376ce31c18a3a85739edc270e0e8ef405da70"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Core5Compat.dll",
+            "sha256": "f57ded3bbb980641ad293bb6d9f709f648ed68d86a4d20a3431b4bf1926784b3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6DBus.dll",
+            "sha256": "62882b2fba70acecbdf7e143908675e9c1534e25d0237ceca0416f7c97b0bfea"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Designer.dll",
+            "sha256": "413206f40949c76828836ecf77e3559b530009cecb251d82760e32eac994081c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6DesignerComponents.dll",
+            "sha256": "96223d95262030d214837ff688b0ccb5b30725e817d58cee82063b3b5cce430a"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Gui.dll",
+            "sha256": "80c44c775355baf2c53db15c8305d8e028b4bdad1c878010b91c4cb267d7404a"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Help.dll",
+            "sha256": "d5468cf14149db2bca83267edb4c11f48a1c679d21e6e3b3c608265be517ef92"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsAnimation.dll",
+            "sha256": "7a97bf53d15b3c8cd217ad08b18cd4292a020b292187c92dbfbabbb1cc32d250"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsFolderListModel.dll",
+            "sha256": "52efc33eac1a1ae732e0e1cb892bcc8be4d7677a988583da2f8630497e59f7f7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsPlatform.dll",
+            "sha256": "80e0368db66e6af81a5c5c507519cc9dcbbb46a291b51eef119ba998427073ae"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsQmlModels.dll",
+            "sha256": "047c96311898f297532936fcece738231246ff94a06599b8e7d2994f7e290c85"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsSettings.dll",
+            "sha256": "edd3c49c178ed415b236c523260bf4d407252186d5b763996dfa918e470d50a3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsSharedImage.dll",
+            "sha256": "c4c9a7ccc12dc838b4a5b764297a100a49df3ddf56d71cf82722bf426e842de4"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsStyleKit.dll",
+            "sha256": "0233a0396e036c83c7d27eb7e9e6feec343198b2bf3f4d4eb92463a41e557df2"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsStyleKitImpl.dll",
+            "sha256": "1329dab73a8d2361530693a16a9f33d0a24615cae1a1426a1aa9f4e47424ac8c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsSynchronizer.dll",
+            "sha256": "d3583a99c45a699980f28805e5b377b311edcc1b2f9f7cff0e6b9d1acd064d3c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsWavefrontMesh.dll",
+            "sha256": "e6e37c8e92981dd18c9b88effc87ec482d963fb13393dc527ece1182bbab7424"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Network.dll",
+            "sha256": "f462aa3c96aa46b20698cf7c039142e91c6fb5a1be1ce3290efa8cfe9e5b420b"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGL.dll",
+            "sha256": "5a02759a4c8fd1f32524e71fb552d19b80784b103b8cfc9f45b975c2ebaf8a98"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGLWidgets.dll",
+            "sha256": "795d49d5535fff0feb83468c1bd6e63ee9535e5400aadf09c4d451963f1a6b7d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6PrintSupport.dll",
+            "sha256": "de67a6e2f4b9f07b9cc48851a6945fe55f76e18a8b5114e061cd58d4913b69d2"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Qml.dll",
+            "sha256": "4fdfbcda0eb143f1917294e3d713c09b4f1bda23105bf19b2947afcede864e65"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlCompiler.dll",
+            "sha256": "c41085b89ab8447e5258aeebcc734564da3c7fb3423bd4d80a93586dc9c2bb35"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlCore.dll",
+            "sha256": "c0093ad85bc22851770dfcbc54511f68cddf681a1304c88f85fb76e527d5f9d7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlLocalStorage.dll",
+            "sha256": "b060b0538058b0a08879529197577c05ee7f3810bbc30ea8d5aaabbc34c9c094"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlMeta.dll",
+            "sha256": "833997c2b3f38e62bca5636f03c42e09a5c8e207e32dc73c021c07e790c71d56"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlModels.dll",
+            "sha256": "50fe67d7ce606249b3beed99b2cf5f84708c369dad5e65bc3a8e60642e38dbc7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlNetwork.dll",
+            "sha256": "d1a259dbf8969126c5a968fcab727b22f1466ea045d874ad19db5f2984729287"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlWorkerScript.dll",
+            "sha256": "1e97471878e6e3d7a0ff6c67f2c9cd0c47365fd677cd05157b08f4f46a4eeadb"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlXmlListModel.dll",
+            "sha256": "586e37db699080a972d7cc815b62aa9c2b6e2660c398d411eb24e6a26f44e9ed"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Quick.dll",
+            "sha256": "1ff0709e1b848421139d4d1b6f13fdfc817ec47a0c8f733f2776f0c18c7a7705"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2.dll",
+            "sha256": "7d8db67e81c4dffdad25180d3697bdbc0a63545c90fea84f04e735b1090d91d0"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Basic.dll",
+            "sha256": "6847e4db292490be72ceea4b13d5734f06de15f2bd944103276853f311e85564"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2BasicStyleImpl.dll",
+            "sha256": "f908bd162d7d053e52e1fd7d5918f155b991d08c1843da5febd6867e5290f530"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Fusion.dll",
+            "sha256": "ce48ab7460d98f618d1dfc15680f75def31f76f39fa37dd5ed6abb9cb30b4a68"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2FusionStyleImpl.dll",
+            "sha256": "45178b55f09ac43d9579547d95f14e93095c1e72a003732c4af1457bad3be7b2"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Imagine.dll",
+            "sha256": "a26140fcf829af6d7a96e32425597f23332c628ebd4c9123d6b7d48ce39f09b0"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2ImagineStyleImpl.dll",
+            "sha256": "8f987c81b56d09a7ff7607317b2d635402801f314a2222dd1fcd542bbe8770a7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Impl.dll",
+            "sha256": "1fb0b6b93fb05eeaf451a7873b8656c9abbba46917b8874278aef5f3db9d481b"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Material.dll",
+            "sha256": "b71947f6aaec9f2b85004195251999c5d70fa502860166981e5d6b4d461730e7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2MaterialStyleImpl.dll",
+            "sha256": "491d17a86b12529fb7ef6106c9aaad04d99dab69ae23c2b2ef9d55e2f70f84b3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Universal.dll",
+            "sha256": "7e9cb6a0874ab34354ed7017b8da3361f1b12a6408a29012a53a514e923db36f"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2UniversalStyleImpl.dll",
+            "sha256": "f569485d3ffbc2bc512d4771e7162bc18969eaa12178048248797ce728a88fca"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2WindowsStyleImpl.dll",
+            "sha256": "2d9c932c8f7ab686dbc5b609c8a93662b7e853e54e59b9169842d0cae8de0239"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickDialogs2.dll",
+            "sha256": "8ed1f417aedeaf90c392468ec4783c127ed707f20dfb65608704725bc6f4f7aa"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickDialogs2QuickImpl.dll",
+            "sha256": "dfc69fd14fb485a170ed8643f5a1b6d8fee907f40ae49f01069d6bfe277c7028"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickDialogs2Utils.dll",
+            "sha256": "92d2f2bf98af187dd253a61b85233b215fa21ccf8e68293b3d5c380a5a5615d9"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickEffects.dll",
+            "sha256": "769a9a7e6098fa1a4eefef2eaeeba1bca3b6e341bd2e6f51869cbd4d24a92518"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickLayouts.dll",
+            "sha256": "88c44d4bd115b978344c48e72c4b336ef7999f0a6d6c51280988a5984c587523"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickParticles.dll",
+            "sha256": "08d8465005181027a513ef6bc3973c391fc427f197ee9f59b03d73277d5368a3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickShapes.dll",
+            "sha256": "a4ea13be2c0c0f1d3cd87cc3efbe150a33f22f1f03f39ab85e49c467cf0ab6e3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickShapesDesignHelpers.dll",
+            "sha256": "4e8b03bb83b2df1fc4c783b70d8fa612e07b3346ce4af0778a8d7ac7dd63d284"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickTemplates2.dll",
+            "sha256": "45a2fec0cbcaac731ca43a7e4dd90ad0ca1a27d7b752b4dcb115d59a187aaef1"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickTest.dll",
+            "sha256": "b78e6ca81f1db0ca1599316141f68be8d3efedb047f4b9e324d0f22c82d9e286"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickVectorImage.dll",
+            "sha256": "a752634fc663cd5cc947f4ad70f60e9feb69395aaa79d0e2f2ad791dfa542d35"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickVectorImageGenerator.dll",
+            "sha256": "630cbaa97e45eb8f5ae5023d64ce04ff586ae5edd913005fd9394e654ef502bf"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickVectorImageHelpers.dll",
+            "sha256": "bc372003ddb341e0180621ac2e75ab428ec93eef90fe85e7ccc1d3ddec734c48"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickWidgets.dll",
+            "sha256": "1c03d9cbfc24a760930efa50a3e5f37ea40d8a7c9c08d71f92666cac3cdfab16"
+          },
+          {
+            "relative_path": "Library/bin/Qt6ShaderTools.dll",
+            "sha256": "09964f248ab9663c77eff1b7c368f9e61a780866a4b5544236d13fae53eca765"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Sql.dll",
+            "sha256": "0ef3ca0a3e7aeb964c80f3687e0882ed094d964284d03efd80bb3846726644ce"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Svg.dll",
+            "sha256": "b06cced0a3bff9f811e8299459f80c714fc478c402936b43a745bda6c8178d31"
+          },
+          {
+            "relative_path": "Library/bin/Qt6SvgWidgets.dll",
+            "sha256": "71098d878eed40c11b95424141f288157b12d7e2979880c2627231d0e7b2153d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Test.dll",
+            "sha256": "57ad8cebf2bae7142ebe894ac1b7d742f0fd0fdbb126faa05e91f155227c1bd4"
+          },
+          {
+            "relative_path": "Library/bin/Qt6UiTools.dll",
+            "sha256": "f00c4b5e0b3d039b4030e2828380a013a085e60dd4f91ba9296ef70aba835a2d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6WebChannel.dll",
+            "sha256": "61c165976cfae51cc8697cfbb84646e0f22c64f48494891669cbeb3bfb63287b"
+          },
+          {
+            "relative_path": "Library/bin/Qt6WebChannelQuick.dll",
+            "sha256": "5025cefb35d9657a7470743fb425627ca71f64eb5ed43ac406068037f1c74ada"
+          },
+          {
+            "relative_path": "Library/bin/Qt6WebSockets.dll",
+            "sha256": "261b962bf8b321a1c222b7aa2986aab780bcca7a5a2b466e9fb9612ee75e67f4"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Widgets.dll",
+            "sha256": "cddaeac6c83174fd9f147e1c2dbdb0db9d6892f37aaba71eb3286bc419216c62"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Xml.dll",
+            "sha256": "4505fb734fba24791be4a0e97ca36861b39fb30b019ed40eb0466dd329260039"
+          }
+        ],
+        "qt_plugins": [
+          {
+            "relative_path": "Library/lib/qt6/plugins/designer/PySidePlugin.dll",
+            "sha256": "3cac3d2d0a89f53fde8456c36a28d89f2c24231ae6a7eef2298e8bc5a6aef9a5"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/designer/qaxwidget.dll",
+            "sha256": "ae73647fcc769c59a5c689f2dd8a346a8abb207be3b452453d2374e1447ee2f1"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/designer/qquickwidget.dll",
+            "sha256": "bd412fafc1e0169764328b73fc92cb1f40d49b633caeee2efd82dc3124e30cdd"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/generic/qtuiotouchplugin.dll",
+            "sha256": "42a9e91e0dd128fe12a364e6209616dd885c543d3b51dfdf9805698ec5573d3e"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/help/helpplugin.dll",
+            "sha256": "853e2dd7a67934849b0e8557af0357ab83b42d9f110fd9db35c8a7a7aedacaec"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/iconengines/qsvgicon.dll",
+            "sha256": "dd3bf0b8e0eaebc12095d3f2264c40976c60b6726aaae46ba9ea4454810b385e"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qgif.dll",
+            "sha256": "51e1b1f2b78a30aca27b14a83305fffd4e90790f1107bfdcf2faba5f0b5f0d79"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qicns.dll",
+            "sha256": "8e8e43fd062bfcc83bd0709b8656b21cd7810568f766c0c2333a7c11de6d2073"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qico.dll",
+            "sha256": "2647f05a1ea240dbb1bb9be43f30597e318c9e709127f7b2ebae58206ed18b7a"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+            "sha256": "599f1c15b4e0255e3200bfefc5573a2f17cf3439c1caca421e7a6b354ac6e666"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qsvg.dll",
+            "sha256": "ae8437aefe26c8c70ae8eeb28705aab5a37c681ae1690f208e9b1142416196e8"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtga.dll",
+            "sha256": "b7d91970e1d4078dd19ef47fc83eda0aa315f49f87e71fa99d06ebda5a005ec4"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtiff.dll",
+            "sha256": "09f97b672e32ba9b30e9c127d7fda27ed96502f4443d09179a16fb96dd7b1a55"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+            "sha256": "9be24051291148ee56f5f328566eb892e6b6d4d95b89d5dbce8e0b39764a534c"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwebp.dll",
+            "sha256": "f5e95e60e1190cc776674b5c8110480e100ab2ac94d76e91f1ab8e343ed7e11d"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/networkinformation/qnetworklistmanager.dll",
+            "sha256": "9452b54e3bbcf5a636210ddf81580fe41a8cfd86d864c85c817c055b9a309124"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qdirect2d.dll",
+            "sha256": "20393ca70c50be548ac544cf00ba6684ddf09017982f9fbc2bd961bde9d983bf"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qminimal.dll",
+            "sha256": "3a05d521befed0c80a630d1139b1eefcd8c2d4d59aeb6ce24ff68685db1f1a8f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qoffscreen.dll",
+            "sha256": "5b83c9c4b3c11fca34824479eb3ff68b85bd04c8ede3960105798b79e3e17842"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qwindows.dll",
+            "sha256": "79cf62d8a07b4e1b8bc43bd865e574f35064197f3dce4d9a8c9dc36c10e3b59f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmllint/qdslintplugin.dll",
+            "sha256": "4fa713afe0f50a54acade63a4063627ef334a6f2bc289719a756766871b180fc"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmllint/quicklintplugin.dll",
+            "sha256": "988c9e19ea0dc0b5d5b00d1743bc630f2ff4d1bf24ab7b534ff964e667c790c3"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmlls/qmllsquickplugin.dll",
+            "sha256": "f957a102bf38f127db3f243eb7e45955afd0b3d1ea661bb139aed1b5dd7447c8"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_debugger.dll",
+            "sha256": "556e2d433a8ffd9aadb54e26635d9f585d8532ed97c1a42b3e9bc461ebbfd10c"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_inspector.dll",
+            "sha256": "e4692e4ac4745d7d46b37f42446ee5151903ca939561aa6be7bd421cf6d90b11"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_local.dll",
+            "sha256": "de899a5620e3108a4389059c159f2866f07a83977e158e0e8ddd0a07409db8d5"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_messages.dll",
+            "sha256": "ffbe4aaf5eeab4109be5b29ef826607ca8085b4e6acf1df59f9ba5385264d414"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_native.dll",
+            "sha256": "b1e055300bf4f00b95f9c2fae64ebdbff826cb3ac39c2dd64261021d812afa24"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_nativedebugger.dll",
+            "sha256": "9292589ba4d8d81211c988520cd618af39545a13a59e2fc446f212ef86f2d890"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_preview.dll",
+            "sha256": "92e4478074a3bdefd72d8d968dc45c7637b3007faf7f3fd5d61d85636b0492f7"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_profiler.dll",
+            "sha256": "4b92ca5169586aded2e45e10e9217069906d333e8514fd6e81749fc20f5e63cd"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_quickeventreplay.dll",
+            "sha256": "d9dc39a04f277e08aa99f6ae7bf603be84afb738ec2eb289974c3f87ae160be3"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_quickprofiler.dll",
+            "sha256": "fe406a2434808aed6a6409b991206a5b5a1038993a65f531a3ffb09218328a3e"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_server.dll",
+            "sha256": "97f894feb927380d6da9efb4e5fef84108989b35e1342b04318add3326167ff6"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_tcp.dll",
+            "sha256": "ffdf3fbfbf5840a1092125dad26bb8cf334ed0ca61fa93343649dc2fee6de7cc"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/sqldrivers/qsqlite.dll",
+            "sha256": "011a272ed0c3daa1530baf48495a37efd88e60204d93bb2ca84b328a96014c83"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/sqldrivers/qsqlodbc.dll",
+            "sha256": "1cf0e2520eed082f2ba14b78d86433956876807cbfe383c1656fb612457f23e6"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/sqldrivers/qsqlpsql.dll",
+            "sha256": "e8e72961c2e21736260dee93d80429ae93713bc90b7107fb4738dbdb7bf7d485"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/styles/qmodernwindowsstyle.dll",
+            "sha256": "b1f1724d1f141519ecb95de31e87c3e09542f0acac05501c9e14504992014930"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/tls/qcertonlybackend.dll",
+            "sha256": "923e5ee2af4ed0f5084f170de5ca9572c9d91783209ed426e72238fca84ef0b1"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/tls/qopensslbackend.dll",
+            "sha256": "57ed8460023c7b9a206440c8431a65eff4b2eb25d10b93ed23bfe198b911b626"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/tls/qschannelbackend.dll",
+            "sha256": "d00580066c3b8defe65ba888c39f53d837c95a115c83e8318f050241cee61dd6"
+          }
+        ]
+      },
+      "patched": {
+        "prefix": "D:\\a\\_temp\\qt-pdf-candidate",
+        "qpa_platform": "windows",
+        "qt_libraries": [
+          {
+            "relative_path": "Library/bin/Qt6Concurrent.dll",
+            "sha256": "7bdfc242a59d8d0bd71a9285e28239974974b7a71e626bc0f3a6e6ff612bf342"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Core.dll",
+            "sha256": "f9e64692a6036c48cb65a9941f57f89fd2046f5d7be734f7722ad2528d9aa1f3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Core5Compat.dll",
+            "sha256": "e5f3f5919f257eacd8657fb0b97133b5a66d7657cd3f7c70a08f9cc99f3d006e"
+          },
+          {
+            "relative_path": "Library/bin/Qt6DBus.dll",
+            "sha256": "1373e63255103f4850ca770a8449d0d1887de0a1e0bb9e3dfe5137a9c3104121"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Designer.dll",
+            "sha256": "ba8bdf2d9c45ff291d9b6ebb91b01137ea05f06d17a3efc1b25f1f52139441fc"
+          },
+          {
+            "relative_path": "Library/bin/Qt6DesignerComponents.dll",
+            "sha256": "533b7d9721ebc62b537eb2cfcb5d1a3953eb9bc614dc9d3219503c4ebb8d4cca"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Gui.dll",
+            "sha256": "a46d333bff34e7005acadd1c375598ea48dc57dbe2f5cbabde7f095cc8280e77"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Help.dll",
+            "sha256": "d0b3e981bdfe3bfe28a2495af9ee03509ea072ac69823c50b2e8d60ba2916c15"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsAnimation.dll",
+            "sha256": "d685fd936da357aa1cd5ee0fa6c1838ba86df1286704a1668a6b6d1927cffec4"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsFolderListModel.dll",
+            "sha256": "7ebf5e88d30e1535b2021415536eec6c90342d1716d5f184025ff6b1b0f79d4b"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsPlatform.dll",
+            "sha256": "4548720c452b2007b6deda48ff3a0ef7c599139dd7789900194f1df8c9de9f61"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsQmlModels.dll",
+            "sha256": "fbdf5a0683299e6530631239b5ed52450be873a870e6e0f9f7162fda6b3cf151"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsSettings.dll",
+            "sha256": "70655f0cb02c0fdfdb9b6f4092d63279c19b5e32bff509d4b9809b42571f15aa"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsSharedImage.dll",
+            "sha256": "e59c978aa0d539ab695462fd1f0173918a788aff7615014f45a54b5ae8a74aef"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsStyleKit.dll",
+            "sha256": "076dff8c5f1350a4cad4c778c891d4d325c06d1997a634be01047f1c6ba6567c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsStyleKitImpl.dll",
+            "sha256": "6c81c503d0cf8777a0e8b9d5ccfef35e0d825e117f4fc348f85bef1b621a08c0"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsSynchronizer.dll",
+            "sha256": "6d08331d7a38a6552dfb19ef71a7df482a3793054abe1f005949aa704888dbfb"
+          },
+          {
+            "relative_path": "Library/bin/Qt6LabsWavefrontMesh.dll",
+            "sha256": "fd5912ff4a7eb46219318912edfc74b2978edd1643058a878f13506aa522186d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Network.dll",
+            "sha256": "1228739876502b7833f8cf99e7d4fcdd77fc3d7e557534702877c9a09b5a9188"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGL.dll",
+            "sha256": "18679f495c4ffc3c9c38e18f7e0efed7024d1ecce78a6e84e7a87b5644455134"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGLWidgets.dll",
+            "sha256": "77cfb88ae87e3c8180447959177f2d167d87c6095e9b84313e5c39ac4337c0ca"
+          },
+          {
+            "relative_path": "Library/bin/Qt6PrintSupport.dll",
+            "sha256": "e9dba0cf61ffa35f33335389e3ce2259858da2db0db79d576783c2327c740a12"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Qml.dll",
+            "sha256": "d7e5c9737b8286e142b3640fe378afdf19c8794dfb1416693d6917757281852d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlCompiler.dll",
+            "sha256": "e72eef82f409986157a8887765023a8cf65276fb2d67196f03b268f7ee070110"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlCore.dll",
+            "sha256": "a0a34da6108e591a048d9e51ac7cae0dea8f4bd74345f6d603114d96097a3700"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlLocalStorage.dll",
+            "sha256": "ecb70b0bce09a9493f60019196788c030fe68a034fff839b40aaab5a83522425"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlMeta.dll",
+            "sha256": "4db22971030d56004150217d66ac58ab62b2cd7303193d2b590bcd03f4965397"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlModels.dll",
+            "sha256": "da37d04fe96edc890adf1f6c8d2864e53a2c72e015c93a6ee529ee0c18c51110"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlNetwork.dll",
+            "sha256": "86d3dab6729bb9677c6ecac19b77c0683a890aa309d64bdff9395e945bd8098c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlWorkerScript.dll",
+            "sha256": "8fa989178fc90565eb639639c9dc0e87865e46e8ec0ef4f154db3a301ae6c9a7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QmlXmlListModel.dll",
+            "sha256": "c8354f0a46150510f353289da4df7791e713a758899687798d45e8527d99b7be"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Quick.dll",
+            "sha256": "26d3e4de027a5fe64d084a2d4d43c184350cb53ebfcfd866434e1c4228796baa"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2.dll",
+            "sha256": "d52a0c42e1893eab300487a0faf4bc1491f9a932fd4bf1f4b42f0602c640cd21"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Basic.dll",
+            "sha256": "bed368c3ae9cdccb52f44fc91d75fb69272091af106b07d5a20b7d115d09d4ba"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2BasicStyleImpl.dll",
+            "sha256": "4383b494bf313385ca4910f0774c902395f64b3f2531fde7e58581202d72209c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Fusion.dll",
+            "sha256": "76a746cd0b630e6fca8c2e5582a9aad81f457061246dcf59b8a937e3271fa1fe"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2FusionStyleImpl.dll",
+            "sha256": "f1ef50a56aa178477b15dbd35ba06cfdb282f5176df2af546b665c46d0393bff"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Imagine.dll",
+            "sha256": "e9089d61dec31d937ccd1b23f1520996ead43397e5e389dd8853a8685d529def"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2ImagineStyleImpl.dll",
+            "sha256": "f6e4090bdeb636b419891ffb07a0049b2512de64eeca2f4a8206473a0359262d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Impl.dll",
+            "sha256": "e1180a748bce28544fc6e0a54b4ef24408e71f96f26916044d53036f033ec786"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Material.dll",
+            "sha256": "98cf2b0d6a48ad6d8ee5361bb0b83e9c8e6884c12c6493e6869ea49740a7a1ab"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2MaterialStyleImpl.dll",
+            "sha256": "cab501fc35bcbd9ede80fd19828a6093999016a3647732c1b66b7c13d25a6bc0"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2Universal.dll",
+            "sha256": "a31dd5049710035bb13b66f1ee15bfcad16b20c05e39eb3354ed5209fe0cd47c"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2UniversalStyleImpl.dll",
+            "sha256": "1a504cfdb39e372dd8a8f943b587fa374b491630af62fdb81683b6dbc2f8464a"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickControls2WindowsStyleImpl.dll",
+            "sha256": "30d6de84a2c107a8b9eb498ba8a14630cbe0e411ba3c1e1d63d2da3d56441c78"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickDialogs2.dll",
+            "sha256": "c4751d523f5c07594860c778e35261e64279860c205347323e76d530a72544b7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickDialogs2QuickImpl.dll",
+            "sha256": "ba9dfee53a524dd84b93f3fd2f4f1ea6ecd524924d1267e76244553e373316e3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickDialogs2Utils.dll",
+            "sha256": "7f1c36fa3390b6d5b9766cebfc8ecb902051ab887ba4fa30052d34d1921bc6ba"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickEffects.dll",
+            "sha256": "bbeaffab2cd328d29b89db3bdeeeef085f8e20931b55ecbb988df4582d830cbd"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickLayouts.dll",
+            "sha256": "c4e823de9643489d34b2dc716648f553f04c9a76f5f08b51e97d8a846829b3d9"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickParticles.dll",
+            "sha256": "89b39f1da053ac854829c4a9aa6a7e0f484f17f19a1d1d4fbb2b2d3dadfaa9d4"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickShapes.dll",
+            "sha256": "677bfaae3aa99cfd523717689248f7e7f12f6ebdfd9573913332e7f3e7aed727"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickShapesDesignHelpers.dll",
+            "sha256": "951fd64b62638188da41d1a933c4b361ba7a01400ec407d43fb05a2f3864924a"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickTemplates2.dll",
+            "sha256": "6f541656f546898086c4edea68bf7a63f88722a48a6275af287624ef995a0905"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickTest.dll",
+            "sha256": "c29ff26e5834067c98fdcf6c50c054a39b91856e6ab62c93f50255445b0bb87f"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickVectorImage.dll",
+            "sha256": "1e67bbe511e2f2df65c6c9c6af568f60c8713cbde8afba950638b002f01491f6"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickVectorImageGenerator.dll",
+            "sha256": "eb6b59c25efde341ae7cb1d9d6b25e1efaab4d7e59fe0f8506611fa4f6439ecb"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickVectorImageHelpers.dll",
+            "sha256": "3b1b0e7a2f88f55cb3226cfc23b64243fb305bc92acee409712f76c1afe97e71"
+          },
+          {
+            "relative_path": "Library/bin/Qt6QuickWidgets.dll",
+            "sha256": "9315c8c3e3adf4f80229d6931a05e1ac50e1f2377d80206eea097b6037bd09c6"
+          },
+          {
+            "relative_path": "Library/bin/Qt6ShaderTools.dll",
+            "sha256": "d8a27a86bda31aa7c9fa742af3870154bf93757b586bb3ed4df8e12376e8c047"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Sql.dll",
+            "sha256": "2b1f7f62dae5f27b5e09126a7d7f2d122385cc1206a275d86a92c8051b78da4f"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Svg.dll",
+            "sha256": "78034b27454970ca847d06437c4a3b744c7e61cb8971e013166b5652f5bd964f"
+          },
+          {
+            "relative_path": "Library/bin/Qt6SvgWidgets.dll",
+            "sha256": "3ed7040b3dd93008d1fc3ab00a51ce05ce9bec60f1c19d095884f5a857e355fc"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Test.dll",
+            "sha256": "a6d7e134b920a7c6507a369fcfb2ba8922845154dbed2476bde25ce186f1d75d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6UiTools.dll",
+            "sha256": "eeb2b7887b6770d22c80cf7118c84a884c0a61a3a680ecb0f865e7b544964ab3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6WebChannel.dll",
+            "sha256": "9287cc7852e49af450ba3319792876c256b922891ea92ce06c5ebac998b5714e"
+          },
+          {
+            "relative_path": "Library/bin/Qt6WebChannelQuick.dll",
+            "sha256": "2fe72013e594c6e3773f4f4b8acb9298fc5e55bc39de93f36b82f0c5e46d13a7"
+          },
+          {
+            "relative_path": "Library/bin/Qt6WebSockets.dll",
+            "sha256": "6e66a36e3c77f149bbb079d5f5b0359a147a919a5eb5619ad8f1c9234c10701a"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Widgets.dll",
+            "sha256": "afec855ff2aa948b7f17cff4ad7d5cbc263990d82cda27c49f66dae97b36b803"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Xml.dll",
+            "sha256": "5f67bfd6147a18b7dc6f0b3b7bacfb0ac92947822a5d4f981298f30421368bf8"
+          }
+        ],
+        "qt_plugins": [
+          {
+            "relative_path": "Library/lib/qt6/plugins/designer/PySidePlugin.dll",
+            "sha256": "3cac3d2d0a89f53fde8456c36a28d89f2c24231ae6a7eef2298e8bc5a6aef9a5"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/designer/qaxwidget.dll",
+            "sha256": "2ee0e221f2c47148e86bfb506aa23b8c50665b24f35ed5cb3925c0de89fd72e0"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/designer/qquickwidget.dll",
+            "sha256": "d0e5ef7becab30e1e3dc042cc9336ea5b2884b0b0571543121ee778f05c6c99c"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/generic/qtuiotouchplugin.dll",
+            "sha256": "08b48f167bfc0f0dc4ccf7253eec6b50917be7f728c38bf8bfbb2cf9b04f6fa8"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/help/helpplugin.dll",
+            "sha256": "a17aa9a9215ba8e2d7ad4aa5bbbfca487e7ef2d78e84dc200dc1045617b26ad1"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/iconengines/qsvgicon.dll",
+            "sha256": "32206003c65719cbab398acc8829b2071cc81ae864b2e8b65e372d68b490494e"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qgif.dll",
+            "sha256": "66aad7c37e3cbb11618c23404175c2f98449bf97caf4d3de1eb8c58d2ecfec1f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qicns.dll",
+            "sha256": "48bec9c523e034f706c7f30cb0b83299dc20092cc1c42c6af0d073c666eea146"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qico.dll",
+            "sha256": "22046c3b6013f1d090209acd6246a4f46aa587e9c9ac878f5acb8c2ed62e5e98"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+            "sha256": "53b1c00aa8e1bd8df706d399fcec7d2e142ec44c2e41dd6a93067e36bf75b91f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qsvg.dll",
+            "sha256": "6de6d279e5ed66c1c911cafb7684522cf25161778fe32096d085e6fef9a794a3"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtga.dll",
+            "sha256": "59cfc10319645da899227046cfe4776a5c980069e784d0fcab4c24d831d5f2d1"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtiff.dll",
+            "sha256": "e26eb5db545b4ac742a46276fd8fcab5d71830dd852341d83efcfdf72a710c0c"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+            "sha256": "06584753d970ef45cb31a4b167692350f31ad158c6ae5ab3f98941b4b82f8b3f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwebp.dll",
+            "sha256": "156e5d9cfe676c9e808af4c448fd0661e05a1caf7b2174e9054f976f5d3b6659"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/networkinformation/qnetworklistmanager.dll",
+            "sha256": "11f56c86c347f96d3cb3109f1e27752ac48af316d3412e08dc91d1a222fa5e27"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qdirect2d.dll",
+            "sha256": "f00e0d8b42a60ca288dbe402ebe1da73ce9f51796252f09e9d7eecbac4b8b83a"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qminimal.dll",
+            "sha256": "485c79488e1d45816fe054ea2b197e1ebffee739196490d570e21ba211703624"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qoffscreen.dll",
+            "sha256": "baea609de74ba18584c8234896b43e348f7b842952bbc06208a5f89872dc1f7a"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qwindows.dll",
+            "sha256": "bc518282f33aac834230d59c37be53fca5487adfa3958b522e50d48fff6c009f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmllint/qdslintplugin.dll",
+            "sha256": "65ffb63281ead8ab6a85030af78f8e46eebb36096a62deb3c94db146ce643559"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmllint/quicklintplugin.dll",
+            "sha256": "528b478d565153fde41b53f35f2bf263f1222a27ff9fd8623b49366c923e6b9d"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmlls/qmllsquickplugin.dll",
+            "sha256": "7c4c68523f8ecda8e36c99385e548c9e71fe10140d7ade27f474a122e7685b94"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_debugger.dll",
+            "sha256": "407277773bf4193082bc206c461d89686525168a18ec50a6f7b8930f85c3eb53"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_inspector.dll",
+            "sha256": "0d633060e69eafa156069b39ffce138024864e3f0afb53397524a270f0c791af"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_local.dll",
+            "sha256": "10ac1bb50210740cc7d4857fb2b2149a79c68c1c66956e0cb2251d90650dfe30"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_messages.dll",
+            "sha256": "ccd4ce1247e63bd79f06a37873b5962c7e508cefe4fabcf0d63e66f1796a10c1"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_native.dll",
+            "sha256": "6e04503db345c8a6a18ebae45af8189b2eba6be14850a798f3c3ab9fee466941"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_nativedebugger.dll",
+            "sha256": "daa9d346cd82466840bd19c7a8878d1fc194bab990c625c72394f4ed6cd430fc"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_preview.dll",
+            "sha256": "8ff6ea30f552254db5b8b065c8f74e252c13d7f637d8a320d6731c1dd32fc266"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_profiler.dll",
+            "sha256": "1368068cf63db9b33cf01bb34e3449c53ece40afaf6fa403c3ebbf11af2002a0"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_quickeventreplay.dll",
+            "sha256": "c784928c846fe52ee9cc2052092ccdd3ec6085390c8e208224cfa60b83a34115"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_quickprofiler.dll",
+            "sha256": "ad6883ad35f3f6e2c62bdf69d45ec70ba0f2941c825f8a3cc830a454ab7d11dc"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_server.dll",
+            "sha256": "0003d77e121cbefc37486dce81d689925d65fb82b110250c3400a11ee3b64194"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/qmltooling/qmldbg_tcp.dll",
+            "sha256": "61dbe066ea98e4f5ab30c0cccbd3e1efe5bef32001ee187ae96f41f1e117c816"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/sqldrivers/qsqlite.dll",
+            "sha256": "1ec99e2e43d0af34398745377a632ba87f86d38bb103815e19ee8168ebd735d7"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/sqldrivers/qsqlodbc.dll",
+            "sha256": "0e86b6a1f999dc8c92fe8c8c1154c72b020da79c6c3f5b38b2f5f4da40e830d6"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/sqldrivers/qsqlpsql.dll",
+            "sha256": "dd3dded1fe3ca6dee35cc903fbba3f58f72feb2a376ac73f2608a7b1fba2c6d3"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/styles/qmodernwindowsstyle.dll",
+            "sha256": "33e23c38e0ee5ebcdd416497ea432b6156fc7a9c99f9f51be3050505fa40dca0"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/tls/qcertonlybackend.dll",
+            "sha256": "188d5addd42806436b0bbdf53c766d898daaecbcae2ee0e8624d73d7430343de"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/tls/qopensslbackend.dll",
+            "sha256": "61041edaf13be262d5124e014575a5496994c2df6f224fd37c337b58ad88a3fa"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/tls/qschannelbackend.dll",
+            "sha256": "596233c35ccf1b230dd712c0442c10ff13d698a234871fcdaaff1f3186cdc89f"
+          }
+        ]
+      }
+    },
+    "package_build_run_id": 37238935749,
+    "package_count_per_side": 361,
+    "plugin_count_per_side": 42,
+    "unchanged_non_qt6_main_packages": 360
+  },
+  "minimum_remaining_stages": [
+    "Admit a checked physical restoration of the retained source-bound native build without claiming historical restoration success.",
+    "Fix and verify the selected embedded Python path and diagnose any native DLL import failure.",
+    "Run actual stock native24 and GUI11 on each selected Windows runtime with unchanged prospective inputs/dialog/loaded-origin/preservation gates.",
+    "Independently audit new native artifacts and final conjunction before closing FreeCAD-t8a.5."
+  ],
+  "native_failure": {
+    "additional_diagnostics": [
+      "DLL load failed while importing _PartDesign: The specified module could not be found.",
+      "OpenGL 1.1 warning"
+    ],
+    "baseline_runtime_log_sha256": "8d52f437ae7018fcbf25ec4cec4fb65fa0c5435d57223a3a11a4a443fd21789b",
+    "gui_tests_passed": 0,
+    "macro_completed": false,
+    "native_pdf_cases_passed": 0,
+    "patched_runtime_started": false,
+    "primary_error": "No module named 'PySide6'"
+  },
+  "native_freecad_qualified": false,
+  "new_upstream": {
+    "executable_PE": {
+      "dll": false,
+      "machine": 34404,
+      "optional_magic": 523
+    },
+    "executable_sha256": "bf4373491cbb0ccda76f9005800e90e2f3c4d01612c6f88e2a5f57eb81f76e84",
+    "historical_failure_branch_recorded": false,
+    "logging_remedy": "QT_FORCE_STDERR_LOGGING=1 on the upstream child only",
+    "qt_version": "6.11.2",
+    "receipt_sha256": "6ddab194a500bc78077092043d2e27179661aabe4ccaa614e4a8bdf6a343b929",
+    "runs": {
+      "forced-stderr": {
+        "bytes": 1050,
+        "flag": "1",
+        "returncode": 0,
+        "sha256": "60e95fbb239a99ecb057c5a0f622ebfb0199e411dfdbe2c905c30631d8662164",
+        "strict_10_version_transcript": true
+      },
+      "old-routing": {
+        "bytes": 0,
+        "flag": null,
+        "returncode": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "strict_10_version_transcript": false
+      }
+    },
+    "test_cases": 10,
+    "validation_sha256": "4090839c89f5cd6e6b932b42e62ba2b6550751c205e87e44377660749b05f48d"
+  },
+  "prior_qt66": {
+    "artifact_id": 11323427780,
+    "artifact_zip_sha256": "c06ec9b2e0dee94b5e1895835c99373abc5fa8b95758edd053514ccc829cf62a",
+    "executed_again": false,
+    "member_count": 828,
+    "passed_cases": 66,
+    "receipt": "package/qt-pdf/windows-qt-passed.json",
+    "receipt_sha256": "ae660f0b07f250289eef75c5efdc71ed8f404095f77508d3710efc46f0e1ceaa",
+    "run_id": 37250196345
+  },
+  "purpose": "Reuse the authenticated passed Windows Qt66 and newly completed upstream10 while finishing native exports; no repeated upstream process or native rebuild is justified by the retained import failure.",
+  "qt66_passed_reused": true,
+  "qualified": false,
+  "raw_build_retention": {
+    "archive": {
+      "directory_count": 170,
+      "excluded": [
+        {
+          "reason": "CMakeFiles",
+          "relative_path": "data/CMakeFiles"
+        },
+        {
+          "reason": "CMakeFiles",
+          "relative_path": "data/examples/CMakeFiles"
+        }
+      ],
+      "file_count": 1457,
+      "links_admitted": false,
+      "manifest_sha256": "d76d0bfcff3f0db64513781b9b62ae5c673f6ad894e4e324d7b8521cb157779e",
+      "path": "D:\\a\\_temp\\qt-pdf-windows-native-build\\native-build.zip",
+      "physical_bytes": 109078605,
+      "restoration_validated": false,
+      "sha256": "bff02f1fb0c78a9c8e87b6390499d0c835677c3f7d349ae5aae367459b8d58d5",
+      "size": 44375910
+    },
+    "diagnostic_only": true,
+    "distribution_promoted": false,
+    "native_freecad_qualified": false,
+    "native_pe": {
+      "Mod/TechDraw/TechDrawGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876"
+      },
+      "bin/FreeCAD.exe": {
+        "dll": false,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "b30bcb87deeaf2a3ddde1ba162904db7898f2563f21bf75cbbbb0b50073ab0c2"
+      },
+      "bin/FreeCADApp.dll": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "80767a3127b94af942eb90d8226fc68106d377481961146b7646715558052c6c"
+      },
+      "bin/FreeCADGui.dll": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "4ea4c26e6342cc11e76eea90142600497efd4f5d0e4f27524325d4f5cf7ccea0"
+      }
+    },
+    "receipt_sha256": "e2f35ab9b4723c44d3c101ed1a6218c223574574c8699623364cebeeb72d17af",
+    "restoration_validated": false,
+    "runtime_prefix_bytes_bundled": false,
+    "source_inventory_sha256": "97a3b48c4e2181d1392579e4e329668da34f51b742b9cc5d2e47a8413ddc49c7"
+  },
+  "read_only_audits": {
+    "raw_build_structure_review_sha256": "48199eba4164571ccea00edcbe1149446a51759d177e8df3850b114f4fe1019e",
+    "terminal_api_stage_review_sha256": "d147acacc71c88d1d0f701aa3160561bef31d2dc7eb6953a34dda6760cc67353",
+    "transport_review_sha256": "7798ef50555653dbf16dbac4826f43b96ea63a8a7bbeeb2f2bbe16b727a7ba2b",
+    "upstream_runtime_review_sha256": "66053bf6eea19a4436285da81d4a62c5404d3bc7bb51368a8c8127bf26310436"
+  },
+  "schema_version": 1,
+  "source_sha256": {
+    "CMakeLists.txt": "ef1301c04a6f32fa3955e18fdbe72d58547bfd3893dfe1f46219419295d4a4fb",
+    "compare.py": "e3cf4909c7c1781a3d56a34b981346a1b4c72d44275c48d63289d1cb2a1e0d85",
+    "generator.cpp": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+    "install_candidate.py": "32fe699e8ef8f99123d4d73f9b246e8160c33c36979f64101e2bdf4bb6aeea3a",
+    "pixi.lock": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+    "qtest_logging.py": "93b34d7bbe64d02cb88aa401853427bd68b067fcb323ac4f0ffe1596df779cf6",
+    "qualify_package.py": "acc091b3c548a7a137634b911cfdd5abaf8e18813d979940ed411f1a0d5dba8c",
+    "reuse_linux_qt_qualification.py": "241a8ffa3354cf0fd32495cf99f101bdbbf8d1916527b0c041e46336c33c3c7e",
+    "reuse_macos_qt_qualification.py": "b609270382f0da2c7dd8d2cdb84938184fe4539eb84f91c7da31c2274f9dbd25",
+    "reuse_windows_qt_qualification.py": "ad63b7703b8852a4fb507ba3b1ff04f789a06ba219440aef1b1d8afb0cacd47d"
+  },
+  "target": "win-64",
+  "transport": {
+    "all_extracted_regular_sha_verified": true,
+    "all_member_crc_verified": true,
+    "artifact_created_at": "2026-10-06T08:22:08Z",
+    "artifact_timing_bound_to_attempt_job": true,
+    "job_log_sha256": "db8e1f3c8cedcae4117d86d4da54a4cab37f1fe469303202eee891cca7908580",
+    "job_log_size": 998507,
+    "whole_zip_api_sha_size_verified": true
+  },
+  "upstream_passed": true,
+  "upstream_test_cases": 10
+}

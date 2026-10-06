@@ -1,0 +1,444 @@
+{
+  "SPDX-License-Identifier": "LGPL-2.1-or-later",
+  "schema_version": 1,
+  "scope": "Actual original built packages: metadata-only rejection against exact locked non-Qt baselines. This receipt does not qualify any package or native runtime.",
+  "metadata_only": true,
+  "qualified": false,
+  "environments_unchanged_by_this_audit": true,
+  "environment_operations": "Read existing package bytes, lock and parser metadata; no environment installation, deletion or modification.",
+  "lock": {
+    "sha256": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+    "environment": "default",
+    "source_commit_url": "https://github.com/zukomgwili/FreeCAD/blob/e6b448f5d69a391ff7a319e150f28bb70bb7d471/pixi.lock",
+    "original_commit_bytes_sha256_verified": true
+  },
+  "verification": {
+    "matchspec_parser": {
+      "name": "py-rattler",
+      "version": "0.25.0",
+      "build": "py310h2dd3e6a_5",
+      "sha256": "f1549f5f3ed4cac1d5aa252b6aa244c024c84cede8b56e95213a7d8c40e5c037"
+    },
+    "loaded_parser_extension_sha256": "0d6a7d3cd83018c3d4aab74c5c389b297241f7882b32ce459f9872fb1b6064e0",
+    "matchspec_mode": "MatchSpec(spec, strict=True).matches(PackageRecord), with lock virtual packages and conditional optional constraints",
+    "system_zstd_version": "*** Zstandard CLI (64-bit) v1.5.7, by Yann Collet ***",
+    "system_zstd_sha256": "aff8169fb421bb925fb16c44a7e0143fa2c7a941dc45cce76b15062a2ce54917",
+    "source_matchspec_report_sha256": "597e1c08c089937ed57ece0519a210fe123b99c13409515fd639c5e43de0be02",
+    "source_artifact_api_receipt_sha256": "dbddc94c06398c7325107e982028fdb25a078a557d661137d19c8db2e3b137cd",
+    "source_completed_job_snapshot_sha256": "895ed268ae37f7dbf77ce032f68e4a7e009d00a25e1b908c10a544e26d380e30",
+    "required_matchspec_checks": 145,
+    "compatible_required_matchspec_checks": 139,
+    "incompatible_required_matchspec_checks": 6,
+    "compatible_optional_constraints": 3,
+    "completed_run_log_zip_sha256": "25b645df5577ca25b94928f8319a5b245efdf6b97731f51e48495835adf231ac"
+  },
+  "packages": [
+    {
+      "target": "linux-64",
+      "source": {
+        "commit_sha": "e6b448f5d69a391ff7a319e150f28bb70bb7d471",
+        "commit_url": "https://github.com/zukomgwili/FreeCAD/commit/e6b448f5d69a391ff7a319e150f28bb70bb7d471",
+        "run_id": 37231050773,
+        "run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773",
+        "job_id": 111520559819,
+        "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773/job/111520559819",
+        "artifact_id": 11316566467,
+        "artifact_name": "qt-pdf-backport-linux-64",
+        "artifact_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773/artifacts/11316566467",
+        "artifact_api_reported_sha256": "efaf3a35e8fcea88e16600dd1f9e063f2a39e2193ad1cb1632b97fc2fd2cacba",
+        "complete_outer_artifact_sha256_verified": false
+      },
+      "package": {
+        "filename": "qt6-main-6.11.2-pl5321h16c4a6b_1.conda",
+        "bytes": 60654251,
+        "sha256": "bbc1feae03b68a98fc5eecc2ac44bb8ae494198fb513eb78250c2b83a78b99a1",
+        "matches_original_build_record": true,
+        "identity": {
+          "name": "qt6-main",
+          "version": "6.11.2",
+          "build": "pl5321h16c4a6b_1",
+          "build_number": 1,
+          "subdir": "linux-64"
+        }
+      },
+      "index": {
+        "archive_member": "info-qt6-main-6.11.2-pl5321h16c4a6b_1.tar.zst::info/index.json",
+        "raw_sha256": "1cd609a17ce18f87fefdc7966f01bc6d3e1bb484b4d31220e2e86b3ec6ece64b",
+        "raw_bytes": 2216,
+        "raw_retained_file": "linux-64-info-index.raw.json",
+        "pretty_json_sha256": "a2475f7a1d9942bd64bb7e284991c59d4fac7e3a24fc2a6f0976af99a85407cb",
+        "pretty_json_matches_raw_semantically": true,
+        "independent_decode_command": [
+          "/opt/homebrew/bin/zstd",
+          "-d",
+          "-c"
+        ],
+        "info_tar_zstd_sha256": "011adf7fe2ed14c2a9c90ee828f4ce873e815decd9ee55158b4b6d70a52862ac"
+      },
+      "rejection": {
+        "reason": "Required HarfBuzz and libpng minimum versions exceed the exact locked non-Qt baseline; the unchanged-baseline installation contract cannot accept this candidate.",
+        "conflicting_matchspecs": [
+          {
+            "required": "libpng >=1.6.59,<1.7.0a0",
+            "locked_package": {
+              "name": "libpng",
+              "version": "1.6.58",
+              "build": "h922cc85_1",
+              "url": "https://conda.anaconda.org/conda-forge/linux-64/libpng-1.6.58-h922cc85_1.conda",
+              "sha256": "c19eefb87d70d9b4b0629fa48414a155a47a1be4f04583ae71ed8c5a9a32fdcb"
+            },
+            "matches_locked_record": false
+          },
+          {
+            "required": "libharfbuzz >=14.5.1",
+            "locked_package": {
+              "name": "libharfbuzz",
+              "version": "14.4.0",
+              "build": "h23af247_1",
+              "url": "https://conda.anaconda.org/conda-forge/linux-64/libharfbuzz-14.4.0-h23af247_1.conda",
+              "sha256": "979b14ba13054aab9e90363809aac470a58b7c37203c330216327356a98c8f60"
+            },
+            "matches_locked_record": false
+          }
+        ],
+        "required_dependencies_checked": 62,
+        "required_dependencies_compatible": 60,
+        "other_required_dependencies_all_compatible": true,
+        "virtual_dependency_checks": [
+          {
+            "required": "__glibc >=2.17,<3.0.a0",
+            "locked_virtual_record": {
+              "name": "__glibc",
+              "version": "2.28",
+              "build": "0",
+              "virtual": true
+            },
+            "compatible": true
+          }
+        ],
+        "optional_constraints_checked": 1,
+        "optional_constraints": [
+          {
+            "required": "qt ==6.11.2",
+            "package_present": false,
+            "compatible": true
+          }
+        ]
+      },
+      "build_and_tests": {
+        "complete_recipe_build_passed": true,
+        "recipe_native_tests_passed": true,
+        "evidence": "Original build.json status built / exit_code 0 with --test native, plus original CI build step success",
+        "recipe_native_test_log": {
+          "sha256": "0829fdae3508f7ccb820607322868da71b7fd6b6bc591d9c4d38047a2df2164d",
+          "bytes": 4505132,
+          "tests_passed": 3,
+          "tests_failed": 0,
+          "test_names": [
+            "test_qmimedatabase",
+            "test_qlibraryinfo_prefixpath",
+            "test_qvulkaninstance"
+          ],
+          "evidence_lines": [
+            36743,
+            36747
+          ],
+          "source": "original completed run log ZIP member bytes",
+          "pass_excerpts": [
+            {
+              "line": 36743,
+              "text": "2026-10-04T21:42:20.5475057Z  \u2502 100% tests passed out of 3"
+            },
+            {
+              "line": 36747,
+              "text": "2026-10-04T21:42:21.0724536Z  \u2714 all tests passed!"
+            }
+          ]
+        },
+        "rattler_build_version": "rattler-build 0.76.1",
+        "build_json_sha256": "b608a323206468233e83ff11bd0bedfe3613d4bcbce8eb0b355295f9e8c4713d",
+        "preparation_provenance_sha256": "533edac0b6b603a171fed3e352d25fe55b6f9c6234d9d3071fcff6ba8ba04ba2",
+        "feedstock_commit": "5cd1156d41526330a116b6b441611b47357ec568",
+        "feedstock_archive_sha256": "30a20fe87b59ef0709e4785e8a28a8fcb7ef5f7776b8ac71daf8b2a823ec104a",
+        "retained_patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+        "dependency_variant_overrides": {},
+        "macos_sdk": null,
+        "build_step_started_at": "2026-10-04T20:11:19Z",
+        "build_step_completed_at": "2026-10-04T21:42:21Z"
+      },
+      "qualification": {
+        "package_runtime_qualified": false,
+        "qt_pdf_devices_qualified": false,
+        "native_freecad_runtime_qualified": false,
+        "candidate_installation_performed_by_audit": false
+      }
+    },
+    {
+      "target": "linux-aarch64",
+      "source": {
+        "commit_sha": "e6b448f5d69a391ff7a319e150f28bb70bb7d471",
+        "commit_url": "https://github.com/zukomgwili/FreeCAD/commit/e6b448f5d69a391ff7a319e150f28bb70bb7d471",
+        "run_id": 37231050773,
+        "run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773",
+        "job_id": 111520559772,
+        "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773/job/111520559772",
+        "artifact_id": 11316660958,
+        "artifact_name": "qt-pdf-backport-linux-aarch64",
+        "artifact_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773/artifacts/11316660958",
+        "artifact_api_reported_sha256": "86f3a5d3fc99afd6c007688b6b14b93e1aa62d97b4d8097aaba6648ad9c1425b",
+        "complete_outer_artifact_sha256_verified": false
+      },
+      "package": {
+        "filename": "qt6-main-6.11.2-pl5321heaece2b_1.conda",
+        "bytes": 63535812,
+        "sha256": "8cce1a10e462192ccaad000984bdc9d4a34b97562765db0c70d5f27b9c708153",
+        "matches_original_build_record": true,
+        "identity": {
+          "name": "qt6-main",
+          "version": "6.11.2",
+          "build": "pl5321heaece2b_1",
+          "build_number": 1,
+          "subdir": "linux-aarch64"
+        }
+      },
+      "index": {
+        "archive_member": "info-qt6-main-6.11.2-pl5321heaece2b_1.tar.zst::info/index.json",
+        "raw_sha256": "8a29afab43b259fafeda9796ab553efdf182414a8f6a912bf5a9f76bd7d1118e",
+        "raw_bytes": 2192,
+        "raw_retained_file": "linux-aarch64-info-index.raw.json",
+        "pretty_json_sha256": "261dd7dcf6a18fe7ccfb37c3adb9f68ab12edce72e3201ad9c8258505f853133",
+        "pretty_json_matches_raw_semantically": true,
+        "independent_decode_command": [
+          "/opt/homebrew/bin/zstd",
+          "-d",
+          "-c"
+        ],
+        "info_tar_zstd_sha256": "e9295b5df3ebd5294bff6c57c63ebde5f647e963d7b7fd1db5984fe1eb87f8ec"
+      },
+      "rejection": {
+        "reason": "Required HarfBuzz and libpng minimum versions exceed the exact locked non-Qt baseline; the unchanged-baseline installation contract cannot accept this candidate.",
+        "conflicting_matchspecs": [
+          {
+            "required": "libharfbuzz >=14.5.1",
+            "locked_package": {
+              "name": "libharfbuzz",
+              "version": "14.4.0",
+              "build": "h8f7ccb3_1",
+              "url": "https://conda.anaconda.org/conda-forge/linux-aarch64/libharfbuzz-14.4.0-h8f7ccb3_1.conda",
+              "sha256": "7a27b4011455fef1bbad02f815aaac125348a3a9ac229806dba7befead38376c"
+            },
+            "matches_locked_record": false
+          },
+          {
+            "required": "libpng >=1.6.59,<1.7.0a0",
+            "locked_package": {
+              "name": "libpng",
+              "version": "1.6.58",
+              "build": "hf9b7768_1",
+              "url": "https://conda.anaconda.org/conda-forge/linux-aarch64/libpng-1.6.58-hf9b7768_1.conda",
+              "sha256": "bd6e423b08342969689d8893c965aad78244b29724da2168aef3634fa0e1ebd7"
+            },
+            "matches_locked_record": false
+          }
+        ],
+        "required_dependencies_checked": 61,
+        "required_dependencies_compatible": 59,
+        "other_required_dependencies_all_compatible": true,
+        "virtual_dependency_checks": [],
+        "optional_constraints_checked": 1,
+        "optional_constraints": [
+          {
+            "required": "qt ==6.11.2",
+            "package_present": false,
+            "compatible": true
+          }
+        ]
+      },
+      "build_and_tests": {
+        "complete_recipe_build_passed": true,
+        "recipe_native_tests_passed": true,
+        "evidence": "Original build.json status built / exit_code 0 with --test native, plus original CI build step success",
+        "recipe_native_test_log": {
+          "sha256": "16693b53d255bb53754d544e085fc2c373eb09e6bfe6f0bbef2ca5a547c90ffe",
+          "bytes": 4532054,
+          "tests_passed": 3,
+          "tests_failed": 0,
+          "test_names": [
+            "test_qmimedatabase",
+            "test_qlibraryinfo_prefixpath",
+            "test_qvulkaninstance"
+          ],
+          "evidence_lines": [
+            36968,
+            36972
+          ],
+          "source": "original completed run log ZIP member bytes",
+          "pass_excerpts": [
+            {
+              "line": 36968,
+              "text": "2026-10-04T21:41:58.5556314Z  \u2502 100% tests passed out of 3"
+            },
+            {
+              "line": 36972,
+              "text": "2026-10-04T21:41:58.8359087Z  \u2714 all tests passed!"
+            }
+          ]
+        },
+        "rattler_build_version": "rattler-build 0.76.1",
+        "build_json_sha256": "f2dfdf26ad1f6d5a5d6f680d3b93b3642f4eabdf548d5914d7423b05b8162ff5",
+        "preparation_provenance_sha256": "e7dcb9239085e6ef012fa30e4da38fdec8b326ccc8bce4a073e41cdc62eb2871",
+        "feedstock_commit": "5cd1156d41526330a116b6b441611b47357ec568",
+        "feedstock_archive_sha256": "30a20fe87b59ef0709e4785e8a28a8fcb7ef5f7776b8ac71daf8b2a823ec104a",
+        "retained_patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+        "dependency_variant_overrides": {},
+        "macos_sdk": null,
+        "build_step_started_at": "2026-10-04T20:10:44Z",
+        "build_step_completed_at": "2026-10-04T21:41:59Z"
+      },
+      "qualification": {
+        "package_runtime_qualified": false,
+        "qt_pdf_devices_qualified": false,
+        "native_freecad_runtime_qualified": false,
+        "candidate_installation_performed_by_audit": false
+      }
+    },
+    {
+      "target": "osx-arm64",
+      "source": {
+        "commit_sha": "e6b448f5d69a391ff7a319e150f28bb70bb7d471",
+        "commit_url": "https://github.com/zukomgwili/FreeCAD/commit/e6b448f5d69a391ff7a319e150f28bb70bb7d471",
+        "run_id": 37231050773,
+        "run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773",
+        "job_id": 111520559797,
+        "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773/job/111520559797",
+        "artifact_id": 11316916221,
+        "artifact_name": "qt-pdf-backport-osx-arm64",
+        "artifact_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37231050773/artifacts/11316916221",
+        "artifact_api_reported_sha256": "f2f75b5a1a0d5f1da2f9c430186f420330c3b2f8b7cc9f86e65f29bd97c2d664",
+        "complete_outer_artifact_sha256_verified": false
+      },
+      "package": {
+        "filename": "qt6-main-6.11.2-pl5321h71629b0_1.conda",
+        "bytes": 47635338,
+        "sha256": "b4c33ae04e9cefca8d6a34705e4bcfae56c48b39a00c17f6012888c5de01de5f",
+        "matches_original_build_record": true,
+        "identity": {
+          "name": "qt6-main",
+          "version": "6.11.2",
+          "build": "pl5321h71629b0_1",
+          "build_number": 1,
+          "subdir": "osx-arm64"
+        }
+      },
+      "index": {
+        "archive_member": "info-qt6-main-6.11.2-pl5321h71629b0_1.tar.zst::info/index.json",
+        "raw_sha256": "0ecdb7397e07d0c71d5db776cb254dc0652dafbd7b1d9f9ced21a10e8924171a",
+        "raw_bytes": 988,
+        "raw_retained_file": "osx-arm64-info-index.raw.json",
+        "pretty_json_sha256": "4bf721f2cb4619dd0d641d05eb6022e1e229b533540ba031dd036785149b3a46",
+        "pretty_json_matches_raw_semantically": true,
+        "independent_decode_command": [
+          "/opt/homebrew/bin/zstd",
+          "-d",
+          "-c"
+        ],
+        "info_tar_zstd_sha256": "384dcaf9778d676b003904159f581101ac2ff030ece369cd7a05c77601a8948e"
+      },
+      "rejection": {
+        "reason": "Required HarfBuzz and libpng minimum versions exceed the exact locked non-Qt baseline; the unchanged-baseline installation contract cannot accept this candidate.",
+        "conflicting_matchspecs": [
+          {
+            "required": "libharfbuzz >=14.5.1",
+            "locked_package": {
+              "name": "libharfbuzz",
+              "version": "14.4.0",
+              "build": "hcda0f7c_1",
+              "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libharfbuzz-14.4.0-hcda0f7c_1.conda",
+              "sha256": "a13bee65e7bcbc14b228351d3d5ba00d0c17c5840c471ab67a28b8ca930456d3"
+            },
+            "matches_locked_record": false
+          },
+          {
+            "required": "libpng >=1.6.59,<1.7.0a0",
+            "locked_package": {
+              "name": "libpng",
+              "version": "1.6.58",
+              "build": "hf5e6511_1",
+              "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libpng-1.6.58-hf5e6511_1.conda",
+              "sha256": "f88da60b348ee1f3e1a9c20fe02142fdafe889f08da0b1cc33c1f3f14460239d"
+            },
+            "matches_locked_record": false
+          }
+        ],
+        "required_dependencies_checked": 22,
+        "required_dependencies_compatible": 20,
+        "other_required_dependencies_all_compatible": true,
+        "virtual_dependency_checks": [
+          {
+            "required": "__osx >=11.0",
+            "locked_virtual_record": {
+              "name": "__osx",
+              "version": "14.0",
+              "build": "0",
+              "virtual": true
+            },
+            "compatible": true
+          }
+        ],
+        "optional_constraints_checked": 1,
+        "optional_constraints": [
+          {
+            "required": "qt ==6.11.2",
+            "package_present": false,
+            "compatible": true
+          }
+        ]
+      },
+      "build_and_tests": {
+        "complete_recipe_build_passed": true,
+        "recipe_native_tests_passed": true,
+        "evidence": "Original build.json status built / exit_code 0 with --test native, plus original CI build step success",
+        "recipe_native_test_log": {
+          "sha256": "b60c8833e15da6e73ed0ca40a187c1dc55eec43ad18db9a9993afca27bb330f6",
+          "tests_passed": 3,
+          "tests_failed": 0,
+          "test_names": [
+            "test_qmimedatabase",
+            "test_qlibraryinfo_prefixpath",
+            "test_qvulkaninstance"
+          ],
+          "evidence_lines": [
+            35417,
+            35421
+          ],
+          "source": "original completed CI job raw log"
+        },
+        "rattler_build_version": "rattler-build 0.76.1",
+        "build_json_sha256": "28940d04c3ebe28b5901b503c56ce952184c0b69a3d7182fdde68a328212f693",
+        "preparation_provenance_sha256": "a3fed17b5133232e90561e55a94c21ef6027010c5d2bb2fa33f931038db84f14",
+        "feedstock_commit": "5cd1156d41526330a116b6b441611b47357ec568",
+        "feedstock_archive_sha256": "30a20fe87b59ef0709e4785e8a28a8fcb7ef5f7776b8ac71daf8b2a823ec104a",
+        "retained_patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+        "dependency_variant_overrides": {},
+        "macos_sdk": {
+          "path": "/Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+          "metadata_file": "SDKSettings.json",
+          "metadata_sha256": "58a133735f0a55a624a1703067059f6e78925e51725ec6e1f966072e142c9c42"
+        },
+        "build_step_started_at": "2026-10-04T20:10:39Z",
+        "build_step_completed_at": "2026-10-04T22:10:13Z"
+      },
+      "qualification": {
+        "package_runtime_qualified": false,
+        "qt_pdf_devices_qualified": false,
+        "native_freecad_runtime_qualified": false,
+        "candidate_installation_performed_by_audit": false
+      }
+    }
+  ],
+  "limitations": [
+    "The complete outer artifact ZIPs were selectively range-read; their API-reported overall digests were not independently recomputed. Each complete extracted .conda package was independently SHA-256 checked against its original build.json.",
+    "Full per-requirement MatchSpec rows are represented by counts and the source report digest; only incompatibilities, virtual dependencies and optional constraints are embedded."
+  ],
+  "raw_index_base_dir": "original-package-indexes"
+}

@@ -1,0 +1,466 @@
+{
+  "checked_at_utc": "2026-10-06T22:37:02.157656+00:00",
+  "fixed_starting_commit": "29004fbd85825273205861375a3e243ca189f119",
+  "future_removal_conditions": [
+    "Define the supported startup paths to which removal would apply and enforce authenticated corrected library origins for each actual executable rather than Qt version alone.",
+    "Review a concrete guard removal change and its appropriately scoped visible/opaque/PDF-A/fill/background/transform/zero/tiny-width preservation evidence; existing passes remain reusable unless changed inputs invalidate them."
+  ],
+  "issue": "FreeCAD-t8a.8",
+  "limits": [
+    "Read-only source and retained small qualification receipts only; no new runtime, workflow, suite, build, rasterization, payload download or old large payload hash performed.",
+    "This audit recommends retention; root-authored final decision docs/JSON and current Beads closure still require final parallel Standards/Spec review."
+  ],
+  "phase": "Preliminary independent Standards and supported-path audit; final authored decision review remains pending.",
+  "production_guard_evidence": [
+    {
+      "fact": "Skips only an empty public-stroker outline with no fill, translucent solid-pattern dashed noncosmetic pen of width at least 0.0001, transparent background, affine transform and known non-PDF/A QPdfWriter/QPrinter PDF engine. All other paint paths delegate to QGraphicsPathItem. No version or distribution predicate.",
+      "lines": [
+        17,
+        29,
+        45,
+        51
+      ],
+      "path": "src/Mod/TechDraw/Gui/QGCustomPath.cpp"
+    },
+    {
+      "fact": "Returns when rect().isNull(); otherwise preserves selection-state adjustment and delegates to QGraphicsRectItem. No version or distribution predicate.",
+      "lines": [
+        60,
+        64,
+        70
+      ],
+      "path": "src/Mod/TechDraw/Gui/QGCustomRect.cpp"
+    }
+  ],
+  "recommendation": {
+    "QGCustomPath_dashed_gap": "retain unchanged",
+    "QGCustomRect_null_frame": "retain unchanged",
+    "compile_time_qt_version_removal_supported": false,
+    "global_removal_supported": false,
+    "new_dispatch_needed": false,
+    "reason": "The exact eight delivered dependency routes passed with both guards bypassed, but generic CMake/LibPack paths remain available without those byte/runtime guarantees. The correction preserves Qt versions, so a version threshold admits unfixed same-version binaries.",
+    "retention_satisfies_issue_deliverable": "The issue explicitly permits a reviewed retain decision and requires keeping guards while any supported path remains unqualified; it does not require deletion or requalification of arbitrary installed Qt.",
+    "runtime_qVersion_removal_supported": false
+  },
+  "reused_actual_qualification": {
+    "bypass_source": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py:135",
+    "native_palette_limit": "Null-frame baseline defect counts depend on actual text-pen alpha; opaque Linux palette may produce no null-frame warnings. Per-platform expectations are measured inputs rather than universal warning assumptions.",
+    "native_preservation": "Native comparator requires prospective geometry/material/transform/palette equivalence, exact remaining operators/coordinates and per-device RGBA; visible box/frame/leader controls and zero-width translucent/opaque/PDF-A exports preserved.",
+    "producer_receipt_limits_retained": [
+      "Native origins are authenticated producer observations with independent inventory joins; remote physical installations are not claimed to be freshly rehashed locally.",
+      "Whole delivered .conda and inner SDK/source archive SHA-256 identities are verified. Historical selectively fetched outer Actions ZIP digests remain API-only in their original receipts.",
+      "Original producer receipts retain their original qualified/promotion fields. This conjunction admits their specifically passed stages, without rewriting failed runs or original scope.",
+      "Conda source includes all seven recipe patches and complete Qt source. LibPack corresponding source covers Qt and retained build inputs; no blanket non-Qt source completeness or legal compliance conclusion is added.",
+      "Unchanged private Qt libraries in LibPack PySide directories require the documented Qt-first host selection; arbitrary PySide console and post-signing/repackaged FreeCAD qualification remain outside this receipt."
+    ],
+    "record": "package/qt-pdf/distribution-qualification.json",
+    "routes": [
+      {
+        "binary_sha256": "a5ec19b2367f45020d98aa08be0a1d3a6370f2d8a2eace03fa47cef68880947b",
+        "kind": "conda",
+        "name": "linux-64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.2"
+      },
+      {
+        "binary_sha256": "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b",
+        "kind": "conda",
+        "name": "linux-aarch64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.2"
+      },
+      {
+        "binary_sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+        "kind": "conda",
+        "name": "osx-64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.2"
+      },
+      {
+        "binary_sha256": "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99",
+        "kind": "conda",
+        "name": "osx-arm64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.2"
+      },
+      {
+        "binary_sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73",
+        "kind": "conda",
+        "name": "win-64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.2"
+      },
+      {
+        "binary_sha256": "9d54c145862f0ce004b59cd02a74f92c7a05642bbcc139ae986833c2b9e5445a",
+        "kind": "libpacks",
+        "name": "3.5.3-x64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.1"
+      },
+      {
+        "binary_sha256": "492d75c3e31ad4b6ba1f2b80011107ca22e21949647fcb9e9b8a9547a47bad17",
+        "kind": "libpacks",
+        "name": "3.5.5-arm64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.1"
+      },
+      {
+        "binary_sha256": "bae3c85fc9e8e9b3fcbe184113f4928bbc3f26322667946cc0b44b7bac6a6958",
+        "kind": "libpacks",
+        "name": "3.5.5-x64",
+        "passed_gates": {
+          "gui_tests_per_runtime": 11,
+          "native_pdf_device_pairs": 24,
+          "qt_pdf_device_pairs": 66,
+          "upstream_qpdfwriter_tests": 10
+        },
+        "qt_version": "6.11.1"
+      }
+    ],
+    "scope": "All eight exact binary routes, guarded source copies bypassed in qualification module, each with 66 standalone Qt PDF pairs, 10 upstream tests, 24 native device pairs and 11 GUI tests per runtime. This reuse does not establish arbitrary system Qt or signed/repackaged bundle qualification.",
+    "standalone_preservation": "Retained 66 cases include fill, opaque/PDF-A, backgrounds, affine/perspective transforms, cosmetic/zero/tiny widths and visible stroke controls. Existing guard unit source records the intended pass-through cases; no test was rerun."
+  },
+  "reviewer": "independent-delivery-standards-agent",
+  "same_version_counterexample": {
+    "change": "Unconditional h f serializer append becomes conditional on !first; the FreeCAD build does not apply this Qt patch to ordinary installed Qt.",
+    "fact": "Backport requires original Qt 6.11.2 recipe and source checksum, preserves version, changes package build number 0 to 1 and adds 0050-pdf-empty-outline.patch. Original and corrected Qt both report 6.11.2. Delivered LibPack correction likewise retains 6.11.1.",
+    "lines": [
+      88,
+      90,
+      91,
+      98,
+      100
+    ],
+    "patch": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch",
+    "path": "package/qt-pdf/build_backport.py"
+  },
+  "schema_version": 1,
+  "source_identities": [
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "AGENTS.md",
+      "sha256": "b54f831dcabdae8e3b21497f8a961a4f5fbd95269546ef812eb91d85d1a5763b",
+      "size": 3768
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "CONTRIBUTING.md",
+      "sha256": "25725d078f363332ccbc8f5df1b7b714be1aefdf81fb81de12f3c01ad450d9c2",
+      "size": 11707
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "CMakeLists.txt",
+      "sha256": "f61a9379d94a097eacc74990e94d07407881d02731c8cc077f00ac71382b743e",
+      "size": 6000
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "cMake/FreeCAD_Helpers/SelectQualifiedQt.cmake",
+      "sha256": "6f5b77ea23f6265c5f898767c7f55d6bcb3821eb124dec5518044f14e4ce3515",
+      "size": 6451
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "cMake/FreeCAD_Helpers/SetupQt.cmake",
+      "sha256": "3973ff33013ca91f1a79197c0dcd0e1e49b2b985ad85f62328455fde2b94d26f",
+      "size": 5033
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "cMake/FreeCAD_Helpers/SetupPython.cmake",
+      "sha256": "17c83340b301c28b7ac6865c0a30fa6c8a24d4b075fc7cf3af786866d578d231",
+      "size": 943
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "cMake/FreeCAD_Helpers/FreeCADLibpackChecks.cmake",
+      "sha256": "1427cc8539441106ecfc111ce4f1800917d836896844d75e3ba6e16985bdfb0e",
+      "size": 2566
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "cMake/UseLibPack3.cmake",
+      "sha256": "85d0b6a7b57e29731bf6e2674c1e215a58cec7a86bf26c2091bec9187a69d02f",
+      "size": 4021
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "cMake/FindPySide6.cmake",
+      "sha256": "dbcde334dfa7754fd0a2cce53190c9e7dcbacf2cb4932fd7b801d83868f9db62",
+      "size": 3447
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": ".github/workflows/actions/windows/getLibpack/action.yml",
+      "sha256": "6fe0a18619ce829837bbec880a13a8b4f1c6ce75f502fa5f836d9033ba0347ed",
+      "size": 3975
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+      "sha256": "e9cc358a15f88f62c87f79556c6e74bf77f93447aa3bf392eb286ff69e1c1107",
+      "size": 1972
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "src/Mod/TechDraw/Gui/QGCustomRect.cpp",
+      "sha256": "c6504c4ec1b52c03eaecba09c42e1d4fd910ce252b1343e00ace35f3ace2eaa4",
+      "size": 2789
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/build_backport.py",
+      "sha256": "30a5b144cdd42ebae01963dd2cc288010a4b9e56b52ae5958cd5df039cb4abf7",
+      "size": 15091
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/verify_delivered_qt.py",
+      "sha256": "d594814b8aa5c7009a15d466d7adb31694d3a04d3d32b2fb86fd6ad1412e3069",
+      "size": 26086
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/verify_delivered_libpack_runtime.py",
+      "sha256": "961653107a7f85d6b4eccde999ba2c82e2d8cc4a080c4e5552931c9c0e8a0267",
+      "size": 22788
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/distribution.json",
+      "sha256": "8b83650efa39e6866d569f4f7f4f5f3d76a244f1966bfcb21f88b70a1aa23ed2",
+      "size": 876998
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/distribution-qualification.json",
+      "sha256": "afbaf7594c38a12fa0a821da03f8e9772057fb1caad4e76e0a5087447b329cd7",
+      "size": 189095
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/delivery-verification.json",
+      "sha256": "ee3231b5ad0df714357d3f3bd238366163fc5587c5fde1c42d3789e79e00e041",
+      "size": 358503
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/delivery-admission-review.json",
+      "sha256": "a46ae609b717283889cb247bd167ec9be7f18b4aa25e24dd22ba26c1a0e3b2a8",
+      "size": 6599
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "package/qt-pdf/README.md",
+      "sha256": "bd5144ba16129014933caa7e4ed33b6fb37da8bb89d1aeeb6a945158c0b16af1",
+      "size": 40567
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+      "sha256": "031870d8d96b9167bcc85bf4499e2d046615306679a3c02aeab5d8fcac7a45f8",
+      "size": 8358
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QGCustomRect.cpp",
+      "sha256": "9e506894811d44e900d0a83664224cc0d9a40f4d4147d0ea59efa0cbff72ff75",
+      "size": 3745
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch",
+      "sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3",
+      "size": 796
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp",
+      "sha256": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+      "size": 16561
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py",
+      "sha256": "fc4a029b85441a723af2112b73d577cd415681f901e5d460c979a87ba3f359b0",
+      "size": 9487
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py",
+      "sha256": "6a171e35db9e1427882268267f93322852c1a43b5dfb601a60777b1c5ba0f980",
+      "size": 34612
+    },
+    {
+      "exact_starting_commit_bytes": true,
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/NATIVE.md",
+      "sha256": "b4b13bf2f900ceb6cfb4420fce0e8cb9a42339fc43020f267207714cab327091",
+      "size": 20874
+    }
+  ],
+  "standards_findings": [],
+  "standards_sources": [
+    {
+      "rule": "Use bd for all tracking; root is sole writer and preserves the issue/dependency graph.",
+      "source": "AGENTS.md"
+    },
+    {
+      "rule": "5.4 minimal accurate answer to one problem; 6.1 accurately identify the problem and apply minimal accurate solutions.",
+      "source": "CONTRIBUTING.md"
+    },
+    {
+      "rule": "Standards smell baseline is a judgement heuristic; repo standards override and tooling-enforced style is omitted. Existing unchanged code is evidence, not a new style finding.",
+      "source": "/Users/zukomgwili/.agents/skills/code-review/SKILL.md"
+    }
+  ],
+  "supported_path_evidence": [
+    {
+      "fact": "Selection and target verification calls exist, but the opt-in helper returns when FREECAD_QUALIFIED_QT_PREFIX is unset; required Qt6 Core and subsequent components use normal CMake discovery.",
+      "lines": [
+        91,
+        94,
+        124,
+        152
+      ],
+      "path": "CMakeLists.txt",
+      "qualified": false,
+      "selection": "Generic source/CMake with no qualified prefix"
+    },
+    {
+      "fact": "Prefix, selected Python and package roots are bound before discovery; verifier runs without --load-python during configure. It does not assert executable loaded origins.",
+      "lines": [
+        7,
+        39,
+        58,
+        77,
+        116
+      ],
+      "path": "cMake/FreeCAD_Helpers/SelectQualifiedQt.cmake",
+      "qualified": "Exact catalogue package and imported-target bytes; separate actual loader proof required",
+      "selection": "Explicit qualified Conda source/CMake"
+    },
+    {
+      "fact": "Component find_package and an old minimum-version compatibility gate do not authenticate corrected qpdf.cpp or library bytes.",
+      "lines": [
+        22,
+        40
+      ],
+      "path": "cMake/FreeCAD_Helpers/SetupQt.cmake",
+      "qualified": false,
+      "selection": "Ordinary Qt components"
+    },
+    {
+      "fact": "CONFIG discovery can fall back to pip-package lookup. The major.minor Qt/PySide consistency check establishes compatibility, not patch provenance.",
+      "lines": [
+        10,
+        13,
+        19,
+        34
+      ],
+      "path": "cMake/FindPySide6.cmake",
+      "qualified": false,
+      "selection": "Ordinary installed bindings"
+    },
+    {
+      "fact": "Accepts CLbundler or FREECAD_LIBPACK_VERSION marker and includes generic helpers. It does not mandate delivered catalogue/index/binary authentication.",
+      "lines": [
+        7,
+        14,
+        18,
+        22
+      ],
+      "path": "cMake/FreeCAD_Helpers/FreeCADLibpackChecks.cmake",
+      "qualified": false,
+      "selection": "Generic manually supplied LibPack prefix"
+    },
+    {
+      "fact": "Pins interpreter and Qt discovery to the supplied SDK; SDK origin and version marker alone do not prove corrected top-level bytes or loaded application DLL precedence.",
+      "lines": [
+        16,
+        20,
+        30,
+        33
+      ],
+      "path": "cMake/UseLibPack3.cmake",
+      "qualified": false,
+      "selection": "Generic LibPack CMake/Python selection"
+    },
+    {
+      "fact": "Action chooses finite delivered SDK, caches by archive/index hashes and verifies every file/directory on cache hit; retained new delivery checks prove actual CMake/runtime for those bytes.",
+      "lines": [
+        26,
+        47,
+        65,
+        70
+      ],
+      "path": ".github/workflows/actions/windows/getLibpack/action.yml",
+      "qualified": "The exact three delivered SDKs under documented Qt-first C++ host startup",
+      "selection": "Current verified Windows action"
+    },
+    {
+      "fact": "Version 6.11.1 alone is insufficient. Qualified Qt-first mode authenticates and preloads SDK/bin DLLs; loaded private/foreign Qt origin is rejected. Untouched private PySide Qt DLLs remain original baseline bytes; unpreloaded console is outside the admitted startup path.",
+      "lines": [
+        188,
+        197,
+        205,
+        248,
+        324,
+        343
+      ],
+      "path": "package/qt-pdf/verify_delivered_libpack_runtime.py",
+      "qualified": false,
+      "selection": "Bare SDK Python/PySide console"
+    },
+    {
+      "fact": "qVersion is only one check alongside package identities, hashes, native architecture and actual loaded image membership; CMake offline proof remains runtime_verified=false.",
+      "lines": [
+        197,
+        206,
+        240,
+        505,
+        558,
+        586,
+        596
+      ],
+      "path": "package/qt-pdf/verify_delivered_qt.py",
+      "qualified": "Exact prefix/metadata/critical-file bytes and observed mapped Qt/bindings/QPA origins",
+      "selection": "Actual Conda loader"
+    }
+  ]
+}

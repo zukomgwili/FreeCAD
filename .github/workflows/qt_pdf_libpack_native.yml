@@ -1,0 +1,215 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+name: Qt PDF LibPack Native FreeCAD
+
+on:
+  workflow_call:
+    inputs:
+      sdk:
+        description: Native SDK selection
+        default: all
+        type: string
+      candidate_run_id:
+        description: Completed candidate run with passed Qt-only diagnostics
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      sdk:
+        description: Native SDK selection
+        default: all
+        type: choice
+        options: [3.5.3-x64, 3.5.5-x64, 3.5.5-arm64, all]
+      candidate_run_id:
+        description: Completed candidate run with passed Qt-only diagnostics
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  select:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          LIBPACK_SELECTION: ${{ inputs.sdk }}
+          LIBPACK_CANDIDATE_RUN: ${{ inputs.candidate_run_id }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          assert re.fullmatch(r"[1-9][0-9]*", os.environ["LIBPACK_CANDIDATE_RUN"]), "Invalid candidate run ID"
+          entries = [
+              {"sdk": "3.5.3-x64", "os": "windows-2022", "python_arch": "x64"},
+              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64"},
+              {"sdk": "3.5.5-arm64", "os": "windows-11-arm", "python_arch": "arm64"},
+          ]
+          selected = os.environ["LIBPACK_SELECTION"]
+          matrix = {"include": [row for row in entries if selected in ("all", row["sdk"])]}
+          assert matrix["include"], "Unsupported SDK selection"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
+  capture:
+    if: github.repository == 'zukomgwili/FreeCAD'
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 330
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONNOUSERSITE: '1'
+    steps:
+      - name: Preserve reviewed source bytes
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: '3.13'
+          architecture: ${{ matrix.python_arch }}
+
+      - name: Download and authenticate complete same-run SDK evidence
+        id: restore
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIBPACK_SDK: ${{ matrix.sdk }}
+          LIBPACK_CANDIDATE_RUN: ${{ inputs.candidate_run_id }}
+        run: |
+          @'
+          import json, os, re, subprocess, sys, zipfile
+          from pathlib import Path
+          sys.path.insert(0, str(Path("package/qt-pdf").resolve(strict=True)))
+          import build_libpack_backport as adapter
+          import restore_libpack_candidate as restore
+          helper = adapter.baseline_helper()
+          value = os.environ["LIBPACK_CANDIDATE_RUN"]
+          adapter.require(re.fullmatch(r"[1-9][0-9]*", value), "Invalid candidate run ID")
+          run_id, sdk = int(value), os.environ["LIBPACK_SDK"]
+          helper.sdk_identity(sdk)
+          temporary = helper.real_path(Path(os.environ["RUNNER_TEMP"]))
+          inputs = helper.fresh_work(temporary / "libpack-native-inputs")
+          metadata = restore.api(f"actions/runs/{run_id}/artifacts?per_page=100")
+          adapter.require(metadata["total_count"] <= 100, "Paginated artifact inventory unsupported")
+          paths = {}
+          for kind in ("candidate", "capture", "candidate-diagnostics"):
+              name = f"qt-pdf-libpack-{kind}-{sdk}"
+              matches = [item for item in metadata["artifacts"] if item["name"] == name]
+              adapter.require(len(matches) == 1 and not matches[0]["expired"], "Missing/ambiguous/expired input artifact")
+              target = inputs / (kind + ".zip")
+              with target.open("xb") as output:
+                  subprocess.run(["gh", "api", f"repos/{restore.REPOSITORY}/actions/artifacts/{matches[0]['id']}/zip"], stdout=output, check=True)
+              paths[kind] = target
+          _, receipts = restore.authenticated_artifacts(run_id, sdk, paths)
+          with zipfile.ZipFile(paths["candidate"]) as archive:
+              entries = [item for item in archive.infolist() if item.filename == "retention.json"]
+              adapter.require(len(entries) == 1 and entries[0].file_size < 1024**2, "Missing/oversized retention receipt")
+              retention = json.loads(archive.read(entries[0]))
+          work = helper.real_path(Path(retention["physical_work_dir"]))
+          adapter.require(work == Path(work.anchor) / "c" and Path(work.anchor).is_dir(), "Original SDK drive/root unavailable")
+          adapter.write_json(inputs / "download.json", {"run_id": run_id, "artifacts": receipts, "qualified": False})
+          transport = temporary / "libpack-native-restoration"
+          subprocess.run([
+              sys.executable, "-B", "package/qt-pdf/restore_libpack_candidate.py",
+              "--run-id", str(run_id), "--sdk", sdk,
+              "--candidate-zip", str(paths["candidate"]), "--capture-zip", str(paths["capture"]),
+              "--diagnostics-zip", str(paths["candidate-diagnostics"]),
+              "--work-dir", str(work), "--transport-work-dir", str(transport),
+          ], check=True)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"restoration_report={transport / 'restoration.json'}\n")
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build scoped FreeCAD and capture both stock PDF routes on native Windows
+        id: native
+        env:
+          LIBPACK_RESTORATION: ${{ steps.restore.outputs.restoration_report }}
+        run: |
+          @'
+          import json, os, subprocess, sys
+          from pathlib import Path
+          report = json.loads(Path(os.environ["LIBPACK_RESTORATION"]).read_text(encoding="utf-8"))
+          assert report["status"] == "restored" and report["qualified"] is False
+          subprocess.run([
+              sys.executable, "-B", "package/qt-pdf/qualify_libpack_native.py", "capture",
+              "--build-work-dir", report["work_dir"], "--qt-evidence-dir", report["qt_evidence_dir"],
+              "--source", os.environ["GITHUB_WORKSPACE"],
+              "--work-dir", str(Path(os.environ["RUNNER_TEMP"]) / "libpack-native"),
+          ], check=True)
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain owned native PDFs, compiled module proofs and unchanged SDK receipts
+        if: always() && steps.native.outputs.native_evidence_dir != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-native-capture-${{ matrix.sdk }}
+          path: ${{ steps.native.outputs.native_evidence_dir }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Retain successful authenticated restoration receipt
+        if: always() && steps.restore.outputs.restoration_report != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-native-restoration-${{ matrix.sdk }}
+          path: ${{ steps.restore.outputs.restoration_report }}
+          if-no-files-found: error
+          retention-days: 30
+
+  inspect:
+    if: always() && github.repository == 'zukomgwili/FreeCAD' && needs.select.result == 'success'
+    needs: [select, capture]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download this run's matching native capture
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: qt-pdf-libpack-native-capture-${{ matrix.sdk }}
+          path: ${{ runner.temp }}/libpack-native-input
+
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.81.0
+          run-install: false
+          cache: false
+
+      - name: Require matching Qt-only proof, then inspect all24 stock native PDFs
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python -B package/qt-pdf/qualify_libpack_native.py inspect \
+            --evidence-dir "$RUNNER_TEMP/libpack-native-input" \
+            --report "$RUNNER_TEMP/libpack-native-diagnostics.json"
+
+      - name: Retain native diagnostics and renders without promotion
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-libpack-native-diagnostics-${{ matrix.sdk }}
+          path: |
+            ${{ runner.temp }}/libpack-native-diagnostics.json
+            ${{ runner.temp }}/libpack-native-diagnostics.renders
+            ${{ runner.temp }}/libpack-native-diagnostics.qt.json
+            ${{ runner.temp }}/libpack-native-diagnostics.qt.renders
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,0 +1,377 @@
+{
+  "accepted_evidence_identities": [
+    {
+      "repository_path": "package/qt-pdf/distribution.json",
+      "sha256": "8b83650efa39e6866d569f4f7f4f5f3d76a244f1966bfcb21f88b70a1aa23ed2",
+      "size": 876998
+    },
+    {
+      "repository_path": "package/qt-pdf/distribution-qualification.json",
+      "sha256": "afbaf7594c38a12fa0a821da03f8e9772057fb1caad4e76e0a5087447b329cd7",
+      "size": 189095
+    },
+    {
+      "repository_path": "package/qt-pdf/delivery-verification.json",
+      "sha256": "ee3231b5ad0df714357d3f3bd238366163fc5587c5fde1c42d3789e79e00e041",
+      "size": 358503
+    },
+    {
+      "repository_path": "package/qt-pdf/delivery-public-readback.json",
+      "sha256": "b5240feaef7f6e5f99a14528d16b23a43f62dcf55ab203057889672fb7b57dc3",
+      "size": 4478
+    },
+    {
+      "repository_path": "package/qt-pdf/delivery-admission-review.json",
+      "sha256": "a46ae609b717283889cb247bd167ec9be7f18b4aa25e24dd22ba26c1a0e3b2a8",
+      "size": 6599
+    }
+  ],
+  "decision": {
+    "QGCustomPath_dashed_gap": "retain unchanged",
+    "QGCustomRect_null_frame": "retain unchanged",
+    "global_removal_supported": false,
+    "production_guards_changed": false,
+    "qt_version_based_removal_supported": false,
+    "retention_fulfills_issue_acceptance": true
+  },
+  "final_review_path": "package/qt-pdf/mitigation-admission-review.json",
+  "fixed_starting_commit": "29004fbd85825273205861375a3e243ca189f119",
+  "future_removal_basis": [
+    "Define the supported startup paths to which removal would apply and enforce authenticated corrected library origins for each actual executable rather than Qt version alone.",
+    "Review a concrete guard removal change and its appropriately scoped visible/opaque/PDF-A/fill/background/transform/zero/tiny-width preservation evidence; existing passes remain reusable unless changed inputs invalidate them."
+  ],
+  "independent_evidence_reviews": [
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/standards-evidence.json",
+      "sha256": "befb8ec99198a8252173fbaa975e3ed53860953624a2543b6b77e0412347e12d",
+      "size": 19866
+    },
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/spec-evidence.json",
+      "sha256": "afcd552be4e4316aa917a18445059a84b58e8f446432bc8ba9ea43436ac33a1d",
+      "size": 29719
+    },
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/control-mapping.json",
+      "sha256": "51318c2b72ab717fbda3c1418969afe399f2a32f062f35c5351dccdf5fe5cb70",
+      "size": 185747
+    },
+    {
+      "repository_path": "package/qt-pdf/mitigation-reviews/control-input-index.json",
+      "sha256": "ac6cc69b9dcd23a319550827e02835afa9666585ef9512d611631ee392a71fea",
+      "size": 13149
+    }
+  ],
+  "issue": "FreeCAD-t8a.8",
+  "parent_acceptance": "The separate retention decision completes the parent mitigation-review requirement. All delivered routes and verified pins remain qualified; arbitrary Qt and signed application bundles remain explicit limits. No guard deletion is executed.",
+  "production_control_contract": {
+    "QGCustomPath": "Omit only no-fill, nonopaque solid-pattern (including fully transparent) dashed noncosmetic strokes of width >= 0.0001 with transparent background, affine transform, known non-PDF/A QPdfWriter/QPrinter and empty public-stroker outline. Delegate all other paint paths.",
+    "QGCustomRect": "Omit rectangles for which both dimensions are zero (isNull), including translated null rectangles. Delegate ordinary, horizontal, vertical and negative rectangles, preserving the existing selection-state handling.",
+    "direct_cpp_tests": "Recording-engine C++ tests describe guard suppression and preservation. They were inspected as source only in this review; the retained 11 TestTechDrawGui Python tests per runtime do not establish execution of these C++ tests.",
+    "native_material_snapshot": "QGIPrimPath sets the effective m_pen/m_brush before delegating. Prospective item.pen() alone is not an exhaustive snapshot of every paint-time material; no exhaustive guard-on/off native material equivalence is claimed."
+  },
+  "qualified_routes": [
+    {
+      "archive_sha256": "a5ec19b2367f45020d98aa08be0a1d3a6370f2d8a2eace03fa47cef68880947b",
+      "filename": "qt6-main-6.11.2-pl5321h23691f9_1.conda",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "conda",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.2",
+      "route": "linux-64"
+    },
+    {
+      "archive_sha256": "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b",
+      "filename": "qt6-main-6.11.2-pl5321h8194227_1.conda",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "conda",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.2",
+      "route": "linux-aarch64"
+    },
+    {
+      "archive_sha256": "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631",
+      "filename": "qt6-main-6.11.2-pl5321h7c35b53_1.conda",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "conda",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.2",
+      "route": "osx-64"
+    },
+    {
+      "archive_sha256": "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99",
+      "filename": "qt6-main-6.11.2-pl5321h5ab96b3_1.conda",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "conda",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.2",
+      "route": "osx-arm64"
+    },
+    {
+      "archive_sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73",
+      "filename": "qt6-main-6.11.2-pl5321h17b71ab_1.conda",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "conda",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.2",
+      "route": "win-64"
+    },
+    {
+      "archive_sha256": "9d54c145862f0ce004b59cd02a74f92c7a05642bbcc139ae986833c2b9e5445a",
+      "filename": "LibPack-26.3.0-v3.5.3-x64-Release-qt-pdf.tar.gz",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "libpacks",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.1",
+      "route": "3.5.3-x64"
+    },
+    {
+      "archive_sha256": "492d75c3e31ad4b6ba1f2b80011107ca22e21949647fcb9e9b8a9547a47bad17",
+      "filename": "LibPack-26.3.0-v3.5.5-arm64-Release-qt-pdf.tar.gz",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "libpacks",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.1",
+      "route": "3.5.5-arm64"
+    },
+    {
+      "archive_sha256": "bae3c85fc9e8e9b3fcbe184113f4928bbc3f26322667946cc0b44b7bac6a6958",
+      "filename": "LibPack-26.3.0-v3.5.5-x64-Release-qt-pdf.tar.gz",
+      "gates": {
+        "gui_tests_per_runtime": 11,
+        "native_pdf_device_pairs": 24,
+        "qt_pdf_device_pairs": 66,
+        "upstream_qpdfwriter_tests": 10
+      },
+      "guard_on_vs_guard_off_comparison_on_corrected_qt": false,
+      "kind": "libpacks",
+      "original_guard_bypassed_pdf_qualification": true,
+      "qt_version": "6.11.1",
+      "route": "3.5.5-x64"
+    }
+  ],
+  "reasons": [
+    "The eight exact delivered binary routes passed, including native exports with both guards bypassed. This demonstrates corrected Qt behavior for those routes, not coverage of arbitrary installed Qt.",
+    "FREECAD_QUALIFIED_QT_PREFIX is opt-in. Generic CMake and LibPack discovery can still select unqualified Qt and Python/PySide origins.",
+    "The correction preserves Qt versions: unpatched and corrected Qt 6.11.2 exist, and LibPack backports retain 6.11.1. Compile-time or runtime version gating cannot authenticate the correction.",
+    "QGCustomRect is used beyond PDF dimension frames and suppresses null rectangles on every painting engine. The retained PDF qualification does not justify deleting that behavior globally.",
+    "Existing native comparisons use the same module with both guards bypassed on baseline and corrected Qt. They are not a guard-on versus guard-off equivalence comparison on corrected Qt."
+  ],
+  "remaining_limits": [
+    "The compared native module has both mitigations disabled in BOTH baseline and corrected Qt phases: there is no mitigation-on versus mitigation-off equivalence proof on corrected Qt.",
+    "Standalone Qt fill/background/transform/tiny/PDF-A cases establish corrected Qt behavior, not exhaustive production QGCustomPath paint coverage on every device/painter.",
+    "QGCustomRect returns for a null rectangle on every painter; retained qualification is PDF device coverage, not all on-screen/raster/other engine behavior.",
+    "Native palette null-frame baseline counts differ by platform; opacity determines stroker branch. Do not claim translucent-frame failure reproduced on opaque255 Linux/x64Windows palettes.",
+    "Historical Cocoa schemas remain valid in their own scope; later prospective/Windows face fields are not retrofitted.",
+    "Exact8 archive identities and recorded native loaded origins are qualified; arbitrary system Qt, ambient Python/private PySide copies and signed/repackaged application bundles are not.",
+    "Old raw sources/packages/runtime processes are not reexecuted. Current review reads existing JSON/smallsource only; no test/build/render/download/largearchiveSHA repeated.",
+    "Native control coverage is 12 stock scenarios per device. The full fill/background/tiny/perspective matrix is chiefly standalone Qt coverage, not exhaustive native TechDraw guard-on/off coverage.",
+    "Historical Cocoa receipts keep their older capture schema; later prospective and Windows face-readiness fields are not inferred.",
+    "Native null-frame baseline warnings depend on the actual text pen alpha. SDK x64 alpha 255 takes the opaque branch; SDK ARM64 alpha 228 takes the translucent branch. ARM64 has five affected cases and seven bare close/fill pairs per device, which are different counts.",
+    "QGCustomRect retention is not a new proof that every style/brush/painter combination for null rectangles has no visible ink.",
+    "No complete signed or repackaged FreeCAD application, arbitrary system Qt or bare SDK Python with unchanged private PySide Qt DLLs is admitted. Qualified SDK startup uses the documented Qt-first host.",
+    "Historical producer qualification/promotion fields and failed runs remain unchanged; specifically accepted passed stages are joined by the later qualification/delivery records."
+  ],
+  "reused_control_coverage": {
+    "assertions": [
+      "Remaining operators/coordinates and retained RGBA identical baseline\u2192corrected Qt per device; only bare unmatched h/f pairs removed.",
+      "Standalone visible-fill blue, opaque-background red, zero/tiny/cosmetic width scaling, perspective, opaque native dash and PDF/A controls preserved.",
+      "Native stock gap invisible while short-solid/long-dashed/Distance/theoretical-exact/zero-width visible controls remain; Area100mm2 and relocatedArea preserved.",
+      "Both QPdfWriter and stock QPrinter used; native cross-device pixel rounding is informational, per-device preservation required."
+    ],
+    "native_stock": {
+      "kind": "12 public-model scenarios per device on same bypassed module, differing QtGui runtimes",
+      "pairs": 24,
+      "scenarios": [
+        "area-and-theoretical-exact",
+        "area-relocated-and-theoretical-exact",
+        "box-only",
+        "distance",
+        "long-dashed",
+        "short-gap",
+        "short-gap-opaque",
+        "short-solid",
+        "theoretical-exact",
+        "zero-width-archival",
+        "zero-width-opaque",
+        "zero-width-translucent"
+      ]
+    },
+    "qt_only_source_fixture": {
+      "kind": "33 scenarios per device; package aggregate separately binds actual all8 runs",
+      "pairs": 66,
+      "scenario_names": [
+        "archival-native-clamp",
+        "coincident-line",
+        "coordinated-curve-and-gap",
+        "cosmetic-gap",
+        "cosmetic-gap-scaled-down",
+        "cosmetic-visible-scaled",
+        "dash-gap",
+        "empty",
+        "empty-visible-empty-calls",
+        "fully-clipped-stroke",
+        "gap-visible-gap-calls",
+        "horizontal-rectangle",
+        "minimum-real-width",
+        "move-only",
+        "null-rectangle",
+        "offset-zero",
+        "opaque-background",
+        "opaque-native-clamp",
+        "partially-clipped-stroke",
+        "perspective-gap",
+        "perspective-visible",
+        "round-cap-gap",
+        "round-cap-visible",
+        "solid-line",
+        "square-cap-gap",
+        "square-cap-visible",
+        "tiny-normalized-width",
+        "vertical-rectangle",
+        "visible-dash",
+        "visible-fill-empty-stroke",
+        "visible-fill-no-pen",
+        "visible-fill-solid-stroke",
+        "zero-width-visible"
+      ],
+      "source_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Independent retention review of both production mitigations after exact supported dependency delivery; no production code change.",
+  "source_identities": [
+    {
+      "repository_path": "src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+      "sha256": "e9cc358a15f88f62c87f79556c6e74bf77f93447aa3bf392eb286ff69e1c1107",
+      "size": 1972
+    },
+    {
+      "repository_path": "src/Mod/TechDraw/Gui/QGCustomRect.cpp",
+      "sha256": "c6504c4ec1b52c03eaecba09c42e1d4fd910ce252b1343e00ace35f3ace2eaa4",
+      "size": 2789
+    },
+    {
+      "repository_path": "src/Mod/TechDraw/Gui/QGIPrimPath.cpp",
+      "sha256": "bdd78734ebaaee515844aeb451f9d9aeae3faeabbcc0398fbf4f444f9b13f2a5",
+      "size": 8705
+    },
+    {
+      "repository_path": "src/Mod/TechDraw/Gui/QGIDatumLabel.cpp",
+      "sha256": "e507482f024cb803d76c29b2d1a76d520091b495fb27cf6c508f7cc0c4c92f98",
+      "size": 19659
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+      "sha256": "031870d8d96b9167bcc85bf4499e2d046615306679a3c02aeab5d8fcac7a45f8",
+      "size": 8358
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QGCustomRect.cpp",
+      "sha256": "9e506894811d44e900d0a83664224cc0d9a40f4d4147d0ea59efa0cbff72ff75",
+      "size": 3745
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp",
+      "sha256": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+      "size": 16561
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py",
+      "sha256": "fc4a029b85441a723af2112b73d577cd415681f901e5d460c979a87ba3f359b0",
+      "size": 9487
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+      "sha256": "5abdc20d5b19ef2b3c388d13356d265b25818251bcc65de9cfa57e3b0f7b4877",
+      "size": 56720
+    },
+    {
+      "repository_path": "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py",
+      "sha256": "6a171e35db9e1427882268267f93322852c1a43b5dfb601a60777b1c5ba0f980",
+      "size": 34612
+    },
+    {
+      "repository_path": "CMakeLists.txt",
+      "sha256": "f61a9379d94a097eacc74990e94d07407881d02731c8cc077f00ac71382b743e",
+      "size": 6000
+    },
+    {
+      "repository_path": "cMake/FreeCAD_Helpers/SelectQualifiedQt.cmake",
+      "sha256": "6f5b77ea23f6265c5f898767c7f55d6bcb3821eb124dec5518044f14e4ce3515",
+      "size": 6451
+    },
+    {
+      "repository_path": "cMake/FreeCAD_Helpers/FreeCADLibpackChecks.cmake",
+      "sha256": "1427cc8539441106ecfc111ce4f1800917d836896844d75e3ba6e16985bdfb0e",
+      "size": 2566
+    },
+    {
+      "repository_path": "package/qt-pdf/build_backport.py",
+      "sha256": "30a5b144cdd42ebae01963dd2cc288010a4b9e56b52ae5958cd5df039cb4abf7",
+      "size": 15091
+    },
+    {
+      "repository_path": "pixi.toml",
+      "sha256": "7e11716a2080c412206b626ce3cd5f6d31ca71a139c1fda3ee649af6b59027fa",
+      "size": 12511
+    },
+    {
+      "repository_path": "pixi.lock",
+      "sha256": "6deab6abd43e2c0adc9b61a2bd7576d60995f2a13e6f7cb6b2748bc3bb93f3a3",
+      "size": 1072267
+    }
+  ],
+  "spdx_license_identifier": "LGPL-2.1-or-later",
+  "tracking": "Retention completes this review; arbitrary Qt or future optional guard removal is not implicitly added as required work. Existing unrelated open beads remain unchanged.",
+  "validation": {
+    "large_payload_downloads_or_hashes_repeated": 0,
+    "method": "Reuse accepted qualification, inspect exact source and small retained receipts, independently review decision and documentation.",
+    "new_workflow_dispatches": 0,
+    "pdf_or_gui_suites_repeated": 0,
+    "qt_or_freecad_builds_repeated": 0,
+    "rasterizations_repeated": 0
+  }
+}

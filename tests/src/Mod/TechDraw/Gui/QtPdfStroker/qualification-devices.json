@@ -1,0 +1,2441 @@
+{
+    "SPDX-License-Identifier": "LGPL-2.1-or-later",
+    "schema_version": 1,
+    "qualification_scope": "QtBase source build; macOS arm64; QPdfWriter and QPrinter PDF devices",
+    "package_qualified": false,
+    "native_freecad_qualified": false,
+    "qt_version": "6.11.2",
+    "source": {
+        "tag": "v6.11.2",
+        "commit": "ef55f427f2c8b410d34f8a7681020a3000cf6866",
+        "archive_sha256": "06cd7aa6b3ab19cb5a1664a2891ef0df960f78c97fa31b80b1d6d7ee70688414",
+        "qpdf": {
+            "baseline": {
+                "path": "/private/tmp/freecad-t8a-qt/qpdf-baseline.cpp",
+                "sha256": "ccd12fea8fc9824d0a3f7a676abace2e27d9eeebdb427c409b1b153ebba4bd30"
+            },
+            "patched": {
+                "path": "/private/tmp/freecad-t8a-qt/qtbase-6.11.2/src/gui/painting/qpdf.cpp",
+                "sha256": "e898d324f423d8eb7b288efca815ee0ebc360ad9752635abe963c5becee6a19a"
+            }
+        },
+        "patch_sha256": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3"
+    },
+    "build": {
+        "host": "macOS 27.0.1 arm64",
+        "compiler": "Clang 23.1.1",
+        "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+        "deployment_target": "14.0",
+        "configuration":
+            "Release; shared QtBase default modules including Widgets, PrintSupport, OpenGL and Cocoa; zstd-enabled Core; bundled FreeType/HarfBuzz/PNG/JPEG/PCRE; SDK zlib",
+        "cmake_cache_sha256": "c54bfc115ef79dc0b32514e058302235c66afcd950dbcdd53a3c123838f3d95e",
+        "config_summary_sha256": "ec86cab63494dc73a4f034859301cdf8b35386546b9fc10f7bfb26fc9e7eaaf9",
+        "sdk_implicit_include_override_sha256":
+            "ea5ac1dfbc880e9ccc740bb4ede9ad63831c7a49e7e3dd824063b5d3d55c0670",
+        "note": "CMake initially detected SDK27 implicit headers despite compiling with SDK26.5. The scratch compiler rules append the actual SDK/usr/include to implicit includes, preventing an incorrectly ordered explicit system-header path. Core was rebuilt with zstd for FreeCAD resource compatibility and the identical new Core copied to both sides; only Gui differs."
+    },
+    "fixture": {
+        "executable_sha256": "46966149144160167f5727454cce91de9f531ca52d44debaec1f0880de23ade8",
+        "configuration": "WITH_QPRINTER=ON; --device both; offscreen; actual Pdf paint engine asserted"
+    },
+    "runtime": {
+        "baseline": {
+            "qt_version": "6.11.2",
+            "architecture": "arm64",
+            "build_abi": "arm64-little_endian-lp64",
+            "platform_plugin": "offscreen",
+            "qt_modules": [
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/lib/libQt6Core.6.11.2.dylib",
+                    "sha256": "b1ce8fc4c69eb4f3db4be8d4fa0b0390f5377cefc0f6275ca8708d475d4575e4"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/lib/libQt6DBus.6.11.2.dylib",
+                    "sha256": "9f5cba94a276ab9d9bc5326b3f6b88295215e2790b01e8bb754ee5a2c742a289"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/lib/libQt6Gui.6.11.2.dylib",
+                    "sha256": "d9b5b2848276ed644bb927aa8807a45c3d72cec0c3f3a387140fd9d6604e14b6"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/lib/libQt6PrintSupport.6.11.2.dylib",
+                    "sha256": "ba83007ea50ea081e46f8b7885722637ec2609ca5bda88f0b771eba5051d0f3d"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/lib/libQt6Widgets.6.11.2.dylib",
+                    "sha256": "aefe7d93c413efd03b38cd6364b68826f32bbac37cd155856012376e94edece9"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/plugins/imageformats/libqgif.dylib",
+                    "sha256": "d9d5ccf21fe5f6f5ca9a1ace9c025182254466a19ae26a671932146de618928d"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/plugins/imageformats/libqico.dylib",
+                    "sha256": "9db549fe84ecb1cf10e554ea390f598e437bc613c0df9f19075f0982b3761338"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/plugins/imageformats/libqjpeg.dylib",
+                    "sha256": "912dcb3e90d469430f085c654aa60a220280ac4f29b3a0c9eab8b7ef3a75d139"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/baseline/plugins/platforms/libqoffscreen.dylib",
+                    "sha256": "5f8c52e48a05fcc1509e702e35c22e0bd2f40b259f554077b0d5c07e306c8d89"
+                }
+            ],
+            "digests_verified": true,
+            "expected_prefix": "/private/tmp/freecad-t8a-qt/baseline"
+        },
+        "patched": {
+            "qt_version": "6.11.2",
+            "architecture": "arm64",
+            "build_abi": "arm64-little_endian-lp64",
+            "platform_plugin": "offscreen",
+            "qt_modules": [
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/build/lib/libQt6Core.6.11.2.dylib",
+                    "sha256": "b1ce8fc4c69eb4f3db4be8d4fa0b0390f5377cefc0f6275ca8708d475d4575e4"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/build/lib/libQt6DBus.6.11.2.dylib",
+                    "sha256": "9f5cba94a276ab9d9bc5326b3f6b88295215e2790b01e8bb754ee5a2c742a289"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/build/lib/libQt6Gui.6.11.2.dylib",
+                    "sha256": "1470dea3e0d4c07596b294a28500904dc23c0098fb0d2d354fe4ef37755645b1"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/build/lib/libQt6PrintSupport.6.11.2.dylib",
+                    "sha256": "ba83007ea50ea081e46f8b7885722637ec2609ca5bda88f0b771eba5051d0f3d"
+                },
+                {
+                    "kind": "library",
+                    "path": "/private/tmp/freecad-t8a-qt/build/lib/libQt6Widgets.6.11.2.dylib",
+                    "sha256": "aefe7d93c413efd03b38cd6364b68826f32bbac37cd155856012376e94edece9"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/build/plugins/imageformats/libqgif.dylib",
+                    "sha256": "d9d5ccf21fe5f6f5ca9a1ace9c025182254466a19ae26a671932146de618928d"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/build/plugins/imageformats/libqico.dylib",
+                    "sha256": "9db549fe84ecb1cf10e554ea390f598e437bc613c0df9f19075f0982b3761338"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/build/plugins/imageformats/libqjpeg.dylib",
+                    "sha256": "912dcb3e90d469430f085c654aa60a220280ac4f29b3a0c9eab8b7ef3a75d139"
+                },
+                {
+                    "kind": "plugin",
+                    "path": "/private/tmp/freecad-t8a-qt/build/plugins/platforms/libqoffscreen.dylib",
+                    "sha256": "5f8c52e48a05fcc1509e702e35c22e0bd2f40b259f554077b0d5c07e306c8d89"
+                }
+            ],
+            "digests_verified": true,
+            "expected_prefix": "/private/tmp/freecad-t8a-qt/build"
+        }
+    },
+    "qt_qpdfwriter_tests": {
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "36ad3c4e708619d796ce2cd15efa614797703ddbf9fe2509b0dfefacf8e93968",
+        "source_sha256": "b058a9fa9343229337beb9ff3965af6eb1eb32cd416f1434b5b2687129fa6245",
+        "executable_sha256": "6346811687a5f480d23a1b399557866a7a2b674d4a47ca9080b32bcf21ddeec2",
+        "recipe_archive_extraction": {
+            "path": "/private/tmp/freecad-t8a-source-download/qt-everywhere-src-6.11.2.tar.xz",
+            "recipe_md5": "669c1f3a41c37fdda389094882044d7a",
+            "sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+            "sources": {
+                "CMakeLists.txt": {
+                    "archive_member":
+                        "qt-everywhere-src-6.11.2/qtbase/tests/auto/gui/painting/qpdfwriter/CMakeLists.txt",
+                    "path": "/private/tmp/freecad-t8a-real-upstream-extraction-synik88e/source/CMakeLists.txt",
+                    "sha256": "ecfc1d5ddcec6f08270ff61de7c15b664be1bfac8e3a8523a1c09d35c128d7a6"
+                },
+                "tst_qpdfwriter.cpp": {
+                    "archive_member":
+                        "qt-everywhere-src-6.11.2/qtbase/tests/auto/gui/painting/qpdfwriter/tst_qpdfwriter.cpp",
+                    "path": "/private/tmp/freecad-t8a-real-upstream-extraction-synik88e/source/tst_qpdfwriter.cpp",
+                    "sha256": "b058a9fa9343229337beb9ff3965af6eb1eb32cd416f1434b5b2687129fa6245"
+                }
+            },
+            "scope": "Actual official recipe archive extraction only; no package qualification",
+            "elapsed_seconds": 46.01959954202175
+        }
+    },
+    "raster_dpi": 100,
+    "case_count": 66,
+    "baseline_reproduced_by_device": {
+        "qpdfwriter": 13,
+        "qprinter": 13
+    },
+    "baseline_invalid_closes": 30,
+    "patched_invalid_closes": 0,
+    "cases": [
+        {
+            "name": "qpdfwriter:empty",
+            "device": "qpdfwriter",
+            "scenario": "empty",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:empty",
+            "device": "qprinter",
+            "scenario": "empty",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:move-only",
+            "device": "qpdfwriter",
+            "scenario": "move-only",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:move-only",
+            "device": "qprinter",
+            "scenario": "move-only",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:coincident-line",
+            "device": "qpdfwriter",
+            "scenario": "coincident-line",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:coincident-line",
+            "device": "qprinter",
+            "scenario": "coincident-line",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:dash-gap",
+            "device": "qpdfwriter",
+            "scenario": "dash-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:dash-gap",
+            "device": "qprinter",
+            "scenario": "dash-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:visible-dash",
+            "device": "qpdfwriter",
+            "scenario": "visible-dash",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:visible-dash",
+            "device": "qprinter",
+            "scenario": "visible-dash",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:solid-line",
+            "device": "qpdfwriter",
+            "scenario": "solid-line",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:solid-line",
+            "device": "qprinter",
+            "scenario": "solid-line",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:null-rectangle",
+            "device": "qpdfwriter",
+            "scenario": "null-rectangle",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:null-rectangle",
+            "device": "qprinter",
+            "scenario": "null-rectangle",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:horizontal-rectangle",
+            "device": "qpdfwriter",
+            "scenario": "horizontal-rectangle",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "998adc70c55e57e85181aa039be1f6295078991fc5bdee83179ad2a2d04ec6d7",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "998adc70c55e57e85181aa039be1f6295078991fc5bdee83179ad2a2d04ec6d7",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:horizontal-rectangle",
+            "device": "qprinter",
+            "scenario": "horizontal-rectangle",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "998adc70c55e57e85181aa039be1f6295078991fc5bdee83179ad2a2d04ec6d7",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "998adc70c55e57e85181aa039be1f6295078991fc5bdee83179ad2a2d04ec6d7",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:vertical-rectangle",
+            "device": "qpdfwriter",
+            "scenario": "vertical-rectangle",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "9b471cf2456ce87026909280a8a0bdbd73abf33cf3c4b90451b9d452c7afe13c",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "9b471cf2456ce87026909280a8a0bdbd73abf33cf3c4b90451b9d452c7afe13c",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:vertical-rectangle",
+            "device": "qprinter",
+            "scenario": "vertical-rectangle",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "9b471cf2456ce87026909280a8a0bdbd73abf33cf3c4b90451b9d452c7afe13c",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 10,
+                "rgba_sha256": "9b471cf2456ce87026909280a8a0bdbd73abf33cf3c4b90451b9d452c7afe13c",
+                "ink_pixels": 112,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:fully-clipped-stroke",
+            "device": "qpdfwriter",
+            "scenario": "fully-clipped-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:fully-clipped-stroke",
+            "device": "qprinter",
+            "scenario": "fully-clipped-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:partially-clipped-stroke",
+            "device": "qpdfwriter",
+            "scenario": "partially-clipped-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "5a4031786b83d2941a338cfb96980b7afa6793d420808fd82f0f409774377420",
+                "ink_pixels": 14,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "5a4031786b83d2941a338cfb96980b7afa6793d420808fd82f0f409774377420",
+                "ink_pixels": 14,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:partially-clipped-stroke",
+            "device": "qprinter",
+            "scenario": "partially-clipped-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "5a4031786b83d2941a338cfb96980b7afa6793d420808fd82f0f409774377420",
+                "ink_pixels": 14,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 38,
+                "coordinate_count": 10,
+                "rgba_sha256": "5a4031786b83d2941a338cfb96980b7afa6793d420808fd82f0f409774377420",
+                "ink_pixels": 14,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:offset-zero",
+            "device": "qpdfwriter",
+            "scenario": "offset-zero",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "24292dcf9e6fd58651821fe6744ceec68a41ae75471c7e4ae09501a3ee75fdd2",
+                "ink_pixels": 2,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "24292dcf9e6fd58651821fe6744ceec68a41ae75471c7e4ae09501a3ee75fdd2",
+                "ink_pixels": 2,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:offset-zero",
+            "device": "qprinter",
+            "scenario": "offset-zero",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "24292dcf9e6fd58651821fe6744ceec68a41ae75471c7e4ae09501a3ee75fdd2",
+                "ink_pixels": 2,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "24292dcf9e6fd58651821fe6744ceec68a41ae75471c7e4ae09501a3ee75fdd2",
+                "ink_pixels": 2,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:round-cap-gap",
+            "device": "qpdfwriter",
+            "scenario": "round-cap-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:round-cap-gap",
+            "device": "qprinter",
+            "scenario": "round-cap-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:round-cap-visible",
+            "device": "qpdfwriter",
+            "scenario": "round-cap-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 28,
+                "coordinate_count": 7,
+                "rgba_sha256": "da17d5b3c7e9c0a3276826e46192eb724ae55be2ecbac4c3622f3afc83447a00",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 28,
+                "coordinate_count": 7,
+                "rgba_sha256": "da17d5b3c7e9c0a3276826e46192eb724ae55be2ecbac4c3622f3afc83447a00",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:round-cap-visible",
+            "device": "qprinter",
+            "scenario": "round-cap-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 28,
+                "coordinate_count": 7,
+                "rgba_sha256": "da17d5b3c7e9c0a3276826e46192eb724ae55be2ecbac4c3622f3afc83447a00",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 28,
+                "coordinate_count": 7,
+                "rgba_sha256": "da17d5b3c7e9c0a3276826e46192eb724ae55be2ecbac4c3622f3afc83447a00",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:square-cap-gap",
+            "device": "qpdfwriter",
+            "scenario": "square-cap-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:square-cap-gap",
+            "device": "qprinter",
+            "scenario": "square-cap-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:square-cap-visible",
+            "device": "qpdfwriter",
+            "scenario": "square-cap-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 30,
+                "coordinate_count": 9,
+                "rgba_sha256": "2fc52439c3803d4367e3a05ec3ee965167d6581d7bd1c013ac71e742c61b9a3f",
+                "ink_pixels": 20,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 30,
+                "coordinate_count": 9,
+                "rgba_sha256": "2fc52439c3803d4367e3a05ec3ee965167d6581d7bd1c013ac71e742c61b9a3f",
+                "ink_pixels": 20,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:square-cap-visible",
+            "device": "qprinter",
+            "scenario": "square-cap-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 30,
+                "coordinate_count": 9,
+                "rgba_sha256": "2fc52439c3803d4367e3a05ec3ee965167d6581d7bd1c013ac71e742c61b9a3f",
+                "ink_pixels": 20,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 30,
+                "coordinate_count": 9,
+                "rgba_sha256": "2fc52439c3803d4367e3a05ec3ee965167d6581d7bd1c013ac71e742c61b9a3f",
+                "ink_pixels": 20,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:visible-fill-empty-stroke",
+            "device": "qpdfwriter",
+            "scenario": "visible-fill-empty-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 31,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 29,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:visible-fill-empty-stroke",
+            "device": "qprinter",
+            "scenario": "visible-fill-empty-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 31,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 29,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:visible-fill-solid-stroke",
+            "device": "qpdfwriter",
+            "scenario": "visible-fill-solid-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 54,
+                "coordinate_count": 27,
+                "rgba_sha256": "503ef8e8bf647d880f6fbf2b20bfd8a6d17512bc9ff42b68af2734eade92bd6b",
+                "ink_pixels": 1018,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 54,
+                "coordinate_count": 27,
+                "rgba_sha256": "503ef8e8bf647d880f6fbf2b20bfd8a6d17512bc9ff42b68af2734eade92bd6b",
+                "ink_pixels": 1018,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:visible-fill-solid-stroke",
+            "device": "qprinter",
+            "scenario": "visible-fill-solid-stroke",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 54,
+                "coordinate_count": 27,
+                "rgba_sha256": "503ef8e8bf647d880f6fbf2b20bfd8a6d17512bc9ff42b68af2734eade92bd6b",
+                "ink_pixels": 1018,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 54,
+                "coordinate_count": 27,
+                "rgba_sha256": "503ef8e8bf647d880f6fbf2b20bfd8a6d17512bc9ff42b68af2734eade92bd6b",
+                "ink_pixels": 1018,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:visible-fill-no-pen",
+            "device": "qpdfwriter",
+            "scenario": "visible-fill-no-pen",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 22,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 22,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:visible-fill-no-pen",
+            "device": "qprinter",
+            "scenario": "visible-fill-no-pen",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 22,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 22,
+                "coordinate_count": 5,
+                "rgba_sha256": "105082780189f19f4b265b44186a3cefebfab3d20cc10ab29297b15370e01d52",
+                "ink_pixels": 784,
+                "red_pixels": 0,
+                "blue_pixels": 784,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:opaque-background",
+            "device": "qpdfwriter",
+            "scenario": "opaque-background",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 34,
+                "coordinate_count": 2,
+                "rgba_sha256": "1cf08ade1d1eda03f6ac18aa9fce2204ca6aae27a311af5e95fa17974613e528",
+                "ink_pixels": 4,
+                "red_pixels": 4,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 2,
+                "rgba_sha256": "1cf08ade1d1eda03f6ac18aa9fce2204ca6aae27a311af5e95fa17974613e528",
+                "ink_pixels": 4,
+                "red_pixels": 4,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:opaque-background",
+            "device": "qprinter",
+            "scenario": "opaque-background",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 34,
+                "coordinate_count": 2,
+                "rgba_sha256": "1cf08ade1d1eda03f6ac18aa9fce2204ca6aae27a311af5e95fa17974613e528",
+                "ink_pixels": 4,
+                "red_pixels": 4,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 32,
+                "coordinate_count": 2,
+                "rgba_sha256": "1cf08ade1d1eda03f6ac18aa9fce2204ca6aae27a311af5e95fa17974613e528",
+                "ink_pixels": 4,
+                "red_pixels": 4,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:cosmetic-gap",
+            "device": "qpdfwriter",
+            "scenario": "cosmetic-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 17,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:cosmetic-gap",
+            "device": "qprinter",
+            "scenario": "cosmetic-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 17,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:cosmetic-visible-scaled",
+            "device": "qpdfwriter",
+            "scenario": "cosmetic-visible-scaled",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:cosmetic-visible-scaled",
+            "device": "qprinter",
+            "scenario": "cosmetic-visible-scaled",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:cosmetic-gap-scaled-down",
+            "device": "qpdfwriter",
+            "scenario": "cosmetic-gap-scaled-down",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:cosmetic-gap-scaled-down",
+            "device": "qprinter",
+            "scenario": "cosmetic-gap-scaled-down",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 1,
+                "operation_count": 21,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 1
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 19,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:zero-width-visible",
+            "device": "qpdfwriter",
+            "scenario": "zero-width-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 42,
+                "coordinate_count": 20,
+                "rgba_sha256": "4c508ed47c66a6157aca686459a0e8dc0632544fab80cbe6edbf4978b63e9acd",
+                "ink_pixels": 9,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 42,
+                "coordinate_count": 20,
+                "rgba_sha256": "4c508ed47c66a6157aca686459a0e8dc0632544fab80cbe6edbf4978b63e9acd",
+                "ink_pixels": 9,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:zero-width-visible",
+            "device": "qprinter",
+            "scenario": "zero-width-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 42,
+                "coordinate_count": 20,
+                "rgba_sha256": "4c508ed47c66a6157aca686459a0e8dc0632544fab80cbe6edbf4978b63e9acd",
+                "ink_pixels": 9,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 42,
+                "coordinate_count": 20,
+                "rgba_sha256": "4c508ed47c66a6157aca686459a0e8dc0632544fab80cbe6edbf4978b63e9acd",
+                "ink_pixels": 9,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:tiny-normalized-width",
+            "device": "qpdfwriter",
+            "scenario": "tiny-normalized-width",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "a250edfa6ff8034c92abd5295463013c418737a7efb3e6345e51fe1309a090b1",
+                "ink_pixels": 38642,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "a250edfa6ff8034c92abd5295463013c418737a7efb3e6345e51fe1309a090b1",
+                "ink_pixels": 38642,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:tiny-normalized-width",
+            "device": "qprinter",
+            "scenario": "tiny-normalized-width",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "a250edfa6ff8034c92abd5295463013c418737a7efb3e6345e51fe1309a090b1",
+                "ink_pixels": 38642,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 26,
+                "coordinate_count": 5,
+                "rgba_sha256": "a250edfa6ff8034c92abd5295463013c418737a7efb3e6345e51fe1309a090b1",
+                "ink_pixels": 38642,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:minimum-real-width",
+            "device": "qpdfwriter",
+            "scenario": "minimum-real-width",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 116,
+                "coordinate_count": 80,
+                "rgba_sha256": "9f802617f28ed2d58548a1cb7e1e36539acfd7a0fe39eb3207622c0febeb9bb3",
+                "ink_pixels": 76,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 116,
+                "coordinate_count": 80,
+                "rgba_sha256": "9f802617f28ed2d58548a1cb7e1e36539acfd7a0fe39eb3207622c0febeb9bb3",
+                "ink_pixels": 76,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:minimum-real-width",
+            "device": "qprinter",
+            "scenario": "minimum-real-width",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 116,
+                "coordinate_count": 80,
+                "rgba_sha256": "9f802617f28ed2d58548a1cb7e1e36539acfd7a0fe39eb3207622c0febeb9bb3",
+                "ink_pixels": 76,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 116,
+                "coordinate_count": 80,
+                "rgba_sha256": "9f802617f28ed2d58548a1cb7e1e36539acfd7a0fe39eb3207622c0febeb9bb3",
+                "ink_pixels": 76,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:coordinated-curve-and-gap",
+            "device": "qpdfwriter",
+            "scenario": "coordinated-curve-and-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 37,
+                "coordinate_count": 15,
+                "rgba_sha256": "a9313560eaa822c57c1163050aac7f7091d8776f165f8a0762fecd98d87eb8a4",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 37,
+                "coordinate_count": 15,
+                "rgba_sha256": "a9313560eaa822c57c1163050aac7f7091d8776f165f8a0762fecd98d87eb8a4",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:coordinated-curve-and-gap",
+            "device": "qprinter",
+            "scenario": "coordinated-curve-and-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 37,
+                "coordinate_count": 15,
+                "rgba_sha256": "a9313560eaa822c57c1163050aac7f7091d8776f165f8a0762fecd98d87eb8a4",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 37,
+                "coordinate_count": 15,
+                "rgba_sha256": "a9313560eaa822c57c1163050aac7f7091d8776f165f8a0762fecd98d87eb8a4",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:gap-visible-gap-calls",
+            "device": "qpdfwriter",
+            "scenario": "gap-visible-gap-calls",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 2,
+                "operation_count": 40,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 2
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 36,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:gap-visible-gap-calls",
+            "device": "qprinter",
+            "scenario": "gap-visible-gap-calls",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 2,
+                "operation_count": 40,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 2
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 36,
+                "coordinate_count": 5,
+                "rgba_sha256": "16d49be11d829cf070161cec64bbb015b2baa851a49fc8dea4c6697c314c7c81",
+                "ink_pixels": 6,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:empty-visible-empty-calls",
+            "device": "qpdfwriter",
+            "scenario": "empty-visible-empty-calls",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 2,
+                "operation_count": 40,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 2
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 36,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:empty-visible-empty-calls",
+            "device": "qprinter",
+            "scenario": "empty-visible-empty-calls",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 2,
+                "operation_count": 40,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 2
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 36,
+                "coordinate_count": 5,
+                "rgba_sha256": "de195080c8bbb21ef4746edcdf02aba7f83a4c34414e1318a78b75fe8a861773",
+                "ink_pixels": 28,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:perspective-visible",
+            "device": "qpdfwriter",
+            "scenario": "perspective-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "e393868557c4d08621e20b7145fe360a526708b85a514062f0c13e90ed2a4faa",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "e393868557c4d08621e20b7145fe360a526708b85a514062f0c13e90ed2a4faa",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:perspective-visible",
+            "device": "qprinter",
+            "scenario": "perspective-visible",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "e393868557c4d08621e20b7145fe360a526708b85a514062f0c13e90ed2a4faa",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "e393868557c4d08621e20b7145fe360a526708b85a514062f0c13e90ed2a4faa",
+                "ink_pixels": 16,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:perspective-gap",
+            "device": "qpdfwriter",
+            "scenario": "perspective-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:perspective-gap",
+            "device": "qprinter",
+            "scenario": "perspective-gap",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 0,
+                "rgba_sha256": "7789ae0147a426cd3153baf1c6c2c3460f12ae16c3b746a02033648205941f5e",
+                "ink_pixels": 0,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:opaque-native-clamp",
+            "device": "qpdfwriter",
+            "scenario": "opaque-native-clamp",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:opaque-native-clamp",
+            "device": "qprinter",
+            "scenario": "opaque-native-clamp",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qpdfwriter:archival-native-clamp",
+            "device": "qpdfwriter",
+            "scenario": "archival-native-clamp",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        },
+        {
+            "name": "qprinter:archival-native-clamp",
+            "device": "qprinter",
+            "scenario": "archival-native-clamp",
+            "same_coordinates": true,
+            "same_normalized_operations": true,
+            "same_pixels": true,
+            "failures": [],
+            "baseline": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            },
+            "patched": {
+                "invalid_close_count": 0,
+                "operation_count": 24,
+                "coordinate_count": 2,
+                "rgba_sha256": "f5ba1baa35d65547cde5a402c895836101652797a8db83854758eff678baba09",
+                "ink_pixels": 3892,
+                "red_pixels": 0,
+                "blue_pixels": 0,
+                "closepath_warnings": 0
+            }
+        }
+    ],
+    "device_pairs": [
+        {
+            "side": "baseline",
+            "scenario": "empty",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "move-only",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "coincident-line",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "dash-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "visible-dash",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "solid-line",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "null-rectangle",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "horizontal-rectangle",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "vertical-rectangle",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "fully-clipped-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "partially-clipped-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "offset-zero",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "round-cap-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "round-cap-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "square-cap-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "square-cap-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "visible-fill-empty-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "visible-fill-solid-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "visible-fill-no-pen",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "opaque-background",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "cosmetic-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "cosmetic-visible-scaled",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "cosmetic-gap-scaled-down",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "zero-width-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "tiny-normalized-width",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "minimum-real-width",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "coordinated-curve-and-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "gap-visible-gap-calls",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "empty-visible-empty-calls",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "perspective-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "perspective-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "opaque-native-clamp",
+            "same_pixels": true
+        },
+        {
+            "side": "baseline",
+            "scenario": "archival-native-clamp",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "empty",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "move-only",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "coincident-line",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "dash-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "visible-dash",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "solid-line",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "null-rectangle",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "horizontal-rectangle",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "vertical-rectangle",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "fully-clipped-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "partially-clipped-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "offset-zero",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "round-cap-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "round-cap-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "square-cap-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "square-cap-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "visible-fill-empty-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "visible-fill-solid-stroke",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "visible-fill-no-pen",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "opaque-background",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "cosmetic-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "cosmetic-visible-scaled",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "cosmetic-gap-scaled-down",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "zero-width-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "tiny-normalized-width",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "minimum-real-width",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "coordinated-curve-and-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "gap-visible-gap-calls",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "empty-visible-empty-calls",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "perspective-visible",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "perspective-gap",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "opaque-native-clamp",
+            "same_pixels": true
+        },
+        {
+            "side": "patched",
+            "scenario": "archival-native-clamp",
+            "same_pixels": true
+        }
+    ],
+    "passed": true,
+    "scratch_evidence":
+        "/private/tmp/freecad-t8a-qt; comparator report comparison-full-zstd.json; native/package evidence separate"
+}

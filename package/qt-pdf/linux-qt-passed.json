@@ -1,0 +1,1133 @@
+{
+  "spdx_license_identifier": "LGPL-2.1-or-later",
+  "schema_version": 1,
+  "scope": "Actual passed Qt-only stages in two overall-failed Linux workflows. Whole uploaded ZIPs and retained PDFs/PNGs/test transcripts were authenticated and read again; no executables or renderers were rerun. Native FreeCAD acceptance remains failed and requires fresh pre-export capture.",
+  "qualified": false,
+  "native_freecad_qualified": false,
+  "distribution_promoted": false,
+  "qt_only_passed_reused": true,
+  "prior_head_sha": "19abecfd53ec03798fbdf2bdfbe9450626e96699",
+  "package_build_run_id": 37238935749,
+  "package_build_run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37238935749",
+  "corpus": {
+    "pixi.lock": {
+      "sha256": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/19abecfd53ec03798fbdf2bdfbe9450626e96699/pixi.lock"
+    },
+    "generator.cpp": {
+      "sha256": "b09883682af8b0290d0e62805951974c25032d3eed8be37e70b4f4ee01694772",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/19abecfd53ec03798fbdf2bdfbe9450626e96699/tests/src/Mod/TechDraw/Gui/QtPdfStroker/generator.cpp"
+    },
+    "CMakeLists.txt": {
+      "sha256": "ef1301c04a6f32fa3955e18fdbe72d58547bfd3893dfe1f46219419295d4a4fb",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/19abecfd53ec03798fbdf2bdfbe9450626e96699/tests/src/Mod/TechDraw/Gui/QtPdfStroker/CMakeLists.txt"
+    },
+    "compare.py": {
+      "sha256": "e3cf4909c7c1781a3d56a34b981346a1b4c72d44275c48d63289d1cb2a1e0d85",
+      "immutable_source_url": "https://github.com/zukomgwili/FreeCAD/blob/19abecfd53ec03798fbdf2bdfbe9450626e96699/tests/src/Mod/TechDraw/Gui/QtPdfStroker/compare.py"
+    }
+  },
+  "qt_source_archive": {
+    "sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+    "recipe_md5": "669c1f3a41c37fdda389094882044d7a",
+    "status": "Archive bytes authenticated during original passed stage; reuse validate requires actual newly retained archive with identical SHA256."
+  },
+  "targets": {
+    "linux-64": {
+      "run_id": 37252425998,
+      "run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37252425998",
+      "job_id": 111582645297,
+      "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37252425998/job/111582645297",
+      "original_run_conclusion": "failure",
+      "passed_step": "Qualify both Qt PDF devices and Qt's own writer tests",
+      "later_failed_step": "Qualify stock native exports with both guards bypassed",
+      "artifact": {
+        "id": 11323981287,
+        "name": "qt-pdf-qualification-linux-64",
+        "size": 13893385,
+        "whole_zip_sha256": "310212a0d01c6e3fb866e3bcd082fb4ece2f4b2c58c7147c9d46e0f9adc9c657",
+        "all_member_crc_checked": true,
+        "file_count": 1011,
+        "canonical_file_inventory_sha256": "2677166f71e0b6d73706a07cbd7f207531dd9c6128317b2751c1b6cb46b7bfcd"
+      },
+      "original_package": {
+        "filename": "qt6-main-6.11.2-pl5321h23691f9_1.conda",
+        "sha256": "a5ec19b2367f45020d98aa08be0a1d3a6370f2d8a2eace03fa47cef68880947b",
+        "build_json_sha256": "eec63a85d62dfa21706fdb38bb8064c6987069475d27c5a6167814d3d197bab2"
+      },
+      "qt_only": {
+        "qualified_in_original_stage": true,
+        "qt_cases_per_side": 66,
+        "device_scenarios_per_side": 33,
+        "devices": [
+          "qpdfwriter",
+          "qprinter"
+        ],
+        "cross_device_pairs_both_sides": 66,
+        "baseline_defective_cases": 26,
+        "baseline_invalid_closes": 30,
+        "patched_invalid_closes": 0,
+        "upstream_tests_passed": 10,
+        "upstream_tests_failed": 0,
+        "pdfs_read": 132,
+        "existing_pngs_read": 132,
+        "qualification_json_sha256": "b6f800e61c1cab6a3dfb62c9f7afd6ebd0f2fe482b88ea09c262adc77626a896",
+        "comparison_json_sha256": "398d2c2dcf3e7205b1cc03ad6be12c3904b546d54e0c3cd9d1cae01d302d2360",
+        "upstream_test_log_sha256": "de238e80001acd2855840b11d5dc11f79d66acf993513a232b210e6a7513a802",
+        "upstream_source_files": {
+          "CMakeLists.txt": {
+            "archive_member": "qt-everywhere-src-6.11.2/qtbase/tests/auto/gui/painting/qpdfwriter/CMakeLists.txt",
+            "path": "/home/runner/work/_temp/qt-pdf-device-results/upstream-test-source/CMakeLists.txt",
+            "sha256": "ecfc1d5ddcec6f08270ff61de7c15b664be1bfac8e3a8523a1c09d35c128d7a6"
+          },
+          "tst_qpdfwriter.cpp": {
+            "archive_member": "qt-everywhere-src-6.11.2/qtbase/tests/auto/gui/painting/qpdfwriter/tst_qpdfwriter.cpp",
+            "path": "/home/runner/work/_temp/qt-pdf-device-results/upstream-test-source/tst_qpdfwriter.cpp",
+            "sha256": "b058a9fa9343229337beb9ff3965af6eb1eb32cd416f1434b5b2687129fa6245"
+          }
+        },
+        "runtime_json_sha256": {
+          "baseline": "30f808a7db58beb82c14f4ad8f4d2e821c9d739e19a17c216946dc662c9b70c6",
+          "patched": "6f7aa8b1a83e1742bd1a61e30595a4547642f3c11e9ea82d13305d3ac692e46f"
+        }
+      },
+      "original_native": {
+        "passed": false,
+        "failures": [
+          "qpdfwriter:distance: baseline: expected 1 invalid closes, got 0",
+          "qpdfwriter:distance: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qprinter:distance: baseline: expected 1 invalid closes, got 0",
+          "qprinter:distance: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qpdfwriter:theoretical-exact: baseline: expected 1 invalid closes, got 0",
+          "qpdfwriter:theoretical-exact: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qprinter:theoretical-exact: baseline: expected 1 invalid closes, got 0",
+          "qprinter:theoretical-exact: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qpdfwriter:area-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qpdfwriter:area-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0",
+          "qprinter:area-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qprinter:area-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0",
+          "qpdfwriter:area-relocated-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qpdfwriter:area-relocated-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0",
+          "qprinter:area-relocated-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qprinter:area-relocated-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0"
+        ],
+        "native_report_sha256": "ca8995d29aab328337b4e9944b43d1a64eca78cbf47374f3597c56815a2d6687",
+        "native_provenance_sha256": {
+          "baseline": "06cb043cc3feba1764dc565dc2b5b088ef193d3ba254c89770aa4c458e2d5619",
+          "patched": "5830b1eb917c86f86007e0c188a5c2786c718ffd7e25ec355405efa9862eac30"
+        }
+      },
+      "native_qt_hash_maps_to_rebind": {
+        "baseline": {
+          "qpa_platform": "xcb",
+          "qt_libraries": [
+            {
+              "relative_path": "lib/libQt6Concurrent.so.6.11.2",
+              "sha256": "faeeb76a3509be80807b7e948016bb0ef4e17992eb223d4ce7b59eeecd2ee8c8"
+            },
+            {
+              "relative_path": "lib/libQt6Core.so.6.11.2",
+              "sha256": "60afa371d876d385a3b27e1610d4e10529a5523318ff5ad3f745a35261509077"
+            },
+            {
+              "relative_path": "lib/libQt6DBus.so.6.11.2",
+              "sha256": "c0723c71432a9c7f1f1a22d542d09e19d132ebe56c602e027c6ea6161a7dc176"
+            },
+            {
+              "relative_path": "lib/libQt6Gui.so.6.11.2",
+              "sha256": "64aecd2cd1d994b2f716d6107690e6353a469781ea3d2aabff7aa521a46f2df0"
+            },
+            {
+              "relative_path": "lib/libQt6Network.so.6.11.2",
+              "sha256": "8628d0c024d8b75f676a05c4dd929c7852157b8fc31eee5279031f33c15114a8"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGL.so.6.11.2",
+              "sha256": "e2e2dcfff9a68112e339da77f720a8dd734b4abcbbbc56ed2f4ee1cf4043711f"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGLWidgets.so.6.11.2",
+              "sha256": "0bd4844c74ea9ab746dae05cc0c9dda3ca5566fbbffeb84eda5294a9537400b6"
+            },
+            {
+              "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+              "sha256": "af8f397f9173648c604dca7b76f71d323b4f8ce6efec40e3cd880073c8165a36"
+            },
+            {
+              "relative_path": "lib/libQt6Svg.so.6.11.2",
+              "sha256": "b148b76ef27b7933953be7d1ce4100637c85186e2c2dc7557d7c8bf5be637832"
+            },
+            {
+              "relative_path": "lib/libQt6SvgWidgets.so.6.11.2",
+              "sha256": "4d91889ed834d4f068a583c4f99df0dafb03731396481b50b3d60f1c186fff1f"
+            },
+            {
+              "relative_path": "lib/libQt6UiTools.so.6.11.2",
+              "sha256": "16f738f77fd912216dbeb7fa0b09ebefe8df76addc40dd7ba48e2b4fd0c24c32"
+            },
+            {
+              "relative_path": "lib/libQt6Widgets.so.6.11.2",
+              "sha256": "78ac75d7a2e06c81d7ed16328a9e186cd706f4356f89facaa43a527d873f1a3c"
+            },
+            {
+              "relative_path": "lib/libQt6XcbQpa.so.6.11.2",
+              "sha256": "6d2640dbe41c342ebd26de82176e252fb4c2aa950b4b054d6517cb82d920908c"
+            },
+            {
+              "relative_path": "lib/libQt6Xml.so.6.11.2",
+              "sha256": "e1733ca9df0bfbb977c63a8c1ce92269d046e1d51aae15500fc22f042eceb550"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.so",
+              "sha256": "c9c07e1fbd06b763de8044baec8d1b79ea9961d1ed0f35730619f166fb1037b8"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+              "sha256": "e8903a58d4f0f1d6094c4235d5da0b877122b4be66b7dfdf11d367345ae70c58"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+              "sha256": "c7e4b42af71bbb7693cff52305a3fec3d748ffbbe42c52fec2e75d22ffdfa5b9"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+              "sha256": "386fc3305a9ced8129b218466476799490aacb7e54fef0a1ff0d9fbba91007e1"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+              "sha256": "7bbb87ca3f0714ff20065ef2f48acced9bd6492b9a5053c916a41208e214c95c"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+              "sha256": "bbe2ed88c748584ab24c8b43d7ad0322a11522e93bf0236a1d669178f2bfa863"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+              "sha256": "958f4f28c34037f806277b563e9f842ddb8fe7632a2997f122f2aef7aa651aef"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+              "sha256": "228320f24f76f8885a079c19b9ea57e1c70f8f704192741574a87e3de8f26bf6"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+              "sha256": "9daf23784f992883db08794b44498670ec68131cfc662f21bddfc111ed7caae9"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+              "sha256": "d0ba215fb18af8e5b05283eed8fae68609ae48c082524eb661e245ac558e28c6"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so",
+              "sha256": "65bb4e22ceb921f869ec448a70708278d3122335ed7f2401dc9a228bc08d6fed"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforms/libqxcb.so",
+              "sha256": "22f062347e97fe533e14c06b6731c0ff3467008bee767f606ea63c6e29b3c34b"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/printsupport/libcupsprintersupport.so",
+              "sha256": "b9eb5f7f6f61e11e25e813410bcc8f942e0ead82cd9c7a9c57a720a96b5c907b"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/xcbglintegrations/libqxcb-glx-integration.so",
+              "sha256": "ddc0984927976c4137104320636502cc13ce20d6feb50d34c4d935cfc65557e5"
+            }
+          ]
+        },
+        "patched": {
+          "qpa_platform": "xcb",
+          "qt_libraries": [
+            {
+              "relative_path": "lib/libQt6Concurrent.so.6.11.2",
+              "sha256": "40ab070ecbe50fb615f1f4ce4d4dd76aba95c3e2860ed5f409f32a4880804fba"
+            },
+            {
+              "relative_path": "lib/libQt6Core.so.6.11.2",
+              "sha256": "c7754702dadbb49a49ccb4590bce62a2745fd3c914a1b9b76de7a6fc7b3c4def"
+            },
+            {
+              "relative_path": "lib/libQt6DBus.so.6.11.2",
+              "sha256": "012614c620e5d330e1831ed93f73078986598df2f9acab588bc5c958a1a5f339"
+            },
+            {
+              "relative_path": "lib/libQt6Gui.so.6.11.2",
+              "sha256": "767f56ead986586ffea61ee39d0185934998e1aba6a375a9b6d81c19cd5dbf99"
+            },
+            {
+              "relative_path": "lib/libQt6Network.so.6.11.2",
+              "sha256": "bcdeac590d1cd1cd905d73577bc16b357f439dfe4d71de73dc962477df51737f"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGL.so.6.11.2",
+              "sha256": "73f6406d945214172c18a2fd0edfe40ae453d6b62daaa11ca9bb5bb304b0ecfe"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGLWidgets.so.6.11.2",
+              "sha256": "08a5d173c7be1d31c76d38343b7c43661590e19290496815bc62f205245e4ed1"
+            },
+            {
+              "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+              "sha256": "44e3b4e786b9ca1210ddc298520470d9ea4736d09deb634a38c657ae912c96ac"
+            },
+            {
+              "relative_path": "lib/libQt6Svg.so.6.11.2",
+              "sha256": "40857ef3660c769b2d1bc2e896366b9d900ea02fad02bd46eba89c8616be5f90"
+            },
+            {
+              "relative_path": "lib/libQt6SvgWidgets.so.6.11.2",
+              "sha256": "28d9aa96df0ce0178d383c631f53c18ba9e52480d9ef33c821b65c3fac6e5039"
+            },
+            {
+              "relative_path": "lib/libQt6UiTools.so.6.11.2",
+              "sha256": "29e80ea6c71c1fdb2316740a21603da3c9c702dc6c3ff557f2997d8cd4fbe9d1"
+            },
+            {
+              "relative_path": "lib/libQt6Widgets.so.6.11.2",
+              "sha256": "ce44e43ab60ba2363e17176da1ae9cfbe78f63dbcdb1736cb646e55fb1bb00dc"
+            },
+            {
+              "relative_path": "lib/libQt6XcbQpa.so.6.11.2",
+              "sha256": "0ee7130c3d7542012c319e8d5b67a2943c9ad753a623f4481497a79832c7d93d"
+            },
+            {
+              "relative_path": "lib/libQt6Xml.so.6.11.2",
+              "sha256": "d54fc7696c67272a87cd6c238698d7046ac0d03f03a718029187f3703280bd98"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.so",
+              "sha256": "986075742f00c53e1652c1b638949d327592ac060649d5186284bc7862034cbd"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+              "sha256": "52fad7f849e2fc7c61efb274d62cc0048376c6681d779fcbb0f2d8491e55c300"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+              "sha256": "26dca5676ab230ad4ad10a5ed7244aec8ddb80a1518fe6d4c23a92203268f947"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+              "sha256": "279063cd30d4264a07e5105a85191b7805c674821989187ef3ea17b4ed89fb03"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+              "sha256": "7d6b9e78c2e650319fc7cc67f8bf4ff0429bf954d9106e29fcb2eb6fc414daa3"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+              "sha256": "a47b475fccbc5174b54a7d698f00cdbfedd9812349c063b0312315708eeb4a93"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+              "sha256": "0068b7b8f7de1ffa77e702889df258ce97b206416b90f5c8b972f3367b6f1986"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+              "sha256": "3a0e35c29bdea537435a25f429b68fb0fc35ced00f9985ae36dcb4367eb9e975"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+              "sha256": "eb8770045bd7f4eaa191a8d1b66d674eee873d6c36e9eeb5c112fbc1186a84a1"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+              "sha256": "e1375f180b5aba7178a7d3b7ff4c177ef3c7b2ddec9a54e8910074920047bb4f"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so",
+              "sha256": "080d54b36c22159e6b365b0e176f74153c0c46676cdb9c58dec50dc8318ff442"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforms/libqxcb.so",
+              "sha256": "9289a330806411cdfc8a819a7cc6e14c109309590cb8b2d817b67fa9fa4b432f"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/printsupport/libcupsprintersupport.so",
+              "sha256": "9933b5e3fed67deb7922b8e7ab0d43952bcfe7ec1f234488b4bef0832f4308f2"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/xcbglintegrations/libqxcb-glx-integration.so",
+              "sha256": "fef85d24b6e3a00745385cc63d9daf161ec0833abc9e1ed451c18d926f6700c4"
+            }
+          ]
+        }
+      },
+      "fixture_qt_hash_maps_to_rebind": {
+        "baseline": [
+          {
+            "relative_path": "lib/libQt6Core.so.6.11.2",
+            "sha256": "60afa371d876d385a3b27e1610d4e10529a5523318ff5ad3f745a35261509077"
+          },
+          {
+            "relative_path": "lib/libQt6DBus.so.6.11.2",
+            "sha256": "c0723c71432a9c7f1f1a22d542d09e19d132ebe56c602e027c6ea6161a7dc176"
+          },
+          {
+            "relative_path": "lib/libQt6Gui.so.6.11.2",
+            "sha256": "64aecd2cd1d994b2f716d6107690e6353a469781ea3d2aabff7aa521a46f2df0"
+          },
+          {
+            "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+            "sha256": "af8f397f9173648c604dca7b76f71d323b4f8ce6efec40e3cd880073c8165a36"
+          },
+          {
+            "relative_path": "lib/libQt6Svg.so.6.11.2",
+            "sha256": "b148b76ef27b7933953be7d1ce4100637c85186e2c2dc7557d7c8bf5be637832"
+          },
+          {
+            "relative_path": "lib/libQt6Widgets.so.6.11.2",
+            "sha256": "78ac75d7a2e06c81d7ed16328a9e186cd706f4356f89facaa43a527d873f1a3c"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+            "sha256": "e8903a58d4f0f1d6094c4235d5da0b877122b4be66b7dfdf11d367345ae70c58"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+            "sha256": "c7e4b42af71bbb7693cff52305a3fec3d748ffbbe42c52fec2e75d22ffdfa5b9"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+            "sha256": "386fc3305a9ced8129b218466476799490aacb7e54fef0a1ff0d9fbba91007e1"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+            "sha256": "7bbb87ca3f0714ff20065ef2f48acced9bd6492b9a5053c916a41208e214c95c"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+            "sha256": "bbe2ed88c748584ab24c8b43d7ad0322a11522e93bf0236a1d669178f2bfa863"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+            "sha256": "958f4f28c34037f806277b563e9f842ddb8fe7632a2997f122f2aef7aa651aef"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+            "sha256": "228320f24f76f8885a079c19b9ea57e1c70f8f704192741574a87e3de8f26bf6"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+            "sha256": "9daf23784f992883db08794b44498670ec68131cfc662f21bddfc111ed7caae9"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+            "sha256": "d0ba215fb18af8e5b05283eed8fae68609ae48c082524eb661e245ac558e28c6"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/platforms/libqoffscreen.so",
+            "sha256": "2de020e856ad46344dc6dbaa207ebb9f733e3da7d39c77b6b35d08d86a5d44e1"
+          }
+        ],
+        "patched": [
+          {
+            "relative_path": "lib/libQt6Core.so.6.11.2",
+            "sha256": "c7754702dadbb49a49ccb4590bce62a2745fd3c914a1b9b76de7a6fc7b3c4def"
+          },
+          {
+            "relative_path": "lib/libQt6DBus.so.6.11.2",
+            "sha256": "012614c620e5d330e1831ed93f73078986598df2f9acab588bc5c958a1a5f339"
+          },
+          {
+            "relative_path": "lib/libQt6Gui.so.6.11.2",
+            "sha256": "767f56ead986586ffea61ee39d0185934998e1aba6a375a9b6d81c19cd5dbf99"
+          },
+          {
+            "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+            "sha256": "44e3b4e786b9ca1210ddc298520470d9ea4736d09deb634a38c657ae912c96ac"
+          },
+          {
+            "relative_path": "lib/libQt6Svg.so.6.11.2",
+            "sha256": "40857ef3660c769b2d1bc2e896366b9d900ea02fad02bd46eba89c8616be5f90"
+          },
+          {
+            "relative_path": "lib/libQt6Widgets.so.6.11.2",
+            "sha256": "ce44e43ab60ba2363e17176da1ae9cfbe78f63dbcdb1736cb646e55fb1bb00dc"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+            "sha256": "52fad7f849e2fc7c61efb274d62cc0048376c6681d779fcbb0f2d8491e55c300"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+            "sha256": "26dca5676ab230ad4ad10a5ed7244aec8ddb80a1518fe6d4c23a92203268f947"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+            "sha256": "279063cd30d4264a07e5105a85191b7805c674821989187ef3ea17b4ed89fb03"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+            "sha256": "7d6b9e78c2e650319fc7cc67f8bf4ff0429bf954d9106e29fcb2eb6fc414daa3"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+            "sha256": "a47b475fccbc5174b54a7d698f00cdbfedd9812349c063b0312315708eeb4a93"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+            "sha256": "0068b7b8f7de1ffa77e702889df258ce97b206416b90f5c8b972f3367b6f1986"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+            "sha256": "3a0e35c29bdea537435a25f429b68fb0fc35ced00f9985ae36dcb4367eb9e975"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+            "sha256": "eb8770045bd7f4eaa191a8d1b66d674eee873d6c36e9eeb5c112fbc1186a84a1"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+            "sha256": "e1375f180b5aba7178a7d3b7ff4c177ef3c7b2ddec9a54e8910074920047bb4f"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/platforms/libqoffscreen.so",
+            "sha256": "423d41a1de29f78e6d4ab38c22a19f4d04e61df8a35b2e84792692dcc8aacefa"
+          }
+        ]
+      },
+      "original_installed_inventory_sha256": {
+        "baseline": "356cf5ce951346bf0d69ced7af9b0608c299fb682ada1a6f6c6ac0af2105166b",
+        "patched": "1fe3f50f934303e1c39430f011fc4ac54a755883987434727ffcbe1063672d67"
+      },
+      "missing_native_binary_inventory": {
+        "reason": "Original FreeCAD main/App/Gui/other module binaries, resources and runtime prefixes were not uploaded. New pre-export native capture requires a fresh scoped FreeCAD build; passed Qt executables need no rerun.",
+        "retained_elf_files": [
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/CMakeFiles/4.4.3/CMakeDetermineCompilerABI_CXX.bin",
+            "size": 15936,
+            "sha256": "07aee2247a88e8c23952cc2fed6fad69c76074c57406f52b43bbe7380b5e4298"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/CMakeFiles/4.4.3/CompilerIdCXX/a.out",
+            "size": 16264,
+            "sha256": "2c09f0f34c7c8f14f6d8442e6cf86b7c25bb8d26bbba6327c0d97ab1439d0b02"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/CMakeFiles/qt_pdf_stroker_fixture.dir/generator.cpp.o",
+            "size": 168048,
+            "sha256": "f9e2d3fd1c4aa7cc3465962fbcbc050813d14a0fe64e178c4e04082c492edba6"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/qt_pdf_stroker_fixture",
+            "size": 110760,
+            "sha256": "a83aebd829315ca5777feb2e38b398dc232241da85c5590690f73df2d5d078dc"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/4.4.3/CMakeDetermineCompilerABI_CXX.bin",
+            "size": 15936,
+            "sha256": "07aee2247a88e8c23952cc2fed6fad69c76074c57406f52b43bbe7380b5e4298"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/4.4.3/CompilerIdCXX/a.out",
+            "size": 16264,
+            "sha256": "2c09f0f34c7c8f14f6d8442e6cf86b7c25bb8d26bbba6327c0d97ab1439d0b02"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/tst_qpdfwriter.dir/tst_qpdfwriter.cpp.o",
+            "size": 101328,
+            "sha256": "9c7e3687b56b43ca88035779ed8c9cffff0f0330f73609d8cd6b476cfb592299"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/tst_qpdfwriter.dir/tst_qpdfwriter_autogen/mocs_compilation.cpp.o",
+            "size": 992,
+            "sha256": "75243611b5cd5cc7ce4adbf9ebeda0466dffc8e26f4b08a484b5dd51628bd13c"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/tst_qpdfwriter",
+            "size": 72312,
+            "sha256": "a0d7d9b81602c45e49ecdaf827d3ccead16ba7c91c54f46c3f1a6a4a1da4f3dd"
+          },
+          {
+            "path": "_temp/qt-pdf-native-module/TechDrawGui.so",
+            "size": 9138264,
+            "sha256": "4731d01f7f124d452555ca239e7e13408395da8e5895f0d87c4e7ae5d9b48834"
+          }
+        ],
+        "missing_native_targets": [
+          "FreeCADMain",
+          "FreeCADApp",
+          "FreeCADGui",
+          "Part",
+          "PartGui",
+          "PartDesign",
+          "PartDesignGui",
+          "Sketcher",
+          "SketcherGui",
+          "TechDraw",
+          "pivy"
+        ],
+        "missing_native_resources_and_runtime_prefixes": true,
+        "source_sha256": {
+          "src/Main/CMakeLists.txt": "fd1aa681614aa8f1b66e36470b0f9adc9f33019fa2fb4b3d1865d024dc0331bf",
+          "src/App/CMakeLists.txt": "b25d894d99624e609a58fde3782bc4a5c4b68d56f1f9d5b74e7d1f6ff5abffee",
+          "src/Gui/CMakeLists.txt": "3b58aacd302cb03deffcb2a1bcde293cde55d0ee67be5a75a9210d9d9611ded3",
+          "src/Mod/Part/App/CMakeLists.txt": "63d1ed5a125378cdbc2ff3af18d7a045341df4ba6b5d2bba6db1276bde8836f7",
+          "src/Mod/Part/Gui/CMakeLists.txt": "dd9e1e39ecfff6280c69e9b74c4de7052da73c34401e11f69d06cf728f8aba83",
+          "src/Mod/TechDraw/CMakeLists.txt": "72ed694bd6089ce1db5a1a4dc3b3db565ad948f3aedcae67b24a108aa2b340c9"
+        },
+        "original_launch_sha256": {
+          "baseline": "7ce01a921437b8744f9e798358d2fb0c779791cc6c005fd20638b58a6ca203fe",
+          "patched": "f08e2cd51b4b461b4fdc893710bb5ebab6263c04f85feb6df10789b7b635c3ac"
+        },
+        "original_cmake_cache_sha256": "eecc5f8a707f65f47ef02376add93c7b37e51128ef73ea890c6888f43865616e"
+      }
+    },
+    "linux-aarch64": {
+      "run_id": 37252439637,
+      "run_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37252439637",
+      "job_id": 111582682241,
+      "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37252439637/job/111582682241",
+      "original_run_conclusion": "failure",
+      "passed_step": "Qualify both Qt PDF devices and Qt's own writer tests",
+      "later_failed_step": "Qualify stock native exports with both guards bypassed",
+      "artifact": {
+        "id": 11323681303,
+        "name": "qt-pdf-qualification-linux-aarch64",
+        "size": 13785581,
+        "whole_zip_sha256": "be0fa75d4300b8fb0225a0f7b84899aabb4550b636388f71c6c5c627590320b8",
+        "all_member_crc_checked": true,
+        "file_count": 994,
+        "canonical_file_inventory_sha256": "cd0ddbb65a0ccc496ff77f80886d5d0558c8e28a3177548afd35e5002975a45d"
+      },
+      "original_package": {
+        "filename": "qt6-main-6.11.2-pl5321h8194227_1.conda",
+        "sha256": "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b",
+        "build_json_sha256": "2e424174cb25edf710dbfe159e9153f83cff252ced403340fead895f9870800e"
+      },
+      "qt_only": {
+        "qualified_in_original_stage": true,
+        "qt_cases_per_side": 66,
+        "device_scenarios_per_side": 33,
+        "devices": [
+          "qpdfwriter",
+          "qprinter"
+        ],
+        "cross_device_pairs_both_sides": 66,
+        "baseline_defective_cases": 26,
+        "baseline_invalid_closes": 30,
+        "patched_invalid_closes": 0,
+        "upstream_tests_passed": 10,
+        "upstream_tests_failed": 0,
+        "pdfs_read": 132,
+        "existing_pngs_read": 132,
+        "qualification_json_sha256": "8e465465f6fd415dc71f0973d2222ec1ef835e947013330d6f9b3caa0b2b0ac7",
+        "comparison_json_sha256": "8e22248004ca6dcc3a6e5bb42098fbcb96feebc9ba3f482e8afd6d48dfb4828e",
+        "upstream_test_log_sha256": "4989c116f2dc9ce4f9a9cb3e689ddccdc71794941702da20a7cf631afdc08325",
+        "upstream_source_files": {
+          "CMakeLists.txt": {
+            "archive_member": "qt-everywhere-src-6.11.2/qtbase/tests/auto/gui/painting/qpdfwriter/CMakeLists.txt",
+            "path": "/home/runner/work/_temp/qt-pdf-device-results/upstream-test-source/CMakeLists.txt",
+            "sha256": "ecfc1d5ddcec6f08270ff61de7c15b664be1bfac8e3a8523a1c09d35c128d7a6"
+          },
+          "tst_qpdfwriter.cpp": {
+            "archive_member": "qt-everywhere-src-6.11.2/qtbase/tests/auto/gui/painting/qpdfwriter/tst_qpdfwriter.cpp",
+            "path": "/home/runner/work/_temp/qt-pdf-device-results/upstream-test-source/tst_qpdfwriter.cpp",
+            "sha256": "b058a9fa9343229337beb9ff3965af6eb1eb32cd416f1434b5b2687129fa6245"
+          }
+        },
+        "runtime_json_sha256": {
+          "baseline": "118cc83ed39b9d28b02ac697dd0cd492dbca74bb5b799740874dfa8abb5ad8d0",
+          "patched": "a0d3200a7cf6bd908f7244c22c67a815cbaf3678c573b5efc8c26dc416621992"
+        }
+      },
+      "original_native": {
+        "passed": false,
+        "failures": [
+          "qpdfwriter:distance: baseline: expected 1 invalid closes, got 0",
+          "qpdfwriter:distance: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qprinter:distance: baseline: expected 1 invalid closes, got 0",
+          "qprinter:distance: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qpdfwriter:theoretical-exact: baseline: expected 1 invalid closes, got 0",
+          "qpdfwriter:theoretical-exact: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qprinter:theoretical-exact: baseline: expected 1 invalid closes, got 0",
+          "qprinter:theoretical-exact: baseline: expected 1 Poppler closepath warnings, got 0",
+          "qpdfwriter:area-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qpdfwriter:area-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0",
+          "qprinter:area-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qprinter:area-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0",
+          "qpdfwriter:area-relocated-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qpdfwriter:area-relocated-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0",
+          "qprinter:area-relocated-and-theoretical-exact: baseline: expected 2 invalid closes, got 0",
+          "qprinter:area-relocated-and-theoretical-exact: baseline: expected 2 Poppler closepath warnings, got 0"
+        ],
+        "native_report_sha256": "c04f3a2ea2890a51ae3dc1854fb1953751c6669eaa9b55010530f4c8830ba205",
+        "native_provenance_sha256": {
+          "baseline": "7b2c9045c8ee3656fe70e03649e6b1ef3ec7ee3492124049cf60235ba9f3ef1e",
+          "patched": "5126d1fda90dc5bf85d6b12f7c3a8dcb3524a486ea75105d36cea7b1fd15d63e"
+        }
+      },
+      "native_qt_hash_maps_to_rebind": {
+        "baseline": {
+          "qpa_platform": "xcb",
+          "qt_libraries": [
+            {
+              "relative_path": "lib/libQt6Concurrent.so.6.11.2",
+              "sha256": "d20994af9c16d82a7efabe3a47bae0d009bda94de1b40a33b2a774c7fd32465d"
+            },
+            {
+              "relative_path": "lib/libQt6Core.so.6.11.2",
+              "sha256": "f716d0d151db5143c4426fe1c254aa1900fef73e72e3d7c7107b8a7214ae7821"
+            },
+            {
+              "relative_path": "lib/libQt6DBus.so.6.11.2",
+              "sha256": "ec1e83af4ab2a5f748d00cfab98c0072463513e7838d7ea8a2d052cf5e86929a"
+            },
+            {
+              "relative_path": "lib/libQt6Gui.so.6.11.2",
+              "sha256": "79db47e58606f9fa51c7722187d801852657c31b1377b1542d299b06a0d184ea"
+            },
+            {
+              "relative_path": "lib/libQt6Network.so.6.11.2",
+              "sha256": "9e3679015fdbf0474facc0a0dbad5c1c88ee248b91a75fa0de7b4040d7a62476"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGL.so.6.11.2",
+              "sha256": "ec3bd92a282f26d8b08771d03c89f749e625a0500562efaba0d22280a75bf056"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGLWidgets.so.6.11.2",
+              "sha256": "01c3f8fc13ca5c417226b020fca4f980ecbeaf90808998590c46992d67cc7b7f"
+            },
+            {
+              "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+              "sha256": "e4bd43abe7c18ec9a2b1ef5671b29139cc87fc15c9327d88ef86dd221db00b17"
+            },
+            {
+              "relative_path": "lib/libQt6Svg.so.6.11.2",
+              "sha256": "a81417f41607fef74a4644ae9fd4c74a849c35a5d1bfeb7785282aaa2f051ecd"
+            },
+            {
+              "relative_path": "lib/libQt6SvgWidgets.so.6.11.2",
+              "sha256": "9458c3199ef39388be0d665c5e8ec3f0b1b02749f4e1f9f21b189afbba388455"
+            },
+            {
+              "relative_path": "lib/libQt6UiTools.so.6.11.2",
+              "sha256": "9ef32eebe9ad89ec0ac67c6d529cfd8f81c44324ef8e088b3421edac6df66088"
+            },
+            {
+              "relative_path": "lib/libQt6Widgets.so.6.11.2",
+              "sha256": "d9fe2e4885e3a8bb75b661f6b2cd498114e064399b17999301dfa06966b3cbcf"
+            },
+            {
+              "relative_path": "lib/libQt6XcbQpa.so.6.11.2",
+              "sha256": "9001f42de012e7cc06c26302ec4b3c2475501ecbf1a49f58f426ad48d0acf5c9"
+            },
+            {
+              "relative_path": "lib/libQt6Xml.so.6.11.2",
+              "sha256": "efda39b8f3e609794b04df5caff13324a55958cf2fc6bdb48d6295222ef8bf4a"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.so",
+              "sha256": "283d42bdc6d7668df496ab3c69f105f9e9ebe48254a2108ea2725c19975c5c03"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+              "sha256": "2030e0d0317d4380b1c9979ff42d2407047742bbd21c565adf70de34ee1d35c5"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+              "sha256": "60184f4206a2eae2b2fa7ddad8e66ef531b71b7d38ae6f9e90a248b99b3a5d93"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+              "sha256": "6b1fd71f2064df46c82ae451cc56ea970b7e0760701a80b75f9bcdeb73f314ec"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+              "sha256": "f35307894bc2dbd4da2048e7ecfafc4eb766e08d41714b99427dfaff6cc955f8"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+              "sha256": "49fd4b83dd372635eda56ae64a4a4ce843192b3f65a87a0c58cd969574a5fc8e"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+              "sha256": "522939987fc12fedf81c4af5d4c4bcdbb2b8a525343a38550e2804c18c64c0cb"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+              "sha256": "5a6d149eedec4e0d5c3ace75103ea073ccab0659036a08b8c19f44d908bfcdf5"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+              "sha256": "a0ea96c085bd2ec6f85165f5244589d4ac9ca5aeea15e51f3beffed432c26e47"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+              "sha256": "54ab24b1b7af58c822eaa4799d626ccb7464e06646d6f2d504aa06db05110074"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so",
+              "sha256": "9e6f950db6b05367c9369777d45f9ca5175a69445c3cedad0df953cfc695e037"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforms/libqxcb.so",
+              "sha256": "6a455a63a5a9051dd75634716620e29041cff893288cfdb13960a76101cfca39"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/printsupport/libcupsprintersupport.so",
+              "sha256": "5b86c1b2bd6b2f9bc546d0663844a09c4324e3f6cf8c25215695f04e54c9b322"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/xcbglintegrations/libqxcb-glx-integration.so",
+              "sha256": "bbc6a6a5f9e43320a3c23f67334c7aad7a64a575f790507488d9f7c57aa01a8a"
+            }
+          ]
+        },
+        "patched": {
+          "qpa_platform": "xcb",
+          "qt_libraries": [
+            {
+              "relative_path": "lib/libQt6Concurrent.so.6.11.2",
+              "sha256": "f211a61d5e034b64b7ad88c9e2fa18e90a0a6de21d58087ee8c8b55f1ea6480b"
+            },
+            {
+              "relative_path": "lib/libQt6Core.so.6.11.2",
+              "sha256": "c8f8ed6851f5ae435f9929603330d23c646843004e2d106b6c1975733515499e"
+            },
+            {
+              "relative_path": "lib/libQt6DBus.so.6.11.2",
+              "sha256": "c98a0419ca0f754fc61f1e9ce8d97d5abd0b6bb4370423718df89eb1b26b5a1c"
+            },
+            {
+              "relative_path": "lib/libQt6Gui.so.6.11.2",
+              "sha256": "f4c90f4f5e3dea552e543da40bb0e607aa183c00a7486df6faf82b20432d6bc5"
+            },
+            {
+              "relative_path": "lib/libQt6Network.so.6.11.2",
+              "sha256": "9515be8007abd669f8e7182bf10a6f2595201a78396c806d7584763760427021"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGL.so.6.11.2",
+              "sha256": "7880de1cb890c3711f0e9cf2a2d5571ae259672291a4cb58c82b264221a2c5d6"
+            },
+            {
+              "relative_path": "lib/libQt6OpenGLWidgets.so.6.11.2",
+              "sha256": "11843c1856858009c3446b2a3a73330cb7b7595225461691528fa707464f0992"
+            },
+            {
+              "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+              "sha256": "e34b2f8e119aec1ae24689a4ab79fe0841c8dc6d64d2267ff85a8473d400972c"
+            },
+            {
+              "relative_path": "lib/libQt6Svg.so.6.11.2",
+              "sha256": "1c78acc491b0c2056b4dd9d7ff869053564fbbb69a11c0b00bb22174b1d562d2"
+            },
+            {
+              "relative_path": "lib/libQt6SvgWidgets.so.6.11.2",
+              "sha256": "279c06759177c18a205f809d2431eba299fec7a456d18314799f359a17134772"
+            },
+            {
+              "relative_path": "lib/libQt6UiTools.so.6.11.2",
+              "sha256": "c65f79bed8da4afe17fe58a098558f3a3fb76588c37dce9a6eee1c3b51f95009"
+            },
+            {
+              "relative_path": "lib/libQt6Widgets.so.6.11.2",
+              "sha256": "60ed391f1be15aa14052b098261dafa731844df2a320e184046fe11eafe0facb"
+            },
+            {
+              "relative_path": "lib/libQt6XcbQpa.so.6.11.2",
+              "sha256": "9adfd2e543310f461e604d231668118c29110ba5d572db2d76f37d91349ba48f"
+            },
+            {
+              "relative_path": "lib/libQt6Xml.so.6.11.2",
+              "sha256": "2ba606d3b0618ce87b453c2a62f12493b6a223a37ff9b2790949feb5d91c62a0"
+            }
+          ],
+          "qt_plugins": [
+            {
+              "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.so",
+              "sha256": "c3f4cb8f5bb0581a3f899c2ec1af4e83fef6b0d19242e1deeaffb0653263d107"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+              "sha256": "d8dc827aed77a709bb4e3f0fcb876cd4f91dbff92c067876206a224b64da6066"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+              "sha256": "36cddf93fd720e61c3399cd643781951bedd812222fc3f20f74bd596dd5518dc"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+              "sha256": "1fb2cbf044e53b120a74d53099f9304d917521436b33f5f2eda2287d1cec5273"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+              "sha256": "afd7ee8283be3c2a8e6001d18f64bde3b5394eca6e4deb97c655c7c8b536a358"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+              "sha256": "84743e9461ccdfdfacbd63f7b0a9e590fbd90b336a7d868e5938c33ed221e43b"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+              "sha256": "6d202942f08242c1bb4171661d431712843fc53e864d94bfa90390c6ff07a5be"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+              "sha256": "37d1e0102c40659c85cc2483ee879c79a86c2f0d4ce8f7eb9d785ad60b288c31"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+              "sha256": "4c5e4286388f0122e3b2c6b4f967198895eeba4e54432bab64d8f860622cc572"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+              "sha256": "40723c0e5f0922f690c3760affc01cd40d8be8f9a960b1a2d9633f03062b622f"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so",
+              "sha256": "117ff439327bfc92e46dac431d91b92079c57e90059add6b58ac4df3b00c9383"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/platforms/libqxcb.so",
+              "sha256": "529e8a3b28c8bcc325e487de6d158e89708f8b2d699e5730dde634732235e883"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/printsupport/libcupsprintersupport.so",
+              "sha256": "f3f3513f431ef7c5d1118d2e581a271a9ec8f1a8c86ae214e5965c5da1a93703"
+            },
+            {
+              "relative_path": "lib/qt6/plugins/xcbglintegrations/libqxcb-glx-integration.so",
+              "sha256": "a84224df8ae0b232c994897fd72bce6b9d4a5d6ece117dbc6acba3b6d51350d1"
+            }
+          ]
+        }
+      },
+      "fixture_qt_hash_maps_to_rebind": {
+        "baseline": [
+          {
+            "relative_path": "lib/libQt6Core.so.6.11.2",
+            "sha256": "f716d0d151db5143c4426fe1c254aa1900fef73e72e3d7c7107b8a7214ae7821"
+          },
+          {
+            "relative_path": "lib/libQt6DBus.so.6.11.2",
+            "sha256": "ec1e83af4ab2a5f748d00cfab98c0072463513e7838d7ea8a2d052cf5e86929a"
+          },
+          {
+            "relative_path": "lib/libQt6Gui.so.6.11.2",
+            "sha256": "79db47e58606f9fa51c7722187d801852657c31b1377b1542d299b06a0d184ea"
+          },
+          {
+            "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+            "sha256": "e4bd43abe7c18ec9a2b1ef5671b29139cc87fc15c9327d88ef86dd221db00b17"
+          },
+          {
+            "relative_path": "lib/libQt6Svg.so.6.11.2",
+            "sha256": "a81417f41607fef74a4644ae9fd4c74a849c35a5d1bfeb7785282aaa2f051ecd"
+          },
+          {
+            "relative_path": "lib/libQt6Widgets.so.6.11.2",
+            "sha256": "d9fe2e4885e3a8bb75b661f6b2cd498114e064399b17999301dfa06966b3cbcf"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+            "sha256": "2030e0d0317d4380b1c9979ff42d2407047742bbd21c565adf70de34ee1d35c5"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+            "sha256": "60184f4206a2eae2b2fa7ddad8e66ef531b71b7d38ae6f9e90a248b99b3a5d93"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+            "sha256": "6b1fd71f2064df46c82ae451cc56ea970b7e0760701a80b75f9bcdeb73f314ec"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+            "sha256": "f35307894bc2dbd4da2048e7ecfafc4eb766e08d41714b99427dfaff6cc955f8"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+            "sha256": "49fd4b83dd372635eda56ae64a4a4ce843192b3f65a87a0c58cd969574a5fc8e"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+            "sha256": "522939987fc12fedf81c4af5d4c4bcdbb2b8a525343a38550e2804c18c64c0cb"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+            "sha256": "5a6d149eedec4e0d5c3ace75103ea073ccab0659036a08b8c19f44d908bfcdf5"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+            "sha256": "a0ea96c085bd2ec6f85165f5244589d4ac9ca5aeea15e51f3beffed432c26e47"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+            "sha256": "54ab24b1b7af58c822eaa4799d626ccb7464e06646d6f2d504aa06db05110074"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/platforms/libqoffscreen.so",
+            "sha256": "f618ebeb3119cc31bdf2826c6e96ecbd2f41fd75cce6ee4b670205b8c2e10f7e"
+          }
+        ],
+        "patched": [
+          {
+            "relative_path": "lib/libQt6Core.so.6.11.2",
+            "sha256": "c8f8ed6851f5ae435f9929603330d23c646843004e2d106b6c1975733515499e"
+          },
+          {
+            "relative_path": "lib/libQt6DBus.so.6.11.2",
+            "sha256": "c98a0419ca0f754fc61f1e9ce8d97d5abd0b6bb4370423718df89eb1b26b5a1c"
+          },
+          {
+            "relative_path": "lib/libQt6Gui.so.6.11.2",
+            "sha256": "f4c90f4f5e3dea552e543da40bb0e607aa183c00a7486df6faf82b20432d6bc5"
+          },
+          {
+            "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+            "sha256": "e34b2f8e119aec1ae24689a4ab79fe0841c8dc6d64d2267ff85a8473d400972c"
+          },
+          {
+            "relative_path": "lib/libQt6Svg.so.6.11.2",
+            "sha256": "1c78acc491b0c2056b4dd9d7ff869053564fbbb69a11c0b00bb22174b1d562d2"
+          },
+          {
+            "relative_path": "lib/libQt6Widgets.so.6.11.2",
+            "sha256": "60ed391f1be15aa14052b098261dafa731844df2a320e184046fe11eafe0facb"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+            "sha256": "d8dc827aed77a709bb4e3f0fcb876cd4f91dbff92c067876206a224b64da6066"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+            "sha256": "36cddf93fd720e61c3399cd643781951bedd812222fc3f20f74bd596dd5518dc"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+            "sha256": "1fb2cbf044e53b120a74d53099f9304d917521436b33f5f2eda2287d1cec5273"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+            "sha256": "afd7ee8283be3c2a8e6001d18f64bde3b5394eca6e4deb97c655c7c8b536a358"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+            "sha256": "84743e9461ccdfdfacbd63f7b0a9e590fbd90b336a7d868e5938c33ed221e43b"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+            "sha256": "6d202942f08242c1bb4171661d431712843fc53e864d94bfa90390c6ff07a5be"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+            "sha256": "37d1e0102c40659c85cc2483ee879c79a86c2f0d4ce8f7eb9d785ad60b288c31"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+            "sha256": "4c5e4286388f0122e3b2c6b4f967198895eeba4e54432bab64d8f860622cc572"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+            "sha256": "40723c0e5f0922f690c3760affc01cd40d8be8f9a960b1a2d9633f03062b622f"
+          },
+          {
+            "relative_path": "lib/qt6/plugins/platforms/libqoffscreen.so",
+            "sha256": "23707682dd96c60216b90d25ec89de664af35b8dcd21f2a884b78752325e5728"
+          }
+        ]
+      },
+      "original_installed_inventory_sha256": {
+        "baseline": "dd367045508a97b1e33ae51120bf7884986f17f5c0f5537462dcfab63d7769d5",
+        "patched": "ad22bd21af6c752bd3a7e5784d844eb2f7da1defaa95c22cd2175952cf888081"
+      },
+      "missing_native_binary_inventory": {
+        "reason": "Original FreeCAD main/App/Gui/other module binaries, resources and runtime prefixes were not uploaded. New pre-export native capture requires a fresh scoped FreeCAD build; passed Qt executables need no rerun.",
+        "retained_elf_files": [
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/CMakeFiles/4.4.3/CMakeDetermineCompilerABI_CXX.bin",
+            "size": 70712,
+            "sha256": "25b315cc417423e9ff6332d96c0546289e17ab6c6c9327832591c15ea0687992"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/CMakeFiles/4.4.3/CompilerIdCXX/a.out",
+            "size": 71008,
+            "sha256": "2706e733fd6b98ebfc16d88182ae32c2ff92babfb6886b7b51d383a34a5fe4f8"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/CMakeFiles/qt_pdf_stroker_fixture.dir/generator.cpp.o",
+            "size": 148256,
+            "sha256": "3a6901e90f77beb96e1c482b496638faf5204f112e60feea308ec8c008b21f62"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/fixture-build/qt_pdf_stroker_fixture",
+            "size": 161744,
+            "sha256": "8c37dcb995ecbeaa245ba715a0d08fd467bb4030e34d58387d3ef0270a217bc5"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/4.4.3/CMakeDetermineCompilerABI_CXX.bin",
+            "size": 70712,
+            "sha256": "25b315cc417423e9ff6332d96c0546289e17ab6c6c9327832591c15ea0687992"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/4.4.3/CompilerIdCXX/a.out",
+            "size": 71008,
+            "sha256": "2706e733fd6b98ebfc16d88182ae32c2ff92babfb6886b7b51d383a34a5fe4f8"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/tst_qpdfwriter.dir/tst_qpdfwriter.cpp.o",
+            "size": 94952,
+            "sha256": "b2fbdd8b40e9de1b2540339dca336b0c539ebad38b70f57bf7929b318e60520b"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/CMakeFiles/tst_qpdfwriter.dir/tst_qpdfwriter_autogen/mocs_compilation.cpp.o",
+            "size": 952,
+            "sha256": "5f6d1b15973fb1f98acb5d86b7bf2e361a0adb3ba593f6a2decfc86417c9a41b"
+          },
+          {
+            "path": "_temp/qt-pdf-device-results/upstream-test-build/tst_qpdfwriter",
+            "size": 85784,
+            "sha256": "c228472417292a65a427204e5a0d832b1f1fcfc78643c7afca15309603f19685"
+          },
+          {
+            "path": "_temp/qt-pdf-native-module/TechDrawGui.so",
+            "size": 9183088,
+            "sha256": "c9a4be77654a308663cab1e7fd2d195a74767a3423d641f958e0accd620e705a"
+          }
+        ],
+        "missing_native_targets": [
+          "FreeCADMain",
+          "FreeCADApp",
+          "FreeCADGui",
+          "Part",
+          "PartGui",
+          "PartDesign",
+          "PartDesignGui",
+          "Sketcher",
+          "SketcherGui",
+          "TechDraw",
+          "pivy"
+        ],
+        "missing_native_resources_and_runtime_prefixes": true,
+        "source_sha256": {
+          "src/Main/CMakeLists.txt": "fd1aa681614aa8f1b66e36470b0f9adc9f33019fa2fb4b3d1865d024dc0331bf",
+          "src/App/CMakeLists.txt": "b25d894d99624e609a58fde3782bc4a5c4b68d56f1f9d5b74e7d1f6ff5abffee",
+          "src/Gui/CMakeLists.txt": "3b58aacd302cb03deffcb2a1bcde293cde55d0ee67be5a75a9210d9d9611ded3",
+          "src/Mod/Part/App/CMakeLists.txt": "63d1ed5a125378cdbc2ff3af18d7a045341df4ba6b5d2bba6db1276bde8836f7",
+          "src/Mod/Part/Gui/CMakeLists.txt": "dd9e1e39ecfff6280c69e9b74c4de7052da73c34401e11f69d06cf728f8aba83",
+          "src/Mod/TechDraw/CMakeLists.txt": "72ed694bd6089ce1db5a1a4dc3b3db565ad948f3aedcae67b24a108aa2b340c9"
+        },
+        "original_launch_sha256": {
+          "baseline": "f7423bca5d55d39384a72576c9da055a7f3e8ba782225f19134d2c54b10a3fa2",
+          "patched": "4b80f61266bc50ba7e5b930b9811ceb30f368dcaa12a9cdb0d0bf7e93676b56f"
+        },
+        "original_cmake_cache_sha256": "76c253b7ca8b26865d58a329fd995ca9589f9cf6f9b18e46f9ed72a0fe567689"
+      }
+    }
+  },
+  "limitations": [
+    "Original complete workflow conclusions remain failure; their later native expectations did not pass.",
+    "No native FreeCAD main/App/Gui/other module build or full installed runtime prefixes were uploaded; only bypassed TechDrawGui.so was retained.",
+    "Actual new Linux prefixes, loaded native processes and prospective native expectations remain to be checked in the matching native-host retry.",
+    "Portable artifact readback does not claim new native Linux execution or distribution/pin promotion."
+  ]
+}

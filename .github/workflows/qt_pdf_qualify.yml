@@ -1,0 +1,452 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+name: Qt PDF Package Qualification
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Native qualification target
+        default: all
+        type: choice
+        options: [all, linux-64, linux-aarch64, osx-64, osx-arm64, win-64]
+      build_run:
+        description: Qt PDF Backport Build run containing package artifacts
+        required: true
+        type: string
+      windows_build_run:
+        description: Optional separate Windows retry run
+        default: ''
+        type: string
+      stage:
+        description: Qualification stage, or delivery-only LibPack installation checks
+        default: all
+        type: choice
+        options: [all, native, windows-pending, windows-native, delivered-libpacks, delivered-libpacks-arm64]
+      reuse_run:
+        description: Matching reviewed qualification run whose passed checks can be reused
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  delivered-libpacks:
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.stage == 'delivered-libpacks' || inputs.stage == 'delivered-libpacks-arm64')
+    uses: ./.github/workflows/qt_pdf_delivery.yml
+    with:
+      arm_only: ${{ inputs.stage == 'delivered-libpacks-arm64' }}
+
+  select:
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks' && inputs.stage != 'delivered-libpacks-arm64'
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          QT_PDF_SELECTION: ${{ inputs.target }}
+          QT_PDF_STAGE: ${{ inputs.stage }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+          QT_PDF_PACKAGE_RUN: ${{ inputs.build_run }}
+          QT_PDF_WINDOWS_PACKAGE_RUN: ${{ inputs.windows_build_run }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          entries = [
+              {"target": "linux-64", "os": "ubuntu-24.04"},
+              {"target": "linux-aarch64", "os": "ubuntu-24.04-arm"},
+              {"target": "osx-64", "os": "macos-15-intel"},
+              {"target": "osx-arm64", "os": "macos-15"},
+              {"target": "win-64", "os": "windows-2022"},
+          ]
+          selected = os.environ["QT_PDF_SELECTION"]
+          stage = os.environ["QT_PDF_STAGE"]
+          reuse = os.environ["QT_PDF_REUSE_RUN"]
+          assert stage in ("all", "native", "windows-pending", "windows-native"), "Unsupported qualification stage"
+          if stage == "native":
+              prior = {"linux-64": "37252425998", "linux-aarch64": "37252439637", "osx-64": "37248191467"}
+              assert selected in prior and reuse == prior[selected], "Native retry needs the matching reviewed run"
+              assert os.environ["QT_PDF_PACKAGE_RUN"] == "37238935749", "Native retry requires the reviewed package build"
+          elif stage == "windows-native":
+              assert selected == "win-64" and reuse == "37367983867", "Windows native retry needs the reviewed retained run"
+              assert os.environ["QT_PDF_PACKAGE_RUN"] == "37238935749", "Windows native retry requires the reviewed package build"
+              assert os.environ["QT_PDF_WINDOWS_PACKAGE_RUN"] in ("", "37238935749"), "Windows package override differs"
+          elif stage == "windows-pending":
+              assert selected == "win-64" and reuse == "37250196345", "Windows retry needs the reviewed partial run"
+              assert os.environ["QT_PDF_PACKAGE_RUN"] == "37238935749", "Windows retry requires the reviewed package build"
+              assert os.environ["QT_PDF_WINDOWS_PACKAGE_RUN"] in ("", "37238935749"), "Windows package override differs"
+          else:
+              assert not reuse, "Passed-stage reuse is only available for a reviewed native retry"
+          matrix = {"include": [row for row in entries if selected in ("all", row["target"])]}
+          assert matrix["include"], "Unsupported target"
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix) + "\n")
+          PY
+
+  qualify:
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks' && inputs.stage != 'delivered-libpacks-arm64'
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 330
+    env:
+      QT_PDF_TARGET: ${{ matrix.target }}
+      QT_PDF_STAGE: ${{ inputs.stage }}
+      QT_PDF_BUILD_RUN: ${{ matrix.target == 'win-64' && (inputs.windows_build_run || inputs.build_run) || inputs.build_run }}
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Make space for two runtimes and the native build
+        if: runner.os == 'Linux'
+        uses: AdityaGarg8/remove-unwanted-software@90e01b21170618765a73370fcc3abbd1684a7793 # v5
+        with:
+          remove-android: 'true'
+          remove-cached-tools: 'true'
+
+      - name: Preserve reviewed checkout bytes on Windows
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Select the same recorded macOS SDK
+        if: runner.os == 'macOS'
+        run: echo 'DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer' >> "$GITHUB_ENV"
+
+      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
+        with:
+          pixi-version: v0.81.0
+          locked: true
+          cache: false
+
+      - name: Authenticate the reviewed passed Linux Qt checks
+        if: inputs.stage == 'native' && runner.os == 'Linux'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_linux_qt_qualification.py recover \
+            --target "$QT_PDF_TARGET" --prior-run-id "$QT_PDF_REUSE_RUN" \
+            --work-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
+
+      - name: Authenticate the reviewed passed Intel Qt checks
+        if: inputs.stage == 'native' && matrix.target == 'osx-64'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_macos_qt_qualification.py recover \
+            --target "$QT_PDF_TARGET" --prior-run-id "$QT_PDF_REUSE_RUN" \
+            --work-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
+
+      - name: Authenticate only the reviewed passed Windows PDF comparisons
+        if: inputs.stage == 'windows-pending' && matrix.target == 'win-64'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_windows_qt_qualification.py recover \
+            --target "$QT_PDF_TARGET" --prior-run-id "$QT_PDF_REUSE_RUN" \
+            --work-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
+
+      - name: Restore the reviewed Windows native build without compiling
+        if: inputs.stage == 'windows-native' && matrix.target == 'win-64'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QT_PDF_REUSE_RUN: ${{ inputs.reuse_run }}
+        run: |
+          git fetch --depth=1 --no-tags origin e5c5844f41c4a96d21dfbf21c7ae1d21c357be47
+          git submodule update --init --recursive
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/restore_windows_native_build.py recover \
+            --prior-run-id "$QT_PDF_REUSE_RUN" \
+            --work-dir "$RUNNER_TEMP/qt-pdf-windows-native-reuse"
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/restore_windows_native_build.py restore \
+            --proof-dir "$RUNNER_TEMP/qt-pdf-windows-native-reuse"
+
+      - name: Wait for this native package artifact
+        timeout-minutes: 240
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          qt_pdf_artifact="qt-pdf-backport-$QT_PDF_TARGET"
+          while true; do
+            qt_pdf_found=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$QT_PDF_BUILD_RUN/artifacts" \
+              --jq ".artifacts[] | select(.name == \"$qt_pdf_artifact\" and .expired == false) | .id")
+            if [ -n "$qt_pdf_found" ]; then break; fi
+            qt_pdf_state=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$QT_PDF_BUILD_RUN" --jq .status)
+            if [ "$qt_pdf_state" = completed ]; then
+              echo "Required package artifact is absent from completed run $QT_PDF_BUILD_RUN"
+              exit 1
+            fi
+            sleep 60
+          done
+
+      - name: Download the actual package and corresponding source evidence
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ env.QT_PDF_BUILD_RUN }}
+          name: qt-pdf-backport-${{ matrix.target }}
+          path: ${{ runner.temp }}
+
+      - name: Authenticate artifact transport and restore omitted public inputs
+        run: |
+          pixi exec --spec python=3.13 -- python package/qt-pdf/restore_evidence.py \
+            --artifact-work-dir "$RUNNER_TEMP/qt-pdf-package" \
+            --recovered-work-dir "$RUNNER_TEMP/qt-pdf-recovered"
+
+      - name: Install the exact package in an isolated candidate runtime
+        run: |
+          pixi exec --spec python=3.13 --spec micromamba=2.9.0 -- \
+            python package/qt-pdf/install_candidate.py \
+            --baseline-prefix "$GITHUB_WORKSPACE/.pixi/envs/default" \
+            --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
+            --candidate-prefix "$RUNNER_TEMP/qt-pdf-candidate"
+
+      - name: Bind the passed Qt checks to these exact runtime binaries
+        if: inputs.stage == 'native' || inputs.stage == 'windows-pending' || inputs.stage == 'windows-native'
+        run: |
+          qt_pdf_source=$(pixi exec --spec python=3.13 -- python - <<'PY'
+          import os
+          from pathlib import Path
+          files = list((Path(os.environ["RUNNER_TEMP"]) / "qt-pdf-recovered/output/src_cache").rglob("*.tar.xz"))
+          assert len(files) == 1, f"Expected the retained Qt source archive: {files}"
+          print(files[0])
+          PY
+          )
+          qt_pdf_reuse_helper=package/qt-pdf/reuse_linux_qt_qualification.py
+          qt_pdf_proof_dir="$RUNNER_TEMP/qt-pdf-reused-qt"
+          if [ "$QT_PDF_TARGET" = osx-64 ]; then
+            qt_pdf_reuse_helper=package/qt-pdf/reuse_macos_qt_qualification.py
+          elif [ "$QT_PDF_TARGET" = win-64 ]; then
+            qt_pdf_reuse_helper=package/qt-pdf/reuse_windows_qt_qualification.py
+            if [ "$QT_PDF_STAGE" = windows-native ]; then
+              qt_pdf_reuse_helper=package/qt-pdf/restore_windows_native_build.py
+              qt_pdf_proof_dir="$RUNNER_TEMP/qt-pdf-windows-native-reuse"
+            fi
+          fi
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python "$qt_pdf_reuse_helper" validate \
+            --proof-dir "$qt_pdf_proof_dir" \
+            --baseline-prefix "$GITHUB_WORKSPACE/.pixi/envs/default" \
+            --patched-prefix "$RUNNER_TEMP/qt-pdf-candidate" \
+            --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
+            --qt-source-archive "$qt_pdf_source"
+
+      - name: Capture the pending Windows upstream transcript before rebuilding FreeCAD
+        if: inputs.stage == 'windows-pending' && matrix.target == 'win-64'
+        timeout-minutes: 10
+        run: |
+          pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python package/qt-pdf/reuse_windows_qt_qualification.py run-upstream \
+            --proof-dir "$RUNNER_TEMP/qt-pdf-reused-qt"
+
+      - name: Configure and build native FreeCAD against locked baseline
+        if: inputs.stage != 'windows-native'
+        run: |
+          pixi run configure-release
+          # Keep normal startup and every native qualification dependency/resource.
+          # The unchanged conda presets use Ninja directory aggregate targets.
+          # Prior Linux/Intel/Windows captures omitted the app/core binaries needed here.
+          pixi run build-release --target \
+            src/Main/all src/Gui/all \
+            src/Mod/Part/all src/Mod/PartDesign/all src/Mod/Sketcher/all \
+            src/Mod/TechDraw/all src/Mod/Material/all src/Mod/Test/all pivy
+
+      - name: Compile the controlled mitigation bypass in this disposable checkout
+        if: inputs.stage != 'windows-native'
+        run: |
+          pixi run python tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py \
+            --ci-checkout --source "$GITHUB_WORKSPACE" --build "$GITHUB_WORKSPACE/build/release" \
+            --output "$RUNNER_TEMP/qt-pdf-native-module" --parallel 2
+
+      - name: Retain the native build for a focused Linux retry
+        id: retain_native
+        if: inputs.stage == 'native' && runner.os == 'Linux'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          modules = list((temporary / "qt-pdf-native-module").glob("*.so"))
+          assert len(modules) == 1
+          subprocess.run([sys.executable, "package/qt-pdf/linux_native_diagnostics.py", "retain",
+              "--build-root", str(source / "build/release"), "--source-root", str(source),
+              "--head-sha", os.environ["GITHUB_SHA"], "--bypass-module", str(modules[0]),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-native-build")], check=True)
+          PY
+
+      - name: Retain the native build for a focused Intel retry
+        id: retain_macos_native
+        if: inputs.stage == 'native' && matrix.target == 'osx-64'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          modules = list((temporary / "qt-pdf-native-module").glob("*.so"))
+          assert len(modules) == 1
+          subprocess.run([sys.executable, "package/qt-pdf/retain_macos_native_build.py",
+              "--build-root", str(source / "build/release"), "--source-root", str(source),
+              "--head-sha", os.environ["GITHUB_SHA"], "--bypass-module", str(modules[0]),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-macos-native-build")], check=True)
+          PY
+
+      - name: Retain the native build for a focused Windows retry
+        id: retain_windows_native
+        if: inputs.stage == 'windows-pending' && matrix.target == 'win-64'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: |
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          modules = list((temporary / "qt-pdf-native-module").glob("*.pyd"))
+          assert len(modules) == 1
+          subprocess.run([sys.executable, "package/qt-pdf/retain_windows_native_build.py",
+              "--build-root", str(source / "build/release"), "--source-root", str(source),
+              "--head-sha", os.environ["GITHUB_SHA"], "--bypass-module", str(modules[0]),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-windows-native-build")], check=True)
+          PY
+
+      - name: Qualify both Qt PDF devices and Qt's own writer tests
+        if: inputs.stage == 'all'
+        run: |
+          qt_pdf_source=$(pixi exec --spec python=3.13 -- python - <<'PY'
+          import os
+          from pathlib import Path
+          files = list((Path(os.environ["RUNNER_TEMP"]) / "qt-pdf-recovered/output/src_cache").rglob("*.tar.xz"))
+          assert len(files) == 1, f"Expected the retained Qt source archive: {files}"
+          print(files[0])
+          PY
+          )
+          # Use the locked compiler environment while supplying PDF tools through
+          # a separate pixi exec environment; this does not edit either Qt prefix.
+          pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python package/qt-pdf/qualify_package.py \
+            --baseline-prefix "$GITHUB_WORKSPACE/.pixi/envs/default" \
+            --patched-prefix "$RUNNER_TEMP/qt-pdf-candidate" \
+            --package-build-json "$RUNNER_TEMP/qt-pdf-recovered/build.json" \
+            --qt-source-archive "$qt_pdf_source" --work-dir "$RUNNER_TEMP/qt-pdf-device-results"
+
+      - name: Qualify stock native exports with both guards bypassed
+        id: native_capture
+        run: |
+          pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec poppler -- \
+            python - <<'PY'
+          import os, subprocess, sys
+          from pathlib import Path
+          source = Path(os.environ["GITHUB_WORKSPACE"])
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          baseline = source / ".pixi/envs/default"
+          candidate = temporary / "qt-pdf-candidate"
+          windows = sys.platform == "win32"
+          executable = source / "build/release/bin" / ("FreeCAD.exe" if windows else "FreeCAD")
+          modules = [p for p in (temporary / "qt-pdf-native-module").iterdir() if p.suffix in (".so", ".pyd")]
+          assert executable.is_file() and len(modules) == 1
+          if windows:
+              assert not list(executable.parent.glob("Qt6*.dll")), "App-directory Qt DLLs override selected runtime"
+          command = [sys.executable, str(source / "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py"),
+              "--freecad", str(executable),
+              "--baseline-python-runtime", str(baseline), "--patched-python-runtime", str(candidate),
+              "--bypass-module", str(modules[0]),
+              "--baseline-qt-lib", str(baseline / ("Library/bin" if windows else "lib")),
+              "--patched-qt-lib", str(candidate / ("Library/bin" if windows else "lib")),
+              "--baseline-qt-prefix", str(baseline), "--patched-qt-prefix", str(candidate),
+              "--output", str(temporary / "qt-pdf-native-results"),
+              "--report", str(temporary / "qt-pdf-native-report.json")]
+          if sys.platform.startswith("linux"):
+              command = ["xvfb-run", "-a", "-s", "-screen 0 1920x1080x24", *command]
+          subprocess.run(command, check=True)
+          PY
+
+      - name: Diagnose the failed ARM native process
+        id: diagnose_native
+        if: failure() && inputs.stage == 'native' && matrix.target == 'linux-aarch64' && steps.native_capture.conclusion == 'failure' && steps.retain_native.outcome == 'success'
+        run: |
+          xvfb-run -a -s '-screen 0 1920x1080x24' \
+            pixi run pixi exec --spec python=3.13 --spec pypdf --spec pillow --spec gdb -- \
+            python - <<'PY'
+          import os, shutil, subprocess, sys
+          from pathlib import Path
+          temporary = Path(os.environ["RUNNER_TEMP"])
+          gdb = shutil.which("gdb")
+          assert gdb and Path(gdb).is_file()
+          subprocess.run([sys.executable, "package/qt-pdf/linux_native_diagnostics.py", "diagnose",
+              "--failed-results", str(temporary / "qt-pdf-native-results"),
+              "--native-report", str(temporary / "qt-pdf-native-report.json"),
+              "--build-bundle", str(temporary / "qt-pdf-native-build"),
+              "--proof-dir", str(temporary / "qt-pdf-reused-qt"),
+              "--work-dir", str(temporary / "qt-pdf-native-crash-diagnostics"),
+              "--gdb", str(Path(gdb).resolve()), "--timeout", "180"], check=True)
+          PY
+
+      - name: Bind the new native capture to the reused passed Qt checks
+        if: inputs.stage == 'native' || inputs.stage == 'windows-pending' || inputs.stage == 'windows-native'
+        run: |
+          qt_pdf_reuse_helper=package/qt-pdf/reuse_linux_qt_qualification.py
+          qt_pdf_proof_dir="$RUNNER_TEMP/qt-pdf-reused-qt"
+          if [ "$QT_PDF_TARGET" = osx-64 ]; then
+            qt_pdf_reuse_helper=package/qt-pdf/reuse_macos_qt_qualification.py
+          elif [ "$QT_PDF_TARGET" = win-64 ]; then
+            qt_pdf_reuse_helper=package/qt-pdf/reuse_windows_qt_qualification.py
+            if [ "$QT_PDF_STAGE" = windows-native ]; then
+              qt_pdf_reuse_helper=package/qt-pdf/restore_windows_native_build.py
+              qt_pdf_proof_dir="$RUNNER_TEMP/qt-pdf-windows-native-reuse"
+            fi
+          fi
+          pixi exec --spec python=3.13 --spec pypdf --spec pillow -- \
+            python "$qt_pdf_reuse_helper" verify-native \
+            --proof-dir "$qt_pdf_proof_dir" \
+            --native-results "$RUNNER_TEMP/qt-pdf-native-results" \
+            --native-report "$RUNNER_TEMP/qt-pdf-native-report.json"
+
+      - name: Retain runtime inventories, PDFs and all qualification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: qt-pdf-qualification-${{ matrix.target }}
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/qt-pdf-recovered/transport-recovery.json
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/*.json
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/*.log
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/*.txt
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/candidate-conda-meta
+            ${{ runner.temp }}/qt-pdf-candidate.install-evidence/channel/*/repodata.json
+            ${{ runner.temp }}/qt-pdf-device-results
+            ${{ runner.temp }}/qt-pdf-reused-qt
+            ${{ runner.temp }}/qt-pdf-windows-native-reuse
+            ${{ runner.temp }}/qt-pdf-native-module
+            ${{ steps.retain_native.outputs.native_build_dir }}
+            ${{ steps.retain_macos_native.outputs.macos_native_build_dir }}
+            ${{ steps.retain_windows_native.outputs.windows_native_build_dir }}
+            ${{ steps.diagnose_native.outputs.crash_diagnostics_dir }}
+            ${{ runner.temp }}/qt-pdf-native-results
+            ${{ runner.temp }}/qt-pdf-native-report.json
+            ${{ github.workspace }}/build/release/CMakeCache.txt

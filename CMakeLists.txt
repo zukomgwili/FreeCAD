@@ -88,6 +88,9 @@ SetupYamlCpp()
 SetupZipIos()
 SetupClipper2()
 
+include(cMake/FreeCAD_Helpers/SelectQualifiedQt.cmake)
+freecad_select_qualified_qt()
+
 find_package(Qt6 REQUIRED COMPONENTS Core)
 set(FREECAD_QT_MAJOR_VERSION 6)
 
@@ -145,6 +148,8 @@ if(NOT FREECAD_LIBPACK_USE OR FREECAD_LIBPACK_CHECKFILE_CLBUNDLER OR FREECAD_LIB
     # to make sure nothing will reinstate them.
     hdf5_clean_fortify_source()
 endif()
+
+freecad_verify_qualified_qt_targets()
 
 SetLibraryVersions()
 SetGlobalCompilerAndLinkerSettings()
