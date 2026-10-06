@@ -211,6 +211,65 @@ def check_pre_export_evidence(record, case, macro_source):
         raise ValueError("Invalid prospective text palette")
     if palette["new_graphics_text_rgba"] != palette["widget_text_control_rgba"]:
         raise ValueError("Default text pen differs from its source palette")
+    readiness = evidence["face_readiness"]
+    if readiness != {
+        "policy": "global-thread-pool-idle/painted-box-face-v1",
+        "active_threads": 0,
+        "face_count": 1,
+        "stable_samples": 2,
+        "poll_ms": 50,
+        "timeout_ms": 20000,
+    } or any(type(value) is not int for key, value in readiness.items() if key != "policy"):
+        raise ValueError("Missing completed native face readiness")
+    faces = evidence["scene"]["faces"]
+    if len(faces) != 1 or faces != record["faces"]:
+        raise ValueError("Projected face changed before/after export")
+    face = faces[0]
+    elements = face["elements"]
+    if (
+        type(face["type"]) is not int
+        or face["type"] != 65556
+        or face["visible"] is not True
+        or face["empty"] is not False
+        or face["bounds"] != [-50.0, -50.0, 100.0, 100.0]
+        or not 5 <= len(elements) <= 12
+        or elements[0][:2] != elements[-1][:2]
+        or any(
+            len(element) != 3
+            or type(element[2]) is not int
+            or element[2] not in (0, 1)
+            or any(
+                type(value) not in (int, float)
+                or not math.isfinite(value)
+                or value not in (-50.0, 50.0)
+                for value in element[:2]
+            )
+            for element in elements
+        )
+        or type(face["length_scene"]) not in (int, float)
+        or not math.isclose(face["length_scene"], 400.0, abs_tol=1e-6)
+        or any(
+            len(face[key]) != 4
+            or any(type(value) is not int or not 0 <= value <= 255 for value in face[key])
+            for key in ("brush_rgba", "pen_rgba")
+        )
+        or type(face["qt_pen_is_cosmetic"]) is not bool
+        or any(
+            type(face[key]) is not int
+            for key in ("fill_rule", "brush_style", "pen_style", "cap", "join")
+        )
+        or any(
+            type(face[key]) not in (int, float) or not math.isfinite(face[key])
+            for key in ("width_scene", "dash_offset", "effective_opacity")
+        )
+        or not 0 < face["effective_opacity"] <= 1
+        or len(face["scene_transform"]) != 9
+        or any(
+            type(value) not in (int, float) or not math.isfinite(value)
+            for value in face["scene_transform"] + face["dash_pattern"]
+        )
+    ):
+        raise ValueError("Incomplete or invalid projected box face inputs")
     required = {
         "distance": 1,
         "theoretical-exact": 1,
@@ -293,7 +352,12 @@ def check_pre_export_evidence(record, case, macro_source):
         or (required and case["pdf_version"] != 0)
     ):
         raise ValueError("Baseline expectation was not derived from prospective pen inputs")
-    return {"text_palette": palette, "null_origin_frame_expectation": expectation}
+    return {
+        "text_palette": palette,
+        "null_origin_frame_expectation": expectation,
+        "faces": faces,
+        "face_readiness": readiness,
+    }
 
 
 def check_stock_records(
@@ -413,6 +477,26 @@ def check_stock_records(
                 valid = valid and native_ui[0].get("format") == 0
                 valid = valid and native_ui[0].get("dialog_class") == "#32770"
                 valid = valid and native_ui[0].get("button_id") == 1
+                valid = valid and native_ui[0].get("title") == "Print"
+                valid = valid and all(
+                    native_ui[0].get(key) is True
+                    for key in ("visible", "button_visible", "button_enabled")
+                )
+                valid = valid and native_ui[0].get("button_class") == "Button"
+                valid = (
+                    valid
+                    and native_ui[0].get("button_label", "").replace("&", "").casefold() == "print"
+                )
+                valid = valid and all(
+                    type(native_ui[0].get(key)) is int and native_ui[0][key] > 0
+                    for key in ("dialog_handle", "button_handle", "process_id", "thread_id")
+                )
+                valid = valid and native_ui[0].get("button_process_id") == native_ui[0].get(
+                    "process_id"
+                )
+                valid = valid and native_ui[0].get("button_thread_id") == native_ui[0].get(
+                    "thread_id"
+                )
             else:
                 valid = valid and len(settings) >= 2
         if not valid:

@@ -362,7 +362,8 @@ run 37465187347, then failed linking FreeCADGui because a system Python include
 tree shadowed the selected PyCXX headers. `FreeCADBase` now propagates its
 selected PyCXX include directory as an ordinary public include, keeping the
 same ABI in consumers. The focused route reuses those two completed Qt reports
-and unfinished application builds through `restore_libpack_native_failed.py`.
+and unfinished application builds through `restore_libpack_native_failed.py`
+for the include correction in run 37481334440.
 Both whole original result/build ZIPs, failed job/stage identities, immutable
 capture/report hashes and complete build-file indices are authenticated. Build
 timestamps are restored from the authenticated index, and the build resumes
@@ -371,8 +372,44 @@ accepted only through those two literal artifact bindings. Its evidence stays
 unchanged; fresh SDK inventories and the exact original installation admission
 remain required. CMake reconfiguration rebuilds objects affected by the include
 change or other changed inputs. Qt66 capture, upstream10 execution and Qt PDF
-inspection do not repeat for these two SDKs. Experimental x64 still follows
-the first-capture route because its Qt checks never ran.
+inspection did not repeat for those two SDKs. Experimental x64 completed its
+first Qt66/upstream10 capture and strict inspection in that run.
+
+All three application and mitigation-bypass builds completed. Experimental x64
+finished its native exports and GUI tests, then failed SDK preservation. Standard
+x64 also failed preservation and stopped at a native Print panel callback. ARM64
+completed its baseline GUI tests, then stopped at the same Print panel assertion;
+its candidate never launched. Its original preservation flags remain baseline
+false and candidate true. Those failures remain unqualified; their missing after
+inventories cannot establish which SDK files changed. FreeCAD's embedded Python initialization ignores the
+inherited bytecode environment flag, so that flag cannot enforce immutable SDK
+inputs before startup imports. No cache-file or timestamp exception is admitted.
+
+`restore_libpack_native_completed.py` admits only the finitely pinned completed
+application and bypass artifacts, preserving their original bytes and indexed
+timestamps at the exact native paths. Fresh qualification uses those binaries
+without CMake reconfiguration, compilation or bypass rebuilding. All tracked
+repository inputs must match the original producer except ten explicit
+qualification, documentation and tracking paths. This includes the app's
+`version.json`, data, other tests, submodules and unchanged bypass producer.
+Passed Qt66/upstream10 reports are rechecked without execution or rasterization.
+
+Before downloading SDKs, the route exercises reversible Windows DACL protection
+on a fresh tiny fixture. During native processes, `libpack_readonly_sdk.py` denies
+content, attribute, creation and deletion rights for the runner SID on every
+original SDK entry, while preserving read, execute and DACL restoration access.
+It saves all original descriptors before any mutation, restores and reads them
+back exactly, and retains complete stage inventories and failure deltas. This is
+cooperative input protection: `WRITE_DAC` remains available and parents outside
+the roots retain their rights. The original whole SDK preservation checks remain
+mandatory and independently inspected.
+
+Fresh native fixtures wait for the actual owned Windows Print panel and recheck
+its window/button before acceptance. They also drain asynchronous HLR/face work
+and require two stable complete box-face samples before export. Prospective face
+geometry, materials and transforms must remain equal through export and across
+both runtimes. These gates address missing readiness evidence in the failed
+captures; they do not weaken the exact PDF operator, coordinate or pixel checks.
 If native qualification fails, the unfinished application build and file indices
 are retained as unqualified diagnostics for a focused follow-up. Delivery,
 licensing archives, dependency promotion and production mitigation decisions

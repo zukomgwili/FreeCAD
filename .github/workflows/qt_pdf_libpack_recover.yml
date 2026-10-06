@@ -35,7 +35,7 @@ jobs:
           import json, os
           entries = [
               {"sdk": "3.5.3-x64", "os": "windows-2022", "python_arch": "x64", "native_cache": True},
-              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64", "native_cache": False},
+              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64", "native_cache": True},
               {"sdk": "3.5.5-arm64", "os": "windows-11-arm", "python_arch": "arm64", "native_cache": True},
           ]
           selected = os.environ["LIBPACK_SELECTION"]
@@ -77,6 +77,18 @@ jobs:
           python -B package/qt-pdf/prepare_libpack_host_tools.py `
             --sdk "$env:LIBPACK_SDK" `
             --work-dir "$env:RUNNER_TEMP/libpack-host-tools"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Verify reversible Windows input protection before SDK downloads
+        run: |
+          @'
+          import os, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path("package/qt-pdf").resolve(strict=True)))
+          import build_libpack_backport as adapter
+          import libpack_readonly_sdk as readonly
+          readonly.preflight(Path(os.environ["RUNNER_TEMP"]) / "libpack-readonly-preflight", adapter.baseline_helper())
+          '@ | python -B -
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Authenticate and recover the compiled SDK without Qt compilation
@@ -121,7 +133,7 @@ jobs:
           '@ | python -B -
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Recover the unfinished native build and already passed Qt evidence
+      - name: Recover completed native builds and already passed Qt evidence
         id: native_cache
         if: matrix.native_cache
         env:
@@ -133,7 +145,7 @@ jobs:
           from pathlib import Path
           sys.path.insert(0, str(Path("package/qt-pdf").resolve(strict=True)))
           import build_libpack_backport as adapter
-          import restore_libpack_native_failed as restore
+          import restore_libpack_native_completed as restore
           helper = adapter.baseline_helper()
           sdk = os.environ["LIBPACK_SDK"]
           receipts = restore.authenticated_metadata(sdk)
@@ -146,9 +158,9 @@ jobs:
                   subprocess.run(["gh", "api", f"repos/{restore.transport.REPOSITORY}/actions/artifacts/{receipt['id']}/zip"], stdout=output, check=True)
               paths[kind] = target
           restore.verify_zips(paths, receipts)
-          adapter.write_json(inputs / "download.json", {"run_id": restore.RUN_ID, "artifacts": receipts, "qualified": False})
+          adapter.write_json(inputs / "download.json", {"run_id": restore.PINS[sdk]["run_id"], "artifacts": receipts, "qualified": False})
           subprocess.run([
-              sys.executable, "-B", "package/qt-pdf/restore_libpack_native_failed.py",
+              sys.executable, "-B", "package/qt-pdf/restore_libpack_native_completed.py",
               "--sdk", sdk, "--result-zip", str(paths["result"]),
               "--native-build-zip", str(paths["native-build"]),
               "--work-dir", str(temporary / "libpack-native-cache"),
@@ -272,6 +284,7 @@ jobs:
           path: |
             ${{ runner.temp }}/libpack-host-tools/host-tools.json
             ${{ runner.temp }}/libpack-host-tools/evidence
+            ${{ runner.temp }}/libpack-readonly-preflight
             ${{ runner.temp }}/libpack-recovery-inputs/download.json
             ${{ runner.temp }}/libpack-installation-restoration/installation-recovery.json
             ${{ runner.temp }}/libpack-native-cache-inputs/download.json

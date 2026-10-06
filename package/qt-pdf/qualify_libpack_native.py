@@ -11,6 +11,7 @@ Neither operation promotes a package or changes a protected SDK.
 """
 
 import argparse
+from contextlib import nullcontext
 import json
 import os
 from pathlib import Path, PureWindowsPath
@@ -21,6 +22,7 @@ from types import SimpleNamespace
 
 import build_libpack_backport as adapter
 import qualify_libpack_backport as qt_checks
+import libpack_readonly_sdk as sdk_protection
 
 FIXTURE = adapter.REPO / "tests/src/Mod/TechDraw/Gui/QtPdfStroker"
 NATIVE_SOURCES = (
@@ -97,11 +99,51 @@ def configured_python(values, sdk, inventory):
     return selected
 
 
+def validate_readonly_preflight(directory, expected_root):
+    """Read back the retained real Windows denial probe without executing it."""
+    report = json_file(directory / "preflight.json")
+    protection = directory / "evidence/sdk-readonly.json"
+    adapter.require(
+        report["schema_version"] == 1
+        and report["status"] == "passed"
+        and report["qualified"] is False
+        and report["source_sha256"] == adapter.digest(Path(sdk_protection.__file__))
+        and report["protection_sha256"] == adapter.digest(protection)
+        and [(entry["operation"], entry["denied"]) for entry in report["operations"]]
+        == [
+            (operation, True)
+            for operation in (
+                "overwrite",
+                "append",
+                "create",
+                "create-directory",
+                "mtime",
+                "delete",
+                "rename",
+            )
+        ]
+        and all(
+            type(entry["denied"]) is bool
+            and type(entry["winerror"]) is int
+            and entry["winerror"] == 5
+            for entry in report["operations"]
+        ),
+        "Real Windows SDK protection preflight differs",
+    )
+    sdk_protection.validate_evidence(protection, roots=[str(expected_root)], purpose="preflight")
+    return report
+
+
 def native_cache_admission(report, sdk):
-    """Only the two authenticated failed builds can carry historical Qt proof."""
+    """Only finitely pinned historical builds can carry their passed Qt proof."""
+    filename = {
+        "native-cache-restored": "restore_libpack_native_failed.py",
+        "native-completed-restored": "restore_libpack_native_completed.py",
+    }.get(report.get("status"))
+    adapter.require(filename is not None, "Unsupported native cache admission")
     restorer = adapter.load_module(
         "libpack_native_cache_admission",
-        Path(__file__).with_name("restore_libpack_native_failed.py"),
+        Path(__file__).with_name(filename),
     )
     restorer.validate_receipt(report, sdk)
     return restorer
@@ -129,7 +171,7 @@ def passed_qt_report(path, evidence, helper, cache=None):
             == cache["immutable_original"]["qt_capture_sha256"],
             "Cached Qt inspection/capture differs from the pinned original result",
         )
-        expected_helper = restorer.QT_HELPER
+        expected_helper = cache["immutable_original"]["qt_helper_sha256"]
     adapter.require(
         result["schema_version"] == 1
         and result["status"] == "passed"
@@ -258,7 +300,7 @@ def validate_qt_capture(evidence, work, helper, cache=None):
             and helper.real_path(evidence) == helper.real_path(Path(cache["qt_evidence"])),
             "Native cache belongs to different historical Qt evidence",
         )
-        expected_helper = restorer.QT_HELPER
+        expected_helper = cache["immutable_original"]["qt_helper_sha256"]
     adapter.require(
         capture.get("status") == "captured"
         and capture.get("qualified") is False
@@ -511,9 +553,11 @@ def capture(args, helper):
     else:
         adapter.require(
             destination == helper.real_path(Path(cache["original_native_root"]))
-            and {path.name for path in destination.iterdir()} == {"b"},
+            and {path.name for path in destination.iterdir()}
+            == ({"b", "module"} if cache["status"] == "native-completed-restored" else {"b"}),
             "Cached native root must contain only the authenticated unfinished build",
         )
+    completed = cache is not None and cache["status"] == "native-completed-restored"
     evidence = destination / "evidence"
     evidence.mkdir()
     if os.environ.get("GITHUB_OUTPUT"):
@@ -606,6 +650,24 @@ def capture(args, helper):
             "Dirty/uninitialized FreeCAD Git links",
         )
         report["freecad_source"] = {"root": str(source), "commit": commit, "submodules": submodules}
+        if completed:
+            preflight = helper.real_path(
+                Path(os.environ["RUNNER_TEMP"]) / "libpack-readonly-preflight"
+            )
+            retained_preflight = evidence / "sdk-readonly-preflight"
+            shutil.copytree(
+                preflight / "evidence", retained_preflight / "evidence", copy_function=shutil.copy2
+            )
+            shutil.copy2(preflight / "preflight.json", retained_preflight / "preflight.json")
+            validate_readonly_preflight(retained_preflight, preflight / "input")
+            adapter.require(
+                submodules == cache["immutable_original"]["freecad_source"]["submodules"],
+                "Completed native build Git links changed",
+            )
+            report["completed_build_source"] = restorer.source_equivalence(
+                source, evidence, environment, cache["immutable_original"]
+            )
+            report["freecad_recompiled"] = report["bypass_recompiled"] = False
         shutil.copytree(qt_evidence, evidence / "qt-capture", copy_function=shutil.copy2)
         if passed_report is not None:
             shutil.copy2(passed_report, evidence / "qt-passed-inspection.json")
@@ -625,30 +687,33 @@ def capture(args, helper):
                 )
             ),
         }
-        configure = [
-            tools["cmake"]["path"],
-            "-S",
-            str(source),
-            "-B",
-            str(build),
-            "--preset",
-            "release",
-            "-G",
-            "Ninja",
-            "-DCMAKE_C_COMPILER=" + compiler["compiler"],
-            "-DCMAKE_CXX_COMPILER=" + compiler["compiler"],
-            "-DFREECAD_LIBPACK_USE=ON",
-            "-DFREECAD_LIBPACK_DIR=" + str(baseline),
-            "-DBUILD_WITH_CONDA=OFF",
-            "-DBUILD_GUI=ON",
-            "-DBUILD_TEST=ON",
-            "-DENABLE_DEVELOPER_TESTS=ON",
-            "-DFREECAD_USE_PCH=OFF",
-            "-DFREECAD_RELEASE_PDB=OFF",
-            "-DCMAKE_INSTALL_PREFIX=" + str(destination / "unused-staging"),
-            *("-D" + option + "=OFF" for option in COPY_OPTIONS),
-        ]
-        adapter.command(configure, evidence, "freecad-configure", source, runtime_env)
+        if completed:
+            configure = cache["immutable_original"]["configure_command"]
+        else:
+            configure = [
+                tools["cmake"]["path"],
+                "-S",
+                str(source),
+                "-B",
+                str(build),
+                "--preset",
+                "release",
+                "-G",
+                "Ninja",
+                "-DCMAKE_C_COMPILER=" + compiler["compiler"],
+                "-DCMAKE_CXX_COMPILER=" + compiler["compiler"],
+                "-DFREECAD_LIBPACK_USE=ON",
+                "-DFREECAD_LIBPACK_DIR=" + str(baseline),
+                "-DBUILD_WITH_CONDA=OFF",
+                "-DBUILD_GUI=ON",
+                "-DBUILD_TEST=ON",
+                "-DENABLE_DEVELOPER_TESTS=ON",
+                "-DFREECAD_USE_PCH=OFF",
+                "-DFREECAD_RELEASE_PDB=OFF",
+                "-DCMAKE_INSTALL_PREFIX=" + str(destination / "unused-staging"),
+                *("-D" + option + "=OFF" for option in COPY_OPTIONS),
+            ]
+            adapter.command(configure, evidence, "freecad-configure", source, runtime_env)
         values = cache_values(build / "CMakeCache.txt")
         adapter.require(
             all(values.get(option) == "OFF" for option in COPY_OPTIONS)
@@ -676,7 +741,13 @@ def capture(args, helper):
             "--parallel",
             "2",
         ]
-        adapter.command(report["build_command"], evidence, "freecad-build", source, runtime_env)
+        if completed:
+            adapter.require(
+                report["build_command"] == cache["immutable_original"]["build_command"],
+                "Completed native target selection changed",
+            )
+        else:
+            adapter.command(report["build_command"], evidence, "freecad-build", source, runtime_env)
         shutil.copy2(build / "CMakeCache.txt", evidence / "FreeCAD-CMakeCache.txt")
         adapter.require(
             not list(build.rglob("Qt6*.dll")) and not (build / "bin/qt.conf").exists(),
@@ -684,28 +755,29 @@ def capture(args, helper):
         )
         native = native_helper()
         bypass = destination / "module"
-        adapter.command(
-            [
-                sys.executable,
-                "-B",
-                str(FIXTURE / "build-native-bypass.py"),
-                "--ci-checkout",
-                "--source",
-                str(source),
-                "--build",
-                str(build),
-                "--output",
-                str(bypass),
-                "--cmake",
-                tools["cmake"]["path"],
-                "--parallel",
-                "2",
-            ],
-            evidence,
-            "freecad-bypass",
-            source,
-            runtime_env,
-        )
+        if not completed:
+            adapter.command(
+                [
+                    sys.executable,
+                    "-B",
+                    str(FIXTURE / "build-native-bypass.py"),
+                    "--ci-checkout",
+                    "--source",
+                    str(source),
+                    "--build",
+                    str(build),
+                    "--output",
+                    str(bypass),
+                    "--cmake",
+                    tools["cmake"]["path"],
+                    "--parallel",
+                    "2",
+                ],
+                evidence,
+                "freecad-bypass",
+                source,
+                runtime_env,
+            )
         module = helper.real_path(Path(json_file(bypass / "bypass-provenance.json")["module"]))
         binaries = {}
         retained = evidence / "native-binaries"
@@ -748,35 +820,62 @@ def capture(args, helper):
             python_runtime=None,
             expected_qt_version="6.11.1",
         )
-        for side, root in (("baseline", baseline), ("patched", candidate)):
-            for key, value in {
-                "qt_prefix": root,
-                "qt_lib": root / "bin",
-                "plugin_dir": root / "plugins",
-                "python_runtime": root / "bin",
-                "runtime_dll_dirs": (
-                    root / "lib",
-                    root / "bin/Lib/site-packages/PySide6",
-                    root / "bin/Lib/site-packages/shiboken6",
-                ),
-            }.items():
-                setattr(launch, side + "_" + key, value)
-            directory = native.launch(launch, side)
-            provenance = json_file(directory / "native-provenance.json")
-            native.check_stock_records(
-                provenance, json_file(directory / "manifest.json"), directory, "6.11.1", side=side
+        protection = (
+            sdk_protection.protect((baseline, candidate), evidence / "sdk-readonly", helper)
+            if completed
+            else nullcontext(None)
+        )
+        with protection as policy:
+            for side, root in (("baseline", baseline), ("patched", candidate)):
+                for key, value in {
+                    "qt_prefix": root,
+                    "qt_lib": root / "bin",
+                    "plugin_dir": root / "plugins",
+                    "python_runtime": root / "bin",
+                    "runtime_dll_dirs": (
+                        root / "lib",
+                        root / "bin/Lib/site-packages/PySide6",
+                        root / "bin/Lib/site-packages/shiboken6",
+                    ),
+                }.items():
+                    setattr(launch, side + "_" + key, value)
+                directory = native.launch(launch, side)
+                if policy is not None:
+                    policy.snapshot(side + "-finished")
+                provenance = json_file(directory / "native-provenance.json")
+                native.check_stock_records(
+                    provenance,
+                    json_file(directory / "manifest.json"),
+                    directory,
+                    "6.11.1",
+                    side=side,
+                    require_prospective=True,
+                )
+                modules, core = native_runtime_receipts(
+                    provenance,
+                    root,
+                    before if side == "baseline" else candidate_before,
+                    sdk["architecture"],
+                    binaries,
+                    helper,
+                    capture=True,
+                )
+                provenance["sdk_module_receipts"], provenance["core_module_receipts"] = (
+                    modules,
+                    core,
+                )
+                adapter.write_json(directory / "native-provenance.json", provenance)
+        if completed:
+            protection_path = evidence / "sdk-readonly/sdk-readonly.json"
+            sdk_protection.validate_evidence(
+                protection_path,
+                roots=[str(baseline), str(candidate)],
+                inventories=[before, candidate_before],
             )
-            modules, core = native_runtime_receipts(
-                provenance,
-                root,
-                before if side == "baseline" else candidate_before,
-                sdk["architecture"],
-                binaries,
-                helper,
-                capture=True,
+            report["sdk_runtime_protection_sha256"] = adapter.digest(protection_path)
+            report["sdk_runtime_protection_helper_sha256"] = adapter.digest(
+                Path(sdk_protection.__file__)
             )
-            provenance["sdk_module_receipts"], provenance["core_module_receipts"] = modules, core
-            adapter.write_json(directory / "native-provenance.json", provenance)
         native.check_provenance(pair / "baseline", pair / "patched", expected_qt_version="6.11.1")
         adapter.require(
             all(
@@ -802,10 +901,20 @@ def capture(args, helper):
     finally:
         os.environ.clear()
         os.environ.update(saved_environment)
-        report["baseline_unchanged"] = (
-            helper.inventory(baseline) == before and helper.inventory(work / "baseline") == before
-        )
-        report["candidate_unchanged"] = helper.inventory(candidate) == candidate_before
+        baseline_after = helper.inventory(baseline)
+        clone_after = helper.inventory(work / "baseline")
+        candidate_after = helper.inventory(candidate)
+        for name, actual, expected in (
+            ("baseline", baseline_after, before),
+            ("baseline-clone", clone_after, before),
+            ("candidate", candidate_after, candidate_before),
+        ):
+            adapter.write_json(evidence / (name + "-after.json"), actual)
+            adapter.write_json(
+                evidence / (name + "-delta.json"), sdk_protection.inventory_delta(expected, actual)
+            )
+        report["baseline_unchanged"] = baseline_after == before and clone_after == before
+        report["candidate_unchanged"] = candidate_after == candidate_before
         if not report["baseline_unchanged"] or not report["candidate_unchanged"]:
             report["status"] = "failed"
         report["evidence_sha256"] = qt_checks.evidence_files(
@@ -867,13 +976,13 @@ def inspect(args, helper):
             adapter.digest(qt_evidence / "capture.json") == capture_report["qt_capture_sha256"],
             "Native pair references a different Qt candidate capture",
         )
+        cache = None
         if capture_report.get("qt_passed_inspection_sha256"):
             retained_report = evidence / "qt-passed-inspection.json"
             adapter.require(
                 adapter.digest(retained_report) == capture_report["qt_passed_inspection_sha256"],
                 "Retained strict Qt inspection changed",
             )
-            cache = None
             if capture_report.get("native_cache_recovery_sha256"):
                 cache_path = evidence / "native-cache-recovery.json"
                 adapter.require(
@@ -945,6 +1054,46 @@ def inspect(args, helper):
             "baseline": json_file(qt_evidence / "baseline/sdk-before.json"),
             "patched": json_file(qt_evidence / "candidate-before.json"),
         }
+        if cache is not None and cache["status"] == "native-completed-restored":
+            original = cache["immutable_original"]
+            restorer = native_cache_admission(cache, sdk)
+            adapter.require(
+                capture_report["completed_build_source"]
+                == {
+                    "binary_source_commit": original["freecad_source"]["commit"],
+                    "qualification_source_commit": capture_report["freecad_source"]["commit"],
+                    "selected_paths": list(restorer.SOURCE_PATHS),
+                    "compiled_tracked_inputs_equal": True,
+                    "source_timestamps_modified": False,
+                    "freecad_recompiled": False,
+                    "bypass_recompiled": False,
+                }
+                and capture_report["freecad_recompiled"]
+                is capture_report["bypass_recompiled"]
+                is False
+                and capture_report["binaries"] == original["binaries"]
+                and capture_report["freecad_source"]["submodules"]
+                == original["freecad_source"]["submodules"]
+                and not (evidence / "completed-source-diff.log").read_text(encoding="utf-8")
+                and capture_report["sdk_runtime_protection_helper_sha256"]
+                == adapter.digest(Path(sdk_protection.__file__)),
+                "Completed native source/binary/protection binding differs",
+            )
+            protection_path = evidence / "sdk-readonly/sdk-readonly.json"
+            adapter.require(
+                adapter.digest(protection_path) == capture_report["sdk_runtime_protection_sha256"],
+                "Runtime SDK protection receipt differs",
+            )
+            sdk_protection.validate_evidence(
+                protection_path,
+                roots=[capture_report["baseline_sdk"], capture_report["candidate_sdk"]],
+                inventories=[inventories["baseline"], inventories["patched"]],
+            )
+            validate_readonly_preflight(
+                evidence / "sdk-readonly-preflight",
+                PureWindowsPath(capture_report["work_dir"]).parent
+                / "libpack-readonly-preflight/input",
+            )
         configured_python(
             cache_values(evidence / "FreeCAD-CMakeCache.txt"),
             capture_report["baseline_sdk"],
@@ -964,6 +1113,7 @@ def inspect(args, helper):
         native = native_helper()
         gui_hashes = []
         modules = []
+        prospective_inputs = []
         for side, root in (
             ("baseline", capture_report["baseline_sdk"]),
             ("patched", capture_report["candidate_sdk"]),
@@ -975,17 +1125,32 @@ def inspect(args, helper):
                 manifest["schema_version"] == 2 and manifest["raster_dpi"] == 150,
                 "Native manifest format/DPI differs",
             )
-            native.check_stock_records(
-                provenance,
-                manifest,
-                PureWindowsPath(
-                    json_file(directory / "launch.json")["environment_overrides"][
-                        "TD_NATIVE_OUTPUT"
-                    ]
-                ),
-                "6.11.1",
-                PureWindowsPath,
-                side,
+            prospective_inputs.append(
+                native.check_stock_records(
+                    provenance,
+                    manifest,
+                    PureWindowsPath(
+                        json_file(directory / "launch.json")["environment_overrides"][
+                            "TD_NATIVE_OUTPUT"
+                        ]
+                    ),
+                    "6.11.1",
+                    PureWindowsPath,
+                    side,
+                    require_prospective=True,
+                )
+            )
+            launch_record = json_file(directory / "launch.json")
+            macro_source = provenance["macro_source"]
+            adapter.require(
+                len(prospective_inputs[-1]) == 24
+                and macro_source["sha256"]
+                == capture_report["sources"]["native-freecad.FCMacro"]
+                == launch_record["environment_overrides"]["TD_NATIVE_MACRO_SHA256"]
+                and PureWindowsPath(macro_source["path"])
+                == PureWindowsPath(launch_record["environment_overrides"]["TD_NATIVE_MACRO_PATH"])
+                == PureWindowsPath(launch_record["command"][-1]),
+                "Native prospective input/source launch binding differs",
             )
             adapter.require(
                 PureWindowsPath(provenance["expected_qt_prefix"]) == PureWindowsPath(root)
@@ -1035,6 +1200,10 @@ def inspect(args, helper):
             modules.append(provenance)
         adapter.require(
             gui_hashes[0] != gui_hashes[1], "Native pair did not load different actual QtGui bytes"
+        )
+        adapter.require(
+            prospective_inputs[0] == prospective_inputs[1],
+            "Prospective native scene inputs differ between runtimes",
         )
         renders.mkdir()
         for side in ("baseline", "patched"):

@@ -17,6 +17,7 @@ import math
 import os
 from pathlib import Path
 import sys
+import time
 import traceback
 import unittest
 
@@ -38,6 +39,67 @@ def settle(milliseconds=300):
 
 def color_rgba(color):
     return [color.red(), color.green(), color.blue(), color.alpha()]
+
+
+def ready_box_face(scene):
+    """Recognize the complete projected face of this fixture's unchanged box."""
+    if len(scene["faces"]) != 1:
+        return False
+    face = scene["faces"][0]
+    elements = face["elements"]
+    return bool(
+        face["type"] == 65556
+        and face["visible"]
+        and not face["empty"]
+        and face["bounds"] == [-50.0, -50.0, 100.0, 100.0]
+        and math.isclose(face["length_scene"], 400.0, abs_tol=1e-6)
+        and 5 <= len(elements) <= 12
+        and elements[0][:2] == elements[-1][:2]
+        and all(element[2] in (0, 1) for element in elements)
+        and all(
+            math.isfinite(value) and value in (-50.0, 50.0)
+            for element in elements
+            for value in element[:2]
+        )
+    )
+
+
+def wait_for_box_face(read_scene, request_paint, active_threads, pause, observe, clock):
+    """Drain HLR/face callbacks and observe two identical complete face samples.
+
+    DrawViewPart starts HLR and then face extraction with QtConcurrent::run on
+    Qt's global pool. Its public requestPaint redraws from getFaceGeometry,
+    which returns no faces until extraction finishes. An idle pool alone does
+    not consume the queued finished callback that starts the next task.
+    """
+    deadline = clock() + 20.0
+    previous = None
+    stable = 0
+    while clock() < deadline:
+        pause(50)
+        active = active_threads()
+        if active == 0:
+            request_paint()
+            pause(50)
+            active = active_threads()
+        scene = read_scene()
+        complete = active == 0 and ready_box_face(scene)
+        sample = {"faces": scene["faces"], "paths": scene["paths"]}
+        stable = stable + 1 if complete and sample == previous else int(complete)
+        previous = sample if complete else None
+        observe(
+            {"active_threads": active, "face_count": len(scene["faces"]), "stable_samples": stable}
+        )
+        if stable == 2 and clock() < deadline:
+            return scene, {
+                "policy": "global-thread-pool-idle/painted-box-face-v1",
+                "active_threads": 0,
+                "face_count": 1,
+                "stable_samples": 2,
+                "poll_ms": 50,
+                "timeout_ms": 20000,
+            }
+    raise AssertionError("Timed out waiting for complete stable TechDraw box face geometry")
 
 
 def text_palette_record():
@@ -266,12 +328,8 @@ def accept_cocoa_print_panel(result, expected_window):
     send_integer(application, objc.sel_registerName(b"stopModalWithCode:"), result)
 
 
-def accept_windows_print_panel():
-    """Click Print only in this process/thread's unique native print dialog.
-
-    Windows runners use an English UI. Fail if that owned dialog/button cannot
-    be identified; never send a command to another application's window.
-    """
+def windows_print_panel_state():
+    """Observe current-thread windows, including an incompletely created panel."""
     user = ctypes.WinDLL("user32", use_last_error=True)
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
     kernel.GetCurrentThreadId.restype = wintypes.DWORD
@@ -294,6 +352,83 @@ def accept_windows_print_panel():
         function.restype = ctypes.c_int
     user.GetDlgItem.argtypes = [wintypes.HWND, ctypes.c_int]
     user.GetDlgItem.restype = wintypes.HWND
+
+    def text(hwnd, function):
+        buffer = ctypes.create_unicode_buffer(256)
+        getattr(user, function)(hwnd, buffer, len(buffer))
+        return buffer.value
+
+    windows = []
+
+    @callback_type
+    def observe(hwnd, unused):
+        process = wintypes.DWORD()
+        observed_thread = user.GetWindowThreadProcessId(hwnd, ctypes.byref(process))
+        button = user.GetDlgItem(hwnd, 1)  # IDOK in the standard Print property sheet.
+        button_process = wintypes.DWORD()
+        button_thread = (
+            user.GetWindowThreadProcessId(button, ctypes.byref(button_process)) if button else 0
+        )
+        windows.append(
+            {
+                "dialog_handle": hwnd,
+                "process_id": process.value,
+                "thread_id": observed_thread,
+                "visible": bool(user.IsWindowVisible(hwnd)),
+                "dialog_class": text(hwnd, "GetClassNameW"),
+                "title": text(hwnd, "GetWindowTextW"),
+                "button_handle": button or 0,
+                "button_id": 1,
+                "button_process_id": button_process.value,
+                "button_thread_id": button_thread,
+                "button_visible": bool(button and user.IsWindowVisible(button)),
+                "button_enabled": bool(button and user.IsWindowEnabled(button)),
+                "button_class": text(button, "GetClassNameW") if button else None,
+                "button_label": text(button, "GetWindowTextW") if button else None,
+            }
+        )
+        return len(windows) < 1000
+
+    if not user.EnumThreadWindows(thread, observe, 0):
+        raise ctypes.WinError(ctypes.get_last_error())
+    assert len(windows) < 1000, "Unexpected Windows thread window inventory"
+    return {"process_id": os.getpid(), "thread_id": thread, "windows": windows}
+
+
+def windows_print_panel_candidates(state):
+    return [
+        window
+        for window in state["windows"]
+        if window["process_id"] == state["process_id"]
+        and window["thread_id"] == state["thread_id"]
+        and window["dialog_handle"]
+        and window["visible"]
+        and window["dialog_class"] == "#32770"
+        and window["title"] == "Print"
+        and window["button_handle"]
+        and window["button_id"] == 1
+        and window["button_process_id"] == state["process_id"]
+        and window["button_thread_id"] == state["thread_id"]
+        and window["button_visible"]
+        and window["button_enabled"]
+        and window["button_class"] == "Button"
+        and window["button_label"].replace("&", "").casefold() == "print"
+    ]
+
+
+def ready_windows_print_panel(state):
+    candidates = windows_print_panel_candidates(state)
+    assert len(candidates) <= 1, "Ambiguous owned native Print property sheets"
+    return len(candidates) == 1
+
+
+def accept_windows_print_panel(expected):
+    """Recheck and click only the observed owned native English Print button."""
+    state = windows_print_panel_state()
+    assert ready_windows_print_panel(state), state
+    current = windows_print_panel_candidates(state)[0]
+    assert current == expected, (expected, current)
+    user = ctypes.WinDLL("user32", use_last_error=True)
     user.SetActiveWindow.argtypes = [wintypes.HWND]
     user.SetActiveWindow.restype = wintypes.HWND
     user.SendMessageW.argtypes = [
@@ -303,51 +438,9 @@ def accept_windows_print_panel():
         wintypes.LPARAM,
     ]
     user.SendMessageW.restype = ctypes.c_ssize_t
-
-    def text(hwnd, function):
-        buffer = ctypes.create_unicode_buffer(256)
-        getattr(user, function)(hwnd, buffer, len(buffer))
-        return buffer.value
-
-    candidates = []
-
-    @callback_type
-    def observe(hwnd, unused):
-        process = wintypes.DWORD()
-        observed_thread = user.GetWindowThreadProcessId(hwnd, ctypes.byref(process))
-        if (
-            process.value != os.getpid()
-            or observed_thread != thread
-            or not user.IsWindowVisible(hwnd)
-        ):
-            return True
-        if text(hwnd, "GetClassNameW") != "#32770":
-            return True
-        button = user.GetDlgItem(hwnd, 1)  # IDOK in the standard Print property sheet.
-        if button and user.IsWindowVisible(button) and user.IsWindowEnabled(button):
-            label = text(button, "GetWindowTextW")
-            if (
-                text(button, "GetClassNameW") == "Button"
-                and label.replace("&", "").casefold() == "print"
-            ):
-                candidates.append((hwnd, button, label))
-        return True
-
-    if not user.EnumThreadWindows(thread, observe, 0):
-        raise ctypes.WinError(ctypes.get_last_error())
-    assert len(candidates) == 1, "Expected one owned native Print property sheet"
-    hwnd, button, label = candidates[0]
-    record = {
-        "process_id": os.getpid(),
-        "thread_id": thread,
-        "dialog_handle": hwnd,
-        "button_id": 1,
-        "button_label": label,
-        "dialog_class": "#32770",
-    }
-    user.SetActiveWindow(hwnd)
-    user.SendMessageW(button, 0x00F5, 0, 0)  # Documented BM_CLICK.
-    return record
+    user.SetActiveWindow(current["dialog_handle"])
+    user.SendMessageW(current["button_handle"], 0x00F5, 0, 0)  # Documented BM_CLICK.
+    return current
 
 
 output = Path(os.environ["TD_NATIVE_OUTPUT"]).resolve()
@@ -439,6 +532,7 @@ try:
 
     def scene_record():
         paths = []
+        faces = []
         rectangles = []
         seen = set()
         for top in QtWidgets.QApplication.instance().topLevelWidgets():
@@ -472,6 +566,57 @@ try:
                                 "cap": pen.capStyle().value,
                                 "dash_pattern": list(pen.dashPattern()),
                                 "dash_offset": pen.dashOffset(),
+                            }
+                        )
+                    if isinstance(item, QtWidgets.QGraphicsPathItem) and item.type() == 65556:
+                        path = item.path()
+                        pen = item.pen()
+                        brush = item.brush()
+                        bounds = path.boundingRect()
+                        transform = item.sceneTransform()
+                        faces.append(
+                            {
+                                "type": item.type(),
+                                "elements": [
+                                    [
+                                        path.elementAt(i).x,
+                                        path.elementAt(i).y,
+                                        path.elementAt(i).type.value,
+                                    ]
+                                    for i in range(path.elementCount())
+                                ],
+                                "empty": path.isEmpty(),
+                                "visible": item.isVisible(),
+                                "bounds": [
+                                    bounds.x(),
+                                    bounds.y(),
+                                    bounds.width(),
+                                    bounds.height(),
+                                ],
+                                "length_scene": path.length(),
+                                "fill_rule": path.fillRule().value,
+                                "brush_style": brush.style().value,
+                                "brush_rgba": color_rgba(brush.color()),
+                                "pen_style": pen.style().value,
+                                "pen_rgba": color_rgba(pen.color()),
+                                "width_scene": pen.widthF(),
+                                "qt_pen_is_cosmetic": pen.isCosmetic(),
+                                "cap": pen.capStyle().value,
+                                "join": pen.joinStyle().value,
+                                "dash_pattern": list(pen.dashPattern()),
+                                "dash_offset": pen.dashOffset(),
+                                "effective_opacity": item.effectiveOpacity(),
+                                "scene_transform": [
+                                    transform.m11(),
+                                    transform.m12(),
+                                    transform.m13(),
+                                    transform.m21(),
+                                    transform.m22(),
+                                    transform.m23(),
+                                    transform.m31(),
+                                    transform.m32(),
+                                    transform.m33(),
+                                ],
                             }
                         )
                     if isinstance(item, QtWidgets.QGraphicsRectItem) and item.type() in (3, 65540):
@@ -510,7 +655,9 @@ try:
                                 ],
                             }
                         )
-        return {"paths": paths, "rectangles": rectangles}
+        paths.sort(key=lambda path: json.dumps(path, sort_keys=True))
+        faces.sort(key=lambda face: json.dumps(face, sort_keys=True))
+        return {"paths": paths, "faces": faces, "rectangles": rectangles}
 
     def pre_export_evidence(name, device, baseline_closes):
         required = {
@@ -519,7 +666,28 @@ try:
             "area-and-theoretical-exact": 2,
             "area-relocated-and-theoretical-exact": 2,
         }.get(name, 0)
-        scene = scene_record()
+        readiness_path = output / ("face-readiness-" + device + "-" + name + ".json")
+        assert not readiness_path.exists(), "Preserve face readiness diagnostics"
+        readiness_states = []
+
+        def observe_face_readiness(state):
+            if not readiness_states or state != readiness_states[-1]:
+                if len(readiness_states) == 20:
+                    readiness_states[-1] = state
+                else:
+                    readiness_states.append(state)
+                readiness_path.write_text(json.dumps(readiness_states, indent=2) + "\n")
+                print("FACE_READINESS_STATE", device, name, state)
+                log.flush()
+
+        scene, readiness = wait_for_box_face(
+            scene_record,
+            view.requestPaint,
+            QtCore.QThreadPool.globalInstance().activeThreadCount,
+            settle,
+            observe_face_readiness,
+            time.monotonic,
+        )
         palette = text_palette_record()
         expectation = null_origin_frame_expectation(scene, palette, required)
         assert digest(macro_path) == macro_source["sha256"], "Macro source changed before export"
@@ -531,6 +699,7 @@ try:
             "pdf_version": preferences["Mod"].GetInt("PDFVersion", 0),
             "text_palette": palette,
             "scene": scene,
+            "face_readiness": readiness,
             "null_origin_frame_expectation": expectation,
             "baseline_invalid_closes": baseline_closes + expectation["baseline_invalid_closes"],
         }
@@ -544,6 +713,8 @@ try:
 
     def post_export_scene(evidence):
         scene = scene_record()
+        assert ready_box_face(scene), scene
+        assert scene["faces"] == evidence["scene"]["faces"], (evidence, scene["faces"])
         palette = text_palette_record()
         assert palette == evidence["text_palette"], (evidence, palette)
         expectation = null_origin_frame_expectation(
@@ -585,10 +756,15 @@ try:
             }
             if sys.platform == "darwin":
                 value["cocoa"] = state if state is not None else cocoa_print_panel_state()
+            elif sys.platform == "win32":
+                value["windows"] = state if state is not None else windows_print_panel_state()
             key = json.dumps(value, sort_keys=True)
-            if key not in observed_states and len(panel_states) < 20:
+            if key not in observed_states:
                 observed_states.add(key)
-                panel_states.append(value)
+                if len(panel_states) == 20:
+                    panel_states[-1] = value
+                else:
+                    panel_states.append(value)
                 print("PRINT_DIALOG_STATE", name, value)
                 log.flush()
                 diagnostic_file.write_text(json.dumps(panel_states, indent=2) + "\n")
@@ -636,6 +812,15 @@ try:
                 for widget in QtWidgets.QApplication.instance().topLevelWidgets()
                 if isinstance(widget, QtPrintSupport.QPrintDialog) and widget.isVisible()
             ]
+            if sys.platform == "win32":
+                state = windows_print_panel_state()
+                record_print_state("poll", state)
+                assert len(visible_dialogs) <= 1, "Expected one visible stock Print dialog"
+                if not visible_dialogs or not ready_windows_print_panel(state):
+                    return
+                panel_window.append(windows_print_panel_candidates(state)[0])
+                assert len(panel_window) == 1, "Expected one owned Windows Print panel"
+                record_print_state("owned Print panel active", state)
             for widget in visible_dialogs:
                 if sys.platform == "darwin":
                     state = cocoa_print_panel_state()
@@ -649,6 +834,7 @@ try:
                     assert len(panel_window) == 1, "Expected one owned Cocoa Print panel"
                     record_print_state("owned Print panel active", state)
                 dialogs.append(widget.metaObject().className())
+                post_export_scene(evidence)
 
                 # The native dialog can map destination settings before emitting
                 # accepted; keep this actual printer configured for PDF afterward.
@@ -679,7 +865,7 @@ try:
                         record_print_state("Cocoa completion requested")
                         accept_cocoa_print_panel(1, panel_window[0])
                     elif sys.platform == "win32":
-                        native_ui_settings[-1].update(accept_windows_print_panel())
+                        native_ui_settings[-1].update(accept_windows_print_panel(panel_window[0]))
                     else:
                         widget.accept()
                 except Exception:
@@ -812,6 +998,7 @@ try:
                         selected = widget.selectedFiles()
                         record_pdf_dialog(widget, "accept")
                         assert len(selected) == 1 and Path(selected[0]).resolve() == pdf.resolve()
+                        post_export_scene(evidence)
                         selected_files.append(selected)
                         dialogs.append(widget.metaObject().className())
                         timer.stop()
