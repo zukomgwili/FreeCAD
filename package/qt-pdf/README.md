@@ -399,8 +399,11 @@ on a fresh tiny fixture. During native processes, `libpack_readonly_sdk.py` deni
 content, attribute, creation and deletion rights for the runner SID on every
 original SDK entry, while preserving read, execute and DACL restoration access.
 It saves all original descriptors before any mutation, restores and reads them
-back exactly, and retains complete stage inventories and failure deltas. This is
-cooperative input protection: `WRITE_DAC` remains available and parents outside
+back exactly, and retains complete stage inventories and failure deltas. Legacy
+DACLs use a non-propagating full-descriptor setter; already auto-inherited DACLs
+keep the inheritance-aware setter. Actual raw ACL/control equality and effective
+access checks decide admission, and failed readbacks retain observed descriptors.
+This is cooperative input protection: `WRITE_DAC` remains available and parents outside
 the roots retain their rights. The original whole SDK preservation checks remain
 mandatory and independently inspected.
 

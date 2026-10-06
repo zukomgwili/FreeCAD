@@ -26,6 +26,7 @@ MAX_ENTRIES = 250000
 MAX_DESCRIPTOR = 16384
 MAX_MANIFEST = 512 * 1024 * 1024
 DACL_CONTROL = 0x150C  # present/defaulted/auto-inherit-requested/inherited/protected
+DACL_WRITE_POLICY = "legacy-SetFileSecurityW/auto-inherited-SetNamedSecurityInfoW-v1"
 
 
 def require(condition, message):
@@ -131,6 +132,15 @@ def dacl_identity(descriptor):
     return {"control": control & DACL_CONTROL, "sha256": hashlib.sha256(acl).hexdigest()}
 
 
+def dacl_write_api(descriptor):
+    control, _, _, _ = acl_parts(descriptor)
+    return (
+        "SetNamedSecurityInfoW/DACL_SECURITY_INFORMATION+original_inheritance_protection"
+        if control & 0x400
+        else "SetFileSecurityW/DACL_SECURITY_INFORMATION"
+    )
+
+
 def physical(path):
     path = Path(path)
     require(path.is_absolute() and path.resolve() == path, "Require canonical physical SDK path")
@@ -165,6 +175,7 @@ class WindowsSecurity:
                 [w.LPWSTR, ctypes.c_int, w.DWORD, ptr, ptr, ptr, ptr],
                 w.DWORD,
             ),
+            "SetFileSecurityW": ([w.LPCWSTR, w.DWORD, ptr], w.BOOL),
             "OpenProcessToken": ([w.HANDLE, w.DWORD, ctypes.POINTER(w.HANDLE)], w.BOOL),
             "GetTokenInformation": (
                 [w.HANDLE, ctypes.c_int, ptr, w.DWORD, ctypes.POINTER(w.DWORD)],
@@ -230,9 +241,16 @@ class WindowsSecurity:
         control, _, _, _ = acl_parts(descriptor)
         buffer = ctypes.create_string_buffer(descriptor)
         offset = struct.unpack_from("<L", descriptor, 16)[0]
-        # Save every descendant before changing any DACL. The explicit deny
-        # itself is noninheritable. Restore parents before children and require
-        # exact raw DACL/control readback, including inheritance state.
+        # SetNamedSecurityInfo converts legacy DACLs to the current inheritance
+        # model, including descendants, so it cannot retain the observed
+        # original legacy control state. SetFileSecurity writes the full legacy
+        # descriptor's DACL only and does not propagate to children. Existing
+        # auto-inherited descriptors keep the original inheritance-aware route.
+        # Neither API promises a universal raw roundtrip: exact readback and
+        # effective access checks remain mandatory for every path.
+        if not control & 0x400:
+            self.check(self.api.SetFileSecurityW(str(path), 4, buffer))
+            return
         information = 4 | (0x80000000 if control & 0x1000 else 0x20000000)
         error = self.api.SetNamedSecurityInfoW(
             str(path), 1, information, None, None, ctypes.byref(buffer, offset), None
@@ -329,7 +347,7 @@ class Policy:
         require(purpose in ("native-capture", "preflight"), "Unknown SDK protection purpose")
         self.roots, self.entries = roots_and_paths(roots, evidence)
         self.evidence, self.helper, self.backend = evidence, helper, backend
-        self.before, self.saved = [], []
+        self.before, self.saved, self.mismatches = [], [], []
         self.prepared = self.application_started = False
         self.report = {
             "schema_version": 1,
@@ -341,6 +359,8 @@ class Policy:
             "sid": sid_text(backend.sid),
             "deny_mask": DENY_MASK,
             "read_execute_restore_mask": READ_EXECUTE_RESTORE,
+            "dacl_write_policy": DACL_WRITE_POLICY,
+            "dacl_mismatch_count": 0,
             "entry_count": len(self.entries),
             "protected": False,
             "dacl_mutation_started": False,
@@ -369,6 +389,7 @@ class Policy:
                     "identity": identity,
                     "descriptor": descriptor,
                     "protected": protected,
+                    "write_api": dacl_write_api(descriptor),
                 }
             )
         write_gzip(
@@ -381,11 +402,33 @@ class Policy:
                     "descriptor": base64.b64encode(entry["descriptor"]).decode(),
                     "original_dacl": dacl_identity(entry["descriptor"]),
                     "protected_dacl": dacl_identity(entry["protected"]),
+                    "write_api": entry["write_api"],
                 }
                 for entry in self.saved
             ),
         )
         self.prepared = True
+
+    def readback_equal(self, entry, observed, expected, stage):
+        if dacl_identity(observed) == dacl_identity(expected):
+            return True
+        self.report["dacl_mismatch_count"] += 1
+        if len(self.mismatches) < 20:
+            self.mismatches.append(
+                {
+                    "stage": stage,
+                    "root": entry["root"],
+                    "relative": entry["relative"],
+                    "write_api": entry["write_api"],
+                    "expected_dacl": dacl_identity(expected),
+                    "observed_dacl": dacl_identity(observed),
+                    "expected_control": acl_parts(expected)[0],
+                    "observed_control": acl_parts(observed)[0],
+                    "observed_descriptor": base64.b64encode(observed).decode(),
+                }
+            )
+            write_json(self.evidence / "dacl-readback-mismatches.json", self.mismatches)
+        return False
 
     def snapshot(self, stage):
         require(
@@ -432,7 +475,7 @@ class Policy:
             self.backend.write(path, entry["protected"])
             observed = self.backend.read(path)
             require(
-                dacl_identity(observed) == dacl_identity(entry["protected"]),
+                self.readback_equal(entry, observed, entry["protected"], "protected"),
                 "SDK protected DACL readback differs: " + entry["relative"],
             )
             require(
@@ -478,9 +521,10 @@ class Policy:
         for entry in self.saved:
             path = self.roots[entry["root"]] / entry["relative"]
             try:
-                observed = dacl_identity(self.backend.read(path))
+                descriptor = self.backend.read(path)
+                observed = dacl_identity(descriptor)
                 require(
-                    observed == dacl_identity(entry["descriptor"]),
+                    self.readback_equal(entry, descriptor, entry["descriptor"], "restored"),
                     "Original SDK DACL readback differs",
                 )
                 restored_rows.append(
@@ -577,7 +621,10 @@ def validate_receipt(report, roots=None, source_sha256=None, purpose="native-cap
     )
     require(
         report.get("deny_mask") == DENY_MASK
-        and report.get("read_execute_restore_mask") == READ_EXECUTE_RESTORE,
+        and report.get("read_execute_restore_mask") == READ_EXECUTE_RESTORE
+        and report.get("dacl_write_policy") == DACL_WRITE_POLICY
+        and type(report.get("dacl_mismatch_count")) is int
+        and report["dacl_mismatch_count"] == 0,
         "SDK protection rights changed",
     )
     require(
@@ -808,6 +855,7 @@ def validate_evidence(
         )
         require(
             saved["original_dacl"] == dacl_identity(descriptor)
+            and saved["write_api"] == dacl_write_api(descriptor)
             and saved["protected_dacl"] == dacl_identity(protected_sd)
             and applied["dacl"] == saved["protected_dacl"]
             and final["dacl"] == saved["original_dacl"]
