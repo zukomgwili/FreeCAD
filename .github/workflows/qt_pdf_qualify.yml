@@ -21,7 +21,7 @@ on:
         description: Qualification stage, or delivery-only LibPack installation checks
         default: all
         type: choice
-        options: [all, native, windows-pending, windows-native, delivered-libpacks]
+        options: [all, native, windows-pending, windows-native, delivered-libpacks, delivered-libpacks-arm64]
       reuse_run:
         description: Matching reviewed qualification run whose passed checks can be reused
         default: ''
@@ -33,11 +33,13 @@ permissions:
 
 jobs:
   delivered-libpacks:
-    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage == 'delivered-libpacks'
+    if: github.repository == 'zukomgwili/FreeCAD' && (inputs.stage == 'delivered-libpacks' || inputs.stage == 'delivered-libpacks-arm64')
     uses: ./.github/workflows/qt_pdf_delivery.yml
+    with:
+      arm_only: ${{ inputs.stage == 'delivered-libpacks-arm64' }}
 
   select:
-    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks'
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks' && inputs.stage != 'delivered-libpacks-arm64'
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
@@ -84,7 +86,7 @@ jobs:
           PY
 
   qualify:
-    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks'
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks' && inputs.stage != 'delivered-libpacks-arm64'
     needs: select
     strategy:
       fail-fast: false

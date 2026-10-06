@@ -11,7 +11,7 @@ their original stage-specific limits; their original `distribution_promoted`
 flags are not rewritten retrospectively.
 
 Run the installation and CMake commands below from the
-[versioned selection tools](https://github.com/zukomgwili/FreeCAD/tree/qt-pdf-delivery-tools-2026-10-06.1).
+[versioned selection tools](https://github.com/zukomgwili/FreeCAD/tree/qt-pdf-delivery-tools-2026-10-06.2).
 Those tools include direct Windows filesystem identity checks and precise Pixi
 relocation metadata support. The dependency release's initial source tag and
 first source/review kit remain historical delivery records. The corrected tools
@@ -85,6 +85,10 @@ python package/qt-pdf/verify_delivered_libpack_runtime.py --sdk 3.5.3-x64 --pref
 cmake --preset release -DFREECAD_LIBPACK_USE=ON -DFREECAD_LIBPACK_DIR=C:/FC/qualified-libpack
 ```
 
+For the ARM64 SDK on a Visual Studio 2026 host, use CMake 4.4.3 and add
+`-G "Visual Studio 18 2026" -A ARM64 -T v143,host=x64` to the configure command.
+This selects the ARM64 target and the qualified v143 toolset.
+
 Create the destination's parent directory first. `--archive` accepts an existing
 complete archive instead of downloading it; the same whole SHA check applies.
 Installation restores the exact original files, empty directories and indexed
@@ -112,6 +116,12 @@ unused by the delivery path:
 gh workflow run qt_pdf_qualify.yml --ref codex/deliver-qt-pdf-stroker \
   -f stage=delivered-libpacks -f build_run=37238935749
 ```
+
+The `delivered-libpacks-arm64` retry stage selects only ARM64 and reuses its
+[authenticated passed cache receipt](delivery-arm64-cache.json), with exact
+SDK/index/helper/catalogue guards. A fresh installation supplies the SDK to the
+new runner; the previous runner's SDK directory was not retained. The x64 jobs
+and original PDF qualification stages are skipped.
 
 ## Source, licences and reproduction
 

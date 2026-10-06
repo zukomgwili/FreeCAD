@@ -5,7 +5,16 @@ name: Qt PDF Delivered LibPack Selection
 # Qt and FreeCAD qualification receipts are reused; no PDF suite or build runs.
 on:
   workflow_dispatch:
+    inputs:
+      arm_only:
+        description: Retry only ARM CMake/runtime, reusing its passed cache receipt
+        type: boolean
+        default: false
   workflow_call:
+    inputs:
+      arm_only:
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -17,34 +26,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - sdk: 3.5.3-x64
-            os: windows-2022
-            python_arch: x64
-            cmake_arch: x64
-          - sdk: 3.5.5-x64
-            os: windows-2022
-            python_arch: x64
-            cmake_arch: x64
-          - sdk: 3.5.5-arm64
-            os: windows-11-arm
-            python_arch: arm64
-            cmake_arch: ARM64
-    runs-on: ${{ matrix.os }}
+        sdk: ${{ fromJSON(inputs.arm_only && '["3.5.5-arm64"]' || '["3.5.3-x64","3.5.5-x64","3.5.5-arm64"]') }}
+    runs-on: ${{ matrix.sdk == '3.5.5-arm64' && 'windows-11-arm' || 'windows-2022' }}
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       SDK: ${{ matrix.sdk }}
-      CMAKE_ARCH: ${{ matrix.cmake_arch }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
         with:
           python-version: '3.13'
-          architecture: ${{ matrix.python_arch }}
+          architecture: ${{ matrix.sdk == '3.5.5-arm64' && 'arm64' || 'x64' }}
       - name: Install reviewed CMake tool
         uses: jwlawson/actions-setup-cmake@0d6a7d60b009d01c9e7523be22153ff8f19460d3 # v2.2.0
         with:
-          cmake-version: '3.31.6'
+          cmake-version: ${{ matrix.sdk == '3.5.5-arm64' && '4.4.3' || '3.31.6' }}
       - name: Select fresh delivery paths
         shell: pwsh
         run: |
@@ -57,9 +53,40 @@ jobs:
           python package/qt-pdf/install_delivered_libpack.py --sdk $env:SDK --destination $env:SDK_ROOT --receipt "$env:EVIDENCE/install.json"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Check exact cache verification path
+        if: ${{ !inputs.arm_only }}
         shell: pwsh
         run: |
           python package/qt-pdf/install_delivered_libpack.py --sdk $env:SDK --destination $env:SDK_ROOT --verify --receipt "$env:EVIDENCE/cache.json"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Reuse the authenticated passed ARM cache stage
+        if: inputs.arm_only
+        shell: pwsh
+        run: |
+          @'
+          import json, os, pathlib, sys
+          sys.path.insert(0, "package/qt-pdf")
+          from install_delivered_libpack import digest, load_delivery
+          proof_path = pathlib.Path("package/qt-pdf/delivery-arm64-cache.json")
+          assert digest(proof_path) in (
+              "9ee33631f645550159d5d3a6206718b7f44c1fca2bec068bf0a356afa6505397",
+              "f18d44dc79d0980eb7f4ce739f10b8706bc7c67c65dec1023d8562b709ec75db",
+          )
+          proof = json.loads(proof_path.read_text())
+          old = proof["original_receipt"]
+          assert os.environ["SDK"] == old["sdk"] == "3.5.5-arm64"
+          assert proof["source"]["run_id"] == 37535693525
+          assert proof["source"]["head_sha"] == "b9dffcc90224dfd116f2841bce958420878a2181"
+          assert old["status"] == "verified" and old["sdk_executed"] is False and old["qt_compiled"] is False
+          delivery, index, _ = load_delivery(os.environ["SDK"])
+          assert old["archive"] == {key: delivery[key] for key in ("filename", "sha256", "size", "url")}
+          assert old["index_sha256"] == delivery["index_sha256"]
+          assert old["helper_sha256"] in proof["source"]["allowed_current_helper_sha256"]
+          assert digest(pathlib.Path("package/qt-pdf/install_delivered_libpack.py")) in proof["source"]["allowed_current_helper_sha256"]
+          assert old["catalog_sha256"] in proof["source"]["allowed_current_catalog_sha256"]
+          assert digest(pathlib.Path("package/qt-pdf/distribution.json")) in proof["source"]["allowed_current_catalog_sha256"]
+          assert old["inventory"] == {"files": len(index["files"]), "directories": len(index["directories"]), "content_bytes": sum(file["size"] for file in index["files"].values())}
+          (pathlib.Path(os.environ["EVIDENCE"]) / "cache-reused.json").write_text(json.dumps(proof, indent=2) + "\n")
+          '@ | python -
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Verify CMake imported Qt binaries at the new SDK location
         shell: pwsh
@@ -87,7 +114,11 @@ jobs:
           endforeach()
           ''')
           build = evidence / "cmake-build"
-          command = ["cmake", "-S", str(project), "-B", str(build), "-A", os.environ["CMAKE_ARCH"], "-DSDK_ROOT=" + root.as_posix()]
+          command = ["cmake", "-S", str(project), "-B", str(build), "-DSDK_ROOT=" + root.as_posix()]
+          if os.environ["SDK"] == "3.5.5-arm64":
+              command += ["-G", "Visual Studio 18 2026", "-A", "ARM64", "-T", "v143,host=x64"]
+          else:
+              command += ["-A", "x64"]
           result = subprocess.run(command, capture_output=True, text=True)
           (evidence / "cmake-configure.log").write_text(result.stdout + result.stderr)
           result.check_returncode()
