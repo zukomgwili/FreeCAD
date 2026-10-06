@@ -1,0 +1,2305 @@
+{
+  "all_supported_build_paths_qualified": false,
+  "artifact": {
+    "all_extracted_regular_sha_verified": true,
+    "all_member_crc_verified": true,
+    "api_sha256": {
+      "artifact-api.json": "65325d4cbf8165dcb7259b2f268fb857e3e73468e147881962bc4a9a229ceefe",
+      "artifact-list-api.json": "7d304141d607f8f9dcdfa22357dbef7d80c656259d42ea2de6f45109f9b9f8c8",
+      "attempt-api.json": "1f47ebaf3307ee41c5db997ec86efbb9a8f0d197cd33b5968b18b1f1b129b0ec",
+      "jobs-api.json": "2037ab7e25533ac4cd7feb49090368a842c08762bb8135f43fdb9aabe3df9816",
+      "run-api.json": "33b158333499409020a6ba9700746558cbe4a0589b7b3cd529241f668d5468ef"
+    },
+    "artifact_files_sha256": "2d2e768c11b90f4bbf8fad4c587941984be4ee472a4519dd9a698591fec452b2",
+    "artifact_id": 11406350942,
+    "artifact_name": "qt-pdf-qualification-win-64",
+    "artifact_size": 200666798,
+    "artifact_zip_sha256": "0f7d690cfd53ce588b5c3c57793090980a8276fde19d8ffdc29c828ec57e80e3",
+    "file_count": 2641,
+    "unpacked_bytes": 421404694,
+    "whole_zip_api_sha_size_verified": true
+  },
+  "cached_python_binding": {
+    "origin": "python3.dll/python313.dll from runner rattler cache; exact SHA match to selected Python3.13.15 package paths_data. PySide/Shiboken/Qt DLLs from each selected prefix.",
+    "package_paths_data_sha256": {
+      "Library/bin/pyside6.cp313-win_amd64.dll": "3fd5fc9cd95693bcee1081dce40a5ffef864c4c900e6aee1e0f2d22b8246a6c3",
+      "Library/bin/shiboken6.cp313-win_amd64.dll": "4ba924b4facb6f8c8d79dc651ab237a40a966b052f85aa3ec127c19533d0b6d7",
+      "python3.dll": "592a2ef1d3cdc18771ab56b695aafdebccb87b4ba6e59af2f7efa533c0980ed5",
+      "python313.dll": "fac233daefc2f81e4050f9a6c1882c0d070dbe624f5bee27fec8749f6ca51e5a"
+    },
+    "selected_package_identity": {
+      "build": "h254dcb4_103_cp313",
+      "checksum": {
+        "sha256": "097e081574bf96282082915f78a83480361285137370c8cc35e2c51d693a0690"
+      },
+      "name": "python",
+      "subdir": "win-64",
+      "version": "3.13.15"
+    }
+  },
+  "critical_evidence": {
+    "_temp/qt-pdf-native-report.json": {
+      "sha256": "517fae125d613418b68778acc093772805912cdfed736609a84858515022a83f",
+      "size": 93421
+    },
+    "_temp/qt-pdf-native-results/baseline/manifest.json": {
+      "sha256": "ab9ba82f8c6ec398665257ee0f7d8c27327fb99cf9608efd452d239a75ca7f9c",
+      "size": 7069
+    },
+    "_temp/qt-pdf-native-results/baseline/native-provenance.json": {
+      "sha256": "1e81685101dc1d98dcbe94d5b0dcbfdb6611bf60de4e3b8203bcb47d81a94d09",
+      "size": 330862
+    },
+    "_temp/qt-pdf-native-results/patched/manifest.json": {
+      "sha256": "ab9ba82f8c6ec398665257ee0f7d8c27327fb99cf9608efd452d239a75ca7f9c",
+      "size": 7069
+    },
+    "_temp/qt-pdf-native-results/patched/native-provenance.json": {
+      "sha256": "4c46b805c7f71d47a3496b49b55820d18efdb34d31f0723830c4f02a21dc0e72",
+      "size": 330003
+    },
+    "_temp/qt-pdf-reused-qt/native-reuse-qualification.json": {
+      "sha256": "70aa88e5039cf465c6e2ffc3c115cff64533fa8f68e817e926b496e4c3e8dd1c",
+      "size": 29551
+    },
+    "_temp/qt-pdf-windows-native-reuse/fresh-binding.json": {
+      "sha256": "a817196ebeeb396eb8e3c4b5b92bf9af18c623312e173501b9f1ff6c3b5e00fe",
+      "size": 254156
+    },
+    "_temp/qt-pdf-windows-native-reuse/native-qualification.json": {
+      "sha256": "942c98ca679d65fcfd6ed2e6c30f086dc951758dfad920225c9897dc014e5978",
+      "size": 998
+    },
+    "_temp/qt-pdf-windows-native-reuse/restoration.json": {
+      "sha256": "8ba320a7b396fdf0d92a9fefe4a90426f565ea64186d2604eb71cfb303fa8e95",
+      "size": 189695
+    }
+  },
+  "distribution_promoted": false,
+  "independent_reviews": {
+    "durable_receipt_and_docs": {
+      "findings": [],
+      "passed": true,
+      "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-t8a5-native-only-monitor-4ff91sgj/durable-native-receipt-peer-review.json",
+      "post_review_change": "Only this review pin was added; removing this entry and serializing with sorted keys/indent2/newline reconstructs the reviewed candidate",
+      "reviewed_candidate_sha256": "674074a3e6585fcbee83ea1875f7d9fd42ea6e5211123816e4624b4a98024fa3",
+      "scope": "Read-only durable receipt and NATIVE.md truth/scope/hash binding review; 45 checks pass",
+      "sha256": "9636c6b3cc2016b7ecbdcc7763ac5369410bf669e3d1d9c69ae43e9e32c54e4b"
+    },
+    "native_pdf_and_visual": {
+      "passed": true,
+      "path": "/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-windows-native-independent-pdf-audit-reg2w0q4/audit-receipt.json",
+      "scope": "independent fresh Windows native PDF inspection; existing PDF input read only; own fresh Poppler renders",
+      "sha256": "76e4c95dffa3132413da8b46807a83febd3921e83cde8e10cf19cdc139540565"
+    },
+    "runtime_dialog_source": {
+      "findings": [],
+      "passed": true,
+      "path": "/private/tmp/freecad-new-windows-native-audit-vqtim1z6/native-evidence-audit.json",
+      "scope": "Independent actual fresh native Windows source/restoration/loaded-origin/dialog/GUI readback; PDF operator/raster/visual audit belongs to peer",
+      "sha256": "7c67bae20bce2f9a322de4f610214cd05b66f5b656546d6575ded56dc096cb3c"
+    },
+    "transport": {
+      "passed": true,
+      "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-t8a5-native-only-monitor-4ff91sgj/transport-terminal-review.json",
+      "scope": "Exact terminal native-only Windows API identity, expected required/skipped stage contract, attempt/upload timing, whole artifact transport, pushed-source pins, immutable restored proof, and composed receipt/hash readback only. Independent native PDF/GUI/runtime audits remain separate.",
+      "sha256": "147d8a902f4817ce2c0fc6de56fa67ad5bafa4f321a3033067a112ead8754824"
+    }
+  },
+  "job_log": {
+    "sha256": "b3a613fbc08ec94820b0f8e633b6ec3ab14bb5247ecb5afde58006b7715580fc",
+    "size": 117781
+  },
+  "limitations": [
+    "This receipt qualifies only the exact win-64 conda PDF/native gates. Pending SDK and delivery children and the parent remain outstanding.",
+    "The original Windows attempt3 remains failed; its passed upstream10, prior Qt66 and compiled application/bypass bytes are reused without executing passed suites or recompiling.",
+    "The required fresh dependency-prefix installation and binding are runtime preparation, not a package build.",
+    "Live Python DLLs originate from the rattler cached execution environment. Their hashes match the selected Python package paths_data; this receipt does not claim every runtime image originates within the selected prefix.",
+    "Selected tracked source bytes and initialized submodule heads match the retained build; submodule file bytes were not inventoried.",
+    "The original raw diagnostic receipt remains restoration_validated=false. The separate actual Windows restoration receipt and fresh acceptance establish this narrow reuse.",
+    "Runtime logs retain OpenGL1.1, unregistered-command/FaceFinder and shutdown-notify/thread diagnostics; these do not prevent the recorded native PDF and GUI tests.",
+    "Hosted live origins and managed-file hashes are audited read-only. The review host launches no Windows executable.",
+    "Cross-device rounding differences are allowed; exact baseline/patched operators, coordinates and RGBA remain mandatory for each device.",
+    "Production dependency pins, installed user runtimes and production mitigations remain unchanged. No distribution or LibPack qualification is transferred."
+  ],
+  "native_evidence_sha256": {
+    "_temp/qt-pdf-native-report.json": "517fae125d613418b68778acc093772805912cdfed736609a84858515022a83f",
+    "_temp/qt-pdf-native-results/baseline/area-and-theoretical-exact.pdf": "06ebebf07223193c9406d171743e649c503a635cd2057bd6941fc19495a12dec",
+    "_temp/qt-pdf-native-results/baseline/area-and-theoretical-exact.png": "07efd2a1fa012fdb701830db367b0b6e0c711cc84c46852f6527efe8afbbca12",
+    "_temp/qt-pdf-native-results/baseline/area-relocated-and-theoretical-exact.pdf": "2700f4dd5c83c6404481d3e581e8969defc61563791e61aa3eaf35122e0ada46",
+    "_temp/qt-pdf-native-results/baseline/area-relocated-and-theoretical-exact.png": "54e6277e1967925491bf50938dedb02c067d8eb0e3aa0be3ddfce9d16ae0cb3f",
+    "_temp/qt-pdf-native-results/baseline/box-only.pdf": "8908b4d79933ef2d493e023920bc9ccf05848442359f9609314627ca164052f7",
+    "_temp/qt-pdf-native-results/baseline/box-only.png": "7849619190d599f9b38ff811f13e7a7ca7f26f8172390c0377f737feb71415a1",
+    "_temp/qt-pdf-native-results/baseline/dimension-controls.FCStd": "cf8aac8f65e365d55ab2d842dc55a39830c541054832e329e76127c619c42b01",
+    "_temp/qt-pdf-native-results/baseline/distance.pdf": "b25b0af92e2329f75058ed424570181f3350aa3480c1904dd191baed7ea3357d",
+    "_temp/qt-pdf-native-results/baseline/distance.png": "863405454fd2b75c73e51aa4c8702534fa87c96a1e0167739eaaed51d876a9c3",
+    "_temp/qt-pdf-native-results/baseline/launch.json": "67d4977806595f7bad81468cf6af62dfe3cd36777e55a82582e765ac57922052",
+    "_temp/qt-pdf-native-results/baseline/long-dashed.pdf": "ba7306fddd8df031169d170a791ec603739db59fdce36c9810e50641ddc4be47",
+    "_temp/qt-pdf-native-results/baseline/long-dashed.png": "dc84f0d3f6d2b2cddbb945dc996e6250091dd12b47a0b05750d340a95af71626",
+    "_temp/qt-pdf-native-results/baseline/macro.log": "f36ebb71f783bbd94d1508dbde845562fe5d266702b2a6e3d4c55da5ec4ff9d6",
+    "_temp/qt-pdf-native-results/baseline/manifest.json": "ab9ba82f8c6ec398665257ee0f7d8c27327fb99cf9608efd452d239a75ca7f9c",
+    "_temp/qt-pdf-native-results/baseline/native-provenance.json": "1e81685101dc1d98dcbe94d5b0dcbfdb6611bf60de4e3b8203bcb47d81a94d09",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-area-and-theoretical-exact.json": "c1f25ceebb8a61f33a1404752e2093ec63dda2125eb2b1b9de9149816d56301c",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-area-relocated-and-theoretical-exact.json": "71b74cdbb391967b0aa4d53594037858136f8126376b38d835b53adb21863a27",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-box-only.json": "e9d69be45e511ff94263cb92fc8a50c8581104af813de54e9bfac15293bf7992",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-distance.json": "557118e83fbfd8f39c3029cf7b4d91dbf5c253c4cfb70b2b09810bfc3ccd8945",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-long-dashed.json": "ea3501208624c523fcd17e591f581a9b8330860609169fb9b8ccdaa5b82ae7d3",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-short-gap-opaque.json": "34445004bc8bd4613dd38eda8402b263a48de7197ec0210a80fe4e64f8219687",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-short-gap.json": "3ca64130f51c61ed4858b647d6535d48dfb2b19cf216668626c4758f9d581d0b",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-short-solid.json": "f62e3ac63e7d77f0e8bcbfaa86517979e80f319110e607a518d3983a4cd6aaa2",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-theoretical-exact.json": "09616b156b66accc80748548ed684f6ed7f6d1dacad2155db2ededfb3158bf5a",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-zero-width-archival.json": "9fe20f60305455cdb23aac5e31daa9f9a2a8388370f8a2defb64d6eb84b77b9c",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-zero-width-opaque.json": "9afd175d22287cf42a79c9c6b67247b5273b0864017d8a72c32b729f6f66a218",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qpdfwriter-zero-width-translucent.json": "c99e478c6173e6a94f6b9f7494fb5ceabd66f352e4e9a7188031f6af592c4c83",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-area-and-theoretical-exact.json": "40a94389bfdd076ffe62a058fa91a8cd353651fb4345b2ab21e432a28542c5dd",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-area-relocated-and-theoretical-exact.json": "fbf204b6ae83e14fe4d5d94f8bf337fc9fff0900ed5395c756764d43d1020776",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-box-only.json": "cf203e100a8796dc264fcc81a24615abd82dc18f05785e3198c2db935048011b",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-distance.json": "0c079971948fd6eae84d0a2835f12a6050d0cb90a486ce2219c5e348948298af",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-long-dashed.json": "7dfa81b53cc2d5f032bf73ef399aaa24488098ffdb2919ae60032c1f15a59701",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-short-gap-opaque.json": "83f0d99c2a63faebfa3ca18065e1a548092363aaec1ea46f7cc6e04da1dfd8da",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-short-gap.json": "2fa9d28a49730d59cdcefec27f291468cdd8c4ee05ab8cd934d47ada5c30c2a7",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-short-solid.json": "83fbb856f52d5dda0c4a41a086ecd0b273c67a0f6c1884d40c8bce6b5dad3819",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-theoretical-exact.json": "153f28b86b150f4f747dde4d99b8cc34561d237dd950d50668e38adfadecd540",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-zero-width-archival.json": "f44a2c98799ae2f475e68679300836cc3b96f052bb6b4d72c082405a7efb8b70",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-zero-width-opaque.json": "c941f1d312d4874b0f9794999536fbb2c802c842337be1af54a595fc53b1a918",
+    "_temp/qt-pdf-native-results/baseline/pre-export-qprinter-zero-width-translucent.json": "55545b44af28dbd26f2c9a0f19012925989f98c3619eaa178d18a0a8228cf6d8",
+    "_temp/qt-pdf-native-results/baseline/qprinter-area-and-theoretical-exact-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-area-and-theoretical-exact.pdf": "26c0ed47fe9479745fe72e1fba9bacc6e1beded1a836918364696ecd2b881784",
+    "_temp/qt-pdf-native-results/baseline/qprinter-area-and-theoretical-exact.png": "f564ce1433b28389405242111040bcc122a6bc038254f9d6e1eb19b9672bf2c1",
+    "_temp/qt-pdf-native-results/baseline/qprinter-area-relocated-and-theoretical-exact-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-area-relocated-and-theoretical-exact.pdf": "b3b4c427232af54c69d1a15575bb33d01f6a4423e4df1624abffdb69fb0028bd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-area-relocated-and-theoretical-exact.png": "0e3bf01ee04f05379ba2bb203e74d7816da9059e1839dad3ea87bf285e8411d1",
+    "_temp/qt-pdf-native-results/baseline/qprinter-box-only-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-box-only.pdf": "1651a41ad8df82169142f2017852c99bcdf6ec06f1910108e3bab7dca79a6282",
+    "_temp/qt-pdf-native-results/baseline/qprinter-box-only.png": "a9cc16b3cc2b98560fb2e3a4844e3e307a25b6f9212eebffd99352cde425144c",
+    "_temp/qt-pdf-native-results/baseline/qprinter-distance-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-distance.pdf": "74d4d26efcea0b16f02d1b6d3417dfd48d8321f101d1c4efd110554431f61822",
+    "_temp/qt-pdf-native-results/baseline/qprinter-distance.png": "3d359ed37562ce74b001220740b3edb8c751807ead40727cfe0f5d2fa2794b1c",
+    "_temp/qt-pdf-native-results/baseline/qprinter-long-dashed-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-long-dashed.pdf": "6d8f7b60e9861b0adedc797e9a1081e9a72885db363b6ea725df70519126d266",
+    "_temp/qt-pdf-native-results/baseline/qprinter-long-dashed.png": "9e793ed491a1b633ba0cb8bbceb0e830e591101695c11774fc680306384d5557",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-gap-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-gap-opaque-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-gap-opaque.pdf": "4be8c0ebb4324f341e4187f900013c592f9eda6c47a76e4a1684d7f51d9b99ff",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-gap-opaque.png": "a9cc16b3cc2b98560fb2e3a4844e3e307a25b6f9212eebffd99352cde425144c",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-gap.pdf": "7db171b6c7c7fcf4046d929ecc1c1cac3cefff0d56cb14e8a6e1a35ad7c65f7d",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-gap.png": "a9cc16b3cc2b98560fb2e3a4844e3e307a25b6f9212eebffd99352cde425144c",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-solid-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-solid.pdf": "5c29f35026d22a63e8a7075556867fc84e496db613a01aa2cc75d0d17046f8e9",
+    "_temp/qt-pdf-native-results/baseline/qprinter-short-solid.png": "59e30e94bda4071211503ae714e9633c488c7a47cf0cf96ce126f73b9ce537de",
+    "_temp/qt-pdf-native-results/baseline/qprinter-theoretical-exact-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-theoretical-exact.pdf": "f29f69d994433df0b7a6330cb122c33c001ee08535bf91035ac3046206df52a8",
+    "_temp/qt-pdf-native-results/baseline/qprinter-theoretical-exact.png": "bf98eb5043fea5887ee1f3da616cef4491d06fff9104b4c7179385ff879e8b95",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-archival-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-archival.pdf": "54d8c2c431fbf72be350d0b7a19ee28a961c73cb0a6d33d4709cecd0ae2e653c",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-archival.png": "6171a857c87bae7543597751a4c6bd58f1637e4d287ba80abdf0a5496c8bf019",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-opaque-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-opaque.pdf": "67cab78623bbdda3bb197743bf01b6b2f7f1e331354b49a4ccded63991db6121",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-opaque.png": "6171a857c87bae7543597751a4c6bd58f1637e4d287ba80abdf0a5496c8bf019",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-translucent-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-translucent.pdf": "d7344050fa0f6e1b733a13d038f65c79c5fec613205d7afd653143bacb33600e",
+    "_temp/qt-pdf-native-results/baseline/qprinter-zero-width-translucent.png": "1ca515cbe88b6ade40cb40f3095879427492857c79ff7eda4adce8dad1ded983",
+    "_temp/qt-pdf-native-results/baseline/runtime.log": "d1b497b9ceca0166a0e461164503ee9ceb0d5422bf9cadeb017f64bf6ca05408",
+    "_temp/qt-pdf-native-results/baseline/short-gap-opaque.pdf": "d18b05ab712520fdd56c5037a7d602ec65bbcdfa7d7c58429b53f3dd8bba0f26",
+    "_temp/qt-pdf-native-results/baseline/short-gap-opaque.png": "7849619190d599f9b38ff811f13e7a7ca7f26f8172390c0377f737feb71415a1",
+    "_temp/qt-pdf-native-results/baseline/short-gap.FCStd": "2af3f18f3951f9e27c1b5a29a7c9fe4fed0f7cde8a1ac6e1976f1c416d24429e",
+    "_temp/qt-pdf-native-results/baseline/short-gap.pdf": "ad4d35216570d2c260ed482b5e24f374177db9614465dc54ecaedff56d2715f7",
+    "_temp/qt-pdf-native-results/baseline/short-gap.png": "7849619190d599f9b38ff811f13e7a7ca7f26f8172390c0377f737feb71415a1",
+    "_temp/qt-pdf-native-results/baseline/short-solid.pdf": "71c0bb8ab47c023c11c0007fab39cef43be817b60f181349f269bba149d21a8b",
+    "_temp/qt-pdf-native-results/baseline/short-solid.png": "e2314d22aeea49db49b8ab7a8602fb664528ec6a16820aa6254ff0c7fa57404d",
+    "_temp/qt-pdf-native-results/baseline/theoretical-exact.pdf": "4c07497edfa51fd580a1adbebd006b17157095d42d8d879408100378c272a627",
+    "_temp/qt-pdf-native-results/baseline/theoretical-exact.png": "36374017c351faeb9da0213eb33531d8e6d62d99e7642677d0394041d71a9cb7",
+    "_temp/qt-pdf-native-results/baseline/zero-width-archival.pdf": "b2d4dcfa31cdb78a0e1908a3bc612cb79fcfb9b42a5d4c1cb3c4d80f71e06a13",
+    "_temp/qt-pdf-native-results/baseline/zero-width-archival.png": "a60fc128037b9aed355374b7cc34178e02681c0a325f500b00bce9b912cafbac",
+    "_temp/qt-pdf-native-results/baseline/zero-width-opaque.pdf": "34d53d2c9aede5a92e46842779a9a8bfa1acfab66cde2ad12fc7fa7efe751e6d",
+    "_temp/qt-pdf-native-results/baseline/zero-width-opaque.png": "a60fc128037b9aed355374b7cc34178e02681c0a325f500b00bce9b912cafbac",
+    "_temp/qt-pdf-native-results/baseline/zero-width-translucent.pdf": "ab4a27a086d2684028cd819b11b4789207e6e633187c2aca0373e20369bd028d",
+    "_temp/qt-pdf-native-results/baseline/zero-width-translucent.png": "153fb1bf90628509c170662c3204499a3ad549812c3bee3f97d88271d9ce67c4",
+    "_temp/qt-pdf-native-results/patched/area-and-theoretical-exact.pdf": "4971acb1963934e5da8cd94b44301939a245cc2d6c3205fec9b1120bd11d34b4",
+    "_temp/qt-pdf-native-results/patched/area-and-theoretical-exact.png": "07efd2a1fa012fdb701830db367b0b6e0c711cc84c46852f6527efe8afbbca12",
+    "_temp/qt-pdf-native-results/patched/area-relocated-and-theoretical-exact.pdf": "3b8a91cfaac7721808303b60726fd74c20aef786a94d5fb331a178f6477e7ba3",
+    "_temp/qt-pdf-native-results/patched/area-relocated-and-theoretical-exact.png": "54e6277e1967925491bf50938dedb02c067d8eb0e3aa0be3ddfce9d16ae0cb3f",
+    "_temp/qt-pdf-native-results/patched/box-only.pdf": "702737acc812f1d9e25e79ea22cad30b4428ea25b1536d6248ca938196aa170d",
+    "_temp/qt-pdf-native-results/patched/box-only.png": "7849619190d599f9b38ff811f13e7a7ca7f26f8172390c0377f737feb71415a1",
+    "_temp/qt-pdf-native-results/patched/dimension-controls.FCStd": "54ae0011f9aba66ceb4940cd7b4c4ee933735f7a47a3bae03cc426902d240148",
+    "_temp/qt-pdf-native-results/patched/distance.pdf": "243c16035491a6d3efbc94958eeb62b1dff19f404a5d8b322f4e9f45b176ccd3",
+    "_temp/qt-pdf-native-results/patched/distance.png": "863405454fd2b75c73e51aa4c8702534fa87c96a1e0167739eaaed51d876a9c3",
+    "_temp/qt-pdf-native-results/patched/launch.json": "508d0ba9ca06771d0425fd2cf19daa328a64f475b85346eb482ce1acd43aa0a3",
+    "_temp/qt-pdf-native-results/patched/long-dashed.pdf": "a0158cd0b37cb6e5c1d0303c971b6200b64198448d8d16b37d66ce09ead1208b",
+    "_temp/qt-pdf-native-results/patched/long-dashed.png": "dc84f0d3f6d2b2cddbb945dc996e6250091dd12b47a0b05750d340a95af71626",
+    "_temp/qt-pdf-native-results/patched/macro.log": "4bec650dece8647c218deb4cc18417d50b8c2eab4edd17762a149269e2adf5bf",
+    "_temp/qt-pdf-native-results/patched/manifest.json": "ab9ba82f8c6ec398665257ee0f7d8c27327fb99cf9608efd452d239a75ca7f9c",
+    "_temp/qt-pdf-native-results/patched/native-provenance.json": "4c46b805c7f71d47a3496b49b55820d18efdb34d31f0723830c4f02a21dc0e72",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-area-and-theoretical-exact.json": "95498e603e4a3e081d1b8a295d660b0c51cf43d28b594053367cf2f7a7c92d94",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-area-relocated-and-theoretical-exact.json": "df60a087d822c0a6a55f3e80308a2286e14600c1b4acd42e18c9d5070c590936",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-box-only.json": "e9d69be45e511ff94263cb92fc8a50c8581104af813de54e9bfac15293bf7992",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-distance.json": "557118e83fbfd8f39c3029cf7b4d91dbf5c253c4cfb70b2b09810bfc3ccd8945",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-long-dashed.json": "ea3501208624c523fcd17e591f581a9b8330860609169fb9b8ccdaa5b82ae7d3",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-short-gap-opaque.json": "34445004bc8bd4613dd38eda8402b263a48de7197ec0210a80fe4e64f8219687",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-short-gap.json": "3ca64130f51c61ed4858b647d6535d48dfb2b19cf216668626c4758f9d581d0b",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-short-solid.json": "f62e3ac63e7d77f0e8bcbfaa86517979e80f319110e607a518d3983a4cd6aaa2",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-theoretical-exact.json": "c33a6677309c1629b7690d676175491c8d85d76b2415d7440f66fe421f4e3483",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-zero-width-archival.json": "9fe20f60305455cdb23aac5e31daa9f9a2a8388370f8a2defb64d6eb84b77b9c",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-zero-width-opaque.json": "9afd175d22287cf42a79c9c6b67247b5273b0864017d8a72c32b729f6f66a218",
+    "_temp/qt-pdf-native-results/patched/pre-export-qpdfwriter-zero-width-translucent.json": "c99e478c6173e6a94f6b9f7494fb5ceabd66f352e4e9a7188031f6af592c4c83",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-area-and-theoretical-exact.json": "80ca08d4b35a7fa97708ee1098c3b9391ff1151867bb428fa9cd3cae3512dfc1",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-area-relocated-and-theoretical-exact.json": "1c85062cb9030ef800c330435523067bb324f10fce8f7b77a294cc0bb54ed22e",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-box-only.json": "cf203e100a8796dc264fcc81a24615abd82dc18f05785e3198c2db935048011b",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-distance.json": "0c079971948fd6eae84d0a2835f12a6050d0cb90a486ce2219c5e348948298af",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-long-dashed.json": "7dfa81b53cc2d5f032bf73ef399aaa24488098ffdb2919ae60032c1f15a59701",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-short-gap-opaque.json": "83f0d99c2a63faebfa3ca18065e1a548092363aaec1ea46f7cc6e04da1dfd8da",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-short-gap.json": "2fa9d28a49730d59cdcefec27f291468cdd8c4ee05ab8cd934d47ada5c30c2a7",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-short-solid.json": "83fbb856f52d5dda0c4a41a086ecd0b273c67a0f6c1884d40c8bce6b5dad3819",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-theoretical-exact.json": "829078cd0a1b5eaf992cd18ad20d2c5b8fa79dd9954ff6265e55347b602fbadc",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-zero-width-archival.json": "f44a2c98799ae2f475e68679300836cc3b96f052bb6b4d72c082405a7efb8b70",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-zero-width-opaque.json": "c941f1d312d4874b0f9794999536fbb2c802c842337be1af54a595fc53b1a918",
+    "_temp/qt-pdf-native-results/patched/pre-export-qprinter-zero-width-translucent.json": "55545b44af28dbd26f2c9a0f19012925989f98c3619eaa178d18a0a8228cf6d8",
+    "_temp/qt-pdf-native-results/patched/qprinter-area-and-theoretical-exact-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-area-and-theoretical-exact.pdf": "d4870f155746a2b7e2acaaddd2d6db03b13860f11a3ac194b26a365b5b7db22f",
+    "_temp/qt-pdf-native-results/patched/qprinter-area-and-theoretical-exact.png": "f564ce1433b28389405242111040bcc122a6bc038254f9d6e1eb19b9672bf2c1",
+    "_temp/qt-pdf-native-results/patched/qprinter-area-relocated-and-theoretical-exact-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-area-relocated-and-theoretical-exact.pdf": "62ef09bbb4eb7d8d081f86d9af0af2ed2995a6ed6d9c3baf4e1b4424c6a92bf7",
+    "_temp/qt-pdf-native-results/patched/qprinter-area-relocated-and-theoretical-exact.png": "0e3bf01ee04f05379ba2bb203e74d7816da9059e1839dad3ea87bf285e8411d1",
+    "_temp/qt-pdf-native-results/patched/qprinter-box-only-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-box-only.pdf": "7199680d92456ade6e263fdb822f818ea32d64b6aff1ff46466f6ec41fe10a97",
+    "_temp/qt-pdf-native-results/patched/qprinter-box-only.png": "a9cc16b3cc2b98560fb2e3a4844e3e307a25b6f9212eebffd99352cde425144c",
+    "_temp/qt-pdf-native-results/patched/qprinter-distance-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-distance.pdf": "7ae8e4983c41eb74fa159bacbb8b4cbf36c47f33dcc3cf80ed988e670d0e886d",
+    "_temp/qt-pdf-native-results/patched/qprinter-distance.png": "3d359ed37562ce74b001220740b3edb8c751807ead40727cfe0f5d2fa2794b1c",
+    "_temp/qt-pdf-native-results/patched/qprinter-long-dashed-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-long-dashed.pdf": "33c15a6cfc55c1ba0be9e8a6357f014e06b77991741db906f98dc61351cd9508",
+    "_temp/qt-pdf-native-results/patched/qprinter-long-dashed.png": "9e793ed491a1b633ba0cb8bbceb0e830e591101695c11774fc680306384d5557",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-gap-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-gap-opaque-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-gap-opaque.pdf": "10a64a57842579b1e5d10b00e1eed8081e6227d4abb732b59e9b5904b4446f4e",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-gap-opaque.png": "a9cc16b3cc2b98560fb2e3a4844e3e307a25b6f9212eebffd99352cde425144c",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-gap.pdf": "2334fe00c75d694a651e8edc34dcad9d6eca708d29cc4b32d5b4ad124576a555",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-gap.png": "a9cc16b3cc2b98560fb2e3a4844e3e307a25b6f9212eebffd99352cde425144c",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-solid-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-solid.pdf": "9d6d37da8102ab202e5f38f45fd9648d38acb839c3e136d278b5fa99c4863290",
+    "_temp/qt-pdf-native-results/patched/qprinter-short-solid.png": "59e30e94bda4071211503ae714e9633c488c7a47cf0cf96ce126f73b9ce537de",
+    "_temp/qt-pdf-native-results/patched/qprinter-theoretical-exact-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-theoretical-exact.pdf": "e6a949ee9f2e02d34b4d72293fcdf3532d390ad07d8e7cb7c46ff7a8e899dd6e",
+    "_temp/qt-pdf-native-results/patched/qprinter-theoretical-exact.png": "bf98eb5043fea5887ee1f3da616cef4491d06fff9104b4c7179385ff879e8b95",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-archival-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-archival.pdf": "e7d0322a3504ac3e6cc975d31a67f63aac0f9bba342b47d3f427c8fe6f15a865",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-archival.png": "6171a857c87bae7543597751a4c6bd58f1637e4d287ba80abdf0a5496c8bf019",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-opaque-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-opaque.pdf": "5f0b121b1a0ddc824fdddf4369a3c8d558e80067234bf0e70a6ed49dabeef9f4",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-opaque.png": "6171a857c87bae7543597751a4c6bd58f1637e4d287ba80abdf0a5496c8bf019",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-translucent-diagnostics.json": "d90f9fb7e3142f64a94809680c6e97b5bf437323f034dca3ab2557b9c8f76afd",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-translucent.pdf": "d9255d5265d26425c28a4fa78842a4cf4df947cb52d84079f02988933098a12e",
+    "_temp/qt-pdf-native-results/patched/qprinter-zero-width-translucent.png": "1ca515cbe88b6ade40cb40f3095879427492857c79ff7eda4adce8dad1ded983",
+    "_temp/qt-pdf-native-results/patched/runtime.log": "403aad1ac85e22f42dd84f9b7b9b20fa221ea671dc529808cb7ff5cecc005a42",
+    "_temp/qt-pdf-native-results/patched/short-gap-opaque.pdf": "794ef79f3e2f16f3321336cfcc7f0db3eefdf81c18d017e33ef4df13107a1ddc",
+    "_temp/qt-pdf-native-results/patched/short-gap-opaque.png": "7849619190d599f9b38ff811f13e7a7ca7f26f8172390c0377f737feb71415a1",
+    "_temp/qt-pdf-native-results/patched/short-gap.FCStd": "ef64da30bc9cf2d798bf2dc9107b0085d04c3365fbef44de91a8e7f4c67cce7b",
+    "_temp/qt-pdf-native-results/patched/short-gap.pdf": "0c4115761aa55ea352ae6934ae96f3c1b0090c29fba0eaa2c22bc76845e7a6f2",
+    "_temp/qt-pdf-native-results/patched/short-gap.png": "7849619190d599f9b38ff811f13e7a7ca7f26f8172390c0377f737feb71415a1",
+    "_temp/qt-pdf-native-results/patched/short-solid.pdf": "1d6a1131dfe0004ba614f4ac913b44f2d3f9441c717f93d76953d0b9a81a7ee3",
+    "_temp/qt-pdf-native-results/patched/short-solid.png": "e2314d22aeea49db49b8ab7a8602fb664528ec6a16820aa6254ff0c7fa57404d",
+    "_temp/qt-pdf-native-results/patched/theoretical-exact.pdf": "737dd3369f73d93a8b6e0a056e8756653439b249ad943d64da79507f300aa207",
+    "_temp/qt-pdf-native-results/patched/theoretical-exact.png": "36374017c351faeb9da0213eb33531d8e6d62d99e7642677d0394041d71a9cb7",
+    "_temp/qt-pdf-native-results/patched/zero-width-archival.pdf": "c28690fea52f9f18fea9ab15fabe2c7bd96f61365f1800372c0786a1ff823648",
+    "_temp/qt-pdf-native-results/patched/zero-width-archival.png": "a60fc128037b9aed355374b7cc34178e02681c0a325f500b00bce9b912cafbac",
+    "_temp/qt-pdf-native-results/patched/zero-width-opaque.pdf": "65c5495b042098d813a896b8948e47e5fa6349bb8ddadff7e275f63c178e2abc",
+    "_temp/qt-pdf-native-results/patched/zero-width-opaque.png": "a60fc128037b9aed355374b7cc34178e02681c0a325f500b00bce9b912cafbac",
+    "_temp/qt-pdf-native-results/patched/zero-width-translucent.pdf": "47d099fac731e6e5c09955d029b2029a4302eda9a190e37ca33b1b0c306a1663",
+    "_temp/qt-pdf-native-results/patched/zero-width-translucent.png": "153fb1bf90628509c170662c3204499a3ad549812c3bee3f97d88271d9ce67c4"
+  },
+  "native_freecad_qualified": true,
+  "native_protocol": {
+    "GUI_Area_mm2": {
+      "baseline": 99.99999999999999,
+      "patched": 99.99999999999999
+    },
+    "Print_process_thread": {
+      "baseline": [
+        2920,
+        7568
+      ],
+      "patched": [
+        1104,
+        2592
+      ]
+    },
+    "QPdfWriter_route": "TechDraw_ExportPagePDF with staged owned Gui::FileDialog filename and exact output path",
+    "QPrinter_route": "Std_Print; temporary NativeFormat admission, unique owned process/thread #32770 dialog, Print IDOK1 BM_CLICK; accepted PdfFormat/path/1200dpi/version/fullpage before PagePrinter",
+    "baseline_patched_complete_scene_pairs": 24,
+    "before_after_complete_scene_pairs": 48,
+    "expectation_basis": "Opaque null-frame palette contributes zero; short-gap contributes one per device. Expectations come from prospective input snapshots.",
+    "expected_baseline_invalid_closes_from_inputs": 2,
+    "launcher": "Stock --python-path selected Lib/site-packages and existing FREECAD_LIBPACK_BIN selected Library/bin startup hook",
+    "palette_RGBA": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "prospective_snapshots": 48,
+    "raw_snapshot_order_identical_pairs": 18,
+    "required_null_origin_frame_counts": {
+      "area-and-theoretical-exact": 2,
+      "area-relocated-and-theoretical-exact": 2,
+      "distance": 1,
+      "theoretical-exact": 1
+    },
+    "scene_comparison": "Exact source-bound inputs and complete path/rectangle inventories, sorted by canonical JSON solely to ignore QGraphicsScene enumeration order; all geometry/style/visibility/transform fields preserved.",
+    "stock_QPdfWriter_exports": 24,
+    "stock_QPrinter_exports": 24
+  },
+  "native_result": {
+    "actual_native_pdfs": 48,
+    "all_pairs_same_coordinates": true,
+    "all_pairs_same_geometry": true,
+    "all_pairs_same_normalized_operators": true,
+    "all_pairs_same_rgba": true,
+    "baseline_closepath_warnings": 2,
+    "baseline_invalid_closes": 2,
+    "baseline_reproduced_by_device": {
+      "qpdfwriter": 1,
+      "qprinter": 1
+    },
+    "baseline_reproduced_cases": 2,
+    "comparison_report_sha256": "517fae125d613418b68778acc093772805912cdfed736609a84858515022a83f",
+    "cross_device_pixel_parity_required": false,
+    "cross_device_rounding": "PagePrinter QPdfWriter computes its target from exact template millimetres; QPrinter uses QPageLayout.fullRectPixels from rounded page points. Cross-device pixels can differ; each device must retain exact operators and RGBA.",
+    "fresh_binding_sha256": "a817196ebeeb396eb8e3c4b5b92bf9af18c623312e173501b9f1ff6c3b5e00fe",
+    "gui_tests_per_runtime": 11,
+    "independent_pdf_inspector": {
+      "fresh_native_renders": 48,
+      "poppler_version": "pdftoppm version 26.09.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC",
+      "pypdf_version": "6.10.0",
+      "strict_parse": true
+    },
+    "native_cases": 24,
+    "pair_metrics": [
+      {
+        "baseline": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "efc25d57cfe8dd2b3bf8a771300629dac199d45c623c3ac20a7a2f4ff81dc67a",
+          "decoded_stream_sha256": "3d44c2fcb52c7524ad704da7a3d50c38bcad054887df692ee7207ea7a9be2854",
+          "geometry_sha256": "e02ab57749d367bbe7f608a60dda5d0be9bcee011866574228e1025daf2d2cc4",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "0cdce7beb5889096a24e77ec729e84684ca6522c62fa0c77610c9d0a6717db47",
+          "operation_count": 394,
+          "pdf_sha256": "8908b4d79933ef2d493e023920bc9ccf05848442359f9609314627ca164052f7",
+          "pdf_size_bytes": 3478,
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:box-only",
+        "patched": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "efc25d57cfe8dd2b3bf8a771300629dac199d45c623c3ac20a7a2f4ff81dc67a",
+          "decoded_stream_sha256": "3d44c2fcb52c7524ad704da7a3d50c38bcad054887df692ee7207ea7a9be2854",
+          "geometry_sha256": "e02ab57749d367bbe7f608a60dda5d0be9bcee011866574228e1025daf2d2cc4",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "0cdce7beb5889096a24e77ec729e84684ca6522c62fa0c77610c9d0a6717db47",
+          "operation_count": 394,
+          "pdf_sha256": "702737acc812f1d9e25e79ea22cad30b4428ea25b1536d6248ca938196aa170d",
+          "pdf_size_bytes": 3478,
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8"
+        },
+        "scenario": "box-only"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "259152462287996e9df9bdff1887237095cc43add9fd00a9399f7cad5131acfc",
+          "decoded_stream_sha256": "40cc3865d42095535aa7fe761621d4b52da90c0d00747e03a44e2ec04f08d0c0",
+          "geometry_sha256": "5e584b2d0b1ca171e5bdc8cf25ce1cbd4fd4a1190a4420ea40acfaa01b0fb813",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "ae36c7af68b469ed022057c37acd5527e8cd8261445e1881a9c81bbceea26234",
+          "operation_count": 394,
+          "pdf_sha256": "1651a41ad8df82169142f2017852c99bcdf6ec06f1910108e3bab7dca79a6282",
+          "pdf_size_bytes": 3387,
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9"
+        },
+        "device": "qprinter",
+        "name": "qprinter:box-only",
+        "patched": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "259152462287996e9df9bdff1887237095cc43add9fd00a9399f7cad5131acfc",
+          "decoded_stream_sha256": "40cc3865d42095535aa7fe761621d4b52da90c0d00747e03a44e2ec04f08d0c0",
+          "geometry_sha256": "5e584b2d0b1ca171e5bdc8cf25ce1cbd4fd4a1190a4420ea40acfaa01b0fb813",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "ae36c7af68b469ed022057c37acd5527e8cd8261445e1881a9c81bbceea26234",
+          "operation_count": 394,
+          "pdf_sha256": "7199680d92456ade6e263fdb822f818ea32d64b6aff1ff46466f6ec41fe10a97",
+          "pdf_size_bytes": 3387,
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9"
+        },
+        "scenario": "box-only"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "efc25d57cfe8dd2b3bf8a771300629dac199d45c623c3ac20a7a2f4ff81dc67a",
+          "decoded_stream_sha256": "a62781d263703e615260f194b17cd4cb1368430a88c47854b5c708d39c95869c",
+          "geometry_sha256": "d107ebd5b44e5973ac33d9f935c6e6cf67f5c91669cb8200523587f578c93a51",
+          "invalid_close_count": 1,
+          "normalized_operator_sha256": "7875724fa76e936f8b96f4995b867edf7ae67d39af1b0700e729a60cbec57087",
+          "operation_count": 421,
+          "pdf_sha256": "ad4d35216570d2c260ed482b5e24f374177db9614465dc54ecaedff56d2715f7",
+          "pdf_size_bytes": 3589,
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:short-gap",
+        "patched": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "efc25d57cfe8dd2b3bf8a771300629dac199d45c623c3ac20a7a2f4ff81dc67a",
+          "decoded_stream_sha256": "1d61168a5bd0dea107b88b8be8523d46e1f48666175084861f68e418eda9d23e",
+          "geometry_sha256": "d107ebd5b44e5973ac33d9f935c6e6cf67f5c91669cb8200523587f578c93a51",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "7875724fa76e936f8b96f4995b867edf7ae67d39af1b0700e729a60cbec57087",
+          "operation_count": 419,
+          "pdf_sha256": "0c4115761aa55ea352ae6934ae96f3c1b0090c29fba0eaa2c22bc76845e7a6f2",
+          "pdf_size_bytes": 3588,
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8"
+        },
+        "scenario": "short-gap"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "259152462287996e9df9bdff1887237095cc43add9fd00a9399f7cad5131acfc",
+          "decoded_stream_sha256": "ea6d500ae02a2755d5ca3b6b23223386f159c211d6d905a00e90638a92d3429f",
+          "geometry_sha256": "1104148e6304ff23c65ce65ca9964f4e32f9053e383791670c9514c7b2fa1800",
+          "invalid_close_count": 1,
+          "normalized_operator_sha256": "273e2b26ddf48d86c91afee6d3c57694dc68023a63e22af4b9a1d5bb51e5b054",
+          "operation_count": 421,
+          "pdf_sha256": "7db171b6c7c7fcf4046d929ecc1c1cac3cefff0d56cb14e8a6e1a35ad7c65f7d",
+          "pdf_size_bytes": 3498,
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9"
+        },
+        "device": "qprinter",
+        "name": "qprinter:short-gap",
+        "patched": {
+          "coordinate_count": 90,
+          "coordinate_sha256": "259152462287996e9df9bdff1887237095cc43add9fd00a9399f7cad5131acfc",
+          "decoded_stream_sha256": "5eacd77cddbf67e5d4efd091a195dc69d7376ffcabfd0ad3e46cbb954e58419a",
+          "geometry_sha256": "1104148e6304ff23c65ce65ca9964f4e32f9053e383791670c9514c7b2fa1800",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "273e2b26ddf48d86c91afee6d3c57694dc68023a63e22af4b9a1d5bb51e5b054",
+          "operation_count": 419,
+          "pdf_sha256": "2334fe00c75d694a651e8edc34dcad9d6eca708d29cc4b32d5b4ad124576a555",
+          "pdf_size_bytes": 3497,
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9"
+        },
+        "scenario": "short-gap"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "b8b9e73970268384b970599f9accab269aeaf3878acbf22ad77c3ddd95ffad85",
+          "decoded_stream_sha256": "c1657ce762ae1baac9d8ce3905feed7f400d12e3e9fbfd86cd8e0f110c19f383",
+          "geometry_sha256": "235ff5d921d71e2646cae039af85e971be112be2cf66a4cb0f68b4a255254f56",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "7fb2e30615c647444ff46ae5c51ba9fc4e3bc10f052dd3e20d2752445e5a1b38",
+          "operation_count": 418,
+          "pdf_sha256": "d18b05ab712520fdd56c5037a7d602ec65bbcdfa7d7c58429b53f3dd8bba0f26",
+          "pdf_size_bytes": 3506,
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:short-gap-opaque",
+        "patched": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "b8b9e73970268384b970599f9accab269aeaf3878acbf22ad77c3ddd95ffad85",
+          "decoded_stream_sha256": "c1657ce762ae1baac9d8ce3905feed7f400d12e3e9fbfd86cd8e0f110c19f383",
+          "geometry_sha256": "235ff5d921d71e2646cae039af85e971be112be2cf66a4cb0f68b4a255254f56",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "7fb2e30615c647444ff46ae5c51ba9fc4e3bc10f052dd3e20d2752445e5a1b38",
+          "operation_count": 418,
+          "pdf_sha256": "794ef79f3e2f16f3321336cfcc7f0db3eefdf81c18d017e33ef4df13107a1ddc",
+          "pdf_size_bytes": 3506,
+          "rgba_sha256": "7db9e4a45d686c59ba9cc5c87e01580aca355fe82be32a4f7442ccff83213aa8"
+        },
+        "scenario": "short-gap-opaque"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "045415572a7279c6e8496e55fe265cc2102d1840478444171e34a493c586c087",
+          "decoded_stream_sha256": "7f4bbea352667ff301c0d00cc4095ee3ad12acef1b72b15314fc31b69d00bdc4",
+          "geometry_sha256": "42c0722b5c095ee4527f39897a0fe451c27edb31a8ff9031ade14f33f0fb37c4",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "2d50c0a5a977225b28261b019c67ac0e578aa1b1addc16ec52474111190cee6e",
+          "operation_count": 418,
+          "pdf_sha256": "4be8c0ebb4324f341e4187f900013c592f9eda6c47a76e4a1684d7f51d9b99ff",
+          "pdf_size_bytes": 3417,
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9"
+        },
+        "device": "qprinter",
+        "name": "qprinter:short-gap-opaque",
+        "patched": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "045415572a7279c6e8496e55fe265cc2102d1840478444171e34a493c586c087",
+          "decoded_stream_sha256": "7f4bbea352667ff301c0d00cc4095ee3ad12acef1b72b15314fc31b69d00bdc4",
+          "geometry_sha256": "42c0722b5c095ee4527f39897a0fe451c27edb31a8ff9031ade14f33f0fb37c4",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "2d50c0a5a977225b28261b019c67ac0e578aa1b1addc16ec52474111190cee6e",
+          "operation_count": 418,
+          "pdf_sha256": "10a64a57842579b1e5d10b00e1eed8081e6227d4abb732b59e9b5904b4446f4e",
+          "pdf_size_bytes": 3417,
+          "rgba_sha256": "8b804333584ae3a4d52d9ed1b70130e95575e03be0317f83787a5d205e3c76d9"
+        },
+        "scenario": "short-gap-opaque"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "f62e13fbabaec70101b5c2f607de50416dc6873909fc1d59bdfd6e26ffcb66b8",
+          "decoded_stream_sha256": "7346c80e2642d249630e391027ba6b1a75a81802cb0f9aa3e583bd5e2427c3d5",
+          "geometry_sha256": "6dd0315bbd81b7d9bf310ed5e0e7d52f25e8802e8479f047da68b7b74c4203cb",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "10a43eb33057b583305f4d499f250d133bac4523dd034a8bda55a4992c609818",
+          "operation_count": 426,
+          "pdf_sha256": "71c0bb8ab47c023c11c0007fab39cef43be817b60f181349f269bba149d21a8b",
+          "pdf_size_bytes": 3625,
+          "rgba_sha256": "dfb7f4cd2b53e38c76b3bcae756b9eed455c4bc55a5f133ad2b73a0169ece907"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:short-solid",
+        "patched": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "f62e13fbabaec70101b5c2f607de50416dc6873909fc1d59bdfd6e26ffcb66b8",
+          "decoded_stream_sha256": "7346c80e2642d249630e391027ba6b1a75a81802cb0f9aa3e583bd5e2427c3d5",
+          "geometry_sha256": "6dd0315bbd81b7d9bf310ed5e0e7d52f25e8802e8479f047da68b7b74c4203cb",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "10a43eb33057b583305f4d499f250d133bac4523dd034a8bda55a4992c609818",
+          "operation_count": 426,
+          "pdf_sha256": "1d6a1131dfe0004ba614f4ac913b44f2d3f9441c717f93d76953d0b9a81a7ee3",
+          "pdf_size_bytes": 3625,
+          "rgba_sha256": "dfb7f4cd2b53e38c76b3bcae756b9eed455c4bc55a5f133ad2b73a0169ece907"
+        },
+        "scenario": "short-solid"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "a5078a18bf8f392c95afa4e429317c1e5a4df2290d803eb03edf9b020348ed47",
+          "decoded_stream_sha256": "bf0b559cf7be87fc695ae028f9af09572649cdccc8f2fe09b546a5136893c1de",
+          "geometry_sha256": "04e74c522c32e509c2bf0ef693b4c5f394ac9e19cae03ee654d9e0d8a6b6e318",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "999a5ec513f954d29545ab442648bbfc81a6dba28ab6b060b7ddbf7ee49b6187",
+          "operation_count": 426,
+          "pdf_sha256": "5c29f35026d22a63e8a7075556867fc84e496db613a01aa2cc75d0d17046f8e9",
+          "pdf_size_bytes": 3534,
+          "rgba_sha256": "9daadca6fefbcd88502dfedec1dd8672cffbd859d6d057de2241a5bb1e0a647f"
+        },
+        "device": "qprinter",
+        "name": "qprinter:short-solid",
+        "patched": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "a5078a18bf8f392c95afa4e429317c1e5a4df2290d803eb03edf9b020348ed47",
+          "decoded_stream_sha256": "bf0b559cf7be87fc695ae028f9af09572649cdccc8f2fe09b546a5136893c1de",
+          "geometry_sha256": "04e74c522c32e509c2bf0ef693b4c5f394ac9e19cae03ee654d9e0d8a6b6e318",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "999a5ec513f954d29545ab442648bbfc81a6dba28ab6b060b7ddbf7ee49b6187",
+          "operation_count": 426,
+          "pdf_sha256": "9d6d37da8102ab202e5f38f45fd9648d38acb839c3e136d278b5fa99c4863290",
+          "pdf_size_bytes": 3534,
+          "rgba_sha256": "9daadca6fefbcd88502dfedec1dd8672cffbd859d6d057de2241a5bb1e0a647f"
+        },
+        "scenario": "short-solid"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 100,
+          "coordinate_sha256": "b27f4e207571a826411d95d08afde9e31f3a18a0531cafe1bd7b310aa74ef3d6",
+          "decoded_stream_sha256": "43d534216b745e036b324dbaeca26550820b35de9ef20a7ade352a2dcaf2bc56",
+          "geometry_sha256": "aa927657fbd30ffef5e519085d3c7dd01823547d066a3762b7895305fbc33d8b",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "d328d08bad8ee029e576b1a09c3b6bc9c98621d28b095e1ac371938cfe22e014",
+          "operation_count": 432,
+          "pdf_sha256": "ba7306fddd8df031169d170a791ec603739db59fdce36c9810e50641ddc4be47",
+          "pdf_size_bytes": 3653,
+          "rgba_sha256": "8afe1173074b4e40f45ff67a9da41f6b4449b40e602076e6f913aa973b33e35d"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:long-dashed",
+        "patched": {
+          "coordinate_count": 100,
+          "coordinate_sha256": "b27f4e207571a826411d95d08afde9e31f3a18a0531cafe1bd7b310aa74ef3d6",
+          "decoded_stream_sha256": "43d534216b745e036b324dbaeca26550820b35de9ef20a7ade352a2dcaf2bc56",
+          "geometry_sha256": "aa927657fbd30ffef5e519085d3c7dd01823547d066a3762b7895305fbc33d8b",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "d328d08bad8ee029e576b1a09c3b6bc9c98621d28b095e1ac371938cfe22e014",
+          "operation_count": 432,
+          "pdf_sha256": "a0158cd0b37cb6e5c1d0303c971b6200b64198448d8d16b37d66ce09ead1208b",
+          "pdf_size_bytes": 3653,
+          "rgba_sha256": "8afe1173074b4e40f45ff67a9da41f6b4449b40e602076e6f913aa973b33e35d"
+        },
+        "scenario": "long-dashed"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 100,
+          "coordinate_sha256": "e3ff412da88490d4a91f0b41a4e5776f088778f01e904b36d8ca55312813a145",
+          "decoded_stream_sha256": "e6d2d8d0d33dbf65fec89f3d7545648d9e60089f13df8e5022b8c1d0a1b8469b",
+          "geometry_sha256": "50fe2e32b3e1dd505f6d9de0b3de1e51c0d0ebdd06f0a1a48f99323a27019eb3",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "ec93f32ce496eec41546e9a389e7d98a26f31b52ff262de946ee5aa5a3056345",
+          "operation_count": 432,
+          "pdf_sha256": "6d8f7b60e9861b0adedc797e9a1081e9a72885db363b6ea725df70519126d266",
+          "pdf_size_bytes": 3563,
+          "rgba_sha256": "882e26c964ed619635e7aa701850530aeef112cd24ec0fb61a595dfeeb3c5889"
+        },
+        "device": "qprinter",
+        "name": "qprinter:long-dashed",
+        "patched": {
+          "coordinate_count": 100,
+          "coordinate_sha256": "e3ff412da88490d4a91f0b41a4e5776f088778f01e904b36d8ca55312813a145",
+          "decoded_stream_sha256": "e6d2d8d0d33dbf65fec89f3d7545648d9e60089f13df8e5022b8c1d0a1b8469b",
+          "geometry_sha256": "50fe2e32b3e1dd505f6d9de0b3de1e51c0d0ebdd06f0a1a48f99323a27019eb3",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "ec93f32ce496eec41546e9a389e7d98a26f31b52ff262de946ee5aa5a3056345",
+          "operation_count": 432,
+          "pdf_sha256": "33c15a6cfc55c1ba0be9e8a6357f014e06b77991741db906f98dc61351cd9508",
+          "pdf_size_bytes": 3563,
+          "rgba_sha256": "882e26c964ed619635e7aa701850530aeef112cd24ec0fb61a595dfeeb3c5889"
+        },
+        "scenario": "long-dashed"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "516646790826c38f43c64ceffd28f062a77c23b05248c1285370a12853f47053",
+          "decoded_stream_sha256": "b369d43bba474a21f9be12159bcaa9247519e45d840006e9cdcc9a94590aab43",
+          "geometry_sha256": "e21e836b55d47f2e2b69bccee4fdf910208d6bb2aa05498ac9f0c5329826f7a3",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "8d6e7dde83f48ae5fcbc4efe1e06bc15e35b211fb95c26738b5d5312bb7616fd",
+          "operation_count": 426,
+          "pdf_sha256": "ab4a27a086d2684028cd819b11b4789207e6e633187c2aca0373e20369bd028d",
+          "pdf_size_bytes": 3617,
+          "rgba_sha256": "ecf95ce6d3da6006282c37406948a71152b8bb5e4a7612635e97aeb585d4b579"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:zero-width-translucent",
+        "patched": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "516646790826c38f43c64ceffd28f062a77c23b05248c1285370a12853f47053",
+          "decoded_stream_sha256": "b369d43bba474a21f9be12159bcaa9247519e45d840006e9cdcc9a94590aab43",
+          "geometry_sha256": "e21e836b55d47f2e2b69bccee4fdf910208d6bb2aa05498ac9f0c5329826f7a3",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "8d6e7dde83f48ae5fcbc4efe1e06bc15e35b211fb95c26738b5d5312bb7616fd",
+          "operation_count": 426,
+          "pdf_sha256": "47d099fac731e6e5c09955d029b2029a4302eda9a190e37ca33b1b0c306a1663",
+          "pdf_size_bytes": 3617,
+          "rgba_sha256": "ecf95ce6d3da6006282c37406948a71152b8bb5e4a7612635e97aeb585d4b579"
+        },
+        "scenario": "zero-width-translucent"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "65eb4b74de11a340b9643dd8c13da466bffb21cd7bfe49a15b555516f2d0802d",
+          "decoded_stream_sha256": "aaec9302447f10d8674fe30a6ddc509858d4fcca053976d98e4efad78c5644d7",
+          "geometry_sha256": "1492fa1f6a2489149dcc00bad2e04d42e0baeee68c71d1543d30d3b56e7ea2db",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "879400c31f82a4868906c25a863ee537c6734be876096ababb9a05eaa9e139aa",
+          "operation_count": 426,
+          "pdf_sha256": "d7344050fa0f6e1b733a13d038f65c79c5fec613205d7afd653143bacb33600e",
+          "pdf_size_bytes": 3529,
+          "rgba_sha256": "2fb6df3db847c6654305ec36085ed08c62a098ad284daa99923e540900c34c00"
+        },
+        "device": "qprinter",
+        "name": "qprinter:zero-width-translucent",
+        "patched": {
+          "coordinate_count": 95,
+          "coordinate_sha256": "65eb4b74de11a340b9643dd8c13da466bffb21cd7bfe49a15b555516f2d0802d",
+          "decoded_stream_sha256": "aaec9302447f10d8674fe30a6ddc509858d4fcca053976d98e4efad78c5644d7",
+          "geometry_sha256": "1492fa1f6a2489149dcc00bad2e04d42e0baeee68c71d1543d30d3b56e7ea2db",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "879400c31f82a4868906c25a863ee537c6734be876096ababb9a05eaa9e139aa",
+          "operation_count": 426,
+          "pdf_sha256": "d9255d5265d26425c28a4fa78842a4cf4df947cb52d84079f02988933098a12e",
+          "pdf_size_bytes": 3529,
+          "rgba_sha256": "2fb6df3db847c6654305ec36085ed08c62a098ad284daa99923e540900c34c00"
+        },
+        "scenario": "zero-width-translucent"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "2de506391045161ed7987856107e5eee61d31b41329eb00a8dd25b2c22b3723f",
+          "decoded_stream_sha256": "f6d850100ef27423c16a49fa24e8aae17390a581d03a9b0e1c8ad099440ba963",
+          "geometry_sha256": "c2f1b52945f0f435291eaa279c49a77f424235701064548354372b8ddb9b920f",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "c59cce80a3466f638bd4f367ebbaf1b3853038ee09336bc603c23862dea821bf",
+          "operation_count": 423,
+          "pdf_sha256": "34d53d2c9aede5a92e46842779a9a8bfa1acfab66cde2ad12fc7fa7efe751e6d",
+          "pdf_size_bytes": 3522,
+          "rgba_sha256": "2aa86d84ef52df72ee848daa74a24764547e098d8bcdbe2b2381829aa0054566"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:zero-width-opaque",
+        "patched": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "2de506391045161ed7987856107e5eee61d31b41329eb00a8dd25b2c22b3723f",
+          "decoded_stream_sha256": "f6d850100ef27423c16a49fa24e8aae17390a581d03a9b0e1c8ad099440ba963",
+          "geometry_sha256": "c2f1b52945f0f435291eaa279c49a77f424235701064548354372b8ddb9b920f",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "c59cce80a3466f638bd4f367ebbaf1b3853038ee09336bc603c23862dea821bf",
+          "operation_count": 423,
+          "pdf_sha256": "65c5495b042098d813a896b8948e47e5fa6349bb8ddadff7e275f63c178e2abc",
+          "pdf_size_bytes": 3522,
+          "rgba_sha256": "2aa86d84ef52df72ee848daa74a24764547e098d8bcdbe2b2381829aa0054566"
+        },
+        "scenario": "zero-width-opaque"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "3c2e09b089548015872fbc2e2ada6156c3c365cc1a5e09aacfa84da3250ad07a",
+          "decoded_stream_sha256": "6e291ddf9fbda70ff4c72d48518a3cb57d139c92af8baca068955d39f66bd20f",
+          "geometry_sha256": "e20013b30331d42b6d621346f4f15af4fb80d683cf77c622ac3c4b892268b6ec",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "723c13e7410bc8dba9ee627994940883d903130a42a82087750419786b448a41",
+          "operation_count": 423,
+          "pdf_sha256": "67cab78623bbdda3bb197743bf01b6b2f7f1e331354b49a4ccded63991db6121",
+          "pdf_size_bytes": 3431,
+          "rgba_sha256": "f3fc2715ba8adebb48f2b0864af51213ae845a15ddac58770c786601310d4c09"
+        },
+        "device": "qprinter",
+        "name": "qprinter:zero-width-opaque",
+        "patched": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "3c2e09b089548015872fbc2e2ada6156c3c365cc1a5e09aacfa84da3250ad07a",
+          "decoded_stream_sha256": "6e291ddf9fbda70ff4c72d48518a3cb57d139c92af8baca068955d39f66bd20f",
+          "geometry_sha256": "e20013b30331d42b6d621346f4f15af4fb80d683cf77c622ac3c4b892268b6ec",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "723c13e7410bc8dba9ee627994940883d903130a42a82087750419786b448a41",
+          "operation_count": 423,
+          "pdf_sha256": "5f0b121b1a0ddc824fdddf4369a3c8d558e80067234bf0e70a6ed49dabeef9f4",
+          "pdf_size_bytes": 3431,
+          "rgba_sha256": "f3fc2715ba8adebb48f2b0864af51213ae845a15ddac58770c786601310d4c09"
+        },
+        "scenario": "zero-width-opaque"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "2de506391045161ed7987856107e5eee61d31b41329eb00a8dd25b2c22b3723f",
+          "decoded_stream_sha256": "f6d850100ef27423c16a49fa24e8aae17390a581d03a9b0e1c8ad099440ba963",
+          "geometry_sha256": "c2f1b52945f0f435291eaa279c49a77f424235701064548354372b8ddb9b920f",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "c59cce80a3466f638bd4f367ebbaf1b3853038ee09336bc603c23862dea821bf",
+          "operation_count": 423,
+          "pdf_sha256": "b2d4dcfa31cdb78a0e1908a3bc612cb79fcfb9b42a5d4c1cb3c4d80f71e06a13",
+          "pdf_size_bytes": 6789,
+          "rgba_sha256": "2aa86d84ef52df72ee848daa74a24764547e098d8bcdbe2b2381829aa0054566"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:zero-width-archival",
+        "patched": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "2de506391045161ed7987856107e5eee61d31b41329eb00a8dd25b2c22b3723f",
+          "decoded_stream_sha256": "f6d850100ef27423c16a49fa24e8aae17390a581d03a9b0e1c8ad099440ba963",
+          "geometry_sha256": "c2f1b52945f0f435291eaa279c49a77f424235701064548354372b8ddb9b920f",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "c59cce80a3466f638bd4f367ebbaf1b3853038ee09336bc603c23862dea821bf",
+          "operation_count": 423,
+          "pdf_sha256": "c28690fea52f9f18fea9ab15fabe2c7bd96f61365f1800372c0786a1ff823648",
+          "pdf_size_bytes": 6789,
+          "rgba_sha256": "2aa86d84ef52df72ee848daa74a24764547e098d8bcdbe2b2381829aa0054566"
+        },
+        "scenario": "zero-width-archival"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "3c2e09b089548015872fbc2e2ada6156c3c365cc1a5e09aacfa84da3250ad07a",
+          "decoded_stream_sha256": "6e291ddf9fbda70ff4c72d48518a3cb57d139c92af8baca068955d39f66bd20f",
+          "geometry_sha256": "e20013b30331d42b6d621346f4f15af4fb80d683cf77c622ac3c4b892268b6ec",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "723c13e7410bc8dba9ee627994940883d903130a42a82087750419786b448a41",
+          "operation_count": 423,
+          "pdf_sha256": "54d8c2c431fbf72be350d0b7a19ee28a961c73cb0a6d33d4709cecd0ae2e653c",
+          "pdf_size_bytes": 6698,
+          "rgba_sha256": "f3fc2715ba8adebb48f2b0864af51213ae845a15ddac58770c786601310d4c09"
+        },
+        "device": "qprinter",
+        "name": "qprinter:zero-width-archival",
+        "patched": {
+          "coordinate_count": 92,
+          "coordinate_sha256": "3c2e09b089548015872fbc2e2ada6156c3c365cc1a5e09aacfa84da3250ad07a",
+          "decoded_stream_sha256": "6e291ddf9fbda70ff4c72d48518a3cb57d139c92af8baca068955d39f66bd20f",
+          "geometry_sha256": "e20013b30331d42b6d621346f4f15af4fb80d683cf77c622ac3c4b892268b6ec",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "723c13e7410bc8dba9ee627994940883d903130a42a82087750419786b448a41",
+          "operation_count": 423,
+          "pdf_sha256": "e7d0322a3504ac3e6cc975d31a67f63aac0f9bba342b47d3f427c8fe6f15a865",
+          "pdf_size_bytes": 6698,
+          "rgba_sha256": "f3fc2715ba8adebb48f2b0864af51213ae845a15ddac58770c786601310d4c09"
+        },
+        "scenario": "zero-width-archival"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 177,
+          "coordinate_sha256": "161d557506cd809dc6daa3d15eb9d7bcb6871e8c19888b099185c905ebac9119",
+          "decoded_stream_sha256": "a7fd3fee3d25fda8e3e2796150a41305398bf2c8d86126a72e12c4a8b01ea7d5",
+          "geometry_sha256": "7064caf08236367be19dea0ed1c2b3bb24eb353e0383f0cc853acc050a09a73d",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "f64a205bbb6ca3af39a01f94399f5ed6870c9278c9342c7f8f0b35aafeed0835",
+          "operation_count": 991,
+          "pdf_sha256": "b25b0af92e2329f75058ed424570181f3350aa3480c1904dd191baed7ea3357d",
+          "pdf_size_bytes": 7073,
+          "rgba_sha256": "e612298b7cbfe2b6f5e55b4e5932364b6bf72eedd6a3c1d5cdabf385be9038fb"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:distance",
+        "patched": {
+          "coordinate_count": 177,
+          "coordinate_sha256": "161d557506cd809dc6daa3d15eb9d7bcb6871e8c19888b099185c905ebac9119",
+          "decoded_stream_sha256": "a7fd3fee3d25fda8e3e2796150a41305398bf2c8d86126a72e12c4a8b01ea7d5",
+          "geometry_sha256": "7064caf08236367be19dea0ed1c2b3bb24eb353e0383f0cc853acc050a09a73d",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "f64a205bbb6ca3af39a01f94399f5ed6870c9278c9342c7f8f0b35aafeed0835",
+          "operation_count": 991,
+          "pdf_sha256": "243c16035491a6d3efbc94958eeb62b1dff19f404a5d8b322f4e9f45b176ccd3",
+          "pdf_size_bytes": 7073,
+          "rgba_sha256": "e612298b7cbfe2b6f5e55b4e5932364b6bf72eedd6a3c1d5cdabf385be9038fb"
+        },
+        "scenario": "distance"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 177,
+          "coordinate_sha256": "74df1dae97af5684de9ca088eb0c277469260f9cc15a9a4ee754776dcd5f5fbd",
+          "decoded_stream_sha256": "718ecaafa2008cf775ef71fb6dc95754030ab9c3b73d07c659840f60f500e978",
+          "geometry_sha256": "d33572a879aaf196a224bc9740e5351703795cb4060309dfd4fda01d1b984063",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "0e62200711810e691c4727ee18b9c87628ae37373fbdf63f7e28439ba0bf15c5",
+          "operation_count": 991,
+          "pdf_sha256": "74d4d26efcea0b16f02d1b6d3417dfd48d8321f101d1c4efd110554431f61822",
+          "pdf_size_bytes": 6982,
+          "rgba_sha256": "f4424be6a78f0723f15fea52f82b7777ebbb5db9415e9b76cf72416bd8bacc28"
+        },
+        "device": "qprinter",
+        "name": "qprinter:distance",
+        "patched": {
+          "coordinate_count": 177,
+          "coordinate_sha256": "74df1dae97af5684de9ca088eb0c277469260f9cc15a9a4ee754776dcd5f5fbd",
+          "decoded_stream_sha256": "718ecaafa2008cf775ef71fb6dc95754030ab9c3b73d07c659840f60f500e978",
+          "geometry_sha256": "d33572a879aaf196a224bc9740e5351703795cb4060309dfd4fda01d1b984063",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "0e62200711810e691c4727ee18b9c87628ae37373fbdf63f7e28439ba0bf15c5",
+          "operation_count": 991,
+          "pdf_sha256": "7ae8e4983c41eb74fa159bacbb8b4cbf36c47f33dcc3cf80ed988e670d0e886d",
+          "pdf_size_bytes": 6982,
+          "rgba_sha256": "f4424be6a78f0723f15fea52f82b7777ebbb5db9415e9b76cf72416bd8bacc28"
+        },
+        "scenario": "distance"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 178,
+          "coordinate_sha256": "3a1a7f39427e0369730ec33d6fb550f55b9ddd702c136c2fbabd1e8711f41d7e",
+          "decoded_stream_sha256": "f2cefd3792128431a9b3be9cf6da74f2b569dee3a29a11e4076d2282c0e47dd5",
+          "geometry_sha256": "099d22f84a1044e336699ef5bbc9855123e817c6ec821c3bdb8513d2fafe23a0",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "c1c4553b5a7b9c99f19a4a5db19e158ff239e534bbda9d823d77e9833bc7aed3",
+          "operation_count": 1015,
+          "pdf_sha256": "4c07497edfa51fd580a1adbebd006b17157095d42d8d879408100378c272a627",
+          "pdf_size_bytes": 7090,
+          "rgba_sha256": "e79966a411b7f795fba932ba2d809e1b0c7acdf678d18d2873ea753d55c590d1"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:theoretical-exact",
+        "patched": {
+          "coordinate_count": 178,
+          "coordinate_sha256": "3a1a7f39427e0369730ec33d6fb550f55b9ddd702c136c2fbabd1e8711f41d7e",
+          "decoded_stream_sha256": "f2cefd3792128431a9b3be9cf6da74f2b569dee3a29a11e4076d2282c0e47dd5",
+          "geometry_sha256": "099d22f84a1044e336699ef5bbc9855123e817c6ec821c3bdb8513d2fafe23a0",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "c1c4553b5a7b9c99f19a4a5db19e158ff239e534bbda9d823d77e9833bc7aed3",
+          "operation_count": 1015,
+          "pdf_sha256": "737dd3369f73d93a8b6e0a056e8756653439b249ad943d64da79507f300aa207",
+          "pdf_size_bytes": 7090,
+          "rgba_sha256": "e79966a411b7f795fba932ba2d809e1b0c7acdf678d18d2873ea753d55c590d1"
+        },
+        "scenario": "theoretical-exact"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 178,
+          "coordinate_sha256": "d32a10630ffa1ee1c2ac0fae92f0ccc88055de374b50c6a38adb7edb48c338c9",
+          "decoded_stream_sha256": "f2b832789c4114e19d41a4ee54697916e3db1afaa1662e57424fbda41ab1ab98",
+          "geometry_sha256": "6a96a3ad7484b3a4aac75622203c83adfd98f8b4521c120b6d513a337f48d01d",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "3b01a8c9d4f9f5b2985d88769c78e2704ceb68c03ac1140eb41ef1cfe7e4ab0e",
+          "operation_count": 1015,
+          "pdf_sha256": "f29f69d994433df0b7a6330cb122c33c001ee08535bf91035ac3046206df52a8",
+          "pdf_size_bytes": 6999,
+          "rgba_sha256": "7c6e77dfcbaf3bb7eff749d5771be56682ccb6996655c08eb847816b1c6070fe"
+        },
+        "device": "qprinter",
+        "name": "qprinter:theoretical-exact",
+        "patched": {
+          "coordinate_count": 178,
+          "coordinate_sha256": "d32a10630ffa1ee1c2ac0fae92f0ccc88055de374b50c6a38adb7edb48c338c9",
+          "decoded_stream_sha256": "f2b832789c4114e19d41a4ee54697916e3db1afaa1662e57424fbda41ab1ab98",
+          "geometry_sha256": "6a96a3ad7484b3a4aac75622203c83adfd98f8b4521c120b6d513a337f48d01d",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "3b01a8c9d4f9f5b2985d88769c78e2704ceb68c03ac1140eb41ef1cfe7e4ab0e",
+          "operation_count": 1015,
+          "pdf_sha256": "e6a949ee9f2e02d34b4d72293fcdf3532d390ad07d8e7cb7c46ff7a8e899dd6e",
+          "pdf_size_bytes": 6999,
+          "rgba_sha256": "7c6e77dfcbaf3bb7eff749d5771be56682ccb6996655c08eb847816b1c6070fe"
+        },
+        "scenario": "theoretical-exact"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "a0fcd3a9de480c77aa1a6f13ad26afa9599f4ce9d05d6b510c1491da89b9b23c",
+          "decoded_stream_sha256": "e3883e4b8be473619c157ce72e4f29b878c7ed0a0d55504272bcaeabc1c78b46",
+          "geometry_sha256": "ae2487ff8c11cbb57645e7c5750825c58935d26ddc6fa767fc689f9373b8fac8",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "cc4889e3c8547befbaf1a0ad7a192100d83b69b7fe60cbc13c38926e6c847d7f",
+          "operation_count": 1802,
+          "pdf_sha256": "06ebebf07223193c9406d171743e649c503a635cd2057bd6941fc19495a12dec",
+          "pdf_size_bytes": 7936,
+          "rgba_sha256": "8be7a7d7a869d6f5715923102d7a8495fd3e50d3e6a6d8662211f97419e485b8"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:area-and-theoretical-exact",
+        "patched": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "a0fcd3a9de480c77aa1a6f13ad26afa9599f4ce9d05d6b510c1491da89b9b23c",
+          "decoded_stream_sha256": "e3883e4b8be473619c157ce72e4f29b878c7ed0a0d55504272bcaeabc1c78b46",
+          "geometry_sha256": "ae2487ff8c11cbb57645e7c5750825c58935d26ddc6fa767fc689f9373b8fac8",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "cc4889e3c8547befbaf1a0ad7a192100d83b69b7fe60cbc13c38926e6c847d7f",
+          "operation_count": 1802,
+          "pdf_sha256": "4971acb1963934e5da8cd94b44301939a245cc2d6c3205fec9b1120bd11d34b4",
+          "pdf_size_bytes": 7936,
+          "rgba_sha256": "8be7a7d7a869d6f5715923102d7a8495fd3e50d3e6a6d8662211f97419e485b8"
+        },
+        "scenario": "area-and-theoretical-exact"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "434d3cc443c447959c624d58910c7cf4b427ec1338e386fed84e32b0d476e93a",
+          "decoded_stream_sha256": "78c42984b6076eff146c6db51393a5657921224603fbbfa53fc722be1186170a",
+          "geometry_sha256": "a4301e41a36caa47dc22fc945a92747d8238f6795013b8e09787842688a52aee",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "0cfca954d2a661a11eecb98b36b780fcc79af778a64593bbe691341e50716b1c",
+          "operation_count": 1802,
+          "pdf_sha256": "26c0ed47fe9479745fe72e1fba9bacc6e1beded1a836918364696ecd2b881784",
+          "pdf_size_bytes": 7850,
+          "rgba_sha256": "19aab73a78d919879ac5165fd9e3f032468244e17937e454e7d66e532f3b063c"
+        },
+        "device": "qprinter",
+        "name": "qprinter:area-and-theoretical-exact",
+        "patched": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "434d3cc443c447959c624d58910c7cf4b427ec1338e386fed84e32b0d476e93a",
+          "decoded_stream_sha256": "78c42984b6076eff146c6db51393a5657921224603fbbfa53fc722be1186170a",
+          "geometry_sha256": "a4301e41a36caa47dc22fc945a92747d8238f6795013b8e09787842688a52aee",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "0cfca954d2a661a11eecb98b36b780fcc79af778a64593bbe691341e50716b1c",
+          "operation_count": 1802,
+          "pdf_sha256": "d4870f155746a2b7e2acaaddd2d6db03b13860f11a3ac194b26a365b5b7db22f",
+          "pdf_size_bytes": 7850,
+          "rgba_sha256": "19aab73a78d919879ac5165fd9e3f032468244e17937e454e7d66e532f3b063c"
+        },
+        "scenario": "area-and-theoretical-exact"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "f551b05ba3bbe1d1177e7a63177a1277a17f368bb76bbf6f0e1aadd584dc7d9e",
+          "decoded_stream_sha256": "27356019fd4f208c57b90fdf594d8471dac6e9a3f5880c8fe96a173af1fff908",
+          "geometry_sha256": "6e98316c85da82e141caacc90a2a481c7fbaebe581754312a291f52fcb68634e",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "64d9cf852c251c741b64cdbd0b2f361c9cafcff6fd120f3d49b0af4e7a8b5474",
+          "operation_count": 1802,
+          "pdf_sha256": "2700f4dd5c83c6404481d3e581e8969defc61563791e61aa3eaf35122e0ada46",
+          "pdf_size_bytes": 7989,
+          "rgba_sha256": "0259de907f7c31dec6ff570a14e288a3ad40ea50320e3917678b4541a236a425"
+        },
+        "device": "qpdfwriter",
+        "name": "qpdfwriter:area-relocated-and-theoretical-exact",
+        "patched": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "f551b05ba3bbe1d1177e7a63177a1277a17f368bb76bbf6f0e1aadd584dc7d9e",
+          "decoded_stream_sha256": "27356019fd4f208c57b90fdf594d8471dac6e9a3f5880c8fe96a173af1fff908",
+          "geometry_sha256": "6e98316c85da82e141caacc90a2a481c7fbaebe581754312a291f52fcb68634e",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "64d9cf852c251c741b64cdbd0b2f361c9cafcff6fd120f3d49b0af4e7a8b5474",
+          "operation_count": 1802,
+          "pdf_sha256": "3b8a91cfaac7721808303b60726fd74c20aef786a94d5fb331a178f6477e7ba3",
+          "pdf_size_bytes": 7989,
+          "rgba_sha256": "0259de907f7c31dec6ff570a14e288a3ad40ea50320e3917678b4541a236a425"
+        },
+        "scenario": "area-relocated-and-theoretical-exact"
+      },
+      {
+        "baseline": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "6b91d038f3e2e940312191f6b5cdb371e27ff05710e106146bd8881dd0642ace",
+          "decoded_stream_sha256": "d821202dac9ff78bc33eb29c4513376f53b40e13d85bd8714855f17c085827e1",
+          "geometry_sha256": "ac474bd006b290ad286d48cacedb9e7f94e7092f70c8f87c1f885aef03b70014",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "ea953083d6ab75fc808bc73729098e6d8702fead95851d16d75e3dde958e1e43",
+          "operation_count": 1802,
+          "pdf_sha256": "b3b4c427232af54c69d1a15575bb33d01f6a4423e4df1624abffdb69fb0028bd",
+          "pdf_size_bytes": 7902,
+          "rgba_sha256": "5b19bd81c9122557e1aa6dad73b65d45da1bb82c3af9f053fedaec27016d91f3"
+        },
+        "device": "qprinter",
+        "name": "qprinter:area-relocated-and-theoretical-exact",
+        "patched": {
+          "coordinate_count": 291,
+          "coordinate_sha256": "6b91d038f3e2e940312191f6b5cdb371e27ff05710e106146bd8881dd0642ace",
+          "decoded_stream_sha256": "d821202dac9ff78bc33eb29c4513376f53b40e13d85bd8714855f17c085827e1",
+          "geometry_sha256": "ac474bd006b290ad286d48cacedb9e7f94e7092f70c8f87c1f885aef03b70014",
+          "invalid_close_count": 0,
+          "normalized_operator_sha256": "ea953083d6ab75fc808bc73729098e6d8702fead95851d16d75e3dde958e1e43",
+          "operation_count": 1802,
+          "pdf_sha256": "62ef09bbb4eb7d8d081f86d9af0af2ed2995a6ed6d9c3baf4e1b4424c6a92bf7",
+          "pdf_size_bytes": 7902,
+          "rgba_sha256": "5b19bd81c9122557e1aa6dad73b65d45da1bb82c3af9f053fedaec27016d91f3"
+        },
+        "scenario": "area-relocated-and-theoretical-exact"
+      }
+    ],
+    "patched_closepath_warnings": 0,
+    "patched_invalid_closes": 0,
+    "pdfa_metadata_checks": [
+      {
+        "encoding": "RDF attribute",
+        "name": "qpdfwriter:zero-width-archival",
+        "pdfa_conformance": "B",
+        "pdfa_part": "1",
+        "side": "baseline"
+      },
+      {
+        "encoding": "RDF attribute",
+        "name": "qpdfwriter:zero-width-archival",
+        "pdfa_conformance": "B",
+        "pdfa_part": "1",
+        "side": "patched"
+      },
+      {
+        "encoding": "RDF attribute",
+        "name": "qprinter:zero-width-archival",
+        "pdfa_conformance": "B",
+        "pdfa_part": "1",
+        "side": "baseline"
+      },
+      {
+        "encoding": "RDF attribute",
+        "name": "qprinter:zero-width-archival",
+        "pdfa_conformance": "B",
+        "pdfa_part": "1",
+        "side": "patched"
+      }
+    ],
+    "per_device": {
+      "qpdfwriter": {
+        "baseline_invalid_closes": 1,
+        "exact_preservation_pairs": 12,
+        "native_pairs": 12,
+        "patched_invalid_closes": 0
+      },
+      "qprinter": {
+        "baseline_invalid_closes": 1,
+        "exact_preservation_pairs": 12,
+        "native_pairs": 12,
+        "patched_invalid_closes": 0
+      }
+    },
+    "raster_dpi": 150,
+    "strict_native_acceptance_sha256": "70aa88e5039cf465c6e2ffc3c115cff64533fa8f68e817e926b496e4c3e8dd1c",
+    "visible_controls": [
+      {
+        "device": "qpdfwriter",
+        "scenarios": {
+          "area-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              414,
+              1229,
+              822
+            ],
+            "diff_from_box_pixels": 3984
+          },
+          "area-relocated-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              411,
+              1228,
+              822
+            ],
+            "diff_from_box_pixels": 4007
+          },
+          "box-only": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "distance": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2120
+          },
+          "long-dashed": {
+            "diff_bbox": [
+              1009,
+              501,
+              1055,
+              503
+            ],
+            "diff_from_box_pixels": 66
+          },
+          "short-gap": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-gap-opaque": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-solid": {
+            "diff_bbox": [
+              995,
+              501,
+              996,
+              503
+            ],
+            "diff_from_box_pixels": 2
+          },
+          "theoretical-exact": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2444
+          },
+          "zero-width-archival": {
+            "diff_bbox": [
+              996,
+              501,
+              1055,
+              502
+            ],
+            "diff_from_box_pixels": 50
+          },
+          "zero-width-opaque": {
+            "diff_bbox": [
+              996,
+              501,
+              1055,
+              502
+            ],
+            "diff_from_box_pixels": 50
+          },
+          "zero-width-translucent": {
+            "diff_bbox": [
+              995,
+              502,
+              996,
+              503
+            ],
+            "diff_from_box_pixels": 1
+          }
+        },
+        "side": "baseline"
+      },
+      {
+        "device": "qprinter",
+        "scenarios": {
+          "area-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              413,
+              1228,
+              822
+            ],
+            "diff_from_box_pixels": 3886
+          },
+          "area-relocated-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              410,
+              1228,
+              822
+            ],
+            "diff_from_box_pixels": 3901
+          },
+          "box-only": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "distance": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2013
+          },
+          "long-dashed": {
+            "diff_bbox": [
+              1008,
+              501,
+              1054,
+              503
+            ],
+            "diff_from_box_pixels": 64
+          },
+          "short-gap": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-gap-opaque": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-solid": {
+            "diff_bbox": [
+              995,
+              501,
+              996,
+              502
+            ],
+            "diff_from_box_pixels": 1
+          },
+          "theoretical-exact": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2341
+          },
+          "zero-width-archival": {
+            "diff_bbox": [
+              996,
+              501,
+              1054,
+              502
+            ],
+            "diff_from_box_pixels": 51
+          },
+          "zero-width-opaque": {
+            "diff_bbox": [
+              996,
+              501,
+              1054,
+              502
+            ],
+            "diff_from_box_pixels": 51
+          },
+          "zero-width-translucent": {
+            "diff_bbox": [
+              995,
+              502,
+              996,
+              503
+            ],
+            "diff_from_box_pixels": 1
+          }
+        },
+        "side": "baseline"
+      },
+      {
+        "device": "qpdfwriter",
+        "scenarios": {
+          "area-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              414,
+              1229,
+              822
+            ],
+            "diff_from_box_pixels": 3984
+          },
+          "area-relocated-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              411,
+              1228,
+              822
+            ],
+            "diff_from_box_pixels": 4007
+          },
+          "box-only": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "distance": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2120
+          },
+          "long-dashed": {
+            "diff_bbox": [
+              1009,
+              501,
+              1055,
+              503
+            ],
+            "diff_from_box_pixels": 66
+          },
+          "short-gap": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-gap-opaque": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-solid": {
+            "diff_bbox": [
+              995,
+              501,
+              996,
+              503
+            ],
+            "diff_from_box_pixels": 2
+          },
+          "theoretical-exact": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2444
+          },
+          "zero-width-archival": {
+            "diff_bbox": [
+              996,
+              501,
+              1055,
+              502
+            ],
+            "diff_from_box_pixels": 50
+          },
+          "zero-width-opaque": {
+            "diff_bbox": [
+              996,
+              501,
+              1055,
+              502
+            ],
+            "diff_from_box_pixels": 50
+          },
+          "zero-width-translucent": {
+            "diff_bbox": [
+              995,
+              502,
+              996,
+              503
+            ],
+            "diff_from_box_pixels": 1
+          }
+        },
+        "side": "patched"
+      },
+      {
+        "device": "qprinter",
+        "scenarios": {
+          "area-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              413,
+              1228,
+              822
+            ],
+            "diff_from_box_pixels": 3886
+          },
+          "area-relocated-and-theoretical-exact": {
+            "diff_bbox": [
+              845,
+              410,
+              1228,
+              822
+            ],
+            "diff_from_box_pixels": 3901
+          },
+          "box-only": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "distance": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2013
+          },
+          "long-dashed": {
+            "diff_bbox": [
+              1008,
+              501,
+              1054,
+              503
+            ],
+            "diff_from_box_pixels": 64
+          },
+          "short-gap": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-gap-opaque": {
+            "diff_bbox": null,
+            "diff_from_box_pixels": 0
+          },
+          "short-solid": {
+            "diff_bbox": [
+              995,
+              501,
+              996,
+              502
+            ],
+            "diff_from_box_pixels": 1
+          },
+          "theoretical-exact": {
+            "diff_bbox": [
+              845,
+              588,
+              916,
+              822
+            ],
+            "diff_from_box_pixels": 2341
+          },
+          "zero-width-archival": {
+            "diff_bbox": [
+              996,
+              501,
+              1054,
+              502
+            ],
+            "diff_from_box_pixels": 51
+          },
+          "zero-width-opaque": {
+            "diff_bbox": [
+              996,
+              501,
+              1054,
+              502
+            ],
+            "diff_from_box_pixels": 51
+          },
+          "zero-width-translucent": {
+            "diff_bbox": [
+              995,
+              502,
+              996,
+              503
+            ],
+            "diff_from_box_pixels": 1
+          }
+        },
+        "side": "patched"
+      }
+    ],
+    "wrapper_sha256": "942c98ca679d65fcfd6ed2e6c30f086dc951758dfad920225c9897dc014e5978"
+  },
+  "package": {
+    "baseline_package_sha256": "042c94a5a7a89b0b28a24f6ae6a2d3d609751edab78454057973ec5cc3e77d7d",
+    "candidate_build_json_sha256": "fd4da3eca45b4d971b876df2fe207060f6d9f40f2ae75329bdeb78a5293f143c",
+    "candidate_package_sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73",
+    "qt_source_archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33"
+  },
+  "qualified": true,
+  "repository": "zukomgwili/FreeCAD",
+  "restored_build": {
+    "host": {
+      "native_machine": 34404,
+      "python_process_machine": 0
+    },
+    "immutable_bypass_files_matched": 4,
+    "immutable_old_proof_files_matched": 838,
+    "initialized_submodule_heads_count": 5,
+    "native_pe": {
+      "Mod/Import/Import.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "f47f489ec16a70b768954101e7b7ca038e88754c68bbc21846f043cdf674357d"
+      },
+      "Mod/Material/MatGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "37feab45f0bee4845ceb79cb71e202eadc469ee514c19c8baca855fdfa8304f2"
+      },
+      "Mod/Material/Materials.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "82c739d0ea8e2441ad7ab895a28034fa1b256ef588720cf56e5f5faf3dd81d10"
+      },
+      "Mod/Measure/Measure.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "9b990fa85cf852f7a054e9e72867aa920eb8dbbe1d6ba175130bd0544b1b4332"
+      },
+      "Mod/Part/Part.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "bb28f11fddd929647096945a1572e86a042bb54564e5805d44c268d9a0e992bc"
+      },
+      "Mod/Part/PartGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "b031387e15b5ce68bb0b4d0d81ddb334cd681d15d8a9fd081f4c6813eeb41111"
+      },
+      "Mod/PartDesign/PartDesignGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "00089262c1057cd2f41fe218a91f65e013c2cf62925e82fd89bca9f97ffed592"
+      },
+      "Mod/PartDesign/_PartDesign.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "a426e26b5be2374b031965705e9acbc0ab22b40d82416d8aa2e604fe9dd9679b"
+      },
+      "Mod/Sketcher/Sketcher.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "d405924d7893fe7aab7f0cbd1ff7054b0a7c6de44190ae8437cf712aed91cc20"
+      },
+      "Mod/Sketcher/SketcherGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "a559af83f2b20ef876367e2fc717ab3672cf54a48f9c278b3e285bc060b80175"
+      },
+      "Mod/Spreadsheet/Spreadsheet.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "19dd39f38e1065233f48f3333c52c5d249d6be2013113d4add3b3e69669d773a"
+      },
+      "Mod/TechDraw/TechDraw.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "0ac069af367b694e032107f4837f3963544dbe83ef1c0a8ca8205b5a0d98253f"
+      },
+      "Mod/TechDraw/TechDrawGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876"
+      },
+      "Mod/Test/QtUnitGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "a3804d7613afa2965d395c08bb854652d1213a38d44c024ba3aea2914bd6121e"
+      },
+      "Mod/pivy/_coin.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "5e9123d1b170d30167d8944a71d77ba3fe7112578a12b30a73a74ee859d2b554"
+      },
+      "bin/Coin4.dll": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "6333f02edb4aaac8a7fbc1d37a4bed4271d46101cf6d82d7f3d2bab5fe105171"
+      },
+      "bin/FreeCAD.exe": {
+        "dll": false,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "b30bcb87deeaf2a3ddde1ba162904db7898f2563f21bf75cbbbb0b50073ab0c2"
+      },
+      "bin/FreeCAD.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "a5767ae732511c73a27e52e9eccc4eb79610d04bafedde8d20dd72aa57cae8f3"
+      },
+      "bin/FreeCADApp.dll": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "80767a3127b94af942eb90d8226fc68106d377481961146b7646715558052c6c"
+      },
+      "bin/FreeCADBase.dll": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "d777854396dacf89b40e6089e95b79806c29eaf1807697ab34a9bd4f047d5d71"
+      },
+      "bin/FreeCADCmd.exe": {
+        "dll": false,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "0074850e359278b539c170caf22aee664a81b75f9c46333ce1b6ccea6932d80d"
+      },
+      "bin/FreeCADGui.dll": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "4ea4c26e6342cc11e76eea90142600497efd4f5d0e4f27524325d4f5cf7ccea0"
+      },
+      "bin/FreeCADGui.pyd": {
+        "dll": true,
+        "machine": 34404,
+        "optional_magic": 523,
+        "sha256": "6a2fb91941db7bca34547e9102a48859d10cfa8a401c9be4acc01437bcdeca92"
+      }
+    },
+    "original_build_root": "D:\\a\\FreeCAD\\FreeCAD\\build\\release",
+    "original_bypass_module": "D:\\a\\_temp\\qt-pdf-native-module\\TechDrawGui.pyd",
+    "physical_raw_output_files_rehashed": 1457,
+    "prior_artifact_id": 11399230772,
+    "prior_artifact_zip_sha256": "3358565d617818cf765c42c69dd7aeb7f21baddd2feac501fc3dc2c4e54ed69a",
+    "prior_attempt": 3,
+    "prior_job_id": 112131196553,
+    "prior_run_id": 37367983867,
+    "raw_archive": {
+      "directory_count": 170,
+      "excluded": [
+        {
+          "reason": "CMakeFiles",
+          "relative_path": "data/CMakeFiles"
+        },
+        {
+          "reason": "CMakeFiles",
+          "relative_path": "data/examples/CMakeFiles"
+        }
+      ],
+      "file_count": 1457,
+      "links_admitted": false,
+      "manifest_sha256": "d76d0bfcff3f0db64513781b9b62ae5c673f6ad894e4e324d7b8521cb157779e",
+      "path": "D:\\a\\_temp\\qt-pdf-windows-native-build\\native-build.zip",
+      "physical_bytes": 109078605,
+      "restoration_validated": false,
+      "sha256": "bff02f1fb0c78a9c8e87b6390499d0c835677c3f7d349ae5aae367459b8d58d5",
+      "size": 44375910
+    },
+    "raw_diagnostic_receipt_sha256": "e2f35ab9b4723c44d3c101ed1a6218c223574574c8699623364cebeeb72d17af",
+    "raw_diagnostic_receipt_unchanged": true,
+    "raw_diagnostic_restoration_validated": false,
+    "restoration_receipt_sha256": "8ba320a7b396fdf0d92a9fefe4a90426f565ea64186d2604eb71cfb303fa8e95",
+    "restoration_validated": true,
+    "selected_source_Git_blob_count": 12803,
+    "source_binding": {
+      "build_head_sha": "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47",
+      "current_head_sha": "6dde6ba6b53582a587cc11e2b832bedb34fdfc05",
+      "initialized_submodule_heads_identical": true,
+      "selected_source_bytes_identical": true,
+      "submodule_file_bytes_inventoried": false
+    },
+    "source_inventory_sha256": "97a3b48c4e2181d1392579e4e329668da34f51b742b9cc5d2e47a8413ddc49c7"
+  },
+  "reused_passed_stages": {
+    "bypass_recompiled": false,
+    "durable_upstream_receipt": {
+      "path": "package/qt-pdf/windows-upstream-passed.json",
+      "sha256": "68cfbb287c464811a4797be6013b3e832c8b819bee8a1648cd5ea42529de590a"
+    },
+    "native_build_recompiled": false,
+    "package_build_run_id": 37238935749,
+    "passed_qt_pdfs_rerendered": false,
+    "qt66": {
+      "artifact_id": 11323427780,
+      "artifact_zip_sha256": "c06ec9b2e0dee94b5e1895835c99373abc5fa8b95758edd053514ccc829cf62a",
+      "executed_again": false,
+      "member_count": 828,
+      "passed_cases": 66,
+      "receipt": "package/qt-pdf/windows-qt-passed.json",
+      "receipt_sha256": "ae660f0b07f250289eef75c5efdc71ed8f404095f77508d3710efc46f0e1ceaa",
+      "run_id": 37250196345
+    },
+    "qt_executors_skipped": true,
+    "upstream10": {
+      "executed_again": false,
+      "head_sha": "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47",
+      "job_id": 112131196553,
+      "passed_test_cases": 10,
+      "qt_version": "6.11.2",
+      "receipt_sha256": "6ddab194a500bc78077092043d2e27179661aabe4ccaa614e4a8bdf6a343b929",
+      "run_attempt": 3,
+      "run_id": 37367983867
+    },
+    "upstream_executors_skipped": true
+  },
+  "reviewed_at_utc": "2026-10-06T10:39:26.394917+00:00",
+  "run": {
+    "completed_at": "2026-10-06T10:29:50Z",
+    "conclusion": "success",
+    "dispatch_receipt_sha256": "9d7990bdab5deb9d7715f69e29ad78cebf3fa00a573207955602ab6edef650f1",
+    "event": "workflow_dispatch",
+    "head_branch": "codex/deliver-qt-pdf-stroker",
+    "head_sha": "6dde6ba6b53582a587cc11e2b832bedb34fdfc05",
+    "id": 37448399397,
+    "inputs": {
+      "build_run": "37238935749",
+      "reuse_run": "37367983867",
+      "stage": "windows-native",
+      "target": "win-64"
+    },
+    "job_id": 112218735834,
+    "job_name": "qualify (win-64, windows-2022)",
+    "job_url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37448399397/job/112218735834",
+    "run_attempt": 1,
+    "runner_labels": [
+      "windows-2022"
+    ],
+    "selector_job_id": 112218696426,
+    "started_at": "2026-10-06T10:14:09Z",
+    "url": "https://github.com/zukomgwili/FreeCAD/actions/runs/37448399397",
+    "workflow_path": ".github/workflows/qt_pdf_qualify.yml"
+  },
+  "runtime": {
+    "baseline": {
+      "available_qt_libraries": 70,
+      "available_qt_plugins": 42,
+      "freecad_version": [
+        "27",
+        "1",
+        "0",
+        "20261005 (Git shallow)",
+        "https://github.com/zukomgwili/FreeCAD codex/deliver-qt-pdf-stroker",
+        "2026/10/05 20:08:48",
+        "codex/deliver-qt-pdf-stroker",
+        "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47"
+      ],
+      "gui_tests": {
+        "errors": 0,
+        "failures": 0,
+        "gui_tests": 11
+      },
+      "launch_sha256": "67d4977806595f7bad81468cf6af62dfe3cd36777e55a82582e765ac57922052",
+      "loaded_qt": {
+        "qt_libraries": [
+          {
+            "relative_path": "Library/bin/Qt6Core.dll",
+            "sha256": "7e07ba9e4fb4e29507b6e505b88376ce31c18a3a85739edc270e0e8ef405da70"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Gui.dll",
+            "sha256": "80c44c775355baf2c53db15c8305d8e028b4bdad1c878010b91c4cb267d7404a"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Network.dll",
+            "sha256": "f462aa3c96aa46b20698cf7c039142e91c6fb5a1be1ce3290efa8cfe9e5b420b"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGL.dll",
+            "sha256": "5a02759a4c8fd1f32524e71fb552d19b80784b103b8cfc9f45b975c2ebaf8a98"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGLWidgets.dll",
+            "sha256": "795d49d5535fff0feb83468c1bd6e63ee9535e5400aadf09c4d451963f1a6b7d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6PrintSupport.dll",
+            "sha256": "de67a6e2f4b9f07b9cc48851a6945fe55f76e18a8b5114e061cd58d4913b69d2"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Svg.dll",
+            "sha256": "b06cced0a3bff9f811e8299459f80c714fc478c402936b43a745bda6c8178d31"
+          },
+          {
+            "relative_path": "Library/bin/Qt6SvgWidgets.dll",
+            "sha256": "71098d878eed40c11b95424141f288157b12d7e2979880c2627231d0e7b2153d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6UiTools.dll",
+            "sha256": "f00c4b5e0b3d039b4030e2828380a013a085e60dd4f91ba9296ef70aba835a2d"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Widgets.dll",
+            "sha256": "cddaeac6c83174fd9f147e1c2dbdb0db9d6892f37aaba71eb3286bc419216c62"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Xml.dll",
+            "sha256": "4505fb734fba24791be4a0e97ca36861b39fb30b019ed40eb0466dd329260039"
+          }
+        ],
+        "qt_plugins": [
+          {
+            "relative_path": "Library/lib/qt6/plugins/iconengines/qsvgicon.dll",
+            "sha256": "dd3bf0b8e0eaebc12095d3f2264c40976c60b6726aaae46ba9ea4454810b385e"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qgif.dll",
+            "sha256": "51e1b1f2b78a30aca27b14a83305fffd4e90790f1107bfdcf2faba5f0b5f0d79"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qicns.dll",
+            "sha256": "8e8e43fd062bfcc83bd0709b8656b21cd7810568f766c0c2333a7c11de6d2073"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qico.dll",
+            "sha256": "2647f05a1ea240dbb1bb9be43f30597e318c9e709127f7b2ebae58206ed18b7a"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+            "sha256": "599f1c15b4e0255e3200bfefc5573a2f17cf3439c1caca421e7a6b354ac6e666"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qsvg.dll",
+            "sha256": "ae8437aefe26c8c70ae8eeb28705aab5a37c681ae1690f208e9b1142416196e8"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtga.dll",
+            "sha256": "b7d91970e1d4078dd19ef47fc83eda0aa315f49f87e71fa99d06ebda5a005ec4"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtiff.dll",
+            "sha256": "09f97b672e32ba9b30e9c127d7fda27ed96502f4443d09179a16fb96dd7b1a55"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+            "sha256": "9be24051291148ee56f5f328566eb892e6b6d4d95b89d5dbce8e0b39764a534c"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwebp.dll",
+            "sha256": "f5e95e60e1190cc776674b5c8110480e100ab2ac94d76e91f1ab8e343ed7e11d"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qwindows.dll",
+            "sha256": "79cf62d8a07b4e1b8bc43bd865e574f35064197f3dce4d9a8c9dc36c10e3b59f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/styles/qmodernwindowsstyle.dll",
+            "sha256": "b1f1724d1f141519ecb95de31e87c3e09542f0acac05501c9e14504992014930"
+          }
+        ]
+      },
+      "managed_package_count": 361,
+      "module_sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876",
+      "native_runtime_images": [
+        {
+          "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python3.dll",
+          "sha256": "592a2ef1d3cdc18771ab56b695aafdebccb87b4ba6e59af2f7efa533c0980ed5"
+        },
+        {
+          "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python313.dll",
+          "sha256": "fac233daefc2f81e4050f9a6c1882c0d070dbe624f5bee27fec8749f6ca51e5a"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default\\Library\\bin\\pyside6.cp313-win_amd64.dll",
+          "sha256": "3fd5fc9cd95693bcee1081dce40a5ffef864c4c900e6aee1e0f2d22b8246a6c3"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default\\Library\\bin\\shiboken6.cp313-win_amd64.dll",
+          "sha256": "4ba924b4facb6f8c8d79dc651ab237a40a966b052f85aa3ec127c19533d0b6d7"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCAD.exe",
+          "sha256": "b30bcb87deeaf2a3ddde1ba162904db7898f2563f21bf75cbbbb0b50073ab0c2"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADApp.dll",
+          "sha256": "80767a3127b94af942eb90d8226fc68106d377481961146b7646715558052c6c"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADBase.dll",
+          "sha256": "d777854396dacf89b40e6089e95b79806c29eaf1807697ab34a9bd4f047d5d71"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADGui.dll",
+          "sha256": "4ea4c26e6342cc11e76eea90142600497efd4f5d0e4f27524325d4f5cf7ccea0"
+        },
+        {
+          "real_path": "D:\\a\\_temp\\qt-pdf-native-module\\TechDrawGui.pyd",
+          "sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876"
+        }
+      ],
+      "prefix": "D:\\a\\FreeCAD\\FreeCAD\\.pixi\\envs\\default",
+      "provenance_sha256": "1e81685101dc1d98dcbe94d5b0dcbfdb6611bf60de4e3b8203bcb47d81a94d09",
+      "qpa_platform": "windows",
+      "qt_package_identity": {
+        "build": "pl5321hfcac499_0",
+        "checksum": {
+          "sha256": "042c94a5a7a89b0b28a24f6ae6a2d3d609751edab78454057973ec5cc3e77d7d"
+        },
+        "name": "qt6-main",
+        "subdir": "win-64",
+        "version": "6.11.2"
+      },
+      "runtime_log_sha256": "d1b497b9ceca0166a0e461164503ee9ceb0d5422bf9cadeb017f64bf6ca05408",
+      "selected_package_identities": {
+        "occt": {
+          "build": "all_h6eddace_201",
+          "checksum": {
+            "sha256": "a2500d885709fbfb8246da4469f26ff0595ab0965c75fd04df168826c02de76a"
+          },
+          "name": "occt",
+          "subdir": "win-64",
+          "version": "8.0.1"
+        },
+        "pyside6": {
+          "build": "py313hdceff89_1",
+          "checksum": {
+            "sha256": "285551c448e6ee251e1f5323fbcb0e873b0323ca11691eaca4778dd387f934f0"
+          },
+          "name": "pyside6",
+          "subdir": "win-64",
+          "version": "6.11.2"
+        },
+        "python": {
+          "build": "h254dcb4_103_cp313",
+          "checksum": {
+            "sha256": "097e081574bf96282082915f78a83480361285137370c8cc35e2c51d693a0690"
+          },
+          "name": "python",
+          "subdir": "win-64",
+          "version": "3.13.15"
+        },
+        "qt6-main": {
+          "build": "pl5321hfcac499_0",
+          "checksum": {
+            "sha256": "042c94a5a7a89b0b28a24f6ae6a2d3d609751edab78454057973ec5cc3e77d7d"
+          },
+          "name": "qt6-main",
+          "subdir": "win-64",
+          "version": "6.11.2"
+        }
+      }
+    },
+    "patched": {
+      "available_qt_libraries": 70,
+      "available_qt_plugins": 42,
+      "freecad_version": [
+        "27",
+        "1",
+        "0",
+        "20261005 (Git shallow)",
+        "https://github.com/zukomgwili/FreeCAD codex/deliver-qt-pdf-stroker",
+        "2026/10/05 20:08:48",
+        "codex/deliver-qt-pdf-stroker",
+        "e5c5844f41c4a96d21dfbf21c7ae1d21c357be47"
+      ],
+      "gui_tests": {
+        "errors": 0,
+        "failures": 0,
+        "gui_tests": 11
+      },
+      "launch_sha256": "508d0ba9ca06771d0425fd2cf19daa328a64f475b85346eb482ce1acd43aa0a3",
+      "loaded_qt": {
+        "qt_libraries": [
+          {
+            "relative_path": "Library/bin/Qt6Core.dll",
+            "sha256": "f9e64692a6036c48cb65a9941f57f89fd2046f5d7be734f7722ad2528d9aa1f3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Gui.dll",
+            "sha256": "a46d333bff34e7005acadd1c375598ea48dc57dbe2f5cbabde7f095cc8280e77"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Network.dll",
+            "sha256": "1228739876502b7833f8cf99e7d4fcdd77fc3d7e557534702877c9a09b5a9188"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGL.dll",
+            "sha256": "18679f495c4ffc3c9c38e18f7e0efed7024d1ecce78a6e84e7a87b5644455134"
+          },
+          {
+            "relative_path": "Library/bin/Qt6OpenGLWidgets.dll",
+            "sha256": "77cfb88ae87e3c8180447959177f2d167d87c6095e9b84313e5c39ac4337c0ca"
+          },
+          {
+            "relative_path": "Library/bin/Qt6PrintSupport.dll",
+            "sha256": "e9dba0cf61ffa35f33335389e3ce2259858da2db0db79d576783c2327c740a12"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Svg.dll",
+            "sha256": "78034b27454970ca847d06437c4a3b744c7e61cb8971e013166b5652f5bd964f"
+          },
+          {
+            "relative_path": "Library/bin/Qt6SvgWidgets.dll",
+            "sha256": "3ed7040b3dd93008d1fc3ab00a51ce05ce9bec60f1c19d095884f5a857e355fc"
+          },
+          {
+            "relative_path": "Library/bin/Qt6UiTools.dll",
+            "sha256": "eeb2b7887b6770d22c80cf7118c84a884c0a61a3a680ecb0f865e7b544964ab3"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Widgets.dll",
+            "sha256": "afec855ff2aa948b7f17cff4ad7d5cbc263990d82cda27c49f66dae97b36b803"
+          },
+          {
+            "relative_path": "Library/bin/Qt6Xml.dll",
+            "sha256": "5f67bfd6147a18b7dc6f0b3b7bacfb0ac92947822a5d4f981298f30421368bf8"
+          }
+        ],
+        "qt_plugins": [
+          {
+            "relative_path": "Library/lib/qt6/plugins/iconengines/qsvgicon.dll",
+            "sha256": "32206003c65719cbab398acc8829b2071cc81ae864b2e8b65e372d68b490494e"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qgif.dll",
+            "sha256": "66aad7c37e3cbb11618c23404175c2f98449bf97caf4d3de1eb8c58d2ecfec1f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qicns.dll",
+            "sha256": "48bec9c523e034f706c7f30cb0b83299dc20092cc1c42c6af0d073c666eea146"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qico.dll",
+            "sha256": "22046c3b6013f1d090209acd6246a4f46aa587e9c9ac878f5acb8c2ed62e5e98"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qjpeg.dll",
+            "sha256": "53b1c00aa8e1bd8df706d399fcec7d2e142ec44c2e41dd6a93067e36bf75b91f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qsvg.dll",
+            "sha256": "6de6d279e5ed66c1c911cafb7684522cf25161778fe32096d085e6fef9a794a3"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtga.dll",
+            "sha256": "59cfc10319645da899227046cfe4776a5c980069e784d0fcab4c24d831d5f2d1"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qtiff.dll",
+            "sha256": "e26eb5db545b4ac742a46276fd8fcab5d71830dd852341d83efcfdf72a710c0c"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwbmp.dll",
+            "sha256": "06584753d970ef45cb31a4b167692350f31ad158c6ae5ab3f98941b4b82f8b3f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/imageformats/qwebp.dll",
+            "sha256": "156e5d9cfe676c9e808af4c448fd0661e05a1caf7b2174e9054f976f5d3b6659"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/platforms/qwindows.dll",
+            "sha256": "bc518282f33aac834230d59c37be53fca5487adfa3958b522e50d48fff6c009f"
+          },
+          {
+            "relative_path": "Library/lib/qt6/plugins/styles/qmodernwindowsstyle.dll",
+            "sha256": "33e23c38e0ee5ebcdd416497ea432b6156fc7a9c99f9f51be3050505fa40dca0"
+          }
+        ]
+      },
+      "managed_package_count": 361,
+      "module_sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876",
+      "native_runtime_images": [
+        {
+          "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python3.dll",
+          "sha256": "592a2ef1d3cdc18771ab56b695aafdebccb87b4ba6e59af2f7efa533c0980ed5"
+        },
+        {
+          "real_path": "C:\\Users\\runneradmin\\AppData\\Local\\rattler\\cache\\cached-envs-v0\\4e989caaa5b87f25\\python313.dll",
+          "sha256": "fac233daefc2f81e4050f9a6c1882c0d070dbe624f5bee27fec8749f6ca51e5a"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCAD.exe",
+          "sha256": "b30bcb87deeaf2a3ddde1ba162904db7898f2563f21bf75cbbbb0b50073ab0c2"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADApp.dll",
+          "sha256": "80767a3127b94af942eb90d8226fc68106d377481961146b7646715558052c6c"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADBase.dll",
+          "sha256": "d777854396dacf89b40e6089e95b79806c29eaf1807697ab34a9bd4f047d5d71"
+        },
+        {
+          "real_path": "D:\\a\\FreeCAD\\FreeCAD\\build\\release\\bin\\FreeCADGui.dll",
+          "sha256": "4ea4c26e6342cc11e76eea90142600497efd4f5d0e4f27524325d4f5cf7ccea0"
+        },
+        {
+          "real_path": "D:\\a\\_temp\\qt-pdf-candidate\\Library\\bin\\pyside6.cp313-win_amd64.dll",
+          "sha256": "3fd5fc9cd95693bcee1081dce40a5ffef864c4c900e6aee1e0f2d22b8246a6c3"
+        },
+        {
+          "real_path": "D:\\a\\_temp\\qt-pdf-candidate\\Library\\bin\\shiboken6.cp313-win_amd64.dll",
+          "sha256": "4ba924b4facb6f8c8d79dc651ab237a40a966b052f85aa3ec127c19533d0b6d7"
+        },
+        {
+          "real_path": "D:\\a\\_temp\\qt-pdf-native-module\\TechDrawGui.pyd",
+          "sha256": "ae7e2d76212227f97036e0e01287a4e514bce5bb9a240363cee5a4c2100cb876"
+        }
+      ],
+      "prefix": "D:\\a\\_temp\\qt-pdf-candidate",
+      "provenance_sha256": "4c46b805c7f71d47a3496b49b55820d18efdb34d31f0723830c4f02a21dc0e72",
+      "qpa_platform": "windows",
+      "qt_package_identity": {
+        "build": "pl5321h17b71ab_1",
+        "checksum": {
+          "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73"
+        },
+        "name": "qt6-main",
+        "subdir": "win-64",
+        "version": "6.11.2"
+      },
+      "runtime_log_sha256": "403aad1ac85e22f42dd84f9b7b9b20fa221ea671dc529808cb7ff5cecc005a42",
+      "selected_package_identities": {
+        "occt": {
+          "build": "all_h6eddace_201",
+          "checksum": {
+            "sha256": "a2500d885709fbfb8246da4469f26ff0595ab0965c75fd04df168826c02de76a"
+          },
+          "name": "occt",
+          "subdir": "win-64",
+          "version": "8.0.1"
+        },
+        "pyside6": {
+          "build": "py313hdceff89_1",
+          "checksum": {
+            "sha256": "285551c448e6ee251e1f5323fbcb0e873b0323ca11691eaca4778dd387f934f0"
+          },
+          "name": "pyside6",
+          "subdir": "win-64",
+          "version": "6.11.2"
+        },
+        "python": {
+          "build": "h254dcb4_103_cp313",
+          "checksum": {
+            "sha256": "097e081574bf96282082915f78a83480361285137370c8cc35e2c51d693a0690"
+          },
+          "name": "python",
+          "subdir": "win-64",
+          "version": "3.13.15"
+        },
+        "qt6-main": {
+          "build": "pl5321h17b71ab_1",
+          "checksum": {
+            "sha256": "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73"
+          },
+          "name": "qt6-main",
+          "subdir": "win-64",
+          "version": "6.11.2"
+        }
+      }
+    }
+  },
+  "schema_version": 1,
+  "scope": "Actual Windows conda PDF qualification: authenticated prior Qt66/upstream10 and restored build plus fresh native24/GUI11 acceptance",
+  "source_files_at_run_head": {
+    ".github/workflows/qt_pdf_qualify.yml": {
+      "sha256": "00f37b750fff099f45924aa31fc07335bb75c1966dd1b04615f1be966a720799",
+      "size": 22750
+    },
+    "package/qt-pdf/qtest_logging.py": {
+      "sha256": "93b34d7bbe64d02cb88aa401853427bd68b067fcb323ac4f0ffe1596df779cf6",
+      "size": 641
+    },
+    "package/qt-pdf/restore_windows_native_build.py": {
+      "sha256": "e2c690790c0fa0f405adbd78caab5150d32dcff36225e00419d4defe1466f7c3",
+      "size": 31524
+    },
+    "package/qt-pdf/reuse_windows_qt_qualification.py": {
+      "sha256": "ad63b7703b8852a4fb507ba3b1ff04f789a06ba219440aef1b1d8afb0cacd47d",
+      "size": 43283
+    },
+    "package/qt-pdf/windows-upstream-passed.json": {
+      "sha256": "68cfbb287c464811a4797be6013b3e832c8b819bee8a1648cd5ea42529de590a",
+      "size": 55080
+    },
+    "pixi.lock": {
+      "sha256": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+      "size": 1072574
+    },
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro": {
+      "sha256": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01",
+      "size": 47874
+    },
+    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py": {
+      "sha256": "ba257ed214611f84264ccc48a1e03d081e0719a113ef0eddd30e40d9bb8ea6b6",
+      "size": 31117
+    }
+  },
+  "source_protocol_reviews": {
+    "launcher": {
+      "path": "/private/tmp/freecad-native-import-replay-h9cmtbt9/launcher-review.json",
+      "scope": "Read-only source/protocol controls; actual Windows result is bound separately",
+      "sha256": "f6f036b86bae616c634db2bb19ef14f00f66cafb1ecf4f66d5ec49c8db8f551a"
+    },
+    "restoration_Standards": {
+      "path": "/private/tmp/freecad-t8a5-attempt3-0r3o_wgp/final-helper-standards-review.json",
+      "scope": "Read-only source/protocol controls; actual Windows result is bound separately",
+      "sha256": "7b7e51173c5cfbe130a973e00357a7b2583c61e5ef596a36e982b28f41af0633"
+    },
+    "restoration_controls": {
+      "path": "/private/tmp/freecad-t8a5-native-restoration-black100-controls-oon6h_6h/protocol-controls.json",
+      "scope": "Read-only source/protocol controls; actual Windows result is bound separately",
+      "sha256": "bce6fa3321343cd9a3b8656aba376134a597763dcd79c07e1b346238362d13e1"
+    },
+    "source_Spec": {
+      "path": "/private/tmp/freecad-windows-native-spec-ammqcp87/spec-review.json",
+      "scope": "Read-only source/protocol controls; actual Windows result is bound separately",
+      "sha256": "afa7baed6022480ed04d98300947052424ade54751e74630f123fae31812dddb"
+    },
+    "workflow_launcher_docs_Standards": {
+      "path": "/private/tmp/freecad-t8a5-attempt3-0r3o_wgp/root-windows-native-standards-review.json",
+      "scope": "Read-only source/protocol controls; actual Windows result is bound separately",
+      "sha256": "2b6c4b510c8dfc12f14332d62090b49c2e15d48c46cd2468c8a61ed9c8ffad1f"
+    }
+  },
+  "spdx_license_identifier": "BSD-3-Clause",
+  "stage_conclusions": {
+    "Authenticate artifact transport and restore omitted public inputs": "success",
+    "Authenticate only the reviewed passed Windows PDF comparisons": "skipped",
+    "Authenticate the reviewed passed Intel Qt checks": "skipped",
+    "Authenticate the reviewed passed Linux Qt checks": "skipped",
+    "Bind the new native capture to the reused passed Qt checks": "success",
+    "Bind the passed Qt checks to these exact runtime binaries": "success",
+    "Capture the pending Windows upstream transcript before rebuilding FreeCAD": "skipped",
+    "Compile the controlled mitigation bypass in this disposable checkout": "skipped",
+    "Complete job": "success",
+    "Configure and build native FreeCAD against locked baseline": "skipped",
+    "Diagnose the failed ARM native process": "skipped",
+    "Download the actual package and corresponding source evidence": "success",
+    "Install the exact package in an isolated candidate runtime": "success",
+    "Make space for two runtimes and the native build": "skipped",
+    "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+    "Post Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+    "Preserve reviewed checkout bytes on Windows": "success",
+    "Qualify both Qt PDF devices and Qt's own writer tests": "skipped",
+    "Qualify stock native exports with both guards bypassed": "success",
+    "Restore the reviewed Windows native build without compiling": "success",
+    "Retain runtime inventories, PDFs and all qualification evidence": "success",
+    "Retain the native build for a focused Intel retry": "skipped",
+    "Retain the native build for a focused Linux retry": "skipped",
+    "Retain the native build for a focused Windows retry": "skipped",
+    "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1": "success",
+    "Run prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e": "success",
+    "Select the same recorded macOS SDK": "skipped",
+    "Set up job": "success",
+    "Wait for this native package artifact": "success"
+  },
+  "target": "win-64",
+  "unchanged_other_managed_package_identities": 360,
+  "visual_observations": [
+    "Full-page representative Area exports have intact box, distance witness lines and filled arrowheads, boxed theoretical-exact value 10, Area dot/leader and 1 cm\u00b2 text, with no clipping or other page content artifacts.",
+    "The short-gap and short-gap-opaque local crops are blank for both devices; both are pixel-identical to same-device box-only exports.",
+    "Short-solid adds a small gray mark, long-dashed adds two gray dashes, zero-width-translucent retains a pale small mark, and zero-width-opaque/PDF-A preserve the visible ASME dash/dot line.",
+    "Area leader relocation visibly changes its start point and slope while preserving 1 cm\u00b2 and distance geometry; per-device baseline/patched Area crops visually match exactly.",
+    "Distance value 10 is legible with arrows and witness lines; theoretical-exact adds a visible rectangular border around the value."
+  ]
+}

@@ -30,8 +30,9 @@ clicks its English Print button through the documented
 [BM_CLICK API](https://learn.microsoft.com/en-us/windows/win32/controls/bm-click).
 The accepted callback then selects and verifies PdfFormat before `PagePrinter`
 receives the printer. Missing or ambiguous dialog/button identification fails
-the process. This prepared Windows branch needs successful runner execution
-before it qualifies that platform.
+the process. Run 37448399397 completed this route for the exact Windows conda
+runtime; the reviewed result is recorded in
+`package/qt-pdf/windows-native-qualification.json`.
 `Std_Print` does not switch
 ScreenMode itself, so the harness explicitly selects physical print mode for
 that command and restores the preference afterward. This is recorded separately
@@ -273,7 +274,7 @@ option for the selected runtime's `Lib/site-packages`. It also supplies the
 existing `FREECAD_LIBPACK_BIN` startup hook for that runtime's `Library/bin`,
 which registers extension dependency directories before module initialization.
 The generic PartDesign DLL error does not identify the missing dependency;
-actual successful native execution is still required.
+the subsequent native-only retry verifies both selected runtime launches.
 
 The retained native retry selects `target=win-64`, `stage=windows-native`,
 `reuse_run=37367983867` and package build 37238935749.
@@ -288,6 +289,15 @@ and skips configuration, compilation, bypass compilation and both passed test
 stages. It then runs the unchanged stock native export and GUI gates, including
 fresh observed Qt DLL/plugin origins. Structural archive checks and local
 launcher controls do not establish Windows restoration or native qualification.
+
+Run 37448399397 completed that native-only retry on source
+`6dde6ba6b53582a587cc11e2b832bedb34fdfc05`. Independent artifact reviews confirm
+24 native PDF comparisons and 11 GUI tests on each runtime, with exact
+per-device preservation of remaining operators, coordinates and RGBA. The opaque Windows
+text palette predicts two baseline short-gap errors; patched output has none.
+The reviewed receipt binds the restored build and fresh runtime/dialog evidence
+to the reused Qt66 and upstream10 results. Compilation and both passed suites
+were skipped; this result does not promote a distribution or qualify LibPack.
 
 Linux native retries also retain the application binaries, native modules and
 resources after the controlled bypass build, together with their source,
