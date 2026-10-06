@@ -327,6 +327,8 @@ at its original path can be restored with the complete, hash-pinned official
 2.55.0.windows.5 installer. Other tool or compiler drift stops before download;
 an already matching Git needs no installation. The final tool identity gates
 remain unchanged, and the host-tool receipt makes no runtime qualification claim.
+On 7-Zip or Ninja drift, bounded canonical launcher bytes and backend hashes are
+retained as unexecuted diagnostics before the unchanged rejection.
 
 On each matching Windows host, the focused route captures the pending Qt66 and
 upstream10 results and requires their strict inspection before the first scoped

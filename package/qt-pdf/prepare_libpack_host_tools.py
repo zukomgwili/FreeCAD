@@ -11,6 +11,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
 import urllib.request
@@ -151,6 +152,78 @@ def validate(observation, profile, allow_git_drift=False):
     )
 
 
+def retain_drift_diagnostics(observation, profile, evidence, helper):
+    changed = [
+        name for name in ("7z", "ninja") if observation["tools"].get(name) != profile["tools"][name]
+    ]
+    if not changed:
+        return {}
+    sources = {
+        name: (Path(profile["tools"][name]["path"]), True)
+        for name in changed
+        if observation["tools"].get(name, {}).get("path") == profile["tools"][name]["path"]
+    }
+    sources.update(
+        {
+            "shimgen": (Path(r"C:\ProgramData\chocolatey\tools\shimgen.exe"), False),
+            "ninja-backend": (Path(r"C:\ProgramData\chocolatey\lib\ninja\tools\ninja.exe"), False),
+            "7z-backend": (Path(r"C:\Program Files\7-Zip\7z.exe"), False),
+            "7z-library": (Path(r"C:\Program Files\7-Zip\7z.dll"), False),
+        }
+    )
+    receipt = {}
+    for name, (path, retain) in sources.items():
+        try:
+            resolved = helper.real_path(path)
+            info = resolved.lstat()
+            adapter.require(
+                str(resolved) == str(path)
+                and stat.S_ISREG(info.st_mode)
+                and info.st_nlink == 1
+                and not getattr(info, "st_file_attributes", 0) & stat.FILE_ATTRIBUTE_REPARSE_POINT
+                and 0 < info.st_size <= (1024 * 1024 if retain else 16 * 1024 * 1024),
+                "Diagnostic tool is linked, noncanonical or outside its size bound",
+            )
+            sha = adapter.digest(resolved)
+            entry = {
+                "path": str(resolved),
+                "size": info.st_size,
+                "sha256": sha,
+                "pe_machine": helper.pe_machine(resolved),
+                "retained": retain,
+            }
+            if retain:
+                adapter.require(
+                    sha == observation["tools"][name]["sha256"], "Observed tool changed"
+                )
+                destination = evidence / "tool-binaries" / (name + ".exe")
+                destination.parent.mkdir(exist_ok=True)
+                adapter.require(not destination.exists(), "Diagnostic destination already exists")
+                with resolved.open("rb") as source, destination.open("xb") as output:
+                    data = source.read(info.st_size + 1)
+                    adapter.require(len(data) == info.st_size, "Diagnostic tool size changed")
+                    output.write(data)
+                adapter.require(
+                    adapter.digest(destination) == adapter.digest(resolved) == sha
+                    and destination.stat().st_size == info.st_size,
+                    "Diagnostic tool copy differs",
+                )
+                entry["evidence_file"] = str(destination.relative_to(evidence))
+            receipt[name] = entry
+        except (OSError, ValueError, KeyError) as error:
+            receipt[name] = {"path": str(path), "error": str(error)[:512], "retained": False}
+    adapter.write_json(
+        evidence / "host-tool-diagnostics.json",
+        {
+            "schema_version": 1,
+            "qualified": False,
+            "executed": False,
+            "files": receipt,
+        },
+    )
+    return receipt
+
+
 def download_installer(asset, destination):
     url = (
         "https://github.com/git-for-windows/git/releases/download/"
@@ -289,6 +362,9 @@ def prepare(args, helper):
         profile = PROFILES[sdk["architecture"]]
         report["expected"] = profile
         environment, report["before"] = observe(work, evidence, sdk["architecture"], helper)
+        report["host_tool_diagnostics"] = retain_drift_diagnostics(
+            report["before"], profile, evidence, helper
+        )
         validate(report["before"], profile, allow_git_drift=True)
         environment = adapter.native_environment(environment, report["before"]["compiler"], helper)
         if report["before"]["tools"]["git"] == profile["tools"]["git"]:
