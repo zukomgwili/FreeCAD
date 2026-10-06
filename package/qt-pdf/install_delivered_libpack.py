@@ -337,7 +337,7 @@ def inventory(root, index, *, timestamps=False):
                 relative(name)
                 require(name.casefold() not in folded, "SDK readback case collision")
                 folded.add(name.casefold())
-                info = entry.stat(follow_symlinks=False)
+                info = path.lstat()
                 require(
                     not stat.S_ISLNK(info.st_mode) and not reparse(info),
                     "Linked/reparse SDK content",

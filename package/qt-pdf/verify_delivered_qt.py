@@ -277,13 +277,15 @@ def selected_distribution(prefix, catalogue, platform):
             "Unknown critical file owner/type",
         )
         original = indexed[owner][relative]
+        file_sha, file_size = expected_file(specification, prefix)
         require(
             original.get("path_type") == "hardlink"
             and original.get("sha256") == specification["sha256"]
-            and original.get("size_in_bytes") == specification["size"],
+            and type(original.get("size_in_bytes")) is int
+            # Installers retain either the source size or the relocated text size.
+            and original["size_in_bytes"] in (specification["size"], file_size),
             f"Installed source file metadata differs: {relative}",
         )
-        file_sha, file_size = expected_file(specification, prefix)
         if "sha256_in_prefix" in original:
             require(
                 original["sha256_in_prefix"] == file_sha,

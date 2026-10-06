@@ -10,6 +10,14 @@ build, binary, source and native runtime evidence. Earlier receipts below retain
 their original stage-specific limits; their original `distribution_promoted`
 flags are not rewritten retrospectively.
 
+Run the installation and CMake commands below from the
+[versioned selection tools](https://github.com/zukomgwili/FreeCAD/tree/qt-pdf-delivery-tools-2026-10-06.1).
+Those tools include direct Windows filesystem identity checks and precise Pixi
+relocation metadata support. The dependency release's initial source tag and
+first source/review kit remain historical delivery records. The corrected tools
+are supplied as a separate source/review asset in the same release; binary,
+corresponding-source and original qualification identities stay unchanged.
+
 | Dependency route | Qt version | Retained qualification per route |
 | --- | --- | --- |
 | linux-64, linux-aarch64, osx-64, osx-arm64, win-64 conda | 6.11.2, build 1 | 66 Qt PDF device pairs, 10 upstream tests, 24 native PDF pairs, 11 GUI tests per runtime |
