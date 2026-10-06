@@ -262,6 +262,33 @@ reparse points, records source/cache/bypass bindings, and does not bundle
 dependency prefixes or qualify restoration. Retention failure cannot skip
 native capture or its final binding.
 
+Run 37367983867, attempt 3, completed the Windows upstream ten-test suite,
+application build and bypass build. The forced child supplied the required
+Qt/Testlib 6.11.2 transcript; the paired original route again supplied an empty
+transcript. `package/qt-pdf/windows-upstream-passed.json` binds those results
+to the complete authenticated artifact. Its native capture failed before the
+macro completed because embedded Python could not import the installed PySide6
+package. The Windows launcher now supplies FreeCAD's stock `--python-path`
+option for the selected runtime's `Lib/site-packages`. It also supplies the
+existing `FREECAD_LIBPACK_BIN` startup hook for that runtime's `Library/bin`,
+which registers extension dependency directories before module initialization.
+The generic PartDesign DLL error does not identify the missing dependency;
+actual successful native execution is still required.
+
+The retained native retry selects `target=win-64`, `stage=windows-native`,
+`reuse_run=37367983867` and package build 37238935749.
+`restore_windows_native_build.py` admits only the reviewed attempt-3 artifact,
+checks the whole transport and inner archive, and restores the original physical
+workspace/build/module paths. It requires the selected source's Git identities
+and recorded worktree bytes, including the initialized submodule heads, to
+match. The diagnostic receipt remains unchanged; a separate restoration
+receipt records new physical readback. The workflow reinstalls and binds the
+exact dependency prefixes, reuses the immutable upstream and Qt66 receipts,
+and skips configuration, compilation, bypass compilation and both passed test
+stages. It then runs the unchanged stock native export and GUI gates, including
+fresh observed Qt DLL/plugin origins. Structural archive checks and local
+launcher controls do not establish Windows restoration or native qualification.
+
 Linux native retries also retain the application binaries, native modules and
 resources after the controlled bypass build, together with their source,
 CMake-cache and reused-runtime bindings. This is diagnostic build evidence,

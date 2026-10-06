@@ -127,6 +127,9 @@ def launch(args, side):
             (str(qt_lib), *(str(path.resolve()) for path in extra), environment.get("PATH", ""))
         )
         environment["QT_QPA_PLATFORM"] = "windows"
+        # Embedded Python ignores inherited Python paths. FreeCAD's Windows
+        # startup registers this selected directory for extension dependencies.
+        environment["FREECAD_LIBPACK_BIN"] = str(qt_lib)
     else:
         raise ValueError("The native launcher supports macOS, Linux and Windows")
     command = [
@@ -138,6 +141,11 @@ def launch(args, side):
         str(directory / "system.cfg"),
         str(macro),
     ]
+    if sys.platform == "win32":
+        site_packages = python_runtime / "Lib/site-packages"
+        if not site_packages.is_dir():
+            raise ValueError(f"{side}: selected runtime has no Python site-packages")
+        command[-1:-1] = ["--python-path", str(site_packages)]
     (directory / "launch.json").write_text(
         json.dumps(
             {
@@ -154,6 +162,7 @@ def launch(args, side):
                         "LD_LIBRARY_PATH",
                         "PATH",
                         "DISPLAY",
+                        "FREECAD_LIBPACK_BIN",
                     )
                 },
             },
