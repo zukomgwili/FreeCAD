@@ -18,10 +18,10 @@ on:
         default: ''
         type: string
       stage:
-        description: All checks, native retry, Windows pending checks, or retained Windows native retry
+        description: Qualification stage, or delivery-only LibPack installation checks
         default: all
         type: choice
-        options: [all, native, windows-pending, windows-native]
+        options: [all, native, windows-pending, windows-native, delivered-libpacks]
       reuse_run:
         description: Matching reviewed qualification run whose passed checks can be reused
         default: ''
@@ -32,8 +32,12 @@ permissions:
   actions: read
 
 jobs:
+  delivered-libpacks:
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage == 'delivered-libpacks'
+    uses: ./.github/workflows/qt_pdf_delivery.yml
+
   select:
-    if: github.repository == 'zukomgwili/FreeCAD'
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks'
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
@@ -80,7 +84,7 @@ jobs:
           PY
 
   qualify:
-    if: github.repository == 'zukomgwili/FreeCAD'
+    if: github.repository == 'zukomgwili/FreeCAD' && inputs.stage != 'delivered-libpacks'
     needs: select
     strategy:
       fail-fast: false

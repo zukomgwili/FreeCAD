@@ -58,7 +58,6 @@ pycollada = "*"
 pyside6 = "*"
 python = ">=3.13,<3.14" ## VFX Platform for compatibity with Blender
 pyyaml = "*"
-qt6-main = ">=6.11,<6.12"
 requests = "*"
 scipy = "*"
 six = "*"
@@ -78,6 +77,7 @@ blas = { version = "*", build = "openblas*" }
 
 ## Linux Dependencies (x86-64)
 [target.linux-64.dependencies]
+qt6-main = { url = "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h23691f9_1.conda", sha256 = "a5ec19b2367f45020d98aa08be0a1d3a6370f2d8a2eace03fa47cef68880947b" }
 compilers = ">=1.10,<1.11"
 clang = "*"
 clangxx = "*"
@@ -117,6 +117,7 @@ xorg-xproto = "*"
 
 ## Linux Dependencies (aarch64)
 [target.linux-aarch64.dependencies]
+qt6-main = { url = "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h8194227_1.conda", sha256 = "5ae1dfcaa15ea86aca72d36190b0b82c12d044ce02d6c20d5c56dbf36fd6d24b" }
 compilers = ">=1.10,<1.11"
 clang = "*"
 clangxx = "*"
@@ -160,6 +161,7 @@ xorg-xproto = "*"
 
 ## macOS Dependencies (Intel)
 [target.osx-64.dependencies]
+qt6-main = { url = "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h7c35b53_1.conda", sha256 = "a8bb9b5c836e8e0bea9359158e5eac59f35755bb4fde39d987f2530549c45631" }
 ## Under C++20 and later, clang <23 reports __has_feature(modules), which makes
 ## the macOS 27 SDK's <math.h> take INFINITY/NAN from <float.h> through the
 ## __need_infinity_nan protocol. Clang <22 does not implement it (INFINITY is
@@ -174,6 +176,7 @@ sed = "*"
 
 ## macOS Dependencies (Apple Silicon)
 [target.osx-arm64.dependencies]
+qt6-main = { url = "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h5ab96b3_1.conda", sha256 = "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99" }
 ## Under C++20 and later, clang <23 reports __has_feature(modules), which makes
 ## the macOS 27 SDK's <math.h> take INFINITY/NAN from <float.h> through the
 ## __need_infinity_nan protocol. Clang <22 does not implement it (INFINITY is
@@ -187,6 +190,7 @@ cpptrace = "*"
 sed = "*"
 
 [target.win-64.dependencies]
+qt6-main = { url = "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h17b71ab_1.conda", sha256 = "780380351ff8977de29cf34e186579d0aac04ab37adf362b260b5405b9abea73" }
 compilers = ">=1.10,<1.11"
 cpptrace = "*"
 ## pthreads-win32 dropped: libwinpthread >=12, pulled in by the smesh build

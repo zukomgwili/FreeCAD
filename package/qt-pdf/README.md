@@ -95,6 +95,16 @@ PySide console is outside this qualified startup path. The fresh delivery
 workflow checks only download/install/cache/CMake-import/relocation behaviour;
 it does not repeat the original Qt PDF suites or FreeCAD builds.
 
+The registered `qt_pdf_qualify.yml` dispatcher exposes `stage=delivered-libpacks`
+and calls that delivery workflow from the same commit. Its original qualification
+jobs are skipped for this stage. The dispatcher's required `build_run` input is
+unused by the delivery path:
+
+```sh
+gh workflow run qt_pdf_qualify.yml --ref codex/deliver-qt-pdf-stroker \
+  -f stage=delivered-libpacks -f build_run=37238935749
+```
+
 ## Source, licences and reproduction
 
 `qt-everywhere-src-6.11.2-freecad-pdf-build1.tar.zst` retains the complete reviewed

@@ -5,6 +5,7 @@ name: Qt PDF Delivered LibPack Selection
 # Qt and FreeCAD qualification receipts are reused; no PDF suite or build runs.
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
