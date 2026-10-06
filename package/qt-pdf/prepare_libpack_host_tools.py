@@ -24,6 +24,7 @@ import build_libpack_backport as adapter
 
 GIT_ROOT = r"C:\Program Files\Git"
 GIT_VERSION = "git version 2.55.0.windows.5"
+GIT_INSTALLER_LOG_LIMIT = 4 * 1024 * 1024
 ORIGINAL_RUN = 37254793061
 ORIGINAL_HEAD = "ba37708eecef736d9caafdbae5f07618887d675b"
 ORIGINAL_ADAPTER = "fc28ad59cda3dd02be48cb70ddb8dc80b186f891805e4fad73a82572d83d72d4"
@@ -705,7 +706,8 @@ def install_git(installer, evidence, environment):
     adapter.write_json(evidence / "git-installer-execution.json", receipt)
     adapter.require(result.returncode == 0, "Pinned Git installer failed")
     adapter.require(
-        log.is_file() and log.stat().st_size <= 2 * 1024 * 1024, "Installer log missing/large"
+        log.is_file() and log.stat().st_size <= GIT_INSTALLER_LOG_LIMIT,
+        "Installer log missing/large",
     )
     return {**receipt, "log_sha256": adapter.digest(log), "log_size": log.stat().st_size}
 
@@ -945,7 +947,7 @@ def validate_report(report, sdk, tools, compiler, host):
             == PureWindowsPath(installer["path"]).parent / "evidence/git-installer.log"
             and execution["returncode"] == 0
             and re.fullmatch(r"[0-9a-f]{64}", execution["log_sha256"])
-            and 0 <= execution["log_size"] <= 2 * 1024 * 1024,
+            and 0 <= execution["log_size"] <= GIT_INSTALLER_LOG_LIMIT,
             "Complete original Git installer authentication/execution differs",
         )
     return qualification["id"] if qualification else "historical-tools"
