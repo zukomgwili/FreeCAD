@@ -32,6 +32,20 @@ PNG readbacks and independent reviews travel in
 authenticates each retained member. Historical failed overall runs remain
 failed; only their independently admitted passed Qt stages are reused.
 
+The [completed delivery record](delivery-verification.json) binds the five active
+Pixi package pins and all eight original qualifications to the public release.
+All five actual locked platform readbacks passed. The actual public macOS ARM
+installation preserved 394 other installed metadata records and passed 499
+critical file checks, 13 loaded library origins and eight CMake imported targets.
+Both x64 SDKs passed fresh installation, cache, CMake and runtime checks in
+[run 37535693525](https://github.com/zukomgwili/FreeCAD/actions/runs/37535693525).
+ARM CMake and runtime passed in the
+[ARM-only retry](https://github.com/zukomgwili/FreeCAD/actions/runs/37538059328),
+reusing its authenticated passed cache receipt. Only ARM needed a fresh SDK
+installation as setup because the previous runner's SDK tree was not retained.
+The x64 jobs, passed cache execution, original PDF suites and Qt/FreeCAD builds
+were not repeated. Production guard decisions remain with `FreeCAD-t8a.8`.
+
 ## Conda and explicit source/CMake selection
 
 Use the repository's root Pixi manifest and lock. Each platform's `qt6-main`
