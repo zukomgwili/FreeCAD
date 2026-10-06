@@ -321,6 +321,13 @@ build and preparation receipts. Current finite admission is recorded separately
 as `installation-revalidated`, with all pending runtime flags still false.
 Qt compilation and passed baseline diagnostic generation are reused.
 
+Before downloading retained SDKs, `prepare_libpack_host_tools.py` checks the
+original native compiler and all four host tool paths and hashes. A changed Git
+at its original path can be restored with the complete, hash-pinned official
+2.55.0.windows.5 installer. Other tool or compiler drift stops before download;
+an already matching Git needs no installation. The final tool identity gates
+remain unchanged, and the host-tool receipt makes no runtime qualification claim.
+
 On each matching Windows host, the focused route captures the pending Qt66 and
 upstream10 results and requires their strict inspection before the first scoped
 FreeCAD build. Its isolated inspection tools use win-64, including x64 emulation

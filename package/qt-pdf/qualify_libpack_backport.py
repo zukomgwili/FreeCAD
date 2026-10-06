@@ -437,9 +437,20 @@ def capture(args, helper):
             [candidate, work / "baseline", Path(original["root"])],
             helper,
         )
-        adapter.require(tools == preparation["tools"], "Test build-tool identity changed")
-        report["compiler"] = compiler
         report["tools"] = tools
+        adapter.require(
+            tools == preparation["tools"],
+            "Test build-tool identity changed: "
+            + json.dumps(
+                {
+                    name: {"expected": preparation["tools"].get(name), "actual": tools.get(name)}
+                    for name in sorted(set(preparation["tools"]) | set(tools))
+                    if preparation["tools"].get(name) != tools.get(name)
+                },
+                sort_keys=True,
+            ),
+        )
+        report["compiler"] = compiler
         adapter.require(
             adapter.qt_repositories(
                 work / "qt", evidence, tools["git"]["path"], environment=environment

@@ -70,6 +70,15 @@ jobs:
           python-version: '3.13'
           architecture: ${{ matrix.python_arch }}
 
+      - name: Require original host tools before downloading retained SDKs
+        env:
+          LIBPACK_SDK: ${{ matrix.sdk }}
+        run: |
+          python -B package/qt-pdf/prepare_libpack_host_tools.py `
+            --sdk "$env:LIBPACK_SDK" `
+            --work-dir "$env:RUNNER_TEMP/libpack-host-tools"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Authenticate and recover the compiled SDK without Qt compilation
         id: restore
         env:
@@ -214,6 +223,8 @@ jobs:
         with:
           name: qt-pdf-libpack-recovered-qualification-${{ matrix.sdk }}
           path: |
+            ${{ runner.temp }}/libpack-host-tools/host-tools.json
+            ${{ runner.temp }}/libpack-host-tools/evidence
             ${{ runner.temp }}/libpack-recovery-inputs/download.json
             ${{ runner.temp }}/libpack-installation-restoration/installation-recovery.json
             ${{ runner.temp }}/libpack-qt-capture/evidence
