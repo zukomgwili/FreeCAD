@@ -65,9 +65,12 @@ def validate_host_tools(path, sdk, tools, compiler, host, helper, physical=False
         )
         if profile != "historical-tools":
             adapter.require(
-                host_tools.qualification_files(helper) == report["qualification_files_after"],
+                host_tools.qualification_files(helper, profile=profile)
+                == report["qualification_files_after"],
                 "Actual qualification launchers/implementations changed",
             )
+            if profile == host_tools.ARM_PROFILE["id"]:
+                host_tools.validate_current_cmake(report, helper)
         git = host_tools.git_identity(
             host_tools.PROFILES[sdk["architecture"]], sdk["architecture"], helper
         )

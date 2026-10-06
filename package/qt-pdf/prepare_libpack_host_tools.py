@@ -8,14 +8,17 @@ receipts remain immutable; this report does not qualify an SDK or its tests.
 """
 
 import argparse
+import hashlib
 import json
 import os
-from pathlib import Path, PureWindowsPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
 import stat
 import subprocess
 import sys
+import unicodedata
 import urllib.request
+import zipfile
 
 import build_libpack_backport as adapter
 
@@ -196,6 +199,75 @@ CURRENT_PROFILE = {
         },
     },
 }
+CMAKE_ROOT = r"C:\Program Files\CMake"
+CMAKE_VERSION = (
+    "cmake version 4.4.3\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake)."
+)
+CMAKE_ROOT_SCRIPT = 'message(STATUS "${CMAKE_ROOT}")\n'
+CMAKE_TREE = {
+    "files": 8819,
+    "directories": 162,
+    "bytes": 141584186,
+    "sha256": "72b82cccdcbf958e9d861afb490c407e33e7bc502d1816f840b7640a1395d1b6",
+}
+CMAKE_EXECUTABLE = {
+    **PROFILES["arm64"]["tools"]["cmake"],
+    "size": 13464656,
+    "pe_machine": 43620,
+}
+CMAKE_TREE_EVIDENCE = {
+    "file": "cmake-installed-tree.json",
+    "size": 1531108,
+    "sha256": "37238665a789ca078e27439c473ea9973a5491b215d81bd4c4dce86d5bfc41b4",
+}
+ARM_CURRENT_CMAKE = {
+    "path": CMAKE_EXECUTABLE["path"],
+    "sha256": "3a6afefa46f0acd68c2fdc1c73e115d7162ab826d5e6976dcc535e25d538cf16",
+}
+CMAKE_ARCHIVE = {
+    "filename": "cmake-4.4.3-windows-arm64.zip",
+    "asset_id": 529578077,
+    "url": "https://github.com/Kitware/CMake/releases/download/v4.4.3/cmake-4.4.3-windows-arm64.zip",
+    "size": 52561255,
+    "sha256": "7b410ddd00e24c7250eec7452da2348a4a70437aa87e9cda0a20d6a85662fcff",
+    "archive_root": "cmake-4.4.3-windows-arm64",
+}
+ARM_FILES = {
+    "7z": {
+        "path": CURRENT_FILES["7z"]["path"],
+        "size": 391680,
+        "sha256": "92e5d61d8fd26651d2ca019f81ea31a590aab117cbaaf2a0297e5886e378d89e",
+        "pe_machine": 332,
+    },
+    **{name: CURRENT_FILES[name] for name in ("7z-backend", "7z-library", "shimgen")},
+}
+ARM_PROFILE = {
+    "id": "windows11-vs2026-arm64-20261004.176.1-chocolatey-2.7.4",
+    "image_os": "win11-vs2026-arm64",
+    "image_version": "20261004.176.1",
+    "sdk_keys": ["3.5.5-arm64"],
+    "historical_tool_bytes_equal": False,
+    "source": {
+        "image_commit": "5b9f80c6f62e393a5532c4bdcf258e8247b779c1",
+        "image_url": "https://github.com/actions/runner-images/releases/tag/win11-vs2026-arm64/20261004.176",
+        "diagnostic_transport_sha256": "975bfccce5bad6d65b8a1c32285b7aae6e9535d0d563d82c1d671e68ffa50d82",
+        "static_review_sha256": "45eeb0934c4fd68cca9a5eb2e2e300567289150629dd784f16757c29ffe62c94",
+        "cmake_static_review_sha256": "aa897deba0fb476bd427b2981eb023bf0d958cfab44d6babfe3bda49f7a67a25",
+        "diagnostic": {
+            "run_id": 37481334440,
+            "run_attempt": 1,
+            "head_sha": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+            "job_id": 112329972962,
+            "artifact_id": 11420889726,
+            "artifact_size": 30077,
+            "artifact_sha256": "11b2c85b5ae2a962166dc5e4e001bc1c8c0f8f92ee6a559afd65c66bfd8f23da",
+        },
+        "7zip_installer": CURRENT_PROFILE["source"]["7zip_installer"],
+        "chocolatey_package": CURRENT_PROFILE["source"]["chocolatey_package"],
+        "cmake_archive": CMAKE_ARCHIVE,
+        "cmake_tree": CMAKE_TREE,
+    },
+}
 
 
 def producer_context():
@@ -227,6 +299,18 @@ def validate_producer(producer):
 def selected_profile(sdk, tools, producer):
     """Select only the literal original tools or the finite current-image pair."""
     original = PROFILES[sdk["architecture"]]
+    if tools.get("7z") == {key: ARM_FILES["7z"][key] for key in ("path", "sha256")}:
+        adapter.require(
+            sdk["key"] in ARM_PROFILE["sdk_keys"]
+            and producer["image_os"] == ARM_PROFILE["image_os"]
+            and producer["image_version"] == ARM_PROFILE["image_version"],
+            "Current ARM Chocolatey launcher requires its exact qualified native image",
+        )
+        tools = {
+            **original["tools"],
+            "7z": {key: ARM_FILES["7z"][key] for key in ("path", "sha256")},
+        }
+        return {**original, "tools": tools}, ARM_PROFILE
     current_pair = all(
         tools.get(name) == {key: CURRENT_FILES[name][key] for key in ("path", "sha256")}
         for name in ("7z", "ninja")
@@ -249,10 +333,20 @@ def selected_profile(sdk, tools, producer):
     return {**original, "tools": tools}, CURRENT_PROFILE
 
 
-def qualification_files(helper):
+def profile_files(profile):
+    if profile is None or profile == CURRENT_PROFILE or profile == CURRENT_PROFILE["id"]:
+        return CURRENT_FILES
+    adapter.require(
+        profile == ARM_PROFILE or profile == ARM_PROFILE["id"], "Unknown host-tool profile"
+    )
+    return ARM_FILES
+
+
+def qualification_files(helper, profile=None):
     """Read the complete finite implementations before any system installation."""
     files = {}
-    for name, expected in CURRENT_FILES.items():
+    expected_files = profile_files(profile)
+    for name, expected in expected_files.items():
         path = Path(expected["path"])
         resolved = helper.real_path(path)
         info = resolved.lstat()
@@ -269,7 +363,7 @@ def qualification_files(helper):
             "sha256": adapter.digest(resolved),
             "pe_machine": helper.pe_machine(resolved),
         }
-    adapter.require(files == CURRENT_FILES, "Qualified current host-tool implementation differs")
+    adapter.require(files == expected_files, "Qualified current host-tool implementation differs")
     return files
 
 
@@ -312,6 +406,21 @@ def validate(observation, profile, allow_git_drift=False):
         not changes,
         "Original build-tool identity differs: " + json.dumps(changes, sort_keys=True),
     )
+
+
+def validate_before(observation, profile, qualification):
+    """Only the observed finite ARM CMake drift can precede full restoration."""
+    if qualification == ARM_PROFILE:
+        cmake = observation["tools"].get("cmake")
+        adapter.require(
+            cmake in (PROFILES["arm64"]["tools"]["cmake"], ARM_CURRENT_CMAKE),
+            "ARM CMake differs from both the exact original and observed current distribution",
+        )
+        observation = {
+            **observation,
+            "tools": {**observation["tools"], "cmake": profile["tools"]["cmake"]},
+        }
+    validate(observation, profile, allow_git_drift=True)
 
 
 def retain_drift_diagnostics(observation, profile, evidence, helper):
@@ -386,21 +495,17 @@ def retain_drift_diagnostics(observation, profile, evidence, helper):
     return receipt
 
 
-def download_installer(asset, destination):
-    url = (
-        "https://github.com/git-for-windows/git/releases/download/"
-        "v2.55.0.windows.5/" + asset["filename"]
-    )
-    request = urllib.request.Request(url, headers={"User-Agent": "FreeCAD pinned Git recovery"})
+def download_asset(asset, destination, url):
+    request = urllib.request.Request(url, headers={"User-Agent": "FreeCAD pinned host recovery"})
     received = 0
     with urllib.request.urlopen(request, timeout=60) as response, destination.open("xb") as output:
         while block := response.read(1024 * 1024):
             received += len(block)
-            adapter.require(received <= asset["size"], "Official Git installer exceeds pinned size")
+            adapter.require(received <= asset["size"], "Official host asset exceeds pinned size")
             output.write(block)
     adapter.require(
         received == asset["size"] and adapter.digest(destination) == asset["sha256"],
-        "Official Git installer size/hash differs",
+        "Official host asset size/hash differs",
     )
     return {
         **asset,
@@ -408,6 +513,172 @@ def download_installer(asset, destination):
         "path": str(destination),
         "whole_asset_authenticated": True,
     }
+
+
+def download_installer(asset, destination):
+    url = (
+        "https://github.com/git-for-windows/git/releases/download/"
+        "v2.55.0.windows.5/" + asset["filename"]
+    )
+    return download_asset(asset, destination, url)
+
+
+def cmake_tree(root, helper):
+    """Fingerprint all relative files and directories, without source mtime changes."""
+    root = helper.real_path(root)
+    adapter.require(root.is_dir(), "Complete CMake distribution is missing")
+    indexed = helper.inventory(root)
+    names = indexed["directories"] + list(indexed["files"])
+    adapter.require(
+        len({unicodedata.normalize("NFC", name).casefold() for name in names}) == len(names),
+        "CMake distribution has colliding paths",
+    )
+    files = {}
+    for name, entry in indexed["files"].items():
+        info = (root / name).lstat()
+        adapter.require(
+            stat.S_ISREG(info.st_mode) and info.st_nlink == 1,
+            "CMake distribution contains linked/nonregular files",
+        )
+        files[name] = {key: entry[key] for key in ("size", "sha256")}
+    canonical = {"directories": indexed["directories"], "files": files}
+    encoded = json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode()
+    return canonical, {
+        "files": len(files),
+        "directories": len(indexed["directories"]),
+        "bytes": sum(entry["size"] for entry in files.values()),
+        "sha256": hashlib.sha256(encoded).hexdigest(),
+    }
+
+
+def cmake_identity(helper):
+    path = helper.real_path(Path(CMAKE_EXECUTABLE["path"]))
+    info = path.lstat()
+    adapter.require(
+        str(path) == CMAKE_EXECUTABLE["path"] and stat.S_ISREG(info.st_mode) and info.st_nlink == 1,
+        "CMake executable is linked/noncanonical",
+    )
+    identity = {
+        "path": str(path),
+        "size": info.st_size,
+        "sha256": adapter.digest(path),
+        "pe_machine": helper.pe_machine(path),
+    }
+    adapter.require(identity == CMAKE_EXECUTABLE, "Original native ARM CMake differs")
+    return identity
+
+
+def extract_cmake(archive, staging, helper):
+    adapter.require(
+        archive.stat().st_size == CMAKE_ARCHIVE["size"]
+        and adapter.digest(archive) == CMAKE_ARCHIVE["sha256"],
+        "Complete official ARM CMake archive differs",
+    )
+    staging.mkdir(exist_ok=False)
+    names = set()
+    with zipfile.ZipFile(archive) as source:
+        for entry in source.infolist():
+            name = entry.filename
+            path = PurePosixPath(name)
+            folded = unicodedata.normalize("NFC", name.rstrip("/")).casefold()
+            adapter.require(
+                path.parts
+                and path.parts[0] == CMAKE_ARCHIVE["archive_root"]
+                and not path.is_absolute()
+                and ".." not in path.parts
+                and "\\" not in name
+                and ":" not in name
+                and folded not in names
+                and stat.S_IFMT(entry.external_attr >> 16) in (0, stat.S_IFREG, stat.S_IFDIR),
+                "Unsafe/colliding/nonregular CMake archive entry",
+            )
+            names.add(folded)
+            target = staging / path
+            if entry.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with source.open(entry) as member, target.open("xb") as output:
+                    while block := member.read(1024 * 1024):
+                        output.write(block)
+                adapter.require(target.stat().st_size == entry.file_size, "CMake size differs")
+    root = staging / CMAKE_ARCHIVE["archive_root"]
+    _, tree = cmake_tree(root, helper)
+    adapter.require(tree == CMAKE_TREE, "Full official CMake distribution tree differs")
+    adapter.require(
+        adapter.digest(root / "bin/cmake.exe") == CMAKE_EXECUTABLE["sha256"]
+        and helper.pe_machine(root / "bin/cmake.exe") == 43620,
+        "Staged original CMake executable differs",
+    )
+    return root
+
+
+def prepare_cmake(work, evidence, before, environment, helper):
+    """Restore the whole original tree; preserve the previous distribution intact."""
+    adapter.require(
+        PureWindowsPath(str(work)).drive == "C:", "CMake recovery requires its canonical drive"
+    )
+    install_root = helper.real_path(Path(CMAKE_ROOT))
+    adapter.require(str(install_root) == CMAKE_ROOT, "CMake root is noncanonical")
+    receipt = {
+        "distribution": CMAKE_ARCHIVE,
+        "install_root": CMAKE_ROOT,
+        "before": before,
+        "downloaded": False,
+    }
+    if before == ARM_CURRENT_CMAKE:
+        archive = work / CMAKE_ARCHIVE["filename"]
+        receipt["archive"] = download_asset(CMAKE_ARCHIVE, archive, CMAKE_ARCHIVE["url"])
+        receipt["downloaded"] = True
+        adapter.write_json(evidence / "cmake-restoration.json", receipt)
+        staged = extract_cmake(archive, work / "cmake-staging", helper)
+        _, previous_tree = cmake_tree(install_root, helper)
+        previous = work / "previous-cmake"
+        adapter.require(not previous.exists(), "Previous CMake destination already exists")
+        adapter.require(
+            adapter.digest(install_root / "bin/cmake.exe") == before["sha256"],
+            "Current CMake changed before complete restoration",
+        )
+        install_root.rename(previous)
+        _, preserved_tree = cmake_tree(previous, helper)
+        adapter.require(preserved_tree == previous_tree, "Preserved previous CMake tree differs")
+        receipt["preserved_previous"] = {"path": str(previous), "tree": previous_tree}
+        adapter.write_json(evidence / "cmake-restoration.json", receipt)
+        staged.rename(install_root)
+        receipt["action"] = "restored"
+    else:
+        adapter.require(
+            before == PROFILES["arm64"]["tools"]["cmake"], "Unknown ARM CMake restoration input"
+        )
+        receipt["action"] = "already-matched"
+    canonical, receipt["tree"] = cmake_tree(install_root, helper)
+    adapter.require(receipt["tree"] == CMAKE_TREE, "Installed whole original CMake tree differs")
+    receipt["executable"] = cmake_identity(helper)
+    tree_path = evidence / "cmake-installed-tree.json"
+    tree_path.write_text(
+        json.dumps(canonical, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+    )
+    receipt["tree_evidence"] = {
+        "file": tree_path.name,
+        "size": tree_path.stat().st_size,
+        "sha256": adapter.digest(tree_path),
+    }
+    receipt["version"] = helper.command(
+        [CMAKE_EXECUTABLE["path"], "--version"], evidence, "cmake-version", environment
+    )
+    adapter.require(receipt["version"]["stdout"] == CMAKE_VERSION, "Original CMake version differs")
+    script = evidence / "cmake-root.cmake"
+    script.write_text(CMAKE_ROOT_SCRIPT, encoding="utf-8", newline="\n")
+    receipt["root_script_sha256"] = adapter.digest(script)
+    receipt["root"] = helper.command(
+        [CMAKE_EXECUTABLE["path"], "-P", str(script)], evidence, "cmake-root", environment
+    )
+    adapter.require(
+        receipt["root"]["stdout"] == "-- C:/Program Files/CMake/share/cmake-4.4",
+        "Original CMake resource root differs",
+    )
+    adapter.write_json(evidence / "cmake-restoration.json", receipt)
+    return receipt
 
 
 def install_git(installer, evidence, environment):
@@ -472,6 +743,80 @@ def validate_git(identity, profile, architecture):
     )
 
 
+def validate_cmake_receipt(report):
+    receipt = report["cmake_restoration"]
+    work = PureWindowsPath(report["work_dir"])
+    adapter.require(
+        work.is_absolute()
+        and work.drive == "C:"
+        and len(work.parts) > 2
+        and not any(char in str(work) for char in '\r\n"%&|<>^')
+        and receipt["distribution"] == CMAKE_ARCHIVE
+        and receipt["install_root"] == CMAKE_ROOT
+        and receipt["before"] == report["before"]["tools"]["cmake"]
+        and receipt["executable"] == CMAKE_EXECUTABLE
+        and report["after"]["tools"]["cmake"] == PROFILES["arm64"]["tools"]["cmake"]
+        and receipt["tree"] == CMAKE_TREE
+        and receipt["tree_evidence"] == CMAKE_TREE_EVIDENCE
+        and receipt["version"]
+        == {
+            "argv": [CMAKE_EXECUTABLE["path"], "--version"],
+            "returncode": 0,
+            "stdout": CMAKE_VERSION,
+        }
+        and receipt["root_script_sha256"] == hashlib.sha256(CMAKE_ROOT_SCRIPT.encode()).hexdigest()
+        and receipt["root"]
+        == {
+            "argv": [
+                CMAKE_EXECUTABLE["path"],
+                "-P",
+                str(work / "evidence/cmake-root.cmake"),
+            ],
+            "returncode": 0,
+            "stdout": "-- C:/Program Files/CMake/share/cmake-4.4",
+        },
+        "Original complete ARM CMake distribution/source/version/root proof differs",
+    )
+    if receipt["action"] == "already-matched":
+        adapter.require(
+            receipt["downloaded"] is False
+            and receipt["before"] == PROFILES["arm64"]["tools"]["cmake"]
+            and "archive" not in receipt
+            and "preserved_previous" not in receipt,
+            "Matching CMake route claims restoration or accepts changed original bytes",
+        )
+    else:
+        archive = receipt["archive"]
+        previous = receipt["preserved_previous"]
+        adapter.require(
+            receipt["action"] == "restored"
+            and receipt["downloaded"] is True
+            and receipt["before"] == ARM_CURRENT_CMAKE
+            and archive
+            == {
+                **CMAKE_ARCHIVE,
+                "path": str(work / CMAKE_ARCHIVE["filename"]),
+                "whole_asset_authenticated": True,
+            }
+            and previous["path"] == str(work / "previous-cmake")
+            and set(previous["tree"]) == {"files", "directories", "bytes", "sha256"}
+            and previous["tree"]["files"] > 0
+            and previous["tree"]["directories"] >= 0
+            and previous["tree"]["bytes"] > 0
+            and re.fullmatch(r"[0-9a-f]{64}", previous["tree"]["sha256"]),
+            "Complete original CMake archive/restoration/preservation proof differs",
+        )
+
+
+def validate_current_cmake(report, helper):
+    """Read the full original ARM distribution again before consumer execution."""
+    adapter.require(report["qualification_profile"] == ARM_PROFILE, "Expected finite ARM profile")
+    validate_cmake_receipt(report)
+    _, tree = cmake_tree(Path(CMAKE_ROOT), helper)
+    adapter.require(tree == CMAKE_TREE, "Current full original ARM CMake tree changed")
+    return {"tree": tree, "executable": cmake_identity(helper)}
+
+
 def validate_report(report, sdk, tools, compiler, host):
     """Validate a portable admission and its actual consumer identities, with no I/O.
 
@@ -512,13 +857,14 @@ def validate_report(report, sdk, tools, compiler, host):
     )
     validate_producer(report["producer"])
     profile, qualification = selected_profile(sdk, report["after"]["tools"], report["producer"])
+    expected_files = profile_files(qualification) if qualification else {}
     adapter.require(
         report["qualification_profile"] == qualification
-        and report["qualification_files_before"] == (CURRENT_FILES if qualification else {})
-        and report["qualification_files_after"] == (CURRENT_FILES if qualification else {}),
+        and report["qualification_files_before"] == expected_files
+        and report["qualification_files_after"] == expected_files,
         "Finite current-image qualification metadata/implementation differs",
     )
-    validate(report["before"], profile, allow_git_drift=True)
+    validate_before(report["before"], profile, qualification)
     validate(report["after"], profile)
     adapter.require(
         report["after"]["tools"] == tools == profile["tools"]
@@ -537,10 +883,32 @@ def validate_report(report, sdk, tools, compiler, host):
         and report["git_version"]["stdout"] == GIT_VERSION,
         "Original complete Git version proof differs",
     )
-    if report["action"] == "already-matched":
+    git_action = report["action"]
+    if qualification == ARM_PROFILE:
+        validate_cmake_receipt(report)
+        git_action = report["git_action"]
+        cmake_changed = report["cmake_restoration"]["action"] == "restored"
+        expected_action = (
+            "cmake-and-git-restored"
+            if cmake_changed and git_action == "git-restored"
+            else "cmake-restored" if cmake_changed else git_action
+        )
+        adapter.require(report["action"] == expected_action, "Host restoration action differs")
+    else:
+        adapter.require(
+            "cmake_restoration" not in report and "git_action" not in report,
+            "Non-ARM host route claims CMake restoration",
+        )
+    if git_action == "already-matched":
+        before = report["before"]
+        if qualification == ARM_PROFILE:
+            before = {
+                **before,
+                "tools": {**before["tools"], "cmake": profile["tools"]["cmake"]},
+            }
         adapter.require(
             report["installer_executed"] is False
-            and report["before"] == report["after"]
+            and before == report["after"]
             and "installer" not in report
             and "installer_execution" not in report,
             "Matching host-tool route claims an installation/change",
@@ -551,7 +919,7 @@ def validate_report(report, sdk, tools, compiler, host):
         execution = report["installer_execution"]
         arguments = execution["argv"]
         adapter.require(
-            report["action"] == "git-restored"
+            git_action == "git-restored"
             and report["installer_executed"] is True
             and report["before"]["tools"]["git"] != profile["tools"]["git"]
             and all(installer.get(name) == value for name, value in asset.items())
@@ -649,13 +1017,22 @@ def prepare(args, helper):
         profile, report["qualification_profile"] = selected_profile(
             sdk, report["before"]["tools"], report["producer"]
         )
-        validate(report["before"], profile, allow_git_drift=True)
+        validate_before(report["before"], profile, report["qualification_profile"])
         if report["qualification_profile"]:
-            report["qualification_files_before"] = qualification_files(helper)
+            report["qualification_files_before"] = qualification_files(
+                helper, report["qualification_profile"]
+            )
         environment = adapter.native_environment(environment, report["before"]["compiler"], helper)
+        if report["qualification_profile"] == ARM_PROFILE:
+            report["cmake_restoration"] = prepare_cmake(
+                work, evidence, report["before"]["tools"]["cmake"], environment, helper
+            )
         if report["before"]["tools"]["git"] == profile["tools"]["git"]:
             report["action"] = "already-matched"
-            report["after"] = report["before"]
+            if report.get("cmake_restoration", {}).get("action") == "restored":
+                environment, report["after"] = observe(work, evidence, sdk["architecture"], helper)
+            else:
+                report["after"] = report["before"]
         else:
             # Restore the full distribution; bin/git.exe is only a small launcher.
             asset = INSTALLERS[sdk["architecture"]]
@@ -671,7 +1048,18 @@ def prepare(args, helper):
             report["action"] = "git-restored"
         validate(report["after"], profile)
         if report["qualification_profile"]:
-            report["qualification_files_after"] = qualification_files(helper)
+            report["qualification_files_after"] = qualification_files(
+                helper, report["qualification_profile"]
+            )
+        if report["qualification_profile"] == ARM_PROFILE:
+            report["git_action"] = report["action"]
+            if report["cmake_restoration"]["action"] == "restored":
+                report["action"] = (
+                    "cmake-and-git-restored"
+                    if report["git_action"] == "git-restored"
+                    else "cmake-restored"
+                )
+            validate_current_cmake(report, helper)
         report["git_distribution"] = git_identity(profile, sdk["architecture"], helper)
         validate_git(report["git_distribution"], profile, sdk["architecture"])
         version = helper.command(

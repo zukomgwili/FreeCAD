@@ -337,6 +337,15 @@ records that historical launcher bytes differ; it does not change Qt build
 provenance. Unknown images, tool bytes, paths or compiler drift stop before
 SDK download. Native consumers recheck the physical tools and retain the
 source-bound admission under their evidence hash gate.
+The separate ARM profile pins only its regenerated 7-Zip launcher and three
+unchanged implementation files on image
+`win11-vs2026-arm64/20261004.176.1`. That image upgraded CMake from 4.4.3 to
+4.4.4. Bootstrap restores the complete hash-pinned official ARM CMake 4.4.3
+archive at `C:\Program Files\CMake`, preserving the previous tree under its
+owned work directory. All 8,819 files and 162 directories, the native
+executable, version and `CMAKE_ROOT` must match the original distribution.
+Consumers recheck the complete installed tree before execution. The original
+ARM compiler, Ninja and complete Git identities remain mandatory.
 The host-tool receipt makes no runtime qualification claim.
 On 7-Zip or Ninja drift, bounded canonical launcher bytes and backend hashes are
 retained as unexecuted diagnostics before rejection.
