@@ -68,6 +68,20 @@ def make_wire(pointslist, closed=False, placement=None, face=None, support=None,
 
     bs2wire : bool
         TODO: Describe
+
+    Notes
+    -----
+    This constructor assigns Points without recomputing the document. For a
+    wire with at least two points, Start and End are initialized during object
+    execution from the first and last Points transformed by Placement. Recompute
+    before reading these properties or attaching component expressions such as
+    Start.z and End.z. Otherwise an expression can replace a complete endpoint
+    using its other, still uninitialized components.
+
+    Points are stored in the wire's local coordinates; Start and End include
+    the wire's Placement. They do not include additional parent or link
+    transforms. With the default bs2wire=False, a supplied placement is applied
+    inversely to the input points before storing them.
     """
     if not App.ActiveDocument:
         App.Console.PrintError("No active document. Aborting\n")
