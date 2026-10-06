@@ -393,6 +393,10 @@ repository inputs must match the original producer except ten explicit
 qualification, documentation and tracking paths. This includes the app's
 `version.json`, data, other tests, submodules and unchanged bypass producer.
 Passed Qt66/upstream10 reports are rechecked without execution or rasterization.
+Completed archives have exact per-SDK member counts and unpacked byte totals,
+checked alongside their whole-archive hashes before extraction. The completed
+ARM64 archive is 3,416,040,372 bytes unpacked; the separate unfinished-build
+extractor keeps its original 3 GiB limit.
 
 Before downloading SDKs, the route exercises reversible Windows DACL protection
 on a fresh tiny fixture. During native processes, `libpack_readonly_sdk.py` denies
@@ -405,7 +409,10 @@ keep the inheritance-aware setter. Actual raw ACL/control equality and effective
 access checks decide admission, and failed readbacks retain observed descriptors.
 This is cooperative input protection: `WRITE_DAC` remains available and parents outside
 the roots retain their rights. The original whole SDK preservation checks remain
-mandatory and independently inspected.
+mandatory and independently inspected. The same public denial-probe validator
+runs before SDK downloads and during native admission. File-open probes retain
+C-runtime `errno=13` with no Win32 error number; native filesystem probes retain
+`errno=13` and Win32 error 5. Every operation must still be denied.
 
 Fresh native fixtures wait for the actual owned Windows Print panel and recheck
 its window/button before acceptance. They also drain asynchronous HLR/face work

@@ -8,11 +8,15 @@ no compiler, Qt test, GUI test or PDF inspector and restores no SDK bytes.
 """
 
 import argparse
+from datetime import datetime
 import hashlib
 import json
 import os
 from pathlib import Path, PureWindowsPath
 import shutil
+import stat
+import unicodedata
+import zipfile
 
 import build_libpack_backport as adapter
 import qualify_libpack_backport as qt_checks
@@ -53,6 +57,10 @@ PINS = {
                 "4c44cbcd16599a73b8e87b356838d6f3bb8be476e2a4389ce7cf22891e02aec7",
             ),
         },
+        "zip_content": {
+            "result": {"member_count": 1029, "uncompressed_bytes": 243514109},
+            "native-build": {"member_count": 6410, "uncompressed_bytes": 2837629680},
+        },
         "historical_sdk_preservation": {"baseline_unchanged": False, "candidate_unchanged": False},
     },
     "3.5.3-x64": {
@@ -86,6 +94,10 @@ PINS = {
                 494260706,
                 "b72bcc862d1cb8709fad5a30d96ffb85cf819e0d4df828e5be9214ec91399e41",
             ),
+        },
+        "zip_content": {
+            "result": {"member_count": 701, "uncompressed_bytes": 242119460},
+            "native-build": {"member_count": 6410, "uncompressed_bytes": 2839173598},
         },
         "historical_sdk_preservation": {"baseline_unchanged": False, "candidate_unchanged": False},
     },
@@ -122,6 +134,10 @@ PINS = {
                 542555043,
                 "3ca75cb88f0ad20f1f85888904438053c1dabe24086a9f85ec1342bb8b943849",
             ),
+        },
+        "zip_content": {
+            "result": {"member_count": 634, "uncompressed_bytes": 245040115},
+            "native-build": {"member_count": 6412, "uncompressed_bytes": 3416040372},
         },
     },
 }
@@ -172,6 +188,69 @@ def expected_artifacts(sdk):
         }
         for kind, value in pin["artifacts"].items()
     }
+
+
+def extract_zip(archive, destination, sdk, kind):
+    """Extract only a whole-authenticated completed archive with finite content size.
+
+    These completed builds have different literal aggregate sizes from the
+    earlier unfinished builds. Their shared extractor and its limit stay fixed.
+    Every original member/path/CRC/mtime guard remains required here as well.
+    """
+    adapter.require(sdk in PINS and kind in ("result", "native-build"), "Unpinned completed ZIP")
+    expected = PINS[sdk]["zip_content"][kind]
+    verify_zips({kind: archive}, {kind: expected_artifacts(sdk)[kind]})
+    roots = RESULT_ROOTS if kind == "result" else BUILD_ROOTS
+    names, spelling, total = set(), {}, 0
+    with zipfile.ZipFile(archive) as stream:
+        entries = stream.infolist()
+        adapter.require(
+            len(entries) == expected["member_count"]
+            and len(entries) <= 50000
+            and sum(entry.file_size for entry in entries) == expected["uncompressed_bytes"],
+            "Completed native-cache ZIP count/aggregate differs",
+        )
+        destination.mkdir()
+        for entry in entries:
+            name = transport.member_name(entry.filename)
+            mode = stat.S_IFMT(entry.external_attr >> 16)
+            adapter.require(
+                name.parts[0] in roots
+                and str(name) == unicodedata.normalize("NFC", str(name))
+                and str(name).casefold() not in names
+                and mode in (0, stat.S_IFREG, stat.S_IFDIR)
+                and not entry.flag_bits & 1
+                and entry.compress_type in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
+                and 0 <= entry.file_size <= 64 * 1024**2,
+                "Out-of-scope/duplicate/linked/special/encrypted native-cache member",
+            )
+            names.add(str(name).casefold())
+            for count in range(1, len(name.parts) + 1):
+                prefix = "/".join(name.parts[:count])
+                adapter.require(
+                    spelling.setdefault(prefix.casefold(), prefix) == prefix,
+                    "Case-colliding native-cache directories",
+                )
+            total += entry.file_size
+            adapter.require(
+                total <= expected["uncompressed_bytes"],
+                "Oversized completed native-cache ZIP content",
+            )
+            output = destination / name
+            if entry.is_dir():
+                adapter.require(mode != stat.S_IFREG, "Inconsistent native-cache directory")
+                output.mkdir(parents=True, exist_ok=True)
+            else:
+                adapter.require(mode != stat.S_IFDIR, "Inconsistent native-cache file")
+                output.parent.mkdir(parents=True, exist_ok=True)
+                with stream.open(entry) as source, output.open("xb") as target:
+                    shutil.copyfileobj(source, target, 1024 * 1024)
+                adapter.require(
+                    output.stat().st_size == entry.file_size, "Short native-cache member"
+                )
+                timestamp = datetime(*entry.date_time).timestamp()
+                os.utime(output, (timestamp, timestamp))
+        adapter.require(total == expected["uncompressed_bytes"], "Incomplete completed ZIP content")
 
 
 def authenticated_metadata(sdk):
@@ -553,8 +632,8 @@ def restore(args, helper):
         }
     )
     try:
-        unfinished.extract_zip(inputs["result"], work / "result", RESULT_ROOTS)
-        unfinished.extract_zip(inputs["native-build"], work / "native-build", BUILD_ROOTS)
+        extract_zip(inputs["result"], work / "result", args.sdk, "result")
+        extract_zip(inputs["native-build"], work / "native-build", args.sdk, "native-build")
         for name in ("b", "module"):
             unfinished.restore_index(
                 work / "native-build" / name,

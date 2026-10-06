@@ -100,36 +100,10 @@ def configured_python(values, sdk, inventory):
 
 
 def validate_readonly_preflight(directory, expected_root):
-    """Read back the retained real Windows denial probe without executing it."""
+    """Read back the shared real Windows denial contract without executing it."""
     report = json_file(directory / "preflight.json")
     protection = directory / "evidence/sdk-readonly.json"
-    adapter.require(
-        report["schema_version"] == 1
-        and report["status"] == "passed"
-        and report["qualified"] is False
-        and report["source_sha256"] == adapter.digest(Path(sdk_protection.__file__))
-        and report["protection_sha256"] == adapter.digest(protection)
-        and [(entry["operation"], entry["denied"]) for entry in report["operations"]]
-        == [
-            (operation, True)
-            for operation in (
-                "overwrite",
-                "append",
-                "create",
-                "create-directory",
-                "mtime",
-                "delete",
-                "rename",
-            )
-        ]
-        and all(
-            type(entry["denied"]) is bool
-            and type(entry["winerror"]) is int
-            and entry["winerror"] == 5
-            for entry in report["operations"]
-        ),
-        "Real Windows SDK protection preflight differs",
-    )
+    sdk_protection.validate_preflight_report(report, protection)
     sdk_protection.validate_evidence(protection, roots=[str(expected_root)], purpose="preflight")
     return report
 

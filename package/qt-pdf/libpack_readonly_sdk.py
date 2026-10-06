@@ -9,6 +9,7 @@ must still compare equal after the child processes exit.
 import base64
 from contextlib import contextmanager
 import ctypes
+import errno
 import gzip
 import hashlib
 import json
@@ -866,6 +867,68 @@ def validate_evidence(
     return report
 
 
+def validate_preflight_report(report, protection_path):
+    """Authenticate the exact public Windows denial-probe receipt portably.
+
+    CPython's FileIO opens use the C runtime and report errno without winerror;
+    the remaining filesystem probes expose Windows ERROR_ACCESS_DENIED too.
+    This same contract must pass before restoration and during native capture.
+    """
+    protection = Path(protection_path)
+    require(
+        not physical(protection)[2]
+        and protection.name == "sdk-readonly.json"
+        and protection.stat().st_size <= 1024 * 1024,
+        "Invalid preflight protection report path/size",
+    )
+    expected_operations = (
+        "overwrite",
+        "append",
+        "create",
+        "create-directory",
+        "mtime",
+        "delete",
+        "rename",
+    )
+    require(
+        isinstance(report, dict)
+        and set(report)
+        == {
+            "schema_version",
+            "status",
+            "qualified",
+            "source_sha256",
+            "operations",
+            "protection_sha256",
+        }
+        and type(report["schema_version"]) is int
+        and report["schema_version"] == 1
+        and report["status"] == "passed"
+        and report["qualified"] is False
+        and report["source_sha256"] == digest(__file__)
+        and report["protection_sha256"] == digest(protection)
+        and isinstance(report["operations"], list)
+        and len(report["operations"]) == len(expected_operations),
+        "Real Windows SDK protection preflight differs",
+    )
+    for number, (entry, operation) in enumerate(zip(report["operations"], expected_operations)):
+        require(
+            isinstance(entry, dict)
+            and set(entry) == {"operation", "denied", "errno", "winerror"}
+            and entry["operation"] == operation
+            and entry["denied"] is True
+            and type(entry["errno"]) is int
+            and entry["errno"] == errno.EACCES
+            and (
+                entry["winerror"] is None
+                if number < 3
+                else type(entry["winerror"]) is int and entry["winerror"] == 5
+            ),
+            "Real Windows SDK protection preflight differs: " + operation,
+        )
+    return report
+
+
 def preflight(work_dir, helper):
     """Real Windows enforcement/restoration probe before costly SDK restoration.
 
@@ -901,21 +964,27 @@ def preflight(work_dir, helper):
             try:
                 operation()
             except PermissionError as error:
-                operations.append({"operation": name, "denied": True, "winerror": error.winerror})
+                operations.append(
+                    {
+                        "operation": name,
+                        "denied": True,
+                        "errno": error.errno,
+                        "winerror": error.winerror,
+                    }
+                )
             else:
                 raise ValueError("Actual Windows SDK mutation was not denied: " + name)
         policy.snapshot("actual-denial-probes")
-    write_json(
-        work / "preflight.json",
-        {
-            "schema_version": 1,
-            "status": "passed",
-            "qualified": False,
-            "source_sha256": digest(__file__),
-            "operations": operations,
-            "protection_sha256": digest(work / "evidence/sdk-readonly.json"),
-        },
-    )
+    report = {
+        "schema_version": 1,
+        "status": "passed",
+        "qualified": False,
+        "source_sha256": digest(__file__),
+        "operations": operations,
+        "protection_sha256": digest(work / "evidence/sdk-readonly.json"),
+    }
+    write_json(work / "preflight.json", report)
+    validate_preflight_report(report, work / "evidence/sdk-readonly.json")
     validate_evidence(work / "evidence/sdk-readonly.json", roots=[root], purpose="preflight")
     return work / "preflight.json"
 
