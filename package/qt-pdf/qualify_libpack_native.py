@@ -97,12 +97,136 @@ def configured_python(values, sdk, inventory):
     return selected
 
 
+def passed_qt_report(path, evidence, helper):
+    """Reuse a completed strict inspection bound to unchanged capture bytes."""
+    result = json_file(path)
+    capture = json_file(evidence / "capture.json")
+    qt_checks.verify_evidence(evidence, capture["evidence_sha256"], helper, {"capture.json"})
+    comparison = result["comparison"]
+    manifest = json_file(evidence / "baseline/pdfs/manifest.json")
+    expected = {case["name"]: case for case in manifest["cases"]}
+    scenarios = {case["scenario"] for case in manifest["cases"]}
+    expected_pairs = {
+        (side, scenario) for side in ("baseline", "patched") for scenario in scenarios
+    }
+    adapter.require(
+        result["schema_version"] == 1
+        and result["status"] == "passed"
+        and result["qt_only_passed"] is True
+        and result["qualified"] is False
+        and result["native_freecad_tested"] is False
+        and result["promotion_allowed"] is False
+        and result["sdk"] == capture["sdk"]
+        and result["native_capture_sha256"] == adapter.digest(evidence / "capture.json")
+        and result["inspection_helper_sha256"] == adapter.digest(Path(qt_checks.__file__))
+        and result["upstream_suite"] == capture["upstream_suite"]
+        and result["upstream_suite"]["passed"] is True
+        and result["upstream_suite"]["test_cases"] == 10
+        and comparison["passed"] is True
+        and comparison["failures"] == []
+        and comparison["qt_version"] == manifest["qt_version"] == "6.11.1"
+        and comparison["raster_dpi"] == manifest["raster_dpi"] == 100
+        and manifest["schema_version"] == 2
+        and manifest == json_file(evidence / "candidate-pdfs/manifest.json")
+        and comparison["require_device_pixel_parity"] is True
+        and len(comparison["cases"]) == 66
+        and len(manifest["cases"]) == 66
+        and len(expected) == 66
+        and len(scenarios) == 33
+        and {(case["device"], case["scenario"]) for case in manifest["cases"]}
+        == {(device, scenario) for device in ("qpdfwriter", "qprinter") for scenario in scenarios}
+        and {case["name"] for case in comparison["cases"]} == set(expected)
+        and comparison["device_pair_count"] == len(comparison["device_pairs"]) == 66
+        and {(pair["side"], pair["scenario"]) for pair in comparison["device_pairs"]}
+        == expected_pairs,
+        "Require the matching completed strict Qt66/upstream10 inspection",
+    )
+    warning = "No current point in closepath"
+    reproduced = {device: 0 for device in ("qpdfwriter", "qprinter")}
+    pixels = {}
+    for case in comparison["cases"]:
+        contract = expected[case["name"]]
+        adapter.require(
+            case["device"] == contract["device"]
+            and case["scenario"] == contract["scenario"]
+            and case["same_coordinates"] is True
+            and case["same_normalized_operations"] is True
+            and case["same_pixels"] is True
+            and case["failures"] == [],
+            "Retained case/device/operator comparison differs",
+        )
+        for side in ("baseline", "patched"):
+            actual = case[side]
+            closes = contract["baseline_invalid_closes"] if side == "baseline" else 0
+            size = actual["size"]
+            adapter.require(
+                actual["invalid_close_count"] == len(actual["invalid_close_indices"]) == closes
+                and all(
+                    type(actual[field]) is int and actual[field] >= 0
+                    for field in ("operation_count", "coordinate_count")
+                )
+                and actual["invalid_close_indices"] == sorted(set(actual["invalid_close_indices"]))
+                and all(
+                    type(index) is int and 0 <= index < actual["operation_count"] - 1
+                    for index in actual["invalid_close_indices"]
+                )
+                and actual["path_errors"] == []
+                and actual["poppler_status"] == 0
+                and actual["closepath_warnings"]
+                == actual["poppler_stderr"].count(warning)
+                == closes
+                and all(warning in line for line in actual["poppler_stderr"].splitlines())
+                and len(size) == 2
+                and all(type(value) is int and value > 0 for value in size)
+                and re.fullmatch(r"[0-9a-f]{64}", actual["rgba_sha256"])
+                and all(
+                    type(actual[field]) is int and 0 <= actual[field] <= size[0] * size[1]
+                    for field in ("ink_pixels", "red_pixels", "blue_pixels")
+                )
+                and bool(actual["ink_pixels"]) == contract["expect_ink"]
+                and (
+                    not contract["expected_color"]
+                    or actual[contract["expected_color"] + "_pixels"] > 0
+                ),
+                "Retained Poppler/operator/visible-control result differs",
+            )
+            pixels[(side, case["scenario"], case["device"])] = (size, actual["rgba_sha256"])
+        baseline, patched = case["baseline"], case["patched"]
+        adapter.require(
+            baseline["size"] == patched["size"]
+            and baseline["rgba_sha256"] == patched["rgba_sha256"]
+            and all(
+                baseline[field] == patched[field]
+                for field in ("ink_pixels", "red_pixels", "blue_pixels")
+            )
+            and baseline["coordinate_count"] == patched["coordinate_count"]
+            and baseline["operation_count"] - patched["operation_count"]
+            == 2 * contract["baseline_invalid_closes"],
+            "Retained RGBA/coordinate/bare h/f comparison differs",
+        )
+        if contract["baseline_invalid_closes"]:
+            reproduced[case["device"]] += 1
+    adapter.require(
+        all(reproduced.values())
+        and comparison["baseline_reproduced_by_device"] == reproduced
+        and comparison["baseline_reproduced_cases"] == sum(reproduced.values())
+        and all(
+            pair["pair_present"] is True
+            and pair["same_pixels"] is True
+            and pixels[(pair["side"], pair["scenario"], "qpdfwriter")]
+            == pixels[(pair["side"], pair["scenario"], "qprinter")]
+            for pair in comparison["device_pairs"]
+        ),
+        "Retained complete paired-device/reproduction proof differs",
+    )
+    return result
+
+
 def validate_qt_capture(evidence, work, helper):
     """Require the intact actual native66/Qt10 capture before any FreeCAD build."""
     capture = json_file(evidence / "capture.json")
     baseline = json_file(evidence / "baseline/generation.json")
-    build = json_file(work / "evidence/build.json")
-    preparation = json_file(work / "evidence/preparation.json")
+    build, preparation, recovery = qt_checks.installation_admission(work / "evidence", helper)
     sdk = helper.sdk_identity(capture["sdk"]["key"])
     adapter.require(
         capture.get("status") == "captured"
@@ -113,7 +237,7 @@ def validate_qt_capture(evidence, work, helper):
         and capture["adapter_sha256"] == adapter.digest(Path(adapter.__file__))
         and capture["baseline_helper_sha256"] == adapter.digest(Path(helper.__file__))
         and capture["sdk"] == baseline["sdk"] == build["sdk"] == preparation["sdk"] == sdk
-        and build.get("status") == "built"
+        and build.get("status") in ("built", "installation-revalidated")
         and build.get("qualified") is False
         and build.get("baseline_unchanged") is True
         and build.get("original_baseline_unchanged") is True
@@ -124,6 +248,16 @@ def validate_qt_capture(evidence, work, helper):
         and build["source"]["original_qpdf_sha256"] == adapter.QPDF_ORIGINAL
         and build["source"]["patched_qpdf_sha256"] == adapter.QPDF_PATCHED,
         "Require the matching authenticated actual Qt candidate capture/build",
+    )
+    adapter.require(
+        capture.get("installation_recovery_sha256")
+        == (adapter.digest(work / "evidence/installation-recovery.json") if recovery else None)
+        and (
+            not recovery
+            or adapter.digest(evidence / "candidate-installation-recovery.json")
+            == capture["installation_recovery_sha256"]
+        ),
+        "Native capture/recovered installation binding differs",
     )
     qt_checks.verify_evidence(evidence, capture["evidence_sha256"], helper, {"capture.json"})
     qt_checks.verify_evidence(
@@ -310,6 +444,10 @@ def capture(args, helper):
     qt_capture, sdk, original, before, candidate, candidate_before = validate_qt_capture(
         qt_evidence, work, helper
     )
+    passed_report = getattr(args, "qt_only_report", None)
+    if passed_report is not None:
+        passed_report = helper.real_path(passed_report)
+        passed_qt_report(passed_report, qt_evidence, helper)
     baseline = helper.real_path(Path(original["root"]))
     destination = helper.real_path(args.work_dir)
     adapter.require(
@@ -395,6 +533,9 @@ def capture(args, helper):
         )
         report["freecad_source"] = {"root": str(source), "commit": commit, "submodules": submodules}
         shutil.copytree(qt_evidence, evidence / "qt-capture", copy_function=shutil.copy2)
+        if passed_report is not None:
+            shutil.copy2(passed_report, evidence / "qt-passed-inspection.json")
+            report["qt_passed_inspection_sha256"] = adapter.digest(passed_report)
         for name in NATIVE_SOURCES:
             shutil.copy2(FIXTURE / name, evidence / name)
         build = destination / "b"
@@ -652,9 +793,18 @@ def inspect(args, helper):
             adapter.digest(qt_evidence / "capture.json") == capture_report["qt_capture_sha256"],
             "Native pair references a different Qt candidate capture",
         )
-        qt_result = qt_checks.inspect(
-            SimpleNamespace(evidence_dir=qt_evidence, report=qt_report), helper
-        )
+        if capture_report.get("qt_passed_inspection_sha256"):
+            retained_report = evidence / "qt-passed-inspection.json"
+            adapter.require(
+                adapter.digest(retained_report) == capture_report["qt_passed_inspection_sha256"],
+                "Retained strict Qt inspection changed",
+            )
+            qt_result = passed_qt_report(retained_report, qt_evidence, helper)
+            shutil.copy2(retained_report, qt_report)
+        else:
+            qt_result = qt_checks.inspect(
+                SimpleNamespace(evidence_dir=qt_evidence, report=qt_report), helper
+            )
         qt_capture = json_file(qt_evidence / "capture.json")
         adapter.require(
             qt_result["qt_only_passed"] is True
@@ -824,6 +974,7 @@ def main():
     producer = commands.add_parser("capture")
     for name in ("build-work-dir", "qt-evidence-dir", "source", "work-dir"):
         producer.add_argument("--" + name, type=Path, required=True)
+    producer.add_argument("--qt-only-report", type=Path)
     inspector = commands.add_parser("inspect")
     inspector.add_argument("--evidence-dir", type=Path, required=True)
     inspector.add_argument("--report", type=Path, required=True)

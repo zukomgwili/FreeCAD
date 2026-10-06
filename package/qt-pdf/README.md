@@ -251,6 +251,16 @@ exact generated installer fragment, actual installation log and identical file
 bytes. The complete inventories reject other changed files and preserve both
 baselines and every non-Qt SDK input, including LibPack metadata.
 
+The catalogue also binds 412 literal wrapper, static asset, module-description,
+ActiveQt and resource-object paths to their pinned source factories and actual
+installed bytes. Only identical raw manifest repetitions are deduplicated: seven
+on x64, with one additional ARM-only header repetition admitted under its exact
+architecture cache. Different spelling, case or other repeated paths fail.
+Nine generated SPDX companions have separate finite source, generated CODE,
+staging substitutions, version, log and installed-byte proofs; no generic SBOM
+namespace is admitted. Capture retains the raw/literal admission receipts and
+the portable SPDX proof for inspection.
+
 `qualify_libpack_backport.py` captures the complete 66-case QPdfWriter/QPrinter
 matrix and the ten upstream Qt writer tests on the same native host after a
 successful candidate build. It rechecks source, compiler, installation manifest,
@@ -296,6 +306,27 @@ to `disabled`, preserving normal package dispatch. An unfinished or failed candi
 cannot pass restoration. Native reports set `native_freecad_passed` only after
 actual checks; `qualified` and promotion flags remain false. Source controls and
 review alone do not establish an executed native SDK result or authorize distribution.
+
+The distinct `libpack_install_recovery` route in `qt_pdf_backport.yml` calls
+`qt_pdf_libpack_recover.yml` for the three failed post-install SDKs from run
+37254793061. `restore_libpack_failed_install.py` authenticates that exact run,
+jobs and complete candidate, baseline and build-evidence ZIPs before extraction.
+It restores the original physical roots and preserves the historical failed
+build and preparation receipts. Current finite admission is recorded separately
+as `installation-revalidated`, with all pending runtime flags still false.
+Qt compilation and passed baseline diagnostic generation are reused.
+
+On each matching Windows host, the focused route captures the pending Qt66 and
+upstream10 results and requires their strict inspection before the first scoped
+FreeCAD build. Its isolated inspection tools use win-64, including x64 emulation
+on ARM; native SDK captures use the separately saved native tool Python. Native
+inspection reuses the completed Qt report only after checking its capture hashes,
+helper identity, complete cases, warnings, pixels, device pairs and reproduction
+controls. It still checks all24 native outputs and eleven GUI tests per runtime.
+If native qualification fails, the unfinished application build and file indices
+are retained as unqualified diagnostics for a focused follow-up. Delivery,
+licensing archives, dependency promotion and production mitigation decisions
+remain separate work.
 
 ```sh
 python package/qt-pdf/libpack_baseline.py generate \

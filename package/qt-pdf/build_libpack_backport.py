@@ -14,7 +14,7 @@ import importlib.util
 from importlib.metadata import version
 import json
 import os
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
 import shutil
 import subprocess
@@ -46,7 +46,7 @@ SELECTED_MODULES = {"qtbase", "qtsvg", "qtdeclarative", "qttools", "qtremoteobje
 # The finite namespaces come from pinned CMake target/export definitions retained
 # beside this helper. Conditional namespaces also need their actual owner gitlink.
 OWNERSHIP = Path(__file__).with_name("libpack-qt-ownership.json")
-OWNERSHIP_SHA = "c0a7fab7a2d0646e00044c0c5b554db0b977e2ebc265403fe91ce88f22992212"
+OWNERSHIP_SHA = "b7258ba6d3f79ad840189f2dd17fc61e86560c9992cbf5b0f98e8263e629e113"
 
 
 def require(condition, message):
@@ -351,6 +351,9 @@ def ownership():
 def qt_owned(relative, initialized=SELECTED_MODULES):
     parts = safe_relative(relative).parts
     owners = ownership()
+    literal = owners["proof"]["finite_manifest_paths"].get(relative)
+    if literal:
+        return literal["owner"] in initialized
     module_names = {name for name, owner in owners["modules"].items() if owner in initialized}
     cmake_names = {name for name, owner in owners["cmake"].items() if owner in initialized}
     if len(parts) >= 3 and parts[0] == "include" and parts[1].startswith("Qt"):
@@ -404,12 +407,22 @@ def qt_owned(relative, initialized=SELECTED_MODULES):
     return False
 
 
-def install_paths(manifest, candidate, helper, initialized=SELECTED_MODULES):
+def install_paths(manifest, candidate, helper, initialized=SELECTED_MODULES, receipt=None):
     manifest = helper.real_path(manifest)
     candidate = helper.real_path(candidate)
     require(manifest.is_file(), "Missing actual Qt install manifest")
     names = set()
-    folded = set()
+    folded, raw_entries, repetitions = {}, {}, {}
+    duplicate_paths = dict(ownership()["proof"]["identical_manifest_repetitions"])
+    conditional = ownership()["proof"]["conditional_identical_manifest_repetitions"]
+    if conditional:
+        cache_values = parse_cmake_cache(helper.real_path(manifest.parent / "CMakeCache.txt"))
+        for name, contract in conditional.items():
+            if (
+                contract["owner"] in initialized
+                and cache_values.get(contract["cache_key"]) == contract["cache_value"]
+            ):
+                duplicate_paths[name] = contract["count"]
     for line in manifest.read_text().splitlines():
         require(line and Path(line).is_absolute(), "Nonabsolute install manifest entry")
         path = helper.real_path(Path(line))
@@ -417,20 +430,49 @@ def install_paths(manifest, candidate, helper, initialized=SELECTED_MODULES):
             path.is_relative_to(candidate) and path.is_file(), "Install entry outside candidate"
         )
         relative = path.relative_to(candidate).as_posix()
-        require(relative.casefold() not in folded, "Duplicate install entry")
         require(qt_owned(relative, initialized), f"Unknown/ambiguous Qt ownership: {relative}")
+        if relative.casefold() in folded:
+            require(
+                folded[relative.casefold()] == relative
+                and raw_entries[relative] == line
+                and duplicate_paths.get(relative) == 2
+                and repetitions.get(relative, 1) == 1,
+                "Different spelling/case or unreviewed duplicate install entry",
+            )
+            repetitions[relative] = 2
+            continue
         names.add(relative)
-        folded.add(relative.casefold())
+        folded[relative.casefold()] = relative
+        raw_entries[relative] = line
     require(names, "Qt install manifest is empty")
+    if receipt is not None:
+        receipt.update(
+            schema_version=1,
+            qualified=False,
+            manifest_sha256=digest(manifest),
+            raw_entries=len(manifest.read_text().splitlines()),
+            unique_paths=len(names),
+            identical_raw_repetitions=repetitions,
+            duplicate_entries=sum(count - 1 for count in repetitions.values()),
+        )
     return names
 
 
-def preserved_sdk(before, after, installed, initialized=SELECTED_MODULES):
+def preserved_sdk(before, after, installed, initialized=SELECTED_MODULES, spdx_paths=frozenset()):
+    require(
+        all(
+            name in ownership()["proof"]["spdx_companions"]
+            and ownership()["proof"]["spdx_companions"][name]["owner"] in initialized
+            for name in spdx_paths
+        ),
+        "Unknown/uninitialized SPDX companion owner",
+    )
     require(set(before["files"]) <= set(after["files"]), "SDK installation removed baseline files")
     changes = {name for name, value in after["files"].items() if before["files"].get(name) != value}
     require(changes <= installed, f"Unadmitted SDK changes: {sorted(changes - installed)[:10]}")
     require(
-        all(qt_owned(name, initialized) for name in changes), "Non-Qt SDK bytes/metadata changed"
+        all(qt_owned(name, initialized) or name in spdx_paths for name in changes),
+        "Non-Qt SDK bytes/metadata changed",
     )
     require(set(before["directories"]) <= set(after["directories"]), "SDK directories removed")
     for directory in set(after["directories"]) - set(before["directories"]):
@@ -557,6 +599,476 @@ def companion_aliases(build_root, candidate, source, installed, initialized, hel
         "actual_install_log_sha256": digest(log),
         "entries": entries,
     }
+
+
+def finite_installation(build_root, candidate, source, installed, initialized, helper):
+    """Bind each extra literal manifest path to its source and actual output."""
+    proof = ownership()["proof"]
+    bindings, entries = {}, []
+    cache_values = parse_cmake_cache(helper.real_path(build_root / "CMakeCache.txt"))
+    require(
+        cache_values.get("INSTALL_BINDIR") == cache_values.get("INSTALL_LIBEXECDIR") == "bin"
+        and cache_values.get("INSTALL_DESCRIPTIONSDIR") == "modules",
+        "Finite Windows install-directory contract differs",
+    )
+    for name in sorted(installed & set(proof["finite_manifest_paths"])):
+        contract = proof["finite_manifest_paths"][name]
+        require(contract["owner"] in initialized, "Literal Qt output owner is not initialized")
+        for key in contract["bindings"]:
+            if key in bindings:
+                continue
+            bound = proof["finite_install_sources"][key]
+            require(bound["owner"] in initialized, "Literal Qt factory owner is not initialized")
+            path = helper.real_path(source / safe_relative(key))
+            require(
+                path.is_relative_to(source) and digest(path) == bound["sha256"],
+                f"Literal Qt source changed: {key}",
+            )
+            bindings[key] = bound["sha256"]
+        output = helper.real_path(candidate / safe_relative(name))
+        kind = contract["kind"]
+        if "copy_source" in contract:
+            original = helper.real_path(source / contract["owner"] / contract["copy_source"])
+            require(output.read_bytes() == original.read_bytes(), "Static Qt output bytes differ")
+        elif kind == "wrapper":
+            values = dict(contract["configured_values"])
+            if "CMAKE_COMMAND" in values:
+                values["CMAKE_COMMAND"] = cache_values["CMAKE_COMMAND"]
+            if "__qt_cmake_extra" in values and values["__qt_cmake_extra"]:
+                values["__qt_cmake_extra"] = (
+                    f'-G"{cache_values["CMAKE_GENERATOR"]}" -DQT_USE_ORIGINAL_COMPILER=ON'
+                )
+            if "__qt_configured_configs" in values:
+                values["__qt_configured_configs"] = cache_values["CMAKE_BUILD_TYPE"]
+            template = helper.real_path(source / "qtbase" / contract["template"]).read_text()
+            require(
+                set(re.findall(r"@([A-Za-z0-9_]+)@", template)) <= set(values),
+                "Unknown Qt wrapper template substitution",
+            )
+            expected = re.sub(r"@([A-Za-z0-9_]+)@", lambda match: values[match[1]], template)
+            require(
+                output.read_bytes() == expected.replace("\n", "\r\n").encode(),
+                "Generated Qt wrapper bytes differ from pinned template/cache",
+            )
+        elif kind == "module_description":
+            require(
+                contract["target"] in proof["declared_targets"]
+                and all(
+                    entry["owner"] == contract["owner"]
+                    for entry in proof["declared_targets"][contract["target"]]
+                ),
+                "Module description is not an exact declared target",
+            )
+            generated = helper.real_path(build_root / "qtbase/modules" / output.name)
+            require(
+                output.read_bytes() == generated.read_bytes(), "Module JSON install bytes differ"
+            )
+            data = json.loads(output.read_text())
+            require(
+                data.get("schema_version") == 3
+                and data.get("name") == contract["target"]
+                and data.get("repository") == contract["owner"]
+                and data.get("version") == "6.11.1",
+                "Module JSON schema/name/owner/version differs",
+            )
+        elif kind == "activeqt_header":
+            generated = helper.real_path(build_root / contract["generated_path"])
+            require(
+                output.read_bytes() == generated.read_bytes(), "ActiveQt generated bytes differ"
+            )
+        elif kind == "resource_object":
+            initializer = helper.real_path(build_root / contract["initializer"])
+            template = helper.real_path(source / "qtbase/src/corelib/Qt6CoreResourceInit.in.cpp")
+            require(
+                initializer.read_text()
+                == template.read_text().replace("@RESOURCE_NAME@", contract["resource_name"]),
+                "Resource initializer differs from pinned name/template",
+            )
+        else:
+            require(False, "Unknown literal Qt install contract")
+        entries.append(
+            {
+                "path": name,
+                "owner": contract["owner"],
+                "kind": kind,
+                "sha256": digest(output),
+                "size": output.stat().st_size,
+            }
+        )
+    return {
+        "schema_version": 1,
+        "qualified": False,
+        "ownership_proof_sha256": OWNERSHIP_SHA,
+        "source_bindings": bindings,
+        "entries": entries,
+    }
+
+
+def spdx_install_fragment(factory, build_root, owner):
+    """Expand the pinned SPDX install(CODE) factory without executing CMake."""
+    # Copyright (C) 2025 The Qt Company Ltd. SPDX-License-Identifier: BSD-3-Clause.
+    # The full notice/conditions/disclaimer are retained in the ownership proof.
+    body = re.search(
+        r'    set\(assemble_sbom_install "(.*?)"\)\n\n    install\(CODE', factory, re.S
+    )
+    require(body is not None, "Pinned SPDX install factory body is missing")
+    base = (build_root / owner / "qt_sbom").as_posix()
+    name = f"sbom/{owner}-6.11.1"
+    values = {
+        "suffix": "_spdx",
+        "arg_EXTRA_CODE_BEGIN": "",
+        "arg_EXTRA_CODE_INNER_END": "",
+        "arg_SBOM_INSTALL_OUTPUT_DIR": "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/sbom",
+        "arg_SBOM_INSTALL_OUTPUT_PATH": "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/" + name + ".spdx",
+        "arg_SBOM_INSTALL_OUTPUT_PATH_WITHOUT_EXT": "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/" + name,
+        "arg_ASSEMBLE_SBOM_INCLUDE_PATH": base + "/assemble_sbom.cmake",
+        "arg_BEFORE_CHECKSUM_INCLUDES": "",
+        "arg_AFTER_CHECKSUM_INCLUDES": "",
+        "process_verification_codes": f'\n            include("{base}/process_verification_codes.cmake")\n',
+        "final_message": "Finalizing SBOM generation in install dir",
+        "staging_area_file": base + f"/staging-{owner}.spdx.in",
+        "arg_POST_GENERATION_INCLUDES": "",
+        "arg_VERIFY_INCLUDES": "",
+    }
+    require(
+        set(re.findall(r"(?<!\\)\$\{([A-Za-z_]+)\}", body[1])) <= set(values),
+        "Unknown SPDX install factory substitution",
+    )
+    expanded = re.sub(r"(?<!\\)\$\{([A-Za-z_]+)\}", lambda match: values[match[1]], body[1])
+    return expanded.replace('\\"', '"').replace("\\$", "$").strip("\n")
+
+
+def spdx_staging_matches(staging, installed):
+    """Require every literal staging byte, with only Qt's three finite substitutions."""
+    pattern, position = [], 0
+    for match in re.finditer(r"\$\{([^}]+)\}", staging):
+        pattern.append(re.escape(staging[position : match.start()]))
+        variable = match[1]
+        if variable == "QT_SBOM_EXTERNAL_DOC_REFS":
+            pattern.append(r"(?:\nExternalDocumentRef: [^\r\n]+ SHA1: [0-9a-f]{40})*")
+        elif variable.startswith("QT_SBOM_VERIFICATION_CODE_SPDXRef-"):
+            pattern.append(r"(?:\nPackageVerificationCode: [0-9a-f]{40})?")
+        elif variable.startswith("QT_SBOM_PACKAGE_HAS_FILES_SPDXRef-"):
+            pattern.append(r"(?:true|false)")
+        else:
+            require(False, "Unknown SPDX staging substitution")
+        position = match.end()
+    pattern.append(re.escape(staging[position:]))
+    require(
+        re.fullmatch("".join(pattern), installed) is not None, "Installed SPDX staging bytes differ"
+    )
+
+
+def companion_spdx(build_root, candidate, source, initialized, helper):
+    """Admit only the nine source/version-bound SPDX install(CODE) companions."""
+    proof = ownership()["proof"]
+    source_bindings = {}
+    for key in proof["spdx_factory_sources"]:
+        bound = proof["finite_install_sources"][key]
+        require(bound["owner"] in initialized, "SPDX factory owner is not initialized")
+        path = helper.real_path(source / safe_relative(key))
+        require(
+            path.is_relative_to(source) and digest(path) == bound["sha256"],
+            "SPDX factory source changed",
+        )
+        source_bindings[key] = bound["sha256"]
+    cache_values = parse_cmake_cache(helper.real_path(build_root / "CMakeCache.txt"))
+    require(
+        cache_values.get("CMAKE_PROJECT_VERSION") == "6.11.1"
+        and cache_values.get("INSTALL_SBOMDIR") == "sbom"
+        and cache_values.get("QT_GENERATE_SBOM")
+        == cache_values.get("QT_SBOM_GENERATE_SPDX_V2")
+        == "ON",
+        "SPDX source/version/feature/directory contract differs",
+    )
+    factory = (source / "qtbase/cmake/QtPublicSbomCommonGenerationHelpers.cmake").read_text()
+    log = helper.real_path(build_root / "build_log.txt")
+    lines = log.read_text(encoding="utf-8", errors="replace").splitlines()
+    entries, names = [], set()
+    for name, contract in sorted(proof["spdx_companions"].items()):
+        output = candidate / safe_relative(name)
+        owner = contract["owner"]
+        if owner not in initialized and not output.exists():
+            continue
+        require(owner in initialized, "SPDX companion owner is not initialized")
+        output = helper.real_path(output)
+        require(
+            output.is_relative_to(candidate) and output.is_file(),
+            "SPDX companion outside candidate",
+        )
+        script = helper.real_path(build_root / owner / "cmake_install.cmake")
+        text = script.read_text()
+        fragment = spdx_install_fragment(factory, build_root, owner)
+        require(
+            text.count(fragment) == 2
+            and text.count(
+                'if(CMAKE_INSTALL_COMPONENT STREQUAL "sbom" OR NOT CMAKE_INSTALL_COMPONENT)'
+            )
+            == 1
+            and text.count(f'if(CMAKE_INSTALL_COMPONENT STREQUAL "sbom_{owner}")') == 1,
+            "Missing/ambiguous generated SPDX install CODE",
+        )
+        staging = helper.real_path(build_root / owner / "qt_sbom" / f"staging-{owner}.spdx.in")
+        assemble = helper.real_path(build_root / owner / "qt_sbom/assemble_sbom.cmake")
+        start = f"-- Starting SPDX SBOM generation in build dir: {staging.as_posix()}"
+        final = f"-- Finalizing SBOM generation in install dir: {output.as_posix()}"
+        require(
+            lines.count(start) == lines.count(final) == 1
+            and lines.index(start) < lines.index(final),
+            "Missing/ambiguous/out-of-order SPDX install log",
+        )
+        installed = output.read_text()
+        spdx_staging_matches(staging.read_text(), installed)
+        expected = {
+            "SPDXVersion": "SPDX-2.3",
+            "DataLicense": "CC0-1.0",
+            "DocumentName": owner + "-6.11.1",
+            "PackageName": owner,
+            "PackageVersion": "6.11.1",
+            "PackageDownloadLocation": f'git://code.qt.io/qt/{owner}.git@{contract["repository_commit"]}',
+        }
+        fields = {}
+        for key, value in expected.items():
+            match = re.search(r"^" + key + r": ([^\r\n]*)$", installed, re.M)
+            require(
+                match is not None and match[1] == value, "SPDX root/source/version field differs"
+            )
+            fields[key] = match[1]
+        names.add(name)
+        entries.append(
+            {
+                "path": name,
+                "owner": owner,
+                "sha256": digest(output),
+                "size": output.stat().st_size,
+                "installed_root_fields": fields,
+                "generated_script_sha256": digest(script),
+                "generated_script": script.relative_to(build_root).as_posix(),
+                "fragment_sha256": hashlib.sha256(fragment.encode()).hexdigest(),
+                "fragment_occurrences": 2,
+                "assemble_sha256": digest(assemble),
+                "staging_sha256": digest(staging),
+                "staging_substitutions_verified": True,
+                "start_log_line": lines.index(start) + 1,
+                "final_log_line": lines.index(final) + 1,
+                "start_log_text": start,
+                "final_log_text": final,
+            }
+        )
+    return names, {
+        "schema_version": 1,
+        "qualified": False,
+        "scope": "Finite generated SPDX companions; not CMake manifest entries or license qualification",
+        "ownership_proof_sha256": OWNERSHIP_SHA,
+        "build_root": build_root.as_posix(),
+        "candidate_root": candidate.as_posix(),
+        "source_bindings": source_bindings,
+        "actual_install_log_sha256": digest(log),
+        "entries": entries,
+    }
+
+
+def validate_spdx_receipt(receipt, inventory, initialized, evidence_dir=None):
+    """Check finite receipts, optionally their portable source/build/installed proof.
+
+    A portable proof directory contains source/<repository>/<path>,
+    build/<owner>/cmake_install.cmake, build/<owner>/qt_sbom/{assemble_sbom.cmake,
+    staging-<owner>.spdx.in}, build/build_log.txt and installed/sbom/<filename>.
+    Inspection can verify original Windows path substitutions on another OS.
+    """
+    proof = ownership()["proof"]
+    expected_sources = {
+        key: proof["finite_install_sources"][key]["sha256"] for key in proof["spdx_factory_sources"]
+    }
+    require(
+        receipt.get("schema_version") == 1
+        and receipt.get("qualified") is False
+        and receipt.get("ownership_proof_sha256") == OWNERSHIP_SHA
+        and receipt.get("source_bindings") == expected_sources,
+        "SPDX receipt identity/source binding differs",
+    )
+    if isinstance(initialized, dict):
+        require(
+            all(
+                initialized[owner] == sha
+                for owner, sha in proof["owner_repository_gitlinks"].items()
+                if owner in initialized
+            ),
+            "SPDX initialized owner gitlink differs",
+        )
+    expected_names = {
+        name
+        for name, contract in proof["spdx_companions"].items()
+        if contract["owner"] in initialized
+    }
+    entries = receipt["entries"]
+    names = {entry["path"] for entry in entries}
+    require(
+        names == expected_names and len(entries) == len(names),
+        "SPDX receipt finite path set differs",
+    )
+    build_name, candidate_name = receipt["build_root"], receipt["candidate_root"]
+    path_type = PureWindowsPath if re.match(r"^[A-Za-z]:/", build_name) else PurePosixPath
+    build_root, candidate = path_type(build_name), path_type(candidate_name)
+    require(
+        build_root.is_absolute() and candidate.is_absolute(), "SPDX receipt roots are not absolute"
+    )
+    require(
+        re.fullmatch(r"[0-9a-f]{64}", receipt["actual_install_log_sha256"]) is not None,
+        "SPDX log digest differs",
+    )
+
+    def physical(relative):
+        root = Path(evidence_dir).resolve()
+        path = root / safe_relative(relative)
+        require(
+            path.is_file() and path.resolve().is_relative_to(root) and not path.is_symlink(),
+            "SPDX portable proof file is missing/linked",
+        )
+        require(
+            all(not (root / parent).is_symlink() for parent in path.relative_to(root).parents),
+            "SPDX portable proof parent is linked",
+        )
+        return path
+
+    factory, log_lines = None, None
+    if evidence_dir is not None:
+        for key, sha in expected_sources.items():
+            require(digest(physical("source/" + key)) == sha, "SPDX portable factory bytes differ")
+        factory = physical(
+            "source/qtbase/cmake/QtPublicSbomCommonGenerationHelpers.cmake"
+        ).read_text()
+        log = physical("build/build_log.txt")
+        require(
+            digest(log) == receipt["actual_install_log_sha256"], "SPDX portable log bytes differ"
+        )
+        log_lines = log.read_text(encoding="utf-8", errors="replace").splitlines()
+    for entry in entries:
+        name = entry["path"]
+        contract = proof["spdx_companions"][name]
+        owner = contract["owner"]
+        fields = {
+            "SPDXVersion": "SPDX-2.3",
+            "DataLicense": "CC0-1.0",
+            "DocumentName": owner + "-6.11.1",
+            "PackageName": owner,
+            "PackageVersion": "6.11.1",
+            "PackageDownloadLocation": f'git://code.qt.io/qt/{owner}.git@{contract["repository_commit"]}',
+        }
+        staging_name = f"{owner}/qt_sbom/staging-{owner}.spdx.in"
+        expected_start = (
+            "-- Starting SPDX SBOM generation in build dir: "
+            + (build_root / staging_name).as_posix()
+        )
+        expected_final = (
+            "-- Finalizing SBOM generation in install dir: " + (candidate / name).as_posix()
+        )
+        require(
+            entry["owner"] == owner
+            and entry["installed_root_fields"] == fields
+            and entry["generated_script"] == f"{owner}/cmake_install.cmake"
+            and entry["fragment_occurrences"] == 2
+            and entry["staging_substitutions_verified"] is True
+            and isinstance(entry["start_log_line"], int)
+            and isinstance(entry["final_log_line"], int)
+            and 0 < entry["start_log_line"] < entry["final_log_line"]
+            and entry["start_log_text"] == expected_start
+            and entry["final_log_text"] == expected_final
+            and {key: inventory["files"][name][key] for key in ("sha256", "size")}
+            == {key: entry[key] for key in ("sha256", "size")},
+            "SPDX finite owner/version/path/generation/log/inventory receipt differs",
+        )
+        for key in (
+            "sha256",
+            "generated_script_sha256",
+            "fragment_sha256",
+            "assemble_sha256",
+            "staging_sha256",
+        ):
+            require(
+                re.fullmatch(r"[0-9a-f]{64}", entry[key]) is not None, "SPDX proof digest differs"
+            )
+        if evidence_dir is None:
+            continue
+        script = physical("build/" + entry["generated_script"])
+        staging = physical("build/" + staging_name)
+        assemble = physical(f"build/{owner}/qt_sbom/assemble_sbom.cmake")
+        output = physical("installed/" + name)
+        require(
+            digest(script) == entry["generated_script_sha256"]
+            and digest(staging) == entry["staging_sha256"]
+            and digest(assemble) == entry["assemble_sha256"]
+            and digest(output) == entry["sha256"]
+            and output.stat().st_size == entry["size"],
+            "SPDX portable generation/installed bytes differ",
+        )
+        fragment = spdx_install_fragment(factory, build_root, owner)
+        text = script.read_text()
+        require(
+            hashlib.sha256(fragment.encode()).hexdigest() == entry["fragment_sha256"]
+            and text.count(fragment) == 2
+            and text.count(
+                'if(CMAKE_INSTALL_COMPONENT STREQUAL "sbom" OR NOT CMAKE_INSTALL_COMPONENT)'
+            )
+            == 1
+            and text.count(f'if(CMAKE_INSTALL_COMPONENT STREQUAL "sbom_{owner}")') == 1,
+            "SPDX portable install CODE differs",
+        )
+        require(
+            log_lines.count(expected_start) == log_lines.count(expected_final) == 1
+            and log_lines[entry["start_log_line"] - 1] == expected_start
+            and log_lines[entry["final_log_line"] - 1] == expected_final,
+            "SPDX portable install log differs",
+        )
+        spdx_staging_matches(staging.read_text(), output.read_text())
+        for key, value in fields.items():
+            match = re.search(r"^" + key + r": ([^\r\n]*)$", output.read_text(), re.M)
+            require(match is not None and match[1] == value, "SPDX portable root field differs")
+    return names
+
+
+def admit_installation(build_root, candidate, source, before, repositories, helper):
+    """Recheck installation evidence after build or authenticated physical recovery."""
+    initialized = set(repositories)
+    proof = ownership()["proof"]
+    require(
+        SELECTED_MODULES <= initialized
+        and all(
+            repositories[owner] == sha
+            for owner, sha in proof["owner_repository_gitlinks"].items()
+            if owner in initialized
+        ),
+        "Initialized ownership source gitlink differs",
+    )
+    manifest = build_root / "install_manifest.txt"
+    manifest_receipt = {}
+    installed = install_paths(manifest, candidate, helper, initialized, manifest_receipt)
+    literal_receipt = finite_installation(
+        build_root, candidate, source, installed, initialized, helper
+    )
+    aliases, alias_receipt = companion_aliases(
+        build_root, candidate, source, installed, initialized, helper
+    )
+    spdx, spdx_receipt = companion_spdx(build_root, candidate, source, initialized, helper)
+    require(not (spdx & installed), "SPDX companions must remain outside the ordinary manifest")
+    after = helper.inventory(candidate)
+    require(
+        validate_spdx_receipt(spdx_receipt, after, repositories) == spdx, "SPDX admission differs"
+    )
+    changes = preserved_sdk(before, after, installed | aliases | spdx, initialized, spdx)
+    return {
+        "qt_install_manifest_sha256": digest(manifest),
+        "qt_install_manifest_receipt": manifest_receipt,
+        "qt_finite_install_receipt": literal_receipt,
+        "admitted_qt_paths": sorted(installed),
+        "admitted_companion_alias_paths": sorted(aliases - installed),
+        "qt_companion_alias_receipt": alias_receipt,
+        "admitted_companion_spdx_paths": sorted(spdx),
+        "qt_companion_spdx_receipt": spdx_receipt,
+        "changed_qt_paths": changes,
+        "ownership_proof_sha256": OWNERSHIP_SHA,
+        "non_qt_preserved": True,
+    }, after
 
 
 def compiler_adapter(
@@ -973,31 +1485,19 @@ def build(args, helper):
         options = {**options, "fallback-build-dir": str(work / "b")}
         compiler_instance.build_qt(options)
         require(compiler_instance.hook_calls == 1, "Qt patch hook was not reached exactly once")
-        initialized = set(result["source"]["repositories"])
-        proof_gitlinks = ownership()["proof"]["owner_repository_gitlinks"]
-        require(
-            all(
-                result["source"]["repositories"][owner] == sha
-                for owner, sha in proof_gitlinks.items()
-                if owner in initialized
-            ),
-            "Initialized ownership source gitlink differs",
+        admission, after = admit_installation(
+            build_root, candidate, source, before, result["source"]["repositories"], helper
         )
-        installed = install_paths(
-            build_root / "install_manifest.txt", candidate, helper, initialized
-        )
-        aliases, alias_receipt = companion_aliases(
-            build_root, candidate, source, installed, initialized, helper
-        )
-        write_json(evidence / "qt-versioned-aliases.json", alias_receipt)
-        after = helper.inventory(candidate)
-        result["qt_install_manifest_sha256"] = digest(build_root / "install_manifest.txt")
-        result["admitted_qt_paths"] = sorted(installed)
-        result["admitted_companion_alias_paths"] = sorted(aliases - installed)
-        result["qt_companion_alias_receipt_sha256"] = digest(evidence / "qt-versioned-aliases.json")
-        result["changed_qt_paths"] = preserved_sdk(before, after, installed | aliases, initialized)
-        result["ownership_proof_sha256"] = OWNERSHIP_SHA
-        result["non_qt_preserved"] = True
+        for field, filename in (
+            ("qt_install_manifest_receipt", "qt-install-manifest.json"),
+            ("qt_finite_install_receipt", "qt-finite-install.json"),
+            ("qt_companion_alias_receipt", "qt-versioned-aliases.json"),
+            ("qt_companion_spdx_receipt", "qt-spdx-companions.json"),
+        ):
+            write_json(evidence / filename, admission.pop(field))
+            admission[field + "_sha256"] = digest(evidence / filename)
+        result.update(admission)
+        installed = set(result["admitted_qt_paths"])
         write_json(evidence / "candidate-after.json", after)
         result["build_cache_sha256"] = digest(build_root / "CMakeCache.txt")
         clean_tracked(source, result["source"]["repositories"], evidence, git, patched=True)

@@ -49,14 +49,92 @@ def verify_evidence(evidence, receipt, helper, excluded):
     )
 
 
-def admitted_paths(build, evidence, inventory):
+def installation_admission(evidence, helper, transported=False):
+    """Read successful builds or the explicitly pinned failed-install recovery."""
+    prefix = "candidate-" if transported else ""
+    original = json_file(evidence / (prefix + "build.json"))
+    preparation = json_file(evidence / (prefix + "preparation.json"))
+    recovery_path = evidence / (prefix + "installation-recovery.json")
+    if not recovery_path.exists():
+        adapter.require(
+            original.get("status") == "built"
+            and preparation["helper_sha256"] == adapter.digest(Path(adapter.__file__)),
+            "Require a successful current build or explicit authenticated install recovery",
+        )
+        return original, preparation, None
+    recovery = json_file(recovery_path)
+    restorer = adapter.load_module(
+        "libpack_failed_install_admission",
+        Path(__file__).with_name("restore_libpack_failed_install.py"),
+    )
+    sdk = helper.sdk_identity(original["sdk"]["key"])
+    admission = restorer.validate_receipt(recovery, preparation, original, sdk)
+    adapter.require(
+        adapter.digest(evidence / (prefix + "build.json"))
+        == recovery["immutable_original"]["build_sha256"]
+        and adapter.digest(evidence / (prefix + "preparation.json"))
+        == recovery["immutable_original"]["preparation_sha256"],
+        "Historical failed build/preparation bytes differ",
+    )
+    return admission, preparation, recovery
+
+
+def admitted_paths(build, evidence, inventory, transported=False):
     """Check the separate finite install(CODE) companion before admission."""
     manifest = set(build["admitted_qt_paths"])
     companions = set(build["admitted_companion_alias_paths"])
-    receipt_path = evidence / "qt-versioned-aliases.json"
-    receipt = json_file(receipt_path)
     proof = adapter.ownership()["proof"]
     initialized = set(build["source"]["repositories"]) - {"."}
+    for field, name in (
+        ("qt_install_manifest_receipt", "qt-install-manifest.json"),
+        ("qt_finite_install_receipt", "qt-finite-install.json"),
+    ):
+        path = evidence / name
+        adapter.require(
+            adapter.digest(path) == build[field + "_sha256"],
+            "Finite manifest/source receipt bytes differ",
+        )
+    raw = json_file(evidence / "qt-install-manifest.json")
+    adapter.require(
+        raw["schema_version"] == 1
+        and raw["qualified"] is False
+        and raw["manifest_sha256"] == build["qt_install_manifest_sha256"]
+        and raw["unique_paths"] == len(manifest)
+        and raw["raw_entries"] == len(manifest) + raw["duplicate_entries"]
+        and raw["duplicate_entries"] == len(raw["identical_raw_repetitions"])
+        and all(
+            count == 2 and name in manifest
+            for name, count in raw["identical_raw_repetitions"].items()
+        ),
+        "Finite raw-manifest repetition receipt differs",
+    )
+    literal = json_file(evidence / "qt-finite-install.json")
+    expected = manifest & set(proof["finite_manifest_paths"])
+    entries = {entry["path"]: entry for entry in literal["entries"]}
+    bindings = {
+        key: proof["finite_install_sources"][key]["sha256"]
+        for name in expected
+        for key in proof["finite_manifest_paths"][name]["bindings"]
+    }
+    adapter.require(
+        literal["schema_version"] == 1
+        and literal["qualified"] is False
+        and literal["ownership_proof_sha256"] == adapter.OWNERSHIP_SHA
+        and literal["source_bindings"] == bindings
+        and len(entries) == len(literal["entries"])
+        and set(entries) == expected
+        and all(
+            entry["owner"] == proof["finite_manifest_paths"][name]["owner"]
+            and entry["owner"] in initialized
+            and entry["kind"] == proof["finite_manifest_paths"][name]["kind"]
+            and entry["sha256"] == inventory["files"][name]["sha256"]
+            and entry["size"] == inventory["files"][name]["size"]
+            for name, entry in entries.items()
+        ),
+        "Finite installed output/source binding differs",
+    )
+    receipt_path = evidence / "qt-versioned-aliases.json"
+    receipt = json_file(receipt_path)
     adapter.require(
         adapter.digest(receipt_path) == build["qt_companion_alias_receipt_sha256"]
         and receipt["qualified"] is False
@@ -104,7 +182,50 @@ def admitted_paths(build, evidence, inventory):
         seen - manifest == companions,
         "Companion admission differs from its separate install(CODE) entries",
     )
-    return manifest | companions
+    spdx = set(build.get("admitted_companion_spdx_paths", []))
+    if spdx or proof["spdx_companions"]:
+        spdx_path = evidence / "qt-spdx-companions.json"
+        adapter.require(
+            adapter.digest(spdx_path) == build["qt_companion_spdx_receipt_sha256"]
+            and adapter.validate_spdx_receipt(
+                json_file(spdx_path),
+                inventory,
+                initialized,
+                evidence / "qt-spdx-proof" if transported else None,
+            )
+            == spdx
+            and not spdx & (manifest | companions),
+            "Finite SPDX companion receipt differs",
+        )
+    return manifest | companions | spdx
+
+
+def retain_spdx_proof(build_root, candidate, source, evidence, receipt, helper):
+    """Retain the finite source, generated CODE, log and installed SPDX bytes."""
+    proof = evidence / "qt-spdx-proof"
+    proof.mkdir()
+    names = set()
+    for name in receipt["source_bindings"]:
+        names.add(("source", name))
+    names.add(("build", "build_log.txt"))
+    for entry in receipt["entries"]:
+        owner = entry["owner"]
+        names.update(
+            {
+                ("build", entry["generated_script"]),
+                ("build", owner + "/qt_sbom/assemble_sbom.cmake"),
+                ("build", owner + "/qt_sbom/staging-" + owner + ".spdx.in"),
+                ("installed", entry["path"]),
+            }
+        )
+    roots = {"source": source, "build": build_root, "installed": candidate}
+    for kind, name in sorted(names):
+        relative = adapter.safe_relative(name)
+        original = helper.real_path(roots[kind] / relative)
+        adapter.require(original.is_relative_to(roots[kind]), "SPDX proof escaped its owned root")
+        retained = proof / kind / relative
+        retained.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(original, retained)
 
 
 def test_sources(source, destination, git, evidence, environment, helper):
@@ -144,18 +265,30 @@ def capture(args, helper):
     work = helper.real_path(args.build_work_dir)
     build_evidence = helper.real_path(work / "evidence")
     helper.inventory(build_evidence)
-    build = json_file(build_evidence / "build.json")
-    preparation = json_file(build_evidence / "preparation.json")
+    build, preparation, recovery = installation_admission(build_evidence, helper)
+    if recovery is not None:
+        restorer = adapter.load_module(
+            "libpack_failed_install_readback",
+            Path(__file__).with_name("restore_libpack_failed_install.py"),
+        )
+        actual_build, actual_preparation = restorer.validate_restored(work, helper)
+        adapter.require(
+            (actual_build, actual_preparation) == (build, preparation),
+            "Recovered physical SDK admission differs",
+        )
     sdk = helper.sdk_identity(build["sdk"]["key"])
     adapter.require(
-        build.get("status") == "built"
+        build.get("status") in ("built", "installation-revalidated")
         and build.get("qualified") is False
         and build.get("build_only") is True
         and build.get("baseline_unchanged") is True
         and build.get("original_baseline_unchanged") is True
         and build.get("non_qt_preserved") is True
         and build["sdk"] == preparation["sdk"] == sdk
-        and preparation["helper_sha256"] == adapter.digest(Path(adapter.__file__))
+        and (
+            recovery is not None
+            or preparation["helper_sha256"] == adapter.digest(Path(adapter.__file__))
+        )
         and preparation["baseline_helper_sha256"] == adapter.digest(Path(helper.__file__))
         and build["source"]["patch_sha256"] == adapter.PATCH_SHA
         and build["source"]["patched_qpdf_sha256"] == adapter.QPDF_PATCHED,
@@ -193,7 +326,13 @@ def capture(args, helper):
     )
     initialized = set(build["source"]["repositories"]) - {"."}
     installed = admitted_paths(build, build_evidence, before)
-    adapter.preserved_sdk(baseline_inventory, before, installed, initialized)
+    adapter.preserved_sdk(
+        baseline_inventory,
+        before,
+        installed,
+        initialized,
+        set(build.get("admitted_companion_spdx_paths", [])),
+    )
     adapter.require(
         before["files"]["bin/Qt6Gui.dll"]["sha256"]
         == build["installed_qt_modules"]["Qt6Gui.dll"]["sha256"]
@@ -227,6 +366,9 @@ def capture(args, helper):
         "baseline_helper_sha256": adapter.digest(Path(helper.__file__)),
         "source": build["source"],
         "build_report_sha256": adapter.digest(build_evidence / "build.json"),
+        "installation_recovery_sha256": (
+            adapter.digest(build_evidence / "installation-recovery.json") if recovery else None
+        ),
         "baseline_unchanged": False,
         "candidate_unchanged": False,
     }
@@ -273,17 +415,37 @@ def capture(args, helper):
         adapter.write_json(evidence / "candidate-before.json", before)
         for name in ("build.json", "preparation.json"):
             shutil.copy2(build_evidence / name, evidence / ("candidate-" + name))
+        if recovery is not None:
+            shutil.copy2(
+                build_evidence / "installation-recovery.json",
+                evidence / "candidate-installation-recovery.json",
+            )
         shutil.copy2(
             build_evidence / "qt-versioned-aliases.json", evidence / "qt-versioned-aliases.json"
         )
+        for name in ("qt-install-manifest.json", "qt-finite-install.json"):
+            shutil.copy2(build_evidence / name, evidence / name)
         install_manifest = helper.real_path(work / "b/r/install_manifest.txt")
         adapter.require(
             adapter.digest(install_manifest) == build["qt_install_manifest_sha256"],
             "Actual Qt install manifest changed",
         )
+        manifest_receipt = {}
         adapter.require(
-            adapter.install_paths(install_manifest, candidate, helper, initialized)
-            == set(build["admitted_qt_paths"]),
+            adapter.install_paths(
+                install_manifest, candidate, helper, initialized, manifest_receipt
+            )
+            == set(build["admitted_qt_paths"])
+            and manifest_receipt == json_file(build_evidence / "qt-install-manifest.json")
+            and adapter.finite_installation(
+                work / "b/r",
+                candidate,
+                work / "qt",
+                set(build["admitted_qt_paths"]),
+                initialized,
+                helper,
+            )
+            == json_file(build_evidence / "qt-finite-install.json"),
             "Actual manifest admission differs",
         )
         aliases, alias_receipt = adapter.companion_aliases(
@@ -300,6 +462,26 @@ def capture(args, helper):
             == set(build["admitted_companion_alias_paths"]),
             "Actual generated/logged companion install evidence changed",
         )
+        if build.get("admitted_companion_spdx_paths"):
+            spdx, spdx_receipt = adapter.companion_spdx(
+                work / "b/r",
+                candidate,
+                work / "qt",
+                initialized,
+                helper,
+            )
+            adapter.require(
+                spdx == set(build["admitted_companion_spdx_paths"])
+                and spdx_receipt == json_file(build_evidence / "qt-spdx-companions.json"),
+                "Actual generated SPDX companion evidence changed",
+            )
+            shutil.copy2(
+                build_evidence / "qt-spdx-companions.json", evidence / "qt-spdx-companions.json"
+            )
+            retain_spdx_proof(work / "b/r", candidate, work / "qt", evidence, spdx_receipt, helper)
+            adapter.validate_spdx_receipt(
+                spdx_receipt, before, initialized, evidence / "qt-spdx-proof"
+            )
         shutil.copy2(install_manifest, evidence / "qt-install-manifest.txt")
         shutil.copy2(work / "b/r/build_log.txt", evidence / "qt-install.log")
         for entry in alias_receipt["entries"]:
@@ -527,18 +709,29 @@ def inspect(args, helper):
             before == json_file(evidence / "baseline/sdk-after.json"),
             "Baseline before/after inventories differ",
         )
-        build = json_file(evidence / "candidate-build.json")
-        preparation = json_file(evidence / "candidate-preparation.json")
+        build, preparation, recovery = installation_admission(evidence, helper, transported=True)
+        adapter.require(
+            capture_report.get("installation_recovery_sha256")
+            == (
+                adapter.digest(evidence / "candidate-installation-recovery.json")
+                if recovery
+                else None
+            ),
+            "Capture/recovery receipt binding differs",
+        )
         adapter.require(
             adapter.digest(evidence / "candidate-build.json")
             == capture_report["build_report_sha256"]
-            and build["status"] == "built"
+            and build["status"] in ("built", "installation-revalidated")
             and build["qualified"] is False
             and build["baseline_unchanged"]
             and build["original_baseline_unchanged"]
             and build["non_qt_preserved"]
             and build["sdk"] == preparation["sdk"] == sdk
-            and preparation["helper_sha256"] == adapter.digest(Path(adapter.__file__))
+            and (
+                recovery is not None
+                or preparation["helper_sha256"] == adapter.digest(Path(adapter.__file__))
+            )
             and preparation["source_pin"] == adapter.SOURCES[sdk["release"]]
             and preparation["qt_commit"] == adapter.QT_COMMIT
             and build["source_commit"] == adapter.SOURCES[sdk["release"]]["commit"]
@@ -567,8 +760,14 @@ def inspect(args, helper):
             "Candidate inventory differs from its completed build receipt",
         )
         initialized = set(build["source"]["repositories"]) - {"."}
-        installed = admitted_paths(build, evidence, candidate)
-        adapter.preserved_sdk(before, candidate, installed, initialized)
+        installed = admitted_paths(build, evidence, candidate, transported=True)
+        adapter.preserved_sdk(
+            before,
+            candidate,
+            installed,
+            initialized,
+            set(build.get("admitted_companion_spdx_paths", [])),
+        )
         receipt = json_file(evidence / "qt-versioned-aliases.json")
         adapter.require(
             adapter.digest(evidence / "qt-install-manifest.txt")
@@ -691,6 +890,7 @@ def inspect(args, helper):
             {
                 "sdk": sdk,
                 "native_capture_sha256": adapter.digest(evidence / "capture.json"),
+                "inspection_helper_sha256": adapter.digest(Path(__file__)),
                 "comparison": result,
                 "upstream_suite": capture_report["upstream_suite"],
                 "checking_versions": {
