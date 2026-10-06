@@ -428,14 +428,23 @@ def archive_indices(payload, retention):
     return indices
 
 
-def unchanged_index(work, index, helper):
+def unchanged_index(work, index, helper, stage="read-only revalidation"):
     for name, expected in index.items():
         path = helper.real_path(work / adapter.safe_relative(name))
+        actual = (
+            {"size": path.stat().st_size, "sha256": adapter.digest(path)}
+            if path.is_file()
+            else None
+        )
         adapter.require(
-            path.is_file()
-            and path.stat().st_size == expected["size"]
-            and adapter.digest(path) == expected["sha256"],
-            "Retained original bytes changed during read-only revalidation",
+            actual == expected,
+            f"Retained original bytes changed during {stage}: {name}; "
+            f"expected size={expected['size']}, sha256={expected['sha256']}; "
+            + (
+                f"actual size={actual['size']}, sha256={actual['sha256']}"
+                if actual is not None
+                else "actual file missing or non-regular"
+            ),
         )
 
 
@@ -534,7 +543,7 @@ def validate_restored(work, helper):
         adapter.digest(source_index) == original["source_index_sha256"],
         "Source index changed",
     )
-    unchanged_index(work, index, helper)
+    unchanged_index(work, index, helper, stage="restored source readback")
     adapter.require(
         adapter.digest(work / "b/r/install_manifest.txt")
         == admission["qt_install_manifest_sha256"],
@@ -724,8 +733,8 @@ def restore(args, helper):
         modules["Qt6Gui.dll"]["sha256"] != before["files"]["bin/Qt6Gui.dll"]["sha256"],
         "Candidate QtGui is still baseline",
     )
-    for index in indices.values():
-        unchanged_index(work, index, helper)
+    for name, index in indices.items():
+        unchanged_index(work, index, helper, stage=f"{name} post-install readback")
     adapter.require(
         all(adapter.digest(path) == receipts[kind]["sha256"] for kind, path in inputs.items()),
         "Original ZIP changed",

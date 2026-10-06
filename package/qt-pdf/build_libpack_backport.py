@@ -277,15 +277,39 @@ def qt_repositories(source, evidence, git, require_selected=True, environment=No
 
 def clean_tracked(source, repositories, evidence, git, patched=False, environment=None):
     for number, relative in enumerate(repositories):
+        # Restored stat caches are stale. Compare content while preserving index bytes.
         output = command(
-            [git, "diff", "HEAD", "--name-only", "--ignore-submodules=all"],
+            [
+                git,
+                "-c",
+                "diff.autoRefreshIndex=false",
+                "diff",
+                "HEAD",
+                "--patch",
+                "--no-color",
+                "--no-ext-diff",
+                "--no-textconv",
+                "--no-renames",
+                "--src-prefix=a/",
+                "--dst-prefix=b/",
+                "--ignore-submodules=all",
+            ],
             evidence,
             f"tracked-diff-{number}",
             source / relative,
             environment,
         )
-        expected = "src/gui/painting/qpdf.cpp" if patched and relative == "qtbase" else ""
-        require(output == expected, f"Unexpected tracked source edits in {relative}")
+        headers = [line for line in output.splitlines() if line.startswith("diff --git ")]
+        expected = (
+            ["diff --git a/src/gui/painting/qpdf.cpp b/src/gui/painting/qpdf.cpp"]
+            if patched and relative == "qtbase"
+            else []
+        )
+        require(
+            headers == expected
+            and (output.startswith(expected[0] + "\n") if expected else output == ""),
+            f"Unexpected tracked source edits in {relative}",
+        )
 
 
 def apply_outline(source, patch, evidence, git, environment=None):
