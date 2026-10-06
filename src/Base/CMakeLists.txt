@@ -46,10 +46,17 @@ target_include_directories(
 
 target_include_directories(
     FreeCADBase
+    PUBLIC
+    # Python distributions can ship another CXX header tree. Keep the selected
+    # PyCXX headers ahead of those system includes so consumers use the same ABI.
+    ${PYCXX_INCLUDE_DIRS}
+)
+
+target_include_directories(
+    FreeCADBase
     SYSTEM
     PUBLIC
     ${Boost_INCLUDE_DIRS}
-    ${PYCXX_INCLUDE_DIRS}
     ${Python3_INCLUDE_DIRS}
     ${XercesC_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIR}

@@ -97,7 +97,17 @@ def configured_python(values, sdk, inventory):
     return selected
 
 
-def passed_qt_report(path, evidence, helper):
+def native_cache_admission(report, sdk):
+    """Only the two authenticated failed builds can carry historical Qt proof."""
+    restorer = adapter.load_module(
+        "libpack_native_cache_admission",
+        Path(__file__).with_name("restore_libpack_native_failed.py"),
+    )
+    restorer.validate_receipt(report, sdk)
+    return restorer
+
+
+def passed_qt_report(path, evidence, helper, cache=None):
     """Reuse a completed strict inspection bound to unchanged capture bytes."""
     result = json_file(path)
     capture = json_file(evidence / "capture.json")
@@ -109,6 +119,17 @@ def passed_qt_report(path, evidence, helper):
     expected_pairs = {
         (side, scenario) for side in ("baseline", "patched") for scenario in scenarios
     }
+    expected_helper = adapter.digest(Path(qt_checks.__file__))
+    if cache is not None:
+        sdk = helper.sdk_identity(capture["sdk"]["key"])
+        restorer = native_cache_admission(cache, sdk)
+        adapter.require(
+            adapter.digest(path) == cache["immutable_original"]["qt_passed_inspection_sha256"]
+            and adapter.digest(evidence / "capture.json")
+            == cache["immutable_original"]["qt_capture_sha256"],
+            "Cached Qt inspection/capture differs from the pinned original result",
+        )
+        expected_helper = restorer.QT_HELPER
     adapter.require(
         result["schema_version"] == 1
         and result["status"] == "passed"
@@ -118,7 +139,7 @@ def passed_qt_report(path, evidence, helper):
         and result["promotion_allowed"] is False
         and result["sdk"] == capture["sdk"]
         and result["native_capture_sha256"] == adapter.digest(evidence / "capture.json")
-        and result["inspection_helper_sha256"] == adapter.digest(Path(qt_checks.__file__))
+        and result["inspection_helper_sha256"] == expected_helper
         and result["upstream_suite"] == capture["upstream_suite"]
         and result["upstream_suite"]["passed"] is True
         and result["upstream_suite"]["test_cases"] == 10
@@ -222,18 +243,28 @@ def passed_qt_report(path, evidence, helper):
     return result
 
 
-def validate_qt_capture(evidence, work, helper):
+def validate_qt_capture(evidence, work, helper, cache=None):
     """Require the intact actual native66/Qt10 capture before any FreeCAD build."""
     capture = json_file(evidence / "capture.json")
     baseline = json_file(evidence / "baseline/generation.json")
     build, preparation, recovery = qt_checks.installation_admission(work / "evidence", helper)
     sdk = helper.sdk_identity(capture["sdk"]["key"])
+    expected_helper = adapter.digest(Path(qt_checks.__file__))
+    if cache is not None:
+        restorer = native_cache_admission(cache, sdk)
+        adapter.require(
+            adapter.digest(evidence / "capture.json")
+            == cache["immutable_original"]["qt_capture_sha256"]
+            and helper.real_path(evidence) == helper.real_path(Path(cache["qt_evidence"])),
+            "Native cache belongs to different historical Qt evidence",
+        )
+        expected_helper = restorer.QT_HELPER
     adapter.require(
         capture.get("status") == "captured"
         and capture.get("qualified") is False
         and capture.get("baseline_unchanged") is True
         and capture.get("candidate_unchanged") is True
-        and capture["helper_sha256"] == adapter.digest(Path(qt_checks.__file__))
+        and capture["helper_sha256"] == expected_helper
         and capture["adapter_sha256"] == adapter.digest(Path(adapter.__file__))
         and capture["baseline_helper_sha256"] == adapter.digest(Path(helper.__file__))
         and capture["sdk"] == baseline["sdk"] == build["sdk"] == preparation["sdk"] == sdk
@@ -441,13 +472,28 @@ def capture(args, helper):
         source == helper.real_path(Path(os.environ["GITHUB_WORKSPACE"])),
         "Source must be the disposable reviewed checkout",
     )
+    cache_path = getattr(args, "native_cache_report", None)
+    cache = None
+    if cache_path is not None:
+        cache_path = helper.real_path(cache_path)
+        cache = json_file(cache_path)
+        selected_sdk = helper.sdk_identity(json_file(qt_evidence / "capture.json")["sdk"]["key"])
+        restorer = native_cache_admission(cache, selected_sdk)
+        restorer.validate_cache(cache_path, helper)
+        adapter.require(
+            source == helper.real_path(Path(cache["immutable_original"]["freecad_source"]["root"])),
+            "Cached FreeCAD source must resume at its original physical path",
+        )
     qt_capture, sdk, original, before, candidate, candidate_before = validate_qt_capture(
-        qt_evidence, work, helper
+        qt_evidence, work, helper, cache=cache
     )
     passed_report = getattr(args, "qt_only_report", None)
     if passed_report is not None:
         passed_report = helper.real_path(passed_report)
-        passed_qt_report(passed_report, qt_evidence, helper)
+        passed_qt_report(passed_report, qt_evidence, helper, cache=cache)
+    adapter.require(
+        cache is None or passed_report is not None, "Cached Qt proof requires its passed inspection"
+    )
     baseline = helper.real_path(Path(original["root"]))
     destination = helper.real_path(args.work_dir)
     adapter.require(
@@ -460,7 +506,14 @@ def capture(args, helper):
         not any(Path(sys.executable).resolve().is_relative_to(root) for root in (work, baseline)),
         "Use separate tool Python outside SDKs",
     )
-    destination = helper.fresh_work(destination)
+    if cache is None:
+        destination = helper.fresh_work(destination)
+    else:
+        adapter.require(
+            destination == helper.real_path(Path(cache["original_native_root"]))
+            and {path.name for path in destination.iterdir()} == {"b"},
+            "Cached native root must contain only the authenticated unfinished build",
+        )
     evidence = destination / "evidence"
     evidence.mkdir()
     if os.environ.get("GITHUB_OUTPUT"):
@@ -499,6 +552,23 @@ def capture(args, helper):
         }
         tools = adapter.tool_receipts(environment, (baseline, candidate), helper)
         report["compiler"], report["tools"] = compiler, tools
+        admission_path = getattr(args, "host_tools_report", None)
+        if admission_path is None:
+            adapter.require(tools == qt_capture["tools"], "Unadmitted native build tools changed")
+        else:
+            admission_path = helper.real_path(admission_path)
+            admission, profile = qt_checks.validate_host_tools(
+                admission_path, sdk, tools, compiler, helper.native_machine(), helper, physical=True
+            )
+            shutil.copy2(admission_path, evidence / "host-tools.json")
+            report["host_tools_sha256"] = adapter.digest(evidence / "host-tools.json")
+            report["host_tools_profile"] = profile
+            report["producer"] = admission["producer"]
+        if cache is not None:
+            shutil.copy2(cache_path, evidence / "native-cache-recovery.json")
+            report["native_cache_recovery_sha256"] = adapter.digest(cache_path)
+            report["native_build_reused"] = True
+            report["qt_inspection_reused"] = True
         git = tools["git"]["path"]
         adapter.require(
             not adapter.command(
@@ -512,6 +582,10 @@ def capture(args, helper):
         )
         commit = adapter.command(
             [git, "rev-parse", "HEAD"], evidence, "source-head", source, environment
+        )
+        adapter.require(
+            commit == os.environ["GITHUB_SHA"],
+            "FreeCAD source differs from the dispatched revision",
         )
         adapter.command(
             [git, "submodule", "update", "--init", "--recursive"],
@@ -799,7 +873,25 @@ def inspect(args, helper):
                 adapter.digest(retained_report) == capture_report["qt_passed_inspection_sha256"],
                 "Retained strict Qt inspection changed",
             )
-            qt_result = passed_qt_report(retained_report, qt_evidence, helper)
+            cache = None
+            if capture_report.get("native_cache_recovery_sha256"):
+                cache_path = evidence / "native-cache-recovery.json"
+                adapter.require(
+                    adapter.digest(cache_path) == capture_report["native_cache_recovery_sha256"],
+                    "Retained native-cache admission changed",
+                )
+                cache = json_file(cache_path)
+                native_cache_admission(cache, helper.sdk_identity(capture_report["sdk"]["key"]))
+                adapter.require(
+                    capture_report["native_build_reused"] is True
+                    and capture_report["qt_inspection_reused"] is True
+                    and PureWindowsPath(capture_report["work_dir"])
+                    == PureWindowsPath(cache["original_native_root"])
+                    and PureWindowsPath(capture_report["freecad_source"]["root"])
+                    == PureWindowsPath(cache["immutable_original"]["freecad_source"]["root"]),
+                    "Cached native source/root reuse binding differs",
+                )
+            qt_result = passed_qt_report(retained_report, qt_evidence, helper, cache=cache)
             shutil.copy2(retained_report, qt_report)
         else:
             qt_result = qt_checks.inspect(
@@ -825,6 +917,30 @@ def inspect(args, helper):
             "Native and Qt-only selected SDK/compiler identities differ",
         )
         sdk = helper.sdk_identity(capture_report["sdk"]["key"])
+        if capture_report.get("host_tools_sha256"):
+            admission_path = evidence / "host-tools.json"
+            adapter.require(
+                adapter.digest(admission_path) == capture_report["host_tools_sha256"],
+                "Retained native host-tool admission changed",
+            )
+            admission, profile = qt_checks.validate_host_tools(
+                admission_path,
+                sdk,
+                capture_report["tools"],
+                capture_report["compiler"],
+                capture_report["host"],
+                helper,
+            )
+            adapter.require(
+                capture_report["host_tools_profile"] == profile
+                and capture_report["producer"] == admission["producer"]
+                and capture_report["freecad_source"]["commit"] == admission["producer"]["head_sha"],
+                "Native host-tool profile/source producer differs",
+            )
+        else:
+            adapter.require(
+                capture_report["tools"] == qt_capture["tools"], "Unadmitted native tools changed"
+            )
         inventories = {
             "baseline": json_file(qt_evidence / "baseline/sdk-before.json"),
             "patched": json_file(qt_evidence / "candidate-before.json"),
@@ -975,6 +1091,8 @@ def main():
     for name in ("build-work-dir", "qt-evidence-dir", "source", "work-dir"):
         producer.add_argument("--" + name, type=Path, required=True)
     producer.add_argument("--qt-only-report", type=Path)
+    producer.add_argument("--host-tools-report", type=Path)
+    producer.add_argument("--native-cache-report", type=Path)
     inspector = commands.add_parser("inspect")
     inspector.add_argument("--evidence-dir", type=Path, required=True)
     inspector.add_argument("--report", type=Path, required=True)

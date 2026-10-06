@@ -18,6 +18,7 @@ import subprocess
 import sys
 
 import build_libpack_backport as adapter
+import prepare_libpack_host_tools as host_tools
 
 
 def json_file(path):
@@ -47,6 +48,33 @@ def verify_evidence(evidence, receipt, helper, excluded):
         receipt == evidence_files(evidence, helper, excluded),
         "Transported evidence inventory/hash differs",
     )
+
+
+def validate_host_tools(path, sdk, tools, compiler, host, helper, physical=False):
+    """Keep a new test-host admission separate from historical Qt compilation."""
+    report = json_file(path)
+    adapter.require(
+        report["helper_sha256"] == adapter.digest(Path(host_tools.__file__)),
+        "Host-tool admission helper bytes differ",
+    )
+    profile = host_tools.validate_report(report, sdk, tools, compiler, host)
+    if physical:
+        adapter.require(
+            report["producer"] == host_tools.producer_context(),
+            "Host-tool admission belongs to another runner/source",
+        )
+        if profile != "historical-tools":
+            adapter.require(
+                host_tools.qualification_files(helper) == report["qualification_files_after"],
+                "Actual qualification launchers/implementations changed",
+            )
+        git = host_tools.git_identity(
+            host_tools.PROFILES[sdk["architecture"]], sdk["architecture"], helper
+        )
+        adapter.require(
+            git == report["git_distribution"], "Actual original Git distribution changed"
+        )
+    return report, profile
 
 
 def installation_admission(evidence, helper, transported=False):
@@ -438,18 +466,24 @@ def capture(args, helper):
             helper,
         )
         report["tools"] = tools
-        adapter.require(
-            tools == preparation["tools"],
-            "Test build-tool identity changed: "
-            + json.dumps(
-                {
-                    name: {"expected": preparation["tools"].get(name), "actual": tools.get(name)}
-                    for name in sorted(set(preparation["tools"]) | set(tools))
-                    if preparation["tools"].get(name) != tools.get(name)
-                },
-                sort_keys=True,
-            ),
-        )
+        admission_path = getattr(args, "host_tools_report", None)
+        if admission_path is None:
+            adapter.require(tools == preparation["tools"], "Test build-tool identity changed")
+        else:
+            admission_path = helper.real_path(admission_path)
+            admission, profile = validate_host_tools(
+                admission_path, sdk, tools, compiler, host, helper, physical=True
+            )
+            adapter.require(
+                preparation["tools"] == host_tools.PROFILES[sdk["architecture"]]["tools"]
+                and adapter.digest(build_evidence / "preparation.json")
+                == admission["historical_preparation"]["preparation_sha256"],
+                "Host-tool admission historical compilation identity differs",
+            )
+            shutil.copy2(admission_path, evidence / "host-tools.json")
+            report["host_tools_sha256"] = adapter.digest(evidence / "host-tools.json")
+            report["host_tools_profile"] = profile
+            report["producer"] = admission["producer"]
         report["compiler"] = compiler
         adapter.require(
             adapter.qt_repositories(
@@ -772,6 +806,33 @@ def inspect(args, helper):
             "Baseline before/after inventories differ",
         )
         build, preparation, recovery = installation_admission(evidence, helper, transported=True)
+        if capture_report.get("host_tools_sha256"):
+            admission_path = evidence / "host-tools.json"
+            adapter.require(
+                adapter.digest(admission_path) == capture_report["host_tools_sha256"],
+                "Retained test-host admission changed",
+            )
+            admission, profile = validate_host_tools(
+                admission_path,
+                sdk,
+                capture_report["tools"],
+                capture_report["compiler"],
+                capture_report["host"],
+                helper,
+            )
+            adapter.require(
+                capture_report["host_tools_profile"] == profile
+                and capture_report["producer"] == admission["producer"]
+                and preparation["tools"] == host_tools.PROFILES[sdk["architecture"]]["tools"]
+                and adapter.digest(evidence / "candidate-preparation.json")
+                == admission["historical_preparation"]["preparation_sha256"],
+                "Test-host admission differs from retained historical compilation",
+            )
+        else:
+            adapter.require(
+                capture_report["tools"] == preparation["tools"],
+                "Unadmitted test-host tools differ from historical compilation",
+            )
         adapter.require(
             capture_report.get("installation_recovery_sha256")
             == (
@@ -978,6 +1039,7 @@ def main():
     producer = actions.add_parser("capture")
     producer.add_argument("--build-work-dir", type=Path, required=True)
     producer.add_argument("--work-dir", type=Path, required=True)
+    producer.add_argument("--host-tools-report", type=Path)
     inspector = actions.add_parser("inspect")
     inspector.add_argument("--evidence-dir", type=Path, required=True)
     inspector.add_argument("--report", type=Path, required=True)

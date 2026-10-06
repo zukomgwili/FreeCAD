@@ -322,13 +322,24 @@ as `installation-revalidated`, with all pending runtime flags still false.
 Qt compilation and passed baseline diagnostic generation are reused.
 
 Before downloading retained SDKs, `prepare_libpack_host_tools.py` checks the
-original native compiler and all four host tool paths and hashes. A changed Git
+original native compiler, CMake and the explicit host-tool profile. A changed Git
 at its original path can be restored with the complete, hash-pinned official
-2.55.0.windows.5 installer. Other tool or compiler drift stops before download;
-an already matching Git needs no installation. The final tool identity gates
-remain unchanged, and the host-tool receipt makes no runtime qualification claim.
+2.55.0.windows.5 installer; both its launcher and architecture-specific main
+executable must match. An already matching Git needs no installation.
+The historical preparations and compilation-tool hashes remain immutable.
+For the two x64 SDKs, the separate `windows2022-20261004.326.1-chocolatey-2.7.4`
+qualification profile admits exactly the two regenerated Chocolatey launcher
+hashes retained by diagnostic run 37476327222. It additionally requires the
+literal image identity and all six raw launcher, native implementation, 7-Zip
+library and ShimGen files, with hashes verified against complete official
+Ninja 1.13.2, 7-Zip 26.03 and Chocolatey 2.7.4 payloads. This profile explicitly
+records that historical launcher bytes differ; it does not change Qt build
+provenance. Unknown images, tool bytes, paths or compiler drift stop before
+SDK download. Native consumers recheck the physical tools and retain the
+source-bound admission under their evidence hash gate.
+The host-tool receipt makes no runtime qualification claim.
 On 7-Zip or Ninja drift, bounded canonical launcher bytes and backend hashes are
-retained as unexecuted diagnostics before the unchanged rejection.
+retained as unexecuted diagnostics before rejection.
 
 On each matching Windows host, the focused route captures the pending Qt66 and
 upstream10 results and requires their strict inspection before the first scoped
@@ -337,6 +348,22 @@ on ARM; native SDK captures use the separately saved native tool Python. Native
 inspection reuses the completed Qt report only after checking its capture hashes,
 helper identity, complete cases, warnings, pixels, device pairs and reproduction
 controls. It still checks all24 native outputs and eleven GUI tests per runtime.
+Standard 3.5.3 x64 and experimental 3.5.5 ARM64 completed those Qt checks in
+run 37465187347, then failed linking FreeCADGui because a system Python include
+tree shadowed the selected PyCXX headers. `FreeCADBase` now propagates its
+selected PyCXX include directory as an ordinary public include, keeping the
+same ABI in consumers. The focused route reuses those two completed Qt reports
+and unfinished application builds through `restore_libpack_native_failed.py`.
+Both whole original result/build ZIPs, failed job/stage identities, immutable
+capture/report hashes and complete build-file indices are authenticated. Build
+timestamps are restored from the authenticated index, and the build resumes
+at its exact original source and build paths. The historical Qt helper is
+accepted only through those two literal artifact bindings. Its evidence stays
+unchanged; fresh SDK inventories and the exact original installation admission
+remain required. CMake reconfiguration rebuilds objects affected by the include
+change or other changed inputs. Qt66 capture, upstream10 execution and Qt PDF
+inspection do not repeat for these two SDKs. Experimental x64 still follows
+the first-capture route because its Qt checks never ran.
 If native qualification fails, the unfinished application build and file indices
 are retained as unqualified diagnostics for a focused follow-up. Delivery,
 licensing archives, dependency promotion and production mitigation decisions

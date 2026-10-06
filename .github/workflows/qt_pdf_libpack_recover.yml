@@ -34,9 +34,9 @@ jobs:
           python3 - <<'PY'
           import json, os
           entries = [
-              {"sdk": "3.5.3-x64", "os": "windows-2022", "python_arch": "x64"},
-              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64"},
-              {"sdk": "3.5.5-arm64", "os": "windows-11-arm", "python_arch": "arm64"},
+              {"sdk": "3.5.3-x64", "os": "windows-2022", "python_arch": "x64", "native_cache": True},
+              {"sdk": "3.5.5-x64", "os": "windows-2022", "python_arch": "x64", "native_cache": False},
+              {"sdk": "3.5.5-arm64", "os": "windows-11-arm", "python_arch": "arm64", "native_cache": True},
           ]
           selected = os.environ["LIBPACK_SELECTION"]
           matrix = {"include": [row for row in entries if selected in ("all", row["sdk"])]}
@@ -70,7 +70,7 @@ jobs:
           python-version: '3.13'
           architecture: ${{ matrix.python_arch }}
 
-      - name: Require original host tools before downloading retained SDKs
+      - name: Require the explicit host-tool profile before downloading retained SDKs
         env:
           LIBPACK_SDK: ${{ matrix.sdk }}
         run: |
@@ -121,14 +121,51 @@ jobs:
           '@ | python -B -
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Recover the unfinished native build and already passed Qt evidence
+        id: native_cache
+        if: matrix.native_cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIBPACK_SDK: ${{ matrix.sdk }}
+        run: |
+          @'
+          import os, subprocess, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path("package/qt-pdf").resolve(strict=True)))
+          import build_libpack_backport as adapter
+          import restore_libpack_native_failed as restore
+          helper = adapter.baseline_helper()
+          sdk = os.environ["LIBPACK_SDK"]
+          receipts = restore.authenticated_metadata(sdk)
+          temporary = helper.real_path(Path(os.environ["RUNNER_TEMP"]))
+          inputs = helper.fresh_work(temporary / "libpack-native-cache-inputs")
+          paths = {}
+          for kind, receipt in receipts.items():
+              target = inputs / (kind + ".zip")
+              with target.open("xb") as output:
+                  subprocess.run(["gh", "api", f"repos/{restore.transport.REPOSITORY}/actions/artifacts/{receipt['id']}/zip"], stdout=output, check=True)
+              paths[kind] = target
+          restore.verify_zips(paths, receipts)
+          adapter.write_json(inputs / "download.json", {"run_id": restore.RUN_ID, "artifacts": receipts, "qualified": False})
+          subprocess.run([
+              sys.executable, "-B", "package/qt-pdf/restore_libpack_native_failed.py",
+              "--sdk", sdk, "--result-zip", str(paths["result"]),
+              "--native-build-zip", str(paths["native-build"]),
+              "--work-dir", str(temporary / "libpack-native-cache"),
+          ], check=True)
+          '@ | python -B -
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Capture pending candidate Qt66 and upstream10 using the retained baseline
         id: qt
+        if: '!matrix.native_cache'
         env:
           LIBPACK_BUILD_WORK: ${{ steps.restore.outputs.work_dir }}
         run: |
           python -B package/qt-pdf/qualify_libpack_backport.py capture `
             --build-work-dir "$env:LIBPACK_BUILD_WORK" `
-            --work-dir "$env:RUNNER_TEMP/libpack-qt-capture"
+            --work-dir "$env:RUNNER_TEMP/libpack-qt-capture" `
+            --host-tools-report "$env:RUNNER_TEMP/libpack-host-tools/host-tools.json"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
@@ -139,6 +176,7 @@ jobs:
 
       # Inspection tools use win-64; native SDK executables retain their exact architecture.
       - name: Require strict Qt66 and upstream10 before building FreeCAD
+        if: '!matrix.native_cache'
         env:
           LIBPACK_QT_EVIDENCE: ${{ steps.qt.outputs.evidence_dir }}
         run: |
@@ -152,14 +190,23 @@ jobs:
         id: native
         env:
           LIBPACK_BUILD_WORK: ${{ steps.restore.outputs.work_dir }}
-          LIBPACK_QT_EVIDENCE: ${{ steps.qt.outputs.evidence_dir }}
+          LIBPACK_QT_EVIDENCE: ${{ steps.native_cache.outputs.qt_evidence || steps.qt.outputs.evidence_dir }}
+          LIBPACK_QT_REPORT: ${{ steps.native_cache.outputs.qt_only_report || format('{0}/libpack-qt-inspection.json', runner.temp) }}
+          LIBPACK_NATIVE_CACHE_REPORT: ${{ steps.native_cache.outputs.cache_report }}
           LIBPACK_TOOL_PYTHON: ${{ steps.tool-python.outputs.python-path }}
         run: |
-          & "$env:LIBPACK_TOOL_PYTHON" -B package/qt-pdf/qualify_libpack_native.py capture `
-            --build-work-dir "$env:LIBPACK_BUILD_WORK" `
-            --qt-evidence-dir "$env:LIBPACK_QT_EVIDENCE" `
-            --qt-only-report "$env:RUNNER_TEMP/libpack-qt-inspection.json" `
-            --source "$env:GITHUB_WORKSPACE" --work-dir "$env:RUNNER_TEMP/libpack-native"
+          $arguments = @(
+            "-B", "package/qt-pdf/qualify_libpack_native.py", "capture",
+            "--build-work-dir", "$env:LIBPACK_BUILD_WORK",
+            "--qt-evidence-dir", "$env:LIBPACK_QT_EVIDENCE",
+            "--qt-only-report", "$env:LIBPACK_QT_REPORT",
+            "--host-tools-report", "$env:RUNNER_TEMP/libpack-host-tools/host-tools.json",
+            "--source", "$env:GITHUB_WORKSPACE", "--work-dir", "$env:RUNNER_TEMP/libpack-native"
+          )
+          if ($env:LIBPACK_NATIVE_CACHE_REPORT) {
+            $arguments += @("--native-cache-report", "$env:LIBPACK_NATIVE_CACHE_REPORT")
+          }
+          & "$env:LIBPACK_TOOL_PYTHON" @arguments
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Inspect native24 and stock GUI routes using the already passed Qt inspection
@@ -227,6 +274,10 @@ jobs:
             ${{ runner.temp }}/libpack-host-tools/evidence
             ${{ runner.temp }}/libpack-recovery-inputs/download.json
             ${{ runner.temp }}/libpack-installation-restoration/installation-recovery.json
+            ${{ runner.temp }}/libpack-native-cache-inputs/download.json
+            ${{ runner.temp }}/libpack-native-cache/native-cache-recovery.json
+            ${{ runner.temp }}/libpack-native-cache/result/libpack-qt-capture/evidence
+            ${{ runner.temp }}/libpack-native-cache/result/libpack-qt-inspection.json
             ${{ runner.temp }}/libpack-qt-capture/evidence
             ${{ runner.temp }}/libpack-qt-inspection.json
             ${{ runner.temp }}/libpack-qt-inspection.renders
