@@ -8433,6 +8433,88 @@
       "owner": "qtbase"
     }
   },
+  "finite_windows_checkout_sources": {
+    "attributes": {
+      "git_blob_sha1": "c138aa11cc8006c6ac28dba50b20c5c91d8cab33",
+      "owner": "qtbase",
+      "primary_url": "https://raw.githubusercontent.com/qt/qtbase/59c81a3c2247b821b9b84b4eb8d939b77e07e276/.gitattributes",
+      "rule": "*.bat.in                text eol=crlf",
+      "sha256": "edbe0427047f873216d84ab3335a2c78047510c07993f00963d7f2f23d5918b0",
+      "size": 227,
+      "source_path": "qtbase/.gitattributes"
+    },
+    "files": {
+      "qtbase/bin/qmake-and-qtpaths-wrapper.bat.in": {
+        "checkout_sha256": "89c92890cff36085d7856134b0b646d88204d4b52e59db86e0272cc3f0517278",
+        "checkout_size": 93,
+        "git_blob_sha1": "5c952b019644ec90f7ebed2d026cb4628b36ebf3",
+        "git_lf_count": 2,
+        "git_sha256": "4be916acde75a0e0a594faca0329e34d8053c5c9956a10b71a2861a192203f8b",
+        "git_size": 91
+      },
+      "qtbase/bin/qt-cmake-create.bat.in": {
+        "checkout_sha256": "46bbc7654ecdbeef8f43c6393b6ef8f74c950448381877d6efdb72a38a145487",
+        "checkout_size": 688,
+        "git_blob_sha1": "97faad8db7245c6f76f1ae3e85db62742cbae90a",
+        "git_lf_count": 19,
+        "git_sha256": "4547eee3b7833f39201c0c15cb6fa4abeece1c5c2aaf0a7cf0b6538cb1116457",
+        "git_size": 669
+      },
+      "qtbase/bin/qt-cmake.bat.in": {
+        "checkout_sha256": "8a0b80e700f6fdb69e49d2ebbf8efb99038875df53953ced8e94f38da59eeca0",
+        "checkout_size": 491,
+        "git_blob_sha1": "934f79c2599fadf13fb54d7f2fad579038eb35a0",
+        "git_lf_count": 11,
+        "git_sha256": "477fe3b2259e9095c26b600352e919c874a0cf104ab261b1ee4267683a8b0784",
+        "git_size": 480
+      },
+      "qtbase/bin/qt-configure-module.bat.in": {
+        "checkout_sha256": "b7ab3002f837cb2d440254737d230fb994b5cb40574d06b1eddc608e1a4cd90e",
+        "checkout_size": 3458,
+        "git_blob_sha1": "4c2798c0fbd1e84c487dc575f00b107ed5ecdb9d",
+        "git_lf_count": 97,
+        "git_sha256": "bd251fb9f16372740a3143531848b1ad1bdbe5195df227066c1be603d9587942",
+        "git_size": 3361
+      },
+      "qtbase/libexec/qt-internal-configure-examples.bat.in": {
+        "checkout_sha256": "fb1434186e5913ffae76dd25410481cfda6c3bc86884a4097e8de20182a69085",
+        "checkout_size": 993,
+        "git_blob_sha1": "6b69910c669d1c62d581e38597008c34e5809334",
+        "git_lf_count": 34,
+        "git_sha256": "0f8bdd89d679f8adf2cd81fe13a69bec0f2e60c3e3e06402ba0c3deb116b5145",
+        "git_size": 959
+      },
+      "qtbase/libexec/qt-internal-configure-tests.bat.in": {
+        "checkout_sha256": "fb1434186e5913ffae76dd25410481cfda6c3bc86884a4097e8de20182a69085",
+        "checkout_size": 993,
+        "git_blob_sha1": "6b69910c669d1c62d581e38597008c34e5809334",
+        "git_lf_count": 34,
+        "git_sha256": "0f8bdd89d679f8adf2cd81fe13a69bec0f2e60c3e3e06402ba0c3deb116b5145",
+        "git_size": 959
+      }
+    },
+    "original_head_sha": "ba37708eecef736d9caafdbae5f07618887d675b",
+    "original_run_id": 37254793061,
+    "original_source_indices": {
+      "3.5.3-x64": {
+        "file_count": 90383,
+        "sha256": "4f72d701cacb1230928dfd3853241c9b85fe3029e392a3ee97e98d359ac01cc0",
+        "size": 18499780
+      },
+      "3.5.5-arm64": {
+        "file_count": 90383,
+        "sha256": "975994f7ef2400cfc7bed54bb58926dcc6b313dbfe3a34d35bf13e4d3cfbd0b3",
+        "size": 18499780
+      },
+      "3.5.5-x64": {
+        "file_count": 90383,
+        "sha256": "22f9fdabb2235124dd503057cc7e8f411fd0ba6770e049f9fd123f23ea1fb885",
+        "size": 18499780
+      }
+    },
+    "schema_version": 1,
+    "scope": "Six exact QtBase batch template working-tree bytes required by the pinned attributes, authenticated against all three original Windows corresponding-source indices; Git blob bytes remain separately pinned. Runtime verification accepts only these raw hashes and performs no newline conversion."
+  },
   "identical_manifest_repetitions": {
     "include/QtGui/6.11.1/QtGui/private/qstandarditemmodel_p.h": 2,
     "include/QtGui/qstandarditemmodel.h": 2,

@@ -260,6 +260,11 @@ Nine generated SPDX companions have separate finite source, generated CODE,
 staging substitutions, version, log and installed-byte proofs; no generic SBOM
 namespace is admitted. Capture retains the raw/literal admission receipts and
 the portable SPDX proof for inspection.
+Six QtBase batch templates use the exact CRLF checkout bytes required by the
+pinned `.gitattributes`, with separate Git-blob and archived-checkout hashes.
+All three original source indices bind those six hashes; the other 414 source
+bindings match their Git bytes. Capture retains the six templates and the
+attribute file for exact portable readback.
 
 `qualify_libpack_backport.py` captures the complete 66-case QPdfWriter/QPrinter
 matrix and the ten upstream Qt writer tests on the same native host after a

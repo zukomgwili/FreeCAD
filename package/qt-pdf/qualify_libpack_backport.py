@@ -116,11 +116,20 @@ def admitted_paths(build, evidence, inventory, transported=False):
         for name in expected
         for key in proof["finite_manifest_paths"][name]["bindings"]
     }
+    checkout = proof["finite_windows_checkout_sources"]
+    checkout_bindings = {
+        key: {"sha256": entry["checkout_sha256"], "size": entry["checkout_size"]}
+        for key, entry in checkout["files"].items()
+    }
+    attribute = checkout["attributes"]
     adapter.require(
         literal["schema_version"] == 1
         and literal["qualified"] is False
         and literal["ownership_proof_sha256"] == adapter.OWNERSHIP_SHA
         and literal["source_bindings"] == bindings
+        and literal["source_checkout_bindings"] == checkout_bindings
+        and literal["checkout_attribute_sha256"]
+        == (attribute["sha256"] if checkout_bindings else None)
         and len(entries) == len(literal["entries"])
         and set(entries) == expected
         and all(
@@ -133,6 +142,22 @@ def admitted_paths(build, evidence, inventory, transported=False):
         ),
         "Finite installed output/source binding differs",
     )
+    if transported and checkout_bindings:
+        root = evidence / "qt-checkout-proof"
+        expected_checkout = {
+            **checkout_bindings,
+            attribute["source_path"]: {"sha256": attribute["sha256"], "size": attribute["size"]},
+        }
+        actual_checkout = adapter.baseline_helper().inventory(root)["files"]
+        adapter.require(
+            set(actual_checkout) == set(expected_checkout)
+            and all(
+                actual_checkout[name]["sha256"] == entry["sha256"]
+                and actual_checkout[name]["size"] == entry["size"]
+                for name, entry in expected_checkout.items()
+            ),
+            "Finite Windows checkout source/attribute proof differs",
+        )
     receipt_path = evidence / "qt-versioned-aliases.json"
     receipt = json_file(receipt_path)
     adapter.require(
@@ -224,6 +249,29 @@ def retain_spdx_proof(build_root, candidate, source, evidence, receipt, helper):
         original = helper.real_path(roots[kind] / relative)
         adapter.require(original.is_relative_to(roots[kind]), "SPDX proof escaped its owned root")
         retained = proof / kind / relative
+        retained.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(original, retained)
+
+
+def retain_checkout_proof(source, evidence, receipt, helper):
+    """Retain the six exact Windows checkout templates and their pinned rule."""
+    entries = dict(receipt["source_checkout_bindings"])
+    if not entries:
+        return
+    attribute = adapter.ownership()["proof"]["finite_windows_checkout_sources"]["attributes"]
+    entries[attribute["source_path"]] = {"sha256": attribute["sha256"], "size": attribute["size"]}
+    proof = evidence / "qt-checkout-proof"
+    proof.mkdir()
+    for name, entry in entries.items():
+        relative = adapter.safe_relative(name)
+        original = helper.real_path(source / relative)
+        adapter.require(
+            original.is_relative_to(source)
+            and adapter.digest(original) == entry["sha256"]
+            and original.stat().st_size == entry["size"],
+            "Finite Windows checkout proof changed before retention",
+        )
+        retained = proof / relative
         retained.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(original, retained)
 
@@ -447,6 +495,9 @@ def capture(args, helper):
             )
             == json_file(build_evidence / "qt-finite-install.json"),
             "Actual manifest admission differs",
+        )
+        retain_checkout_proof(
+            work / "qt", evidence, json_file(build_evidence / "qt-finite-install.json"), helper
         )
         aliases, alias_receipt = adapter.companion_aliases(
             work / "b/r",

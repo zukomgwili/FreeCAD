@@ -46,7 +46,7 @@ SELECTED_MODULES = {"qtbase", "qtsvg", "qtdeclarative", "qttools", "qtremoteobje
 # The finite namespaces come from pinned CMake target/export definitions retained
 # beside this helper. Conditional namespaces also need their actual owner gitlink.
 OWNERSHIP = Path(__file__).with_name("libpack-qt-ownership.json")
-OWNERSHIP_SHA = "b7258ba6d3f79ad840189f2dd17fc61e86560c9992cbf5b0f98e8263e629e113"
+OWNERSHIP_SHA = "5b4b3d69690d4bee48e385bf83e6681b0456968d1da70ead3e7f1a1a70d68db2"
 
 
 def require(condition, message):
@@ -604,7 +604,36 @@ def companion_aliases(build_root, candidate, source, installed, initialized, hel
 def finite_installation(build_root, candidate, source, installed, initialized, helper):
     """Bind each extra literal manifest path to its source and actual output."""
     proof = ownership()["proof"]
-    bindings, entries = {}, []
+    bindings, checkout_bindings, entries = {}, {}, []
+    checkout = proof["finite_windows_checkout_sources"]
+    attributes = checkout["attributes"]
+    attribute = helper.real_path(source / safe_relative(attributes["source_path"]))
+    require(
+        attribute.is_relative_to(source)
+        and attributes["owner"] in initialized
+        and digest(attribute) == attributes["sha256"]
+        and attribute.stat().st_size == attributes["size"],
+        "Finite Qt checkout attributes changed",
+    )
+    for key, windows in checkout["files"].items():
+        bound = proof["finite_install_sources"][key]
+        path = helper.real_path(source / safe_relative(key))
+        require(
+            bound["owner"] in initialized
+            and windows["git_sha256"] == bound["sha256"]
+            and windows["git_blob_sha1"] == bound["git_blob_sha1"],
+            "Finite checkout/Git source identity differs",
+        )
+        require(
+            path.is_relative_to(source)
+            and path.stat().st_size == windows["checkout_size"]
+            and digest(path) == windows["checkout_sha256"],
+            f"Literal Qt checkout source changed: {key}",
+        )
+        checkout_bindings[key] = {
+            "sha256": windows["checkout_sha256"],
+            "size": windows["checkout_size"],
+        }
     cache_values = parse_cmake_cache(helper.real_path(build_root / "CMakeCache.txt"))
     require(
         cache_values.get("INSTALL_BINDIR") == cache_values.get("INSTALL_LIBEXECDIR") == "bin"
@@ -620,8 +649,11 @@ def finite_installation(build_root, candidate, source, installed, initialized, h
             bound = proof["finite_install_sources"][key]
             require(bound["owner"] in initialized, "Literal Qt factory owner is not initialized")
             path = helper.real_path(source / safe_relative(key))
+            expected_sha = (
+                checkout_bindings[key]["sha256"] if key in checkout_bindings else bound["sha256"]
+            )
             require(
-                path.is_relative_to(source) and digest(path) == bound["sha256"],
+                path.is_relative_to(source) and digest(path) == expected_sha,
                 f"Literal Qt source changed: {key}",
             )
             bindings[key] = bound["sha256"]
@@ -700,6 +732,8 @@ def finite_installation(build_root, candidate, source, installed, initialized, h
         "qualified": False,
         "ownership_proof_sha256": OWNERSHIP_SHA,
         "source_bindings": bindings,
+        "source_checkout_bindings": checkout_bindings,
+        "checkout_attribute_sha256": attributes["sha256"],
         "entries": entries,
     }
 
