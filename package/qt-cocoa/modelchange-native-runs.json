@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-m7f",
+  "qt_version": "6.11.2",
+  "candidate_plugin": {
+    "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-m7f-46qjt7vo/candidate-build-v2/build/platforms/libqcocoa.dylib",
+    "sha256": "6f4916742a148823d7b61c522425e904d08ec084430cb3828f5d01e32c66df22"
+  },
+  "installed_plugin": {
+    "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/qt-cocoa/platforms/libqcocoa.dylib",
+    "sha256": "6f4916742a148823d7b61c522425e904d08ec084430cb3828f5d01e32c66df22"
+  },
+  "baseline": {
+    "command": "selector-repro table-lifecycle 3",
+    "plugin": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/qt-cocoa/platforms/libqcocoa.dylib before replacement",
+    "plugin_sha256": "986cf810beed3d864107323cfcb47d04df4f0ae432a3164c1b703b4c195e1253",
+    "results": [-11, -11, -11],
+    "failure": "SIGSEGV after native selected-cell materialization followed by a row insertion/removal cycle",
+    "control": "The same Qt model and accessibility cache operations passed when only Cocoa update notifications were suppressed.",
+    "evidence": [
+      "baseline/prototype-baseline.json",
+      "baseline/prototype-baseline.log",
+      "baseline/prototype-baseline-2.log",
+      "baseline/prototype-baseline-3.log",
+      "baseline/selector-crash.ips",
+      "controls/qt-model-only-control.json"
+    ]
+  },
+  "candidate_runs": [
+    {"command": "selector-repro table-lifecycle 20", "exit_code": 0, "selection_queries": 100, "last_stage": "passed"},
+    {"command": "modelchange-repro table 20", "exit_code": 0, "modelchange_queries": 80, "last_stage": "passed"},
+    {"command": "modelchange-repro tree 20", "exit_code": 0, "modelchange_queries": 60, "last_stage": "passed"},
+    {"command": "modelchange-repro file-dialog 20", "exit_code": 0, "modelchange_queries": 60, "ordinary_filename_return": true, "last_stage": "passed"}
+  ],
+  "installed_runs": [
+    {"command": "selector-repro table-lifecycle 20", "exit_code": 0, "selection_queries": 100, "last_stage": "passed"},
+    {"command": "modelchange-repro table 20", "exit_code": 0, "modelchange_queries": 80, "last_stage": "passed"},
+    {"command": "modelchange-repro tree 20", "exit_code": 0, "modelchange_queries": 60, "last_stage": "passed"},
+    {"command": "modelchange-repro file-dialog 20", "exit_code": 0, "modelchange_queries": 60, "ordinary_filename_return": true, "last_stage": "passed"}
+  ],
+  "assertions": [
+    "Every run identified accessibilitySelectedChildren in the intended candidate or installed libqcocoa.dylib.",
+    "Selected Qt model indexes resolved to valid current table-cell interfaces after each model change.",
+    "Native selected-child titles matched actual Qt selected-item names after insertions, removals and autorelease-pool drains.",
+    "The file-dialog fixture observed actual QFileSystemModel insertions/removals and accepted an exact stock filename entry without writing output bytes."
+  ],
+  "excluded_attempt": "One candidate file-dialog stress run completed all 20 filesystem cycles but missed the final QTest filename text equality check. An unchanged immediate rerun passed; it was not counted as a passing run."
+}

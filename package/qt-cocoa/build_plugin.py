@@ -3,8 +3,11 @@
 """Build an isolated macOS arm64 Cocoa overlay for reviewed Qt 6.11.2 build 1.
 
 The official Qt archive authenticates the copied source. Its upstream copyright,
-SPDX notices and LICENSES are retained. Only parent-managed-elements.patch is
-applied. Public/private headers and libraries come from the selected installed
+SPDX notices and LICENSES are retained. --ownership-fix selects exactly one
+authenticated Cocoa ownership patch. The default retains the original 24t
+parent-managed guard; native-interfaces applies the source-only changes from
+Qt Gerrit 772484 patch set 3 (unmerged at review on 2026-10-07).
+Public/private headers and libraries come from the selected installed
 Conda Qt package, not a second Qt build. This does not install anything or repeat
 PDF qualification. build-receipt.json records build provenance; separate overlay
 delivery verification and native runtime evidence remain required.
@@ -39,6 +42,28 @@ PATCH_SHA256 = "39f79210a3648e4073664b5c0768479fa2be5ca6866e08166c81ea628ab2302f
 PATCH_TARGET = "src/plugins/platforms/cocoa/qcocoaaccessibilityelement.mm"
 ORIGINAL_SHA256 = "1e1c3699f9de098a0c4979128ce8f43779976416ef3d41ca875073a2a4b26f27"
 PATCHED_SHA256 = "b1ccd069d6a9f5be5a0b8de3ff76d7bcc2af655e998e47bd6584e6c02a2b7812"
+HEADER_TARGET = "src/plugins/platforms/cocoa/qcocoaaccessibilityelement.h"
+HEADER_ORIGINAL_SHA256 = "3ab7fe5168e8a50d988938fd34dd323e628d143cb89b803103b74bafdbd1dbae"
+NATIVE_PATCH_SHA256 = "934fa3283419fa4bb3c218275caa6344c5bafc31eeba5155621ef4a47385ef70"
+NATIVE_HEADER_SHA256 = "99185a8e33a3b9838e1e24c71b48e52125d1d4090c8d0ea98dcf9fd58163f301"
+NATIVE_ELEMENT_SHA256 = "59323153a0475637cd4170f9af205e8217a02a8ddbb7cb0ade8f49cc491275df"
+OWNERSHIP_FIXES = {
+    "parent-managed": {
+        "file": "parent-managed-elements.patch", "sha256": PATCH_SHA256,
+        "header_sha256": HEADER_ORIGINAL_SHA256, "element_sha256": PATCHED_SHA256,
+    },
+    "native-interfaces": {
+        "file": "native-interface-ownership.patch", "sha256": NATIVE_PATCH_SHA256,
+        "header_sha256": NATIVE_HEADER_SHA256, "element_sha256": NATIVE_ELEMENT_SHA256,
+        "upstream_proposal": {
+            "url": "https://codereview.qt-project.org/c/qt/qtbase/+/772484",
+            "revision": "de050555112940ed643dfa7bd9ed16470adc5a09", "patch_set": 3,
+            "complete_patch_sha256": "b2ef8d37a293566657c0052d4d64d9ab8b204c0f44ff45d5253d9b306db1e024",
+            "review_date": "2026-10-07", "status_at_review": "NEW",
+            "scope": "Exact Cocoa header/implementation hunks; upstream test hunk omitted",
+        },
+    },
+}
 DEPENDENCY_HEADERS_SHA256 = "c52c8e94cb0556ea236beb3416f1a8b1a4156164a363c2c20267cd89bdc88331"
 DEPENDENCY_ARCHIVES = {
     "libvulkan-headers-1.4.357.0-hfbe1efa_1.conda":
@@ -167,7 +192,55 @@ def authenticated_source(source, archive):
     return expected
 
 
-def prepare(source, archive, dependency_include, work, script_dir):
+def apply_native_patch(destination, patch):
+    """Apply the pinned proposal's two source diffs at their exact line offsets."""
+    sections = patch.read_text().split("diff --git ")[1:]
+    expected_targets = {HEADER_TARGET, PATCH_TARGET}
+    seen = set()
+    for section in sections:
+        lines = section.splitlines(keepends=True)
+        names = lines[0].strip().split()
+        require(len(names) == 2 and names[0] == "a/" + names[1][2:], "Unexpected patch file header")
+        target = names[1][2:]
+        require(target in expected_targets and target not in seen, "Unexpected or repeated native patch target")
+        seen.add(target)
+        path = destination / "cocoa" / Path(target).name
+        original = path.read_text().splitlines(keepends=True)
+        output = []
+        cursor = 0
+        line_number = 0
+        while line_number < len(lines):
+            match = re.match(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@", lines[line_number])
+            if not match:
+                line_number += 1
+                continue
+            start = int(match.group(1)) - 1
+            require(cursor <= start <= len(original), "Invalid or overlapping native patch hunk")
+            output.extend(original[cursor:start])
+            cursor = start
+            old_count = new_count = 0
+            line_number += 1
+            while line_number < len(lines) and lines[line_number][:1] in (" ", "+", "-"):
+                kind, text = lines[line_number][0], lines[line_number][1:]
+                if kind in (" ", "-"):
+                    require(cursor < len(original) and original[cursor] == text,
+                            f"Native patch context differs: {target}:{cursor + 1}")
+                    cursor += 1
+                    old_count += 1
+                if kind in (" ", "+"):
+                    output.append(text)
+                    new_count += 1
+                line_number += 1
+            require(old_count == int(match.group(2) or 1) and new_count == int(match.group(4) or 1),
+                    "Native patch hunk line count differs")
+        output.extend(original[cursor:])
+        path.write_text("".join(output))
+    require(seen == expected_targets, "Native patch must change exactly its Cocoa header and implementation")
+
+
+def prepare(source, archive, dependency_include, work, script_dir, ownership_fix="parent-managed"):
+    require(ownership_fix in OWNERSHIP_FIXES, "Unknown Cocoa ownership correction")
+    selected = OWNERSHIP_FIXES[ownership_fix]
     originals = authenticated_source(source, archive)
     dependency_files = inventory(dependency_include)
     require(inventory_digest(dependency_files) == DEPENDENCY_HEADERS_SHA256, "Vulkan/MoltenVK header set differs from pinned build inputs")
@@ -182,12 +255,14 @@ def prepare(source, archive, dependency_include, work, script_dir):
             "Source inputs changed while being copied")
     require(inventory(work / "dependencies" / "include") == dependency_files,
             "Dependency inputs changed while being copied")
-    for name in ("CMakeLists.txt", "parent-managed-elements.patch", "build_plugin.py"):
+    for name in ("CMakeLists.txt", selected["file"], "build_plugin.py"):
         shutil.copy2(script_dir / name, destination / name)
-    patch = destination / "parent-managed-elements.patch"
-    require(digest(patch) == PATCH_SHA256, "Reviewed patch SHA-256 differs")
+    patch = destination / selected["file"]
+    require(digest(patch) == selected["sha256"], "Reviewed patch SHA-256 differs")
     target = destination / "cocoa" / Path(PATCH_TARGET).name
+    header = destination / "cocoa" / Path(HEADER_TARGET).name
     require(digest(target) == ORIGINAL_SHA256, "Unpatched Cocoa accessibility file SHA-256 differs")
+    require(digest(header) == HEADER_ORIGINAL_SHA256, "Unpatched Cocoa accessibility header SHA-256 differs")
     # Exact byte substitutions implement the two reviewed hunks. Hashes guard
     # both the patch file and complete before/after file, so there is no fuzz.
     text = target.read_bytes()
@@ -197,11 +272,15 @@ def prepare(source, archive, dependency_include, work, script_dir):
         (b"    QAccessibleCache::instance()->deleteInterface(axid);\n    [super dealloc];",
          b"    if (axid && !self.isManagedByParent)\n        QAccessibleCache::instance()->deleteInterface(axid);\n    [super dealloc];"),
     )
-    for before, after in replacements:
-        require(text.count(before) == 1, "Reviewed patch context is not unique")
-        text = text.replace(before, after)
-    target.write_bytes(text)
-    require(digest(target) == PATCHED_SHA256, "Patched Cocoa accessibility file SHA-256 differs")
+    if ownership_fix == "parent-managed":
+        for before, after in replacements:
+            require(text.count(before) == 1, "Reviewed patch context is not unique")
+            text = text.replace(before, after)
+        target.write_bytes(text)
+    else:
+        apply_native_patch(destination, patch)
+    require(digest(target) == selected["element_sha256"], "Patched Cocoa accessibility file SHA-256 differs")
+    require(digest(header) == selected["header_sha256"], "Patched Cocoa accessibility header SHA-256 differs")
     qrc = '<RCC><qresource prefix="/qt-project.org/mac/cursors">'
     for name in ("sizeallcursor.png", "spincursor.png", "waitcursor.png"):
         qrc += f'<file alias="images/{name}">cocoa/images/{name}</file>'
@@ -214,9 +293,18 @@ def prepare(source, archive, dependency_include, work, script_dir):
         archives[name] = {"url": "https://conda.anaconda.org/conda-forge/osx-arm64/" + name,
                           "expected_sha256": expected_sha, "local_archive": actual}
     return {"original_files": originals, "prepared_files": inventory(destination),
-            "patch": {"file": patch.name, "sha256": PATCH_SHA256, "target": PATCH_TARGET,
-                      "original_sha256": ORIGINAL_SHA256, "patched_sha256": PATCHED_SHA256,
-                      "application": "exact two-hunk byte substitution; no fuzz"},
+            "patch": {"file": patch.name, "sha256": selected["sha256"], "target": PATCH_TARGET,
+                      "ownership_fix": ownership_fix,
+                      "original_sha256": ORIGINAL_SHA256, "patched_sha256": selected["element_sha256"],
+                      "files": {
+                          HEADER_TARGET: {"original_sha256": HEADER_ORIGINAL_SHA256,
+                                          "patched_sha256": selected["header_sha256"]},
+                          PATCH_TARGET: {"original_sha256": ORIGINAL_SHA256,
+                                         "patched_sha256": selected["element_sha256"]},
+                      },
+                      "upstream_proposal": selected.get("upstream_proposal"),
+                      "application": ("exact two-hunk byte substitution; no fuzz" if ownership_fix == "parent-managed"
+                                      else "exact proposal source hunks and line offsets; no fuzz")},
             "dependency_headers": {"input_directory": str(dependency_include),
                                    "inventory_sha256": DEPENDENCY_HEADERS_SHA256,
                                    "files": dependency_files, "archives": archives}}
@@ -253,6 +341,8 @@ def macho_identity(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--qt-source", type=Path, required=True)
+    parser.add_argument("--ownership-fix", choices=sorted(OWNERSHIP_FIXES), default="parent-managed",
+                        help="Retain the 24t parent guard (default), or apply Qt proposal 772484 native interface ownership")
     parser.add_argument("--qt-source-archive", type=Path,
                         help="Pinned official archive (default: source sibling qtbase-v6.11.2.tar.gz)")
     parser.add_argument("--prefix", type=Path, required=True)
@@ -285,6 +375,7 @@ def main():
     receipt = {"schema_version": 1, "kind": "freecad.qt-cocoa-overlay-build", "status": "preparing",
                "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                "work_directory": str(work), "qt_version": QT_VERSION,
+               "ownership_fix": args.ownership_fix,
                "source": {"directory": str(source), "archive": str(archive), "url": SOURCE_URL,
                           "archive_sha256": SOURCE_SHA256},
                "commands": [], "toolchain": {}, "scope": "Cocoa plugin only; no prefix installation or PDF requalification"}
@@ -294,7 +385,7 @@ def main():
     save()
     try:
         receipt["baseline"] = baseline(prefix, script_dir)
-        receipt["inputs"] = prepare(source, archive, include, work, script_dir)
+        receipt["inputs"] = prepare(source, archive, include, work, script_dir, args.ownership_fix)
         cmake, ninja = tool_path(args.cmake), tool_path(args.ninja)
         cxx, objcxx = tool_path(args.cxx_compiler), tool_path(args.objcxx_compiler)
         environment = dict(os.environ)

@@ -16,6 +16,17 @@ backport, not a claim that Qt has released the fix. Original FreeCAD crash
 reports identify the same native method; their signal-handler registers do not
 identify the original invalid pointer or exact child object.
 
+`FreeCAD-m7f` found the remaining ownership case: distinct native table-cell
+elements could still delete interfaces owned and cached by `QAccessibleTable`.
+The next insertion or removal then dereferenced a missing interface in
+`QAccessibleTable::modelChange`. `native-interface-ownership.patch` contains the
+exact Cocoa source hunks from Qt Gerrit change
+[772484, patch set 3](https://codereview.qt-project.org/c/qt/qtbase/+/772484/3)
+and removes native-side interface deletion entirely. That proposal was still
+unmerged when reviewed on 7 October 2026. The local patch omits its upstream Qt
+test hunk and retains the proposal metadata and complete-patch hash in the build
+receipt.
+
 The delivery is an **app-local arm64 Cocoa plugin overlay** for the existing
 FreeCAD 27.1.0dev installation. FreeCAD native binaries, locked Qt Core/Gui
 libraries, the Pixi prefix and the earlier PDF package catalogue are preserved.
@@ -35,6 +46,7 @@ the selected prefix is verified read-only before and after compilation.
 
 ```sh
 python3 package/qt-cocoa/build_plugin.py \
+  --ownership-fix native-interfaces \
   --qt-source /path/to/qtbase-6.11.2 \
   --qt-source-archive /path/to/qtbase-v6.11.2.tar.gz \
   --prefix /path/to/FreeCAD/.pixi/envs/default \
@@ -44,7 +56,7 @@ python3 package/qt-cocoa/build_plugin.py \
 ```
 
 The output is `build/platforms/libqcocoa.dylib`; `build-receipt.json` binds it to
-the official source archive, exact two-hunk patch, public/private Qt headers,
+the official source archive, exact selected ownership patch, public/private Qt headers,
 imported libraries, build tools, compiler, SDK and commands. The plugin targets
 macOS 11.0, but runtime checks in this investigation are on macOS 27.0.1 only.
 The isolated source directory retains upstream copyright/SPDX notices and
@@ -65,6 +77,12 @@ QT_PLUGIN_PATH=/path/to/fresh-cocoa-work/build:/path/to/prefix/lib/qt6/plugins \
   /path/to/selector-build/selector-repro tree 3 2
 QT_PLUGIN_PATH=/path/to/fresh-cocoa-work/build:/path/to/prefix/lib/qt6/plugins \
   /path/to/selector-build/selector-repro table-lifecycle 20
+QT_PLUGIN_PATH=/path/to/fresh-cocoa-work/build:/path/to/prefix/lib/qt6/plugins \
+  /path/to/selector-build/modelchange-repro table 20
+QT_PLUGIN_PATH=/path/to/fresh-cocoa-work/build:/path/to/prefix/lib/qt6/plugins \
+  /path/to/selector-build/modelchange-repro tree 20
+QT_PLUGIN_PATH=/path/to/fresh-cocoa-work/build:/path/to/prefix/lib/qt6/plugins \
+  /path/to/selector-build/modelchange-repro file-dialog 20
 ```
 
 `list` and `table` support the same arguments as `tree`; selected counts 0, 1
@@ -75,6 +93,12 @@ only `QT_QPA_PLATFORM_PLUGIN_PATH` did not override the stock plugin in the firs
 comparison attempt, so those earlier runs were excluded from rebuilt-plugin
 evidence.
 
+`modelchange-repro` preserves real selected model indexes across insertions and
+removals, verifies their current Qt interfaces and native titles after each
+change and after native autorelease-pool drains, and checks ordinary stock Save
+dialog filename entry. The file-dialog fixture writes only inside its own
+`QTemporaryDir` and does not emit a PDF.
+
 ## Delivery and scope
 
 `install_overlay.py --help` documents the guarded local installer. It requires a
@@ -82,6 +106,10 @@ successful build receipt and the original native installation identity, backs
 up the full existing application, replaces the two native wrapper entrypoints,
 adds the plugin and corresponding source/licenses, then signs and verifies the
 bundle. Installation and post-launch runtime verification are separate stages.
+Replacing an earlier verified overlay additionally requires
+`--replace-overlay-receipt` with that installation's successful receipt. The
+installer authenticates the current overlay and wrappers, preserves the full
+current app as a new backup, and replaces only the overlay and wrappers.
 Use the application bundle or `freecad-local`/`freecadcmd-local`; raw resource
 executables and ordinary source-prefix launches do not select this overlay.
 

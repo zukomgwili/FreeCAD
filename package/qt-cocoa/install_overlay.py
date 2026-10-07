@@ -11,6 +11,9 @@ The original app is retained at BACKUP_DIR/<app-name>. All work is staged before
 replacement; failures after replacement restore that original bundle. BACKUP_DIR
 must be new, on the app's filesystem. RECEIPT must be new and outside the checkout,
 app and external prefix. The historical installation receipt is never updated.
+Replacing an existing overlay additionally requires --replace-overlay-receipt
+pointing at its prior successful installation receipt. The prior app/overlay is
+authenticated and backed up intact; only qt-cocoa and the wrappers are replaced.
 This installs/signs/verifies files; it does not launch FreeCAD or qualify PDF.
 
 Example:
@@ -48,6 +51,10 @@ import uuid
 SCRIPT_DIR = Path(__file__).resolve().parent
 CHECKOUT = SCRIPT_DIR.parent.parent
 HISTORICAL_RECEIPT = SCRIPT_DIR.parent / "qt-pdf" / "macarm-local-installation.json"
+LEGACY_BUILDER = {
+    "sha256": "d9ddefd03e86f55229b8e33705269a57389e6a845043bfcd4c90a96275f8f335",
+    "size": 22571,
+}
 
 
 def require(condition, message):
@@ -105,6 +112,11 @@ def readonly(snapshot):
     return all(item["kind"] == "symlink" or not item["mode"] & 0o222 for item in snapshot.values())
 
 
+def outside_overlay(snapshot):
+    return {path: proof for path, proof in snapshot.items()
+            if path != "qt-cocoa" and not path.startswith("qt-cocoa/")}
+
+
 def resource_modes(resources, snapshot, writable):
     # Skip links so an external dependency can never be chmod'ed through one.
     for relative, item in sorted(snapshot.items(), key=lambda pair: len(Path(pair[0]).parts), reverse=not writable):
@@ -151,7 +163,7 @@ def no_live_app(app):
     require(not live_app_processes(app), f"Quit all processes launched from {app} before installing")
 
 
-def historical_app(app, prefix, builder):
+def historical_app(app, prefix, builder, allow_overlay=False):
     record = read_json(HISTORICAL_RECEIPT)
     require(record.get("schema_version") == 2 and record.get("status") == "installed-and-verified",
             "Expected the retained original local installation receipt")
@@ -191,10 +203,56 @@ def historical_app(app, prefix, builder):
         native[path.relative_to(app).as_posix()] = proof
     for name in ("FreeCAD", "FreeCADCmd"):
         builder.macho_identity(app / "Contents" / "MacOS" / name)
-    require(not (app / "Contents" / "Resources" / "qt-cocoa").exists(), "App already contains an overlay; restore the retained original before reinstalling")
+    overlay = app / "Contents" / "Resources" / "qt-cocoa"
+    require(allow_overlay or not (overlay.exists() or overlay.is_symlink()),
+            "App already contains an overlay; supply its prior successful --replace-overlay-receipt")
     return {"receipt": {"path": str(HISTORICAL_RECEIPT), **builder.identity(HISTORICAL_RECEIPT)},
             "evidence": builder.identity(evidence_path), "compiled_source_commit": record["compiled_source_commit"],
             "info_plist": builder.identity(info), "native_files": native}
+
+
+def verified_existing_overlay(receipt_path, app, prefix, historical, builder):
+    previous = read_json(receipt_path)
+    require(previous.get("schema_version") == 1
+            and previous.get("kind") == "freecad.qt-cocoa-overlay-installation"
+            and previous.get("status") == "installed-and-verified"
+            and previous.get("signature_verified") is True
+            and previous.get("original_resource_bytes_preserved") is True
+            and previous.get("resources_readonly") is True,
+            "Expected a prior successful, verified overlay installation receipt")
+    require(previous["application"] == str(app) and previous["external_prefix"] == str(prefix),
+            "Prior overlay receipt describes a different app or external prefix")
+    require(previous["historical_installation"] == historical, "Prior overlay has a different native installation identity")
+    overlay = app / "Contents" / "Resources" / "qt-cocoa"
+    require(overlay.is_dir() and not overlay.is_symlink(), "Prior overlay directory is missing or linked")
+    require(tree(overlay, builder) == previous["overlay_files"], "Existing overlay bytes, modes or links differ from prior receipt")
+    manifest_file = overlay / "provenance.json"
+    require(builder.identity(manifest_file) == previous["overlay_manifest_identity"], "Existing overlay manifest hash differs")
+    manifest = read_json(manifest_file)
+    require(manifest == previous["overlay_manifest"], "Existing overlay manifest content differs")
+    require(manifest.get("schema_version") == 1 and manifest.get("kind") == "freecad.qt-cocoa-overlay-delivery"
+            and manifest["qt_version"] == builder.QT_VERSION and manifest["qt_identity"] == builder.QT_IDENTITY
+            and manifest["external_prefix"] == str(prefix)
+            and manifest["native_source_commit"] == historical["compiled_source_commit"],
+            "Existing overlay source/prefix identity differs")
+    plugin = overlay / "platforms" / "libqcocoa.dylib"
+    require(manifest["plugin"]["relative_path"] == "platforms/libqcocoa.dylib"
+            and builder.identity(plugin) == manifest["plugin"]["installed_identity"]
+            and builder.macho_identity(plugin) == manifest["plugin"]["mach_o"],
+            "Existing overlay plugin differs from its manifest identity")
+    require(set(previous["installed_wrappers"]) == {"FreeCAD", "FreeCADCmd"}, "Unexpected prior wrapper identity set")
+    for name, expected in previous["installed_wrappers"].items():
+        require(builder.identity(app / "Contents" / "MacOS" / name) == expected, f"Existing wrapper differs: {name}")
+    expected_resources = {".": previous["original_app_inventory"]["Contents/Resources"]}
+    resource_prefix = "Contents/Resources/"
+    for path, proof in previous["original_app_inventory"].items():
+        if path.startswith(resource_prefix):
+            expected_resources[path[len(resource_prefix):]] = proof
+    current_resources = tree(app / "Contents" / "Resources", builder)
+    require(readonly(current_resources)
+            and outside_overlay(current_resources) == outside_overlay(expected_resources),
+            "A resource outside the prior overlay differs from its preserved native installation")
+    return previous
 
 
 def verified_build(receipt_path, prefix, builder):
@@ -206,15 +264,32 @@ def verified_build(receipt_path, prefix, builder):
     require(receipt_path == work / "build-receipt.json", "Build receipt must be at its recorded work path")
     source = work / "source"
     require(builder.inventory(source) == receipt["inputs"]["prepared_files"], "Prepared build sources differ from receipt")
-    require(builder.identity(source / "build_plugin.py") == builder.identity(SCRIPT_DIR / "build_plugin.py")
-            and builder.identity(source / "CMakeLists.txt") == builder.identity(SCRIPT_DIR / "CMakeLists.txt"),
-            "Build used different builder/CMake sources")
     patch = receipt["inputs"]["patch"]
-    require(patch["sha256"] == builder.PATCH_SHA256 and patch["target"] == builder.PATCH_TARGET
-            and patch["original_sha256"] == builder.ORIGINAL_SHA256 and patch["patched_sha256"] == builder.PATCHED_SHA256,
+    choice = receipt.get("ownership_fix", patch.get("ownership_fix", "parent-managed"))
+    require(choice in builder.OWNERSHIP_FIXES and patch.get("ownership_fix", choice) == choice,
+            "Unknown or contradictory Cocoa ownership choice")
+    selected = builder.OWNERSHIP_FIXES[choice]
+    builder_identity = builder.identity(source / "build_plugin.py")
+    require((builder_identity == builder.identity(SCRIPT_DIR / "build_plugin.py")
+             or (choice == "parent-managed" and builder_identity == LEGACY_BUILDER))
+            and builder.identity(source / "CMakeLists.txt") == builder.identity(SCRIPT_DIR / "CMakeLists.txt"),
+            "Build used unreviewed builder/CMake sources")
+    expected_patch_files = {
+        builder.HEADER_TARGET: {"original_sha256": builder.HEADER_ORIGINAL_SHA256,
+                                "patched_sha256": selected["header_sha256"]},
+        builder.PATCH_TARGET: {"original_sha256": builder.ORIGINAL_SHA256,
+                               "patched_sha256": selected["element_sha256"]},
+    }
+    require(patch["file"] == selected["file"] and patch["sha256"] == selected["sha256"]
+            and patch["target"] == builder.PATCH_TARGET and patch["original_sha256"] == builder.ORIGINAL_SHA256
+            and patch["patched_sha256"] == selected["element_sha256"],
             "Wrong Cocoa correction source identity")
-    require(builder.digest(source / "parent-managed-elements.patch") == builder.PATCH_SHA256
-            and builder.digest(source / "cocoa" / Path(builder.PATCH_TARGET).name) == builder.PATCHED_SHA256,
+    require((choice == "parent-managed" and "files" not in patch) or patch.get("files") == expected_patch_files,
+            "Wrong per-file Cocoa correction proof")
+    require(patch.get("upstream_proposal") == selected.get("upstream_proposal"), "Wrong upstream proposal provenance")
+    require(builder.digest(source / selected["file"]) == selected["sha256"]
+            and builder.digest(source / "cocoa" / Path(builder.PATCH_TARGET).name) == selected["element_sha256"]
+            and builder.digest(source / "cocoa" / Path(builder.HEADER_TARGET).name) == selected["header_sha256"],
             "Cocoa correction source bytes differ")
     require(receipt["source"]["archive_sha256"] == builder.SOURCE_SHA256 and receipt["source"]["url"] == builder.SOURCE_URL,
             "Wrong official Qt source pin")
@@ -249,6 +324,8 @@ def main():
     parser.add_argument("--build-receipt", type=Path, required=True)
     parser.add_argument("--backup-dir", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument("--replace-overlay-receipt", type=Path,
+                        help="Explicitly replace an existing overlay only after authenticating its prior successful installation receipt")
     parser.add_argument("--sdk", type=Path, help="Defaults to the exact SDK recorded by the plugin build")
     parser.add_argument("--compiler", default="/usr/bin/clang", help="Apple Clang C compiler for both wrappers")
     args = parser.parse_args()
@@ -266,7 +343,9 @@ def main():
     require(backup.parent.stat().st_dev == app.parent.stat().st_dev, "Backup and app must share a filesystem for reversible atomic moves")
     no_live_app(app)
     build, work, plugin = verified_build(build_receipt, prefix, builder)
-    historical = historical_app(app, prefix, builder)
+    prior_receipt = builder.safe_path(args.replace_overlay_receipt) if args.replace_overlay_receipt else None
+    historical = historical_app(app, prefix, builder, allow_overlay=prior_receipt is not None)
+    previous_overlay = verified_existing_overlay(prior_receipt, app, prefix, historical, builder) if prior_receipt else None
     sdk = builder.safe_path(args.sdk or Path(build["toolchain"]["sdk"]["path"]))
     require(builder.identity(sdk / "SDKSettings.json") == build["toolchain"]["sdk"]["settings"], "Wrapper SDK differs from reviewed build SDK")
     require((sdk / "usr" / "include" / "errno.h").is_file(), "Selected SDK lacks C headers")
@@ -274,6 +353,7 @@ def main():
     original = tree(app, builder)
     resources_original = tree(app / "Contents" / "Resources", builder)
     require(readonly(resources_original), "Original installed resources must retain their readonly protection")
+    resources_protected = outside_overlay(resources_original)
     token = uuid.uuid4().hex
     staged = app.with_name("." + app.stem + "-cocoa-" + token + ".app")
     lock = app.with_name("." + app.name + ".cocoa-install.lock")
@@ -288,6 +368,13 @@ def main():
                "historical_installation": historical, "build_receipt": {"path": str(build_receipt), **builder.identity(build_receipt)},
                "original_app_inventory": original, "commands": [],
                "scope": "Host-local Cocoa overlay and wrappers only; no Qt prefix changes, FreeCAD rebuild, app launch or PDF requalification"}
+    if previous_overlay:
+        receipt["superseded_overlay"] = {
+            "receipt": {"path": str(prior_receipt), **builder.identity(prior_receipt)},
+            "manifest_identity": previous_overlay["overlay_manifest_identity"],
+            "plugin_identity": previous_overlay["overlay_manifest"]["plugin"]["installed_identity"],
+            "scope": "Verified old qt-cocoa subtree and both wrappers replaced; complete prior app backed up; prior receipt/evidence unchanged",
+        }
     def save():
         output_receipt.parent.mkdir(parents=True, exist_ok=True)
         temporary = output_receipt.with_name(output_receipt.name + "." + token + ".tmp")
@@ -328,8 +415,12 @@ def main():
         run(["/usr/bin/ditto", "--rsrc", "--extattr", app, staged], "stage-original-app")
         require(tree(staged, builder) == original, "Staged app copy differs from original")
         resources = staged / "Contents" / "Resources"
-        resource_modes(resources, resources_original, True)
+        resource_modes(resources, resources_protected, True)
         overlay = resources / "qt-cocoa"
+        if previous_overlay:
+            require(tree(overlay, builder) == previous_overlay["overlay_files"], "Staged prior overlay differs before replacement")
+            resource_modes(overlay, previous_overlay["overlay_files"], True)
+            shutil.rmtree(overlay)
         (overlay / "platforms").mkdir(parents=True)
         shutil.copy2(plugin, overlay / "platforms" / "libqcocoa.dylib")
         shutil.copytree(work / "source", overlay / "source")
@@ -352,6 +443,7 @@ def main():
         installed_plugin = overlay / "platforms" / "libqcocoa.dylib"
         manifest = {"schema_version": 1, "kind": "freecad.qt-cocoa-overlay-delivery",
                     "qt_version": builder.QT_VERSION, "external_prefix": str(prefix), "qt_identity": builder.QT_IDENTITY,
+                    "ownership_fix": build.get("ownership_fix", "parent-managed"),
                     "native_source_commit": historical["compiled_source_commit"],
                     "build_receipt": builder.identity(overlay / "build-receipt.json"),
                     "source_files": builder.inventory(overlay / "source"),
@@ -367,11 +459,11 @@ def main():
                                  for name in ("FreeCAD", "FreeCADCmd")},
                     "signing": "Local ad-hoc; no notarization or distribution promotion"}
         (overlay / "provenance.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-        resource_modes(resources, resources_original, False)
+        resource_modes(resources, resources_protected, False)
         freeze_new_resources(overlay)
         after_resources = tree(resources, builder)
         require(readonly(after_resources), "Staged resources are not readonly")
-        require(all(after_resources.get(path) == proof for path, proof in resources_original.items()),
+        require(outside_overlay(after_resources) == resources_protected,
                 "Deep signing or staging changed an original installed resource")
         # Record the manifest and restored resource seal after nested signing.
         run(["/usr/bin/codesign", "--force", "--sign", "-", staged], "stage-final-adhoc-sign")
@@ -394,7 +486,7 @@ def main():
         require(builder.identity(final_overlay / "provenance.json") == receipt["overlay_manifest_identity"], "Installed overlay manifest differs")
         require(builder.identity(final_overlay / "platforms" / "libqcocoa.dylib") == manifest["plugin"]["installed_identity"], "Installed overlay plugin differs")
         final_resources = tree(app / "Contents" / "Resources", builder)
-        require(readonly(final_resources) and all(final_resources.get(path) == proof for path, proof in resources_original.items()),
+        require(readonly(final_resources) and outside_overlay(final_resources) == resources_protected,
                 "Installed original resources or protections differ")
         require(builder.baseline(prefix, SCRIPT_DIR) == build["baseline"], "External prefix changed during installation")
         receipt.update({"status": "installed-and-verified", "finished_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),

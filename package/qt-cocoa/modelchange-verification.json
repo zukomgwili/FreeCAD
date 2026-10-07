@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-m7f",
+  "status": "installed-and-verified",
+  "host": {
+    "os": "macOS 27.0.1 (26A434)",
+    "architecture": "arm64"
+  },
+  "compiled_freecad_source": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+  "qt": "6.11.2 pl5321h5ab96b3_1",
+  "finding": {
+    "observed_freecad_family": "Five actual Save-dialog, document close/open, quit and object-tree insertion crashes reached QAccessibleTable::modelChange after rowsInserted or rowsRemoved.",
+    "deterministic_reproducer": "A stock QTableWidget lifecycle that materializes native selected cells and then changes rows crashed with SIGSEGV three consecutive times in less than 1.2 seconds per run on the previous installed overlay.",
+    "control": "Keeping Qt modelChange, selection/cache queries and autorelease-pool drain unchanged while suppressing only Cocoa update notifications passed.",
+    "cause": "QMacAccessibilityElement teardown deleted cell interfaces owned and cached by QAccessibleTable. A later modelChange resolved a cached ID whose interface had already been deleted by the native representation.",
+    "relationship_to_FreeCAD_24t": "The earlier parent-managed guard prevented synthetic elements sharing a parent ID from deleting that parent. It did not prevent distinct native cell elements from deleting their own Qt-owned interface IDs.",
+    "upstream_proposal": {
+      "author": "Yuri Barreira",
+      "url": "https://codereview.qt-project.org/c/qt/qtbase/+/772484",
+      "patch_set": 3,
+      "revision": "de050555112940ed643dfa7bd9ed16470adc5a09",
+      "status_at_review": "NEW",
+      "reviewed_at": "2026-10-07",
+      "local_scope": "Exact Cocoa header and implementation hunks; upstream test hunk omitted in favor of the standalone stock-widget and FreeCAD runtime regressions.",
+      "complete_patch_sha256": "b2ef8d37a293566657c0052d4d64d9ab8b204c0f44ff45d5253d9b306db1e024",
+      "local_patch_sha256": "934fa3283419fa4bb3c218275caa6344c5bafc31eeba5155621ef4a47385ef70"
+    }
+  },
+  "source": {
+    "builder_sha256": "0321b3165aa1127b48c09d5e6a74dcd0c6675a18cfcab99f3e07a5105dc1c7d3",
+    "installer_sha256": "50f1194737df16a2715a84dbf41806ad90a2b7748dc5fd057f92486b1930099b",
+    "regression_sha256": "d7825ad91f10c0f894614e5052ae1259aa5cd695fa3a086a747317b5f700a430",
+    "regression_cmake_sha256": "258dd63f6795c3f5300159dbfb95e983b2db5c8e631e4cd689a054849a05c2de",
+    "build_receipt_sha256": "0902333011e3d9bb4cbb2679d4de324013a373f9981fd3e7094e24df705f60ac",
+    "build_mode": "native-interfaces",
+    "candidate_plugin_sha256": "6f4916742a148823d7b61c522425e904d08ec084430cb3828f5d01e32c66df22"
+  },
+  "validation": {
+    "native_runs": {
+      "path": "package/qt-cocoa/modelchange-native-runs.json",
+      "sha256": "6c3a31eaeab6bedd922392e1da02ac63ff92821a1974d8cb32f55b805c0140e6",
+      "summary": "The original lifecycle loop and explicit table, tree and QFileDialog model-change cases each passed 20 cycles against both candidate and installed plugin images."
+    },
+    "installed_freecad": {
+      "runtime_phase": "installed_runtime_passed",
+      "runtime_phase_sha256": "f99e8395eaf91e50a68d4e4fbf524d3f7ada2ec0e515694096493d4a32035096",
+      "runtime_log_sha256": "054e9b14b05fd88ee6077cbcd2718195488f066369cfd6fe26bc5a72c63965a8",
+      "operations": [
+        "Exact retained A302 opened, shown and redrawn with stock TechDraw commands.",
+        "Stock TechDraw_ExportPagePDF used the ordinary nonnative QFileDialog and key-entered exact output path.",
+        "A selected FreeCAD object was inserted and removed from the document tree.",
+        "A second document was inserted and closed.",
+        "The exact source document was closed without saving."
+      ],
+      "source_sha256_before_and_after": "ec5f77e3878d0ae6d0b19913e6d00e1b8f8101ec6a057e2606b606028d5d4b03",
+      "normal_user_profile_used": false,
+      "documents_remaining": 0
+    },
+    "pdf": {
+      "path": "package/qt-cocoa/modelchange-pdf-comparison.json",
+      "sha256": "8a199d71b82a16c6c33e09d98401660019082c03a78372d17b9486439f69764b",
+      "summary": "The new 4,033,108-byte one-page A2 PDF has identical layout text and zero differing rendered pixels at 110 dpi versus the independently accepted R43 A302."
+    },
+    "quality_gates": "Python byte compilation, Objective-C++ warning build, diff whitespace check, authenticated build/installer preflights, final deep-strict app signature and exact resource inventory preservation passed."
+  },
+  "delivery": {
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "installation_receipt_sha256": "3c7877f11e36f1e36049a1fd17f5c04f6ee02374fc228953a25a30955a9dcb59",
+    "installed_manifest_sha256": "dfaa74685ca191efcbbd9e057a9614faf6462a5aa5ffe53b81961f6ff9a23b88",
+    "installed_plugin_sha256": "6f4916742a148823d7b61c522425e904d08ec084430cb3828f5d01e32c66df22",
+    "superseded_plugin_sha256": "986cf810beed3d864107323cfcb47d04df4f0ae432a3164c1b703b4c195e1253",
+    "backup_application": "/Users/zukomgwili/Applications/FreeCAD Backups/cocoa-native-interfaces-20261007T233000Z/FreeCAD-27.1.0.app",
+    "signature_verified": true,
+    "original_resource_bytes_preserved": true,
+    "resources_readonly": true,
+    "external_prefix_unchanged": true
+  },
+  "evidence": {
+    "path": "package/qt-cocoa/modelchange-evidence.json.gz",
+    "sha256": "1f7c3bdf975a7817605bcf975e0983c013899b7527d44ee6148b8b74677d9a1f",
+    "decoded_content_sha256": "7f8e6c5a1e626945495efdc616e31502bfb4733f87ebd5258677f7c77452987e",
+    "bytes": 533674,
+    "file_count": 24,
+    "excluded_bytes": ["FCStd model", "PDF", "rendered drawing"]
+  },
+  "limits": {
+    "official_released_qt_fix": false,
+    "minimum_macos_runtime_qualified": false,
+    "full_freecad_build_repeated": false,
+    "dependency_package_promoted": false,
+    "notarized_distribution": false,
+    "external_prefix_required": true,
+    "drawing_package_accepted_by_this_issue": false
+  },
+  "delivery_followup": "FreeCAD-4fa"
+}
