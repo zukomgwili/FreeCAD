@@ -50,6 +50,22 @@ def make_line(first_param, last_param=None):
     last_param : Base.Vector
         Second point of the line, if not set the function evaluates
         the first_param to look for a Part.LineSegment or a Shape
+
+    Notes
+    -----
+    The constructor sets the wire's Points without recomputing the document.
+    Recompute before reading Start or End, or attaching expressions to their
+    components. The first execution initializes these endpoint properties
+    from Points and Placement. A component expression applied earlier can
+    replace an endpoint using the other, still uninitialized components.
+
+    For example, preserve the input X and Y coordinates while driving Z::
+
+        line = make_line(App.Vector(100, 200, 30), App.Vector(400, 500, 60))
+        App.ActiveDocument.recompute()
+        line.setExpression("Start.z", "80 mm")
+        line.setExpression("End.z", "120 mm")
+        App.ActiveDocument.recompute()
     """
     if last_param:
         p1 = first_param

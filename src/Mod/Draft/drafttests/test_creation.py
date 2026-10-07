@@ -48,6 +48,58 @@ from draftutils.messages import _msg
 class DraftCreation(test_base.DraftTestCaseDoc):
     """Test Draft creation functions."""
 
+    def _assert_endpoint_geometry(self, obj, start, end, placement=None):
+        """Check two-point wire geometry in local and document coordinates."""
+        if placement is None:
+            placement = App.Placement()
+        self.assertTrue(obj.Placement.isSame(placement, 1e-7))
+        self.assertEqual(len(obj.Points), 2)
+        self.assertTrue(obj.Shape.isValid())
+        vertices = obj.Shape.Vertexes
+        self.assertEqual(len(vertices), 2)
+        inverse = placement.inverse()
+        for index, expected in enumerate((start, end)):
+            self.assertTrue(
+                obj.Points[index].isEqual(inverse.multVec(expected), 1e-7),
+                "Local point {} differs from the driven endpoint".format(index),
+            )
+            self.assertTrue(
+                vertices[index].Point.isEqual(expected, 1e-7),
+                "Shape vertex {} differs from the driven endpoint".format(index),
+            )
+        self.assertTrue(obj.Start.isEqual(start, 1e-7))
+        self.assertTrue(obj.End.isEqual(end, 1e-7))
+
+    def _assert_endpoint_height_expressions(self, obj, start, end, placement=None):
+        """Attach expressions and check height updates retain initialized geometry."""
+        driver = self.doc.addObject("App::FeaturePython", "EndpointDriver")
+        driver.addProperty("App::PropertyLength", "StartHeight", "Test")
+        driver.addProperty("App::PropertyLength", "EndHeight", "Test")
+        driver.StartHeight = 31
+        driver.EndHeight = 47
+        expressions = {
+            "Start.z": "{}.StartHeight".format(driver.Name),
+            "End.z": "{}.EndHeight".format(driver.Name),
+        }
+        for prop, expression in expressions.items():
+            obj.setExpression(prop, expression)
+
+        for start_height, end_height in ((31, 47), (53, 71)):
+            with self.subTest(start_height=start_height, end_height=end_height):
+                driver.StartHeight = start_height
+                driver.EndHeight = end_height
+                self.doc.recompute()
+                self._assert_endpoint_geometry(
+                    obj,
+                    Vector(start.x, start.y, start_height),
+                    Vector(end.x, end.y, end_height),
+                    placement,
+                )
+                self.assertEqual(
+                    dict(obj.ExpressionEngine),
+                    {"." + prop: expression for prop, expression in expressions.items()},
+                )
+
     def test_line(self):
         """Create a line."""
         operation = "Draft Line"
@@ -57,6 +109,25 @@ class DraftCreation(test_base.DraftTestCaseDoc):
         _msg("  a={0}, b={1}".format(a, b))
         obj = Draft.make_line(a, b)
         self.assertTrue(obj, "'{}' failed".format(operation))
+
+    def test_line_endpoint_expressions_after_recompute(self):
+        """Initialize a line before driving its endpoint heights with expressions."""
+        start = Vector(7, 11, 2)
+        end = Vector(19, 23, 6)
+        obj = Draft.make_line(start, end)
+        self.doc.recompute()
+        self._assert_endpoint_geometry(obj, start, end)
+        self._assert_endpoint_height_expressions(obj, start, end)
+
+    def test_placed_wire_endpoint_expressions_after_recompute(self):
+        """Drive document endpoint heights while preserving a wire's placement."""
+        start = Vector(7, 11, 2)
+        end = Vector(19, 23, 6)
+        placement = App.Placement(Vector(40, -30, 12), App.Rotation(Vector(0, 0, 1), 90))
+        obj = Draft.make_wire([start, end], placement=placement, face=False)
+        self.doc.recompute()
+        self._assert_endpoint_geometry(obj, start, end, placement)
+        self._assert_endpoint_height_expressions(obj, start, end, placement)
 
     def test_polyline(self):
         """Create a polyline."""
