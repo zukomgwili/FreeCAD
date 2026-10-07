@@ -551,8 +551,8 @@ void MoveProperty::testMovePropertyExpressionWithAct(
 
     App::ObjectIdentifier path(*prop2);
     std::shared_ptr<App::Expression> expr(App::Expression::parse(varSet1Doc1, "Variable"));
-    doc1->saveAs("test.FCStd");
-    doc2->saveAs("test1.FCStd");
+    doc1->saveAs(Base::FileInfo::pathToString(tempDir.path() / "test.FCStd").c_str());
+    doc2->saveAs(Base::FileInfo::pathToString(tempDir.path() / "test1.FCStd").c_str());
 
     sourceProp2->setExpression(path, expr);
     sourceProp2->ExpressionEngine.execute();
