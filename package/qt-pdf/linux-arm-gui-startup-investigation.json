@@ -1,0 +1,976 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-n9k",
+  "investigation_date": "2026-10-07",
+  "target": "linux-aarch64",
+  "outcome": "not_reproduced",
+  "cause": "not_established",
+  "causal_source_fix_made": false,
+  "diagnostic_only": true,
+  "qualified": false,
+  "native_freecad_qualified": false,
+  "distribution_promoted": false,
+  "summary": "Forty fresh narrowed ordinary startup processes completed the original DrawViewDetailTest.setUp interval without SIGSEGV. Twenty used the retained successful bypass module and twenty used the exact original failed bypass module. The original failed main/Core/Gui and stack were not retained, and the independent host differs. This investigation does not establish a cause or fix.",
+  "original_failure": {
+    "run_id": 37280700369,
+    "job_id": 111667886735,
+    "head_sha": "4e5691bd6b45aeffa07dd8e40efd96a76f376fb5",
+    "conclusion": "failure",
+    "signal": 11,
+    "artifact_id": 11335079015,
+    "artifact_sha256": "a9deddcd6801a0c5fd374df2bba5a8c10c74df639829b8bb7370ad6b8edd67d3",
+    "last_marker": "DrawViewDetail test: page created",
+    "missing_marker": "DrawViewDetail test: view created",
+    "interval": {
+      "path": "src/Mod/TechDraw/TDTest/DrawViewDetailTest.py",
+      "lines": [
+        26,
+        39
+      ],
+      "operations": [
+        "DrawViewPart creation",
+        "page.addView",
+        "view.Source assignment",
+        "document.recompute",
+        "2-second QEventLoop"
+      ]
+    },
+    "palette_probe_executed": false,
+    "core_or_stack_retained": false,
+    "main_core_gui_binaries_retained": false,
+    "failure_preserved": true
+  },
+  "ordinary_success_reused": {
+    "run_id": 37308593317,
+    "job_id": 111758217994,
+    "head_sha": "7136be99a713458e9e68d1095bd6c079d59f692a",
+    "conclusion": "success",
+    "artifact_id": 11348671917,
+    "artifact_sha256": "2922b44226081f2f61167b747b044a99c62fdd07efbcb3d4a0ada1cf0c29704b",
+    "gui_tests_each_runtime": 11,
+    "native_pdf_comparisons": 24,
+    "rerun": false,
+    "gdb_was_skipped": true,
+    "durable_qualification_receipt": {
+      "path": "package/qt-pdf/linux-native-qualification.json",
+      "sha256": "12fe88f9a8c652ca14679c4cf6fbf4455f23907afad7e05d5438de3cc715a3da",
+      "size": 315658
+    }
+  },
+  "source_equivalence": {
+    "heads": [
+      "4e5691bd6b45aeffa07dd8e40efd96a76f376fb5",
+      "7136be99a713458e9e68d1095bd6c079d59f692a"
+    ],
+    "unchanged_checked_paths": [
+      "src",
+      "CMakeLists.txt",
+      "cMake",
+      "pixi.toml",
+      "pixi.lock",
+      "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro",
+      "tests/src/Mod/TechDraw/Gui/QtPdfStroker/native_compare.py",
+      "tests/src/Mod/TechDraw/Gui/QtPdfStroker/compare.py",
+      "tests/src/Mod/TechDraw/Gui/QtPdfStroker/build-native-bypass.py",
+      "package/qt-pdf/reuse_linux_qt_qualification.py"
+    ],
+    "checked_diff_empty": true,
+    "all_changed_paths": [
+      ".beads/issues.jsonl",
+      ".github/workflows/qt_pdf_qualify.yml",
+      "package/qt-pdf/linux-native-qualification.json",
+      "package/qt-pdf/linux_native_diagnostics.py",
+      "tests/src/Mod/TechDraw/Gui/QtPdfStroker/NATIVE.md"
+    ],
+    "historical_macro_sha256": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01",
+    "historical_macro_matches_original_launch": true,
+    "current_macro_sha256": "5abdc20d5b19ef2b3c388d13356d265b25818251bcc65de9cfa57e3b0f7b4877",
+    "current_macro_matches_original_launch": false,
+    "replay_macro_git_reference": "7136be99a713458e9e68d1095bd6c079d59f692a:tests/src/Mod/TechDraw/Gui/QtPdfStroker/native-freecad.FCMacro"
+  },
+  "restoration": {
+    "strict_archive": {
+      "name": "native-build.tar.gz",
+      "size": 55623415,
+      "sha256": "21abdca91bdcae391039bd206581ca320c11d2e411743db4dd504dcc2c0df6ae"
+    },
+    "metadata_pin_sha256": "17617cdcac9c0930db56f1b754d7e2d7c99d8de3a1a93dd6b7223908fe4caae5",
+    "files": 1460,
+    "directories": 173,
+    "all_member_bytes_modes_types_names_checked_before_extraction": true,
+    "exclusive_owned_container_destination": "/home/runner/work/FreeCAD/FreeCAD/build/release",
+    "restored_readback_verified": true,
+    "all_native_files_unchanged_after_40_startups": true,
+    "raw_archive_restored": false,
+    "executable_runpaths_modified": false,
+    "unsafe_member_rejection_controls": 12
+  },
+  "runtime": {
+    "baseline_prefix": "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default",
+    "conda_package_count": 493,
+    "conda_archive_identities_match_retained_baseline": true,
+    "historical_locked_wheels": [
+      {
+        "pypi": "https://files.pythonhosted.org/packages/69/76/37c0ccd5ab968a6a438f9c623aeecc84c202ab2fabc6a8fd927580c15b5a/QtPy-2.4.3-py3-none-any.whl",
+        "name": "qtpy",
+        "version": "2.4.3",
+        "sha256": "72095afe13673e017946cc258b8d5da43314197b741ed2890e563cf384b51aa1",
+        "requires_dist": [
+          "packaging",
+          "pytest>=6,!=7.0.0,!=7.0.1 ; extra == 'test'",
+          "pytest-cov>=3.0.0 ; extra == 'test'",
+          "pytest-qt ; extra == 'test'"
+        ],
+        "requires_python": ">=3.7"
+      },
+      {
+        "pypi": "https://files.pythonhosted.org/packages/99/bc/cdfb911f753b4b4f8e400d66d805e5718e32632837507b574a573b3efa24/freecad_stubs-1.0.21-py3-none-any.whl",
+        "name": "freecad-stubs",
+        "version": "1.0.21",
+        "sha256": "fa96244b1a05e5130b0f96b3eb4ef9aca0f0aa437fff8000cb0750bdbb4edccc",
+        "requires_dist": [
+          "qtpy",
+          "joblib ; extra == 'generate'",
+          "more-itertools ; extra == 'generate'",
+          "pcpp ; extra == 'generate'",
+          "gitpython ; extra == 'generate'",
+          "dataclass-binder ; extra == 'generate'",
+          "typed-argparse ; extra == 'generate'",
+          "pyqt5 ; extra == 'check'",
+          "pyqt5-stubs ; extra == 'check'",
+          "black ; extra == 'check'",
+          "mypy ; extra == 'check'",
+          "pylint ; extra == 'check'",
+          "pyright ; extra == 'check'",
+          "pytest ; extra == 'check'",
+          "qtpy ; extra == 'check'",
+          "libclang ; extra == 'stub-gen'",
+          "freecad-stubs[check,generate,stub-gen] ; extra == 'all'"
+        ],
+        "requires_python": ">=3.6"
+      }
+    ],
+    "qt_libraries": 14,
+    "qt_plugins": 14,
+    "all_28_qt_library_plugin_file_hashes_match_retained_baseline": true,
+    "baseline_runtime_file_hashes": [
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Concurrent.so.6.11.2",
+        "sha256": "d20994af9c16d82a7efabe3a47bae0d009bda94de1b40a33b2a774c7fd32465d",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Core.so.6.11.2",
+        "sha256": "f716d0d151db5143c4426fe1c254aa1900fef73e72e3d7c7107b8a7214ae7821",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6DBus.so.6.11.2",
+        "sha256": "ec1e83af4ab2a5f748d00cfab98c0072463513e7838d7ea8a2d052cf5e86929a",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Gui.so.6.11.2",
+        "sha256": "79db47e58606f9fa51c7722187d801852657c31b1377b1542d299b06a0d184ea",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Network.so.6.11.2",
+        "sha256": "9e3679015fdbf0474facc0a0dbad5c1c88ee248b91a75fa0de7b4040d7a62476",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6OpenGL.so.6.11.2",
+        "sha256": "ec3bd92a282f26d8b08771d03c89f749e625a0500562efaba0d22280a75bf056",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6OpenGLWidgets.so.6.11.2",
+        "sha256": "01c3f8fc13ca5c417226b020fca4f980ecbeaf90808998590c46992d67cc7b7f",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6PrintSupport.so.6.11.2",
+        "sha256": "e4bd43abe7c18ec9a2b1ef5671b29139cc87fc15c9327d88ef86dd221db00b17",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Svg.so.6.11.2",
+        "sha256": "a81417f41607fef74a4644ae9fd4c74a849c35a5d1bfeb7785282aaa2f051ecd",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6SvgWidgets.so.6.11.2",
+        "sha256": "9458c3199ef39388be0d665c5e8ec3f0b1b02749f4e1f9f21b189afbba388455",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6UiTools.so.6.11.2",
+        "sha256": "9ef32eebe9ad89ec0ac67c6d529cfd8f81c44324ef8e088b3421edac6df66088",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Widgets.so.6.11.2",
+        "sha256": "d9fe2e4885e3a8bb75b661f6b2cd498114e064399b17999301dfa06966b3cbcf",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6XcbQpa.so.6.11.2",
+        "sha256": "9001f42de012e7cc06c26302ec4b3c2475501ecbf1a49f58f426ad48d0acf5c9",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_libraries",
+        "relative_path": "lib/libQt6Xml.so.6.11.2",
+        "sha256": "efda39b8f3e609794b04df5caff13324a55958cf2fc6bdb48d6295222ef8bf4a",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/iconengines/libqsvgicon.so",
+        "sha256": "283d42bdc6d7668df496ab3c69f105f9e9ebe48254a2108ea2725c19975c5c03",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqgif.so",
+        "sha256": "2030e0d0317d4380b1c9979ff42d2407047742bbd21c565adf70de34ee1d35c5",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqicns.so",
+        "sha256": "60184f4206a2eae2b2fa7ddad8e66ef531b71b7d38ae6f9e90a248b99b3a5d93",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqico.so",
+        "sha256": "6b1fd71f2064df46c82ae451cc56ea970b7e0760701a80b75f9bcdeb73f314ec",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqjpeg.so",
+        "sha256": "f35307894bc2dbd4da2048e7ecfafc4eb766e08d41714b99427dfaff6cc955f8",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqsvg.so",
+        "sha256": "49fd4b83dd372635eda56ae64a4a4ce843192b3f65a87a0c58cd969574a5fc8e",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqtga.so",
+        "sha256": "522939987fc12fedf81c4af5d4c4bcdbb2b8a525343a38550e2804c18c64c0cb",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqtiff.so",
+        "sha256": "5a6d149eedec4e0d5c3ace75103ea073ccab0659036a08b8c19f44d908bfcdf5",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqwbmp.so",
+        "sha256": "a0ea96c085bd2ec6f85165f5244589d4ac9ca5aeea15e51f3beffed432c26e47",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/imageformats/libqwebp.so",
+        "sha256": "54ab24b1b7af58c822eaa4799d626ccb7464e06646d6f2d504aa06db05110074",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/platforminputcontexts/libcomposeplatforminputcontextplugin.so",
+        "sha256": "9e6f950db6b05367c9369777d45f9ca5175a69445c3cedad0df953cfc695e037",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/platforms/libqxcb.so",
+        "sha256": "6a455a63a5a9051dd75634716620e29041cff893288cfdb13960a76101cfca39",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/printsupport/libcupsprintersupport.so",
+        "sha256": "5b86c1b2bd6b2f9bc546d0663844a09c4324e3f6cf8c25215695f04e54c9b322",
+        "matched_recorded_baseline": true
+      },
+      {
+        "kind": "qt_plugins",
+        "relative_path": "lib/qt6/plugins/xcbglintegrations/libqxcb-glx-integration.so",
+        "sha256": "bbc6a6a5f9e43320a3c23f67334c7aad7a64a575f790507488d9f7c57aa01a8a",
+        "matched_recorded_baseline": true
+      }
+    ],
+    "package_manifest_sha256": "5530ae7476341cb03e05e974800fbff9665c2c97dcd1b3873e30c080b6381de4",
+    "architecture": "aarch64",
+    "qt_version": "6.11.2",
+    "qpa": "xcb",
+    "xvfb_display": ":99",
+    "image": {
+      "name": "docker.io/library/ubuntu:24.04",
+      "id": "ea17ec341c4211d1dd7f184a0dedf7dcb7945e92db20a5dde20544262214b84f",
+      "architecture": "arm64",
+      "os": "linux",
+      "single_image_digest": "docker.io/library/ubuntu@sha256:7f622ca8766bccb22f04242ecb6f19f770b2f08827dc4b8c707de5e78a6da7ab",
+      "other_retained_repo_digest": "docker.io/library/ubuntu@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90"
+    },
+    "host_os_release": "PRETTY_NAME=\"Ubuntu 24.04.4 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.4 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+    "host_kernel": "7.1.3-200.fc44.aarch64",
+    "cpus": 4,
+    "memory_mib": 2048,
+    "system_packages_evidence_member": "runtime/dpkg-after.txt",
+    "historical_lock_sha256": "e6978ba46f11304148ab5acf7b4a432d0ffea26518e36a27092b3a24b3384644",
+    "historical_manifest_sha256": "a5904fa4695e7e3104a1a4ba1dc440085771a0031a22873a058623f41439fcad"
+  },
+  "replay": {
+    "command": "/opt/podman/bin/podman exec freecad-n9k-replay python3 /evidence/run-startup.py <attempt 1..40>",
+    "command_prerequisites": "An owned LinuxARM container with the pinned strict build at the original runner paths, reconstructed historical baseline prefix, xcb/Xvfb, and retained evidence scripts mounted at /evidence. The disposable container is removed after recording/review; this is a reconstruction recipe, not a persistent endpoint.",
+    "historical_macro_sha256": "2e5711956d8ff9b37a9dcc8e17e153d134fca770bfa486fea381991afbf44e01",
+    "diagnostic_macro_sha256": "d93a8093d815e2cd373ad0d7f0f7699d7140f3e463dc3c55e6da431fd771380e",
+    "launcher_sha256": "3598ef69dc9b8fc1e6a8a69742a610d0cab8b72e5753897c43b974d5fb47a2f3",
+    "scope": "Historical initialization preserved through activateWorkbench, then actual first test setUp and tearDown. No test body, other GUI cases or PDF exports. Fresh process and isolated profile each attempt.",
+    "required_verdict_checks": [
+      "exit code zero",
+      "no timeout or signal",
+      "N9K_TRIGGER_ENTER",
+      "original page-created and view-created markers",
+      "N9K_TRIGGER_COMPLETED",
+      "teardown completion",
+      "completed source-bound JSON",
+      "actual loaded Qt/core/bypass file identities"
+    ],
+    "result": {
+      "attempts": 40,
+      "interval_completed": 40,
+      "signals": 0,
+      "timeouts": 0,
+      "retained_retry_bypass_attempts": 20,
+      "original_failed_bypass_attempts": 20,
+      "all_other_loaded_image_hashes_unchanged": true,
+      "loaded_image_count": 25,
+      "total_process_seconds": 119.535,
+      "minimum_seconds": 2.793,
+      "maximum_seconds": 4.512,
+      "qualified": false,
+      "original_failure_reproduced": false
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 4.512,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 2,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.47,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 3,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.197,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 4,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.94,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 5,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.937,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 6,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.843,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 7,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.793,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 8,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.881,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 9,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.907,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 10,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.87,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 11,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.901,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 12,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.872,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 13,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.884,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 14,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.858,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 15,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.908,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 16,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.903,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 17,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.917,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 18,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.889,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 19,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.875,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 20,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.896,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "b2c11b24e96613230137d4a4c7de7f8ac50ca1b4c00ecb26c17b40e8db39afa7"
+      },
+      {
+        "attempt": 21,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.2,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 22,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.053,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 23,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.192,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 24,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.228,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 25,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.222,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 26,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 3.009,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 27,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.871,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 28,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.932,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 29,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.863,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 30,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.868,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 31,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.854,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 32,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.896,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 33,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.918,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 34,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.865,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 35,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.898,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 36,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.892,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 37,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.906,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 38,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.861,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 39,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.879,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      },
+      {
+        "attempt": 40,
+        "returncode": 0,
+        "signal": null,
+        "timed_out": false,
+        "elapsed_seconds": 2.875,
+        "startup_interval_completed": true,
+        "diagnostic_only": true,
+        "qualified": false,
+        "core_pattern": "|/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %h %d %F",
+        "kernel": "7.1.3-200.fc44.aarch64",
+        "bypass_module_sha256": "56e1e95db7eea70cc07e9d8ab457a94dcf071329ae521e4934a73023f902b643"
+      }
+    ],
+    "invariant_loaded_images": {
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Concurrent.so.6.11.2": "d20994af9c16d82a7efabe3a47bae0d009bda94de1b40a33b2a774c7fd32465d",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Core.so.6.11.2": "f716d0d151db5143c4426fe1c254aa1900fef73e72e3d7c7107b8a7214ae7821",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6DBus.so.6.11.2": "ec1e83af4ab2a5f748d00cfab98c0072463513e7838d7ea8a2d052cf5e86929a",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Gui.so.6.11.2": "79db47e58606f9fa51c7722187d801852657c31b1377b1542d299b06a0d184ea",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Network.so.6.11.2": "9e3679015fdbf0474facc0a0dbad5c1c88ee248b91a75fa0de7b4040d7a62476",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGL.so.6.11.2": "ec3bd92a282f26d8b08771d03c89f749e625a0500562efaba0d22280a75bf056",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6OpenGLWidgets.so.6.11.2": "01c3f8fc13ca5c417226b020fca4f980ecbeaf90808998590c46992d67cc7b7f",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6PrintSupport.so.6.11.2": "e4bd43abe7c18ec9a2b1ef5671b29139cc87fc15c9327d88ef86dd221db00b17",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Svg.so.6.11.2": "a81417f41607fef74a4644ae9fd4c74a849c35a5d1bfeb7785282aaa2f051ecd",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6SvgWidgets.so.6.11.2": "9458c3199ef39388be0d665c5e8ec3f0b1b02749f4e1f9f21b189afbba388455",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6UiTools.so.6.11.2": "9ef32eebe9ad89ec0ac67c6d529cfd8f81c44324ef8e088b3421edac6df66088",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Widgets.so.6.11.2": "d9fe2e4885e3a8bb75b661f6b2cd498114e064399b17999301dfa06966b3cbcf",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6XcbQpa.so.6.11.2": "9001f42de012e7cc06c26302ec4b3c2475501ecbf1a49f58f426ad48d0acf5c9",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libQt6Xml.so.6.11.2": "efda39b8f3e609794b04df5caff13324a55958cf2fc6bdb48d6295222ef8bf4a",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libpyside6.cpython-313-aarch64-linux-gnu.so.6.11": "0f4aedf092c45e37c62464752c99df527fbbbc1099689fd6ca0033f8791a0741",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libpython3.13.so.1.0": "3966c45eef8b94d598ab39810d6c8f89d13908363a7eb399e8e8e15d5a59c784",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/libshiboken6.cpython-313-aarch64-linux-gnu.so.6.11": "16f5d91f460f1f2eda47f4ef156a84ba850c3d2260a93d39630df2404ef42781",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/shiboken6/Shiboken.cpython-313-aarch64-linux-gnu.so": "4e4749f4732d0e97a052e6123d24b217fd233d578a4f6e8558d3db375a2496ad",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqxcb.so": "6a455a63a5a9051dd75634716620e29041cff893288cfdb13960a76101cfca39",
+      "/home/runner/work/FreeCAD/FreeCAD/.pixi/envs/default/lib/qt6/plugins/xcbglintegrations/libqxcb-glx-integration.so": "bbc6a6a5f9e43320a3c23f67334c7aad7a64a575f790507488d9f7c57aa01a8a",
+      "/home/runner/work/FreeCAD/FreeCAD/build/release/bin/FreeCAD": "ccfeda0c4ae70f977da3bcdd8d89d86a2c362586d2a9e287ff6821cacf63f155",
+      "/home/runner/work/FreeCAD/FreeCAD/build/release/lib/libFreeCADApp.so": "58b34cf74bf7caa878fcd8dd53257c8dd5bf4ec2f29792befdccfdac17dea3d4",
+      "/home/runner/work/FreeCAD/FreeCAD/build/release/lib/libFreeCADBase.so": "2fce2d1e90f0b2fe415bd58f9519446941b1fdbaba484d273c8f25d599ed8c99",
+      "/home/runner/work/FreeCAD/FreeCAD/build/release/lib/libFreeCADGui.so": "8d84358809e6dc5a9ceb72077e691f6642810e963b62cdd60685171d561a047d"
+    },
+    "native_python_signal_trace_enabled": true,
+    "maximum_child_seconds": 30
+  },
+  "remaining_limits": [
+    "Original failed main/Core/Gui binaries, native stack and core are absent. The retained successful build exercises matching source/configuration but cannot be called the exact original executable.",
+    "Independent Ubuntu24.04.4 container/Fedora7.1.3 kernel differs from hostedUbuntu24.04.5 runner image20260927.135.1. System libraries, display/GL, memory/CPU and scheduling are not claimed byte-equivalent.",
+    "The diagnostic calls the exact original setup directly and skips the unittest runner, test body, other tests and PDF stages. Its macro differs from the frozen original and is labeled diagnostic.",
+    "Forty successful starts cannot rule out an intermittent failure. No observed crashing C++ frame, reproducible failure or causal fix has been established."
+  ],
+  "diagnostic_stack_outcome": {
+    "sigsegv_seen": false,
+    "new_core_or_crashing_stack_collected": false,
+    "gdb_invoked": false,
+    "gdb_skip_reason": "No ordinary diagnostic SIGSEGV recurred; a successful debugger replay would not establish the cause or qualify native behavior.",
+    "core_policy": "Child core limit1GiB; VM core_pattern pipes to systemd-coredump, so local-file core retention is not assured. Python faulthandler and process/runtime logs were enabled.",
+    "if_failure_recurs": "Preserve the exact failing app/Core/Gui and bypass bytes, runtime prefix/input identities, ordinary signal result, logs and native stack/core. Use a narrowly scoped GDB replay to locate the crashing frame before making any source fix."
+  },
+  "regression_test": {
+    "added": false,
+    "reason": "The original SIGSEGV was not reproduced and no causal fix was made. The retained sharp startup loop is a diagnostic seam, not a demonstrated failing regression test."
+  },
+  "scope_controls": {
+    "hosted_workflows_dispatched": 0,
+    "freecad_builds": 0,
+    "qt_package_builds": 0,
+    "qt_standalone_or_upstream_tests_rerun": false,
+    "native_pdf_comparisons_rerun": false,
+    "full_gui11_rerun": false,
+    "linux64_or_other_platforms_rerun": false,
+    "package_or_distribution_inputs_changed": false,
+    "existing_qualification_receipts_changed": false,
+    "reason_recorded_before_replay": true
+  },
+  "evidence_bundle": {
+    "path": "package/qt-pdf/linux-arm-gui-startup-evidence.json.gz",
+    "sha256": "2a41983c8a4cad48595f791a6058bede9d456b35b3bc6de50a375787da637eb8",
+    "size": 365165,
+    "encoding": "gzip-compressed JSON with per-member size/SHA-256 and exact UTF-8 text",
+    "members": 224,
+    "decoded_bytes": 2130833,
+    "all_member_hashes_independently_redecoded_by_author": true
+  },
+  "closure_basis": "The issue acceptance permits documented reproduction limits and diagnostic evidence when no reproduction is obtained. Closing this investigation does not claim that the original SIGSEGV was fixed.",
+  "cleanup": {
+    "owned_disposable_container": "freecad-n9k-replay",
+    "removed_after_evidence_capture": true,
+    "existing_podman_vm_retained": true,
+    "evidence_compression_readback_completed_before_removal": true
+  }
+}
