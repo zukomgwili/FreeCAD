@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-24t",
+  "status": "installed-and-verified",
+  "host": {
+    "os": "macOS 27.0.1 (26A434)",
+    "architecture": "arm64"
+  },
+  "compiled_freecad_source": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+  "baseline_qt": "6.11.2 pl5321h5ab96b3_1",
+  "finding": {
+    "proven_stock_widget_cause": "Parent-managed synthetic Cocoa elements share the table accessibility ID. Cleanup deleted the live parent interface. One selected item invalidated it; two selected items crashed the native selected-children method.",
+    "original_freecad_link": "Both FreeCAD reports identify accessibilitySelectedChildren in the identical installed plugin. The direct stock-widget crash identifies the same selector/plugin UUID; corrected A501/A302 routes returned safely. Original exact AX child and invalid pointer remain unidentified.",
+    "original_register_limit": "FreeCAD re-raised SIGSEGV; captured registers describe __pthread_kill, not the original selector fault.",
+    "patch_origin": {
+      "author": "Caleb Meadows",
+      "url": "https://codereview.qt-project.org/c/qt/qtbase/+/765434/1",
+      "revision": "c7fd3f34b997bb363be15650647665b3b6b8a5f4",
+      "status_at_retrieval": "NEW",
+      "bug": "https://bugreports.qt.io/browse/QTBUG-149612",
+      "local_difference": "Same ownership guards with shortened comment; no broader native ownership rewrite."
+    }
+  },
+  "validation": {
+    "stock_baseline": "baseline-selector-runs.json; direct-selector-crash.json; identity-baseline-one.log",
+    "recompiled_baseline_comparison": "comparison-runs.json",
+    "initial_patch_stress": "lifecycle-and-stress-runs.json (400 native queries)",
+    "authenticated_build": "build/build-receipt.json",
+    "identity_assertions": "identity-selector-runs.json (115 corrected queries; stock baseline parent invalidation)",
+    "candidate_a302": "a302-runtime-identity.json; stock Qt Save returned, process alive, one A2 PDF; Poppler visual readback nonblank and complete",
+    "candidate_a501": "a501-runtime-identity.json; selected stock redraw followed by CUA AX returned, three Qt tree cells selected",
+    "model_original_sha256": "ec5f77e3878d0ae6d0b19913e6d00e1b8f8101ec6a057e2606b606028d5d4b03",
+    "model_original_saved": false,
+    "normal_user_profile_used": false,
+    "delivery_review": {
+      "reviewer": "cocoa_crash_evidence",
+      "result": "No concrete blockers found in installer/launcher; actual app runtime verification remains separate."
+    },
+    "installed_selected_children": "installed-selector-runs.json; 13 native queries with cell identity assertions",
+    "installed_a501": "installed-a501-runtime.json; selected stock redraw AX before first PDF, three tree cells selected",
+    "installed_a302": "installed-a302-runtime.json; stock Qt Save completed, one A2 PDF, source hashes unchanged",
+    "pdf_visual": "pdf-visual-readback.json; rendered bytes identical to initial corrected candidate",
+    "loaded_qt_libraries": "installed-runtime-origins.json; all 12 observed in empty-startup run reside in preserved prefix; Cocoa exact overlay path/hash",
+    "post_runtime": "post-runtime-checks.json; CLI wrapper version, both owned GUI processes closed, final deep strict signature passed",
+    "quality_gates": "Builder/installer AST syntax, warning-as-error launcher compilation, targeted native compilation/tests, repository pre-commit hooks on new tests and final diff whitespace check",
+    "independent_final_review": "package/qt-cocoa/review.json"
+  },
+  "excluded_comparisons": {
+    "rebuilt-baseline-runs.json": "QPA path alone loaded the original prefix plugin; excluded from rebuilt baseline evidence.",
+    "observer_failed_launches": "An observer called a private model extent getter and failed. Two owned test processes were terminated by root; neither passing integration checks nor native crashes."
+  },
+  "limits": {
+    "official_released_qt_fix": false,
+    "minimum_macos_runtime_qualified": false,
+    "full_freecad_build_repeated": false,
+    "unrelated_workflows_repeated": false,
+    "drawing_content_committed": false,
+    "drawing_production_bead_closed": false,
+    "dependency_package_promoted": false,
+    "external_prefix_required": true,
+    "notarized_distribution": false
+  },
+  "delivery_followup": "FreeCAD-4fa",
+  "evidence": {
+    "path": "package/qt-cocoa/evidence.json.gz",
+    "format": "Allowlisted file bytes encoded in gzip JSON; members have SHA-256 and size.",
+    "sha256": "221c2cfe9722eaa8d3210b414108aba510903a9eceac857c8fc9707d333f747c",
+    "decoded_content_sha256": "ad258d59e04f23954dfa4b9fad631e78d654a74058f1b1e9c7611890bb6b57c1",
+    "bytes": 550806,
+    "file_count": 63
+  },
+  "delivery": {
+    "status": "installed-and-verified",
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "backup_application": "/Users/zukomgwili/Applications/FreeCAD Backups/cocoa-before-20261007T143920Z/FreeCAD-27.1.0.app",
+    "build_plugin_sha256": "986cf810beed3d864107323cfcb47d04df4f0ae432a3164c1b703b4c195e1253",
+    "installed_plugin_sha256": "986cf810beed3d864107323cfcb47d04df4f0ae432a3164c1b703b4c195e1253",
+    "receipt": "installation/installation-receipt.json",
+    "original_resource_bytes_preserved": true,
+    "resources_readonly": true,
+    "original_qt_prefix_preserved": true,
+    "corresponding_source_and_licenses": "Contents/Resources/qt-cocoa/source and dependencies",
+    "entrypoints": [
+      "/Applications/FreeCAD-27.1.0.app",
+      "freecad-local",
+      "freecadcmd-local"
+    ],
+    "external_prefix_required": true
+  }
+}
