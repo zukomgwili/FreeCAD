@@ -30,6 +30,7 @@
 #include <App/VarSet.h>
 
 #include <src/App/InitApplication.h>
+#include <src/TempDirectory.h>
 
 class RenameProperty: public ::testing::Test
 {
@@ -139,6 +140,9 @@ protected:
     {}
 
     const long value = 123;
+
+    // Isolate parallel tests and keep saved files through undo/redo until documents are closed.
+    tests::TempDirectory tempDir {"MoveProperty"};
 
     App::Document* doc1;
     App::Document* doc2;
