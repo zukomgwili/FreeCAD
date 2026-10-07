@@ -1,0 +1,1097 @@
+{
+  "assessment_date": "2026-10-07",
+  "audits": {
+    "fork-history-audit.json": "820574fe7246bec18dbd0c1b801c2aea2a03701f21f1fd8ec97efa79a83f3bbc",
+    "guidelines-observations.json": "5ce4326686e1f7a3857e7fd12c9240796e6887151cbb40d7b7ae3c823fdbcb26",
+    "source-subset-apply-probes.json": "c876512683bbf8559a569364f780cb0690e77f30955dc914405ec7a854cbcfc9",
+    "upstream-patch-review.json": "0eedd9fd07b4aca8ea329d84ed79ad0a47dc08bebf70de30e907a85e2b9505de",
+    "upstream-related-discussions.json": "698d40f00e5ee3b038c3ef27316d71d18b5c5a2d75c55bb98d33409cba6018e4"
+  },
+  "clean_source_subsets": [
+    {
+      "allowlist": [
+        "src/Mod/BIM/ArchStructure.py",
+        "src/Mod/BIM/bimtests/TestArchStructure.py"
+      ],
+      "dependencies": "Source and native serialization regression tests; independent of other fork patches.",
+      "fork_pr": 1,
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks.",
+        "Original commit/PR has no explicit AI assistance disclosure; include transparent disclosure when preparing upstream proposal."
+      ],
+      "source_commit": "cc7240952a5100b4bea009dcc3d49f40a754b58e",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/cc7240952a5100b4bea009dcc3d49f40a754b58e",
+      "title": "BIM ArchStructure state restore",
+      "whole_commit_pick_recommended": false
+    },
+    {
+      "allowlist": [
+        "src/Mod/BIM/ArchStairs.py",
+        "src/Mod/BIM/ArchWall.py",
+        "src/Mod/BIM/bimtests/TestArchStairs.py",
+        "src/Mod/BIM/bimtests/TestArchWall.py"
+      ],
+      "dependencies": "Related to PR 1, but touches different classes/test files and has no hard code dependency; can form one coherent BIM serialization proposal or separate focused PRs.",
+      "fork_pr": 2,
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks.",
+        "Original commit/PR has no explicit AI assistance disclosure; include transparent disclosure when preparing upstream proposal."
+      ],
+      "source_commit": "a098b9240328c765083f5403513905bb6611da0f",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/a098b9240328c765083f5403513905bb6611da0f",
+      "title": "BIM ArchWall and ArchStairs state restore",
+      "whole_commit_pick_recommended": false
+    },
+    {
+      "allowlist": [
+        "src/Mod/TechDraw/Gui/QGCustomRect.cpp",
+        "src/Mod/TechDraw/Gui/QGIDatumLabel.cpp",
+        "tests/src/Mod/TechDraw/CMakeLists.txt",
+        "tests/src/Mod/TechDraw/Gui/CMakeLists.txt",
+        "tests/src/Mod/TechDraw/Gui/EmptyDimensionFrame.FCMacro",
+        "tests/src/Mod/TechDraw/Gui/QGCustomRect.cpp"
+      ],
+      "dependencies": "Independent source fix. Adds the TechDraw Gui CMake test directory used by PR 4.",
+      "fork_pr": 3,
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks."
+      ],
+      "source_commit": "fbf129bf964a056a07fa671f5a2c024baf899121",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/fbf129bf964a056a07fa671f5a2c024baf899121",
+      "title": "TechDraw null dimension frames",
+      "whole_commit_pick_recommended": false
+    },
+    {
+      "allowlist": [
+        "src/Mod/TechDraw/Gui/CMakeLists.txt",
+        "src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+        "src/Mod/TechDraw/Gui/QGCustomPath.h",
+        "src/Mod/TechDraw/Gui/QGIPrimPath.cpp",
+        "src/Mod/TechDraw/Gui/QGIPrimPath.h",
+        "tests/src/Mod/TechDraw/Gui/CMakeLists.txt",
+        "tests/src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+        "tests/src/Mod/TechDraw/Gui/ShortDashedGap.FCMacro",
+        "tests/src/Mod/TechDraw/Gui/qt_pdf_dashed_gap_repro.py"
+      ],
+      "dependencies": "Production source is independent of PR 3; literal test/CMake hunk assumes PR 3 created tests/src/Mod/TechDraw/Gui/CMakeLists.txt and wired Gui subdir. Rebase atop PR 3 or include just missing Gui test wiring in this branch.",
+      "fork_pr": 4,
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks."
+      ],
+      "source_commit": "8ff248985a7ced2d8903f393bfb3a7cf596f1344",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/8ff248985a7ced2d8903f393bfb3a7cf596f1344",
+      "title": "TechDraw dashed PDF gaps",
+      "whole_commit_pick_recommended": false
+    },
+    {
+      "allowlist": [
+        "src/Mod/Draft/draftmake/make_line.py",
+        "src/Mod/Draft/draftmake/make_wire.py",
+        "src/Mod/Draft/drafttests/test_creation.py"
+      ],
+      "dependencies": "Docstrings and tests only; no constructor/serialization behavior change; independent of BIM/PDF dependency delivery.",
+      "fork_pr": 7,
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks."
+      ],
+      "source_commit": "f081899bbcf502ed92e0b5fb143811f160e0780b",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/f081899bbcf502ed92e0b5fb143811f160e0780b",
+      "title": "Draft endpoint expression documentation",
+      "whole_commit_pick_recommended": false
+    },
+    {
+      "allowlist": [
+        "tests/src/App/Property.cpp",
+        "tests/src/App/Property.h"
+      ],
+      "dependencies": "Small standalone test fixture fix. Relies on tests/src/TempDirectory.h already present in pinned upstream.",
+      "fork_pr": 8,
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks."
+      ],
+      "source_commit": "dda6f9c7d74a8ac8d7d673fd2a9dcf61ae943cbb",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/dda6f9c7d74a8ac8d7d673fd2a9dcf61ae943cbb",
+      "title": "Parallel MoveProperty persistence test isolation",
+      "whole_commit_pick_recommended": false
+    },
+    {
+      "allowlist": [
+        "src/Base/CMakeLists.txt"
+      ],
+      "dependencies": "Extract only src/Base/CMakeLists.txt; this commit mixes that ABI include precedence fix with fork-specific Qt/CI recovery changes. Validate separately against stock upstream headers/toolchains.",
+      "fork_pr": "6-extract",
+      "reasons": [
+        "Exclude .beads/issues.jsonl and local issue IDs from patch/commit body.",
+        "Make new focused upstream commits without [skip ci] so changed source/tests receive upstream checks."
+      ],
+      "source_commit": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+      "source_url": "https://github.com/zukomgwili/FreeCAD/commit/2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+      "title": "PyCXX include precedence",
+      "whole_commit_pick_recommended": false
+    }
+  ],
+  "counts": {
+    "fork_only_merges": 14,
+    "fork_only_nonmerge": 80,
+    "fork_only_total": 94,
+    "net_paths": 128,
+    "upstream_only": 7
+  },
+  "disclosure_counts": {
+    "false": 5,
+    "true": 75
+  },
+  "excluded_scopes": [
+    {
+      "item": "b236ed4bffb18716773e7a5e18a8b764de9a8e05",
+      "reason": "Local AGENTS/.gitignore housekeeping also deletes five tracked MacAppBundle resources. Omit whole commit, retain upstream app template/resources."
+    },
+    {
+      "item": "85069f13d3edd995e84f354286c6226203644905; fbde6e31784e15305ead282660370c142dce76d1",
+      "reason": "Beads-only local build/work tracking."
+    },
+    {
+      "item": "PR 5, 6beedb9524be7a57901a7bd2cad293a36030e18f",
+      "reason": "Qt PDF engine patch belongs primarily to QtBase; harness/qualified evidence can support FreeCAD maintainer discussion but not a general FreeCAD source bugfix PR."
+    },
+    {
+      "item": "PR 6, 68 commits",
+      "reason": "Large fork-specific Qt binary delivery, qualification/recovery automation and evidence. pixi.toml points to five personal GitHub release Qt binaries; package/qt-pdf/distribution.json points to personal release SDKs/sources/evidence. Release publication workflow is gated to zukomgwili/FreeCAD. Needs maintainer agreement, upstream hosting/recipe path and major scope pruning rather than blind cherry-pick."
+    },
+    {
+      "item": "PR 9, 3f5abf9966eeb35d73266bbb6928ac08499a44dc",
+      "reason": "Retained Linux ARM GUI crash diagnostics; no reproduced cause/source fix, report useful issue evidence separately."
+    },
+    {
+      "item": "PR 10, 05e1400171cdac3a748f0196c8ca53ff603a7d26",
+      "reason": "Machine-local Apple Silicon installation evidence; not upstream source changes."
+    }
+  ],
+  "follow_up_issue": "FreeCAD-a04",
+  "issue": "FreeCAD-bm8",
+  "merge_simulation": {
+    "command": {
+      "command": [
+        "git",
+        "merge-tree",
+        "--write-tree",
+        "--messages",
+        "2d9ef80eff9c343f3e98cd0aed393337bc27b41a",
+        "876271d6605a47805742e34c88cf31993398bdf9"
+      ],
+      "method": "In-memory merge simulation writing only Git objects, no index/worktree/branch update.",
+      "returncode": 1
+    },
+    "conflict": {
+      "base_blob": "445df5082863f36cbbeb5469a11acbb621e3f42f",
+      "conflict_paths": [
+        ".github/workflows/sub_releaseWindowsLibpack.yml"
+      ],
+      "fork_blob": "efa1740dfaf6e5918e8f7d8096f917ca56310e36",
+      "fork_last_changed_in_commit": "b1a1a340ec1f9edaa7a2a4734eb272f933889cab",
+      "fork_line": "cmake-version: ${{ inputs.arch == 'arm64' && '4.4.3' || '3.31.6' }}",
+      "interpretation": "Both histories change same existing version setting. This is an integration conflict, separate from contributing selected changes to upstream.",
+      "source": "Root merge-tree proof read from merge-tree.stdout.txt; no worktree/index merge attempted by subagent",
+      "upstream_blob": "549e0f067f9f01256574dd8be472c085f4cb6ed9",
+      "upstream_commit": "a5889ea6c4cbcaa82dd8ba8840bedf3ca7f3bdf5",
+      "upstream_line": "cmake-version: '4.4.3'"
+    },
+    "stdout": "ffecee438db33f765ab423623de607adfcb61258\n100644 445df5082863f36cbbeb5469a11acbb621e3f42f 1\t.github/workflows/sub_releaseWindowsLibpack.yml\n100644 efa1740dfaf6e5918e8f7d8096f917ca56310e36 2\t.github/workflows/sub_releaseWindowsLibpack.yml\n100644 549e0f067f9f01256574dd8be472c085f4cb6ed9 3\t.github/workflows/sub_releaseWindowsLibpack.yml\n\nAuto-merging .github/workflows/sub_releaseWindowsLibpack.yml\nCONFLICT (content): Merge conflict in .github/workflows/sub_releaseWindowsLibpack.yml\n"
+  },
+  "missing_assistance_trailers": [
+    {
+      "commit": "cc7240952a5100b4bea009dcc3d49f40a754b58e",
+      "description": "BIM Structure implementation"
+    },
+    {
+      "commit": "a098b9240328c765083f5403513905bb6611da0f",
+      "description": "BIM Wall/Stairs implementation"
+    },
+    {
+      "commit": "fbde6e31784e15305ead282660370c142dce76d1",
+      "description": "Local workflow notes"
+    },
+    {
+      "commit": "85069f13d3edd995e84f354286c6226203644905",
+      "description": "Local build notes"
+    },
+    {
+      "commit": "b236ed4bffb18716773e7a5e18a8b764de9a8e05",
+      "description": "Local instructions and unrelated macOS template deletions"
+    }
+  ],
+  "net_stat": "128 files changed, 106549 insertions(+), 337 deletions(-)",
+  "pins": {
+    "fork": "2d9ef80eff9c343f3e98cd0aed393337bc27b41a",
+    "merge_base": "171a7c1f521664bd88f02d75509f37b6a9bcd901",
+    "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+  },
+  "schema_version": 1,
+  "scope": "Assessment only; no real merge, reset, candidate checkout, build, test/workflow rerun, installed-app modification or upstream submission. Report and issue metadata are recorded on a separate fork branch.",
+  "subset_apply_checks": {
+    "results": [
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [],
+        "fork_pr": 1,
+        "patch_sha256": "f871e1fdb5c178a804d7c181fb19ea2b9cc61167797acb5090b316edeb350c4f",
+        "paths": [
+          "src/Mod/BIM/ArchStructure.py",
+          "src/Mod/BIM/bimtests/TestArchStructure.py"
+        ],
+        "source_commit": "cc7240952a5100b4bea009dcc3d49f40a754b58e",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      },
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [],
+        "fork_pr": 2,
+        "patch_sha256": "c09a02ac47c1dab79e75d95cf40a22f87f39cf1faae1601e927ff449be7470f9",
+        "paths": [
+          "src/Mod/BIM/ArchStairs.py",
+          "src/Mod/BIM/ArchWall.py",
+          "src/Mod/BIM/bimtests/TestArchStairs.py",
+          "src/Mod/BIM/bimtests/TestArchWall.py"
+        ],
+        "source_commit": "a098b9240328c765083f5403513905bb6611da0f",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      },
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [],
+        "fork_pr": 3,
+        "patch_sha256": "179772f7d4b1436f649a0b079232a2e3f96e5cd30e41e18195796466684db12a",
+        "paths": [
+          "src/Mod/TechDraw/Gui/QGCustomRect.cpp",
+          "src/Mod/TechDraw/Gui/QGIDatumLabel.cpp",
+          "tests/src/Mod/TechDraw/CMakeLists.txt",
+          "tests/src/Mod/TechDraw/Gui/CMakeLists.txt",
+          "tests/src/Mod/TechDraw/Gui/EmptyDimensionFrame.FCMacro",
+          "tests/src/Mod/TechDraw/Gui/QGCustomRect.cpp"
+        ],
+        "source_commit": "fbf129bf964a056a07fa671f5a2c024baf899121",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      },
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [
+          "fbf129bf964a056a07fa671f5a2c024baf899121"
+        ],
+        "fork_pr": 4,
+        "patch_sha256": "0144dd707be579cd511fcad6697a7c2c1e217ce757b5bd5f241254e63cffc8b5",
+        "paths": [
+          "src/Mod/TechDraw/Gui/CMakeLists.txt",
+          "src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+          "src/Mod/TechDraw/Gui/QGCustomPath.h",
+          "src/Mod/TechDraw/Gui/QGIPrimPath.cpp",
+          "src/Mod/TechDraw/Gui/QGIPrimPath.h",
+          "tests/src/Mod/TechDraw/Gui/CMakeLists.txt",
+          "tests/src/Mod/TechDraw/Gui/QGCustomPath.cpp",
+          "tests/src/Mod/TechDraw/Gui/ShortDashedGap.FCMacro",
+          "tests/src/Mod/TechDraw/Gui/qt_pdf_dashed_gap_repro.py"
+        ],
+        "source_commit": "8ff248985a7ced2d8903f393bfb3a7cf596f1344",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      },
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [],
+        "fork_pr": 7,
+        "patch_sha256": "ccf494fefa9b6599229d13a48ef01cdc8a7f33802243663421de9ab64333c736",
+        "paths": [
+          "src/Mod/Draft/draftmake/make_line.py",
+          "src/Mod/Draft/draftmake/make_wire.py",
+          "src/Mod/Draft/drafttests/test_creation.py"
+        ],
+        "source_commit": "f081899bbcf502ed92e0b5fb143811f160e0780b",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      },
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [],
+        "fork_pr": 8,
+        "patch_sha256": "8d7435d79259b5a6f362aa33c1e8806c4e200bf02c4f320fa3dfadd440226b93",
+        "paths": [
+          "tests/src/App/Property.cpp",
+          "tests/src/App/Property.h"
+        ],
+        "source_commit": "dda6f9c7d74a8ac8d7d673fd2a9dcf61ae943cbb",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      },
+      {
+        "apply_check_returncode": 0,
+        "compile_or_test_pass_claimed": false,
+        "dependencies_applied_to_private_index": [],
+        "fork_pr": "6-extract",
+        "patch_sha256": "f6fbdab1ca44e1462fdf7650ed94a3d352d51d4a26f4d163795f2f0e1e4c5173",
+        "paths": [
+          "src/Base/CMakeLists.txt"
+        ],
+        "source_commit": "2b90ac89046ac6cc76bb3284f8a27a49bb82c58c",
+        "stderr": "",
+        "stdout": "",
+        "upstream": "876271d6605a47805742e34c88cf31993398bdf9"
+      }
+    ],
+    "scope": "Source/test subset textual application only, against upstream trees in seven private temporary indexes. No checkout, real index/worktree/branch change, compilation or tests. TechDraw4 checked on top of selected TechDraw3 subset due test CMake wiring dependency.",
+    "success": true
+  },
+  "upstream_discussion_search": {
+    "assessment": [
+      {
+        "result": "No exact duplicate identified in these bounded results. Merged PR 23841 is relevant origin context for the feature and tests; 22960 is its replaced predecessor.",
+        "topic": "MoveProperty isolation",
+        "urls": [
+          "https://github.com/FreeCAD/FreeCAD/pull/23841",
+          "https://github.com/FreeCAD/FreeCAD/pull/22960"
+        ]
+      },
+      {
+        "result": "No exact duplicate identified. PR 32056 addresses a wall base faces warning; issue 29815 addresses blocked restore module imports. These differ from positional state decoding and should not be claimed as the target bug.",
+        "topic": "BIM ArchSketch state restore",
+        "urls": [
+          "https://github.com/FreeCAD/FreeCAD/pull/32056",
+          "https://github.com/FreeCAD/FreeCAD/issues/29815"
+        ]
+      },
+      {
+        "result": "No exact duplicate identified. Broad search matches included other PDF dash/visibility issues and build logs; narrowed title/body closepath/PDF search returned zero. Absence is not conclusive.",
+        "topic": "TechDraw null/dashed empty PDF outlines",
+        "urls": []
+      },
+      {
+        "result": "Related upstream policy/compatibility context exists: merged PR 28708 supports optional external PyCXX via pkg-config; closed issue 30210 reports internal/external PyCXX API compatibility failure and references PRs 30008 and 29668. Include-priority fix must retain the supported external option and should demonstrate both modes. No exact precedence duplicate identified.",
+        "topic": "PyCXX include precedence",
+        "urls": [
+          "https://github.com/FreeCAD/FreeCAD/pull/28708",
+          "https://github.com/FreeCAD/FreeCAD/issues/30210"
+        ]
+      },
+      {
+        "result": "Exact Start.x/expression query returned zero. Broad expression/recompute queries are noisy and only bounded results were read; no exact duplicate identified, not a certificate of absence.",
+        "topic": "Draft endpoint expression initialization order",
+        "urls": []
+      }
+    ],
+    "queries": [
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": true,
+            "number": 23841,
+            "state": "closed",
+            "title": "Core: Move properties",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/23841"
+          },
+          {
+            "is_pull_request": true,
+            "number": 22960,
+            "state": "closed",
+            "title": "Core: Move properties",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/22960"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"MoveProperty\"",
+        "topic": "MoveProperty isolation",
+        "total_count": 2
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": false,
+            "number": 22810,
+            "state": "open",
+            "title": "PartDesign: Boolean messes up whole hierarchy/history of operations",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/22810"
+          },
+          {
+            "is_pull_request": false,
+            "number": 25150,
+            "state": "open",
+            "title": "STEP: Export does not use the Placement",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/25150"
+          },
+          {
+            "is_pull_request": false,
+            "number": 24938,
+            "state": "closed",
+            "title": "Assembly: Joints referencing LCS use the wrong axis",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/24938"
+          },
+          {
+            "is_pull_request": false,
+            "number": 18137,
+            "state": "closed",
+            "title": "CAM: New simulator shows only a portion of the model (macOS specific and possibly a HiDPI issue)",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/18137"
+          },
+          {
+            "is_pull_request": false,
+            "number": 8894,
+            "state": "closed",
+            "title": "Certain .FCStd files in source code are licensed \"All Rights Reserved\"",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/8894"
+          },
+          {
+            "is_pull_request": true,
+            "number": 8899,
+            "state": "closed",
+            "title": "Path:  Updated the licensing to Creative Commons 4.0",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/8899"
+          },
+          {
+            "is_pull_request": false,
+            "number": 6532,
+            "state": "closed",
+            "title": "[Bug] Can't save modified document if backups are disabled, file is deleted instead",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/6532"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"test1.FCStd\"",
+        "topic": "MoveProperty shared test files",
+        "total_count": 7
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": true,
+            "number": 32056,
+            "state": "closed",
+            "title": "BIM: Avoid 'No supported edges' warning for wall base with faces",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/32056"
+          },
+          {
+            "is_pull_request": true,
+            "number": 29810,
+            "state": "closed",
+            "title": "BIM: Fix ArchWall Unsupported Base Not Managed Properly",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/29810"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"ArchSketch\" \"restore\"",
+        "topic": "BIM ArchSketch restore",
+        "total_count": 2
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": false,
+            "number": 29815,
+            "state": "closed",
+            "title": "Windows: Unable to open file created on macOS; `module not permitted: ArchXXXXXX`",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/29815"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"ArchStructure\" \"loads\"",
+        "topic": "BIM serialized state",
+        "total_count": 1
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": true,
+            "number": 31427,
+            "state": "open",
+            "title": "TechDraw: Cosmetic Circle and Arc Postselection (GSoC 2026)",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/31427"
+          },
+          {
+            "is_pull_request": true,
+            "number": 19323,
+            "state": "closed",
+            "title": "BIM: cleanup IFC naming from Type to Class",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/19323"
+          },
+          {
+            "is_pull_request": true,
+            "number": 14460,
+            "state": "closed",
+            "title": "Machining model and materials",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/14460"
+          },
+          {
+            "is_pull_request": true,
+            "number": 11264,
+            "state": "closed",
+            "title": "[Sketcher] Rotate DSH : Adds a polar pattern tool to sketcher",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/11264"
+          },
+          {
+            "is_pull_request": true,
+            "number": 10425,
+            "state": "closed",
+            "title": "Draft: Fix Draft_Mirror preview",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/10425"
+          },
+          {
+            "is_pull_request": true,
+            "number": 7754,
+            "state": "closed",
+            "title": "Sketcher: Grid tool + automatic resize of grid",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/7754"
+          },
+          {
+            "is_pull_request": false,
+            "number": 6893,
+            "state": "closed",
+            "title": "L10N: Sketcher \u2192 Combo view (panels) \u2192 Tasks (tab)",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/6893"
+          },
+          {
+            "is_pull_request": true,
+            "number": 5046,
+            "state": "closed",
+            "title": "Draft: fix Snapper GridSnap not working over a face",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/5046"
+          },
+          {
+            "is_pull_request": true,
+            "number": 514,
+            "state": "closed",
+            "title": "Accelerate 3D rendering with VBO support",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/514"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"No current point\"",
+        "topic": "TechDraw invalid PDF",
+        "total_count": 9
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": false,
+            "number": 6127,
+            "state": "open",
+            "title": "TechDraw: normative correct simplified presentation of Thread in Top View and Cross section according to ISO 6410\u20131 standard",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/6127"
+          },
+          {
+            "is_pull_request": false,
+            "number": 20075,
+            "state": "open",
+            "title": "TechDraw: CircleCenter lines created in v1.0.0 do not cross in the center of the circle",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/20075"
+          },
+          {
+            "is_pull_request": false,
+            "number": 16485,
+            "state": "closed",
+            "title": "BIM, DRAFT: Crash when trying to use a DXF as a drawing template.",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/16485"
+          },
+          {
+            "is_pull_request": false,
+            "number": 21990,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/21990"
+          },
+          {
+            "is_pull_request": false,
+            "number": 10100,
+            "state": "closed",
+            "title": "[Problem] Sketcher construction color + background color are ill-suited for colorblindness",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/10100"
+          },
+          {
+            "is_pull_request": false,
+            "number": 17620,
+            "state": "closed",
+            "title": "Segmentation Fault in latest weekly dev build (39100,39127,39141)",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/17620"
+          },
+          {
+            "is_pull_request": false,
+            "number": 16736,
+            "state": "closed",
+            "title": "DRAFT: Crash on import DXF",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/16736"
+          },
+          {
+            "is_pull_request": false,
+            "number": 10976,
+            "state": "closed",
+            "title": "[Problem] TechDraw: Hidden lines in exported PDF are not visible, because the scale is too small",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/10976"
+          },
+          {
+            "is_pull_request": false,
+            "number": 10549,
+            "state": "closed",
+            "title": "[Problem] Techdraw Thread-Design do not comply with the ISO standards",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/10549"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"PDF\" \"dash\"",
+        "topic": "TechDraw PDF dash gap",
+        "total_count": 9
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": true,
+            "number": 33193,
+            "state": "open",
+            "title": "Gui: Big dropdowns with search bar and grid",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/33193"
+          },
+          {
+            "is_pull_request": true,
+            "number": 30840,
+            "state": "closed",
+            "title": "Assembly: Link arrays",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/30840"
+          },
+          {
+            "is_pull_request": true,
+            "number": 29104,
+            "state": "open",
+            "title": "Sketcher: Prevent repeated CarbonCopy from TreeWidget drag-selection",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/29104"
+          },
+          {
+            "is_pull_request": false,
+            "number": 27781,
+            "state": "open",
+            "title": "CAM: test suite fails and causes crash when freecad is compiled with ASAN",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/27781"
+          },
+          {
+            "is_pull_request": true,
+            "number": 31614,
+            "state": "open",
+            "title": "TechDraw: Section view task rework",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/31614"
+          },
+          {
+            "is_pull_request": true,
+            "number": 29498,
+            "state": "open",
+            "title": "Gui: pre-select near filter entity within pick radius on hover",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/29498"
+          },
+          {
+            "is_pull_request": true,
+            "number": 26902,
+            "state": "open",
+            "title": "Doc: Refactor Doxygen setup and config",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/26902"
+          },
+          {
+            "is_pull_request": true,
+            "number": 31040,
+            "state": "open",
+            "title": "Toponaming: Implement V2 Topological Naming Algorithm.",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/31040"
+          },
+          {
+            "is_pull_request": true,
+            "number": 30263,
+            "state": "closed",
+            "title": "Base: Migrate from sprintf to <format> in Console",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/30263"
+          },
+          {
+            "is_pull_request": true,
+            "number": 32298,
+            "state": "closed",
+            "title": "New Crash Reporter Phase 2a: Python API",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/32298"
+          },
+          {
+            "is_pull_request": false,
+            "number": 32161,
+            "state": "open",
+            "title": "pyside6 build error: 'PyObjectWrapper' in namespace 'PySide' does not name a type",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/32161"
+          },
+          {
+            "is_pull_request": false,
+            "number": 28983,
+            "state": "open",
+            "title": "macos: arm64 macos 26 tahoe build issue with v1.1.0 tarball release of freecad",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/28983"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"PyCXX\" \"include\"",
+        "topic": "PyCXX include precedence",
+        "total_count": 91
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": true,
+            "number": 29696,
+            "state": "open",
+            "title": "[Draft] Part: introduce FeatureFlex",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/29696"
+          },
+          {
+            "is_pull_request": false,
+            "number": 14927,
+            "state": "open",
+            "title": "Toponaming/BIM: Adding windows and doors to a wall changes the numbering of vertices/edges/faces",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/14927"
+          },
+          {
+            "is_pull_request": true,
+            "number": 29294,
+            "state": "open",
+            "title": "BIM: New Parametric 3D Hatch Engine (HatchGenerator)",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/29294"
+          },
+          {
+            "is_pull_request": true,
+            "number": 31519,
+            "state": "open",
+            "title": "BIM: Stair designer tool",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/31519"
+          },
+          {
+            "is_pull_request": false,
+            "number": 32683,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/32683"
+          },
+          {
+            "is_pull_request": true,
+            "number": 30169,
+            "state": "closed",
+            "title": "CAM: Replace the process for Clipper curve discretization and fitting",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/30169"
+          },
+          {
+            "is_pull_request": true,
+            "number": 28976,
+            "state": "closed",
+            "title": "Gui: Adde more specific tuple types for style parameters",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/28976"
+          },
+          {
+            "is_pull_request": true,
+            "number": 27222,
+            "state": "closed",
+            "title": "BIM: add ArchCovering object and command MVP",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/27222"
+          },
+          {
+            "is_pull_request": false,
+            "number": 28449,
+            "state": "open",
+            "title": "Core: Visual diffs for 3D models",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/28449"
+          },
+          {
+            "is_pull_request": false,
+            "number": 31970,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/31970"
+          },
+          {
+            "is_pull_request": false,
+            "number": 9432,
+            "state": "open",
+            "title": "[Feature] working with GIT with unzipped source code for long-term maintenance",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/9432"
+          },
+          {
+            "is_pull_request": false,
+            "number": 31577,
+            "state": "closed",
+            "title": "Core: Input hints are hidden if the cursor is moved over the toolbars",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/31577"
+          }
+        ],
+        "limit": 12,
+        "query": "repo:FreeCAD/FreeCAD \"Draft\" \"expression\" \"recompute\"",
+        "topic": "Draft endpoint expressions",
+        "total_count": 55
+      },
+      {
+        "incomplete_results": false,
+        "items": [],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"MoveProperty\" \"parallel\" in:title,body",
+        "topic": "MoveProperty parallel collision",
+        "total_count": 0
+      },
+      {
+        "incomplete_results": false,
+        "items": [],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"PropertySet\" \"loads\" in:title,body",
+        "topic": "BIM state property-set cache",
+        "total_count": 0
+      },
+      {
+        "incomplete_results": false,
+        "items": [],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"ArchSketch\" \"state\" in:title,body",
+        "topic": "BIM ArchSketch serialization",
+        "total_count": 0
+      },
+      {
+        "incomplete_results": false,
+        "items": [],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"closepath\" \"PDF\" in:title,body",
+        "topic": "TechDraw closepath warning",
+        "total_count": 0
+      },
+      {
+        "incomplete_results": false,
+        "items": [],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"PyCXX\" \"precedence\" in:title,body",
+        "topic": "PyCXX include priority",
+        "total_count": 0
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": false,
+            "number": 28983,
+            "state": "open",
+            "title": "macos: arm64 macos 26 tahoe build issue with v1.1.0 tarball release of freecad",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/28983"
+          },
+          {
+            "is_pull_request": false,
+            "number": 32051,
+            "state": "closed",
+            "title": "BSD Compile error due to name conflict in CrashReporter",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/32051"
+          },
+          {
+            "is_pull_request": false,
+            "number": 16316,
+            "state": "closed",
+            "title": "Crash (SIGABRT) when using a recent version of libCoin - Sketcher | SoZoomTranslation",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/16316"
+          },
+          {
+            "is_pull_request": false,
+            "number": 30806,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/30806"
+          },
+          {
+            "is_pull_request": false,
+            "number": 30328,
+            "state": "closed",
+            "title": "FreeCAD build fails on main",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/30328"
+          },
+          {
+            "is_pull_request": false,
+            "number": 30210,
+            "state": "closed",
+            "title": "Core: FreeCAD fails to compile with external PyCXX",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/30210"
+          },
+          {
+            "is_pull_request": true,
+            "number": 28708,
+            "state": "closed",
+            "title": "Allow external PyCXX to be used, and find this external PyCXX via pkgconfig",
+            "url": "https://github.com/FreeCAD/FreeCAD/pull/28708"
+          },
+          {
+            "is_pull_request": false,
+            "number": 26850,
+            "state": "closed",
+            "title": "Draft error on constrained movement in edit mode",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/26850"
+          }
+        ],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"PyCXX\" \"SYSTEM\" in:title,body",
+        "topic": "PyCXX system include selection",
+        "total_count": 19
+      },
+      {
+        "incomplete_results": false,
+        "items": [],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"Start.x\" \"expression\" in:title,body",
+        "topic": "Draft initial endpoint expression",
+        "total_count": 0
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": false,
+            "number": 31970,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/31970"
+          },
+          {
+            "is_pull_request": false,
+            "number": 30171,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/30171"
+          },
+          {
+            "is_pull_request": false,
+            "number": 26941,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/26941"
+          },
+          {
+            "is_pull_request": false,
+            "number": 24657,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/24657"
+          },
+          {
+            "is_pull_request": false,
+            "number": 21990,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/21990"
+          },
+          {
+            "is_pull_request": false,
+            "number": 20204,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/20204"
+          },
+          {
+            "is_pull_request": false,
+            "number": 19599,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/19599"
+          },
+          {
+            "is_pull_request": false,
+            "number": 18522,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/18522"
+          }
+        ],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"Draft\" \"expression\" \"coordinates\" in:title,body",
+        "topic": "Draft expression line coordinates",
+        "total_count": 12
+      },
+      {
+        "incomplete_results": false,
+        "items": [
+          {
+            "is_pull_request": false,
+            "number": 31970,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/31970"
+          },
+          {
+            "is_pull_request": false,
+            "number": 30171,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/30171"
+          },
+          {
+            "is_pull_request": false,
+            "number": 26941,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/26941"
+          },
+          {
+            "is_pull_request": false,
+            "number": 24657,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/24657"
+          },
+          {
+            "is_pull_request": false,
+            "number": 21990,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/21990"
+          },
+          {
+            "is_pull_request": false,
+            "number": 20204,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/20204"
+          },
+          {
+            "is_pull_request": false,
+            "number": 19599,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/19599"
+          },
+          {
+            "is_pull_request": false,
+            "number": 18522,
+            "state": "closed",
+            "title": "Monthly issue metrics report",
+            "url": "https://github.com/FreeCAD/FreeCAD/issues/18522"
+          }
+        ],
+        "limit": 8,
+        "query": "repo:FreeCAD/FreeCAD \"Draft\" \"expression\" \"coordinates\" in:title,body -\"Monthly issue metrics report\"",
+        "topic": "Draft expression refined without monthly reports",
+        "total_count": 12
+      }
+    ],
+    "scope": "Bounded read-only search of GitHub issues and pull requests in FreeCAD/FreeCAD; all states; broad queries return at most 12 recent results, narrow title/body refinements at most 8. No search absence certifies no duplicate."
+  }
+}
