@@ -1,0 +1,874 @@
+{
+  "compiled_source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+  "findings": [],
+  "reviews": {
+    "final-build-install-review.json": {
+      "checks": {
+        "aggregate_new_startup_seal_scope": {
+          "passed": true
+        },
+        "all_archive_member_integrity": {
+          "detail": {
+            "all_member_sizes_and_sha256_verified": true,
+            "file_count": 85
+          },
+          "passed": true
+        },
+        "archive_envelope": {
+          "detail": {
+            "bytes": 543916,
+            "decoded_sha256": "c7aa9f8144044cac6ea1b07fe16218ca6d1dc17fd76c677f305acaa31a97bc1f",
+            "sha256": "d76481e6f2833664f7be2cd7d0c01bb9a7161218463e3a4fb5e49c2309616530"
+          },
+          "passed": true
+        },
+        "archive_file_count_and_source": {
+          "passed": true
+        },
+        "build_log_finished_without_failed_step": {
+          "passed": true
+        },
+        "compiled_source_commit": {
+          "passed": true
+        },
+        "distinct_local_app_identity": {
+          "detail": {
+            "identifier": "org.freecad.FreeCAD.local",
+            "path": "/Users/zukomgwili/Applications/FreeCAD Local.app"
+          },
+          "passed": true
+        },
+        "independent_log_measurement_persistence": {
+          "detail": {
+            "bad_statuses": [],
+            "ctest_passes": 65,
+            "ctest_starts": 65,
+            "each_case_repetitions": 5,
+            "gtest_passes": 65,
+            "gtest_starts": 65,
+            "unique_cases": 13
+          },
+          "passed": true
+        },
+        "independent_log_measurement_remaining": {
+          "detail": {
+            "bad_statuses": [],
+            "ctest_passes": 24,
+            "ctest_starts": 24,
+            "each_case_repetitions": 1,
+            "gtest_passes": 24,
+            "gtest_starts": 24,
+            "unique_cases": 24
+          },
+          "passed": true
+        },
+        "install_manifest_scope": {
+          "detail": {
+            "entries": 3865,
+            "selected_pixi_support_files": [
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/__init__.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/deprecation.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/freecad_doc.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/module_io.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/part.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/partdesign.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/project_utility.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/sketcher.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/UiTools.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/utils.py",
+              "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/utils_zip.py"
+            ]
+          },
+          "passed": true
+        },
+        "installation_target_and_source": {
+          "passed": true
+        },
+        "installed_binary_launcher_hashes": {
+          "detail": [
+            {
+              "actual_sha256": "7cc14919e1a75c9effefdf255012d4a43b98941e1bf8a4f437cfecf7f2327656",
+              "expected_sha256": "7cc14919e1a75c9effefdf255012d4a43b98941e1bf8a4f437cfecf7f2327656",
+              "kind": "native_launchers",
+              "name": "FreeCAD",
+              "path": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/MacOS/FreeCAD"
+            },
+            {
+              "actual_sha256": "50ab66cd1f82b6a88e72269c4f5d41e0dc1907cad4716478dfadeb739af9a994",
+              "expected_sha256": "50ab66cd1f82b6a88e72269c4f5d41e0dc1907cad4716478dfadeb739af9a994",
+              "kind": "native_launchers",
+              "name": "FreeCADCmd",
+              "path": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/MacOS/FreeCADCmd"
+            },
+            {
+              "actual_sha256": "269b9596a58b0b2126d5385f2f2a3c2bbe8704705dec55051746279cfa95cd8e",
+              "expected_sha256": "269b9596a58b0b2126d5385f2f2a3c2bbe8704705dec55051746279cfa95cd8e",
+              "kind": "native_binaries",
+              "name": "FreeCAD",
+              "path": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/bin/FreeCAD"
+            },
+            {
+              "actual_sha256": "4aaa33d143afae5c3d2bd290b0430c21c4478e77aff7204f1db49cd68939e7da",
+              "expected_sha256": "4aaa33d143afae5c3d2bd290b0430c21c4478e77aff7204f1db49cd68939e7da",
+              "kind": "native_binaries",
+              "name": "FreeCADCmd",
+              "path": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/bin/FreeCADCmd"
+            },
+            {
+              "actual_sha256": "9db126860b0dcfd4a2f2e96287b8bd07fc957e3d5f4ef3def0512a0165394e11",
+              "expected_sha256": "9db126860b0dcfd4a2f2e96287b8bd07fc957e3d5f4ef3def0512a0165394e11",
+              "kind": "cli_launchers",
+              "name": "freecad-local",
+              "path": "/Users/zukomgwili/.local/bin/freecad-local"
+            },
+            {
+              "actual_sha256": "89904d4c685651790c7f45eb9318e3229e61abbe2bba99f5c11befd05ef0c77f",
+              "expected_sha256": "89904d4c685651790c7f45eb9318e3229e61abbe2bba99f5c11befd05ef0c77f",
+              "kind": "cli_launchers",
+              "name": "freecadcmd-local",
+              "path": "/Users/zukomgwili/.local/bin/freecadcmd-local"
+            }
+          ],
+          "passed": true
+        },
+        "installed_cli_modeling_exchange": {
+          "detail": {
+            "boolean_volume": 874.336293856408,
+            "coin_version": "SIM Coin 4.0.10",
+            "fcstd_roundtrip_volume": 399.9999999999999,
+            "pad_volume": 399.9999999999999,
+            "pyside_version": "6.11.2",
+            "qt_version": "6.11.2",
+            "runtime_modules": true,
+            "sketch_fully_constrained": true,
+            "step_roundtrip_area": 340.0,
+            "step_roundtrip_volume": 399.9999999999999
+          },
+          "passed": true
+        },
+        "installed_draft_tests": {
+          "detail": {
+            "test_source": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/Mod/Draft/drafttests/test_creation.py",
+            "tests": [
+              "test_line_endpoint_expressions_after_recompute",
+              "test_placed_wire_endpoint_expressions_after_recompute"
+            ]
+          },
+          "passed": true
+        },
+        "installed_gui_activated_workbenches": {
+          "passed": true
+        },
+        "limits_do_not_promote_or_overclaim": {
+          "passed": true
+        },
+        "member_source_readback": {
+          "detail": {
+            "mismatches_or_absent": []
+          },
+          "passed": true
+        },
+        "native_total_and_binary_identity": {
+          "detail": {
+            "full_suite_rerun": false,
+            "successful_measured_executions": 89,
+            "unique_cases": 37
+          },
+          "passed": true
+        },
+        "ordinary_default_startup": {
+          "detail": {
+            "document_count": 0,
+            "instance_left_open": true,
+            "profile_paths": {
+              "FREECAD_USER_DATA": {
+                "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data/",
+                "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data",
+                "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data"
+              },
+              "FREECAD_USER_HOME": {
+                "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config",
+                "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config",
+                "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config"
+              },
+              "FREECAD_USER_TEMP": {
+                "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp/",
+                "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp",
+                "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp"
+              }
+            },
+            "qt_platform": "cocoa"
+          },
+          "passed": true
+        },
+        "original_system_app_claim_scoped_to_installer_stage": {
+          "detail": {
+            "cause_of_original_path_change": "not established",
+            "installer_scope": "CMake installs the local app and11FreeCAD Python support files in the selected Pixi Python site-packages; finishing creates two CLI entries and separate local/test profiles. No /Applications installation targets occur; initial official app hashes were verified unchanged by installer.",
+            "original_path": "/Applications/FreeCAD.app",
+            "original_path_present": false,
+            "scope": "Final observation after successful installer preservation check",
+            "separate_application_identifier": "org.freecad.FreeCAD.source.local",
+            "separate_current_application": "/Applications/FreeCAD-27.1.0.app"
+          },
+          "passed": true
+        },
+        "post_gui_codesign_receipt": {
+          "detail": {
+            "returncode": 0,
+            "running_processes": [
+              "10847 /Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/bin/FreeCAD"
+            ],
+            "stage": "after installed checks and ordinary default-profile startup",
+            "stderr": "--prepared:/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/MacOS/FreeCADCmd\n--validated:/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/MacOS/FreeCADCmd\n/Users/zukomgwili/Applications/FreeCAD Local.app: valid on disk\n/Users/zukomgwili/Applications/FreeCAD Local.app: satisfies its Designated Requirement\n"
+          },
+          "passed": true
+        },
+        "protected_resources_after_default_gui": {
+          "detail": {
+            "bytecode_files_removed": 124,
+            "current_bytecode_files": [],
+            "current_writable_entries": [],
+            "entries_made_readonly": 4232
+          },
+          "passed": true
+        },
+        "returncode_build-result.json": {
+          "detail": {
+            "elapsed_seconds": 1667.09,
+            "returncode": 0
+          },
+          "passed": true
+        },
+        "returncode_finish-app-fixed-result.json": {
+          "detail": {
+            "elapsed_seconds": 4.486,
+            "returncode": 0
+          },
+          "passed": true
+        },
+        "returncode_install-result.json": {
+          "detail": {
+            "elapsed_seconds": 2.263,
+            "returncode": 0
+          },
+          "passed": true
+        },
+        "runtime_dependency_scope_explicit": {
+          "passed": true
+        },
+        "runtime_installed-cli-result.json": {
+          "detail": {
+            "architecture": "arm64",
+            "python_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+            "resource_dir": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/share/",
+            "version": [
+              "27",
+              "1",
+              "0",
+              "45388 +3818 (Git)",
+              "git://github.com/zukomgwili/FreeCAD.git",
+              "2026/10/07 07:50:34",
+              "codex/build-and-install-freecad",
+              "4d7b98067a6474f88e9f21c4cea75a34d7939dcf"
+            ]
+          },
+          "passed": true
+        },
+        "runtime_installed-draft-result.json": {
+          "detail": {
+            "architecture": "arm64",
+            "python_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+            "resource_dir": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/share/",
+            "version": [
+              "27",
+              "1",
+              "0",
+              "45388 +3818 (Git)",
+              "git://github.com/zukomgwili/FreeCAD.git",
+              "2026/10/07 07:50:34",
+              "codex/build-and-install-freecad",
+              "4d7b98067a6474f88e9f21c4cea75a34d7939dcf"
+            ]
+          },
+          "passed": true
+        },
+        "runtime_installed-gui-result.json": {
+          "detail": {
+            "architecture": "arm64",
+            "python_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+            "resource_dir": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/share/",
+            "version": [
+              "27",
+              "1",
+              "0",
+              "45388 +3818 (Git)",
+              "git://github.com/zukomgwili/FreeCAD.git",
+              "2026/10/07 07:50:34",
+              "codex/build-and-install-freecad",
+              "4d7b98067a6474f88e9f21c4cea75a34d7939dcf"
+            ]
+          },
+          "passed": true
+        },
+        "runtime_native_and_qt_origins_installed-cli-result.json": {
+          "detail": {
+            "native_images": 2,
+            "qt_images": 8
+          },
+          "passed": true
+        },
+        "runtime_native_and_qt_origins_installed-draft-result.json": {
+          "detail": {
+            "native_images": 3,
+            "qt_images": 12
+          },
+          "passed": true
+        },
+        "runtime_native_and_qt_origins_installed-gui-result.json": {
+          "detail": {
+            "native_images": 3,
+            "qt_images": 13
+          },
+          "passed": true
+        }
+      },
+      "compiled_source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+      "findings": [],
+      "limitations": [
+        "Host-local arm64 installation depends on the existing pinned Pixi prefix; not self-contained or relocatable.",
+        "Only focused native cases and modeled CLI/Draft/GUI operations were checked; no full suite or cross-platform promotion claim.",
+        "Signatures are local ad-hoc signatures, with post-GUI validity established by the retained root-executed codesign readback; reviewer only inspected its proof and current hashes.",
+        "Ordinary GUI remains open; subsequent user actions can change user profiles, but installed protected resource bytes were unchanged at review.",
+        "Official system app preservation was checked during the installer stage; original path is currently absent and cause is not established."
+      ],
+      "resolved_before_review": [
+        {
+          "problem": "Installer scope previously omitted11selectedPixi FreeCAD Python support files and profile creation.",
+          "resolution": "Final official-path observation and aggregate receipt now explicitly include these paths and retain unknown cause of later /Applications/FreeCAD.app disappearance."
+        }
+      ],
+      "reviewed_evidence": {
+        "bytes": 543916,
+        "decoded_sha256": "c7aa9f8144044cac6ea1b07fe16218ca6d1dc17fd76c677f305acaa31a97bc1f",
+        "file_count": 85,
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/macarm-local-installation-evidence.json.gz",
+        "sha256": "d76481e6f2833664f7be2cd7d0c01bb9a7161218463e3a4fb5e49c2309616530"
+      },
+      "reviewed_receipt": {
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/macarm-local-installation.json",
+        "sha256": "ff22594d6baf15b7950472dfc08b3d25640b16893bdca4d5ed6f88e7ed2356ca"
+      },
+      "schema_version": 1,
+      "scope": "Independent read-only review of completed host-local installation receipt, archive byte integrity, measured native execution logs, existing installed runtime results and current installed file hashes/permissions. No builds, tests, app launches, Git, bd, or codesign commands were executed.",
+      "success": true
+    },
+    "final-installed-runtime-review.json": {
+      "acceptance": {
+        "3D_PNG_and_single_primitive_TechDraw_PDF_visually_reviewed": true,
+        "CLI_modeling_FCStd_STEP_passed": true,
+        "Cocoa_GUI_five_workbenches_passed": true,
+        "Draft_two_regressions_passed": true,
+        "default_profile_paths_match": true,
+        "fresh_native_pass_counts_from_raw_logs": {
+          "native-persistence-1791361903288859000": {
+            "successful_cases": 13,
+            "successful_executions": 65
+          },
+          "native-remaining-1791361907640480000": {
+            "successful_cases": 24,
+            "successful_executions": 24
+          }
+        },
+        "latest_root_observed_application": {
+          "application": "FreeCAD Local",
+          "bundle_identifier": "org.freecad.FreeCAD.local",
+          "method": "cua.getApp accessibility state",
+          "screen": "First-start preferences with empty model tree",
+          "window_title": "FreeCAD 27.1.0dev"
+        },
+        "latest_root_observed_running_processes": [
+          "10847 /Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/bin/FreeCAD"
+        ],
+        "ordinary_default_profile_startup_passed": true,
+        "ordinary_startup_document_count": 0,
+        "post_runtime_deep_strict_signature_readback_passed": true,
+        "total_native_successful_executions": 89
+      },
+      "additional_python_support_installation": {
+        "installed_files_present": true,
+        "manifest_file_count": 11,
+        "no_Applications_manifest_targets": true,
+        "prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad"
+      },
+      "compiled_source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+      "findings": [],
+      "limits_confirmed": [
+        "External .pixi dependency directory remains required; local app is not relocatable or self-contained.",
+        "No broader cross-platform PDF/Qt qualification workflow, full native suite or Qt build was rerun.",
+        "Successful GUI smoke proves one new primitive export, not all workbench/PDF behavior.",
+        "The earlier smoke process disappeared without controlled-exit acknowledgement; neither success nor a crash cause is inferred from that observation.",
+        "Final startup/process/UI state is a readback of root-recorded observations, not an independent app launch by reviewer.",
+        "Ad-hoc signature is not notarization or a distribution qualification.",
+        "The later receipt-recording Git commit is distinct from the compiled source commit.",
+        "CMake also installs 11 FreeCAD Python support files in the selected .pixi site-packages; the documented install scope includes them."
+      ],
+      "official_application_scope": {
+        "change_cause_not_established": true,
+        "no_current_preservation_claim_in_receipt": true,
+        "original_path_absent_at_final_readback": true,
+        "preserved_hashes_proved_through_installer_only": true,
+        "separate_out_of_scope_application": "/Applications/FreeCAD-27.1.0.app"
+      },
+      "reviewed_archive": {
+        "all_archived_members_equal_physical_sources": true,
+        "all_decoded_member_sizes_and_hashes_valid": true,
+        "bytes": 543916,
+        "decoded_content_sha256": "c7aa9f8144044cac6ea1b07fe16218ca6d1dc17fd76c677f305acaa31a97bc1f",
+        "members_verified": 85,
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/macarm-local-installation-evidence.json.gz",
+        "sha256": "d76481e6f2833664f7be2cd7d0c01bb9a7161218463e3a4fb5e49c2309616530"
+      },
+      "reviewed_receipt": {
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/macarm-local-installation.json",
+        "sha256": "ff22594d6baf15b7950472dfc08b3d25640b16893bdca4d5ed6f88e7ed2356ca"
+      },
+      "runtime_identity": {
+        "actual_loaded_images_rehashed": 16,
+        "architecture": "arm64",
+        "installed_Draft_focused_test_source_equal_current_source": true,
+        "installed_core_module_origins_verified": true,
+        "installed_native_executable_launcher_cli_hashes_reverified": true,
+        "installed_resource_directory": "/Users/zukomgwili/Applications/FreeCAD Local.app/Contents/Resources/share",
+        "python_qt_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+        "source_git_verified": true,
+        "version": "27.1.0dev"
+      },
+      "schema_version": 1,
+      "scope": "Read-only final review of root-executed host-local installation receipts, archive identities, physical installed/runtime bytes and observed runtime claims. Reviewer launched no build, test, app, renderer or codesign.",
+      "shutdown_limit": {
+        "controlled_exit_acknowledged": false,
+        "note": "No FreeCAD process or new crash report observed after exit request; do not infer closure cause from missing acknowledgement.",
+        "observed_running": false
+      },
+      "success": true
+    },
+    "final-system-installation-review.json": {
+      "checks": {
+        "assembler_references_are_staged_and_allowlisted": {
+          "detail": "Explicit evidence allowlist. Frozen initial installation evidence is retained verbatim as a nested gzip JSON archive; final-stage relocation evidence records the user-authorized replacement. Historical source paths describe their stage, not current physical paths. No user profiles or build binaries included.",
+          "passed": true
+        },
+        "completed_relocation_reports": {
+          "passed": true
+        },
+        "current_cli_entrypoints": {
+          "detail": {
+            "freecad-local": {
+              "content": "#!/bin/sh\nexec /Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD \"$@\"\n",
+              "path": "/Users/zukomgwili/.local/bin/freecad-local",
+              "sha256": "44012e6e2918312c982951302eec8f5a2d77746db036a489c5f4fe77b32620a7"
+            },
+            "freecadcmd-local": {
+              "content": "#!/bin/sh\nexec /Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd \"$@\"\n",
+              "path": "/Users/zukomgwili/.local/bin/freecadcmd-local",
+              "sha256": "d7a5c053e3ad768e221532bca1604794da35a26e8be471e79251ef1e529250e8"
+            }
+          },
+          "passed": true
+        },
+        "current_macos_native_launcher_hashes": {
+          "detail": {
+            "FreeCAD": {
+              "expected_sha256": "6c0a7a6d4e97f8d5c3b2d75f97df9768be89d94f33930e9bcce7d4a3a27fd8bc",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+              "sha256": "6c0a7a6d4e97f8d5c3b2d75f97df9768be89d94f33930e9bcce7d4a3a27fd8bc"
+            },
+            "FreeCADCmd": {
+              "expected_sha256": "50ab66cd1f82b6a88e72269c4f5d41e0dc1907cad4716478dfadeb739af9a994",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+              "sha256": "50ab66cd1f82b6a88e72269c4f5d41e0dc1907cad4716478dfadeb739af9a994"
+            }
+          },
+          "passed": true
+        },
+        "evidence_allowlist_excludes_profile_and_secret_file_bytes": {
+          "detail": {
+            "forbidden_file_members": [],
+            "initial_member_count": 85,
+            "outer_member_count": 28,
+            "scope": "Profile directory names and runtime metadata appear in reports; no profile file contents are included. Explicit allowlist contains source scripts, generated checks/results/logs, app plist/install note/CLI scripts and frozen initial evidence."
+          },
+          "passed": true
+        },
+        "final_application_identity": {
+          "detail": {
+            "application": "/Applications/FreeCAD-27.1.0.app",
+            "identifier": "org.freecad.FreeCAD.local"
+          },
+          "passed": true
+        },
+        "final_archive_envelope": {
+          "detail": {
+            "bytes": 578736,
+            "decoded_sha256": "c98ea1518a3682e9afb0d57f79ab483e01e54bdc165cd692ceb42ac53d0e94fe",
+            "sha256": "39ed335c1acbbaf6ec2d6bf86be6a034f618a8e145a804cd513c296e837513a7"
+          },
+          "passed": true
+        },
+        "final_archive_members": {
+          "detail": {
+            "errors": [],
+            "members": 28
+          },
+          "passed": true
+        },
+        "final_core_libraries_equal_initial_verified_bytes": {
+          "detail": {
+            "libFreeCADApp.dylib": {
+              "initial_sha256": "7895783b58e96f83c03b9f05b9a03590f3e230d1d56211d5cea11e1aca03773f",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADApp.dylib",
+              "sha256": "7895783b58e96f83c03b9f05b9a03590f3e230d1d56211d5cea11e1aca03773f"
+            },
+            "libFreeCADBase.dylib": {
+              "initial_sha256": "84c44cce87cc7f4b97011660afcc53a2a412d6ea3af72a67f520f91876e2755f",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADBase.dylib",
+              "sha256": "84c44cce87cc7f4b97011660afcc53a2a412d6ea3af72a67f520f91876e2755f"
+            },
+            "libFreeCADGui.dylib": {
+              "initial_sha256": "dcbdd0302b815ebc41786ac31fc7bb468cae9785d94a796fe2fae358f5e7f0ac",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADGui.dylib",
+              "sha256": "dcbdd0302b815ebc41786ac31fc7bb468cae9785d94a796fe2fae358f5e7f0ac"
+            }
+          },
+          "passed": true
+        },
+        "final_member_current_file_readback": {
+          "detail": [],
+          "passed": true
+        },
+        "final_native_executables_equal_initial_verified_bytes": {
+          "detail": {
+            "FreeCAD": {
+              "initial_sha256": "269b9596a58b0b2126d5385f2f2a3c2bbe8704705dec55051746279cfa95cd8e",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD",
+              "sha256": "269b9596a58b0b2126d5385f2f2a3c2bbe8704705dec55051746279cfa95cd8e"
+            },
+            "FreeCADCmd": {
+              "initial_sha256": "4aaa33d143afae5c3d2bd290b0430c21c4478e77aff7204f1db49cd68939e7da",
+              "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd",
+              "sha256": "4aaa33d143afae5c3d2bd290b0430c21c4478e77aff7204f1db49cd68939e7da"
+            }
+          },
+          "passed": true
+        },
+        "final_protected_resources": {
+          "detail": {
+            "current_bytecode": [],
+            "current_writable": []
+          },
+          "passed": true
+        },
+        "final_stage_references_exist": {
+          "passed": true
+        },
+        "historical_member_paths_preserved": {
+          "detail": {
+            "comparison_to_current_initial_installed_paths": "Intentionally not performed; frozen initial paths describe the recorded pre-relocation stage."
+          },
+          "passed": true
+        },
+        "initial_review_hash_binding": {
+          "passed": true
+        },
+        "initial_successful_suites_are_reused_not_relabelled": {
+          "passed": true
+        },
+        "legacy_references_resolve_to_nested_archive": {
+          "passed": true
+        },
+        "local_profile_defaults_preserved": {
+          "detail": {
+            "FREECAD_USER_DATA": {
+              "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data/",
+              "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data",
+              "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data"
+            },
+            "FREECAD_USER_HOME": {
+              "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config",
+              "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config",
+              "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config"
+            },
+            "FREECAD_USER_TEMP": {
+              "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp/",
+              "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp",
+              "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp"
+            }
+          },
+          "passed": true
+        },
+        "ordinary_relocated_gui": {
+          "detail": {
+            "document_count": 0,
+            "instance_left_open": true,
+            "resource_dir": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/share/"
+          },
+          "passed": true
+        },
+        "post_relocated_gui_deep_strict_signature_receipt": {
+          "detail": {
+            "command": [
+              "/usr/bin/codesign",
+              "--verify",
+              "--deep",
+              "--strict",
+              "--verbose=2",
+              "/Applications/FreeCAD-27.1.0.app"
+            ],
+            "returncode": 0,
+            "stderr": "--prepared:/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd\n--validated:/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd\n/Applications/FreeCAD-27.1.0.app: valid on disk\n/Applications/FreeCAD-27.1.0.app: satisfies its Designated Requirement\n"
+          },
+          "passed": true
+        },
+        "previous_launcher_bundle_backup": {
+          "detail": {
+            "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-20261007T085400Z.app",
+            "scope": "Saved previous source launcher bundle. Its shell wrapper launches this same repository build/release/bin/FreeCAD, which this task rebuilt; the saved bundle is not a frozen copy of older compiled runtime binaries.",
+            "verified_identity_hashes": {
+              "Contents/Info.plist": "b1732a9cac13c4c668422c2393c80e9d8bc3fa7e10c0da9ab3afe96b1b3d1ce7",
+              "Contents/MacOS/FreeCAD": "50baf4166354df803bc80ff35a0da4faa26612ed3b7edef8a1fa9383d866a5c2"
+            }
+          },
+          "passed": true
+        },
+        "relocated_cli_origin_source_and_dependencies": {
+          "passed": true
+        },
+        "relocated_loaded_native_qt_current_hashes": {
+          "detail": {
+            "images_checked": 8
+          },
+          "passed": true
+        },
+        "single_final_app_copy": {
+          "detail": {
+            "current_app": "/Applications/FreeCAD-27.1.0.app",
+            "removed_initial_app": "/Users/zukomgwili/Applications/FreeCAD Local.app"
+          },
+          "passed": true
+        },
+        "source_and_authorized_target": {
+          "passed": true
+        },
+        "supported_entrypoints_and_local_limits_are_explicit": {
+          "passed": true
+        },
+        "verbatim_frozen_initial_archive": {
+          "detail": {
+            "errors": [],
+            "initial_member_count": 85,
+            "initial_sha256": "d76481e6f2833664f7be2cd7d0c01bb9a7161218463e3a4fb5e49c2309616530"
+          },
+          "passed": true
+        }
+      },
+      "compiled_source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+      "findings": [],
+      "limitations": [
+        "Previous backup preserves the original launcher bundle identities, not frozen earlier native runtime binaries.",
+        "The app depends on the fixed Pixi environment; supported bundle/CLI wrappers provide current native library paths. Raw Resources/bin binaries retain original absolute RPATHs and are not supported standalone entrypoints.",
+        "Native fixture/Draft/modeling/GUI/PDF successes remain initial-stage evidence; the move was checked using narrow final origin, startup and post-startup signature probes.",
+        "Signatures are local ad-hoc signatures; the retained root-executed deep-strict signature verification passed. Reviewer did not rerun signing or signature commands.",
+        "Current ordinary GUI is left open with zero documents; future user activity can update external preferences/profile data."
+      ],
+      "reviewed_final_evidence": {
+        "bytes": 578736,
+        "decoded_sha256": "c98ea1518a3682e9afb0d57f79ab483e01e54bdc165cd692ceb42ac53d0e94fe",
+        "initial_frozen_sha256": "d76481e6f2833664f7be2cd7d0c01bb9a7161218463e3a4fb5e49c2309616530",
+        "initial_nested_file_count": 85,
+        "outer_file_count": 28,
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/macarm-final-installation-evidence.json.gz",
+        "sha256": "39ed335c1acbbaf6ec2d6bf86be6a034f618a8e145a804cd513c296e837513a7"
+      },
+      "reviewed_final_receipt": {
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/macarm-final-installation.json",
+        "sha256": "3a9b4690fc09a3ac06c26554e8cf2c718a6e6512060ac074d47a015f31fa0b10"
+      },
+      "schema_version": 1,
+      "scope": "Independent read-only final system-installation receipt and staged-archive review. Frozen initial evidence was verified as historical bytes without comparing its old installed paths to current paths. Only final app/current CLI/native hashes and permissions were read. No builds, tests, application launches, signing, Git or beads were executed.",
+      "success": true
+    },
+    "relocation-review.json": {
+      "compiled_source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+      "confirmed": [
+        "Current FreeCAD and FreeCADCmd executables and all three FreeCAD core libraries match hashes recorded at the reviewed Local installation stage.",
+        "Native MacOS launchers are arm64 Mach-O; FreeCADCmd wrapper hash is unchanged and outer GUI launcher signing changes are recorded.",
+        "Both owned CLI scripts execute final system MacOS launcher paths and pass user arguments unchanged.",
+        "Relocated CLI probe records source4d7, installed module/native origins under the final Resources path, exact Python3.13.15 and Qt/PySide6.11.2 from the unchanged Pixi prefix.",
+        "Ordinary ready macro records a visible Cocoa main window with zero documents, final installed resource path, source4d7 and retained external Local profile defaults.",
+        "Recorded deep-strict verification passed after relocated CLI imports and ordinary GUI startup; current resource files/directories remain without write bits and contain no bytecode artifacts.",
+        "The original Local app path is absent after relocation; previous application launcher/plist identities match their preserved backup copies."
+      ],
+      "current_module_origins": {
+        "Draft": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Draft/Draft.py",
+          "sha256": "72c03a089baca13a55d7f3051988005c3e1005b532b3944b279d407dc122a9a9"
+        },
+        "Fem": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+          "sha256": "0de7077d4837f7f5d79e86503ee33837f0552406bc8c655d4ca506eb524abbd5"
+        },
+        "FreeCAD": {
+          "origin": "built-in",
+          "proof": "Matching installed core image hashes and compiled version"
+        },
+        "Mesh": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Mesh.so",
+          "sha256": "012ede394a6b15b9e7bf8ba5d27a27068592954134ab00f34eea6916804f6165"
+        },
+        "Part": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+          "sha256": "f624e9dc2ef951c70710de554f2503f297663e9a7be54cf2104bc6d961267a15"
+        },
+        "PartDesign": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/PartDesign/__init__.py",
+          "sha256": "ef86d2dc7b9b6d68254306163cb442e9e6598ef9a085b76f248ba0fbe7e70983"
+        },
+        "PySide6": {
+          "origin": "fixed external dependency",
+          "path": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/PySide6/__init__.py",
+          "sha256": "278dc95fa7cd49feca6c4bcebe374448d873d1842d7e372212b06c3a8ac1312e"
+        },
+        "Sketcher": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Sketcher.so",
+          "sha256": "6e971dc1234ed2051ccc0676e30f86df204588fe14f24c8bc8fa2a84748621f7"
+        },
+        "ifcopenshell": {
+          "origin": "fixed external dependency",
+          "path": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/ifcopenshell/__init__.py",
+          "sha256": "b4f7e1224b09e47f52c2748cc9a3d4de6f4558895e0a744170b3f5be55774b6f"
+        },
+        "pivy": {
+          "origin": "relocated app",
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/pivy/__init__.py",
+          "sha256": "1f28da1a7e240731a9ac39245b0c650dd3e2cbd82df55fc8c6b8c8c8164f20e1"
+        }
+      },
+      "current_native_core": {
+        "libFreeCADApp.dylib": {
+          "matches_reviewed_local_installation": true,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADApp.dylib",
+          "sha256": "7895783b58e96f83c03b9f05b9a03590f3e230d1d56211d5cea11e1aca03773f"
+        },
+        "libFreeCADBase.dylib": {
+          "matches_reviewed_local_installation": true,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADBase.dylib",
+          "sha256": "84c44cce87cc7f4b97011660afcc53a2a412d6ea3af72a67f520f91876e2755f"
+        },
+        "libFreeCADGui.dylib": {
+          "matches_reviewed_local_installation": true,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADGui.dylib",
+          "sha256": "dcbdd0302b815ebc41786ac31fc7bb468cae9785d94a796fe2fae358f5e7f0ac"
+        }
+      },
+      "current_native_executables": {
+        "FreeCAD": {
+          "matches_reviewed_local_installation": true,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD",
+          "sha256": "269b9596a58b0b2126d5385f2f2a3c2bbe8704705dec55051746279cfa95cd8e"
+        },
+        "FreeCADCmd": {
+          "matches_reviewed_local_installation": true,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd",
+          "sha256": "4aaa33d143afae5c3d2bd290b0430c21c4478e77aff7204f1db49cd68939e7da"
+        }
+      },
+      "current_native_launchers": {
+        "FreeCAD": {
+          "architecture": "arm64",
+          "outer_gui_launcher_may_change_on_resigning": true,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+          "sha256": "6c0a7a6d4e97f8d5c3b2d75f97df9768be89d94f33930e9bcce7d4a3a27fd8bc"
+        },
+        "FreeCADCmd": {
+          "architecture": "arm64",
+          "outer_gui_launcher_may_change_on_resigning": false,
+          "path": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+          "sha256": "50ab66cd1f82b6a88e72269c4f5d41e0dc1907cad4716478dfadeb739af9a994"
+        }
+      },
+      "external_dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+      "final_application": "/Applications/FreeCAD-27.1.0.app",
+      "findings": [],
+      "limitations": [
+        "The embedded old absolute installation RPATH remains. Supported launchers supply the dynamically relocated Resources/lib override; raw Resources/bin execution is not qualified as independently relocatable.",
+        "The preserved previous shell app executes this same repository build/release/bin/FreeCAD, rebuilt by this task. Backup preservation is of its application/launcher bundle, not a frozen rollback to older compiled binaries.",
+        "GUI visibility is established by the installed in-process Cocoa macro and current process path. CUA path selection retained stale Source identity; no accessibility current-window or frontmost-window inspection is claimed.",
+        "This relocation reuses earlier focused modeling/native/GUI validation for byte-identical executable/core payloads; it does not claim rerunning broader or cross-platform qualification."
+      ],
+      "previous_application_backup": {
+        "frozen_older_compiled_runtime": false,
+        "path": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-20261007T085400Z.app",
+        "resource_symlinks": [],
+        "scope": "Saved previous source launcher bundle. Its shell wrapper launches this same repository build/release/bin/FreeCAD, which this task rebuilt; the saved bundle is not a frozen copy of older compiled runtime binaries.",
+        "verified_original_entries": {
+          "Contents/Info.plist": "b1732a9cac13c4c668422c2393c80e9d8bc3fa7e10c0da9ab3afe96b1b3d1ce7",
+          "Contents/MacOS/FreeCAD": "50baf4166354df803bc80ff35a0da4faa26612ed3b7edef8a1fa9383d866a5c2"
+        }
+      },
+      "reviewed_replacement_helper": {
+        "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/replace-system-app.py",
+        "sha256": "e5624eebb32f6d2087605bd9f539dd3d95c92adef11853efa46d276eca8f5ff1"
+      },
+      "reviewed_reports": {
+        "install-finish-receipt.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/install-finish-receipt.json",
+          "sha256": "0373e3c0a3f409bf3cfd55e529a74a0a51bc3f95d235035e7e89ae33e8bc6ba1"
+        },
+        "installed-cli-result.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/installed-cli-result.json",
+          "sha256": "64417383173c1a5c43e444dfce5d164f59157fe280e139b90e84c13166ec90a3"
+        },
+        "installed-gui-result.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/installed-gui-result.json",
+          "sha256": "9d9ccb5ac926872d0da9b585f406ba4612db491ad362a630b685c70d976eac94"
+        },
+        "relocated-cli-launch-result.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/relocated-cli-launch-result.json",
+          "sha256": "b5af2dc0644c600135b7f973c0ed968c9c36b4b16cafc0c3ab288c8a82eeed75"
+        },
+        "relocated-cli-result.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/relocated-cli-result.json",
+          "sha256": "13d53ff663f81cd47251256e11100462eb5c2b184f3a0a4709be13e49b39a6e5"
+        },
+        "relocated-ready-result.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/relocated-ready-result.json",
+          "sha256": "1bc68b30b63b0f2b3a917b03798502768f07fbb32ab6a4995396e85d4d7cf22f"
+        },
+        "relocated-signature-readback.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/relocated-signature-readback.json",
+          "sha256": "c58f1f892d042c7d0b40c44e9b97270d986eee6e6d666995d85176a4a0fe1484"
+        },
+        "system-app-replacement.json": {
+          "path": "/private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/system-app-replacement.json",
+          "sha256": "c45d6083e3baab34e69a32f22c133f1bd2ec2efcf671ac4a03e353c9daefa7fe"
+        }
+      },
+      "running_process_readback": [
+        "13311 /Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD /private/var/folders/9b/px5x12_n00s4mt10fk4sh6nr0000gn/T/freecad-build-install-mc3_gfhv/relocated-ready.FCMacro"
+      ],
+      "schema_version": 1,
+      "scope": "Independent filesystem/report audit of the explicitly authorized system-app replacement. Reviewer did not execute apps, builds, tests, signing, Git or beads; only report/file readback and process inspection.",
+      "success": true
+    }
+  },
+  "schema_version": 1,
+  "scope": "Independent read-only stage reviews; initial-stage hashes refer to the verbatim nested initial evidence, final review binds the final receipt and evidence bytes.",
+  "success": true
+}

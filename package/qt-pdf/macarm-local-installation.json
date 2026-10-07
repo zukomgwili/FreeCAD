@@ -1,0 +1,216 @@
+{
+  "application": {
+    "adhoc_signature_verified": true,
+    "adhoc_signature_verified_after_final_startup": true,
+    "architecture": "arm64",
+    "bundle_identifier": "org.freecad.FreeCAD.local",
+    "command_cli": "/Users/zukomgwili/.local/bin/freecadcmd-local",
+    "gui_cli": "/Users/zukomgwili/.local/bin/freecad-local",
+    "launchers_updated": true,
+    "name": "FreeCAD Local",
+    "native_binary_sha256": {
+      "FreeCAD": "269b9596a58b0b2126d5385f2f2a3c2bbe8704705dec55051746279cfa95cd8e",
+      "FreeCADCmd": "4aaa33d143afae5c3d2bd290b0430c21c4478e77aff7204f1db49cd68939e7da"
+    },
+    "native_prefix": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+    "native_source_bytes_unchanged_on_move": true,
+    "official_stable_application_preserved_through_installer": true,
+    "original_official_application_final_readback": {
+      "/Applications/FreeCAD.app/Contents/Info.plist": {
+        "final_sha256": null,
+        "initial_preserved_sha256": "dce901f1a31e0f8972a3e926faf5f417eddaf98322417122dbac617b6fe28c9c",
+        "present_at_final_readback": false
+      },
+      "/Applications/FreeCAD.app/Contents/MacOS/FreeCAD": {
+        "final_sha256": null,
+        "initial_preserved_sha256": "a535464ece9a6175a3b15f385b35818402007eb3a8853384dacd65f128b50b1e",
+        "present_at_final_readback": false
+      }
+    },
+    "original_official_application_final_readback_scope": "Historical observation before the separately authorized system app replacement; no claim of current original-path preservation.",
+    "path": "/Applications/FreeCAD-27.1.0.app",
+    "previous_application_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-20261007T085400Z.app",
+    "previous_application_backup_scope": "Saved previous source launcher bundle. Its shell wrapper launches this same repository build/release/bin/FreeCAD, which this task rebuilt; the saved bundle is not a frozen copy of older compiled runtime binaries.",
+    "version": "27.1.0dev"
+  },
+  "build": {
+    "additional_python_support_installation": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad",
+    "audit": "task/build-audit.json",
+    "configuration": "Release",
+    "elapsed_seconds": 1667.09,
+    "fresh_build_log": "task/build.log",
+    "install_returncode": 0,
+    "returncode": 0,
+    "source_and_version_confirmed_in_installed_runtime": true
+  },
+  "compiled_source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+  "dependencies": {
+    "configuration": "Existing reviewed Qt package selection and imported targets were verified; Qt was not rebuilt.",
+    "must_remain_available": true,
+    "prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "pyside_version": "6.11.2",
+    "python_version": "3.13.15",
+    "qt_version": "6.11.2",
+    "relocatable": false,
+    "self_contained": false,
+    "supported_entrypoints": "Open /Applications/FreeCAD-27.1.0.app or use freecad-local/freecadcmd-local. Native wrappers resolve current app libraries before the fixed Pixi prefix. Raw Contents/Resources/bin executables retain original absolute RPATHs and are not supported standalone entrypoints."
+  },
+  "evidence": {
+    "bytes": 578736,
+    "decoded_content_sha256": "c98ea1518a3682e9afb0d57f79ab483e01e54bdc165cd692ceb42ac53d0e94fe",
+    "file_count": 28,
+    "format": "gzip-compressed JSON of allowlisted base64 file bytes with size and SHA-256; initial-stage evidence is a verbatim nested gzip JSON archive",
+    "initial_nested_file_count": 85,
+    "path": "package/qt-pdf/macarm-local-installation-evidence.json.gz",
+    "reference_resolution": {
+      "historical source_path values": "Physical paths at the recorded stage; initial installed app paths are no longer current after the authorized move.",
+      "initial-stage/ and final-stage/ references": "Member paths in this final evidence archive.",
+      "task/ and other inherited build or validation artifact references": "Member paths within the decoded nested initial-stage/macarm-local-installation-evidence.json.gz archive. These are frozen initial-stage evidence, not top-level final-stage paths."
+    },
+    "sha256": "39ed335c1acbbaf6ec2d6bf86be6a034f618a8e145a804cd513c296e837513a7"
+  },
+  "installation_stages": {
+    "final": {
+      "application": "/Applications/FreeCAD-27.1.0.app",
+      "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-20261007T085400Z.app",
+      "relocation_review": "final-stage/relocation-review.json",
+      "replacement": "final-stage/system-app-replacement.json",
+      "user_authorization": "User explicitly authorized replacing /Applications/FreeCAD-27.1.0.app with this verified build."
+    },
+    "initial": {
+      "application": "/Users/zukomgwili/Applications/FreeCAD Local.app",
+      "evidence": "initial-stage/macarm-local-installation-evidence.json.gz",
+      "evidence_sha256": "d76481e6f2833664f7be2cd7d0c01bb9a7161218463e3a4fb5e49c2309616530",
+      "file_count": 85,
+      "receipt": "initial-stage/macarm-local-installation.json",
+      "reviewed_before_move": true
+    }
+  },
+  "issue": "FreeCAD-xj6",
+  "limits": {
+    "all_workbench_behaviors_qualified": false,
+    "distribution_bundle_qualified": false,
+    "distribution_promotion": false,
+    "existing_cross_platform_qualification_repeated": false,
+    "full_native_test_suite_pass_claimed": false,
+    "purpose": "Build, install and verify this source revision on this host; this does not replace retained broader qualification evidence.",
+    "qualification_workflows_repeated": false,
+    "quicklook_qualified": false,
+    "signing": "Local ad-hoc signature; no notarized distribution was produced."
+  },
+  "receipt_recording_commit": {
+    "embedded": false,
+    "lookup": "git log -1 --format=%H -- package/qt-pdf/macarm-local-installation.json",
+    "meaning": "The later commit recording this receipt is not the source commit compiled in the installed binary."
+  },
+  "schema_version": 2,
+  "scope": "Host-local Apple Silicon Release source installation, followed by user-authorized replacement at the existing system app path",
+  "status": "installed-and-verified",
+  "validation": {
+    "cli_modeling_and_exchange": {
+      "constrained_sketch_and_pad": true,
+      "fcstd_roundtrip_volume": 399.9999999999999,
+      "passed": true,
+      "pivy_ifc_mesh_fem_imports": true,
+      "solid_boolean": true,
+      "step_roundtrip_volume": 399.9999999999999
+    },
+    "draft_regressions": {
+      "passed": true,
+      "tests": [
+        "test_line_endpoint_expressions_after_recompute",
+        "test_placed_wire_endpoint_expressions_after_recompute"
+      ],
+      "tests_run": 2
+    },
+    "final_location": {
+      "cli_runtime": "final-stage/relocated-cli-result.json",
+      "current_resource_directory": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/share/",
+      "external_dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+      "local_profile_directories_preserved": true,
+      "module_origins_verified": true,
+      "native_library_hashes_match_initial_stage": true,
+      "ordinary_gui": "final-stage/relocated-ready-result.json",
+      "passed": true,
+      "post_startup_signature": "final-stage/relocated-signature-readback.json",
+      "protected_resources": true,
+      "source_commit": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf"
+    },
+    "gui": {
+      "passed": true,
+      "platform": "cocoa",
+      "render_image": "task/installed-gui-view.png",
+      "root_visual_readback_passed": true,
+      "techdraw_pdf": "task/installed-techdraw-page.pdf",
+      "workbenches": [
+        "PartWorkbench",
+        "SketcherWorkbench",
+        "PartDesignWorkbench",
+        "BIMWorkbench",
+        "TechDrawWorkbench"
+      ]
+    },
+    "independent_initial_reviews": [
+      "initial-stage/final-build-install-review.json",
+      "initial-stage/final-installed-runtime-review.json"
+    ],
+    "initial_functional_checks_reused_after_move": "Passed native fixtures, Draft regressions, modeling/FCStd/STEP and GUI render/TechDraw export remain initial-stage results. Final executable and core library hashes match that verified build; no suite or build was rerun for relocation.",
+    "launcher_review": {
+      "passed": true,
+      "resolved_findings": [
+        {
+          "actual_regression_test": "Root will exercise installed CLI with nonexistent explicit directories. Not run by reviewer.",
+          "fix_verified": "set_default_directory now returns mkdir_parents(existing) for a nonempty explicit variable; value remains unchanged and invalid paths fail before exec.",
+          "problem": "Explicit nonexistent FREECAD_USER_HOME/DATA/TEMP directories were preserved but not created, allowing FreeCAD to discard them and fall back to default profiles."
+        },
+        {
+          "actual_regression_test": "Root finish-app-fixed-result.json records the finishing retry; reviewer did not execute it.",
+          "fix_verified": "Helper resolves macOS SDK with xcrun, preflights SDK usr/include/errno.h, and passes that exact SDK with -isysroot to both arm64 launcher compilations.",
+          "problem": "Apple Clang compile lacked a selected macOS SDK, producing missing errno.h."
+        }
+      ]
+    },
+    "native_fixture_tests": {
+      "full_native_suite_rerun": false,
+      "parallelism": 4,
+      "passed": true,
+      "persistence": {
+        "cases": 13,
+        "successful_repetitions": 5
+      },
+      "remaining_cases": 24,
+      "successful_executions": 89,
+      "unique_cases": 37
+    },
+    "ordinary_startup": {
+      "document_count": 0,
+      "instance_left_open": true,
+      "passed": true,
+      "profile_paths": {
+        "FREECAD_USER_DATA": {
+          "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data/",
+          "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data",
+          "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/data"
+        },
+        "FREECAD_USER_HOME": {
+          "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config",
+          "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config",
+          "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/config"
+        },
+        "FREECAD_USER_TEMP": {
+          "actual": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp/",
+          "canonical": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp",
+          "environment": "/Users/zukomgwili/Library/Application Support/FreeCAD Local/temp"
+        }
+      },
+      "resource_dir": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/share/",
+      "stage": "final system app location"
+    },
+    "origins": "Installed native core/workbench modules and pinned external Python/Qt paths were checked in CLI, Draft and GUI runs.",
+    "resource_seal": {
+      "bytecode_caches_removed": true,
+      "post_runtime_signature_verified": true,
+      "resources_readonly": true
+    }
+  }
+}
