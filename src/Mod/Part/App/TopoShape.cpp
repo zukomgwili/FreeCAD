@@ -28,6 +28,7 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
+#include <limits>
 #include <sstream>
 #include <boost/regex.hpp>
 
@@ -195,6 +196,24 @@
 FC_LOG_LEVEL_INIT("TopoShape", true, true)
 
 using namespace Part;
+
+namespace
+{
+class PreciseBRepToolsShapeSet: public BRepTools_ShapeSet
+{
+public:
+    using BRepTools_ShapeSet::BRepTools_ShapeSet;
+
+    void WriteGeometry(const TopoDS_Shape& shape, Standard_OStream& out) const override
+    {
+        // TopTools_ShapeSet lowers the precision to 15 digits while writing topology. Preserve
+        // doubles exactly so text rounding cannot move a valid vertex outside its tolerance.
+        const std::streamsize precision = out.precision(std::numeric_limits<double>::max_digits10);
+        BRepTools_ShapeSet::WriteGeometry(shape, out);
+        out.precision(precision);
+    }
+};
+}  // namespace
 
 const char* BRepBuilderAPI_FaceErrorText(BRepBuilderAPI_FaceError et)
 {
@@ -964,7 +983,7 @@ void TopoShape::exportBrep(std::ostream& out) const
         VERSION_2 = 2,
         VERSION_3 = 3
     };
-    BRepTools_ShapeSet SS(Standard_False);
+    PreciseBRepToolsShapeSet SS(Standard_False);
     SS.SetFormatNb(VERSION_1);
     SS.Add(this->_Shape);
     SS.Write(out);
