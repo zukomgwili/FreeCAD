@@ -55,6 +55,26 @@ def make_linear_bspline_surface(u_knots, v_knots):
     )
 
 
+def make_swept_surface_basis(location_x=1.0):
+    return Part.Line(Vector(location_x, 0, 0), Vector(location_x, 0, 1))
+
+
+def make_surface_of_extrusion(basis_location_x=1.0, direction=Vector(0, 1, 0)):
+    return Part.SurfaceOfExtrusion(make_swept_surface_basis(basis_location_x), direction)
+
+
+def make_surface_of_revolution(
+    basis_location_x=1.0,
+    axis_location=Vector(0, 0, 0),
+    direction=Vector(0, 0, 1),
+):
+    return Part.SurfaceOfRevolution(
+        make_swept_surface_basis(basis_location_x),
+        axis_location,
+        direction,
+    )
+
+
 class RegressionTests(unittest.TestCase):
 
     # pylint: disable=attribute-defined-outside-init
@@ -131,6 +151,48 @@ class RegressionTests(unittest.TestCase):
         translated.Position = Vector(1, 0, 0)
 
         self.assertFalse(first.isSame(translated, 1e-8, 1e-12))
+
+    def test_swept_surface_is_same_matches_identical_surfaces(self):
+        for factory in (make_surface_of_extrusion, make_surface_of_revolution):
+            with self.subTest(factory=factory.__name__):
+                first = factory()
+                identical = factory()
+
+                self.assertTrue(first.isDerivedFrom("Part::GeomSweptSurface"))
+                self.assertTrue(first.isSame(first, 1e-8, 1e-12))
+                self.assertTrue(first.isSame(identical, 1e-8, 1e-12))
+
+    def test_swept_surface_is_same_rejects_different_basis_and_direction(self):
+        cases = (
+            (make_surface_of_extrusion(), make_surface_of_extrusion(2.0)),
+            (
+                make_surface_of_extrusion(),
+                make_surface_of_extrusion(direction=Vector(1, 0, 0)),
+            ),
+            (make_surface_of_revolution(), make_surface_of_revolution(2.0)),
+            (
+                make_surface_of_revolution(),
+                make_surface_of_revolution(direction=Vector(0, 1, 0)),
+            ),
+        )
+        for first, different in cases:
+            with self.subTest(surface_type=first.TypeId):
+                self.assertFalse(first.isSame(different, 1e-8, 1e-12))
+
+    def test_surface_of_revolution_is_same_compares_axis_location(self):
+        first = make_surface_of_revolution()
+        same_axis = make_surface_of_revolution(axis_location=Vector(0, 0, 1))
+        different_axis = make_surface_of_revolution(axis_location=Vector(0.5, 0, 0))
+
+        self.assertTrue(first.isSame(same_axis, 1e-8, 1e-12))
+        self.assertFalse(first.isSame(different_axis, 1e-8, 1e-12))
+
+    def test_swept_surface_is_same_rejects_different_concrete_types(self):
+        extrusion = make_surface_of_extrusion()
+        revolution = make_surface_of_revolution(direction=Vector(0, 1, 0))
+
+        self.assertFalse(extrusion.isSame(revolution, 1e-8, 1e-12))
+        self.assertFalse(revolution.isSame(extrusion, 1e-8, 1e-12))
 
     def test_issue_15735(self):
         """

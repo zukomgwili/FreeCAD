@@ -1319,6 +1319,8 @@ public:
     // Base implementer ----------------------------
     PyObject* getPyObject() override;
 
+    bool isSame(const Geometry& other, double tol, double atol) const override;
+
     void setHandle(const Handle(Geom_SurfaceOfRevolution) & c);
     const Handle(Geom_Geometry) & handle() const override;
 

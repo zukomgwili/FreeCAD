@@ -8,14 +8,19 @@
 #include <Geom_BSplineSurface.hxx>
 #include <Geom_ConicalSurface.hxx>
 #include <Geom_CylindricalSurface.hxx>
+#include <Geom_Line.hxx>
 #include <Geom_SphericalSurface.hxx>
+#include <Geom_SurfaceOfLinearExtrusion.hxx>
+#include <Geom_SurfaceOfRevolution.hxx>
 #include <Geom_ToroidalSurface.hxx>
 #include <NCollection_Array1.hxx>
 #include <NCollection_Array2.hxx>
+#include <gp_Ax1.hxx>
 #include <gp_Ax3.hxx>
 #include <gp_Cone.hxx>
 #include <gp_Cylinder.hxx>
 #include <gp_Dir.hxx>
+#include <gp_Lin.hxx>
 #include <gp_Pln.hxx>
 #include <gp_Pnt.hxx>
 #include <gp_Sphere.hxx>
@@ -166,6 +171,37 @@ Part::GeomToroid makeToroid(
     return Part::GeomToroid(surface);
 }
 
+Handle(Geom_Curve) makeSweptSurfaceBasis(double locationX = 1.0)
+{
+    return new Geom_Line(gp_Lin(gp_Pnt(locationX, 0.0, 0.0), gp_Dir(0.0, 0.0, 1.0)));
+}
+
+Part::GeomSurfaceOfExtrusion makeSurfaceOfExtrusion(
+    double basisLocationX = 1.0,
+    double directionAngle = 0.0
+)
+{
+    return Part::GeomSurfaceOfExtrusion(
+        makeSweptSurfaceBasis(basisLocationX),
+        gp_Dir(std::sin(directionAngle), std::cos(directionAngle), 0.0)
+    );
+}
+
+Part::GeomSurfaceOfRevolution makeSurfaceOfRevolution(
+    double basisLocationX = 1.0,
+    double axisLocationX = 0.0,
+    double directionAngle = 0.0
+)
+{
+    return Part::GeomSurfaceOfRevolution(
+        makeSweptSurfaceBasis(basisLocationX),
+        gp_Ax1(
+            gp_Pnt(axisLocationX, 0.0, 0.0),
+            gp_Dir(std::sin(directionAngle), 0.0, std::cos(directionAngle))
+        )
+    );
+}
+
 }  // namespace
 
 TEST_F(GeometryTest, elementarySurfaceRuntimeTypesFollowCppInheritance)
@@ -301,6 +337,100 @@ TEST_F(GeometryTest, toroidIsSameComparesRadiiAndPlacementWithinTolerance)
         linearTolerance,
         angularTolerance
     ));
+}
+
+TEST_F(GeometryTest, sweptSurfaceRuntimeTypesFollowCppInheritance)
+{
+    auto extrusion = makeSurfaceOfExtrusion();
+    auto revolution = makeSurfaceOfRevolution();
+
+    EXPECT_TRUE(extrusion.isDerivedFrom<Part::GeomSweptSurface>());
+    EXPECT_TRUE(revolution.isDerivedFrom<Part::GeomSweptSurface>());
+}
+
+TEST_F(GeometryTest, surfaceOfExtrusionIsSameComparesBasisAndDirection)
+{
+    constexpr double linearTolerance = 1e-6;
+    constexpr double angularTolerance = 1e-6;
+    auto extrusion = makeSurfaceOfExtrusion();
+
+    EXPECT_TRUE(extrusion.isSame(makeSurfaceOfExtrusion(), linearTolerance, angularTolerance));
+    EXPECT_TRUE(extrusion.isSame(
+        makeSurfaceOfExtrusion(1.0 + 0.5 * linearTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_FALSE(extrusion.isSame(
+        makeSurfaceOfExtrusion(1.0 + 2.0 * linearTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_TRUE(extrusion.isSame(
+        makeSurfaceOfExtrusion(1.0, 0.5 * angularTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_FALSE(extrusion.isSame(
+        makeSurfaceOfExtrusion(1.0, 2.0 * angularTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+}
+
+TEST_F(GeometryTest, surfaceOfRevolutionIsSameComparesBasisAxisAndDirection)
+{
+    constexpr double linearTolerance = 1e-6;
+    constexpr double angularTolerance = 1e-6;
+    auto revolution = makeSurfaceOfRevolution();
+
+    EXPECT_TRUE(revolution.isSame(makeSurfaceOfRevolution(), linearTolerance, angularTolerance));
+    EXPECT_TRUE(revolution.isSame(
+        makeSurfaceOfRevolution(1.0 + 0.5 * linearTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_FALSE(revolution.isSame(
+        makeSurfaceOfRevolution(1.0 + 2.0 * linearTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_TRUE(revolution.isSame(
+        makeSurfaceOfRevolution(1.0, 0.5 * linearTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    Part::GeomSurfaceOfRevolution sameAxis(
+        makeSweptSurfaceBasis(),
+        gp_Ax1(gp_Pnt(0.0, 0.0, 1.0), gp_Dir(0.0, 0.0, 1.0))
+    );
+    EXPECT_TRUE(revolution.isSame(sameAxis, linearTolerance, angularTolerance));
+    EXPECT_FALSE(revolution.isSame(
+        makeSurfaceOfRevolution(1.0, 2.0 * linearTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_TRUE(revolution.isSame(
+        makeSurfaceOfRevolution(1.0, 0.0, 0.5 * angularTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+    EXPECT_FALSE(revolution.isSame(
+        makeSurfaceOfRevolution(1.0, 0.0, 2.0 * angularTolerance),
+        linearTolerance,
+        angularTolerance
+    ));
+}
+
+TEST_F(GeometryTest, sweptSurfaceIsSameRejectsDifferentConcreteTypes)
+{
+    auto extrusion = makeSurfaceOfExtrusion();
+    Part::GeomSurfaceOfRevolution revolution(
+        makeSweptSurfaceBasis(),
+        gp_Ax1(gp_Pnt(0.0, 0.0, 0.0), gp_Dir(0.0, 1.0, 0.0))
+    );
+
+    EXPECT_FALSE(extrusion.isSame(revolution, 1e-6, 1e-6));
+    EXPECT_FALSE(revolution.isSame(extrusion, 1e-6, 1e-6));
 }
 
 TEST_F(GeometryTest, bsplineSurfaceIsSameComparesEveryVKnot)

@@ -6176,7 +6176,7 @@ Base::Vector3d GeomSweptSurface::getDir(void) const
 
 bool GeomSweptSurface::isSame(const Geometry& _other, double tol, double atol) const
 {
-    if (!_other.isDerivedFrom<GeomSweptSurface>()) {
+    if (_other.getTypeId() != getTypeId() || !_other.isDerivedFrom<GeomSweptSurface>()) {
         return false;
     }
 
@@ -6200,7 +6200,7 @@ bool GeomSweptSurface::isSame(const Geometry& _other, double tol, double atol) c
 }
 
 // -------------------------------------------------
-TYPESYSTEM_SOURCE(Part::GeomSurfaceOfRevolution, Part::GeomSurface)
+TYPESYSTEM_SOURCE(Part::GeomSurfaceOfRevolution, Part::GeomSweptSurface)
 
 GeomSurfaceOfRevolution::GeomSurfaceOfRevolution() = default;
 
@@ -6254,9 +6254,20 @@ PyObject* GeomSurfaceOfRevolution::getPyObject()
     return new SurfaceOfRevolutionPy(static_cast<GeomSurfaceOfRevolution*>(this->clone()));
 }
 
+bool GeomSurfaceOfRevolution::isSame(const Geometry& _other, double tol, double atol) const
+{
+    if (_other.getTypeId() != getTypeId()) {
+        return false;
+    }
+
+    auto& other = static_cast<const GeomSurfaceOfRevolution&>(_other);
+    return gp_Lin(other.mySurface->Axis()).Distance(mySurface->Location()) <= tol
+        && GeomSweptSurface::isSame(other, tol, atol);
+}
+
 // -------------------------------------------------
 
-TYPESYSTEM_SOURCE(Part::GeomSurfaceOfExtrusion, Part::GeomSurface)
+TYPESYSTEM_SOURCE(Part::GeomSurfaceOfExtrusion, Part::GeomSweptSurface)
 
 GeomSurfaceOfExtrusion::GeomSurfaceOfExtrusion() = default;
 
