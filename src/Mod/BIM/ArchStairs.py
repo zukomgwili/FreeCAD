@@ -1970,6 +1970,11 @@ class _Stairs(ArchComponent.Component):
                         .add(Vector(0, 0, -resHeight2))
                     )
                     lProfile.append(lProfile[-1].add(DraftVecUtils.scaleTo(vLength, -resLength2)))
+                elif endstairsup == "toFlightThickness" and resHeight2 <= 0:
+                    # The waist reaches below the lower floor before the end of a short flight.
+                    # Finish the vertical end at floor level instead of returning past it and
+                    # creating a self-intersecting profile.
+                    lProfile[-1] = lProfile[-1].add(Vector(0, 0, -resHeight2))
                 else:
                     lProfile.append(lProfile[-1].add(Vector(h.x, h.y, -resHeight2)))
 

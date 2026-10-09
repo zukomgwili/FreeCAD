@@ -170,6 +170,69 @@ class TestArchStairs(TestArchBase.TestArchBase):
                 with self.subTest(stage="restored", stairs=name):
                     assert_stairs(stairs)
 
+    def test_low_rise_massive_structure_is_valid(self):
+        """Massive structures remain valid when their waist reaches the lower floor cut."""
+        cases = (
+            (2, 300.0, 210.4, (0.0, -600.0, 0.0, 300.0, 600.0, 105.2), 37872000.0),
+            (3, 600.0, 231.63, (0.0, -600.0, 0.0, 600.0, 600.0, 154.42), 83386800.0),
+            (
+                10,
+                3000.0,
+                3000.0,
+                (0.0, -600.0, 0.0, 2700.0, 600.0, 2700.0),
+                1146307791.313324,
+            ),
+        )
+
+        def assert_stairs(stairs, expected_bounds, expected_volume):
+            self.assertNotIn("Invalid", stairs.State)
+            self.assertFalse(stairs.Shape.isNull())
+            self.assertTrue(stairs.Shape.isValid())
+            self.assertEqual(len(stairs.Shape.Solids), 1)
+            self.assertGreater(stairs.Shape.Volume, 0.0)
+            self.assertAlmostEqual(stairs.Shape.Volume, expected_volume)
+            self.assertEqual(len(stairs.OutlineLeft), 2)
+            self.assertEqual(len(stairs.OutlineRight), 2)
+
+            bounds = stairs.Shape.BoundBox
+            actual_bounds = (
+                bounds.XMin,
+                bounds.YMin,
+                bounds.ZMin,
+                bounds.XMax,
+                bounds.YMax,
+                bounds.ZMax,
+            )
+            for actual, expected in zip(actual_bounds, expected_bounds):
+                self.assertAlmostEqual(actual, expected)
+
+        expected_by_name = {}
+        for steps, length, height, bounds, volume in cases:
+            stairs = Arch.makeStairs(length=length, width=1200, height=height, steps=steps)
+            stairs.Align = "Center"
+            stairs.TreadDepthEnforce = 300
+            stairs.Structure = "Massive"
+            stairs.StructureThickness = 150
+            expected_by_name[stairs.Name] = (bounds, volume)
+
+        self.document.recompute(None, True, True)
+        for name, (bounds, volume) in expected_by_name.items():
+            stairs = self.document.getObject(name)
+            with self.subTest(stage="created", stairs=name):
+                assert_stairs(stairs, bounds, volume)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = os.path.join(temp_dir, "low_rise_massive_stairs.FCStd")
+            self.document.saveAs(path)
+            App.closeDocument(self.document.Name)
+            self.document = App.openDocument(path)
+            self.document.recompute(None, True, True)
+
+            for name, (bounds, volume) in expected_by_name.items():
+                stairs = self.document.getObject(name)
+                with self.subTest(stage="restored", stairs=name):
+                    assert_stairs(stairs, bounds, volume)
+
     def test_makeStairs(self):
         """Test the makeStairs function."""
         operation = "Testing makeStairs function"
