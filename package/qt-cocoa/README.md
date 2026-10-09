@@ -57,6 +57,28 @@ it does not pass through the original verifier's prefix-only QPA load rule.
 Promotion into a dependency package or an accepted Qt release is tracked by
 `FreeCAD-4fa`.
 
+## Derived dependency package
+
+The accepted Qt changes remain unmerged, so `package/qt-pdf/build_backport.py`
+can prepare an explicit `osx-arm64` build-2 candidate containing both the
+existing PDF patch and the feedstock-form
+`qt-everywhere-native-cell-lifecycle.patch`. This never changes the locked
+build-1 prefix or the app-local overlay:
+
+```sh
+python3 package/qt-pdf/build_backport.py --prepare \
+  --work-dir /path/to/fresh-package-work --platform osx-arm64 \
+  --macos-sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
+  --cocoa-accessibility native-cell-lifecycle
+```
+
+Build the same work directory with `--build` and the identical options. The
+provenance record binds the exact feedstock, both patches, the Cocoa Gerrit
+origins and the resulting build number. A candidate must still be installed in
+an isolated prefix and pass the focused Cocoa regression and existing macOS PDF
+qualification before it can replace the overlay or be added to a delivery
+catalogue.
+
 ## Build
 
 The builder requires native macOS arm64, the exact authenticated Qt 6.11.2

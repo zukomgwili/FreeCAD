@@ -149,7 +149,7 @@ def remove_private_directory(evidence, name):
         shutil.rmtree(path)
 
 
-def make_channel(tool, package, package_sha, target, evidence, common):
+def make_channel(tool, package, package_sha, target, build_number, evidence, common):
     unpacked = evidence / "unpacked"
     command = [tool, "package", "extract", str(package), str(unpacked), *common]
     command_result(command, evidence, "extract-package")
@@ -157,7 +157,7 @@ def make_channel(tool, package, package_sha, target, evidence, common):
     require(
         index.get("name") == "qt6-main"
         and index.get("version") == "6.11.2"
-        and index.get("build_number") == 1
+        and index.get("build_number") == build_number
         and index.get("subdir") == target
         and index.get("build") == package.name[len("qt6-main-6.11.2-") : -len(".conda")],
         "Built archive metadata differs from its recorded package identity",
@@ -194,19 +194,20 @@ def install(args):
     baseline = args.baseline_prefix.expanduser().resolve(strict=True)
     candidate, evidence = fresh_paths(baseline, args.candidate_prefix)
     records = managed_records(baseline)
+    backport = load_module("qt_pdf_backport", Path(__file__).with_name("build_backport.py"))
+    qualifier = load_module("qt_pdf_qualifier", Path(__file__).with_name("qualify_package.py"))
+    build_evidence = qualifier.build_evidence(args.package_build_json, backport, args.macos_sdk)
     require(
         records.get("qt6-main", {}).get("version") == "6.11.2"
-        and records["qt6-main"].get("build_number") == 0,
-        "Baseline must contain the original Qt 6.11.2 build-0 package",
+        and records["qt6-main"].get("build_number", -1)
+        < build_evidence["preparation"]["build_number"],
+        "Baseline must contain an earlier Qt 6.11.2 package build",
     )
     require(
         records.get("python", {}).get("version", "").startswith("3.13.")
         and records.get("pyside6", {}).get("version") == "6.11.2",
         "Baseline needs Python 3.13 and PySide6 6.11.2 for native FreeCAD qualification",
     )
-    backport = load_module("qt_pdf_backport", Path(__file__).with_name("build_backport.py"))
-    qualifier = load_module("qt_pdf_qualifier", Path(__file__).with_name("qualify_package.py"))
-    build_evidence = qualifier.build_evidence(args.package_build_json, backport, args.macos_sdk)
     build_json = Path(build_evidence["build_json"])
     package = Path(build_evidence["package"])
     package_sha = build_evidence["package_sha256"]
@@ -243,7 +244,13 @@ def install(args):
     }
     try:
         channel, index, extract_command = make_channel(
-            tool, package, package_sha, target, evidence, common
+            tool,
+            package,
+            package_sha,
+            target,
+            build_evidence["preparation"]["build_number"],
+            evidence,
+            common,
         )
         report["commands"].append(extract_command)
         report["package_index"] = index

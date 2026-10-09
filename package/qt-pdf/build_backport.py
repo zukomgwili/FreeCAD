@@ -25,6 +25,24 @@ PATCH_SHA256 = "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3
 PATCH_DESTINATION = "recipe/patches/0050-pdf-empty-outline.patch"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PATCH_SOURCE = REPO_ROOT / "tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch"
+COCOA_PATCH_DESTINATION = "recipe/patches/0051-cocoa-accessibility-lifecycle.patch"
+COCOA_PATCH_SOURCE = REPO_ROOT / "package/qt-cocoa/qt-everywhere-native-cell-lifecycle.patch"
+COCOA_PATCH_SHA256 = "6d8075c45e3f86cb61c88528c49a78daedb8883f2dcb82d3f576efa21f2a7c52"
+COCOA_PATCH_ORIGIN = {
+    "changes": [
+        {
+            "url": "https://codereview.qt-project.org/c/qt/qtbase/+/772484/3",
+            "revision": "de050555112940ed643dfa7bd9ed16470adc5a09",
+            "status_at_review": "NEW",
+        },
+        {
+            "url": "https://codereview.qt-project.org/c/qt/qtbase/+/772485/1",
+            "revision": "6e57f70988261f21c6eff263d3f952c1659353e1",
+            "status_at_review": "NEW",
+        },
+    ],
+    "scope": "Cocoa lifecycle guards only; upstream test hunks are intentionally omitted.",
+}
 VARIANTS = {
     "linux-64": ".ci_support/linux_64_.yaml",
     "linux-aarch64": ".ci_support/linux_aarch64_.yaml",
@@ -34,7 +52,11 @@ VARIANTS = {
 }
 # Bare historical host requirements otherwise select newer ABI dependencies
 # than FreeCAD's locked runtime. Keep these choices explicit in the evidence.
-DEPENDENCY_VARIANTS = {"harfbuzz": "14.4.0", "libpng": "1.6.58"}
+DEPENDENCY_VARIANTS = {
+    "harfbuzz": "14.4.0",
+    "libglib": "2.90.0",
+    "libpng": "1.6.58",
+}
 
 
 def sha256(data):
@@ -81,12 +103,24 @@ def archive_files(data):
     return files
 
 
-def backport_files(upstream):
+def backport_files(upstream, cocoa_accessibility):
     patch = PATCH_SOURCE.read_bytes()
     require(sha256(patch) == PATCH_SHA256, "Retained Qt patch differs from the reviewed patch")
+    cocoa_patch = None
+    if cocoa_accessibility:
+        require(
+            cocoa_accessibility == "native-cell-lifecycle",
+            f"Unsupported Cocoa accessibility patch: {cocoa_accessibility}",
+        )
+        cocoa_patch = COCOA_PATCH_SOURCE.read_bytes()
+        require(
+            sha256(cocoa_patch) == COCOA_PATCH_SHA256,
+            "Retained Cocoa accessibility patch differs from the reviewed patch",
+        )
     original = upstream["recipe/recipe.yaml"].decode("utf-8")
     require('version: "6.11.2"\n' in original, "Unexpected Qt version")
     require("md5: 669c1f3a41c37fdda389094882044d7a\n" in original, "Unexpected Qt source checksum")
+    build_number = 2 if cocoa_patch else 1
     build = "build:\n  number: 0\n"
     anchor = "      - patches/0003-qtbase-use-better-clang-optimize-size.patch\n"
     require(
@@ -94,12 +128,22 @@ def backport_files(upstream):
         "Unexpected recipe edit locations",
     )
     require(PATCH_DESTINATION not in upstream, "Backport patch already exists upstream")
-    modified = original.replace(build, "build:\n  number: 1\n", 1).replace(
+    modified = original.replace(build, f"build:\n  number: {build_number}\n", 1).replace(
         anchor, anchor + "      - patches/0050-pdf-empty-outline.patch\n", 1
     )
     files = dict(upstream)
     files["recipe/recipe.yaml"] = modified.encode("utf-8")
     files[PATCH_DESTINATION] = patch
+    if cocoa_patch:
+        require(COCOA_PATCH_DESTINATION not in upstream, "Cocoa accessibility patch already exists upstream")
+        modified = modified.replace(
+            "      - patches/0050-pdf-empty-outline.patch\n",
+            "      - patches/0050-pdf-empty-outline.patch\n"
+            "      - patches/0051-cocoa-accessibility-lifecycle.patch\n",
+            1,
+        )
+        files["recipe/recipe.yaml"] = modified.encode("utf-8")
+        files[COCOA_PATCH_DESTINATION] = cocoa_patch
     diff = "".join(
         difflib.unified_diff(
             original.splitlines(keepends=True),
@@ -213,7 +257,7 @@ def build_command(executable, work, target, sdk=None):
     return command
 
 
-def expected_materialization(work, target, sdk=None):
+def expected_materialization(work, target, sdk=None, cocoa_accessibility=None):
     archive = work / "feedstock.tar.gz"
     if archive.exists():
         data = archive.read_bytes()
@@ -225,19 +269,29 @@ def expected_materialization(work, target, sdk=None):
             data = response.read(1024 * 1024 + 1)
         require(len(data) <= 1024 * 1024, "Feedstock archive exceeds the expected size bound")
     upstream = archive_files(data)
-    files, diff, scheduling_diff = backport_files(upstream)
+    files, diff, scheduling_diff = backport_files(upstream, cocoa_accessibility)
     if not archive.exists():
         archive.write_bytes(data)
     manifest = {
         "schema_version": 1,
         "qt_version": "6.11.2",
-        "build_number": 1,
+        "build_number": 2 if cocoa_accessibility else 1,
         "feedstock_commit": FEEDSTOCK_COMMIT,
         "feedstock_archive_url": ARCHIVE_URL,
         "feedstock_archive_sha256": ARCHIVE_SHA256,
         "upstream_recipe_sha256": RECIPE_SHA256,
         "retained_patch": str(PATCH_SOURCE.relative_to(REPO_ROOT)),
         "retained_patch_sha256": PATCH_SHA256,
+        "cocoa_accessibility": (
+            {
+                "name": cocoa_accessibility,
+                "patch": str(COCOA_PATCH_SOURCE.relative_to(REPO_ROOT)),
+                "patch_sha256": COCOA_PATCH_SHA256,
+                "origin": COCOA_PATCH_ORIGIN,
+            }
+            if cocoa_accessibility
+            else None
+        ),
         "target_platform": target,
         "variant": VARIANTS[target],
         "dependency_variants": dict(DEPENDENCY_VARIANTS),
@@ -263,8 +317,8 @@ def verify_tree(directory, files):
     require(actual == expected, "Materialized feedstock was modified; use a fresh work directory")
 
 
-def prepare(work, target, sdk=None):
-    files, diff, manifest = expected_materialization(work, target, sdk)
+def prepare(work, target, sdk=None, cocoa_accessibility=None):
+    files, diff, manifest = expected_materialization(work, target, sdk, cocoa_accessibility)
     destination = work / "feedstock"
     if destination.exists():
         verify_tree(destination, files)
@@ -311,11 +365,11 @@ def native_platform():
     return None
 
 
-def build(work, target, executable, sdk=None):
+def build(work, target, executable, sdk=None, cocoa_accessibility=None):
     require(
         native_platform() == target, f"Native host is {native_platform()}, not requested {target}"
     )
-    files, diff, manifest = expected_materialization(work, target, sdk)
+    files, diff, manifest = expected_materialization(work, target, sdk, cocoa_accessibility)
     verify_tree(work / "feedstock", files)
     require(
         json.loads((work / "provenance.json").read_text()) == manifest,
@@ -344,8 +398,9 @@ def build(work, target, executable, sdk=None):
     record["exit_code"] = completed.returncode
     record["status"] = "failed" if completed.returncode else "built"
     if not completed.returncode:
-        packages = list((work / "output" / target).glob("qt6-main-6.11.2-*_1.conda"))
-        require(len(packages) == 1, "Expected exactly one Qt 6.11.2 build-1 package")
+        build_number = manifest["build_number"]
+        packages = list((work / "output" / target).glob(f"qt6-main-6.11.2-*_{build_number}.conda"))
+        require(len(packages) == 1, f"Expected exactly one Qt 6.11.2 build-{build_number} package")
         record["package"] = str(packages[0].relative_to(work))
         record["package_sha256"] = sha256(packages[0].read_bytes())
         record["qualified"] = False
@@ -371,14 +426,23 @@ def main():
         type=Path,
         help="Explicit macOS SDK sysroot; pass the same value to prepare and build",
     )
+    parser.add_argument(
+        "--cocoa-accessibility",
+        choices=("native-cell-lifecycle",),
+        help="Add the reviewed Cocoa accessibility lifecycle patch to an arm64 macOS build-2 package.",
+    )
     args = parser.parse_args()
     try:
         sdk = macos_sdk(args.macos_sdk, args.platform)
+        require(
+            args.cocoa_accessibility is None or args.platform == "osx-arm64",
+            "Cocoa accessibility packaging is qualified only for osx-arm64",
+        )
         work = work_directory(args.work_dir)
         if args.prepare:
-            prepare(work, args.platform, sdk)
+            prepare(work, args.platform, sdk, args.cocoa_accessibility)
         else:
-            build(work, args.platform, args.rattler_build, sdk)
+            build(work, args.platform, args.rattler_build, sdk, args.cocoa_accessibility)
     except (OSError, ValueError, tarfile.TarError, subprocess.SubprocessError) as error:
         print(f"Backport preparation/build failed: {error}", file=sys.stderr)
         return 1

@@ -97,7 +97,15 @@ def build_evidence(build_json, backport, relocated_sdk=None):
             relocated_sdk is None,
             "The package build did not record a macOS SDK override",
         )
-    files, recipe_diff, expected = backport.expected_materialization(root, target, sdk)
+    cocoa = preparation.get("cocoa_accessibility")
+    cocoa_name = cocoa["name"] if cocoa is not None else None
+    files, recipe_diff, expected = backport.expected_materialization(
+        root, target, sdk, cocoa_name
+    )
+    # Build-1 receipts predate the explicit no-Cocoa marker. Retain their
+    # qualification path while requiring build-2 receipts to name the patch.
+    if "cocoa_accessibility" not in preparation:
+        expected.pop("cocoa_accessibility")
     require(preparation == expected, "Preparation provenance differs from reviewed inputs")
     backport.verify_tree(root / "feedstock", files)
     require(
@@ -166,8 +174,9 @@ def build_evidence(build_json, backport, relocated_sdk=None):
         "Package must remain inside its recorded build work directory",
     )
     require(
-        package.name.startswith("qt6-main-6.11.2-") and package.name.endswith("_1.conda"),
-        "Expected the reviewed Qt 6.11.2 build-1 package",
+        package.name.startswith("qt6-main-6.11.2-")
+        and package.name.endswith(f"_{preparation['build_number']}.conda"),
+        "Expected the reviewed Qt 6.11.2 package build number",
     )
     package_sha = digest(package)
     require(
@@ -207,7 +216,7 @@ def package_evidence(build_json, candidate, backport, relocated_sdk=None):
     require(
         installed.get("name") == "qt6-main"
         and installed.get("version") == "6.11.2"
-        and installed.get("build_number") == 1
+        and installed.get("build_number") == evidence["preparation"]["build_number"]
         and installed.get("build") == package.name[len("qt6-main-6.11.2-") : -len(".conda")]
         and installed.get("subdir") == target,
         "Candidate installation identity differs from the reviewed package",
