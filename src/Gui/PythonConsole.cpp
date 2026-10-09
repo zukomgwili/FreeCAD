@@ -611,8 +611,7 @@ void PythonConsole::keyPressEvent(QKeyEvent* e)
          *   - roam the history by Up/Down keys
          *   - show call tips on period
          */
-        QTextBlock inputBlock = inputLineBegin.block();  //< get the last paragraph's text
-        QString inputLine = inputBlock.text();
+        QString inputLine = inputLineBegin.block().text();
         QString inputStrg = stripPromptFrom(inputLine);
         if (this->_sourceDrain && !this->_sourceDrain->isEmpty()) {
             inputStrg = inputLine.mid(this->_sourceDrain->length());
@@ -689,8 +688,9 @@ void PythonConsole::keyPressEvent(QKeyEvent* e)
             } break;
         }
 
-        // disable history restart if input line changed
-        restartHistory &= (inputLine != inputBlock.text());
+        // A submitted command can clear or replace the console document. Do not retain a
+        // QTextBlock across the event handling above; it may then refer to the old document.
+        restartHistory &= (inputLine != this->inputBegin().block().text());
     }
     // any cursor move resets the history to its latest item.
     if (restartHistory) {
