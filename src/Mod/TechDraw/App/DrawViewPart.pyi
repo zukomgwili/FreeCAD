@@ -209,11 +209,20 @@ class DrawViewPart(DrawView):
         ...
 
     def getVertexByIndex(self, index: int, /) -> TopoShapeVertex:
-        """getVertexByIndex(vertexIndex). Returns Part.TopoShape."""
+        """
+        getVertexByIndex(vertexIndex) - get the projected vertex at the zero-based geometry index as a
+        Part.TopoShapeVertex. The returned point is unscaled (the view Scale has been removed) and uses
+        conventional coordinates (+Y up). Unlike this method, getVisibleVertexes() defaults to Qt GUI
+        coordinates (+Y down); use getVisibleVertexes(True) for the same Y convention.
+        """
         ...
 
     def getVertexBySelection(self, selection_name: str, /) -> TopoShapeVertex:
-        """getVertexBySelection(vertexName). Returns Part.TopoShape."""
+        """
+        getVertexBySelection(vertexName) - get the projected vertex named by a zero-based selection name
+        (for example, "Vertex0") as a Part.TopoShapeVertex. The returned point is unscaled (the view Scale
+        has been removed) and uses conventional coordinates (+Y up).
+        """
         ...
 
     def projectPoint(self, point: Vector, invert: bool = ..., /) -> Vector:
