@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from Base.Metadata import export
-from Base.Placement import Placement
 from Base.Vector import Vector
 from GeometrySurface import GeometrySurface
 from GeometryCurve import GeometryCurve
@@ -25,7 +24,7 @@ class SurfaceOfRevolution(GeometrySurface):
     Licence: LGPL
     """
 
-    Location: Placement
+    Location: Vector
     """Sets or gets the location of revolution."""
 
     Direction: Vector
@@ -36,5 +35,5 @@ class SurfaceOfRevolution(GeometrySurface):
 
     @overload
     def __init__(
-        self, location: Placement, direction: Vector, basis_curve: GeometryCurve
+        self, basis_curve: GeometryCurve, location: Vector, direction: Vector, /
     ) -> None: ...

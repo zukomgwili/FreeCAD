@@ -187,6 +187,24 @@ class RegressionTests(unittest.TestCase):
         self.assertTrue(first.isSame(same_axis, 1e-8, 1e-12))
         self.assertFalse(first.isSame(different_axis, 1e-8, 1e-12))
 
+    def test_surface_of_revolution_constructor_and_location_contract(self):
+        basis_curve = make_swept_surface_basis()
+        location = Vector(1, 2, 3)
+        direction = Vector(0, 0, 1)
+
+        surface = Part.SurfaceOfRevolution(basis_curve, location, direction)
+
+        self.assertIsInstance(surface.Location, Vector)
+        self.assertLess(surface.Location.distanceToPoint(location), 1e-12)
+
+        updated_location = Vector(-1, -2, -3)
+        surface.Location = updated_location
+        self.assertIsInstance(surface.Location, Vector)
+        self.assertLess(surface.Location.distanceToPoint(updated_location), 1e-12)
+
+        with self.assertRaises(TypeError):
+            Part.SurfaceOfRevolution(location, direction, basis_curve)
+
     def test_swept_surface_is_same_rejects_different_concrete_types(self):
         extrusion = make_surface_of_extrusion()
         revolution = make_surface_of_revolution(direction=Vector(0, 1, 0))

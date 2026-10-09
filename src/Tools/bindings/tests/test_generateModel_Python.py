@@ -102,6 +102,44 @@ def _invalid_text_signatures(path: Path) -> list[str]:
 
 
 class GenerateModelPythonTests(unittest.TestCase):
+    def test_surface_of_revolution_declares_runtime_contract(self):
+        path = SRC_DIR / "Mod/Part/App/SurfaceOfRevolution.pyi"
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        surface = next(
+            node
+            for node in tree.body
+            if isinstance(node, ast.ClassDef) and node.name == "SurfaceOfRevolution"
+        )
+
+        attributes = {
+            node.target.id: ast.unparse(node.annotation)
+            for node in surface.body
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name)
+        }
+        constructor = next(
+            node
+            for node in surface.body
+            if isinstance(node, ast.FunctionDef) and node.name == "__init__"
+        )
+        arguments = [*constructor.args.posonlyargs, *constructor.args.args]
+        parameters = [
+            (argument.arg, ast.unparse(argument.annotation)) for argument in arguments[1:]
+        ]
+
+        self.assertEqual("Vector", attributes["Location"])
+        self.assertEqual(
+            ["self", "basis_curve", "location", "direction"],
+            [argument.arg for argument in constructor.args.posonlyargs],
+        )
+        self.assertEqual(
+            [
+                ("basis_curve", "GeometryCurve"),
+                ("location", "Vector"),
+                ("direction", "Vector"),
+            ],
+            parameters,
+        )
+
     def test_property_accessors_are_exported_as_attributes(self):
         source = textwrap.dedent('''
             from typing import Sequence
