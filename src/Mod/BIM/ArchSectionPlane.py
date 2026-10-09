@@ -731,8 +731,8 @@ def getSVG(
 
 
 def BoundBoxValid(boundBox) -> bool:
-    """Return true if boundBox has a non-zero volume"""
-    return boundBox.XLength > 0 and boundBox.YLength > 0 and boundBox.ZLength > 0
+    """Return true if boundBox contains valid bounds, including planar ones."""
+    return boundBox.isValid()
 
 
 def getDXF(obj):

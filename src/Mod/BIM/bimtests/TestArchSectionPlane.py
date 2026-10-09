@@ -23,8 +23,10 @@ import Arch
 import ArchSectionPlane
 import Draft
 import os
+import Part
 import FreeCAD as App
 from bimtests import TestArchBase
+from unittest.mock import patch
 
 
 class TestArchSectionPlane(TestArchBase.TestArchBase):
@@ -98,6 +100,61 @@ class TestArchSectionPlane(TestArchBase.TestArchBase):
         self.assertAlmostEqual(local_boundbox.Center.x, 0)
         self.assertAlmostEqual(local_boundbox.Center.y, 0)
         self.assertAlmostEqual(local_boundbox.Center.z, 0)
+
+    def testBoundBoxValidAcceptsPlanarBounds(self):
+        """Valid planar bounds are accepted while null bounds are rejected."""
+
+        horizontal_face = Part.makePlane(2000, 1000)
+        vertical_face = Part.makePlane(
+            2000,
+            1000,
+            App.Vector(),
+            App.Vector(0, 1, 0),
+        )
+
+        self.assertTrue(ArchSectionPlane.BoundBoxValid(horizontal_face.BoundBox))
+        self.assertTrue(ArchSectionPlane.BoundBoxValid(vertical_face.BoundBox))
+        self.assertFalse(ArchSectionPlane.BoundBoxValid(Part.Shape().BoundBox))
+
+    def testWindowPlanSymbolUsesFlatCutFace(self):
+        """A horizontal cut includes only intersecting window plan symbols."""
+
+        baseline = Draft.make_wire([App.Vector(0, 0, 0), App.Vector(4000, 0, 0)])
+        wall = Arch.makeWall(baseline, height=3000, width=200, align="Center")
+
+        def make_door(name, base):
+            door = Arch.makeWindowPreset(
+                "Simple door",
+                width=900,
+                height=2100,
+                h1=50,
+                h2=50,
+                h3=50,
+                w1=100,
+                w2=50,
+                o1=0,
+                o2=50,
+                placement=App.Placement(base, App.Vector(1, 0, 0), -90),
+            )
+            door.Label = name
+            door.SymbolPlan = True
+            return door
+
+        cut_door = make_door("Cut door", App.Vector(500, 0, 2100))
+        out_of_plane_door = make_door("Out-of-plane door", App.Vector(2500, 0, 6000))
+        self.document.recompute()
+
+        section = Arch.makeSectionPlane([wall, cut_door, out_of_plane_door])
+        section.Placement = App.Placement(App.Vector(2000, 0, 1000), App.Rotation())
+        self.document.recompute()
+
+        with patch("ArchSectionPlane.Draft.get_svg", return_value="<window-symbol/>") as get_svg:
+            svg = ArchSectionPlane.getSVG(section, allOn=True)
+
+        self.assertEqual(len(cut_door.Proxy.sshapes), 2)
+        self.assertEqual(len(out_of_plane_door.Proxy.sshapes), 2)
+        self.assertEqual(get_svg.call_count, 1)
+        self.assertEqual(svg.count("<window-symbol/>"), 1)
 
     def testTechDrawViewGeneration(self):
         """Tests the whole TD view generation workflow"""
