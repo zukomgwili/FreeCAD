@@ -169,6 +169,9 @@ public:
 
     unsigned int getMemSize() const override;
 
+    /// Rebuild dependency links after a referenced dynamic property is created.
+    void refreshDependencies();
+
     std::map<App::ObjectIdentifier, const App::Expression*> getExpressions() const override;
     void setExpressions(std::map<App::ObjectIdentifier, App::ExpressionPtr>&& exprs) override;
     void onRelabeledDocument(const App::Document& doc) override;

@@ -250,6 +250,11 @@ unsigned int PropertyExpressionEngine::getMemSize() const
     return 0;
 }
 
+void PropertyExpressionEngine::refreshDependencies()
+{
+    hasSetValue();
+}
+
 Property* PropertyExpressionEngine::Copy() const
 {
     PropertyExpressionEngine* engine = new PropertyExpressionEngine();

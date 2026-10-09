@@ -1072,6 +1072,8 @@ DocumentObjectExecReturn* Sheet::execute()
 {
     updateBindings();
 
+    bool createdRuntimeProperty = false;
+
     // Get dirty cells that we have to recompute
     std::set<CellAddress> dirtyCells = cells.getDirty();
 
@@ -1120,6 +1122,7 @@ DocumentObjectExecReturn* Sheet::execute()
         for (auto& pos : make_order) {
             const auto& addr = VertexIndexList[pos];
             FC_TRACE(addr.toString());
+            createdRuntimeProperty = createdRuntimeProperty || !getProperty(addr);
             recomputeCell(addr);
         }
     }
@@ -1222,6 +1225,16 @@ DocumentObjectExecReturn* Sheet::execute()
     // cells.clearDirty();
     rowHeights.clearDirty();
     columnWidths.clearDirty();
+
+    // A sheet cell has no App::Property until its first evaluation. Expressions
+    // installed before that point have an object dependency, but cannot record
+    // the required fine-grained property dependency. Rebuild those links once
+    // the newly-created cell properties are available.
+    if (createdRuntimeProperty && getDocument()) {
+        for (auto* object : getDocument()->getObjects()) {
+            object->ExpressionEngine.refreshDependencies();
+        }
+    }
 
     if (cellErrors.empty()) {
         return DocumentObject::StdReturn;

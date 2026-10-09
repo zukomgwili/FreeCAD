@@ -1159,6 +1159,20 @@ class SpreadsheetCases(unittest.TestCase):
         self.assertEqual(box.ExpressionEngine[0][1], "Spreadsheet.alias1")
         self.assertEqual(box2.ExpressionEngine[0][1], "<<Params>>.alias1")
 
+    def testAliasedCellInvalidatesExpressionCreatedBeforeFirstRecompute(self):
+        """A cell created during recompute must register fine-grained dependants."""
+        sheet = self.doc.addObject("Spreadsheet::Sheet", "Inputs")
+        sheet.set("B1", "2700")
+        sheet.setAlias("B1", "WallHeight")
+        box = self.doc.addObject("Part::Box", "Box")
+        box.setExpression("Height", "Inputs.WallHeight * 1 mm")
+        self.doc.recompute()
+        self.assertEqual(box.Height, 2700)
+
+        sheet.set("B1", "2900")
+        self.doc.recompute()
+        self.assertEqual(box.Height, 2900)
+
     def testAlias(self):
         """Playing with aliases"""
         sheet = self.doc.addObject("Spreadsheet::Sheet", "Calc")
