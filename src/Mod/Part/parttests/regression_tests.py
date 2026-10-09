@@ -99,6 +99,39 @@ class RegressionTests(unittest.TestCase):
 
         self.assertFalse(first.isSame(different_trailing_v_multiplicities, 1e-8, 1e-12))
 
+    def test_elementary_surface_is_same_matches_identical_surfaces(self):
+        for surface_type in (Part.Plane, Part.Cylinder, Part.Cone, Part.Sphere, Part.Toroid):
+            with self.subTest(surface_type=surface_type.__name__):
+                first = surface_type()
+                identical = surface_type()
+
+                self.assertTrue(first.isDerivedFrom("Part::GeomElementarySurface"))
+                self.assertTrue(first.isSame(first, 1e-8, 1e-12))
+                self.assertTrue(first.isSame(identical, 1e-8, 1e-12))
+
+    def test_elementary_surface_is_same_rejects_different_parameters(self):
+        cases = (
+            (Part.Cylinder, "Radius", 2.0),
+            (Part.Cone, "SemiAngle", 0.25),
+            (Part.Sphere, "Radius", 2.0),
+            (Part.Toroid, "MinorRadius", 2.0),
+        )
+        for surface_type, attribute, value in cases:
+            with self.subTest(surface_type=surface_type.__name__, attribute=attribute):
+                first = surface_type()
+                different = surface_type()
+                setattr(first, attribute, value)
+                setattr(different, attribute, value + 1.0)
+
+                self.assertFalse(first.isSame(different, 1e-8, 1e-12))
+
+    def test_elementary_surface_is_same_compares_placement(self):
+        first = Part.Plane()
+        translated = Part.Plane()
+        translated.Position = Vector(1, 0, 0)
+
+        self.assertFalse(first.isSame(translated, 1e-8, 1e-12))
+
     def test_issue_15735(self):
         """
         15735: Point in sketch as loft profile won't work in dev, but works in stable
