@@ -2173,6 +2173,14 @@ class _Stairs(ArchComponent.Component):
         if align is None:
             align = obj.Align
 
+        # setup landingDepth independently of treadDepthEnforce because both automatic and
+        # enforced tread depths need it to build a centered landing
+        if hasLanding and (not landingDepth or landingDepth == "Auto"):
+            if (landingDepth is None) and obj.LandingDepth:
+                landingDepth = obj.LandingDepth.Value
+            else:  # e.g. landingDepth == "Auto", obj.LandingDepth == 0
+                landingDepth = width
+
         # setup vLength (tread length(depth) ) : check treadDepthEnforce
         if treadDepthEnforce and treadDepthEnforce != "Auto":
             vLength = DraftVecUtils.scaleTo(v_proj, treadDepthEnforce)
@@ -2183,15 +2191,7 @@ class _Stairs(ArchComponent.Component):
         ):  # elif treadDepth is None and ...
             # check landings
             if hasLanding:
-                # check landingDepth
-                if landingDepth and landingDepth != "Auto":  # i.e. landingDepth == float
-                    reslength = v_proj.Length - landingDepth
-                elif (landingDepth is None) and obj.LandingDepth:
-                    reslength = v_proj.Length - obj.LandingDepth.Value
-                    landingDepth = obj.LandingDepth.Value
-                else:  # e.g. landingDepth == 'Auto', obj.LandingDepth == 0
-                    reslength = v_proj.Length - width
-                    landingDepth = width
+                reslength = v_proj.Length - landingDepth
                 treadDepth = reslength / (numOfSteps - 2)
             else:
                 reslength = v_proj.Length

@@ -105,6 +105,71 @@ class TestArchStairs(TestArchBase.TestArchBase):
                     self.assertFalse(stairs.Shape.isNull())
                     self.assertTrue(stairs.Shape.isValid())
 
+    def test_center_landing_with_enforced_tread_depth(self):
+        """Centered landings support automatic and explicitly enforced tread depths."""
+        expected_bounds = {
+            "HalfTurnLeft": (0.0, -1000.0, 0.0, 2750.0, 1000.0, 2812.5),
+            "HalfTurnRight": (0.0, -2000.0, 0.0, 2750.0, 0.0, 2812.5),
+            "Straight": (0.0, -1000.0, 0.0, 4500.0, 0.0, 2812.5),
+        }
+
+        def assert_stairs(stairs):
+            self.assertNotIn("Invalid", stairs.State)
+            self.assertFalse(stairs.Shape.isNull())
+            self.assertTrue(stairs.Shape.isValid())
+            self.assertAlmostEqual(stairs.Length.Value, 4500.0)
+            self.assertAlmostEqual(stairs.Width.Value, 1000.0)
+            self.assertAlmostEqual(stairs.Height.Value, 3000.0)
+            self.assertEqual(stairs.NumberOfSteps, 16)
+            self.assertAlmostEqual(stairs.LandingDepth.Value, 1000.0)
+            self.assertAlmostEqual(stairs.TreadDepth.Value, 250.0)
+            self.assertAlmostEqual(stairs.RiserHeight.Value, 187.5)
+            self.assertEqual(len(stairs.Shape.Solids), 3)
+            self.assertEqual(len(stairs.Shape.Faces), 44)
+            self.assertEqual(len(stairs.OutlineLeft), 2)
+            self.assertEqual(len(stairs.OutlineRight), 2)
+
+            bounds = stairs.Shape.BoundBox
+            actual_bounds = (
+                bounds.XMin,
+                bounds.YMin,
+                bounds.ZMin,
+                bounds.XMax,
+                bounds.YMax,
+                bounds.ZMax,
+            )
+            for actual, expected in zip(actual_bounds, expected_bounds[stairs.Flight]):
+                self.assertAlmostEqual(actual, expected)
+
+        stairs_names = []
+        for flight in expected_bounds:
+            for tread_depth in (0.0, 250.0):
+                with self.subTest(flight=flight, tread_depth=tread_depth):
+                    stairs = Arch.makeStairs(length=4500, width=1000, height=3000, steps=16)
+                    stairs.Flight = flight
+                    stairs.Landings = "At center"
+                    stairs.LandingDepth = 1000
+                    stairs.TreadDepthEnforce = tread_depth
+                    stairs_names.append(stairs.Name)
+
+        self.document.recompute(None, True, True)
+        for name in stairs_names:
+            stairs = self.document.getObject(name)
+            with self.subTest(stage="created", stairs=name):
+                assert_stairs(stairs)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = os.path.join(temp_dir, "centered_landing_stairs.FCStd")
+            self.document.saveAs(path)
+            App.closeDocument(self.document.Name)
+            self.document = App.openDocument(path)
+            self.document.recompute(None, True, True)
+
+            for name in stairs_names:
+                stairs = self.document.getObject(name)
+                with self.subTest(stage="restored", stairs=name):
+                    assert_stairs(stairs)
+
     def test_makeStairs(self):
         """Test the makeStairs function."""
         operation = "Testing makeStairs function"
