@@ -27,6 +27,27 @@ unmerged when reviewed on 7 October 2026. The local patch omits its upstream Qt
 test hunk and retains the proposal metadata and complete-patch hash in the build
 receipt.
 
+`FreeCAD-and` identifies a separate cell-position failure. A collapsed tree
+cell can keep a valid persistent model index while its visible row becomes `-1`.
+The ordinary posted tree layout reset deletes its cached Qt accessibility
+interface; Cocoa creates an element for that destruction notification and
+previously indexed the native rows array with the negative position.
+`native-cell-lifecycle.patch` retains the 772484 ownership changes and adds the
+exact negative-row/column guard from Yuri Barreira's proposed Qt change
+[772485, patch set 1](https://codereview.qt-project.org/c/qt/qtbase/+/772485/1).
+The proposal was unmerged when reviewed on 9 October 2026. The five original
+FreeCAD reports and a stock nested-tree collapse reproduce the same native call
+path. The original production cell and Python statement remain unidentified;
+this establishes a matching mechanism, not proof of every original trigger.
+
+Select `--ownership-fix native-cell-lifecycle` for this combined fix. The default
+and historical choices retain their original identities. Its installed evidence
+is in `viewrow-verification.json` and `viewrow-evidence.json.gz`. The new
+`destroyedcell-repro` target exercises ordinary collapse, posted layout reset,
+and re-expansion without manually deleting Qt interfaces. The existing
+file-dialog regression now checks the `fileSelected` signal at acceptance;
+after hiding, a separate `selectedFiles()` query can return the view directory.
+
 The delivery is an **app-local arm64 Cocoa plugin overlay** for the existing
 FreeCAD 27.1.0dev installation. FreeCAD native binaries, locked Qt Core/Gui
 libraries, the Pixi prefix and the earlier PDF package catalogue are preserved.

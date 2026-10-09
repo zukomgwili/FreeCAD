@@ -7,6 +7,8 @@ SPDX notices and LICENSES are retained. --ownership-fix selects exactly one
 authenticated Cocoa ownership patch. The default retains the original 24t
 parent-managed guard; native-interfaces applies the source-only changes from
 Qt Gerrit 772484 patch set 3 (unmerged at review on 2026-10-07).
+native-cell-lifecycle additionally applies the negative-view-position guard from
+Qt Gerrit 772485 patch set 1 (unmerged at review on 2026-10-09).
 Public/private headers and libraries come from the selected installed
 Conda Qt package, not a second Qt build. This does not install anything or repeat
 PDF qualification. build-receipt.json records build provenance; separate overlay
@@ -64,6 +66,32 @@ OWNERSHIP_FIXES = {
         },
     },
 }
+OWNERSHIP_FIXES["native-cell-lifecycle"] = {
+    "file": "native-cell-lifecycle.patch",
+    "sha256": "b9ded7bdc0e1bf0a6ed7d95501199b802cb4cda807dbac38e431f5c668d69ebe",
+    "header_sha256": "99185a8e33a3b9838e1e24c71b48e52125d1d4090c8d0ea98dcf9fd58163f301",
+    "element_sha256": "02bb81d3a4d155fabd67e9bfd9c03bc50ddb3f7139df7682756b1e6c0a9d56b2",
+    "upstream_proposal": {
+        "url": "https://codereview.qt-project.org/c/qt/qtbase/+/772485",
+        "revision": "6e57f70988261f21c6eff263d3f952c1659353e1",
+        "patch_set": 1,
+        "complete_patch_sha256": "dc601d2972895446f31659baea249bcb33f00acb693f0da8f3f715619de8b450",
+        "review_date": "2026-10-09",
+        "status_at_review": "NEW",
+        "scope": "Exact negative-position Cocoa guard plus retained 772484 ownership hunks; upstream test hunks omitted",
+        "requires": {
+            "url": "https://codereview.qt-project.org/c/qt/qtbase/+/772484",
+            "revision": "de050555112940ed643dfa7bd9ed16470adc5a09",
+            "patch_set": 3,
+            "complete_patch_sha256": "b2ef8d37a293566657c0052d4d64d9ab8b204c0f44ff45d5253d9b306db1e024",
+            "review_date": "2026-10-07",
+            "status_at_review": "NEW",
+            "scope": "Exact Cocoa header/implementation hunks; upstream test hunk omitted"
+        }
+    }
+}
+
+
 DEPENDENCY_HEADERS_SHA256 = "c52c8e94cb0556ea236beb3416f1a8b1a4156164a363c2c20267cd89bdc88331"
 DEPENDENCY_ARCHIVES = {
     "libvulkan-headers-1.4.357.0-hfbe1efa_1.conda":

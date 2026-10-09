@@ -496,14 +496,21 @@ static int dialogChanges(QApplication& app, int repeats)
     if (filename->text() != output)
         return fail("ordinary filename key entry differs from fixture path",
             {{"expected", output}, {"actual", filename->text()}});
+    QString acceptedFile;
+    QObject::connect(&dialog, &QFileDialog::fileSelected, &dialog,
+        [&](const QString& selected) { acceptedFile = selected; });
     stage("before_ordinary_filename_return", {{"filename", output}});
     QTest::keyClick(filename, Qt::Key_Return);
     if (!waitFor(app, [&]() { return !dialog.isVisible(); })
-        || dialog.result() != QDialog::Accepted || dialog.selectedFiles() != QStringList{output})
-        return fail("ordinary filename Return did not accept the exact stock Save path");
+        || dialog.result() != QDialog::Accepted || acceptedFile != output)
+        return fail("ordinary filename Return did not accept the exact stock Save path",
+            {{"visible", dialog.isVisible()}, {"result", dialog.result()},
+             {"selected_files", QJsonArray::fromStringList(dialog.selectedFiles())},
+             {"filename", filename->text()},
+             {"modal", app.activeModalWidget() ? app.activeModalWidget()->metaObject()->className() : "none"}});
     if (QFile::exists(output))
         return fail("filename-only fixture unexpectedly wrote output bytes");
-    stage("ordinary_filename_accepted", {{"selected_files", QJsonArray::fromStringList(dialog.selectedFiles())},
+    stage("ordinary_filename_accepted", {{"accepted_file", acceptedFile},
         {"output_written", false}});
     stage("passed", {{"mode", "file-dialog"}, {"repeat_count", repeats}, {"implementation_image", observer.implementationPath}, {"fixture_scope", "own QTemporaryDir only"}});
     dialog.reject();

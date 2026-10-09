@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-and",
+  "status": "installed-and-verified",
+  "finding": {
+    "cause": "A valid collapsed Qt tree cell has visible row -1. Posted layout modelChange deletes the cached Qt cell; its ObjectDestroyed Cocoa wrapper creation used the negative row as an NSArray index.",
+    "original_incidents": 5,
+    "matching_stock_reproductions": 3,
+    "original_cell_and_python_statement": "Not identified",
+    "prior_m7f": "Ownership fix retained; this exception path differs from the earlier missing-interface SIGSEGV."
+  },
+  "source": {
+    "qt": "6.11.2 pl5321h5ab96b3_1",
+    "compiled_freecad": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+    "fix": "native-cell-lifecycle",
+    "upstream": "https://codereview.qt-project.org/c/qt/qtbase/+/772485/1",
+    "status_at_review": "NEW",
+    "patch_sha256": "b9ded7bdc0e1bf0a6ed7d95501199b802cb4cda807dbac38e431f5c668d69ebe",
+    "regression_sha256": "9f4e1705ad4c18baa2d69c7e97803b1587e3a458b34101c1c78fd9cadf5e3d8a",
+    "builder_sha256": "7d904327a33574b5ebceb3da81b1b8b4461b4b4a9380b4f862936314f4c5ae28",
+    "build_note": "Builder metadata formatting and explanatory docstring changed after plugin build; selected patch bytes and authenticated resulting Cocoa source hashes did not change."
+  },
+  "validation": {
+    "baseline": "Final stock collapse regression SIGABRT 3/3; valid cell row -1; matching native exception frames.",
+    "installed": "20 collapse/re-expansion cycles, 20 table cycles, 20 tree cycles, 20 file-dialog cycles and exact emitted Save filename passed.",
+    "freecad_bim": {
+      "phase": "passed",
+      "cycles": 20,
+      "box_volume": 1000,
+      "rollback": true,
+      "bim_wall": true,
+      "save_reopen": true,
+      "documents": []
+    },
+    "freecad_bim_exit": {
+      "returncode": 0
+    },
+    "pdf": {
+      "files": [
+        {
+          "name": "candidate",
+          "pdf_sha256": "91bbfae230853f0fde7dab116b5a7bdb1d9db4e88cfd9a79161e35a643161181",
+          "text_sha256": "6413d62de9b37716163ef58009ce107c9ce176c6b07b661922a265afe2276f0a",
+          "render_sha256": "270d935a68f426a1747d6f03d2722c413454724d8dabc7168bf6c34f8fca39e7"
+        },
+        {
+          "name": "reference",
+          "pdf_sha256": "276f901bead10c1f8279c85ea5b67938d4e5dd36fa999c424dca6e7f63783a6e",
+          "text_sha256": "6413d62de9b37716163ef58009ce107c9ce176c6b07b661922a265afe2276f0a",
+          "render_sha256": "270d935a68f426a1747d6f03d2722c413454724d8dabc7168bf6c34f8fca39e7"
+        }
+      ],
+      "text_identical": true,
+      "render_identical": true,
+      "dpi": 110
+    },
+    "pdf_source_sha256": "ec5f77e3878d0ae6d0b19913e6d00e1b8f8101ec6a057e2606b606028d5d4b03",
+    "fixture_corrections": "Initial Box probe lacked recompute and used exact floating-point volume equality; corrected fixture uses native rollback and numeric tolerances. QApplication.quit bypassed FreeCAD shutdown and caused Shiboken recursive_mutex exceptions; normal main-window close control and final fixture both exited 0. Initial file-dialog test queried selectedFiles after acceptance; final test verifies emitted fileSelected."
+  },
+  "delivery": {
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "plugin_sha256": "232432696ae4e3263780169b9795f28ddc87fd19ba17b2c6377bc828404aaab9",
+    "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/cocoa-view-row-20261009/FreeCAD-27.1.0.app",
+    "signature_verified": true,
+    "original_resource_bytes_preserved": true,
+    "resources_readonly": true,
+    "installation_receipt_sha256": "bd3af95f5d7952ade6bfb500a667e7a89dfc862ca2f91c4a59c3017b47c9089d"
+  },
+  "evidence": {
+    "path": "package/qt-cocoa/viewrow-evidence.json.gz",
+    "sha256": "220635a30b5dcc481a8917d7dda2ec74a44cecf3278e7480837e70793074921a",
+    "decoded_sha256": "aa2fd539468ff484722fb584c11765174ac5da4cba1e2941d15ac2c9727cbfc6",
+    "file_count": 27
+  },
+  "limits": [
+    "Local macOS 27.0.1 arm64 overlay with external Pixi prefix, not a released Qt fix.",
+    "Production architectural inputs were not modified or used for corrective edits; PDF comparison preserves existing drawing content, not drawing approval.",
+    "Dependency promotion remains tracked by FreeCAD-4fa."
+  ]
+}
