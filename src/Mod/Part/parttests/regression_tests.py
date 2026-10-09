@@ -119,6 +119,25 @@ class RegressionTests(unittest.TestCase):
 
         self.assertFalse(first.isSame(different_trailing_v_multiplicities, 1e-8, 1e-12))
 
+    def test_identical_imported_toroidal_fitting_cut_is_empty(self):
+        path = os.path.join(FreeCAD.getHomePath(), "tests", "brepfiles", "toroidalFitting.brep")
+        first = Part.Shape()
+        first.importBrep(path)
+        identical = Part.Shape()
+        identical.importBrep(path)
+
+        for case, tool in (("copy", first.copy()), ("independent import", identical.copy())):
+            with self.subTest(case=case):
+                difference = first.copy().cut(tool)
+                self.assertTrue(difference.isValid())
+                self.assertAlmostEqual(difference.Volume, 0.0, places=7)
+
+        moved = identical.copy()
+        moved.translate(Vector(1000, 0, 0))
+        distinct_difference = first.copy().cut(moved)
+        self.assertTrue(distinct_difference.isValid())
+        self.assertAlmostEqual(distinct_difference.Volume, first.Volume, places=7)
+
     def test_elementary_surface_is_same_matches_identical_surfaces(self):
         for surface_type in (Part.Plane, Part.Cylinder, Part.Cone, Part.Sphere, Part.Toroid):
             with self.subTest(surface_type=surface_type.__name__):

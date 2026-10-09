@@ -1620,6 +1620,61 @@ TEST_F(TopoShapeExpansionTest, makeElementBooleanFuse)
     ));
 }
 
+TEST_F(TopoShapeExpansionTest, makeElementBooleanCutsIdenticalImportedToroidalFitting)
+{
+    // Arrange
+    const std::string path =
+        App::Application::getHomePath() + "/tests/brepfiles/toroidalFitting.brep";
+    BRep_Builder firstBuilder;
+    BRep_Builder secondBuilder;
+    TopoDS_Shape firstShape;
+    TopoDS_Shape identicalShape;
+    ASSERT_TRUE(BRepTools::Read(firstShape, path.c_str(), firstBuilder));
+    ASSERT_TRUE(BRepTools::Read(identicalShape, path.c_str(), secondBuilder));
+    TopoShape first {firstShape, 1L};
+    TopoShape identical {identicalShape, 2L};
+    ASSERT_TRUE(first.isValid());
+    ASSERT_TRUE(identical.isValid());
+
+    // Act
+    TopoShape selfDifference;
+    ASSERT_NO_THROW(selfDifference.makeElementBoolean(Part::OpCodes::Cut, {first, first}));
+
+    TopoShape independentDifference;
+    ASSERT_NO_THROW(
+        independentDifference.makeElementBoolean(Part::OpCodes::Cut, {first, identical})
+    );
+
+    auto translation {gp_Trsf()};
+    translation.SetTranslation(gp_Vec(gp_XYZ(1000.0, 0.0, 0.0)));
+    TopoShape moved {identicalShape.Moved(TopLoc_Location(translation)), 3L};
+    TopoShape distinctDifference;
+    ASSERT_NO_THROW(
+        distinctDifference.makeElementBoolean(Part::OpCodes::Cut, {first, moved})
+    );
+
+    // Assert
+    EXPECT_TRUE(selfDifference.isNull() || selfDifference.isValid());
+    EXPECT_NEAR(
+        selfDifference.isNull() ? 0.0 : getVolume(selfDifference.getShape()),
+        0.0,
+        Precision::Confusion()
+    );
+    EXPECT_TRUE(independentDifference.isNull() || independentDifference.isValid());
+    EXPECT_NEAR(
+        independentDifference.isNull() ? 0.0 : getVolume(independentDifference.getShape()),
+        0.0,
+        Precision::Confusion()
+    );
+    ASSERT_FALSE(distinctDifference.isNull());
+    EXPECT_TRUE(distinctDifference.isValid());
+    EXPECT_NEAR(
+        getVolume(distinctDifference.getShape()),
+        getVolume(first.getShape()),
+        Precision::Confusion()
+    );
+}
+
 // Regression test for issue #30856. A shape that BRepCheck_Analyzer rejects is not necessarily a
 // shape the boolean algorithms cannot handle: this solid comes from a document that recomputed
 // correctly for years, and BRepCheck reports (and has always reported) BRepCheck_UnorientableShape

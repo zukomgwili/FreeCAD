@@ -27,16 +27,93 @@
  */
 
 #include <FCBRepAlgoAPI_BooleanOperation.h>
+#include <sstream>
 #include <BRepBndLib.hxx>
 #include <Bnd_Box.hxx>
+#include <BOPAlgo_Alerts.hxx>
 #include <BRepCheck_Analyzer.hxx>
+#include <BRepBuilderAPI_Copy.hxx>
+#include <BRepTools_ShapeSet.hxx>
 #include <BRep_Builder.hxx>
+#include <Standard_Failure.hxx>
+#include <TopTools_FormatVersion.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Iterator.hxx>
 #include <Precision.hxx>
 #include <FuzzyHelper.h>
 #include <SignalException.h>
 #include <Base/Console.h>
+
+namespace
+{
+
+void normalizeTransientFlags(TopoDS_Shape shape)
+{
+    // Boolean checks may change these bookkeeping flags without changing topology or geometry.
+    shape.Free(false);
+    shape.Modified(false);
+    shape.Checked(false);
+    for (TopoDS_Iterator child(shape); child.More(); child.Next()) {
+        normalizeTransientFlags(child.Value());
+    }
+}
+
+bool haveIdenticalBRep(const TopoDS_Shape& first, const TopoDS_Shape& second)
+{
+    if (first.IsNull() || second.IsNull()) {
+        return false;
+    }
+
+    if (first.IsEqual(second)) {
+        return true;
+    }
+
+    if (first.ShapeType() != second.ShapeType()) {
+        return false;
+    }
+
+    try {
+        Bnd_Box firstBounds;
+        Bnd_Box secondBounds;
+        BRepBndLib::Add(first, firstBounds);
+        BRepBndLib::Add(second, secondBounds);
+        if (firstBounds.IsVoid() != secondBounds.IsVoid()) {
+            return false;
+        }
+        if (!firstBounds.IsVoid()
+            && (!firstBounds.CornerMin().IsEqual(secondBounds.CornerMin(), Precision::Confusion())
+                || !firstBounds.CornerMax().IsEqual(
+                    secondBounds.CornerMax(),
+                    Precision::Confusion()
+                ))) {
+            return false;
+        }
+
+        TopoDS_Shape firstCopy = BRepBuilderAPI_Copy(first, false, false).Shape();
+        TopoDS_Shape secondCopy = BRepBuilderAPI_Copy(second, false, false).Shape();
+        normalizeTransientFlags(firstCopy);
+        normalizeTransientFlags(secondCopy);
+
+        std::ostringstream firstStream;
+        std::ostringstream secondStream;
+        BRepTools_ShapeSet firstSet(false);
+        firstSet.SetFormatNb(TopTools_FormatVersion_VERSION_1);
+        firstSet.Add(firstCopy);
+        firstSet.Write(firstStream);
+        firstSet.Write(firstCopy, firstStream);
+        BRepTools_ShapeSet secondSet(false);
+        secondSet.SetFormatNb(TopTools_FormatVersion_VERSION_1);
+        secondSet.Add(secondCopy);
+        secondSet.Write(secondStream);
+        secondSet.Write(secondCopy, secondStream);
+        return firstStream.str() == secondStream.str();
+    }
+    catch (const Standard_Failure&) {
+        return false;
+    }
+}
+
+}  // namespace
 
 FCBRepAlgoAPI_BooleanOperation::FCBRepAlgoAPI_BooleanOperation()
 {
@@ -132,6 +209,21 @@ void FCBRepAlgoAPI_BooleanOperation::Build(const Message_ProgressRange& progress
 #else
         BRepAlgoAPI_BooleanOperation::Build();
 #endif
+
+        // Some valid shapes with located sub-shapes make OCCT report success for A - A while
+        // returning an invalid copy of A. Recover only when the operands have byte-for-byte
+        // identical canonical native BRep representations; geometrically similar operands must
+        // still be handled by the Boolean algorithm.
+        if (myOperation == BOPAlgo_CUT && myArguments.Size() == 1 && myTools.Size() == 1
+            && !myShape.IsNull() && !BRepCheck_Analyzer(myShape).IsValid()
+            && HasWarning(STANDARD_TYPE(BOPAlgo_AlertSolidBuilderUnusedFaces))
+            && haveIdenticalBRep(myArguments.First(), myTools.First())) {
+            TopoDS_Compound emptyResult;
+            BRep_Builder builder;
+            builder.MakeCompound(emptyResult);
+            myShape = emptyResult;
+            Done();
+        }
     }
     if (progressRange.UserBreak()) {
         throw Standard_ConstructionError("User aborted");
