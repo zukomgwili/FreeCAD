@@ -37,7 +37,7 @@ class TestArchReport(TestArchBase.TestArchBase):
         super().setUp()
         self.doc = self.document
 
-        self.wall_ext = Arch.makeWall(length=1000, name="Exterior Wall")
+        self.wall_ext = Arch.makeWall(length=1000, width=200, name="Exterior Wall")
         self.wall_ext.IfcType = "Wall"
         self.wall_ext.Height = FreeCAD.Units.Quantity(
             3000, "mm"
