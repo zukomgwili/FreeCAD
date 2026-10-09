@@ -171,7 +171,8 @@ class TestArchSectionPlane(TestArchBase.TestArchBase):
             closed=True,
         )
         wire.MakeFace = False
-        wall = Arch.makeWall(wire, height=3000, width=200)
+        # Keep the expected section area independent of the user's wall preference.
+        wall = Arch.makeWall(wire, height=3000, width=200, align="Center")
         App.ActiveDocument.recompute()
 
         section = Arch.makeSectionPlane(wall)
