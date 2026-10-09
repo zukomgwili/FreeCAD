@@ -3,6 +3,11 @@
 #include <gtest/gtest.h>
 
 #include <boost/core/ignore_unused.hpp>
+#include <Geom_BSplineSurface.hxx>
+#include <NCollection_Array1.hxx>
+#include <NCollection_Array2.hxx>
+#include <gp_Pnt.hxx>
+
 #include "Mod/Part/App/Geometry.h"
 #include <src/App/InitApplication.h>
 #include <BRepBuilderAPI_MakeVertex.hxx>
@@ -28,6 +33,101 @@ protected:
     void TearDown() override
     {}
 };
+
+namespace
+{
+
+Part::GeomBSplineSurface makeBSplineSurface(
+    const std::vector<double>& uKnots,
+    const std::vector<double>& vKnots,
+    const std::vector<int>& uMultiplicities,
+    const std::vector<int>& vMultiplicities,
+    int uDegree,
+    int vDegree
+)
+{
+    int uPoleCount = -uDegree - 1;
+    for (int multiplicity : uMultiplicities) {
+        uPoleCount += multiplicity;
+    }
+    int vPoleCount = -vDegree - 1;
+    for (int multiplicity : vMultiplicities) {
+        vPoleCount += multiplicity;
+    }
+
+    NCollection_Array2<gp_Pnt> poles(1, uPoleCount, 1, vPoleCount);
+    for (int u = poles.LowerRow(); u <= poles.UpperRow(); ++u) {
+        for (int v = poles.LowerCol(); v <= poles.UpperCol(); ++v) {
+            poles(u, v) = gp_Pnt(u - 1, v - 1, u == 2 && v == 2 ? 1.0 : 0.0);
+        }
+    }
+
+    NCollection_Array1<double> uKnotArray(1, uKnots.size());
+    NCollection_Array1<int> uMultiplicityArray(1, uMultiplicities.size());
+    for (int i = uKnotArray.Lower(); i <= uKnotArray.Upper(); ++i) {
+        uKnotArray(i) = uKnots.at(i - 1);
+        uMultiplicityArray(i) = uMultiplicities.at(i - 1);
+    }
+
+    NCollection_Array1<double> vKnotArray(1, vKnots.size());
+    NCollection_Array1<int> vMultiplicityArray(1, vMultiplicities.size());
+    for (int i = vKnotArray.Lower(); i <= vKnotArray.Upper(); ++i) {
+        vKnotArray(i) = vKnots.at(i - 1);
+        vMultiplicityArray(i) = vMultiplicities.at(i - 1);
+    }
+
+    Handle(Geom_BSplineSurface) surface = new Geom_BSplineSurface(
+        poles,
+        uKnotArray,
+        vKnotArray,
+        uMultiplicityArray,
+        vMultiplicityArray,
+        uDegree,
+        vDegree
+    );
+    return Part::GeomBSplineSurface(surface);
+}
+
+Part::GeomBSplineSurface makeLinearBSplineSurface(
+    const std::vector<double>& uKnots,
+    const std::vector<double>& vKnots
+)
+{
+    std::vector<int> uMultiplicities(uKnots.size(), 1);
+    uMultiplicities.front() = 2;
+    uMultiplicities.back() = 2;
+    std::vector<int> vMultiplicities(vKnots.size(), 1);
+    vMultiplicities.front() = 2;
+    vMultiplicities.back() = 2;
+    return makeBSplineSurface(uKnots, vKnots, uMultiplicities, vMultiplicities, 1, 1);
+}
+
+}  // namespace
+
+TEST_F(GeometryTest, bsplineSurfaceIsSameComparesEveryVKnot)
+{
+    auto first = makeLinearBSplineSurface({0.0, 1.0}, {0.0, 0.5, 1.0});
+    auto differentLastVKnot = makeLinearBSplineSurface({0.0, 1.0}, {0.0, 0.5, 2.0});
+
+    EXPECT_FALSE(first.isSame(differentLastVKnot, 1e-8, 1e-12));
+}
+
+TEST_F(GeometryTest, bsplineSurfaceIsSameHandlesMoreUKnotsThanVKnots)
+{
+    auto first = makeLinearBSplineSurface({0.0, 0.5, 1.0}, {0.0, 1.0});
+    auto identical = makeLinearBSplineSurface({0.0, 0.5, 1.0}, {0.0, 1.0});
+
+    EXPECT_TRUE(first.isSame(identical, 1e-8, 1e-12));
+}
+
+TEST_F(GeometryTest, bsplineSurfaceIsSameComparesEveryVMultiplicity)
+{
+    auto first = makeBSplineSurface({0.0, 1.0}, {0.0, 1.0, 2.0, 3.0}, {2, 2}, {3, 1, 1, 3}, 1, 2);
+    auto differentTrailingVMultiplicities
+        = makeBSplineSurface({0.0, 1.0}, {0.0, 1.0, 2.0, 3.0}, {2, 2}, {3, 1, 2, 2}, 1, 2);
+
+    EXPECT_FALSE(first.isSame(differentTrailingVMultiplicities, 1e-8, 1e-12));
+}
 
 TEST_F(GeometryTest, testTrimBSpline)
 {

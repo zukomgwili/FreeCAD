@@ -13,6 +13,48 @@ if "BUILD_SKETCHER" in FreeCAD.__cmake__:
 import unittest
 
 
+def make_bspline_surface(
+    u_knots,
+    v_knots,
+    u_multiplicities,
+    v_multiplicities,
+    u_degree,
+    v_degree,
+):
+    u_pole_count = sum(u_multiplicities) - u_degree - 1
+    v_pole_count = sum(v_multiplicities) - v_degree - 1
+    poles = [
+        [Vector(u, v, 1 if u == 1 and v == 1 else 0) for v in range(v_pole_count)]
+        for u in range(u_pole_count)
+    ]
+    surface = Part.BSplineSurface()
+    surface.buildFromPolesMultsKnots(
+        poles,
+        u_multiplicities,
+        v_multiplicities,
+        u_knots,
+        v_knots,
+        False,
+        False,
+        u_degree,
+        v_degree,
+    )
+    return surface
+
+
+def make_linear_bspline_surface(u_knots, v_knots):
+    u_multiplicities = [2] + [1] * (len(u_knots) - 2) + [2]
+    v_multiplicities = [2] + [1] * (len(v_knots) - 2) + [2]
+    return make_bspline_surface(
+        u_knots,
+        v_knots,
+        u_multiplicities,
+        v_multiplicities,
+        1,
+        1,
+    )
+
+
 class RegressionTests(unittest.TestCase):
 
     # pylint: disable=attribute-defined-outside-init
@@ -36,6 +78,26 @@ class RegressionTests(unittest.TestCase):
         # We should now have empty list...
         with self.assertRaises(IndexError):
             result.pop()
+
+    def test_bspline_surface_is_same_compares_every_v_knot(self):
+        first = make_linear_bspline_surface([0, 1], [0, 0.5, 1])
+        different_last_v_knot = make_linear_bspline_surface([0, 1], [0, 0.5, 2])
+
+        self.assertFalse(first.isSame(different_last_v_knot, 1e-8, 1e-12))
+
+    def test_bspline_surface_is_same_handles_more_u_knots_than_v_knots(self):
+        first = make_linear_bspline_surface([0, 0.5, 1], [0, 1])
+        identical = make_linear_bspline_surface([0, 0.5, 1], [0, 1])
+
+        self.assertTrue(first.isSame(identical, 1e-8, 1e-12))
+
+    def test_bspline_surface_is_same_compares_every_v_multiplicity(self):
+        first = make_bspline_surface([0, 1], [0, 1, 2, 3], [2, 2], [3, 1, 1, 3], 1, 2)
+        different_trailing_v_multiplicities = make_bspline_surface(
+            [0, 1], [0, 1, 2, 3], [2, 2], [3, 1, 2, 2], 1, 2
+        )
+
+        self.assertFalse(first.isSame(different_trailing_v_multiplicities, 1e-8, 1e-12))
 
     def test_issue_15735(self):
         """

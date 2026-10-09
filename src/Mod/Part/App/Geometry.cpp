@@ -5408,7 +5408,7 @@ bool GeomBSplineSurface::isSame(const Geometry& _other, double tol, double atol)
             return false;
         }
     }
-    for (Standard_Integer v = 1; v <= ukc; ++v) {
+    for (Standard_Integer v = 1; v <= vkc; ++v) {
         if (fabs(mySurface->VKnot(v) - other.mySurface->VKnot(v)) > tol
             || fabs(mySurface->VMultiplicity(v) - other.mySurface->VMultiplicity(v)) > tol) {
             return false;
