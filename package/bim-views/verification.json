@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-4v0",
+  "status": "installed-and-verified",
+  "cause": "Presentation refresh changed background/font roles of live QTreeWidget items, emitting itemChanged into editObject and causing full document recomputes. Refresh now blocks both trees signals and restores their previous signal states in finally.",
+  "source_sha256": "4462124a025c87e3988d0a82b41dba4e7f7e1feac56e589cd5a68c1be8613558",
+  "compiled_native_source": "4d7b98067a6474f88e9f21c4cea75a34d7939dcf",
+  "scope": "Python BIM module update; no C++/Qt rebuild",
+  "original_evidence": {
+    "sample": "/Users/zukomgwili/src/oomakhi/artifacts/BIM-Transition/r45/recovery/bim-views-unintended-recompute-process-sample.txt",
+    "sha256": "bc8a884dfcf5ff7c14f231dd09a21823ffd6e79c062975bc4060399b2428278e",
+    "reported_main_thread_samples": 575,
+    "baseline_source_sha256": "da7801dcddacca2f7ebfe7199c8c3d1e533097e552a555717e5dbad49d38d9b6"
+  },
+  "regression": {
+    "baseline": {
+      "passed": false,
+      "tests": 4,
+      "failures": 3,
+      "errors": 0
+    },
+    "installed": {
+      "passed": true,
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    "test_source_sha256": "96997eba8943d1ddbe0679b573187739455240bc6681d1b2dc09f117e1f19c77",
+    "cases": [
+      "Initial and repeated idle refresh creates no document edits or recomputes",
+      "Selection and active highlight change without document edits or recomputes",
+      "Label/elevation/height text edits each open the Edit level transaction and recompute once",
+      "Refresh failure restores initially blocked and unblocked signal states"
+    ],
+    "registration": [
+      "src/Mod/BIM/TestArchGui.py",
+      "src/Mod/BIM/CMakeLists.txt"
+    ]
+  },
+  "retained_model": {
+    "phase": "passed",
+    "ticks": 52,
+    "recomputes": 0,
+    "transactions": [],
+    "changes": [],
+    "refresh_seconds": [
+      0.05764899996574968,
+      0.05560254096053541,
+      0.05507237499114126,
+      0.05526845797430724,
+      0.055349665926769376,
+      0.05557216703891754,
+      0.05516158300451934,
+      0.05514575005508959,
+      0.05763737496454269,
+      0.0548052079975605
+    ],
+    "source_sha256": "21a6744f0db39092d4762f398c7c42ccdd5bbe09202482e23c523fc541fcfc99",
+    "module": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/BIM/bimcommands/BimViews.py",
+    "module_sha256": "4462124a025c87e3988d0a82b41dba4e7f7e1feac56e589cd5a68c1be8613558",
+    "objects": 6687
+  },
+  "delivery": {
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "backup_before_fix": "/Users/zukomgwili/Applications/FreeCAD Backups/bim-views-refresh-20261009/FreeCAD-27.1.0.app",
+    "backup_before_formatting": "/Users/zukomgwili/Applications/FreeCAD Backups/bim-views-refresh-20261009-formatted/FreeCAD-27.1.0.app",
+    "installed_source_sha256": "4462124a025c87e3988d0a82b41dba4e7f7e1feac56e589cd5a68c1be8613558",
+    "changed": [
+      "Contents/Resources/Mod/BIM/bimcommands/BimViews.py",
+      "Contents/_CodeSignature/CodeResources",
+      "Contents/MacOS/FreeCAD"
+    ],
+    "preserved_other_entries": 4452,
+    "cocoa_plugin_sha256": "232432696ae4e3263780169b9795f28ddc87fd19ba17b2c6377bc828404aaab9",
+    "signature_verified": true
+  },
+  "quality_gates": [
+    "Native GUI regression: 4 tests pass on installed module; unchanged module fails 3 specific recompute assertions",
+    "Retained 6687-object document: zero edits/recomputes, 10 refreshes at 55-58ms, periodic refresh remains responsive, exact input hash unchanged, clean exit0",
+    "Black line length100 and Python AST parsing",
+    "Git diff whitespace check and deep strict application signature verification"
+  ],
+  "fixture_corrections": [
+    "First retained attempt paused in the isolated profile BIM first-run welcome modal. Final isolated profile disables that onboarding dialog.",
+    "Manager activation is a toggle and new dock visibility must be explicit in the startup fixture. Final fixture shows the actual shipped dock before measuring."
+  ],
+  "evidence": {
+    "path": "package/bim-views/evidence.json.gz",
+    "sha256": "477efe7e174a9c32c0bd52102ae75b89fbe19cab489c289daca2343bb067dde5",
+    "decoded_sha256": "ccf2205cc729653391243eacd0a816d926b6b3fcb147bb0ee877c6982b79666d",
+    "file_count": 21
+  },
+  "limits": [
+    "The original expensive Boolean recompute was not deliberately repeated on the retained house; its preserved native sample and the failing stock-building/storey regression establish the signal chain.",
+    "Responsiveness measurement qualifies Views Manager refresh, not unrelated model recomputes or total architectural workflow performance.",
+    "Source files, production geometry and drawing bytes were not modified; no Oomakhi design/output acceptance follows from this fix."
+  ]
+}
