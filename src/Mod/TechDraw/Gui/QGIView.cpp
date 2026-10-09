@@ -1000,16 +1000,6 @@ QGIView* QGIView::getQGIVByName(std::string name) const
     return nullptr;
 }
 
-/* static */
-Gui::ViewProvider* QGIView::getViewProvider(App::DocumentObject* obj)
-{
-    if (obj) {
-        Gui::Document* guiDoc = Gui::Application::Instance->getDocument(obj->getDocument());
-        return guiDoc->getViewProvider(obj);
-    }
-    return nullptr;
-}
-
 MDIViewPage* QGIView::getMDIViewPage() const
 {
     if (!getViewObject()) {
