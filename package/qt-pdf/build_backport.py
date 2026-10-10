@@ -55,6 +55,7 @@ VARIANTS = {
 DEPENDENCY_VARIANTS = {
     "harfbuzz": "14.4.0",
     "glib": "2.90.0",
+    "libsqlite": "3.53.4",
     "libpng": "1.6.58",
 }
 
