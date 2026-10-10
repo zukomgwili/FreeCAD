@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-wru",
+  "status": "installed-and-verified",
+  "scope": "Host-local Apple Silicon Release rebuild and installation of consolidated fixes",
+  "compiled_source_commit": "93340a47b4c1f79b2ac32b704e45e5a21706b72c",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-wru-20261010.app",
+  "backup_scope": "Full previous app bundle; external dependency prefix is shared, not frozen by this backup",
+  "dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "qt_package": {
+    "name": "qt6-main",
+    "version": "6.11.2",
+    "build": "pl5321h12ef06d_2",
+    "sha256": "a40e858a4e9d66aad8d0688dc61f7bb89aec03201a269dfadf3ab2d2b8fb3a57",
+    "loaded_cocoa_plugin": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+    "cocoa_plugin_sha256": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704",
+    "app_local_overlay_required": false
+  },
+  "installed_binary_sha256": {
+    "FreeCAD": "483cc4f8fda69e6437b3aa138c66ecc6e7f09fda650a60ea8147d220eb0102d0",
+    "FreeCADCmd": "418034914cb5aefc45084065a29a76f42d83dd06c0b81d5900ae94a5881b8752"
+  },
+  "validation": {
+    "release_build_exit_code": 0,
+    "cmake_install_exit_code": 0,
+    "gui_native_tests_passed": 347,
+    "spreadsheet_native_tests_passed": 5,
+    "move_and_rename_property_tests_passed": 36,
+    "installed_archsite_tests_passed": 6,
+    "installed_archsite_origin": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/BIM/ArchSite.py",
+    "installed_archsite_sha256": "d2d8f30dba83620ea61315733499a8ec5a9e37a910fcf900cf54ad8ec3d26ef6",
+    "installed_spreadsheet_save_reopen_edit_dependency_passed": true,
+    "qt_pdf_writer_tests_passed": 10,
+    "pdf_fixture_parity_cases_passed": 66,
+    "pdf_fixture_scope": "Operator, coordinate and raster parity against already-fixed build-2 candidate; no original stock baseline reproduction claim",
+    "cocoa_table_lifecycle_repetitions_passed": 20,
+    "cocoa_file_dialog_repetitions_passed": 20,
+    "ordinary_gui_startup_passed": true,
+    "gui_compiled_commit_verified": true,
+    "actual_loaded_packaged_cocoa_plugin_verified": true,
+    "stock_techdraw_pdf_export_and_visual_render_passed": true,
+    "post_startup_deep_strict_adhoc_signature_verified": true,
+    "staged_and_final_bundle_diff_empty": true,
+    "resources_readonly": true,
+    "cli_launchers_preserved": true
+  },
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "full_test_suite_run": false,
+    "distribution_qualification_claimed": false,
+    "qualification_catalog_followup": "FreeCAD-ve2",
+    "qt_cmake_selection": "Normal managed-prefix discovery. Historical opt-in build-1 qualification gate does not accept build 2 and was not asserted for this local build."
+  },
+  "evidence": "package/qt-pdf/macarm-consolidated-installation-evidence.tar.gz",
+  "evidence_sha256": "f1e9fadc8f84073a54280d492958b20b0fbffa87db2e79c9cd71e93b048dac2b"
+}
