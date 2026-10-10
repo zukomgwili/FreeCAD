@@ -54,7 +54,7 @@ VARIANTS = {
 # than FreeCAD's locked runtime. Keep these choices explicit in the evidence.
 DEPENDENCY_VARIANTS = {
     "harfbuzz": "14.4.0",
-    "libglib": "2.90.0",
+    "glib": "2.90.0",
     "libpng": "1.6.58",
 }
 
