@@ -888,12 +888,21 @@ class _Site(ArchIFC.IfcProduct):
                             rest = shape.cut(sol)
                             shells.append(sol.Shells[0].cut(shape.extrude(obj.ExtrusionVector)))
                             shape = rest
+                subtraction_solids = []
                 for sub in obj.Subtractions:
                     if hasattr(sub, "Shape") and sub.Shape and sub.Shape.Solids:
-                        for sol in sub.Shape.Solids:
-                            rest = shape.cut(sol)
-                            shells.append(sol.Shells[0].common(shape.extrude(obj.ExtrusionVector)))
-                            shape = rest
+                        subtraction_solids.extend(sub.Shape.Solids)
+                if subtraction_solids:
+                    # Clip the exposed boundary of the entire excavation against
+                    # the same terrain. Sequential clipping retains internal walls
+                    # and removes deeper bottoms where adjoining tools overlap.
+                    excavation = subtraction_solids[0]
+                    if len(subtraction_solids) > 1:
+                        excavation = excavation.multiFuse(subtraction_solids[1:])
+                    terrain_volume = shape.extrude(obj.ExtrusionVector)
+                    for shell in excavation.Shells:
+                        shells.append(shell.common(terrain_volume))
+                    shape = shape.cut(excavation)
                 for shell in shells:
                     shape = shape.fuse(shell)
 
