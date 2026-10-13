@@ -399,6 +399,9 @@ def get_path(
     `edges` and `wires` are mutually exclusive. If no `wires` are provided,
     sort the `edges`, and use them. If `wires` are provided, sort the edges
     in these `wires`, and use them.
+
+    `pathdata` is a shared ledger of serialized path groups. Skip exact
+    duplicates without discarding other groups; return no SVG if none remain.
     """
     svg = "<path "
 
@@ -425,6 +428,7 @@ def get_path(
             wire.fixWire()
             egroups.append(Part.__sortEdges__(wire.Edges))
 
+    has_unique_path = False
     for _edges in egroups:
         edata = ""
 
@@ -483,11 +487,14 @@ def get_path(
             edata += "Z "
 
         if edata in pathdata:
-            # do not draw a path on another identical path
-            return ""
-        else:
-            svg += edata
-            pathdata.append(edata)
+            # Skip only this group, retaining any other unique subpaths.
+            continue
+        svg += edata
+        pathdata.append(edata)
+        has_unique_path = True
+
+    if not has_unique_path:
+        return ""
 
     svg += '" '
     svg += 'stroke="{}" '.format(stroke)

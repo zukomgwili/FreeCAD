@@ -329,6 +329,148 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
     """Regression tests for SVG export edge cases."""
 
     @staticmethod
+    def _linear_svg_segments(paths):
+        segments = set()
+        number = r"[-+]?(?:\d*\.\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?"
+        for path in paths:
+            previous = None
+            for command, x, y in re.findall(
+                r"([ML])\s+(" + number + r")\s+(" + number + r")", path.get("d")
+            ):
+                point = (round(float(x), 7), round(float(y), 7))
+                if command == "L":
+                    segments.add(tuple(sorted((previous, point))))
+                previous = point
+        return segments
+
+    @staticmethod
+    def _path_for_ordered_groups(groups, pathdata):
+        edges = [edge for group in groups for edge in group]
+        shape = Part.makeCompound(edges)
+        with mock.patch.object(svgshapes.Part, "sortEdges", return_value=groups):
+            return svgshapes.get_path(
+                shape,
+                None,
+                "none",
+                pathdata,
+                "#123456",
+                0.75,
+                "0.4,0.8",
+                fill_opacity=0.4,
+                edges=edges,
+                pathname="",
+            )
+
+    def test_duplicate_subpaths_preserve_other_groups(self):
+        """Exact duplicate-first/middle/last groups cannot discard unique geometry."""
+        a = Part.makeLine(App.Vector(), App.Vector(10, 0, 0))
+        duplicate = Part.makeLine(App.Vector(0, 0, 3), App.Vector(10, 0, 3))
+        b = Part.makeLine(App.Vector(20, 4, 0), App.Vector(30, 4, 0))
+        expected = {((0.0, 0.0), (10.0, 0.0)), ((20.0, 4.0), (30.0, 4.0))}
+        for order, preseed in itertools.product(
+            itertools.permutations((a, duplicate, b)), (False, True)
+        ):
+            pathdata = []
+            if preseed:
+                self._path_for_ordered_groups([[a]], pathdata)
+            with self.subTest(order=[edge.Vertexes[0].Point for edge in order], preseed=preseed):
+                svg = self._path_for_ordered_groups([[edge] for edge in order], pathdata)
+                paths = self._raw_svg_paths(svg)
+                self.assertEqual(len(paths), 1)
+                self.assertEqual(len(pathdata), 2)
+                self.assertEqual(len(set(pathdata)), 2)
+                self.assertEqual(paths[0].get("d").count("M"), 1 if preseed else 2)
+                wanted = {((20.0, 4.0), (30.0, 4.0))} if preseed else expected
+                self.assertEqual(self._linear_svg_segments(paths), wanted)
+                self.assertEqual(paths[0].get("stroke"), "#123456")
+                self.assertEqual(paths[0].get("stroke-width"), "0.75px")
+                self.assertIn("stroke-dasharray:0.4,0.8", paths[0].get("style"))
+                self.assertIn("fill-opacity:0.4", paths[0].get("style"))
+
+    def test_all_cached_subpaths_produce_no_empty_path(self):
+        """A fully deduped call stays empty and does not mutate the shared cache."""
+        a = Part.makeLine(App.Vector(), App.Vector(10, 0, 0))
+        b = Part.makeLine(App.Vector(20, 4, 0), App.Vector(30, 4, 0))
+        pathdata = []
+        self.assertTrue(self._path_for_ordered_groups([[a], [b]], pathdata))
+        previous = list(pathdata)
+        self.assertEqual(self._path_for_ordered_groups([[b], [a]], pathdata), "")
+        self.assertEqual(pathdata, previous)
+        self.assertEqual(self._path_for_ordered_groups([], pathdata), "")
+        self.assertEqual(pathdata, previous)
+
+    def test_coincident_raw_compound_keeps_visible_geometry(self):
+        """The public exporter keeps a single instance of coincident projected edges."""
+        shape = Part.makeCompound(
+            [
+                Part.makeLine(App.Vector(), App.Vector(10, 0, 0)),
+                Part.makeLine(App.Vector(0, 0, 3), App.Vector(10, 0, 3)),
+            ]
+        )
+        original = shape.exportBrepToString()
+        for techdraw in (False, True):
+            paths = self._raw_svg_paths(Draft.get_svg(shape, fillstyle="none", techdraw=techdraw))
+            self.assertEqual(len(paths), 1)
+            self.assertEqual(paths[0].get("d").count("M"), 1)
+            self.assertEqual(self._linear_svg_segments(paths), {((0.0, 0.0), (10.0, 0.0))})
+            self.assertEqual(shape.exportBrepToString(), original)
+
+    def test_raw_box_axial_and_default_projection_geometry(self):
+        """Default/axial box projections retain every unique edge and their styles."""
+        shape = Part.makeBox(10, 7, 3)
+        original = shape.exportBrepToString()
+        directions = (
+            None,
+            App.Vector(0, 0, 1),
+            App.Vector(0, 0, -1),
+            App.Vector(1, 0, 0),
+            App.Vector(-1, 0, 0),
+            App.Vector(0, 1, 0),
+            App.Vector(0, -1, 0),
+            App.Vector(1, 2, 3),
+        )
+        for direction, fill, techdraw in itertools.product(
+            directions, ("none", "#ABCDEF"), (False, True)
+        ):
+            if direction is None:
+                u, v = App.Vector(1, 0, 0), App.Vector(0, 1, 0)
+            else:
+                plane = WorkingPlane.PlaneBase()
+                plane.align_to_point_and_axis_svg(App.Vector(), direction)
+                u, v = plane.u, plane.v
+            expected = set()
+            for edge in shape.Edges:
+                points = [
+                    (round(vertex.Point.dot(u), 7), round(vertex.Point.dot(v), 7))
+                    for vertex in edge.Vertexes
+                ]
+                expected.add(tuple(sorted(points)))
+            with self.subTest(direction=direction, fill=fill, techdraw=techdraw):
+                paths = self._raw_svg_paths(
+                    Draft.get_svg(
+                        shape,
+                        direction=direction,
+                        fillstyle=fill,
+                        techdraw=techdraw,
+                        scale=0.5,
+                        linewidth=0.75,
+                        color="#123456",
+                        linestyle="0.20, 0.40",
+                    )
+                )
+                self.assertTrue(paths)
+                self.assertEqual(self._linear_svg_segments(paths), expected)
+                for path in paths:
+                    self.assertTrue(path.get("d").strip())
+                    subpaths = [data.strip() for data in re.findall(r"M[^M]*", path.get("d"))]
+                    self.assertEqual(len(subpaths), len(set(subpaths)))
+                    self.assertEqual(path.get("stroke"), "#123456")
+                    self.assertEqual(path.get("stroke-width"), "1.5px")
+                    self.assertIn("fill:" + fill, path.get("style"))
+                    self.assertIn("stroke-dasharray:0.4,0.8", path.get("style"))
+                self.assertEqual(shape.exportBrepToString(), original)
+
+    @staticmethod
     def _raw_shapes():
         edge = Part.makeLine(App.Vector(), App.Vector(10, 0, 0))
         wire = Part.makePolygon(
