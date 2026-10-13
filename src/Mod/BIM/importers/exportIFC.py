@@ -2135,8 +2135,10 @@ def getRepresentation(
                 if rdata:
                     # convert to meters
                     r = rdata[1] * preferences["SCALE_FACTOR"]
+                    # Centreline placements are local to the rebar, not the world.
+                    global_placement = obj.getGlobalPlacement()
                     for w in rdata[0]:
-                        w.Placement = w.Placement.multiply(obj.getGlobalPlacement())
+                        w.Placement = global_placement.multiply(w.Placement)
                         w.scale(preferences["SCALE_FACTOR"])
                         cur = createCurve(ifcfile, w)
                         shape = ifcfile.createIfcSweptDiskSolid(cur, r)

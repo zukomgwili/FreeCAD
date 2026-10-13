@@ -23,12 +23,24 @@ import itertools
 import math
 import os
 import tempfile
+import unittest
 
 import FreeCAD
 import Arch
 import Draft
 import Part
 from bimtests import TestArchBase
+
+try:
+    import ifcopenshell
+    import ifcopenshell.geom
+    import ifcopenshell.util.placement
+    import ifcopenshell.util.unit
+    from importers import exportIFC
+except ImportError:
+    _HAS_IFCOPENSHELL = False
+else:
+    _HAS_IFCOPENSHELL = True
 
 
 class TestArchRebar(TestArchBase.TestArchBase):
@@ -269,6 +281,167 @@ class TestArchRebar(TestArchBase.TestArchBase):
             self._assert_straight_rebar_data(rebar, [5])
             self.document.recompute()
             self._assert_straight_rebar_data(rebar, [5])
+
+    def _assert_written_ifc_rebar(self, rebar, unit="metre"):
+        """Reopen an actual IFC and compare its directrices and world mesh to native solids."""
+        original_base = rebar.Base.Shape.exportBrepToString()
+        original_solid = rebar.Shape.exportBrepToString()
+        original_placements = list(rebar.PlacementList)
+        original_wires = [wire.exportBrepToString() for wire in rebar.Proxy.wires]
+        native = rebar.Shape.copy()
+        native.Placement = rebar.getGlobalPlacement()
+        preferences = exportIFC.getPreferences()
+        preferences.update(
+            SCHEMA="IFC4",
+            IFC_UNIT=unit,
+            SCALE_FACTOR=0.001 if unit == "metre" else 0.00328084,
+            FORCE_BREP=False,
+            CREATE_CLONES=False,
+            FULL_PARAMETRIC=False,
+            STORE_UID=False,
+            SERIALIZE=False,
+            EXPORT_MODEL="arch",
+            DEBUG=False,
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = os.path.join(directory, "rebar.ifc")
+            exportIFC.export([rebar], path, preferences=preferences)
+            model = ifcopenshell.open(path)
+
+        entities = model.by_type("IfcReinforcingBar")
+        self.assertEqual(len(entities), 1)
+        entity = entities[0]
+        items = [
+            item
+            for representation in entity.Representation.Representations
+            if representation.RepresentationIdentifier == "Body"
+            for item in representation.Items
+        ]
+        self.assertEqual(len(items), len(native.Solids))
+        unit_scale = ifcopenshell.util.unit.calculate_unit_scale(model)
+        self.assertAlmostEqual(unit_scale, 1 if unit == "metre" else 0.3048)
+        placement = ifcopenshell.util.placement.get_local_placement(entity.ObjectPlacement)
+        # This exporter branch stores world curves with an identity product placement.
+        for i in range(4):
+            for j in range(4):
+                self.assertAlmostEqual(placement[i][j], 1 if i == j else 0)
+        for item, solid in zip(items, native.Solids):
+            self.assertTrue(item.is_a("IfcSweptDiskSolid"))
+            self.assertAlmostEqual(
+                item.Radius * unit_scale * 1000, rebar.Diameter.Value / 2, delta=1e-6
+            )
+            self.assertAlmostEqual(
+                item.Radius,
+                rebar.Diameter.Value / 2 * preferences["SCALE_FACTOR"],
+                delta=1e-12,
+            )
+            self.assertTrue(item.Directrix.is_a("IfcIndexedPolyCurve"))
+            coordinates = item.Directrix.Points.CoordList
+            self.assertEqual(len(coordinates), 2)
+            points = [
+                FreeCAD.Vector(
+                    *[
+                        (sum(placement[i][j] * point[j] for j in range(3)) + placement[i][3])
+                        / preferences["SCALE_FACTOR"]
+                        for i in range(3)
+                    ]
+                )
+                for point in coordinates
+            ]
+            # Planar end-cap centroids give an independent native centreline oracle.
+            expected = [
+                face.CenterOfMass for face in solid.Faces if isinstance(face.Surface, Part.Plane)
+            ]
+            self.assertEqual(len(expected), 2)
+            error = min(
+                max((a - b).Length for a, b in zip(points, order))
+                for order in (expected, list(reversed(expected)))
+            )
+            self.assertLess(error, 1e-4)
+            self.assertAlmostEqual((points[1] - points[0]).Length, 160, delta=1e-4)
+
+        settings = ifcopenshell.geom.settings()
+        settings.set("use-world-coords", True)
+        shape = ifcopenshell.geom.create_shape(settings, entity)
+        vertices = list(shape.geometry.verts)
+        axes = [vertices[i::3] for i in range(3)]
+        centre = FreeCAD.Vector(*[(min(axis) + max(axis)) * 500 for axis in axes])
+        self.assertLess((centre - native.BoundBox.Center).Length, 1e-4)
+        self.assertEqual(rebar.Base.Shape.exportBrepToString(), original_base)
+        self.assertEqual(rebar.Shape.exportBrepToString(), original_solid)
+        self.assertEqual(rebar.PlacementList, original_placements)
+        self.assertEqual([wire.exportBrepToString() for wire in rebar.Proxy.wires], original_wires)
+
+    @unittest.skipUnless(_HAS_IFCOPENSHELL, "ifcopenshell not available")
+    def test_ifc_export_single_bar_placements(self):
+        """Identity, translated and rotated owners preserve physical endpoints and units."""
+        rebar, host = self._create_placement_rebar()
+        rebar.Distance = 2
+        rebar.OffsetStart = 1
+        placements = (
+            FreeCAD.Placement(),
+            FreeCAD.Placement(FreeCAD.Vector(70, -20, 30), FreeCAD.Rotation()),
+            FreeCAD.Placement(FreeCAD.Vector(), FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 90)),
+            FreeCAD.Placement(
+                FreeCAD.Vector(70, -20, 30), FreeCAD.Rotation(FreeCAD.Vector(1, 1, 1), 37)
+            ),
+        )
+        for hosted, placement, unit in itertools.product(
+            (False, True), placements, ("metre", "foot")
+        ):
+            with self.subTest(hosted=hosted, placement=placement, unit=unit):
+                rebar.Host = host if hosted else None
+                rebar.Placement = placement
+                self.document.recompute()
+                self._assert_written_ifc_rebar(rebar, unit)
+
+    @unittest.skipUnless(_HAS_IFCOPENSHELL, "ifcopenshell not available")
+    def test_ifc_export_multiple_and_custom_spacing(self):
+        """Uniform and nonuniform bars retain every placement under noncommuting rotations."""
+        rebar, host = self._create_placement_rebar()
+        rebar.Amount = 3
+        rebar.OffsetStart = 5
+        rebar.OffsetEnd = 7
+        for custom in (False, True):
+            with self.subTest(custom=custom):
+                if custom:
+                    rebar.Distance = 72
+                    rebar.CustomSpacing = "10+30+50"
+                    host.Placement.Rotation = FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 23)
+                    rebar.Base.Placement = FreeCAD.Placement(
+                        FreeCAD.Vector(20, -30, 70), FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 31)
+                    )
+                else:
+                    rebar.Distance = 100
+                rebar.Placement = FreeCAD.Placement(
+                    FreeCAD.Vector(70, -20, 30), FreeCAD.Rotation(FreeCAD.Vector(1, 1, 1), 37)
+                )
+                self.document.recompute()
+                self._assert_written_ifc_rebar(rebar)
+
+    @unittest.skipUnless(_HAS_IFCOPENSHELL, "ifcopenshell not available")
+    def test_ifc_export_nested_parent_global_placement(self):
+        """Nested App::Part placements are applied once, in the same order as native geometry."""
+        rebar, host = self._create_placement_rebar()
+        rebar.Amount = 2
+        rebar.Distance = 100
+        rebar.OffsetStart = 3
+        rebar.OffsetEnd = 4
+        parent = self.document.addObject("App::Part", "Parent")
+        child = self.document.addObject("App::Part", "Child")
+        parent.addObject(child)
+        child.addObject(rebar)
+        parent.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(300, -100, 150), FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 23)
+        )
+        child.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(100, 200, 50), FreeCAD.Rotation(FreeCAD.Vector(1, 0, 0), 41)
+        )
+        rebar.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(70, -20, 30), FreeCAD.Rotation(FreeCAD.Vector(1, 1, 1), 37)
+        )
+        self.document.recompute()
+        self._assert_written_ifc_rebar(rebar)
 
     def test_makeRebar_default_name(self):
         """Test makeRebar creates rebar with default 'Rebar' Label.
