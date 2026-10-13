@@ -40,8 +40,9 @@ public:
      * \param func
      * This adds a callback function that will be called when the application
      * is about to be shut down.
-     * @note A callback function is only about to free resources. Accessing
-     * stuff of the application like parameter groups should be avoided.
+     * @note Callbacks run after application parameters are saved and before
+     * they are destroyed. A callback function is only about to free resources.
+     * Accessing application state, such as parameter groups, should be avoided.
      */
     static void registerCleanup(const std::function<void()>& func);
     /*!

@@ -2024,6 +2024,10 @@ void Application::destruct()
         }
     }
 
+    // Release callback-owned resources after parameters have been persisted,
+    // but while their managers remain available to resource destructors.
+    CleanupProcess::callCleanup();
+
     paramMgr.clear();
     _pcSysParamMngr = nullptr;
     _pcUserParamMngr = nullptr;
@@ -2032,8 +2036,6 @@ void Application::destruct()
     // Do this only in debug mode for memory leak checkers
     cleanupUnits();
 #endif
-
-    CleanupProcess::callCleanup();
 
     // not initialized or double destruct!
     assert(_pcSingleton);

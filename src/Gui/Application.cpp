@@ -52,6 +52,7 @@
 #include <list>
 #include <ranges>
 
+#include <App/CleanupProcess.h>
 #include <App/Document.h>
 #include <App/DocumentObjectPy.h>
 #include <App/MainThreadSignal.h>
@@ -2369,6 +2370,10 @@ void Application::initApplication()
 
     try {
         initTypes();
+        // FreeCADCmd can create the GUI lazily and leave its Gui::Application
+        // alive until process exit. Clear Python-backed manipulators before
+        // App::Application finalizes the interpreter in that case.
+        App::CleanupProcess::registerCleanup([]() { WorkbenchManipulator::removeAll(); });
         new Base::ScriptProducer("FreeCADGuiInit", FreeCADGuiInit);
         new Base::ScriptProducer("FreeCADGuiTest", FreeCADGuiTest);
         init_resources();

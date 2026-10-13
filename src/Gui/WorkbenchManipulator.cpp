@@ -26,33 +26,50 @@
 
 using namespace Gui;
 
+std::mutex WorkbenchManipulator::manipulatorsMutex;                      // NOLINT
 std::set<WorkbenchManipulator::Ptr> WorkbenchManipulator::manipulators;  // NOLINT
+bool WorkbenchManipulator::shuttingDown = false;                         // NOLINT
 
 void WorkbenchManipulator::installManipulator(const WorkbenchManipulator::Ptr& ptr)
 {
-    manipulators.insert(ptr);
+    std::lock_guard lock(manipulatorsMutex);
+    if (!shuttingDown) {
+        manipulators.insert(ptr);
+    }
 }
 
 void WorkbenchManipulator::removeManipulator(const WorkbenchManipulator::Ptr& ptr)
 {
-    auto it = manipulators.find(ptr);
-    if (it != manipulators.end()) {
-        manipulators.erase(it);
+    WorkbenchManipulator::Ptr removed;
+    {
+        std::lock_guard lock(manipulatorsMutex);
+        auto it = manipulators.find(ptr);
+        if (it != manipulators.end()) {
+            removed = *it;
+            manipulators.erase(it);
+        }
     }
 }
 
 void WorkbenchManipulator::removeAll()
 {
-    manipulators.clear();
+    std::set<WorkbenchManipulator::Ptr> removed;
+    {
+        std::lock_guard lock(manipulatorsMutex);
+        shuttingDown = true;
+        removed.swap(manipulators);
+    }
 }
 
 std::set<WorkbenchManipulator::Ptr> WorkbenchManipulator::getManipulators()
 {
-    return manipulators;
+    std::lock_guard lock(manipulatorsMutex);
+    return shuttingDown ? std::set<WorkbenchManipulator::Ptr> {} : manipulators;
 }
 
 void WorkbenchManipulator::changeMenuBar(MenuItem* menuBar)
 {
+    auto manipulators = getManipulators();
     for (auto& it : manipulators) {
         it->modifyMenuBar(menuBar);
     }
@@ -60,6 +77,7 @@ void WorkbenchManipulator::changeMenuBar(MenuItem* menuBar)
 
 void WorkbenchManipulator::changeContextMenu(const char* recipient, MenuItem* menuBar)
 {
+    auto manipulators = getManipulators();
     for (auto& it : manipulators) {
         it->modifyContextMenu(recipient, menuBar);
     }
@@ -67,6 +85,7 @@ void WorkbenchManipulator::changeContextMenu(const char* recipient, MenuItem* me
 
 void WorkbenchManipulator::changeToolBars(ToolBarItem* toolBar)
 {
+    auto manipulators = getManipulators();
     for (auto& it : manipulators) {
         it->modifyToolBars(toolBar);
     }
@@ -74,6 +93,7 @@ void WorkbenchManipulator::changeToolBars(ToolBarItem* toolBar)
 
 void WorkbenchManipulator::changeDockWindows(DockWindowItems* dockWindow)
 {
+    auto manipulators = getManipulators();
     for (auto& it : manipulators) {
         it->modifyDockWindows(dockWindow);
     }

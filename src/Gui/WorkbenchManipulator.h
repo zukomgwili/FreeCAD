@@ -25,8 +25,9 @@
 #pragma once
 
 #include <memory>
-#include <set>
 #include <map>
+#include <mutex>
+#include <set>
 #include <string>
 #include <FCGlobal.h>
 
@@ -59,8 +60,9 @@ public:
      */
     static void removeManipulator(const WorkbenchManipulator::Ptr&);
     /*!
-     * \brief clear
-     * Removes all instances of WorkbenchManipulator
+     * \brief removeAll
+     * Removes all instances of WorkbenchManipulator during application
+     * shutdown. Subsequent installation attempts are ignored.
      */
     static void removeAll();
     /*!
@@ -126,7 +128,9 @@ protected:
     static std::set<WorkbenchManipulator::Ptr> getManipulators();
 
 private:
+    static std::mutex manipulatorsMutex;                      // NOLINT
     static std::set<WorkbenchManipulator::Ptr> manipulators;  // NOLINT
+    static bool shuttingDown;                                 // NOLINT
 };
 
 }  // namespace Gui
