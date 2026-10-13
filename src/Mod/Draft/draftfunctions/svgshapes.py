@@ -209,16 +209,27 @@ def _get_path_circ_ellipse(
         _diff = _diff / math.pi
         flag_large_arc = (_diff % 2) > 1
 
-        # flag_sweep = (center.Axis * drawing_plane_normal >= 0) \
-        #     == (edge.LastParameter > edge.FirstParameter)
-        #     == (edge.Orientation == "Forward")
-
-        # Another method: check the direction of the angle
-        # between tangents
-        _diff = edge.LastParameter - edge.FirstParameter
-        t1 = edge.tangentAt(edge.FirstParameter)
-        t2 = edge.tangentAt(edge.FirstParameter + _diff / 10)
-        flag_sweep = DraftVecUtils.angle(t1, t2, drawing_plane_normal) < 0
+        # SVG selects one of two possible circle/ellipse centres from the
+        # endpoints, radii and flags. Determine the sweep in the emitted 2D
+        # coordinate system. A 3D tangent angle has the opposite sign for the
+        # SVG sweep convention and also misses traversal reversals introduced
+        # while joining edges into a path.
+        first_point = edge.valueAt(edge.FirstParameter)
+        last_point = edge.valueAt(edge.LastParameter)
+        emitted_start = verts[0].Point
+        first_distance = (emitted_start - first_point).Length
+        last_distance = (emitted_start - last_point).Length
+        if first_distance <= last_distance:
+            tangent = edge.tangentAt(edge.FirstParameter)
+        else:
+            tangent = -edge.tangentAt(edge.LastParameter)
+        projected_start = get_proj(emitted_start, plane)
+        projected_center = get_proj(center.Center, plane)
+        projected_tangent = get_proj(tangent, plane)
+        radial = projected_start - projected_center
+        sweep_cross_product = radial.x * projected_tangent.y
+        sweep_cross_product -= radial.y * projected_tangent.x
+        flag_sweep = sweep_cross_product > 0
 
         for v in endpoints:
             edata += (
