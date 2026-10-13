@@ -24,6 +24,7 @@ import ArchSectionPlane
 import Draft
 import os
 import Part
+import tempfile
 import FreeCAD as App
 from bimtests import TestArchBase
 from unittest.mock import patch
@@ -51,6 +52,144 @@ class TestArchSectionPlane(TestArchBase.TestArchBase):
         self.assertEqual(
             section_plane.Label, "TestSectionPlane", "Section plane label is incorrect."
         )
+
+    def _makeArchView(self, document, length=100):
+        """Build a stock section and page, with deliberately repeatable object names."""
+        App.setActiveDocument(document.Name)
+        box = document.addObject("Part::Box", "Box")
+        box.Length, box.Width, box.Height = length, 80, 60
+        document.recompute()
+        section = Arch.makeSectionPlane([box])
+        section.Placement.Base = App.Vector(0, 0, 30)
+        view = document.addObject("TechDraw::DrawViewArch", "ArchView")
+        view.Source = section
+        page = document.addObject("TechDraw::DrawPage", "Page")
+        template = document.addObject("TechDraw::DrawSVGTemplate", "Template")
+        template.Template = os.path.join(
+            App.getResourceDir(), "Mod", "TechDraw", "Templates", "ISO", "A3_Landscape_blank.svg"
+        )
+        page.Template = template
+        page.addView(view)
+        document.recompute()
+        self.assertNotIn("Invalid", view.State)
+        self.assertTrue(view.Symbol)
+        return box, section, view
+
+    def _assertArchViewMatchesSource(self, view):
+        """Compare the native view with the stock renderer for its actual source."""
+        expected = ArchSectionPlane.getSVG(
+            view.Source,
+            allOn=view.AllOn,
+            renderMode=view.RenderMode,
+            showHidden=view.ShowHidden,
+            showFill=view.ShowFill,
+            scale=view.Scale,
+            linewidth=view.LineWidth,
+            fontsize=view.FontSize,
+            techdraw=True,
+            rotation=view.Rotation,
+            fillSpaces=view.FillSpaces,
+            cutlinewidth=view.CutLineWidth,
+            linespacing=view.LineSpacing,
+            joinArch=view.JoinArch,
+        )
+        self.assertTrue(expected)
+        self.assertIn(expected, view.Symbol)
+        self.assertNotIn("Invalid", view.State)
+        self.assertNotIn("Touched", view.State)
+
+    def testArchViewSingleDocument(self):
+        """Stock Arch views retain geometry and rendering properties."""
+        box, section, view = self._makeArchView(self.document)
+        view.LineWidth = 0.75
+        view.CutLineWidth = 1.25
+        view.FontSize = 15
+        view.LineSpacing = 2
+        view.Rotation = 30
+        view.Scale = 0.5
+        view.AllOn = True
+        view.ShowFill = True
+        modes = ("Wireframe", "Solid") if App.GuiUp else ("Wireframe",)
+        for mode in modes:
+            with self.subTest(renderMode=mode):
+                view.RenderMode = mode
+                self.document.recompute()
+                self._assertArchViewMatchesSource(view)
+
+    def testArchViewInactiveOwner(self):
+        """An unrelated active document need not contain the section or view."""
+        box, section, view = self._makeArchView(self.document)
+        previous = view.Symbol
+        foreign = App.newDocument(self.document.Name + "_Other")
+        try:
+            box.Length = 140
+            view.touch()
+            self.document.recompute()
+            self.assertEqual(App.ActiveDocument.Name, foreign.Name)
+            self.assertEqual(foreign.Objects, [])
+            self.assertNotIn("Invalid", view.State)
+            self.assertNotEqual(view.Symbol, previous)
+            self._assertArchViewMatchesSource(view)
+        finally:
+            App.closeDocument(foreign.Name)
+            App.setActiveDocument(self.document.Name)
+
+    def testArchViewDuplicateNamesInActiveDocument(self):
+        """Same-named foreign objects cannot supply geometry or receive the Symbol."""
+        box, section, view = self._makeArchView(self.document)
+        foreign = App.newDocument(self.document.Name + "_Other")
+        try:
+            foreign_box, foreign_section, foreign_view = self._makeArchView(foreign, length=300)
+            self.assertEqual(view.Name, foreign_view.Name)
+            self.assertEqual(section.Name, foreign_section.Name)
+            previous = foreign_view.Symbol
+            states = [(obj.Name, list(obj.State)) for obj in foreign.Objects]
+            box.Length = 140
+            view.LineWidth = 0.75
+            self.document.recompute()
+            self.assertEqual(App.ActiveDocument.Name, foreign.Name)
+            self.assertEqual(foreign_view.Symbol, previous)
+            self.assertEqual([(obj.Name, list(obj.State)) for obj in foreign.Objects], states)
+            self._assertArchViewMatchesSource(view)
+        finally:
+            App.closeDocument(foreign.Name)
+            App.setActiveDocument(self.document.Name)
+
+    def testArchViewInactiveOwnerAfterReopen(self):
+        """Saved Arch views keep their source and destination ownership after restore."""
+        box, section, view = self._makeArchView(self.document)
+        with tempfile.TemporaryDirectory() as directory:
+            path = os.path.join(directory, "ArchViewOwner.FCStd")
+            view_name, box_name = view.Name, box.Name
+            self.document.saveAs(path)
+            App.closeDocument(self.document.Name)
+            self.document = App.openDocument(path)
+            view = self.document.getObject(view_name)
+            box = self.document.getObject(box_name)
+            foreign = App.newDocument(self.document.Name + "_Other")
+            try:
+                self._makeArchView(foreign, length=300)
+                previous = foreign.ArchView.Symbol
+                box.Length = 140
+                view.touch()
+                self.document.recompute()
+                self.assertEqual(App.ActiveDocument.Name, foreign.Name)
+                self.assertEqual(foreign.ArchView.Symbol, previous)
+                self._assertArchViewMatchesSource(view)
+            finally:
+                App.closeDocument(foreign.Name)
+                App.setActiveDocument(self.document.Name)
+
+    def testArchViewRendererErrorPreservesSymbol(self):
+        """Renderer errors retain the last valid Symbol and its error diagnostic."""
+        box, section, view = self._makeArchView(self.document)
+        previous = view.Symbol
+        with patch("ArchSectionPlane.getSVG", side_effect=RuntimeError("Arch renderer failure")):
+            view.touch()
+            self.document.recompute()
+        self.assertIn("Invalid", view.State)
+        self.assertIn("Arch renderer failure", view.getStatusString())
+        self.assertEqual(view.Symbol, previous)
 
     def testSectionPlaneFitUsesLocalAxesAfterRotateY(self):
         """Resize-to-fit dimensions follow the rotated section plane axes."""

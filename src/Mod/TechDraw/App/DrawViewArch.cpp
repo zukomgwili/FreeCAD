@@ -23,8 +23,7 @@
  ***************************************************************************/
 
 
-# include <iomanip>
-# include <sstream>
+# include <string>
 
 
 #include <Base/Console.h>
@@ -106,33 +105,39 @@ App::DocumentObjectExecReturn *DrawViewArch::execute()
             return DrawView::execute();
         }
 
-      //std::string svgFrag;
-        std::string svgHead = getSVGHead();
-        std::string svgTail = getSVGTail();
-        std::string FeatName = getNameInDocument();
-        std::string SourceName = sourceObj->getNameInDocument();
-        // ArchSectionPlane.getSVG(section, allOn=False, renderMode="Wireframe", showHidden=False, showFill=False, scale=1, linewidth=1, fontsize=1):
+        Base::PyGILStateLocker lock;
+        try {
+            Py::Module module(PyImport_ImportModule("ArchSectionPlane"), true);
+            if (module.isNull()) {
+                throw Py::Exception();
+            }
+            Py::Callable getSVG(module.getAttr("getSVG"));
+            Py::Tuple args(1);
+            args.setItem(0, Py::asObject(sourceObj->getPyObject()));
+            Py::Dict options;
+            options.setItem("allOn", Py::Boolean(AllOn.getValue()));
+            options.setItem("renderMode", Py::Long(RenderMode.getValue()));
+            options.setItem("showHidden", Py::Boolean(ShowHidden.getValue()));
+            options.setItem("showFill", Py::Boolean(ShowFill.getValue()));
+            options.setItem("scale", Py::Float(getScale()));
+            options.setItem("linewidth", Py::Float(LineWidth.getValue()));
+            options.setItem("fontsize", Py::Float(FontSize.getValue()));
+            options.setItem("techdraw", Py::True());
+            options.setItem("rotation", Py::Float(Rotation.getValue()));
+            options.setItem("fillSpaces", Py::Boolean(FillSpaces.getValue()));
+            options.setItem("cutlinewidth", Py::Float(CutLineWidth.getValue()));
+            options.setItem("linespacing", Py::Float(LineSpacing.getValue()));
+            options.setItem("joinArch", Py::Boolean(JoinArch.getValue()));
 
-        std::stringstream paramStr;
-        paramStr << ", allOn=" << (AllOn.getValue() ? "True" : "False")
-                 << ", renderMode=" << RenderMode.getValue()
-                 << ", showHidden=" << (ShowHidden.getValue() ? "True" : "False")
-                 << ", showFill=" << (ShowFill.getValue() ? "True" : "False")
-                 << ", scale=" << getScale()
-                 << ", linewidth=" << LineWidth.getValue()
-                 << ", fontsize=" << FontSize.getValue()
-                 << ", techdraw=True"
-                 << ", rotation=" << Rotation.getValue()
-                 << ", fillSpaces=" << (FillSpaces.getValue() ? "True" : "False")
-                 << ", cutlinewidth=" << CutLineWidth.getValue()
-                 << ", linespacing=" << LineSpacing.getValue()
-                 << ", joinArch=" << (JoinArch.getValue() ? "True" : "False");
-
-        Base::Interpreter().runString("import ArchSectionPlane");
-        Base::Interpreter().runStringArg("svgBody = ArchSectionPlane.getSVG(App.activeDocument().%s %s)",
-                                         SourceName.c_str(), paramStr.str().c_str());
-        Base::Interpreter().runStringArg("App.activeDocument().%s.Symbol = '%s' + svgBody + '%s'",
-                                          FeatName.c_str(), svgHead.c_str(), svgTail.c_str());
+            // Pass the linked source itself and update this view, independently
+            // of the active document or any same-named objects in other documents.
+            Py::String svgBody(getSVG.apply(args, options));
+            const std::string svg = getSVGHead() + svgBody.as_string() + getSVGTail();
+            Symbol.setValue(svg.c_str());
+        }
+        catch (const Py::Exception&) {
+            Base::PyException::throwException();
+        }
     }
     overrideKeepUpdated(false);
     return DrawView::execute();
@@ -140,12 +145,14 @@ App::DocumentObjectExecReturn *DrawViewArch::execute()
 
 std::string DrawViewArch::getSVGHead()
 {
-    return std::string("<svg\\n") +
-           std::string("	xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\\n") +
-           std::string("	xmlns:freecad=\"https://www.freecad.org/wiki/index.php?title=Svg_Namespace\">\\n");
+    return std::string("<svg\n")
+        + std::string("\txmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n")
+        + std::string(
+               "\txmlns:freecad=\"https://www.freecad.org/wiki/index.php?title=Svg_Namespace\">\n"
+        );
 }
 
 std::string DrawViewArch::getSVGTail()
 {
-    return "\\n</svg>";
+    return "\n</svg>";
 }
