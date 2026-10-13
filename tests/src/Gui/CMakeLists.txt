@@ -68,6 +68,32 @@ if(BUILD_GUI)
             PROPERTY ENVIRONMENT_MODIFICATION "${_test_env_mod}"
         )
     endif()
+
+    set(_freecadcmd_notification_area_reentry_config_dir
+        "${CMAKE_CURRENT_BINARY_DIR}/FreeCADCmdNotificationAreaReentry")
+
+    add_test(
+        NAME FreeCADCmdNotificationAreaReentry
+        COMMAND ${CMAKE_COMMAND}
+            "-DFREECADCMD=$<TARGET_FILE:FreeCADMainCmd>"
+            "-DPROBE_SCRIPT=${CMAKE_CURRENT_SOURCE_DIR}/NotificationAreaReentry.py"
+            "-DTEST_CONFIG_ROOT=${_freecadcmd_notification_area_reentry_config_dir}"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/RunFreeCADCmdNotificationAreaReentry.cmake"
+    )
+    set_tests_properties(
+        FreeCADCmdNotificationAreaReentry
+        PROPERTIES
+            ENVIRONMENT "QT_QPA_PLATFORM=offscreen"
+            LABELS "Qt;Process"
+            TIMEOUT 20
+    )
+
+    if(WIN32)
+        set_property(
+            TEST FreeCADCmdNotificationAreaReentry
+            PROPERTY ENVIRONMENT_MODIFICATION "${_test_env_mod}"
+        )
+    endif()
 endif()
 
 target_link_libraries(Gui_tests_run PRIVATE

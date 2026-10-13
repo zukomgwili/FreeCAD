@@ -1139,8 +1139,9 @@ void NotificationArea::showConfirmationDialog(const QString& notifiername, const
 
 void NotificationArea::showInNotificationArea()
 {
-    // guard to avoid modifying the notification list and indices while creating the tooltip
-    lock_guard<std::mutex> g(pImp->mutexNotification);
+    // Guard access while collecting and marking notification state. Creating the notification
+    // window can synchronously emit a console warning, so it must happen after releasing the lock.
+    std::unique_lock<std::mutex> notificationLock(pImp->mutexNotification);
 
     // NOLINTNEXTLINE
     NotificationsAction* na = static_cast<NotificationsAction*>(pImp->notificationaction);
@@ -1291,18 +1292,33 @@ void NotificationArea::showInNotificationArea()
             options = options | NotificationBox::Options::HideIfReferenceWidgetDeactivated;
         }
 
+        const auto notificationExpirationTime = pImp->notificationExpirationTime;
+        const auto minimumOnScreenTime = pImp->minimumOnScreenTime;
+        const auto notificationWidth = pImp->notificationWidth;
+
+        notificationLock.unlock();
+
         bool isshown = NotificationBox::showText(
             this->mapToGlobal(QPoint()),
             msgw,
             getMainWindow(),
-            static_cast<int>(pImp->notificationExpirationTime),
-            pImp->minimumOnScreenTime,
+            static_cast<int>(notificationExpirationTime),
+            minimumOnScreenTime,
             options,
-            pImp->notificationWidth
+            notificationWidth
         );
 
-        if (!isshown && !pImp->missedNotifications) {
-            pImp->missedNotifications = true;
+        bool updateMissedNotificationIcon = false;
+        if (!isshown) {
+            notificationLock.lock();
+            if (!pImp->missedNotifications) {
+                pImp->missedNotifications = true;
+                updateMissedNotificationIcon = true;
+            }
+            notificationLock.unlock();
+        }
+
+        if (updateMissedNotificationIcon) {
             setIcon(TrayIcon::MissedNotifications);
         }
     }
