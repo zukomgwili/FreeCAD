@@ -23,13 +23,11 @@
  ***************************************************************************/
 
 
-# include <iomanip>
-# include <sstream>
+#include <string>
 
 
-#include <Base/Console.h>
 #include <Base/Interpreter.h>
-#include <Base/Tools.h>
+#include <Base/VectorPy.h>
 
 #include "DrawViewDraft.h"
 
@@ -77,47 +75,44 @@ short DrawViewDraft::mustExecute() const
 }
 
 
-
-App::DocumentObjectExecReturn *DrawViewDraft::execute()
+App::DocumentObjectExecReturn* DrawViewDraft::execute()
 {
-//    Base::Console().message("DVDr::execute() \n");
     if (!keepUpdated()) {
         return App::DocumentObject::StdReturn;
     }
 
     App::DocumentObject* sourceObj = Source.getValue();
     if (sourceObj) {
-        std::string svgFrag;
-        std::string svgHead = getSVGHead();
-        std::string svgTail = getSVGTail();
-        std::string FeatName = getNameInDocument();
-        std::string SourceName = sourceObj->getNameInDocument();
-        // Draft.get_svg(obj, scale=1, linewidth=0.35, fontsize=12, fillstyle="shape color", direction=None, linestyle=None, color=None, linespacing=None, techdraw=False)
+        Base::PyGILStateLocker lock;
+        try {
+            Py::Module module(PyImport_ImportModule("Draft"), true);
+            if (module.isNull()) {
+                throw Py::Exception();
+            }
+            Py::Callable getSVG(module.getAttr("get_svg"));
+            Py::Tuple args(1);
+            args.setItem(0, Py::asObject(sourceObj->getPyObject()));
+            Py::Dict options;
+            options.setItem("scale", Py::Float(getScale()));
+            options.setItem("linewidth", Py::Float(LineWidth.getValue()));
+            options.setItem("fontsize", Py::Float(FontSize.getValue()));
+            options.setItem("direction", Py::asObject(new Base::VectorPy(Direction.getValue())));
+            options.setItem("linestyle", Py::String(LineStyle.getStrValue()));
+            options.setItem("color", Py::String(Color.getValue().asHexString()));
+            options.setItem("linespacing", Py::Float(LineSpacing.getValue()));
+            options.setItem("techdraw", Py::True());
+            options.setItem("override", Py::Boolean(OverrideStyle.getValue()));
 
-        std::stringstream paramStr;
-        Base::Color col = Color.getValue();
-        paramStr << ", scale=" << getScale()
-                 << ", linewidth=" << LineWidth.getValue()
-                 << ", fontsize=" << FontSize.getValue()
-                 // TODO treat fillstyle here
-                 << ", direction=FreeCAD.Vector(" << Direction.getValue().x << ", " << Direction.getValue().y << ", " << Direction.getValue().z << ")"
-                 << ", linestyle=\"" << Base::Tools::escapeEncodeString(LineStyle.getStrValue()) << "\""
-                 << ", color=\"" << col.asHexString() << "\""
-                 << ", linespacing=" << LineSpacing.getValue()
-                 // We must set techdraw to "true" becausea couple of things behave differently than in Drawing
-                 << ", techdraw=True"
-                 << ", override=" << (OverrideStyle.getValue() ? "True" : "False");
-
-// this is ok for a starting point, but should eventually make dedicated Draft functions that build the svg for all the special cases
-// (Arch section, etc)
-// like Draft.makeDrawingView, but we don't need to create the actual document objects in Draft, just the svg.
-        Base::Interpreter().runString("import Draft");
-        Base::Interpreter().runStringArg("svgBody = Draft.get_svg(App.activeDocument().%s %s)",
-                                         SourceName.c_str(), paramStr.str().c_str());
-//        Base::Interpreter().runString("print svgBody");
-        Base::Interpreter().runStringArg("App.activeDocument().%s.Symbol = '%s' + svgBody + '%s'",
-                                          FeatName.c_str(), svgHead.c_str(), svgTail.c_str());
+            // Pass the linked source itself and update this view, independently
+            // of the active document or any same-named objects in other documents.
+            Py::String svgBody(getSVG.apply(args, options));
+            const std::string svg = getSVGHead() + svgBody.as_string() + getSVGTail();
+            Symbol.setValue(svg.c_str());
         }
+        catch (const Py::Exception&) {
+            Base::PyException::throwException();
+        }
+    }
 
     overrideKeepUpdated(false);
     return DrawView::execute();
@@ -125,14 +120,16 @@ App::DocumentObjectExecReturn *DrawViewDraft::execute()
 
 std::string DrawViewDraft::getSVGHead()
 {
-    return std::string("<svg\\n") +
-           std::string("	xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\\n") +
-           std::string("	xmlns:freecad=\"https://www.freecad.org/wiki/index.php?title=Svg_Namespace\">\\n");
+    return std::string("<svg\n")
+        + std::string("\txmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"\n")
+        + std::string(
+               "\txmlns:freecad=\"https://www.freecad.org/wiki/index.php?title=Svg_Namespace\">\n"
+        );
 }
 
 std::string DrawViewDraft::getSVGTail()
 {
-    return "\\n</svg>";
+    return "\n</svg>";
 }
 
 // Python Drawing feature ---------------------------------------------------------
