@@ -44,6 +44,7 @@ from unittest import mock
 import FreeCAD as App
 import Draft
 import Part
+import TechDraw
 import WorkingPlane
 import draftfunctions.svgshapes as svgshapes
 import importSVG
@@ -175,7 +176,7 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
 
     @staticmethod
     def _force_circle_fallback():
-        return mock.patch.object(svgshapes.TechDraw, "projectToSVG", return_value="")
+        return mock.patch.object(TechDraw, "projectToSVG", return_value="")
 
     def test_get_svg_from_face_with_circular_island(self):
         with self._force_circle_fallback():
@@ -212,6 +213,156 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
 
         self.assertIn("<circle ", svg)
         self.assertNotIn("fill-rule: evenodd", svg)
+
+    def test_native_arc_projection_occ_versions(self):
+        """OCC 7.1 and later major releases use native arc projection."""
+        edge = Part.Arc(
+            App.Vector(11, 23, 0),
+            App.Vector(31, 43, 0),
+            App.Vector(51, 23, 0),
+        ).toShape()
+        for version, supported in (
+            ("6.9.0", False),
+            ("7.0.0", False),
+            ("7.1.0", True),
+            ("7.9.3", True),
+            ("8.0.0", True),
+            ("8.0.1", True),
+        ):
+            with self.subTest(version=version):
+                with mock.patch.object(Part, "OCC_VERSION", version):
+                    with mock.patch.object(
+                        TechDraw,
+                        "projectToSVG",
+                        wraps=TechDraw.projectToSVG,
+                    ) as project:
+                        svg = Draft.get_svg(edge, direction=App.Vector(0, 0, 1))
+                self.assertEqual(project.call_count, int(supported))
+                centre, radii, midpoint = self._elliptical_arc_geometry(svg)
+                self.assertLess((centre - App.Vector(31, 23, 0)).Length, 1e-4)
+                self.assertAlmostEqual(radii[0], 20, places=6)
+                self.assertAlmostEqual(radii[1], 20, places=6)
+                self.assertLess((midpoint - App.Vector(31, 43, 0)).Length, 1e-4)
+
+    def test_native_arc_projection_working_plane_coordinates(self):
+        """HLR arcs share the path's projected centre, endpoints and swept side."""
+        rotations = (
+            App.Rotation(),
+            App.Rotation(App.Vector(1, 0, 0), 90),
+            App.Rotation(App.Vector(0, 1, 0), 90),
+            App.Rotation(App.Vector(1, 2, 3), 63),
+        )
+        cases = itertools.product(rotations, (0, 37), (False, True), (False, True))
+        for rotation, roll, opposite_normal, ellipse in cases:
+            u = rotation.multVec(App.Vector(1, 0, 0))
+            v = rotation.multVec(App.Vector(0, 1, 0))
+            plane_rotation = App.Rotation(u.cross(v), roll)
+            u = plane_rotation.multVec(u)
+            v = plane_rotation.multVec(v)
+            plane = WorkingPlane.PlaneBase(
+                u,
+                -v if opposite_normal else v,
+                -u.cross(v) if opposite_normal else u.cross(v),
+                App.Vector(101, -53, 29),
+            )
+            centre = App.Vector(17, -23, 11)
+            if ellipse:
+                major, minor = 60, 25
+                edge = Part.Edge(Part.Ellipse(App.Vector(), major, minor), 0, math.pi / 2)
+                edge.Placement = App.Placement(centre, rotation)
+                midpoint = centre + rotation.multVec(
+                    App.Vector(major / math.sqrt(2), minor / math.sqrt(2), 0)
+                )
+            else:
+                major = minor = 60
+                edge = Part.Arc(
+                    centre + rotation.multVec(App.Vector(60, 0, 0)),
+                    centre + rotation.multVec(App.Vector(60 / math.sqrt(2), 60 / math.sqrt(2), 0)),
+                    centre + rotation.multVec(App.Vector(0, 60, 0)),
+                ).toShape()
+                midpoint = edge.valueAt((edge.FirstParameter + edge.LastParameter) / 2)
+
+            def project(point):
+                return App.Vector(point.dot(plane.u), point.dot(plane.v), 0)
+
+            with self.subTest(
+                rotation=rotation.Q, roll=roll, opposite_normal=opposite_normal, ellipse=ellipse
+            ):
+                with mock.patch.object(
+                    TechDraw, "projectToSVG", wraps=TechDraw.projectToSVG
+                ) as native:
+                    svg = Draft.get_svg(edge, direction=plane)
+                self.assertEqual(native.call_count, 1)
+                actual, radii, actual_midpoint = self._elliptical_arc_geometry(svg)
+                self.assertLess((actual - project(centre)).Length, 1e-4)
+                self.assertAlmostEqual(radii[0], major, places=4)
+                self.assertAlmostEqual(radii[1], minor, places=4)
+                self.assertLess((actual_midpoint - project(midpoint)).Length, 1e-4)
+
+    def test_native_arc_projection_reversed_emission(self):
+        """Joined paths keep their arc endpoint and side with native projection."""
+        # The native input must retain traversal even far from the origin,
+        # where six-digit serialization of global endpoints would merge them.
+        for centre in (App.Vector(17, -23, 0), App.Vector(1e8, 1e8, 0)):
+            with self.subTest(centre=centre):
+                start = centre + App.Vector(60, 0, 0)
+                midpoint = centre + App.Vector(60 / math.sqrt(2), 60 / math.sqrt(2), 0)
+                end = centre + App.Vector(0, 60, 0)
+                arc = Part.Arc(start, midpoint, end).toShape()
+                leaf = Part.makeLine(centre, end)
+                with mock.patch.object(svgshapes.Part, "sortEdges", return_value=[[leaf, arc]]):
+                    svg = svgshapes.get_path(
+                        None,
+                        None,
+                        "none",
+                        [],
+                        "#000000",
+                        1,
+                        "none",
+                        edges=[leaf, arc],
+                        pathname="",
+                    )
+                actual, radii, actual_midpoint = self._elliptical_arc_geometry(svg)
+                self.assertLess((actual - centre).Length, 1e-4)
+                self.assertLess((actual_midpoint - midpoint).Length, 1e-4)
+                emitted_end = App.Vector(*self._svg_arc_data(svg)[-2:], 0)
+                self.assertLess((emitted_end - start).Length, 1e-4)
+
+    def test_native_projection_preserves_circular_islands(self):
+        """Closed native circle snippets retain the compound path and its holes."""
+        for name, shape_factory in self._iter_island_cases():
+            with self.subTest(case=name):
+                obj = self._add_shape(f"NativeIslandFace_{name}", shape_factory())
+                svg = Draft.get_svg(obj, direction=App.Vector(0, 0, 1))
+                self._assert_island_svg(svg)
+
+    def test_native_projection_preserves_closed_ellipse(self):
+        """Full native ellipse snippets use two arcs in the working plane."""
+        centre = App.Vector(17, -23, 11)
+        rotation = App.Rotation(App.Vector(1, 2, 3), 63)
+        u = rotation.multVec(App.Vector(1, 0, 0))
+        v = rotation.multVec(App.Vector(0, 1, 0))
+        roll = App.Rotation(u.cross(v), 37)
+        for opposite in (False, True):
+            plane_v = roll.multVec(v)
+            plane = WorkingPlane.PlaneBase(
+                roll.multVec(u),
+                -plane_v if opposite else plane_v,
+                -u.cross(v) if opposite else u.cross(v),
+            )
+            edge = Part.Ellipse(App.Vector(), 60, 25).toShape()
+            edge.Placement = App.Placement(centre, rotation)
+            with self.subTest(opposite=opposite):
+                svg = Draft.get_svg(edge, direction=plane)
+                self.assertEqual(svg.count("A "), 2)
+                actual, radii, midpoint = self._elliptical_arc_geometry(svg)
+                expected = App.Vector(centre.dot(plane.u), centre.dot(plane.v), 0)
+                self.assertLess((actual - expected).Length, 1e-4)
+                self.assertAlmostEqual(radii[0], 60, places=6)
+                self.assertAlmostEqual(radii[1], 25, places=6)
+                expected_mid = edge.valueAt(math.pi / 2)
+                expected_mid = App.Vector(expected_mid.dot(plane.u), expected_mid.dot(plane.v), 0)
+                self.assertLess((midpoint - expected_mid).Length, 1e-4)
 
     @staticmethod
     def _svg_arc_data(svg):
@@ -288,6 +439,13 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
 
     def test_circle_arc_centres_and_sweeps(self):
         """Native exported arcs retain their projected centre and swept side."""
+        self._check_circle_arc_centres_and_sweeps(native=False)
+
+    def test_native_circle_arc_centres_and_sweeps(self):
+        """HLR preserves clockwise, major and semicircular arc geometry."""
+        self._check_circle_arc_centres_and_sweeps(native=True)
+
+    def _check_circle_arc_centres_and_sweeps(self, native):
         # Serialized SVG endpoints lose some precision at 180 degrees.
         tolerance = 1e-4
         rotations = (
@@ -304,7 +462,12 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
             spans,
             (False, True),
         )
-        with self._force_circle_fallback():
+        projection = (
+            mock.patch.object(TechDraw, "projectToSVG", wraps=TechDraw.projectToSVG)
+            if native
+            else self._force_circle_fallback()
+        )
+        with projection as project_to_svg:
             for rotation, opposite_normal, span, techdraw in cases:
                 u = rotation.multVec(App.Vector(1, 0, 0))
                 v = rotation.multVec(App.Vector(0, 1, 0))
@@ -345,6 +508,9 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
                         direction=plane,
                         techdraw=techdraw,
                     )
+                    if native:
+                        self.assertEqual(project_to_svg.call_count, 1)
+                        project_to_svg.reset_mock()
                     actual, radii, midpoint = self._elliptical_arc_geometry(svg)
                     self.assertLess(
                         (actual - project(centre)).Length,

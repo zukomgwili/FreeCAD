@@ -144,24 +144,63 @@ def _get_path_circ_ellipse(
     # The angle is 0 or 180, coplanar
     occversion = Part.OCC_VERSION.split(".")
     done = False
-    if int(occversion[0]) >= 7 and int(occversion[1]) >= 1:
+    if tuple(map(int, occversion[:2])) >= (7, 1):
         # if using occ >= 7.1, use HLR algorithm
-        snip = TechDraw.projectToSVG(edge, drawing_plane_normal)
+        # HLR chooses its own axes from the projection normal. Express the
+        # edge in the same u/v coordinates as the path's existing start point
+        # before projecting along Z. get_proj intentionally ignores the
+        # working plane origin, so use only its rotation here.
+        projected_edge = edge.copy()
+        if plane:
+            rotation = App.Rotation(plane.u, plane.v, plane.axis, "ZXY")
+            placement = App.Placement(App.Vector(), rotation.inverted())
+            projected_edge.Placement = placement * projected_edge.Placement
+        # Center the native input so SVG's limited numeric precision does not
+        # depend on the object's distance from the model origin.
+        projected_edge.translate(-projected_edge.Curve.Center)
+        snip = TechDraw.projectToSVG(projected_edge, App.Vector(0, 0, 1))
 
         if snip:
             try:
                 _a = snip.split('path d="')[1]
                 _a = _a.split('"')[0]
-                _a = _a.split("A")[1]
-                A = "A " + _a
-            except IndexError:
+                _start, _arc = _a.split("A")
+                native_start = App.Vector(*map(float, _start.strip()[1:].split()), 0)
+                rx, ry, rot, large, sweep, x, y = map(float, _arc.split())
+                # Native SVG rounds coordinates/radii to six significant
+                # digits. Keep the source geometry's precision, especially
+                # at semicircles where endpoint rounding moves the centre.
+                if iscircle:
+                    rx = ry = center.Radius
+                    rot = 0
+                else:
+                    rx, ry = center.MajorRadius, center.MinorRadius
+                    major_axis = get_proj(center.XAxis, plane)
+                    rot = math.degrees(math.atan2(major_axis.y, major_axis.x))
+                start = get_proj(verts[0].Point, plane)
+                end = get_proj(verts[-1].Point, plane)
+                projected_center = get_proj(center.Center, plane)
+                relative_start = start - projected_center
+                relative_end = end - projected_center
+                native_end = App.Vector(x, y, 0)
+                tolerance = max(rx, ry) * 1e-5
+                forward = (native_start - relative_start).Length <= tolerance and (
+                    native_end - relative_end
+                ).Length <= tolerance
+                backward = (native_start - relative_end).Length <= tolerance and (
+                    native_end - relative_start
+                ).Length <= tolerance
+                if forward == backward:
+                    raise ValueError("Native SVG arc traversal is ambiguous")
+                if backward:
+                    sweep = 1 - sweep
+                A = "A {} {} {} {} {} {} {} ".format(
+                    rx, ry, rot, int(large), int(sweep), end.x, end.y
+                )
+            except (IndexError, ValueError):
+                # Full circles/ellipses and unsupported snippets use the
+                # analytic path below instead of a single native arc.
                 pass
-                # TODO: trap only specific exception.
-                # Check the problem. Split didn't produce a two element list?
-                # _wrn("Circle or ellipse: "
-                #      "cannot split the projection snip "
-                #      "obtained by 'projectToSVG', "
-                #      "continue manually.")
             else:
                 edata += A
                 done = True
@@ -197,12 +236,8 @@ def _get_path_circ_ellipse(
         else:  # ellipse
             rx = center.MajorRadius
             ry = center.MinorRadius
-            _rot = center.AngleXU * center.Axis * App.Vector(0, 0, 1)
-            rot = math.degrees(_rot)
-            if rot > 90:
-                rot -= 180
-            if rot < -90:
-                rot += 180
+            major_axis = get_proj(center.XAxis, plane)
+            rot = math.degrees(math.atan2(major_axis.y, major_axis.x))
 
         # Be careful with the sweep flag
         _diff = edge.ParameterRange[1] - edge.ParameterRange[0]
