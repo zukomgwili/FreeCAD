@@ -833,10 +833,25 @@ def get_svg(
                     )
 
             fontname = vobj.FontName
-            position = get_proj(obj.Placement.Base, plane)
+            position = obj.Placement.Base
             rotation = obj.Placement.Rotation
             justification = vobj.Justification
             text = obj.Text
+            if vobj.DisplayMode == "World" and vobj.Frame == "None" and justification != "Center":
+                # Match the native unframed label's margin and vertical
+                # alignment, using the exported font size and line spacing.
+                # Keep the leader anchored at Placement, not at the text.
+                margin = linespacing * 0.1
+                height = fontsize + (len(text) - 1) * linespacing
+                offset = App.Vector(margin if justification == "Left" else -margin, 0, 0)
+                if vobj.TextAlignment == "Top":
+                    offset.y = -fontsize
+                elif vobj.TextAlignment == "Middle":
+                    offset.y = -fontsize + height / 2
+                else:
+                    offset.y = height - fontsize
+                position = position + rotation.multVec(offset)
+            position = get_proj(position, plane)
             svg += svgtext.get_text(
                 plane,
                 techdraw,

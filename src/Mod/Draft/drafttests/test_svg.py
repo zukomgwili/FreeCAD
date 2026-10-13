@@ -269,6 +269,165 @@ class DraftSVGTextExportRegression(test_base.DraftTestCaseDoc):
                     else:
                         self.assertFalse(root.findall(".//{http://www.w3.org/2000/svg}text"))
 
+    @unittest.skipUnless(App.GuiUp, "Draft label rendering requires its native view provider")
+    def test_label_svg_text_alignment(self):
+        """The first label baseline and margin follow alignment at the export size."""
+        label = Draft.make_label(custom_text=["RC ring 230 x 400", "6T16 / T10@100"])
+        label.ViewObject.DisplayMode = "World"
+        label.ViewObject.Frame = "None"
+        frames = self._text_plane_rotations() + (App.Rotation(0.5, -0.5, 0.5, -0.5),)
+        cases = itertools.product(
+            frames, (False, True), (False, True), (0, 45), (200, -200), ("Top", "Middle", "Bottom")
+        )
+        for frame, opposite, techdraw, tilt, distance, alignment in cases:
+            plane = self._text_plane(frame, opposite)
+            rotation = frame * App.Rotation(App.Vector(1, 0, 0), tilt)
+            label.Placement = App.Placement(App.Vector(23, 31, 17), rotation)
+            label.TargetPoint = label.Placement.multVec(App.Vector(-1485, -250, 0))
+            label.StraightDistance = distance
+            label.ViewObject.Justification = "Right" if distance > 0 else "Left"
+            label.ViewObject.TextAlignment = alignment
+            self.doc.recompute()
+            points = list(label.Points)
+            placement = App.Placement(label.Placement)
+            native_position = tuple(label.ViewObject.Proxy.textpos.translation.getValue())
+            with self.subTest(
+                frame=frame.Q,
+                opposite=opposite,
+                techdraw=techdraw,
+                tilt=tilt,
+                distance=distance,
+                alignment=alignment,
+            ):
+                svg = Draft.get_svg(
+                    label,
+                    direction=plane,
+                    techdraw=techdraw,
+                    scale=0.25,
+                    fontsize=14,
+                    linespacing=9,
+                )
+                nodes = self._svg_root(svg).findall(".//{http://www.w3.org/2000/svg}text")
+                self.assertEqual(len(nodes), 2 if techdraw else 1)
+                # Exported font size is 28 and line spacing is 36 model units.
+                x = -3.6 if distance > 0 else 3.6
+                y = {"Top": -28, "Middle": 4, "Bottom": 36}[alignment]
+                expected_position = placement.multVec(App.Vector(x, y, 0))
+                actual = re.search(r"translate\(([^,]+),([^\)]+)\)", nodes[0].get("transform"))
+                self.assertAlmostEqual(float(actual[1]), expected_position.dot(plane.u))
+                self.assertAlmostEqual(float(actual[2]), expected_position.dot(plane.v))
+                self.assertEqual(label.Points, points)
+                self.assertEqual(label.Placement, placement)
+                self.assertEqual(
+                    tuple(label.ViewObject.Proxy.textpos.translation.getValue()), native_position
+                )
+
+    @staticmethod
+    def _label_svg_ink_overlap(symbol):
+        """Render text and leader separately to catch collisions in stock output."""
+        from PySide import QtCore, QtGui, QtSvg
+
+        renderer = QtSvg.QSvgRenderer(QtCore.QByteArray(symbol.encode()))
+        if not renderer.isValid():
+            raise AssertionError("The Arch view must contain valid SVG")
+        box = renderer.viewBoxF().adjusted(-50, -50, 50, 50)
+        masks = []
+        for kind in ("text", "leader"):
+            root = ET.fromstring(symbol)
+            for parent in list(root.iter()):
+                for child in list(parent):
+                    tag = child.tag.split("}")[-1]
+                    if (
+                        kind == "text" and tag in ("path", "circle", "polygon", "line", "polyline")
+                    ) or (kind == "leader" and tag == "text"):
+                        parent.remove(child)
+            # Qt's SVG reader needs unprefixed SVG element names.
+            for node in root.iter():
+                node.tag = node.tag.split("}")[-1]
+            root.set("viewBox", "{} {} {} {}".format(box.x(), box.y(), box.width(), box.height()))
+            renderer = QtSvg.QSvgRenderer(QtCore.QByteArray(ET.tostring(root)))
+            if not renderer.isValid():
+                raise AssertionError("Both label masks must contain valid SVG")
+            image = QtGui.QImage(512, 512, QtGui.QImage.Format_ARGB32)
+            image.fill(QtCore.Qt.transparent)
+            painter = QtGui.QPainter(image)
+            renderer.render(painter)
+            painter.end()
+            masks.append(image)
+        ink = [0, 0]
+        overlap = 0
+        for x in range(512):
+            for y in range(512):
+                alpha = [mask.pixelColor(x, y).alpha() > 128 for mask in masks]
+                for index in range(2):
+                    ink[index] += alpha[index]
+                overlap += all(alpha)
+        if min(ink) < 20:
+            raise AssertionError("Both label masks must contain visible ink")
+        return overlap
+
+    @unittest.skipUnless(App.GuiUp and have_arch, "Arch label views require BIM and the GUI")
+    def test_arch_view_label_leader_text_clearance(self):
+        """A rotated section's multiline label keeps its bottom baseline clear."""
+        label = Draft.make_label(custom_text=["RC ring230 × 400", "6T16 /T10@100"])
+        label.ViewObject.DisplayMode = "World"
+        label.ViewObject.FontName = "Helvetica"
+        label.ViewObject.FontSize = 75
+        label.ViewObject.TextAlignment = "Bottom"
+        label.ViewObject.Frame = "None"
+        label.ViewObject.Line = True
+        label.ViewObject.LineWidth = 2
+        label.ViewObject.LineSpacing = 1
+        label.ViewObject.ScaleMultiplier = 1
+        label.ViewObject.ArrowTypeStart = "Dot"
+        label.ViewObject.ArrowSizeStart = 17.5
+        section = Arch.makeSectionPlane([label])
+        page = self.doc.addObject("TechDraw::DrawPage", "Page")
+        template = self.doc.addObject("TechDraw::DrawSVGTemplate", "Template")
+        template.Template = os.path.join(
+            App.getResourceDir(), "Mod", "TechDraw", "Templates", "ISO", "A3_Landscape_blank.svg"
+        )
+        page.Template = template
+        view = self.doc.addObject("TechDraw::DrawViewArch", "ArchView")
+        view.Source = section
+        view.AllOn = True
+        view.LineSpacing = 4
+        view.LineWidth = 0.18
+        page.addView(view)
+        # The second fixture reproduces dLabel025/S301's relevant rendered properties.
+        fixtures = (
+            (App.Placement(), App.Vector(-1485, -250, 0), App.Placement(), 0.1, 4),
+            (
+                App.Placement(
+                    App.Vector(7779.545454545454, -1500, 2250), App.Rotation(0.5, -0.5, 0.5, -0.5)
+                ),
+                App.Vector(7779.545454545454, -15, 2500),
+                App.Placement(
+                    App.Vector(7779.545454545454, 4600, 2208.207987018),
+                    App.Rotation(0.5, 0.5, 0.5, 0.5),
+                ),
+                0.04,
+                6,
+            ),
+        )
+        for (placement, target, section_placement, scale, fontsize), distance in itertools.product(
+            fixtures, (200, -200)
+        ):
+            label.Placement = placement
+            label.TargetPoint = target
+            label.StraightDistance = distance
+            label.ViewObject.Justification = "Right" if distance > 0 else "Left"
+            section.Placement = section_placement
+            view.Scale = scale
+            view.FontSize = fontsize
+            view.Rotation = 90
+            view.touch()
+            self.doc.recompute()
+            with self.subTest(frame=placement.Rotation.Q, distance=distance):
+                self.assertNotIn("Invalid", view.State)
+                self.assertNotIn("Touched", view.State)
+                self.assertEqual(self._label_svg_ink_overlap(view.Symbol), 0)
+
     @unittest.skipUnless(App.GuiUp and have_arch, "Arch label views require BIM and the GUI")
     def test_arch_view_label_text_in_rotated_sections(self):
         """Ordinary TechDraw Arch views retain label text and their stock leaders."""
