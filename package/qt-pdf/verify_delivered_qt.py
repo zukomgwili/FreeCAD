@@ -11,6 +11,7 @@ qualification or verification of a signed/rewritten application bundle.
 
 import argparse
 import base64
+import copy
 import ctypes
 from ctypes import wintypes
 import hashlib
@@ -49,6 +50,116 @@ ROLES = {
 }
 MAX_CATALOG_BYTES = 1024 * 1024
 SOURCE_SHA256 = "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33"
+VARIANT_FIELDS = {
+    "identity_overrides",
+    "runtime_evidence",
+    "source_provenance",
+    "verification_file_overrides",
+    "verification_sources",
+}
+VARIANT_FILE_FIELDS = {
+    "sha256",
+    "size",
+    "file_mode",
+    "prefix_placeholder",
+    "source_base64",
+}
+REVIEWED_VARIANTS = {
+    "osx-arm64": {
+        "cocoa-accessibility-build2": {
+            "identity_overrides": {
+                "build": "pl5321h12ef06d_2",
+                "build_number": 2,
+                "filename": "qt6-main-6.11.2-pl5321h12ef06d_2.conda",
+                "sha256": "a40e858a4e9d66aad8d0688dc61f7bb89aec03201a269dfadf3ab2d2b8fb3a57",
+                "size": 46818588,
+                "url": (
+                    "https://github.com/zukomgwili/FreeCAD/releases/download/"
+                    "qt-cocoa-accessibility-2026-10-10/"
+                    "qt6-main-6.11.2-pl5321h12ef06d_2.conda"
+                ),
+            },
+            "runtime_evidence": {
+                "archive": "package/qt-pdf/macarm-consolidated-installation-evidence.tar.gz",
+                "archive_sha256": (
+                    "f1e9fadc8f84073a54280d492958b20b0fbffa87db2e79c9cd71e93b048dac2b"
+                ),
+                "record": "package/qt-pdf/macarm-consolidated-installation.json",
+                "record_sha256": (
+                    "7d19a1bd2281291c513cf3e948c94a08752907ec9e98657d85eb19cac02a9802"
+                ),
+            },
+            "source_provenance": {
+                "archive_md5": "669c1f3a41c37fdda389094882044d7a",
+                "archive_sha256": SOURCE_SHA256,
+                "feedstock_archive_sha256": (
+                    "30a20fe87b59ef0709e4785e8a28a8fcb7ef5f7776b8ac71daf8b2a823ec104a"
+                ),
+                "feedstock_commit": "5cd1156d41526330a116b6b441611b47357ec568",
+                "patches": {
+                    "package/qt-cocoa/qt-everywhere-native-cell-lifecycle.patch": (
+                        "6d8075c45e3f86cb61c88528c49a78daedb8883f2dcb82d3f576efa21f2a7c52"
+                    ),
+                    "tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch": (
+                        "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3"
+                    ),
+                },
+            },
+            "verification_sources": {
+                "baseline_lock_sha256": (
+                    "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7"
+                ),
+                "installed_metadata": {
+                    "pyside6": {
+                        "path": (
+                            ".pixi/envs/default/conda-meta/"
+                            "pyside6-6.11.2-py313h78a5af2_1.json"
+                        ),
+                        "sha256": (
+                            "db78295e671b015cbd3c2cdc264a780d2fd56d40c733c3cb2f62deb5b3af6a15"
+                        ),
+                    },
+                    "python": {
+                        "path": (
+                            ".pixi/envs/default/conda-meta/"
+                            "python-3.13.15-hb59dee6_103_cp313.json"
+                        ),
+                        "sha256": (
+                            "f7584f61c8e8650a55952412909d48537d6412b6ac973485abdbf1a4a5a9342d"
+                        ),
+                    },
+                    "qt6-main": {
+                        "path": (
+                            ".pixi/envs/default/conda-meta/"
+                            "qt6-main-6.11.2-pl5321h12ef06d_2.json"
+                        ),
+                        "sha256": (
+                            "e391fb2a2371746aafb29a6dc8b00d5442e1878d61d46b1d7209b73821ed81cd"
+                        ),
+                    },
+                },
+                "original_index_license": "LGPL-3.0-only",
+                "original_index_sha256": (
+                    "dbaa2b5dcd4856664a2a8665d12c3f178ebab25e699038646d94bc9e7aeb3497"
+                ),
+                "original_paths_count": 10906,
+                "original_paths_sha256": (
+                    "67d36fd0b9dd0428afeb18fc0a3c58a62ae9796e2818422f2c0949dcb333a725"
+                ),
+                "qt_package_sha256": (
+                    "a40e858a4e9d66aad8d0688dc61f7bb89aec03201a269dfadf3ab2d2b8fb3a57"
+                ),
+                "recipe_sha256": (
+                    "61894f764b01196dd35403028ec89ecd32846d1debd6a8329a19f5d384c60127"
+                ),
+                "rendered_recipe_sha256": (
+                    "901e36105afabfab23c74482a8328d4ef1b4728dab488d23b00eb0d96e1662de"
+                ),
+            },
+            "verification_file_count": 78,
+        }
+    }
+}
 
 
 def require(condition, message):
@@ -189,6 +300,104 @@ def expected_file(specification, prefix):
     return hashlib.sha256(relocated).hexdigest(), len(relocated)
 
 
+def catalogue_entries(catalogue, platform):
+    """Materialize the immutable platform entry and its explicitly reviewed deltas."""
+    conda = catalogue.get("conda")
+    require(
+        isinstance(conda, dict) and platform in conda and isinstance(conda[platform], dict),
+        "Missing reviewed Conda platform",
+    )
+    source = conda[platform]
+    variants = source.get("variants", {})
+    require(isinstance(variants, dict), "Invalid reviewed Qt variants")
+    base = {key: copy.deepcopy(value) for key, value in source.items() if key != "variants"}
+    require(
+        type(base.get("build_number")) is int and base["build_number"] == 1,
+        "Historical Qt base entry must remain build 1",
+    )
+    files = base.get("verification_files")
+    require(isinstance(files, dict) and files, "Missing finite file verification catalogue")
+    entries = [("build1", base)]
+
+    for name, variant in sorted(variants.items()):
+        expected = REVIEWED_VARIANTS.get(platform, {}).get(name)
+        require(
+            isinstance(name, str) and expected is not None,
+            f"Unreviewed Qt catalogue variant: {name!r}",
+        )
+        require(
+            isinstance(variant, dict) and set(variant) == VARIANT_FIELDS,
+            f"Invalid Qt catalogue variant: {name}",
+        )
+        identity = variant["identity_overrides"]
+        require(
+            identity == expected["identity_overrides"],
+            f"Qt catalogue variant identity differs: {name}",
+        )
+        require(
+            variant["source_provenance"] == expected["source_provenance"],
+            f"Qt catalogue variant source provenance differs: {name}",
+        )
+        require(
+            variant["runtime_evidence"] == expected["runtime_evidence"],
+            f"Qt catalogue variant runtime evidence differs: {name}",
+        )
+        sources = variant["verification_sources"]
+        require(
+            sources == expected["verification_sources"],
+            f"Qt catalogue variant verification provenance differs: {name}",
+        )
+        overrides = variant["verification_file_overrides"]
+        require(
+            isinstance(overrides, dict)
+            and len(overrides) == expected["verification_file_count"]
+            and overrides,
+            f"Qt catalogue variant file count differs: {name}",
+        )
+        for relative, replacement in overrides.items():
+            relative_path(relative)
+            original = files.get(relative)
+            require(
+                isinstance(original, dict)
+                and isinstance(replacement, dict)
+                and set(replacement) == set(original),
+                f"Qt catalogue variant changes file shape: {relative}",
+            )
+            require(
+                original.get("package") == replacement.get("package") == "qt6-main"
+                and original.get("role") == replacement.get("role")
+                and original.get("path_type") == replacement.get("path_type") == "hardlink"
+                and all(
+                    original.get(field) == replacement.get(field)
+                    for field in set(original).difference(VARIANT_FILE_FIELDS)
+                )
+                and any(
+                    original.get(field) != replacement.get(field)
+                    for field in VARIANT_FILE_FIELDS.intersection(original)
+                ),
+                f"Qt catalogue variant changes immutable file metadata: {relative}",
+            )
+        entry = copy.deepcopy(base)
+        entry.update(copy.deepcopy(identity))
+        entry["verification_files"].update(copy.deepcopy(overrides))
+        entry["verification_sources"] = copy.deepcopy(sources)
+        entries.append((name, entry))
+    return entries
+
+
+def select_catalogue_entry(entries, installed):
+    matches = [
+        (name, entry)
+        for name, entry in entries
+        if all(installed.get(field) == entry.get(field) for field in IDENTITY)
+    ]
+    require(
+        len(matches) == 1,
+        "Installed qt6-main does not match exactly one reviewed distribution",
+    )
+    return matches[0]
+
+
 def selected_distribution(prefix, catalogue, platform):
     require(platform in PLATFORMS, "Unsupported qualified Conda platform")
     requested = Path(prefix).expanduser().absolute()
@@ -201,15 +410,18 @@ def selected_distribution(prefix, catalogue, platform):
         type(catalogue.get("schema_version")) is int and catalogue["schema_version"] == 1,
         "Unsupported delivery catalogue",
     )
-    entry = catalogue["conda"][platform]
+    records = installed_records(prefix)
+    require("qt6-main" in records, "Selected prefix has no qt6-main package")
+    variant, entry = select_catalogue_entry(
+        catalogue_entries(catalogue, platform), records["qt6-main"][0]
+    )
     require(
         entry.get("qt_version") == "6.11.2"
         and type(entry.get("build_number")) is int
-        and entry["build_number"] == 1
         and entry.get("subdir") == platform
         and entry.get("source_sha256") == SOURCE_SHA256
         and entry.get("license") == "LGPL-3.0-only",
-        "Expected the reviewed Qt 6.11.2 build-1/source distribution",
+        "Expected a reviewed Qt 6.11.2/source distribution",
     )
     required_bindings = {"pyside6", "python"}
     if platform.startswith("linux"):
@@ -228,7 +440,6 @@ def selected_distribution(prefix, catalogue, platform):
         and identities["python"]["version"].startswith("3.13."),
         "Expected unchanged Python 3.13/PySide6 6.11.2 identities",
     )
-    records = installed_records(prefix)
     checked_metadata = {}
     for name, identity in identities.items():
         require(
@@ -333,6 +544,9 @@ def selected_distribution(prefix, catalogue, platform):
             "scope": "Explicit reviewed Conda Qt selection; signed/rewritten bundles are outside this proof",
             "platform": platform,
             "prefix": str(prefix),
+            "catalogue_variant": variant,
+            "qt_build": entry["build"],
+            "qt_build_number": entry["build_number"],
             "package_sha256": entry["sha256"],
             "source_sha256": entry["source_sha256"],
             "qt_version": entry["qt_version"],

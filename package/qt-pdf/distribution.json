@@ -11053,6 +11053,612 @@
       "source_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
       "subdir": "osx-arm64",
       "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-pdf-stroker-2026-10-06/qt6-main-6.11.2-pl5321h5ab96b3_1.conda",
+      "variants": {
+        "cocoa-accessibility-build2": {
+          "identity_overrides": {
+            "build": "pl5321h12ef06d_2",
+            "build_number": 2,
+            "filename": "qt6-main-6.11.2-pl5321h12ef06d_2.conda",
+            "sha256": "a40e858a4e9d66aad8d0688dc61f7bb89aec03201a269dfadf3ab2d2b8fb3a57",
+            "size": 46818588,
+            "url": "https://github.com/zukomgwili/FreeCAD/releases/download/qt-cocoa-accessibility-2026-10-10/qt6-main-6.11.2-pl5321h12ef06d_2.conda"
+          },
+          "runtime_evidence": {
+            "archive": "package/qt-pdf/macarm-consolidated-installation-evidence.tar.gz",
+            "archive_sha256": "f1e9fadc8f84073a54280d492958b20b0fbffa87db2e79c9cd71e93b048dac2b",
+            "record": "package/qt-pdf/macarm-consolidated-installation.json",
+            "record_sha256": "7d19a1bd2281291c513cf3e948c94a08752907ec9e98657d85eb19cac02a9802"
+          },
+          "source_provenance": {
+            "archive_md5": "669c1f3a41c37fdda389094882044d7a",
+            "archive_sha256": "6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33",
+            "feedstock_archive_sha256": "30a20fe87b59ef0709e4785e8a28a8fcb7ef5f7776b8ac71daf8b2a823ec104a",
+            "feedstock_commit": "5cd1156d41526330a116b6b441611b47357ec568",
+            "patches": {
+              "package/qt-cocoa/qt-everywhere-native-cell-lifecycle.patch": "6d8075c45e3f86cb61c88528c49a78daedb8883f2dcb82d3f576efa21f2a7c52",
+              "tests/src/Mod/TechDraw/Gui/QtPdfStroker/empty-outline.patch": "c8de71a3bf25cc408ba351a3de4dfe63cccf3a857d4bc44589a8fd20188bebe3"
+            }
+          },
+          "verification_file_overrides": {
+            "bin/qt6.conf": {
+              "file_mode": "text",
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "prefix_placeholder": "/private/tmp/freecad-4fa-package-v5.262LG2/output/bld/rattler-build_qt6-main_1791614668/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol",
+              "role": "qt.conf",
+              "sha256": "a733019c96463242daedc81f9b7a0009b8940bdd8eef9d09adfe7ee0d6d60095",
+              "size": 3638,
+              "source_base64": "W1BhdGhzXQpQcmVmaXggPSAvcHJpdmF0ZS90bXAvZnJlZWNhZC00ZmEtcGFja2FnZS12NS4yNjJMRzIvb3V0cHV0L2JsZC9yYXR0bGVyLWJ1aWxkX3F0Ni1tYWluXzE3OTE2MTQ2NjgvaG9zdF9lbnZfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2wKRG9jdW1lbnRhdGlvbiA9IC9wcml2YXRlL3RtcC9mcmVlY2FkLTRmYS1wYWNrYWdlLXY1LjI2MkxHMi9vdXRwdXQvYmxkL3JhdHRsZXItYnVpbGRfcXQ2LW1haW5fMTc5MTYxNDY2OC9ob3N0X2Vudl9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbC9zaGFyZS9kb2MvcXQ2CkhlYWRlcnMgPSAvcHJpdmF0ZS90bXAvZnJlZWNhZC00ZmEtcGFja2FnZS12NS4yNjJMRzIvb3V0cHV0L2JsZC9yYXR0bGVyLWJ1aWxkX3F0Ni1tYWluXzE3OTE2MTQ2NjgvaG9zdF9lbnZfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2wvaW5jbHVkZS9xdDYKTGlicmFyaWVzID0gL3ByaXZhdGUvdG1wL2ZyZWVjYWQtNGZhLXBhY2thZ2UtdjUuMjYyTEcyL291dHB1dC9ibGQvcmF0dGxlci1idWlsZF9xdDYtbWFpbl8xNzkxNjE0NjY4L2hvc3RfZW52X3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sL2xpYgpMaWJyYXJ5RXhlY3V0YWJsZXMgPSAvcHJpdmF0ZS90bXAvZnJlZWNhZC00ZmEtcGFja2FnZS12NS4yNjJMRzIvb3V0cHV0L2JsZC9yYXR0bGVyLWJ1aWxkX3F0Ni1tYWluXzE3OTE2MTQ2NjgvaG9zdF9lbnZfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2wvbGliL3F0NgpCaW5hcmllcyA9IC9wcml2YXRlL3RtcC9mcmVlY2FkLTRmYS1wYWNrYWdlLXY1LjI2MkxHMi9vdXRwdXQvYmxkL3JhdHRsZXItYnVpbGRfcXQ2LW1haW5fMTc5MTYxNDY2OC9ob3N0X2Vudl9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbC9saWIvcXQ2L2JpbgpQbHVnaW5zID0gL3ByaXZhdGUvdG1wL2ZyZWVjYWQtNGZhLXBhY2thZ2UtdjUuMjYyTEcyL291dHB1dC9ibGQvcmF0dGxlci1idWlsZF9xdDYtbWFpbl8xNzkxNjE0NjY4L2hvc3RfZW52X3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sL2xpYi9xdDYvcGx1Z2lucwpRbWxJbXBvcnRzID0gL3ByaXZhdGUvdG1wL2ZyZWVjYWQtNGZhLXBhY2thZ2UtdjUuMjYyTEcyL291dHB1dC9ibGQvcmF0dGxlci1idWlsZF9xdDYtbWFpbl8xNzkxNjE0NjY4L2hvc3RfZW52X3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sL2xpYi9xdDYvcW1sCkFyY2hEYXRhID0gL3ByaXZhdGUvdG1wL2ZyZWVjYWQtNGZhLXBhY2thZ2UtdjUuMjYyTEcyL291dHB1dC9ibGQvcmF0dGxlci1idWlsZF9xdDYtbWFpbl8xNzkxNjE0NjY4L2hvc3RfZW52X3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sL2xpYi9xdDYKRGF0YSA9IC9wcml2YXRlL3RtcC9mcmVlY2FkLTRmYS1wYWNrYWdlLXY1LjI2MkxHMi9vdXRwdXQvYmxkL3JhdHRsZXItYnVpbGRfcXQ2LW1haW5fMTc5MTYxNDY2OC9ob3N0X2Vudl9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbC9zaGFyZS9xdDYKVHJhbnNsYXRpb25zID0gL3ByaXZhdGUvdG1wL2ZyZWVjYWQtNGZhLXBhY2thZ2UtdjUuMjYyTEcyL291dHB1dC9ibGQvcmF0dGxlci1idWlsZF9xdDYtbWFpbl8xNzkxNjE0NjY4L2hvc3RfZW52X3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sL3NoYXJlL3F0Ni90cmFuc2xhdGlvbnMKRXhhbXBsZXMgPSAvcHJpdmF0ZS90bXAvZnJlZWNhZC00ZmEtcGFja2FnZS12NS4yNjJMRzIvb3V0cHV0L2JsZC9yYXR0bGVyLWJ1aWxkX3F0Ni1tYWluXzE3OTE2MTQ2NjgvaG9zdF9lbnZfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2wvc2hhcmUvZG9jL3F0Ni9leGFtcGxlcwpUZXN0cyA9IC9wcml2YXRlL3RtcC9mcmVlY2FkLTRmYS1wYWNrYWdlLXY1LjI2MkxHMi9vdXRwdXQvYmxkL3JhdHRsZXItYnVpbGRfcXQ2LW1haW5fMTc5MTYxNDY2OC9ob3N0X2Vudl9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbC90ZXN0cwo="
+            },
+            "lib/cmake/Qt6/qt.toolchain.cmake": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "cmake",
+              "sha256": "7689f201af4101c232a79c3d53e6374b5e5586caf136c5d3ee2c635c0d22b11b",
+              "size": 12459
+            },
+            "lib/cmake/Qt6BuildInternals/QtBuildInternalsExtra.cmake": {
+              "file_mode": "text",
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "prefix_placeholder": "/private/tmp/freecad-4fa-package-v5.262LG2/output/bld/rattler-build_qt6-main_1791614668/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol",
+              "role": "cmake",
+              "sha256": "f0773e0b495a6377aab92bda4273f9514ecabf9b0ad10e0ec4a9afe8b563122f",
+              "size": 11468,
+              "source_base64": "IyBDb3B5cmlnaHQgKEMpIDIwMjQgVGhlIFF0IENvbXBhbnkgTHRkLgojIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBCU0QtMy1DbGF1c2UKCiMgUHJvcGFnYXRlIGNvbW1vbiB2YXJpYWJsZXMgdmlhIEJ1aWxkSW50ZXJuYWxzIHBhY2thZ2UuCnNldChRVF9CVUlMRF9TSEFSRURfTElCUyBPTikKb3B0aW9uKEJVSUxEX1NIQVJFRF9MSUJTICJCdWlsZCBRdCBzdGF0aWNhbGx5IG9yIGR5bmFtaWNhbGx5IiBPTikKc2V0KFFUX0NNQUtFX0VYUE9SVF9OQU1FU1BBQ0UgUXQ2KQpzZXQoSU5TVEFMTF9DTUFLRV9OQU1FU1BBQ0UgUXQ2KQpzZXQoUVRfQlVJTERfSU5URVJOQUxTX1BBVEggIiR7Q01BS0VfQ1VSUkVOVF9MSVNUX0RJUn0iKQoKIyBUaGUgcmVsb2NhdGFibGUgaW5zdGFsbCBwcmVmaXggaXMgbWVhbnQgdG8gYmUgdXNlZCB0byBmaW5kIHRoaW5ncyBsaWtlIGhvc3QgYmluYXJpZXMgKHN5bmNxdCksCiMgd2hlbiB0aGUgQ01BS0VfSU5TVEFMTF9QUkVGSVggaXMgb3ZlcnJpZGRlbiB0byBwb2ludCB0byBhIGRpZmZlcmVudCBwYXRoIChsaWtlIHdoZW4gYnVpbGRpbmcgYQojIGEgUXQgcmVwbyB1c2luZyBDb25hbiwgd2hpY2ggd2lsbCBzZXQgYSByYW5kb20gaW5zdGFsbCBwcmVmaXggaW5zdGVhZCBvZiBpbnN0YWxsaW5nIGludG8gdGhlCiMgb3JpZ2luYWwgUXQgaW5zdGFsbCBwcmVmaXgpLgpnZXRfZmlsZW5hbWVfY29tcG9uZW50KFFUX0JVSUxEX0lOVEVSTkFMU19SRUxPQ0FUQUJMRV9JTlNUQUxMX1BSRUZJWAogICAgICAgICAgICAgICAgICAgICAgICR7Q01BS0VfQ1VSUkVOVF9MSVNUX0RJUn0vLi4vLi4vLi4vCiAgICAgICAgICAgICAgICAgICAgICAgQUJTT0xVVEUpCgojIFN0b3JlcyBpbiBvdXRfdmFyIHRoZSBuZXcgaW5zdGFsbC9zdGFnaW5nIHByZWZpeCBmb3IgdGhpcyBidWlsZC4KIwojIG5ld19wcmVmaXg6IHRoZSBuZXcgcHJlZml4IGZvciB0aGlzIHJlcG9zaXRvcnkKIyBvcmlnX3ByZWZpeDogdGhlIHByZWZpeCB0aGF0IHdhcyB1c2VkIHdoZW4gcXRiYXNlIHdhcyBjb25maWd1cmVkCiMKIyBPbiBXaW5kb3dzIGhvc3RzOiBpZiB0aGUgb3JpZ2luYWwgcHJlZml4IGRvZXMgbm90IHN0YXJ0IHdpdGggYSBkcml2ZSBsZXR0ZXIsIHRoaXMgZnVuY3Rpb24gcmVtb3ZlcwojIHRoZSBkcml2ZSBsZXR0ZXIgZnJvbSB0aGUgbmV3IHByZWZpeC4gVGhpcyBpcyBuZWVkZWQgZm9yIGluc3RhbGxhdGlvbiB3aXRoIERFU1RESVIgc2V0LgpmdW5jdGlvbihxdF9pbnRlcm5hbF9uZXdfcHJlZml4IG91dF92YXIgbmV3X3ByZWZpeCBvcmlnX3ByZWZpeCkKICAgIGlmKENNQUtFX0hPU1RfV0lOMzIpCiAgICAgICAgc2V0KGRyaXZlX2xldHRlcl9yZWdleHAgIl5bYS16QS1aXToiKQogICAgICAgIGlmKG5ld19wcmVmaXggTUFUQ0hFUyAiJHtkcml2ZV9sZXR0ZXJfcmVnZXhwfSIKICAgICAgICAgICAgQU5EIE5PVCBvcmlnX3ByZWZpeCBNQVRDSEVTICIke2RyaXZlX2xldHRlcl9yZWdleHB9IikKICAgICAgICAgICAgc3RyaW5nKFNVQlNUUklORyAiJHtuZXdfcHJlZml4fSIgMiAtMSBuZXdfcHJlZml4KQogICAgICAgIGVuZGlmKCkKICAgIGVuZGlmKCkKICAgIHNldCgke291dF92YXJ9ICIke25ld19wcmVmaXh9IiBQQVJFTlRfU0NPUEUpCmVuZGZ1bmN0aW9uKCkKCiMgSWYgbm8gZXhwbGljaXQgQ01BS0VfSU5TVEFMTF9QUkVGSVggaXMgcHJvdmlkZWQsIGZvcmNlIHNldCB0aGUgb3JpZ2luYWwgUXQgaW5zdGFsbGF0aW9uIHByZWZpeCwKIyBzbyB0aGF0IGZ1cnRoZXIgbW9kdWxlcyAvIHJlcG9zaXRvcmllcyBhcmUgIGluc3RhbGxlZCBpbnRvIHNhbWUgb3JpZ2luYWwgbG9jYXRpb24uCiMgVGhpcyBtZWFucyBieSBkZWZhdWx0IHdoZW4gY29uZmlndXJpbmcgcXRzdmcgLyBxdGRlY2xhcmF0aXZlLCB0aGV5IHdpbGwgYmUgaW5zdGFsbGVkIHRoZSByZWd1bGFyCiMgUXQgaW5zdGFsbGF0aW9uIHByZWZpeC4KIyBJZiBhbiBleHBsaWNpdCBpbnN0YWxsYXRpb24gcHJlZml4IGlzIHNwZWNpZmllZCwgIGhvbm9yIGl0LgojIFRoaXMgaXMgYW4gYXR0ZW1wdCB0byBzdXBwb3J0IENvbmFuLCBha2EgaGFuZGxlIGluc3RhbGxhdGlvbiBvZiBtb2R1bGVzIGludG8gYQojIGRpZmZlcmVudCBpbnN0YWxsYXRpb24gcHJlZml4IHRoYW4gdGhlIG9yaWdpbmFsIG9uZS4gQWxzbyBhbGxvdyB0byBvcHQgb3V0IHZpYSBhIHNwZWNpYWwgdmFyaWFibGUuCiMgSW4gYSB0b3AtbGV2ZWwgYnVpbGQsIFF0U2V0dXAuY21ha2UgdGFrZXMgY2FyZSBvZiBzZXR0aW5nIENNQUtFX0lOU1RBTExfUFJFRklYLgppZihDTUFLRV9JTlNUQUxMX1BSRUZJWF9JTklUSUFMSVpFRF9UT19ERUZBVUxUIEFORAogICAgICAgIE5PVCBRVF9CVUlMRF9JTlRFUk5BTFNfTk9fRk9SQ0VfU0VUX0lOU1RBTExfUFJFRklYCiAgICAgICAgQU5EIE5PVCBRVF9TVVBFUkJVSUxEKQogICAgc2V0KHF0Ymlfb3JpZ19wcmVmaXggIi9wcml2YXRlL3RtcC9mcmVlY2FkLTRmYS1wYWNrYWdlLXY1LjI2MkxHMi9vdXRwdXQvYmxkL3JhdHRsZXItYnVpbGRfcXQ2LW1haW5fMTc5MTYxNDY2OC9ob3N0X2Vudl9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbCIpCiAgICBzZXQocXRiaV9vcmlnX3N0YWdpbmdfcHJlZml4ICIiKQogICAgcXRfaW50ZXJuYWxfbmV3X3ByZWZpeChxdGJpX25ld19wcmVmaXgKICAgICAgICAiJHtRVF9CVUlMRF9JTlRFUk5BTFNfUkVMT0NBVEFCTEVfSU5TVEFMTF9QUkVGSVh9IgogICAgICAgICIke3F0Ymlfb3JpZ19wcmVmaXh9IikKICAgIGlmKE5PVCBxdGJpX29yaWdfc3RhZ2luZ19wcmVmaXggU1RSRVFVQUwgIiIKICAgICAgICAgICAgQU5EICIke0NNQUtFX1NUQUdJTkdfUFJFRklYfSIgU1RSRVFVQUwgIiIKICAgICAgICAgICAgQU5EIE5PVCBRVF9CVUlMRF9JTlRFUk5BTFNfTk9fRk9SQ0VfU0VUX1NUQUdJTkdfUFJFRklYKQogICAgICAgIHF0X2ludGVybmFsX25ld19wcmVmaXgocXRiaV9uZXdfc3RhZ2luZ19wcmVmaXgKICAgICAgICAgICAgIiR7cXRiaV9uZXdfcHJlZml4fSIKICAgICAgICAgICAgIiR7cXRiaV9vcmlnX3N0YWdpbmdfcHJlZml4fSIpCiAgICAgICAgc2V0KENNQUtFX1NUQUdJTkdfUFJFRklYICIke3F0YmlfbmV3X3N0YWdpbmdfcHJlZml4fSIgQ0FDSEUgUEFUSAogICAgICAgICAgICAiU3RhZ2luZyBwYXRoIHByZWZpeCwgcHJlcGVuZGVkIG9udG8gaW5zdGFsbCBkaXJlY3RvcmllcyBvbiB0aGUgaG9zdCBtYWNoaW5lLiIgRk9SQ0UpCiAgICAgICAgc2V0KHF0YmlfbmV3X3ByZWZpeCAiJHtxdGJpX29yaWdfcHJlZml4fSIpCiAgICBlbmRpZigpCiAgICBzZXQoQ01BS0VfSU5TVEFMTF9QUkVGSVggIiR7cXRiaV9uZXdfcHJlZml4fSIgQ0FDSEUgUEFUSAogICAgICAgICJJbnN0YWxsIHBhdGggcHJlZml4LCBwcmVwZW5kZWQgb250byBpbnN0YWxsIGRpcmVjdG9yaWVzLiIgRk9SQ0UpCiAgICB1bnNldChxdGJpX29yaWdfcHJlZml4KQogICAgdW5zZXQocXRiaV9uZXdfcHJlZml4KQogICAgdW5zZXQocXRiaV9vcmlnX3N0YWdpbmdfcHJlZml4KQogICAgdW5zZXQocXRiaV9uZXdfc3RhZ2luZ19wcmVmaXgpCmVuZGlmKCkKCiMgUHJvcGFnYXRlIGRldmVsb3BlciBidWlsZHMgdG8gb3RoZXIgbW9kdWxlcyB2aWEgQnVpbGRJbnRlcm5hbHMgcGFja2FnZS4KaWYoT0ZGKQogICAgc2V0KEZFQVRVUkVfZGV2ZWxvcGVyX2J1aWxkIE9OIENBQ0hFIEJPT0wgIkRldmVsb3BlciBidWlsZC4iIEZPUkNFKQplbmRpZigpCgojIFByb3BhZ2F0ZSBDSSBmaWxlcyBpbnN0YWxsYXRpb24Kc2V0KFFUX0lOU1RBTExfQ0lfRklMRVMgT0ZGIENBQ0hFIEJPT0wKICAgICJJbnN0YWxsIENJIGZpbGVzIGZvciBpbnRlcm5hbCB1c2Ugb25seSIgRk9SQ0UpCgojIFByb3BhZ2F0ZSBub24tcHJlZml4IGJ1aWxkcy4Kc2V0KFFUX1dJTExfSU5TVEFMTCBPTiBDQUNIRSBCT09MCiAgICAiQm9vbGVhbiBpbmRpY2F0aW5nIGlmIGRvaW5nIGEgUXQgcHJlZml4IGJ1aWxkICh2cyBub24tcHJlZml4IGJ1aWxkKS4iIEZPUkNFKQoKc2V0KFFUX1NPVVJDRV9UUkVFICIvcHJpdmF0ZS90bXAvZnJlZWNhZC00ZmEtcGFja2FnZS12NS4yNjJMRzIvb3V0cHV0L2JsZC9yYXR0bGVyLWJ1aWxkX3F0Ni1tYWluXzE3OTE2MTQ2Njgvd29yay9xdGJhc2UiIENBQ0hFIFBBVEgKIkEgcGF0aCB0byB0aGUgc291cmNlIHRyZWUgb2YgdGhlIHByZXZpb3VzbHkgY29uZmlndXJlZCBRdEJhc2UgcHJvamVjdC4iIEZPUkNFKQoKIyBQcm9wYWdhdGUgZGVjaXNpb24gb2YgYnVpbGRpbmcgdGVzdHMgYW5kIGV4YW1wbGVzIHRvIG90aGVyIHJlcG9zaXRvcmllcy4Kc2V0KFFUX0JVSUxEX1RFU1RTIE9GRiBDQUNIRSBCT09MICJCdWlsZCB0aGUgdGVzdGluZyB0cmVlLiIpCnNldChRVF9CVUlMRF9FWEFNUExFUyBPRkYgQ0FDSEUgQk9PTCAiQnVpbGQgUXQgZXhhbXBsZXMiKQpzZXQoUVRfQlVJTERfQkVOQ0hNQVJLUyBPRkYgQ0FDSEUgQk9PTCAiQnVpbGQgUXQgQmVuY2htYXJrcyIpCnNldChRVF9CVUlMRF9NQU5VQUxfVEVTVFMgT0ZGIENBQ0hFIEJPT0wgIkJ1aWxkIFF0IG1hbnVhbCB0ZXN0cyIpCnNldChRVF9CVUlMRF9NSU5JTUFMX1NUQVRJQ19URVNUUyBPRkYgQ0FDSEUgQk9PTAogICAgIkJ1aWxkIG1pbmltYWwgc3Vic2V0IG9mIHRlc3RzIGZvciBzdGF0aWMgUXQgYnVpbGRzIikKc2V0KFFUX0JVSUxEX01JTklNQUxfQU5EUk9JRF9NVUxUSV9BQklfVEVTVFMgT0ZGIENBQ0hFIEJPT0wKICAgICJCdWlsZCBtaW5pbWFsIHN1YnNldCBvZiB0ZXN0cyBmb3IgQW5kcm9pZCBtdWx0aS1BQkkgUXQgYnVpbGRzIikKc2V0KFFUX0JVSUxEX0RPQ19TTklQUEVUUyAgQ0FDSEUgQk9PTCAiQnVpbGQgUXQgZG9jdW1lbnRhdGlvbiBzbmlwcGV0cyIpCgpzZXQoUVRfQlVJTERfVEVTVFNfQkFUQ0hFRCBPRkYgQ0FDSEUgQk9PTAogICAgIlNob3VsZCBhbGwgdGVzdHMgYmUgYmF0Y2hlZCBpbnRvIGEgc2luZ2xlIGJpbmFyeS4iKQoKc2V0KFFUX0JVSUxEX1RFU1RTX0JZX0RFRkFVTFQgT04gQ0FDSEUgQk9PTAogICAgIlNob3VsZCB0ZXN0cyBiZSBidWlsdCBhcyBwYXJ0IG9mIHRoZSBkZWZhdWx0ICdhbGwnIHRhcmdldC4iKQpzZXQoUVRfQlVJTERfRVhBTVBMRVNfQllfREVGQVVMVCBPTiBDQUNIRSBCT09MCiAgICAiU2hvdWxkIGV4YW1wbGVzIGJlIGJ1aWx0IGFzIHBhcnQgb2YgdGhlIGRlZmF1bHQgJ2FsbCcgdGFyZ2V0LiIpCnNldChRVF9CVUlMRF9UT09MU19CWV9ERUZBVUxUIE9OIENBQ0hFIEJPT0wKICAgICJTaG91bGQgdG9vbHMgYmUgYnVpbHQgYXMgcGFydCBvZiB0aGUgZGVmYXVsdCAnYWxsJyB0YXJnZXQuIikKCnNldChRVF9CVUlMRF9FWEFNUExFU19BU19FWFRFUk5BTCAiT0ZGIiBDQUNIRSBCT09MCiAgICAiU2hvdWxkIGV4YW1wbGVzIGJlIGJ1aWx0IGFzIEV4dGVybmFsUHJvamVjdHMuIikKCiMgUHJvcGFnYXRlIHVzYWdlIG9mIGNjYWNoZS4Kc2V0KFFUX1VTRV9DQ0FDSEUgT0ZGIENBQ0hFIEJPT0wgIkVuYWJsZSB0aGUgdXNlIG9mIGNjYWNoZSIpCgojIFByb3BhZ2F0ZSB1c2FnZSBvZiB2Y3BrZywgT04gYnkgZGVmYXVsdC4Kc2V0KFFUX1VTRV9WQ1BLRyBPRkYgQ0FDSEUgQk9PTCAiRW5hYmxlIHRoZSB1c2Ugb2YgdmNwa2ciKQoKIyBQcm9wYWdhdGUgdXNhZ2Ugb2YgdW5pdHkgYnVpbGQuCnNldChRVF9VTklUWV9CVUlMRCBPRkYgQ0FDSEUgQk9PTCAiRW5hYmxlIHVuaXR5IChqdW1ibykgYnVpbGQiKQpzZXQoUVRfVU5JVFlfQlVJTERfQkFUQ0hfU0laRSAiMzIiIENBQ0hFIFNUUklORyAiVW5pdHkgYnVpbGQgYmF0Y2ggc2l6ZSIpCgojIFByb3ByYWdhdGUgdGhlIHZhbHVlIG9mIFdBUk5JTkdTX0FSRV9FUlJPUlMuCnNldChXQVJOSU5HU19BUkVfRVJST1JTICJPRkYiIENBQ0hFIEJPT0wgIkJ1aWxkIFF0IHdpdGggd2FybmluZ3MgYXMgZXJyb3JzIikKCiMgUHJvcGFnYXRlIHVzYWdlIG9mIHZlcnNpb25lZCBoYXJkIGxpbmsuCnNldChRVF9DUkVBVEVfVkVSU0lPTkVEX0hBUkRfTElOSyAiT04iIENBQ0hFIEJPT0wKICAgICJFbmFibGUgdGhlIHVzZSBvZiB2ZXJzaW9uZWQgaGFyZCBsaW5rIikKCiMgVGhlIG1pbmltdW0gdmVyc2lvbiByZXF1aXJlZCB0byBidWlsZCBRdC4Kc2V0KFFUX1NVUFBPUlRFRF9NSU5fQ01BS0VfVkVSU0lPTl9GT1JfQlVJTERJTkdfUVQgIjMuMjIiKQpzZXQoUVRfQ09NUFVURURfTUlOX0NNQUtFX1ZFUlNJT05fRk9SX0JVSUxESU5HX1FUICIzLjIyIikKCiMgVGhlIGxvd2VyIGFuZCB1cHBlciBDTWFrZSB2ZXJzaW9uIHBvbGljeSByYW5nZSBhcyBjb21wdXRlZCBieSBxdGJhc2UuCiMgVGhlc2UgdmFsdWVzIGFyZSBpbmhlcml0ZWQgd2hlbiBidWlsZGluZyBvdGhlciBRdCByZXBvc2l0b3JpZXMsIHVubGVzcyBvdmVycmlkZGVuCiMgaW4gdGhlIHJlc3BlY3RpdmUgcmVwb3NpdG9yeSAuY21ha2UuY29uZiBmaWxlLgojIFRoZXNlIGFyZSBub3QgY2FjaGUgdmFyaWFibGVzLCBzbyB0aGF0IHRoZXkgY2FuIGJlIG92ZXJyaWRkZW4gaW4gZWFjaCByZXBvIGRpcmVjdG9yeSBzY29wZS4KaWYoTk9UIERFRklORUQgUVRfTUlOX05FV19QT0xJQ1lfQ01BS0VfVkVSU0lPTikKICAgIHNldChRVF9NSU5fTkVXX1BPTElDWV9DTUFLRV9WRVJTSU9OICIzLjE2IikKZW5kaWYoKQppZihOT1QgREVGSU5FRCBRVF9NQVhfTkVXX1BPTElDWV9DTUFLRV9WRVJTSU9OKQogICAgc2V0KFFUX01BWF9ORVdfUE9MSUNZX0NNQUtFX1ZFUlNJT04gIjMuMjEiKQplbmRpZigpCgojIEV4dHJhIHNldCBvZiBleHBvcnRlZCB2YXJpYWJsZXMKc2V0KFRFU1RfYXJjaGl0ZWN0dXJlX2FyY2ggImFybTY0IiBDQUNIRSBJTlRFUk5BTCAiIikKc2V0KFRFU1RfYXJjaGl0ZWN0dXJlX2FyY2hpdGVjdHVyZXMgImFybTY0IiBDQUNIRSBJTlRFUk5BTCAiIikKc2V0KFRFU1Rfc3ViYXJjaF9yZXN1bHQgImN4MTY7bmVvbjtjcmMzMjtjcnlwdG8iIENBQ0hFIElOVEVSTkFMICIiKQpzZXQoVEVTVF9hcmNoX2FybTY0X2FiaSAiYXJtNjQtbGl0dGxlX2VuZGlhbi1scDY0IiBDQUNIRSBJTlRFUk5BTCAiIikKc2V0KFRFU1RfYXJjaF9hcm02NF9zdWJhcmNoX2N4MTYgIjEiIENBQ0hFIElOVEVSTkFMICIiKQpzZXQoVEVTVF9hcmNoX2FybTY0X3N1YmFyY2hfbmVvbiAiMSIgQ0FDSEUgSU5URVJOQUwgIiIpCnNldChURVNUX2FyY2hfYXJtNjRfc3ViYXJjaF9jcmMzMiAiMSIgQ0FDSEUgSU5URVJOQUwgIiIpCnNldChURVNUX2FyY2hfYXJtNjRfc3ViYXJjaF9jcnlwdG8gIjEiIENBQ0hFIElOVEVSTkFMICIiKQpzZXQoVEVTVF9idWlsZEFiaSAiIiBDQUNIRSBJTlRFUk5BTCAiIikKc2V0KFRFU1RfbGRfdmVyc2lvbl9zY3JpcHQgIk9GRiIgQ0FDSEUgSU5URVJOQUwgIiIpCnNldChURVNUX2xkX3ZlcnNpb25fc2NyaXB0ICJPRkYiIENBQ0hFIElOVEVSTkFMICIiKQoKIyBVc2VkIGJ5IHF0X2ludGVybmFsX3NldF9jbWFrZV9idWlsZF90eXBlLgpzZXQoX19xdF9pbnRlcm5hbF9pbml0aWFsX3F0X2NtYWtlX2J1aWxkX3R5cGUgIlJlbGVhc2UiKQpzZXQoQlVJTERfV0lUSF9QQ0ggIk9OIiBDQUNIRSBTVFJJTkcgIiIpCnNldChRVF9JU19NQUNPU19VTklWRVJTQUwgIk9GRiIgQ0FDSEUgQk9PTCAiIikKc2V0KFFUX1FQQV9ERUZBVUxUX1BMQVRGT1JNICJjb2NvYSIgQ0FDSEUgU1RSSU5HICIiKQpzZXQoUVRfUVBBX1BMQVRGT1JNUyAiY29jb2EiIENBQ0hFIFNUUklORyAiIikKc2V0KENNQUtFX0lOU1RBTExfUlBBVEggIi9wcml2YXRlL3RtcC9mcmVlY2FkLTRmYS1wYWNrYWdlLXY1LjI2MkxHMi9vdXRwdXQvYmxkL3JhdHRsZXItYnVpbGRfcXQ2LW1haW5fMTc5MTYxNDY2OC9ob3N0X2Vudl9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbGRfcGxhY2Vob2xkX3BsYWNlaG9sZF9wbGFjZWhvbC9saWIiIENBQ0hFIFNUUklORyAiIikKCmlmKE5PVCBRVF9TS0lQX0JVSUxEX0lOVEVSTkFMU19QS0dfQ09ORklHX0ZFQVRVUkUpCiAgICBzZXQoRkVBVFVSRV9wa2dfY29uZmlnICJPRkYiIENBQ0hFIEJPT0wgIlVzaW5nIHBrZy1jb25maWciIEZPUkNFKQplbmRpZigpCgpzZXQoSU5TVEFMTF9CSU5ESVIgImxpYi9xdDYvYmluIiBDQUNIRSBTVFJJTkcgIkV4ZWN1dGFibGVzIFtQUkVGSVgvYmluXSIgRk9SQ0UpCnNldChJTlNUQUxMX0lOQ0xVREVESVIgImluY2x1ZGUvcXQ2IiBDQUNIRSBTVFJJTkcgIkhlYWRlciBmaWxlcyBbUFJFRklYL2luY2x1ZGVdIiBGT1JDRSkKc2V0KElOU1RBTExfTElCRElSICJsaWIiIENBQ0hFIFNUUklORyAiTGlicmFyaWVzIFtQUkVGSVgvbGliXSIgRk9SQ0UpCnNldChJTlNUQUxMX01LU1BFQ1NESVIgImxpYi9xdDYvbWtzcGVjcyIgQ0FDSEUgU1RSSU5HICJNa3NwZWNzIGZpbGVzIFtQUkVGSVgvbWtzcGVjc10iIEZPUkNFKQpzZXQoSU5TVEFMTF9BUkNIREFUQURJUiAibGliL3F0NiIgQ0FDSEUgU1RSSU5HICJBcmNoLWRlcGVuZGVudCBkYXRhIFtQUkVGSVhdIiBGT1JDRSkKc2V0KElOU1RBTExfUExVR0lOU0RJUiAibGliL3F0Ni9wbHVnaW5zIiBDQUNIRSBTVFJJTkcgIlBsdWdpbnMgW0FSQ0hEQVRBRElSL3BsdWdpbnNdIiBGT1JDRSkKc2V0KElOU1RBTExfTElCRVhFQ0RJUiAibGliL3F0NiIgQ0FDSEUgU1RSSU5HICJIZWxwZXIgcHJvZ3JhbXMgW0FSQ0hEQVRBRElSL2JpbiBvbiBXaW5kb3dzLCBBUkNIREFUQURJUi9saWJleGVjIG90aGVyd2lzZV0iIEZPUkNFKQpzZXQoSU5TVEFMTF9RTUxESVIgImxpYi9xdDYvcW1sIiBDQUNIRSBTVFJJTkcgIlFNTCBpbXBvcnRzIFtBUkNIREFUQURJUi9xbWxdIiBGT1JDRSkKc2V0KElOU1RBTExfREFUQURJUiAic2hhcmUvcXQ2IiBDQUNIRSBTVFJJTkcgIkFyY2gtaW5kZXBlbmRlbnQgZGF0YSBbUFJFRklYXSIgRk9SQ0UpCnNldChJTlNUQUxMX0RPQ0RJUiAic2hhcmUvZG9jL3F0NiIgQ0FDSEUgU1RSSU5HICJEb2N1bWVudGF0aW9uIFtEQVRBRElSL2RvY10iIEZPUkNFKQpzZXQoSU5TVEFMTF9UUkFOU0xBVElPTlNESVIgInNoYXJlL3F0Ni90cmFuc2xhdGlvbnMiIENBQ0hFIFNUUklORyAiVHJhbnNsYXRpb25zIFtEQVRBRElSL3RyYW5zbGF0aW9uc10iIEZPUkNFKQpzZXQoSU5TVEFMTF9TWVNDT05GRElSICIvTGlicmFyeS9QcmVmZXJlbmNlcy9RdCIgQ0FDSEUgU1RSSU5HICJTZXR0aW5ncyB1c2VkIGJ5IFF0IHByb2dyYW1zIFtQUkVGSVgvZXRjL3hkZ10vWy9MaWJyYXJ5L1ByZWZlcmVuY2VzL1F0XSIgRk9SQ0UpCnNldChJTlNUQUxMX0VYQU1QTEVTRElSICJzaGFyZS9kb2MvcXQ2L2V4YW1wbGVzIiBDQUNIRSBTVFJJTkcgIkV4YW1wbGVzIFtQUkVGSVgvZXhhbXBsZXNdIiBGT1JDRSkKc2V0KElOU1RBTExfVEVTVFNESVIgInRlc3RzIiBDQUNIRSBTVFJJTkcgIlRlc3RzIFtQUkVGSVgvdGVzdHNdIiBGT1JDRSkKc2V0KElOU1RBTExfREVTQ1JJUFRJT05TRElSICJsaWIvcXQ2L21vZHVsZXMiIENBQ0hFIFNUUklORyAiTW9kdWxlIGRlc2NyaXB0aW9uIGZpbGVzIGRpcmVjdG9yeSIgRk9SQ0UpCnNldChJTlNUQUxMX1NCT01ESVIgImxpYi9xdDYvc2JvbSIgQ0FDSEUgU1RSSU5HICJTQk9NIFtQUkVGSVgvc2JvbV0iIEZPUkNFKQpzZXQoSU5TVEFMTF9DTUFLRURJUiAibGliL2NtYWtlIiBDQUNIRSBTVFJJTkcgIkNNYWtlIGZpbGVzIFtQUkVGSVgvbGliL2NtYWtlXSIgRk9SQ0UpCnNldChJTlNUQUxMX1BVQkxJQ0JJTkRJUiAiYmluIiBDQUNIRSBTVFJJTkcgIlN5bWxpbmtlZCB1c2VyLWZhY2luZyBleGVjdXRhYmxlcyIgRk9SQ0UpCgpzZXQoUVRfQ09QWVJJR0hUICJDb3B5cmlnaHQgKEMpIFRoZSBRdCBDb21wYW55IEx0ZC4gYW5kIG90aGVyIGNvbnRyaWJ1dG9ycy4iIENBQ0hFIFNUUklORyAiIikKCgppZihOT1QgUVRfU1VQUE9SVEVEX01JTl9JT1NfU0RLX1ZFUlNJT04pCiAgICBzZXQoUVRfU1VQUE9SVEVEX01JTl9JT1NfU0RLX1ZFUlNJT04gIjE3IikKZW5kaWYoKQoKaWYoTk9UIFFUX1NVUFBPUlRFRF9NQVhfSU9TX1NES19WRVJTSU9OKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NQVhfSU9TX1NES19WRVJTSU9OICIyNiIpCmVuZGlmKCkKCmlmKE5PVCBRVF9TVVBQT1JURURfTUlOX0lPU19YQ09ERV9WRVJTSU9OKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NSU5fSU9TX1hDT0RFX1ZFUlNJT04gIjE1IikKZW5kaWYoKQoKaWYoTk9UIFFUX1NVUFBPUlRFRF9NSU5fSU9TX1ZFUlNJT04pCiAgICBzZXQoUVRfU1VQUE9SVEVEX01JTl9JT1NfVkVSU0lPTiAiMTciKQplbmRpZigpCgppZihOT1QgUVRfU1VQUE9SVEVEX01BWF9JT1NfVkVSU0lPTl9URVNURUQpCiAgICBzZXQoUVRfU1VQUE9SVEVEX01BWF9JT1NfVkVSU0lPTl9URVNURUQgIjI2IikKZW5kaWYoKQoKaWYoTk9UIFFUX1NVUFBPUlRFRF9NSU5fVklTSU9OT1NfU0RLX1ZFUlNJT04pCiAgICBzZXQoUVRfU1VQUE9SVEVEX01JTl9WSVNJT05PU19TREtfVkVSU0lPTiAiMiIpCmVuZGlmKCkKCmlmKE5PVCBRVF9TVVBQT1JURURfTUFYX1ZJU0lPTk9TX1NES19WRVJTSU9OKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NQVhfVklTSU9OT1NfU0RLX1ZFUlNJT04gIjIiKQplbmRpZigpCgppZihOT1QgUVRfU1VQUE9SVEVEX01JTl9WSVNJT05PU19YQ09ERV9WRVJTSU9OKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NSU5fVklTSU9OT1NfWENPREVfVkVSU0lPTiAiMTUiKQplbmRpZigpCgppZihOT1QgUVRfU1VQUE9SVEVEX01JTl9WSVNJT05PU19WRVJTSU9OKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NSU5fVklTSU9OT1NfVkVSU0lPTiAiMiIpCmVuZGlmKCkKCmlmKE5PVCBRVF9TVVBQT1JURURfTUFYX1ZJU0lPTk9TX1ZFUlNJT05fVEVTVEVEKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NQVhfVklTSU9OT1NfVkVSU0lPTl9URVNURUQgIjIiKQplbmRpZigpCgppZihOT1QgUVRfU1VQUE9SVEVEX01JTl9NQUNPU19TREtfVkVSU0lPTikKICAgIHNldChRVF9TVVBQT1JURURfTUlOX01BQ09TX1NES19WRVJTSU9OICIxNCIpCmVuZGlmKCkKCmlmKE5PVCBRVF9TVVBQT1JURURfTUFYX01BQ09TX1NES19WRVJTSU9OKQogICAgc2V0KFFUX1NVUFBPUlRFRF9NQVhfTUFDT1NfU0RLX1ZFUlNJT04gIjI2IikKZW5kaWYoKQoKaWYoTk9UIFFUX1NVUFBPUlRFRF9NSU5fTUFDT1NfWENPREVfVkVSU0lPTikKICAgIHNldChRVF9TVVBQT1JURURfTUlOX01BQ09TX1hDT0RFX1ZFUlNJT04gIjE1IikKZW5kaWYoKQoKaWYoTk9UIFFUX1NVUFBPUlRFRF9NSU5fTUFDT1NfVkVSU0lPTikKICAgIHNldChRVF9TVVBQT1JURURfTUlOX01BQ09TX1ZFUlNJT04gIjEzIikKZW5kaWYoKQoKaWYoTk9UIFFUX1NVUFBPUlRFRF9NQVhfTUFDT1NfVkVSU0lPTl9URVNURUQpCiAgICBzZXQoUVRfU1VQUE9SVEVEX01BWF9NQUNPU19WRVJTSU9OX1RFU1RFRCAiMjYiKQplbmRpZigpCgo="
+            },
+            "lib/libQt6Concurrent.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "ab11b575f8b2c95bae01a2a7f43d563226c1bb18bfb965d878f2248b1c4753ca",
+              "size": 57024
+            },
+            "lib/libQt6Core.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "e8fee0573df6b285e99b05db733799f9e7a806ac4c21707b6f9e580854be4da0",
+              "size": 6924768
+            },
+            "lib/libQt6Core5Compat.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "7b1e664c5486788d6f2fb513b07d5fe535260f192e796bae72452ec51c91a87b",
+              "size": 424736
+            },
+            "lib/libQt6DBus.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "51d85a33b785c06b6f3abae4eb4bf9c561579266ef171915566e909419516702",
+              "size": 1075152
+            },
+            "lib/libQt6Designer.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "fb72e8c19dea96155556782c9f04a2e5c87c9068537ec59b214f5526d8cb2339",
+              "size": 5888112
+            },
+            "lib/libQt6DesignerComponents.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "6a842b7cbd0f2ab5b4a3aed6b70eed3365d2289efbdad0c3479ed207fcf0175d",
+              "size": 3849936
+            },
+            "lib/libQt6Gui.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "7f03f38040cd4b484355ab9b356eadfe90996e396b761191995779b03b98f3af",
+              "size": 10026688
+            },
+            "lib/libQt6Help.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "3a39abc548954330a37368ab5fad9c92e81625c9f591e41a09e3c325a149c8e8",
+              "size": 694848
+            },
+            "lib/libQt6LabsAnimation.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "1c946e9b349aff0125f9814b8cb5aa59c8088faa8a999bf2bd86981b9239d356",
+              "size": 87472
+            },
+            "lib/libQt6LabsFolderListModel.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "4da847383d15962e8bf8126790b86c0ac8b13e79b336235b033ace419fbd1d86",
+              "size": 175088
+            },
+            "lib/libQt6LabsPlatform.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "e51eff3407b71379b41ca1614a31f0585878ab9094d54956db8a94be55f188e4",
+              "size": 470032
+            },
+            "lib/libQt6LabsQmlModels.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "7b875945ed94fbfe53b8e50ec7cebb38e44aaeab235a01bfa84411ca06796691",
+              "size": 267120
+            },
+            "lib/libQt6LabsSettings.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "061b546a3cff4b57eb7ccd33655510c736139bd9ac8ef3c603b03932fc9ec5a9",
+              "size": 86384
+            },
+            "lib/libQt6LabsSharedImage.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "676e99f24abc36f6615bd91b2d1d97b36649683e73103b5de3a70540994df874",
+              "size": 90592
+            },
+            "lib/libQt6LabsStyleKit.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "341f42d54073eea2d92b25eddbd70185f040adf0c09c1b358050344b95fbb706",
+              "size": 2703456
+            },
+            "lib/libQt6LabsStyleKitImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "da3b2f0aeb9f769ac91b14bf4cea3a60bdcddfb103ffca4d94436cddc888f65d",
+              "size": 506720
+            },
+            "lib/libQt6LabsSynchronizer.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "cce5d2ab2ed52a82dfb1d122161e4359db27997357cd358ff153668b84e26812",
+              "size": 87296
+            },
+            "lib/libQt6LabsWavefrontMesh.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "c99a9310e40642f15c9feaf24f53c64cf84da9ca41cdcf20e5693dfd1edeac3e",
+              "size": 84624
+            },
+            "lib/libQt6Network.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "109f3031766693ca01e5ebf880e0d440cff52a3020ef9caa52fcdec1c4872413",
+              "size": 2174176
+            },
+            "lib/libQt6OpenGL.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "e2e6cdf965aff83da5bbb969ee706420d12225dfd545c2ec00f457c8aae3ad6e",
+              "size": 682992
+            },
+            "lib/libQt6OpenGLWidgets.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "9e402a24a3ad762b7e782216bd5cdc6a0fbe26baa2081a535e2cc66423ae49c5",
+              "size": 96496
+            },
+            "lib/libQt6PrintSupport.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "1738090e4812c3441344dce9c6ab33ae073b98ddcc9ad53f5bbae6a873a51f81",
+              "size": 538848
+            },
+            "lib/libQt6Qml.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "7189ecac7a5747b6aa618774ad402cb80d33ac43f6970778f75c5986245e050c",
+              "size": 6638688
+            },
+            "lib/libQt6QmlCompiler.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "406e6040ded1db768dd9faf3062bc1a0524401805b4851305b1e10f64ddb6439",
+              "size": 2512496
+            },
+            "lib/libQt6QmlCore.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "465805729bb5f928a8bb31e54fcd1b45444e6c55a116952d865cfe19fd7aa7b2",
+              "size": 213488
+            },
+            "lib/libQt6QmlLocalStorage.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "9149d3a431ede9bb688210ffaf1e35633798f093558e911af0699ba7ea0a9267",
+              "size": 91728
+            },
+            "lib/libQt6QmlMeta.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "d034b79f5570b8e768255e05de56706c473863bad02171b5cb22dc6f2b3cd37a",
+              "size": 209424
+            },
+            "lib/libQt6QmlModels.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "5315600ab0f2553570e0b3ba172afd15d36ac2009db072b9cd6ce8d172fe39ba",
+              "size": 1338592
+            },
+            "lib/libQt6QmlNetwork.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "fb7451c77fa83964d4a34e96b9e4ab6fa641dccfc3d4a124d7f3d2c7d9e46c18",
+              "size": 252720
+            },
+            "lib/libQt6QmlWorkerScript.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "dbbe5ee20063e7052f94b444e40e9be2a36b29ea0902d764210d682ea721e625",
+              "size": 121120
+            },
+            "lib/libQt6QmlXmlListModel.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "37e2a3100ef0504bea2323406d694e74eefa7b8ffea0119f9be803a5dffa91bd",
+              "size": 184768
+            },
+            "lib/libQt6Quick.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "fbd98701d4826ee1e411857ae0f83a18c4a87cd5d1e6389d50402f341a539d62",
+              "size": 8084512
+            },
+            "lib/libQt6QuickControls2.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "a795b01cf35ac90526567f7a6b4efc3f298862d3cef40dd5381859cfd18df23d",
+              "size": 150400
+            },
+            "lib/libQt6QuickControls2Basic.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "cdf96f89f4de1dba1e4b3d2b2cc6c6bcec355d71a76fc82b9b186465dc051f14",
+              "size": 3518848
+            },
+            "lib/libQt6QuickControls2BasicStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "f99c3508b3fb9179609b0adafba08f84354b1919c19416ae5d11412667fb23ac",
+              "size": 143920
+            },
+            "lib/libQt6QuickControls2FluentWinUI3StyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "6d3ce99ccff516f8de0c4ff1e761cd834793f871ca2227cc6d2de2b3fdbe85d7",
+              "size": 386896
+            },
+            "lib/libQt6QuickControls2Fusion.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "33ece94384a57ac9c3fbfa9923e2f3584fa29d5963102f4e2e1948f435497da8",
+              "size": 2850160
+            },
+            "lib/libQt6QuickControls2FusionStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "c5ddadb57b2d5472b0ec9480ec676ffeb91e542a9a330e154d55463ae665a179",
+              "size": 305184
+            },
+            "lib/libQt6QuickControls2IOSStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "e88b011ee032aeb3f4358b0d6d8b5471efcb3a8b951b378f87c36a30a1f64260",
+              "size": 151984
+            },
+            "lib/libQt6QuickControls2Imagine.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "d3acbcb5236ec0275ba2776140b9ecb650176ffae1b9de087be205fdcb54bb44",
+              "size": 4305696
+            },
+            "lib/libQt6QuickControls2ImagineStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "798a3b81f380ebbbde2c51a6c9cafe01a23d16c08a6d54981e6fc85839111572",
+              "size": 126304
+            },
+            "lib/libQt6QuickControls2Impl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "80570f5582a577d73bab2d7d2c8fc2d33a77eb5f84e90d0555ec55553e9fb7f7",
+              "size": 462576
+            },
+            "lib/libQt6QuickControls2MacOSStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "ca92b2edd7f15d956aaf3765fe33bad7bf44c9464eb41783b2a57aafc2c33c0b",
+              "size": 295792
+            },
+            "lib/libQt6QuickControls2Material.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "1416d0ab98182fbd262fa14dbbb7b34ada10e2aa7001205c055c8089201ae508",
+              "size": 3643152
+            },
+            "lib/libQt6QuickControls2MaterialStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "f0ee4e7d9aed8f6765de309e0b2c30a174d91ddd74704e5473919d05aed249bc",
+              "size": 563648
+            },
+            "lib/libQt6QuickControls2Universal.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "a90f38c93fbf2bf3e3c60dd87d499aa984c988bd34b37783a7af63fa269b2e10",
+              "size": 3015712
+            },
+            "lib/libQt6QuickControls2UniversalStyleImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "46424a4619e3e73cf8e4e2cfa3adf01983cd4ea18efc71f46552bd03582f0bb9",
+              "size": 231248
+            },
+            "lib/libQt6QuickDialogs2.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "53375309342ef12f924f15385fc7aff1ae3c961e66564047ef8167b18dff8777",
+              "size": 236960
+            },
+            "lib/libQt6QuickDialogs2QuickImpl.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "ad987f4a0df3f500031fa7694f9b320b41ed0c755d8b1786c498bdf5c8c9c7ce",
+              "size": 5152304
+            },
+            "lib/libQt6QuickDialogs2Utils.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "ed727c1985f40654829e69e9c910e5bd80668e38781837ee5c66c7aa677b1a0d",
+              "size": 75408
+            },
+            "lib/libQt6QuickEffects.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "868b261de0da8abb1535a0dceca1b4c32c1f0a731d6beb2ea16f0af0a0628114",
+              "size": 403776
+            },
+            "lib/libQt6QuickLayouts.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "3610350b03ecfd249527a560b56cc1aa44eddfc2cb9cd51e654e1919419ed1c9",
+              "size": 419680
+            },
+            "lib/libQt6QuickParticles.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "08926d0fac04d1cd8d922f27ab7fae50e2f0f5447eae347a983b328df1b6d45a",
+              "size": 722704
+            },
+            "lib/libQt6QuickShapes.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "c489590715717237b9428419a8814d556c769667f85ae7a6023149d12f83c354",
+              "size": 445600
+            },
+            "lib/libQt6QuickShapesDesignHelpers.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "fc807ffaef7e19a2adcdfad8fc44e5f5d946e6f30d39bfa7ceaeff8cb5c41329",
+              "size": 253776
+            },
+            "lib/libQt6QuickTemplates2.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "69aed55534bb7239e5153816d442f0597136c20f910b90b0e96d4b0d2c3e9c2d",
+              "size": 2692256
+            },
+            "lib/libQt6QuickTest.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "04c27fe601b9bae40dbd819fdf368644bad9aac2f6e7a1696ac2b34f68f26fe2",
+              "size": 378128
+            },
+            "lib/libQt6QuickVectorImage.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "d737845b831eae60d43525ba5d6189f3b2eb2cdd05f5d72f024031c007abe2d2",
+              "size": 123296
+            },
+            "lib/libQt6QuickVectorImageGenerator.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "78bd5523cc50dd1e24e0379fff0b34bba547b31656855eb154f5a11e39250946",
+              "size": 328352
+            },
+            "lib/libQt6QuickVectorImageHelpers.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "f66b096534531cea40063160f4548f9bd4de7f18d259ba0eb7d47cfe48c8e7ed",
+              "size": 198480
+            },
+            "lib/libQt6QuickWidgets.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "ca0a1d2be04f6059012d5974ca61606a16d0dd04aaead82101d191a9526e7d1e",
+              "size": 176240
+            },
+            "lib/libQt6ShaderTools.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "49f63be7127414797860af60a0794e888ce874895d3c9fe2fc524c9caa47c86b",
+              "size": 5957328
+            },
+            "lib/libQt6Sql.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "c7a2b02e0d42c0a0da5d9db76a517a3e40171beda3b6af08d33022359092cf8c",
+              "size": 338560
+            },
+            "lib/libQt6Svg.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "148345358efbe4627f2e7314f6e3d93353aed40f283b13be9ad32bcae7f548bd",
+              "size": 641232
+            },
+            "lib/libQt6SvgWidgets.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "b4c6ca1c852bc91e1d464417bddc89effcd9cf8cd6904b8166d7920749bef388",
+              "size": 94640
+            },
+            "lib/libQt6Test.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "8a49af32e08a37a7f3c7acce66b5305d7671e0447b30c57831444dc61955a3da",
+              "size": 499104
+            },
+            "lib/libQt6UiTools.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "b808ff3bf320cd625571155ab420e9be1837f947f16595f5950984b23d1f2830",
+              "size": 677392
+            },
+            "lib/libQt6WebChannel.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "fdf586a0342b409fe774e45e7b93cc81ecb7e74403e2fbf1e777f4ceabd8c67a",
+              "size": 313072
+            },
+            "lib/libQt6WebChannelQuick.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "0965e46f10185802c7ebccb9b8517ba614e6b73424eedd763dc362c58d8dd970",
+              "size": 88112
+            },
+            "lib/libQt6WebSockets.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "8c6adb5d1efbe26d2213f8a32d31710c729067d88e3a245f6ae1a92a782af005",
+              "size": 285552
+            },
+            "lib/libQt6Widgets.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "1b56338f8c6fea3d4f1d003096149f4fe6df9772a5b07508ae08bbbad55a6782",
+              "size": 7531216
+            },
+            "lib/libQt6Xml.6.11.2.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qt.library",
+              "sha256": "8b2ebac2aeb8b2a257bae4777a6c7818957d2adea3cc8e51ece8013d8cdb1c4c",
+              "size": 209552
+            },
+            "lib/qt6/plugins/platforms/libqcocoa.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qpa.cocoa",
+              "sha256": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704",
+              "size": 1195728
+            },
+            "lib/qt6/plugins/platforms/libqminimal.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qpa.minimal",
+              "sha256": "31a2fd9ef8a7e8ff48bf7122ac49bd47226c93f8fa1385c2f37d6516aad2c5fd",
+              "size": 74800
+            },
+            "lib/qt6/plugins/platforms/libqoffscreen.dylib": {
+              "package": "qt6-main",
+              "path_type": "hardlink",
+              "role": "qpa.offscreen",
+              "sha256": "a1e47c35f546d4a604d8165dd1a588717a5da2594b8453a0443ddc4843a800d6",
+              "size": 156192
+            }
+          },
+          "verification_sources": {
+            "baseline_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+            "installed_metadata": {
+              "pyside6": {
+                "path": ".pixi/envs/default/conda-meta/pyside6-6.11.2-py313h78a5af2_1.json",
+                "sha256": "db78295e671b015cbd3c2cdc264a780d2fd56d40c733c3cb2f62deb5b3af6a15"
+              },
+              "python": {
+                "path": ".pixi/envs/default/conda-meta/python-3.13.15-hb59dee6_103_cp313.json",
+                "sha256": "f7584f61c8e8650a55952412909d48537d6412b6ac973485abdbf1a4a5a9342d"
+              },
+              "qt6-main": {
+                "path": ".pixi/envs/default/conda-meta/qt6-main-6.11.2-pl5321h12ef06d_2.json",
+                "sha256": "e391fb2a2371746aafb29a6dc8b00d5442e1878d61d46b1d7209b73821ed81cd"
+              }
+            },
+            "original_index_license": "LGPL-3.0-only",
+            "original_index_sha256": "dbaa2b5dcd4856664a2a8665d12c3f178ebab25e699038646d94bc9e7aeb3497",
+            "original_paths_count": 10906,
+            "original_paths_sha256": "67d36fd0b9dd0428afeb18fc0a3c58a62ae9796e2818422f2c0949dcb333a725",
+            "qt_package_sha256": "a40e858a4e9d66aad8d0688dc61f7bb89aec03201a269dfadf3ab2d2b8fb3a57",
+            "recipe_sha256": "61894f764b01196dd35403028ec89ecd32846d1debd6a8329a19f5d384c60127",
+            "rendered_recipe_sha256": "901e36105afabfab23c74482a8328d4ef1b4728dab488d23b00eb0d96e1662de"
+          }
+        }
+      },
       "verification_files": {
         "PySide6/libpyside6.cpython-313-darwin.6.11.dylib": {
           "package": "pyside6",

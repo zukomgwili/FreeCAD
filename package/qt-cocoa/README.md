@@ -48,22 +48,25 @@ and re-expansion without manually deleting Qt interfaces. The existing
 file-dialog regression now checks the `fileSelected` signal at acceptance;
 after hiding, a separate `selectedFiles()` query can return the view directory.
 
-The delivery is an **app-local arm64 Cocoa plugin overlay** for the existing
-FreeCAD 27.1.0dev installation. FreeCAD native binaries, locked Qt Core/Gui
-libraries, the Pixi prefix and the earlier PDF package catalogue are preserved.
-The application still requires its recorded external dependency prefix. The
-overlay has a separate build receipt, installation receipt and runtime evidence;
-it does not pass through the original verifier's prefix-only QPA load rule.
-Promotion into a dependency package or an accepted Qt release is tracked by
-`FreeCAD-4fa`.
+The original delivery was an **app-local arm64 Cocoa plugin overlay** for the
+existing FreeCAD 27.1.0dev installation. Its build, installation and runtime
+evidence remain historical. The current repository Pixi lock instead selects
+the explicit build-2 Qt dependency package. The package's finite-file and Cocoa
+loader proof is admitted through the
+[Qt PDF delivery catalogue](../qt-pdf/distribution.json), while the recorded
+host-local installation still requires its external dependency prefix. This
+does not rewrite the historical build-1 PDF qualification as a build-2
+distribution qualification. The guarded overlay replacement path still accepts
+only its exact historical build-1 identity or the current exact build-2 identity;
+new Cocoa builds use build 2.
 
 ## Derived dependency package
 
 The accepted Qt changes remain unmerged, so `package/qt-pdf/build_backport.py`
 can prepare an explicit `osx-arm64` build-2 candidate containing both the
 existing PDF patch and the feedstock-form
-`qt-everywhere-native-cell-lifecycle.patch`. This never changes the locked
-build-1 prefix or the app-local overlay:
+`qt-everywhere-native-cell-lifecycle.patch`. This does not alter the historical
+build-1 package evidence or the app-local overlay:
 
 ```sh
 python3 package/qt-pdf/build_backport.py --prepare \
@@ -74,15 +77,16 @@ python3 package/qt-pdf/build_backport.py --prepare \
 
 Build the same work directory with `--build` and the identical options. The
 provenance record binds the exact feedstock, both patches, the Cocoa Gerrit
-origins and the resulting build number. A candidate must still be installed in
-an isolated prefix and pass the focused Cocoa regression and existing macOS PDF
-qualification before it can replace the overlay or be added to a delivery
-catalogue.
+origins and the resulting build number. The released arm64 build-2 package is
+catalogued only after exact package/source identity, 499 critical-file checks
+and a focused Cocoa runtime proof. Those delivery checks do not repeat or
+replace the historical macOS PDF qualification; a broader future distribution
+claim needs its own qualification evidence.
 
 ## Build
 
 The builder requires native macOS arm64, the exact authenticated Qt 6.11.2
-archive/source tree, the reviewed `qt6-main-6.11.2-pl5321h5ab96b3_1` prefix and
+archive/source tree, the reviewed `qt6-main-6.11.2-pl5321h12ef06d_2` prefix and
 its pinned Vulkan/MoltenVK header inputs. Archive URLs and SHA-256 identities are
 in `build_plugin.py`. The header tree is copied into the isolated work directory;
 the selected prefix is verified read-only before and after compilation.

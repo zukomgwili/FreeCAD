@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: LGPL-2.1-or-later
-"""Build an isolated macOS arm64 Cocoa overlay for reviewed Qt 6.11.2 build 1.
+"""Build an isolated macOS arm64 Cocoa overlay for reviewed Qt 6.11.2 build 2.
 
 The official Qt archive authenticates the copied source. Its upstream copyright,
 SPDX notices and LICENSES are retained. --ownership-fix selects exactly one
@@ -100,9 +100,9 @@ DEPENDENCY_ARCHIVES = {
         "8e489cff52952e7599b8bc20fbe4530a97780224aad882be7d16b1ade8511fb2",
 }
 QT_IDENTITY = {
-    "name": "qt6-main", "version": QT_VERSION, "build": "pl5321h5ab96b3_1",
-    "build_number": 1, "subdir": "osx-arm64",
-    "sha256": "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99",
+    "name": "qt6-main", "version": QT_VERSION, "build": "pl5321h12ef06d_2",
+    "build_number": 2, "subdir": "osx-arm64",
+    "sha256": "a40e858a4e9d66aad8d0688dc61f7bb89aec03201a269dfadf3ab2d2b8fb3a57",
 }
 
 

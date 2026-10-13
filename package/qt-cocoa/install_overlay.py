@@ -55,6 +55,14 @@ LEGACY_BUILDER = {
     "sha256": "d9ddefd03e86f55229b8e33705269a57389e6a845043bfcd4c90a96275f8f335",
     "size": 22571,
 }
+HISTORICAL_QT_IDENTITY = {
+    "name": "qt6-main",
+    "version": "6.11.2",
+    "build": "pl5321h5ab96b3_1",
+    "build_number": 1,
+    "subdir": "osx-arm64",
+    "sha256": "618519456ca1dbf1d4c7c492222010214f47274aa3c2bb2148452cdc942ccf99",
+}
 
 
 def require(condition, message):
@@ -72,6 +80,11 @@ def load_builder():
     finally:
         sys.dont_write_bytecode = previous
     return module
+
+
+def accepted_existing_overlay_identity(identity, builder):
+    """Accept only the current package or the immutable historic overlay package."""
+    return identity in (builder.QT_IDENTITY, HISTORICAL_QT_IDENTITY)
 
 
 def unique_keys(items):
@@ -231,7 +244,8 @@ def verified_existing_overlay(receipt_path, app, prefix, historical, builder):
     manifest = read_json(manifest_file)
     require(manifest == previous["overlay_manifest"], "Existing overlay manifest content differs")
     require(manifest.get("schema_version") == 1 and manifest.get("kind") == "freecad.qt-cocoa-overlay-delivery"
-            and manifest["qt_version"] == builder.QT_VERSION and manifest["qt_identity"] == builder.QT_IDENTITY
+            and manifest["qt_version"] == builder.QT_VERSION
+            and accepted_existing_overlay_identity(manifest["qt_identity"], builder)
             and manifest["external_prefix"] == str(prefix)
             and manifest["native_source_commit"] == historical["compiled_source_commit"],
             "Existing overlay source/prefix identity differs")

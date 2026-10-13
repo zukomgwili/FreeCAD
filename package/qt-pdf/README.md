@@ -2,7 +2,7 @@
 
 # Reviewed Qt PDF dependencies
 
-The [delivery catalogue](distribution.json) selects the five reviewed Qt 6.11.2
+The [delivery catalogue](distribution.json) retains the five historical Qt 6.11.2
 conda packages and three complete Qt 6.11.1 LibPacks from the
 [versioned dependency release](https://github.com/zukomgwili/FreeCAD/releases/tag/qt-pdf-stroker-2026-10-06).
 The [qualification record](distribution-qualification.json) joins their actual
@@ -10,33 +10,35 @@ build, binary, source and native runtime evidence. Earlier receipts below retain
 their original stage-specific limits; their original `distribution_promoted`
 flags are not rewritten retrospectively.
 
-Run the installation and CMake commands below from the
-[versioned selection tools](https://github.com/zukomgwili/FreeCAD/tree/qt-pdf-delivery-tools-2026-10-06.2).
-Those tools include direct Windows filesystem identity checks and precise Pixi
-relocation metadata support. The dependency release's initial source tag and
-first source/review kit remain historical delivery records. The corrected tools
-are supplied as a separate source/review asset in the same release; binary,
-corresponding-source and original qualification identities stay unchanged.
+The `osx-arm64` entry additionally has an exact
+`cocoa-accessibility-build2` delta for the repository's current Pixi lock:
+`qt6-main 6.11.2 pl5321h12ef06d_2`. It retains that release asset's identity,
+the shared Qt source identity, the PDF and Cocoa patch identities, 78 changed
+critical-file facts, and the host-local Cocoa runtime receipt. It is explicit
+delivery verification, not a retrospective claim that the historical broad PDF
+qualification was repeated for build 2.
 
 | Dependency route | Qt version | Retained qualification per route |
 | --- | --- | --- |
 | linux-64, linux-aarch64, osx-64, osx-arm64, win-64 conda | 6.11.2, build 1 | 66 Qt PDF device pairs, 10 upstream tests, 24 native PDF pairs, 11 GUI tests per runtime |
+| osx-arm64 `cocoa-accessibility-build2` | 6.11.2, build 2 | Exact package/source identity, 499-file verifier and actual Cocoa loader proof; no repeated broad distribution/PDF qualification |
 | LibPack 3.5.3 x64, 3.5.5 x64, 3.5.5 ARM64 | 6.11.1 | The same Qt/upstream/native gates, plus original SDK ownership and preservation evidence |
 
-All binaries are unchanged from the qualified builds. The catalogue records
-whole archive SHA-256, finite critical library hashes, exact Python/PySide
-identities, source identities and corresponding release URLs. The complete
-original build and qualification archives, raw test transcripts, PDFs, retained
-PNG readbacks and independent reviews travel in
+The build-1 binaries and qualification records are unchanged. The build-2
+delta records its own whole-archive SHA-256, finite critical library hashes,
+unchanged Python/PySide identities, source and patch identities, release URL,
+and runtime evidence. The complete original build and qualification archives,
+raw test transcripts, PDFs, retained PNG readbacks and independent reviews travel in
 `qt-pdf-qualification-evidence.tar.zst`; its internal `evidence-index.json`
 authenticates each retained member. Historical failed overall runs remain
 failed; only their independently admitted passed Qt stages are reused.
 
-The [completed delivery record](delivery-verification.json) binds the five active
-Pixi package pins and all eight original qualifications to the public release.
-All five actual locked platform readbacks passed. The actual public macOS ARM
-installation preserved 394 other installed metadata records and passed 499
-critical file checks, 13 loaded library origins and eight CMake imported targets.
+The [completed delivery record](delivery-verification.json) binds the historical
+build-1 Pixi package pins and all eight original qualifications to the public
+release. It remains historical evidence. The current macOS ARM build-2 receipt,
+[macarm-consolidated-installation.json](macarm-consolidated-installation.json),
+records its package identity, actual `libqcocoa.dylib`, focused native checks and
+the retained runtime archive. It does not assert a new broad distribution gate.
 Both x64 SDKs passed fresh installation, cache, CMake and runtime checks in
 [run 37535693525](https://github.com/zukomgwili/FreeCAD/actions/runs/37535693525).
 ARM CMake and runtime passed in the
@@ -53,7 +55,12 @@ source builds can still select unqualified Qt.
 Use the repository's root Pixi manifest and lock. Each platform's `qt6-main`
 dependency uses its exact release asset URL and SHA-256; the other locked package
 identities and membership stay unchanged. `package/bundle` has its own packaging
-tools environment and does not supply the application Qt runtime.
+tools environment and does not supply the application Qt runtime. On Apple
+Silicon, the locked package is the explicit build-2 delta: the verifier selects
+only the build-1 base or that named build-2 identity by all six package identity
+fields, never by a generic build-number exception. Build 2 inherits 421
+unchanged critical-file specifications and replaces the 78 package-owned facts
+that differ.
 
 For a macOS ARM source build, run:
 
@@ -83,6 +90,17 @@ library, or a mixed Python/bindings selection. CMake's offline proof explicitly
 has `runtime_verified=false`; only the loader proof establishes loaded origins.
 Other system Qt installations require their own qualification. Source selection
 is opt-in, so the catalogue does not implicitly qualify an ordinary system build.
+The historical build-1 PDF qualification remains distinct from the build-2
+delivery and Cocoa runtime proof.
+
+The compact-delta selection policy has an adjacent standard-library regression
+test; it verifies every retained build-1 identity, the one exact build-2
+identity, and rejection of altered or ambiguous identities:
+
+```sh
+pixi run python -B -m unittest discover -s package/qt-pdf \
+  -p 'test_verify_delivered_qt.py' -v
+```
 
 ## Complete Windows LibPack installation
 
@@ -152,6 +170,15 @@ input with the retained recipe to rebuild; the already patched source archive
 would otherwise receive the patches twice. The separate Windows Mesa input
 retains its original source URL and SHA in the recipe.
 
+The build-2 delta uses the same upstream Qt source archive
+`6dcfbca271d76a6502741a2c0dc6fc98ef7dd0b7b4cfd0abcebb285a86a26f33`
+and adds the retained Cocoa lifecycle patch
+[`qt-everywhere-native-cell-lifecycle.patch`](../qt-cocoa/qt-everywhere-native-cell-lifecycle.patch)
+(`6d8075c45e3f86cb61c88528c49a78daedb8883f2dcb82d3f576efa21f2a7c52`)
+after the retained PDF patch. Its release has no new corresponding-source
+archive, so the historical build-1 corresponding-source asset is not
+mislabelled as build-2 source.
+
 The three LibPack corresponding-source archives retain the actual patched Qt
 repositories, their Git objects and indices, source notices, the retained patch
 and LibPack build configuration. They cover Qt and those build inputs; they do
@@ -180,6 +207,13 @@ build commands consume `CPU_COUNT` through `--parallel`; their exact upstream
 anchors are asserted and the changes are retained in `build-scripts.diff`.
 Rattler-build forwards `CPU_COUNT` into its strict build environment. This
 sets build concurrency without changing compiler, dependency or Qt feature pins.
+
+For the explicit Apple Silicon build-2 delta, add
+`--cocoa-accessibility native-cell-lifecycle` during both preparation and
+building. That keeps the source and dependency pins, raises only the package
+build number to 2, and appends the retained Cocoa patch after the PDF patch.
+Its delivery verifier/catalogue acceptance and focused runtime receipt do not
+replace the historical PDF qualification record.
 
 Two explicit build variants constrain the historical recipe's bare host
 requirements: `harfbuzz=14.4.0` and `libpng=1.6.58`, matching all five locked

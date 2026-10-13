@@ -70,6 +70,7 @@ jobs:
           assert digest(proof_path) in (
               "9ee33631f645550159d5d3a6206718b7f44c1fca2bec068bf0a356afa6505397",
               "f18d44dc79d0980eb7f4ce739f10b8706bc7c67c65dec1023d8562b709ec75db",
+              "e7a4a5619ee74726e938bb27c9fec6dae325d3f630f6deb434bf38befd686d0d",
           )
           proof = json.loads(proof_path.read_text())
           old = proof["original_receipt"]
