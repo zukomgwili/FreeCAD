@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "issue": "FreeCAD-4zr",
+  "status": "installed-and-verified",
+  "scope": "Host-local Apple Silicon Release rebuild and installation containing the FreeCAD-7qn SVG arc fix",
+  "compiled_source_commit": "d848b966b4ad7729b0a041b6633bb4a50df615cf",
+  "compiled_version": "27.1.0devR49114 +123 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-4zr-20261013-080912.app",
+  "backup_compiled_source_commit": "93340a47b4c1f79b2ac32b704e45e5a21706b72c",
+  "backup_scope": "Full previous app bundle; the external dependency prefix remains shared",
+  "dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "dependency_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+  "dependencies": {
+    "python": "3.13.15",
+    "qt6_main": "6.11.2-pl5321h12ef06d_2",
+    "occt": "8.0.1",
+    "ninja": "1.13.2",
+    "cocoa_plugin": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+    "cocoa_plugin_sha256": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704"
+  },
+  "installed_sha256": {
+    "MacOS_FreeCAD": "ceea35c241a9ed1732efba48b9017e015c4a526aaab6ac0a761b856cf571cfcd",
+    "MacOS_FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+    "libFreeCADBase": "feda5ffb7755b6ae27a1bafbb3ba2ec44d76c190ac3d5ee0f3d470011f18ec7f",
+    "Draft_svgshapes": "2b89cbcc0d7cee8e4c56a9f2d27b7f4217fe30906582cabd77548f3e4e10d726",
+    "Info_plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+    "LOCAL_INSTALL": "e128f7bd6589c1677c37d3a90204feb643468ddd7790ed45c7ffb6d4381ee22f"
+  },
+  "validation": {
+    "release_reconfigure_exit_code": 0,
+    "release_build_exit_code": 0,
+    "cmake_install_exit_code": 0,
+    "staged_deep_strict_signature_verified": true,
+    "installed_deep_strict_signature_verified": true,
+    "quicklook_entitlements_preserved": true,
+    "installed_version_commit_verified": true,
+    "installed_draft_source_matches_repository": true,
+    "installed_draft_tests_run": 90,
+    "installed_draft_tests_passed": 90,
+    "installed_freecad_7qn_arc_centre_error": 2.4116620165382783e-13,
+    "installed_cocoa_gui_startup_passed": true,
+    "installed_cocoa_gui_window_visible": true,
+    "installed_loaded_cocoa_plugin_verified": true,
+    "resources_readonly": true,
+    "installed_python_bytecode_files": 0,
+    "rollback_bundle_verified": true
+  },
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "distribution_qualification_claimed": false,
+    "full_test_suite_run": false,
+    "clean_gui_shutdown_claimed": false,
+    "clean_gui_shutdown_followup": "FreeCAD-jrt",
+    "gui_smoke_scope": "Startup, visible Cocoa window, compiled commit, resource path and loaded plugin; controlled process exit avoids the independently tracked shutdown defect"
+  }
+}
