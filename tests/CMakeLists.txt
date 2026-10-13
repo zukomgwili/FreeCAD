@@ -10,6 +10,16 @@ include_directories(
 
 set(CMAKE_AUTOMOC ON)
 
+if(APPLE)
+    add_test(NAME ModernQuickLookInstallRouting
+        COMMAND ${CMAKE_COMMAND}
+            "-DFREECAD_SOURCE_DIR=${CMAKE_SOURCE_DIR}"
+            "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}/ModernQuickLookInstallRouting"
+            -P "${CMAKE_CURRENT_SOURCE_DIR}/ModernQuickLookInstall.cmake")
+    set_tests_properties(ModernQuickLookInstallRouting PROPERTIES
+        LABELS "Packaging;MacAppBundle" TIMEOUT 30)
+endif()
+
 function(setup_qt_test)
     foreach(_testname ${ARGN})
         add_executable(${_testname}_Tests_run ${_testname}.cpp)
