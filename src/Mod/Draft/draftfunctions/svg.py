@@ -404,6 +404,10 @@ def get_svg(
 
     Paramaeters
     -----------
+    obj: App::DocumentObject or Part.Shape
+        A document object or a raw Part shape. Raw shapes have no layer or
+        view-provider styles; they use default or explicitly supplied styles.
+
     scale: float, optional
         It defaults to 1.
         It allows scaling line widths down, so they are resolution-independent.
@@ -1232,6 +1236,9 @@ def _get_view_object(obj):
 
 def get_print_color(obj):
     """Return the print color of the parent layer, if available."""
+    # Raw Part shapes have no owning document and cannot belong to a layer.
+    if getattr(obj, "Document", None) is None:
+        return None
     # Layers are not in the Inlist of obj because a layer's Group is App::PropertyLinkListHidden:
     lyr = layer.get_layer(obj)
     if lyr is None:

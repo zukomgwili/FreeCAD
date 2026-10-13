@@ -47,6 +47,7 @@ import Draft
 import Part
 import TechDraw
 import WorkingPlane
+import draftfunctions.svg as svgfunctions
 import draftfunctions.svgshapes as svgshapes
 import draftfunctions.svgtext as svgtext
 import importSVG
@@ -326,6 +327,120 @@ class DraftSVGTextExportRegression(test_base.DraftTestCaseDoc):
 
 class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
     """Regression tests for SVG export edge cases."""
+
+    @staticmethod
+    def _raw_shapes():
+        edge = Part.makeLine(App.Vector(), App.Vector(10, 0, 0))
+        wire = Part.makePolygon(
+            [
+                App.Vector(),
+                App.Vector(10, 0, 0),
+                App.Vector(10, 7, 0),
+                App.Vector(0, 7, 0),
+                App.Vector(),
+            ]
+        )
+        return edge, wire, Part.Face(wire), Part.makeBox(10, 7, 3)
+
+    @staticmethod
+    def _raw_svg_paths(svg):
+        root = ET.fromstring('<svg xmlns="http://www.w3.org/2000/svg">' + svg + "</svg>")
+        return root.findall(".//{http://www.w3.org/2000/svg}path")
+
+    def test_raw_shapes_have_no_layer_print_color(self):
+        """Detached shapes cannot acquire style metadata from an active document."""
+        with mock.patch.object(svgfunctions.layer, "get_layer", return_value=None) as get_layer:
+            for shape in self._raw_shapes():
+                with self.subTest(shape=shape.ShapeType):
+                    self.assertFalse(hasattr(shape, "Document"))
+                    self.assertIsNone(svgfunctions.get_print_color(shape))
+            self.assertIsNone(svgfunctions.get_print_color(mock.Mock(Document=None)))
+            get_layer.assert_not_called()
+
+    def test_raw_shape_svg_default_styles(self):
+        """Raw edges, wires, faces and solids export in GUI and command mode."""
+        for shape, override, techdraw in itertools.product(
+            self._raw_shapes(), (False, True), (False, True)
+        ):
+            original = shape.exportBrepToString()
+            with self.subTest(shape=shape.ShapeType, override=override, techdraw=techdraw):
+                svg = Draft.get_svg(
+                    shape, direction=App.Vector(1, 2, 3), override=override, techdraw=techdraw
+                )
+                paths = self._raw_svg_paths(svg)
+                self.assertTrue(paths)
+                for path in paths:
+                    self.assertEqual(path.get("stroke"), "#000000")
+                    self.assertEqual(path.get("stroke-width"), "0.35px")
+                    self.assertIn("stroke-dasharray:none", path.get("style"))
+                self.assertEqual(shape.exportBrepToString(), original)
+
+    def test_raw_shape_svg_override_styles(self):
+        """Explicit raw-shape colors, fills and scaled line styles stay intact."""
+        for shape, override, techdraw in itertools.product(
+            self._raw_shapes(), (False, True), (False, True)
+        ):
+            original = shape.exportBrepToString()
+            with self.subTest(shape=shape.ShapeType, override=override, techdraw=techdraw):
+                svg = Draft.get_svg(
+                    shape,
+                    scale=0.5,
+                    linewidth=0.75,
+                    direction=App.Vector(1, 2, 3),
+                    color="#123456",
+                    fillstyle="#ABCDEF",
+                    linestyle="0.20, 0.40",
+                    override=override,
+                    techdraw=techdraw,
+                )
+                paths = self._raw_svg_paths(svg)
+                self.assertTrue(paths)
+                for path in paths:
+                    self.assertEqual(path.get("stroke"), "#123456" if override else "#000000")
+                    self.assertEqual(path.get("stroke-width"), "1.5px")
+                    self.assertIn("fill:#ABCDEF", path.get("style"))
+                    self.assertIn(
+                        "stroke-dasharray:" + ("0.4,0.8" if override else "none"), path.get("style")
+                    )
+                self.assertEqual(shape.exportBrepToString(), original)
+
+    @unittest.skipUnless(App.GuiUp, "Layer print colors require native view providers")
+    def test_document_layer_print_color_and_raw_shape_fallback(self):
+        """Document-owned print colors still work, but bare shapes cannot inherit them."""
+        obj = self._add_shape("LayeredEdge", self._raw_shapes()[0])
+        layer = Draft.make_layer(line_color=(0.0, 1.0, 0.0), line_width=2)
+        layer.Group = [obj]
+        layer.ViewObject.LinePrintColor = (1.0, 0.0, 0.0)
+        layer.ViewObject.UsePrintColor = True
+        self.doc.recompute()
+        self.assertEqual(svgfunctions.get_print_color(obj), layer.ViewObject.LinePrintColor)
+        paths = self._raw_svg_paths(Draft.get_svg(obj, override=False))
+        self.assertTrue(paths)
+        self.assertEqual([path.get("stroke") for path in paths], ["#ff0000"] * len(paths))
+
+        raw = obj.Shape
+        self.assertIsNone(svgfunctions.get_print_color(raw))
+        paths = self._raw_svg_paths(Draft.get_svg(raw, override=False))
+        self.assertTrue(paths)
+        self.assertTrue(all(path.get("stroke") == "#000000" for path in paths))
+
+        layer.ViewObject.UsePrintColor = False
+        self.assertIsNone(svgfunctions.get_print_color(obj))
+        paths = self._raw_svg_paths(Draft.get_svg(obj, override=False))
+        self.assertTrue(paths)
+        self.assertTrue(all(path.get("stroke") == "#00ff00" for path in paths))
+        self.assertTrue(all(path.get("stroke-width") == "0.7px" for path in paths))
+
+        layer.ViewObject.UsePrintColor = True
+        paths = self._raw_svg_paths(Draft.get_svg(obj, color="#123456", override=True))
+        self.assertTrue(paths)
+        self.assertTrue(all(path.get("stroke") == "#123456" for path in paths))
+        unlayered = self._add_shape("UnlayeredEdge", raw)
+        unlayered.ViewObject.LineColor = (0.0, 0.0, 1.0)
+        self.assertIsNone(svgfunctions.get_print_color(unlayered))
+        paths = self._raw_svg_paths(Draft.get_svg(unlayered, override=False))
+        self.assertTrue(paths)
+        self.assertTrue(all(path.get("stroke") == "#0000ff" for path in paths))
 
     @staticmethod
     def _make_face_with_circular_island():
