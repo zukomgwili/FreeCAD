@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-14",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "compiled_source_commit": "abf385efed76ff4d6ee02f25242e69e8c4e6a183",
+  "version": "27.1.0dev49114+139",
+  "validator": "all_embedding",
+  "platform": "macOS arm64",
+  "conclusion": "Installed non-GUI embedding, namespace fallback, Draft/BIM/TopoShape suites and offscreen progress-controller checks passed. All checked native FreeCAD images came from the installed application, not the source build.",
+  "execution_scope": {
+    "builds_run": false,
+    "native_cocoa_windows_created": false,
+    "installed_sources_or_binaries_modified": false,
+    "original_building_files_opened_or_changed": false,
+    "fresh_configuration_and_fixture_root": "/private/tmp/freecad-installed-cli.nSlsxP",
+    "application_home_resolved": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+    "python_runtime_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "packaging_limitation": "This local installation uses the repository Pixi dependencies. The shared embedding host and native progress bridge are noninstalled test tools; no new public Python launcher is implied."
+  },
+  "embedding_runtime_regression": {
+    "issue": "FreeCAD-nbg",
+    "command": ".pixi/envs/default/bin/python3.13 tests/src/App/EmbeddingRuntime.py --host /Users/zukomgwili/src/FreeCAD/build/release/tests/FreeCAD_EmbeddingHost --module-dir /Applications/FreeCAD-27.1.0.app/Contents/Resources/lib --freecadcmd /Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd -v",
+    "exit_code": 0,
+    "tests_run": 3,
+    "failures": 0,
+    "seconds": 0.390,
+    "cases": [
+      "Configured static Python interpreter imports or safely rejects the runtime mismatch",
+      "Matching shared Python host imports and creates/recomputes/closes a document",
+      "Existing installed FreeCADCmd executes a disposable Python script"
+    ],
+    "log": "/private/tmp/freecad-installed-cli.nSlsxP/embedding-runtime.log"
+  },
+  "exact_installed_static_rejection": {
+    "host": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/python3.13",
+    "host_linkage": "otool -L shows libSystem only: statically embedded Python",
+    "module_origin": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/FreeCAD.so",
+    "module_python_linkage": "@rpath/libpython3.13.dylib",
+    "exception_type": "ImportError",
+    "message": "FreeCAD is linked to a different Python runtime from this interpreter. Use the matching shared Python runtime or run the script with FreeCADCmd.",
+    "catching_probe_exit_code": 0,
+    "signal_or_crash": false,
+    "freecad_not_left_in_sys_modules": true,
+    "no_user_data_or_temp_initialization_directories": true,
+    "log": "/private/tmp/freecad-installed-cli.nSlsxP/static-rejection.log"
+  },
+  "installed_shared_host_origins": {
+    "host": "/Users/zukomgwili/src/FreeCAD/build/release/tests/FreeCAD_EmbeddingHost",
+    "host_linkage": "@rpath/libpython3.13.dylib with source Pixi lib LC_RPATH, plus libSystem",
+    "probe": "/private/tmp/freecad-installed-cli.nSlsxP/installed_origin_probe.py direct",
+    "pythonpath": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib",
+    "exit_code": 0,
+    "app_and_gui_import_spec_origins_asserted_before_import": true,
+    "compiled_version_hash_asserted": true,
+    "installed_home_asserted": true,
+    "document_created_recomputed_and_closed": true,
+    "loaded_native_images": [
+      "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/FreeCAD.so",
+      "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADApp.dylib",
+      "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/FreeCADGui.so",
+      "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADGui.dylib"
+    ],
+    "log": "/private/tmp/freecad-installed-cli.nSlsxP/shared-origin-final.log"
+  },
+  "namespace_fallback": {
+    "probe": "/private/tmp/freecad-installed-cli.nSlsxP/installed_origin_probe.py namespace",
+    "unset_environment_variables": ["PYTHONPATH", "PATH_TO_FREECAD_LIBDIR"],
+    "freecad_extension_not_initially_discoverable": true,
+    "namespace_module": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/site-packages/freecad/__init__.py",
+    "fallback_message": "PATH_TO_FREECAD_LIBDIR not specified, using default FreeCAD version in /Applications/FreeCAD-27.1.0.app/Contents/Resources/lib",
+    "namespace_app_identity_matches_imported_freecad": true,
+    "installed_app_and_gui_native_images_asserted": true,
+    "installed_home_and_compiled_version_hash_asserted": true,
+    "document_created_recomputed_and_closed": true,
+    "exit_code": 0,
+    "log": "/private/tmp/freecad-installed-cli.nSlsxP/namespace-origin-final.log"
+  },
+  "installed_cli_suites": {
+    "executable": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "command_pattern": "env -u PYTHONPATH -u PATH_TO_FREECAD_LIBDIR FREECAD_USER_HOME=<fresh-home> FREECAD_USER_DATA=<fresh-data> FREECAD_USER_TEMP=<fresh-temp> <executable> -u <fresh-user.cfg> -s <fresh-system.cfg> -t <suite>",
+    "total_tests_run": 497,
+    "unexpected_failures_or_errors": 0,
+    "suites": [
+      {
+        "suite": "TestDraft",
+        "tests_run": 112,
+        "skipped": 5,
+        "seconds": 0.393,
+        "exit_code": 0,
+        "result": "OK (skipped=5)",
+        "skip_reasons": "Native view providers, BIM/GUI label views, and Draft label rendering are unavailable in this non-GUI suite.",
+        "log": "/private/tmp/freecad-installed-cli.nSlsxP/Draft-suite.log"
+      },
+      {
+        "suite": "TestArch",
+        "tests_run": 323,
+        "expected_failures": 1,
+        "seconds": 21.566,
+        "exit_code": 0,
+        "result": "OK (expected failures=1)",
+        "expected_failure": "bimtests.TestArchStructure.TestArchStructure.test_placeAlongEdge_tilted_beam_cross_section_stays_upright",
+        "intentional_traceback": "testArchViewRendererErrorPreservesSymbol intentionally injects Arch renderer failure, records the diagnostic, and passes. It is not an unexpected test error.",
+        "log": "/private/tmp/freecad-installed-cli.nSlsxP/BIM-suite.log"
+      },
+      {
+        "suite": "parttests.TopoShapeTest",
+        "tests_run": 62,
+        "seconds": 0.502,
+        "exit_code": 0,
+        "result": "OK",
+        "log": "/private/tmp/freecad-installed-cli.nSlsxP/TopoShape-suite.log"
+      }
+    ]
+  },
+  "installed_offscreen_progress": {
+    "issue": "FreeCAD-qv9",
+    "command": "env -u PYTHONPATH -u PATH_TO_FREECAD_LIBDIR QT_QPA_PLATFORM=offscreen <fresh-user-data-environment> /Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd --safe-mode -P /Users/zukomgwili/src/FreeCAD/build/release/tests/GuiNative -u <fresh-user.cfg> -s <fresh-system.cfg> /private/tmp/freecad-installed-cli.nSlsxP/installed_progress_probe.py",
+    "exit_code": 0,
+    "installed_home_and_version_hash_asserted": true,
+    "installed_main_and_gui_loaded_before_test_bridge": true,
+    "only_installed_gui_native_images_loaded": true,
+    "test_bridge": "Noninstalled _ProgressBarTestSupport; does not add an installed API",
+    "worker_check_abort_cursor": "CrossCursor",
+    "markers_exactly_once": [
+      "FREECAD_SHORT_PROGRESS_CURSOR_DEFERRED",
+      "FREECAD_LONG_NESTED_PROGRESS_CURSOR_RESTORED",
+      "FREECAD_PROGRESS_SUCCESSOR_TIMER_RETAINED",
+      "FREECAD_PROGRESS_WORKER_COMPLETION_RETAINED",
+      "FREECAD_PROGRESS_WORKER_CURSOR_RETAINED",
+      "FREECAD_PROGRESS_ABORTED_SHORT",
+      "FREECAD_PROGRESS_ABORTED_LONG",
+      "FREECAD_SHORT_PROGRESS_CANCELLATION_RETAINED",
+      "FREECAD_PROGRESS_EVENT_DELIVERY_RETAINED",
+      "FREECAD_PROGRESS_HOST_CURSOR_RESTORED"
+    ],
+    "log": "/private/tmp/freecad-installed-cli.nSlsxP/progress-offscreen.log",
+    "limitation": "Offscreen GUI controller coverage does not replace the earlier native Cocoa performance measurements or root-owned native save-dialog qualification."
+  },
+  "fixture_corrections": [
+    "Initial origin probes stored helpers in __main__ and encountered NameError because FreeCAD initialization updates that namespace. Keeping all probe state in a local function yielded clean direct/namespace exits and complete origin assertions. This was a disposable harness artifact, not an installed-application failure."
+  ]
+}

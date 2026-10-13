@@ -195,6 +195,7 @@ if(BUILD_GUI)
             -s "${CMAKE_CURRENT_BINARY_DIR}/notification-box-system.cfg"
             -t NotificationBoxShutdownTest)
     set_tests_properties(NotificationBoxNativeShutdown PROPERTIES LABELS "NativeGui"
+        RESOURCE_LOCK FreeCADNativeGui
         TIMEOUT 30
         PASS_REGULAR_EXPRESSION "NATIVE_NOTIFICATION_DESTROYED_WITH_APPLICATION"
         FAIL_REGULAR_EXPRESSION "FAILED;FAIL:;ERROR:")

@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "status": "installed-and-verified",
+  "date": "2026-10-14",
+  "scope": "Complete the eight originally open beads, two discovered release-blocking issues, and the host-local Release build and installation.",
+  "issues": [
+    "FreeCAD-253", "FreeCAD-uha", "FreeCAD-nbg", "FreeCAD-hsp",
+    "FreeCAD-qv9", "FreeCAD-quq", "FreeCAD-pa9", "FreeCAD-o76",
+    "FreeCAD-bxg", "FreeCAD-298"
+  ],
+  "core_fix_commit": "6be332d16db6289b8954a527ba2c5828c81050d6",
+  "compiled_source_commit": "abf385efed76ff4d6ee02f25242e69e8c4e6a183",
+  "compiled_version": "27.1.0dev49114+139 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-open-beads-20261014-002800.app",
+  "backup_compiled_source_commit": "d848b966b4ad7729b0a041b6633bb4a50df615cf",
+  "backup_namespace_support": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-Python-namespace-before-open-beads-20261014-002800",
+  "backup_scope": "Full previous application bundle; external dependency libraries remain shared. Saved original QuickLook payloads restored before the final staging attempt; original bundle seal verified.",
+  "dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "dependency_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+  "dependencies": {
+    "python": "3.13.15",
+    "qt": "6.11.2-pl5321h12ef06d_2",
+    "occt": "8.0.1",
+    "cocoa_plugin_sha256": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704",
+    "dependency_versions_and_lock_unchanged": true,
+    "namespace_support_files_updated": 11,
+    "namespace_fallback": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib"
+  },
+  "build_and_install": {
+    "build_type": "Release",
+    "architecture": "arm64",
+    "full_enabled_target_build": true,
+    "clean_from_scratch_claimed": false,
+    "configure_exit_code": 0,
+    "build_exit_code": 0,
+    "install_exit_code": 0,
+    "configured_install_prefix": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+    "staged_install_prefix": "/private/tmp/freecad-all-stage.W5bKxL/FreeCAD-27.1.0.app/Contents/Resources",
+    "relative_rpath": true,
+    "final_staging_left_original_app_hashes_unchanged": true,
+    "source_installer_log_sha256": "f928e190113dbfb7e83451c770c084d453d02feb99abdc381b373ae8b74345a9",
+    "test_harness_after_build": "The two native GUI CTests now share FreeCADNativeGui resource locking after a concurrent startup hit the shared IPC lock. Only test registration changed after the compiled source commit; no application implementation or binary was changed.",
+    "generated_python_cache_policy": "Generated cache files were moved out of the staged bundle to disposable diagnostic storage; the final signed Resources tree is read-only and contains no pyc files."
+  },
+  "full_ctest": {
+    "command": "ctest --test-dir build/release --parallel 4 --output-on-failure",
+    "registered": 2224,
+    "executed_including_skips": 2216,
+    "passed": 2214,
+    "skipped": 2,
+    "disabled": 8,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 62.04,
+    "log_sha256": "ff5d9c98d28d0a91269586e8219fc001c639af4b9d1fa8062a9d9ce539baa7e3",
+    "initial_parallel_run_limitation": "PagePrinterNative stopped before its test body on an IPC lock collision with the simultaneous native notification process. It passed in isolation; the complete rerun passed after test serialization. This is not recorded as a printing or production-IPC fix."
+  },
+  "installed_validation_records": [
+    "package/local-completion/installed-cli-validation.json",
+    "package/local-completion/installed-native-validation.json"
+  ],
+  "installed_native_save": {
+    "command": "Stock TechDraw_ExportPagePDF in the installed native Cocoa GUI",
+    "fixture": "Disposable Pa9_IsolatedDialogProbe SVG-template A3 page and intended-owner annotation; no user building documents",
+    "owner_focus_transition": "Owned 500ms single-shot Qt timer raises and activates the parent main window during each native dialog",
+    "native_sheet_and_focused_filename_observed": true,
+    "actual_typed_filename_and_save_button_succeeded": true,
+    "actual_cancel_button_succeeded": true,
+    "actual_escape_key_succeeded": true,
+    "owner_raise_callbacks_confirmed": 3,
+    "responsive_python_console_after_each_dialog": true,
+    "pdf_bytes": 20215,
+    "pdf_pages": 1,
+    "pdf_size_points": [1191, 842],
+    "pdf_text": "PA9 INTENDED PAGE - DISPOSABLE DIAGNOSTIC",
+    "pdf_sha256": "b8a30688db8ead93a044d4de42032af9bdb79afc133b6795f5f963cce7f2c7e5",
+    "cancel_and_escape_preserved_pdf_hash": true,
+    "poppler_text_and_visual_render_verified": true,
+    "only_disposable_document_closed": true,
+    "owned_timer_stopped_disconnected_and_deleted": true,
+    "original_workbench_restored": true,
+    "normal_ui_quit_process_gone_and_no_new_crash_report": true,
+    "controlled_mechanism_not_exclusive_historical_cause": true
+  },
+  "signing_and_runtime": {
+    "signing": "Ad-hoc host-local signing, not notarization",
+    "staged_deep_strict_signature_verified": true,
+    "installed_deep_strict_signature_verified": true,
+    "rollback_deep_strict_signature_verified": true,
+    "quicklook_entitlements_preserved": [
+      "com.apple.security.app-sandbox",
+      "com.apple.security.files.bookmarks.app-scope",
+      "com.apple.security.files.downloads.read-only",
+      "com.apple.security.files.user-selected.read-only"
+    ],
+    "resources_readonly": true,
+    "installed_python_bytecode_files": 0,
+    "installed_gui_commit_and_home_verified": true,
+    "loaded_gui_library": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADGui.dylib",
+    "loaded_part_library": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+    "loaded_cocoa_plugin": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib"
+  },
+  "installed_sha256": {
+    "MacOS_FreeCAD": "d685c729ca14a76376455692ddab3827b37d41ef928b54cbb409f29af699652d",
+    "MacOS_FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+    "libFreeCADGui": "343c1949d2c4c68a0127a73e0cd64cd73a62cddc2f6598507d7f539b8bd423c6",
+    "FreeCAD_module": "cd753be2568187d36ef4490a66dff564d47afcab552805778269959481c6fbf0",
+    "Part_module": "cbbe8e94a65e27f3d3e85e771f2d1a44f62a677fe00f9444f800e3e919546c13",
+    "Info_plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+    "LOCAL_INSTALL": "92e2acce51c695623373490435642dbcc94b479de640eb4588adb54f26fe56ef"
+  },
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "distribution_qualification_claimed": false,
+    "original_building_package_acceptance_claimed": false,
+    "historical_performance_run_replayed": false,
+    "full_parametric_page_support_claimed": false,
+    "native_print_dialog_acceptance_claimed": false,
+    "optional_runtime_warning": "The unchanged dependency environment has no ifcopenshell package; CMake reports optional IFC runtime support unavailable. No new dependency provisioning or IFC end-to-end qualification is implied."
+  }
+}

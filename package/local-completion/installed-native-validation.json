@@ -1,0 +1,127 @@
+{
+  "record_type": "installed_native_validation_evidence",
+  "date": "2026-10-14",
+  "conclusion": "All 26 requested native GUI tests passed against the installed application, with successful managed process exits and runtime proof that production core and TechDraw images came from the installed bundle.",
+  "application": {
+    "executable": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "executable_sha256": "d685c729ca14a76376455692ddab3827b37d41ef928b54cbb409f29af699652d",
+    "AppHomePath": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/",
+    "resource_directory": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/share/",
+    "version": [
+      "27", "1", "0", "49114 +139 (Git)", "Unknown",
+      "2026/10/13 23:32:53", "codex/fix-toroidal-self-cut",
+      "abf385efed76ff4d6ee02f25242e69e8c4e6a183"
+    ],
+    "revision_hash": "abf385efed76ff4d6ee02f25242e69e8c4e6a183",
+    "platform": "macOS arm64, native Cocoa display"
+  },
+  "runtime_provenance": {
+    "method": "Each disposable test-only wrapper asserts AppHomePath, installed resource-directory containment and exact revision. After importing its test and support modules it enumerates the process's actual dyld images using _dyld_image_count/_dyld_get_image_name, asserts that every matching core/TechDraw image is inside installed Resources, and requires libFreeCADGui, TechDraw and TechDrawGui to be present. It prints an INSTALLED_NATIVE_PRECHECK JSON receipt before the unittest suite runs.",
+    "precheck_passed_in_all_three_runs": true,
+    "source_production_images_observed": false,
+    "observed_images_in_all_three_runs": {
+      "libFreeCADBase.dylib": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADBase.dylib",
+      "libFreeCADApp.dylib": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADApp.dylib",
+      "libFreeCADGui.dylib": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADGui.dylib",
+      "TechDraw.so": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/TechDraw.so",
+      "TechDrawGui.so": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/TechDrawGui.so"
+    },
+    "installed_image_sha256": {
+      "libFreeCADGui.dylib": "343c1949d2c4c68a0127a73e0cd64cd73a62cddc2f6598507d7f539b8bd423c6",
+      "TechDraw.so": "94e08bd360ea09e0a92875ff509ccee42288e7195f607ed8201ee7ab2644b4ed",
+      "TechDrawGui.so": "83f40ce1cbfd278a83dc3f7022b202a1231db83836c18dd3cbb5886a1df168c2"
+    },
+    "precheck_wrapper": "/private/tmp/freecad-installed-native.akjFRM/installed_probe.py",
+    "precheck_wrapper_sha256": "3c4aef5c495e1409c5a237d91a05e2630ec6e082bf6d5773e223f1956ae051f9",
+    "test_only_support_origin": "The two non-installed native seam bridges come from build/release/tests. They are explicitly permitted test instrumentation, not source application/production modules. Their presence does not replace the installed library provenance assertions."
+  },
+  "test_isolation": {
+    "private_directory": "/private/tmp/freecad-installed-native.akjFRM",
+    "fresh_user_and_system_configs_per_suite": true,
+    "native_suites_run_serially": true,
+    "source_gui_executable_run": false,
+    "production_or_installed_files_edited": false,
+    "builds_run": false,
+    "beads_or_commits_mutated": false,
+    "printing_fault_notifications_suppressed": false,
+    "notification_policy_control": "The existing cancelled-close regression temporarily disables ordinary hide-on-deactivation solely to distinguish a rejected-close cleanup from normal popup hiding, then restores stock hide-on-deactivation=true for the actual ordinary-error/shutdown test. Non-intrusive notifications remain enabled."
+  },
+  "suites": [
+    {
+      "name": "NotificationBoxShutdownTest",
+      "wrapper": "InstalledNotificationTests",
+      "command": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD -P /private/tmp/freecad-installed-native.akjFRM -P /Users/zukomgwili/src/FreeCAD/tests/src/Gui -P /Users/zukomgwili/src/FreeCAD/build/release/tests/GuiNative -u /private/tmp/freecad-installed-native.akjFRM/notification-final-user.cfg -s /private/tmp/freecad-installed-native.akjFRM/notification-final-system.cfg -t InstalledNotificationTests",
+      "test_module": "/Users/zukomgwili/src/FreeCAD/tests/src/Gui/NotificationBoxShutdownTest.py",
+      "test_module_sha256": "56cd8a4f59f7a48939db6f7a2a2b38771dbca8412725bf84221056941355c1c3",
+      "test_only_support_module": "/Users/zukomgwili/src/FreeCAD/build/release/tests/GuiNative/_NotificationBoxTestSupport.so",
+      "tests_passed": 2,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "test_seconds": 0.523,
+      "managed_process_exit": 0,
+      "positive_markers": [
+        "NATIVE_NOTIFICATION_CANCELLED_CLOSE_REACHED",
+        "NATIVE_NOTIFICATION_POPUP_REACHED",
+        "NATIVE_NOTIFICATION_DESTROYED_WITH_APPLICATION"
+      ],
+      "coverage": "Actual unsaved-document Cancel preserves the modified disposable document and popup. An ordinary native Console error then creates an actual visible popup with stock hide-on-deactivation=true. Its destruction and successful complete process exit qualify installed shutdown, not just successful test assertions.",
+      "log": "/private/tmp/freecad-installed-native.akjFRM/notification-final.log",
+      "log_sha256": "c51fb22a559d2cd98fb3cf8aa23fd53236dbaa7098f474c371f090c4485a4f00"
+    },
+    {
+      "name": "PagePrinterTest",
+      "wrapper": "InstalledPagePrinterTests",
+      "command": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD -P /private/tmp/freecad-installed-native.akjFRM -P /Users/zukomgwili/src/FreeCAD/tests/src/Mod/TechDraw/Gui -P /Users/zukomgwili/src/FreeCAD/build/release/tests/TechDrawNative -u /private/tmp/freecad-installed-native.akjFRM/printing-user.cfg -s /private/tmp/freecad-installed-native.akjFRM/printing-system.cfg -t InstalledPagePrinterTests",
+      "test_module": "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/TechDraw/Gui/PagePrinterTest.py",
+      "test_module_sha256": "005c980e031c293a850614bae5c38218e54bdeba32bbacc170336e73c2b96530",
+      "test_only_support_module": "/Users/zukomgwili/src/FreeCAD/build/release/tests/TechDrawNative/_PagePrinterTestSupport.so",
+      "tests_passed": 9,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "test_seconds": 5.278,
+      "managed_process_exit": 0,
+      "expected_cleanup_error_diagnostics_emitted": 4,
+      "notification_suppression": false,
+      "coverage": "Actual installed PagePrinter methods: incomplete-batch/no-output/sentinel safety for both devices, empty batch, initialized inactive/tabless compatibility, common graphics-template interface, nested exporting/modified restoration, actual template update failure with ScreenMode/LightOnDark restoration and successful recovery, PDF list preflight and unchanged last-page-only semantics.",
+      "log": "/private/tmp/freecad-installed-native.akjFRM/printing.log",
+      "log_sha256": "41cadc8dfb915e7870673e2e144f14af7d2902476489bef4acd1f2b0238774a4"
+    },
+    {
+      "name": "TestTechDrawGui",
+      "wrapper": "InstalledTechDrawGuiTests",
+      "command": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD -P /private/tmp/freecad-installed-native.akjFRM -u /private/tmp/freecad-installed-native.akjFRM/techdraw-gui-user.cfg -s /private/tmp/freecad-installed-native.akjFRM/techdraw-gui-system.cfg -t InstalledTechDrawGuiTests",
+      "test_module": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/TechDraw/TestTechDrawGui.py",
+      "test_module_sha256": "bace0c15e8849ac3b3cb261b464ff8e5ee456379aa6b7a37657081d9ee692d2a",
+      "installed_test_module_origin_asserted": true,
+      "test_only_support_module": null,
+      "tests_passed": 15,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "test_seconds": 21.592,
+      "managed_process_exit": 0,
+      "coverage": "Installed stock TechDraw GUI suite, including the existing four d0u single-page output/inactive/tabless guards and the ordinary drawing view/dimension/section controls.",
+      "log": "/private/tmp/freecad-installed-native.akjFRM/techdraw-gui.log",
+      "log_sha256": "0b623785b8ea803a82bde005819cdea96ca742b395966ebfb98b0269608ceeaf"
+    }
+  ],
+  "completion_checks": {
+    "total_tests_passed": 26,
+    "managed_processes_exited_zero": 3,
+    "actual_native_popup_observed": true,
+    "installed_shutdown_proved_by_complete_process_exit": true,
+    "installed_gui_processes_remaining_after_runs": 0,
+    "process_inventory_check": "ps -Ao pid,command matched no installed Contents/MacOS/FreeCAD or Contents/Resources/bin/FreeCAD process after all three managed runs."
+  },
+  "fixture_qualification": {
+    "initial_precheck_attempt": "An overly strict assertion that getResourceDir equals AppHomePath rejected the first wrapper before any test body ran. The installed layout correctly stores resources under Resources/share rather than Resources itself.",
+    "correction": "Assert exact installed AppHomePath and installed-Resources containment of getResourceDir, while retaining exact revision and actual native-image checks. The final notification run used new private config filenames, not the rejected attempt's configs.",
+    "excluded_attempt_log": "/private/tmp/freecad-installed-native.akjFRM/notification.log",
+    "excluded_from_pass_counts": true,
+    "important_gate": "A managed exit0 alone is insufficient because pre-test import failure can still exit0. Every final gate requires a successful provenance receipt, the exact expected test count, unittest OK, and process exit0."
+  },
+  "limitations": [
+    "These are automated native installed-app tests, not a new manual print-dialog acceptance or PDF visual inspection. Root separately performed the installed save/cancel/Escape and rendered PDF checks.",
+    "Common-template coverage uses an actual QGIDrawingTemplate scene item on valid SVG-sized page geometry; full unfinished parametric-page sizing remains outside the claim.",
+    "No production sources, installed files, beads, commits or build targets were modified by this validation. Disposable wrappers and raw receipts remain under the private temporary directory; this JSON preserves their measured results and hashes."
+  ]
+}

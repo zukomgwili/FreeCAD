@@ -44,6 +44,7 @@ add_test(NAME PagePrinterNative
         -s "${CMAKE_CURRENT_BINARY_DIR}/page-printer-system.cfg"
         -t PagePrinterTest)
 set_tests_properties(PagePrinterNative PROPERTIES LABELS "NativeGui"
+    RESOURCE_LOCK FreeCADNativeGui
     TIMEOUT 120
     PASS_REGULAR_EXPRESSION "OK"
     FAIL_REGULAR_EXPRESSION "FAILED;FAIL:;ERROR:")
