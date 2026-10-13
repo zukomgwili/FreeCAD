@@ -380,7 +380,12 @@ def check_stock_records(
         return path.resolve() if path_type is Path else path
 
     suite = [record for record in provenance["records"] if "gui_tests" in record]
-    if suite != [{"gui_tests": 11, "failures": 0, "errors": 0}]:
+    if (
+        len(suite) != 1
+        or suite[0]["gui_tests"] < 11
+        or suite[0]["failures"] != 0
+        or suite[0]["errors"] != 0
+    ):
         raise ValueError(f"{side}: full native GUI test suite was not successful")
     area = [
         record["area_value_mm2"] for record in provenance["records"] if "area_value_mm2" in record

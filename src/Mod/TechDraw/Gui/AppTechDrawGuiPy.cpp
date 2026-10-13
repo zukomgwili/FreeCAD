@@ -58,6 +58,8 @@ public:
        );
        add_varargs_method("exportPageAsPdf", &Module::exportPageAsPdf,
             "exportPageAsPdf(DrawPageObject, FilePath) -- print page as Pdf to file."
+            "\nShow the page once to initialize its graphics before exporting."
+            "\nThe page does not need to be active or have an open tab afterward."
         );
         add_varargs_method("exportPageAsSvg", &Module::exportPageAsSvg,
             "exportPageAsSvg(DrawPageObject, FilePath) -- print page as Svg to file."

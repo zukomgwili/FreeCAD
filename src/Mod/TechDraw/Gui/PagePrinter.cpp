@@ -39,6 +39,7 @@
 #include <App/Document.h>
 #include <App/DocumentObject.h>
 #include <Base/Console.h>
+#include <Base/Exception.h>
 #include <Base/Stream.h>
 #include <Base/Tools.h>
 #include <Gui/Application.h>
@@ -376,6 +377,15 @@ void PagePrinter::printPdf(ViewProviderPage* vpPage, const std::string& file)
 {
     if (file.empty()) {
         return;
+    }
+
+    // A fresh page has a scene but no rendered template until it is shown.
+    // Check before QPdfWriter opens/truncates the destination. An initialized
+    // scene remains exportable even when its MDI tab is no longer open.
+    if (!vpPage || !vpPage->getQGSPage() || !vpPage->getQTemplate()) {
+        throw Base::RuntimeError(
+            "Page graphics are not initialized. Show the page before exporting PDF."
+        );
     }
 
     Base::FileInfo fi{file};

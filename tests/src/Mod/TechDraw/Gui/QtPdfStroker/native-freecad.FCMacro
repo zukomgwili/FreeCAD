@@ -508,7 +508,7 @@ try:
     if os.environ.get("TD_NATIVE_RUN_GUI_TESTS", "1") == "1":
         suite = unittest.defaultTestLoader.loadTestsFromName("TestTechDrawGui")
         result = unittest.TextTestRunner(stream=log, verbosity=2).run(suite)
-        assert result.wasSuccessful() and result.testsRun == 11
+        assert result.wasSuccessful() and result.testsRun >= 11
         records.append({"gui_tests": result.testsRun, "failures": 0, "errors": 0})
 
     document = App.newDocument("NativeQtPdfQualification", hidden=True)

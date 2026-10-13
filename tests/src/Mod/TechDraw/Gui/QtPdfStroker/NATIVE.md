@@ -119,7 +119,8 @@ module on both sides and different verified QtGui digests. `runtime.log` also
 retains dyld's library loading trace. No installed Qt binary or user
 configuration is overwritten.
 
-Each phase runs all 11 existing `TestTechDrawGui` tests, creates editable FCStd
+Each phase runs the complete `TestTechDrawGui` suite (at least the 11 original
+tests, including any subsequently added regressions), creates editable FCStd
 documents and exports twelve scenarios through both stock devices, producing
 24 PDFs. The short ASME dash gap must reproduce one invalid close/fill pair and
 one Poppler warning per baseline device. The dimension-frame expectations also

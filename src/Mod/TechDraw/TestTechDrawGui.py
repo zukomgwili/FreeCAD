@@ -22,11 +22,11 @@
 #   USA                                                                   *
 # **************************************************************************
 
-#these tests require QApplication in order to process events while waiting for 
-#threads to complete
+# These tests require QApplication to process events while waiting for
+# threads to complete
 from TDTest.DrawViewSectionTest import DrawViewSectionTest  # noqa: F401
 from TDTest.DrawViewPartTest import DrawViewPartTest  # noqa: F401
 from TDTest.DrawViewDetailTest import DrawViewDetailTest  # noqa: F401
 from TDTest.DrawViewDimensionTest import DrawViewDimensionTest  # noqa: F401
 from TDTest.TechDrawTaskTest import TechDrawTaskTest  # noqa: F401
-
+from TDTest.DrawPageExportTest import DrawPageExportTest  # noqa: F401
