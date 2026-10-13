@@ -29,6 +29,7 @@
 #endif
 
 #ifdef FC_OS_MACOSX
+# include <dlfcn.h>
 # include <mach-o/dyld.h>
 # include <string>
 #endif
@@ -79,6 +80,35 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID /*lpReser
 
 PyMOD_INIT_FUNC(FreeCAD)
 {
+#ifdef FC_OS_MACOSX
+    // Some Python executables statically embed their runtime while FreeCAD
+    // links libpython. macOS two-level binding then directs our Python calls
+    // to a second, uninitialized runtime. Even PySys_GetObject would crash.
+    if (!Py_IsInitialized()) {
+        const char* message
+            = "FreeCAD is linked to a different Python runtime from this interpreter. "
+              "Use the matching shared Python runtime or run the script with FreeCADCmd.";
+
+        // Set the exception in the importing host, not in our uninitialized
+        // runtime. RTLD_DEFAULT searches the main executable before its dylibs.
+        auto setHostError = reinterpret_cast<decltype(&PyErr_SetString)>(
+            dlsym(RTLD_DEFAULT, "PyErr_SetString")
+        );
+        auto hostIsInitialized = reinterpret_cast<decltype(&Py_IsInitialized)>(
+            dlsym(RTLD_DEFAULT, "Py_IsInitialized")
+        );
+        auto hostImportError = static_cast<PyObject**>(dlsym(RTLD_DEFAULT, "PyExc_ImportError"));
+        if (hostIsInitialized && hostIsInitialized() && setHostError && hostImportError
+            && *hostImportError) {
+            setHostError(*hostImportError, message);
+        }
+        else {
+            std::fprintf(stderr, "%s\n", message);
+        }
+        return nullptr;
+    }
+#endif
+
     // Init phase ===========================================================
     App::Application::Config()["ExeName"] = "FreeCAD";
     App::Application::Config()["ExeVendor"] = "FreeCAD";

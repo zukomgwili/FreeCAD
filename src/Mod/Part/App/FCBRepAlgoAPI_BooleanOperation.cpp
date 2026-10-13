@@ -43,6 +43,7 @@
 #include <FuzzyHelper.h>
 #include <SignalException.h>
 #include <Base/Console.h>
+#include <Base/Tools.h>
 
 namespace
 {
@@ -190,9 +191,13 @@ void FCBRepAlgoAPI_BooleanOperation::Build(const Message_ProgressRange& progress
         // cut argument and compound tool
         TopTools_ListOfShape myOriginalArguments = myArguments;
         TopTools_ListOfShape myOriginalTools = myTools;
-        RecursiveCutFusedTools(myOriginalArguments, myOriginalTools.First());
-        myArguments = myOriginalArguments;
-        myTools = myOriginalTools;
+        const auto originalOperation = myOperation;
+        Base::ScopeGuard restoreOperands([&]() {
+            myArguments = myOriginalArguments;
+            myTools = myOriginalTools;
+            myOperation = originalOperation;
+        });
+        RecursiveCutFusedTools(myOriginalArguments, myOriginalTools.First(), progressRange);
     }
     else if (
         myOperation == BOPAlgo_CUT && myArguments.Size() == 1
@@ -200,8 +205,8 @@ void FCBRepAlgoAPI_BooleanOperation::Build(const Message_ProgressRange& progress
     ) {
         // cut compound argument
         TopTools_ListOfShape myOriginalArguments = myArguments;
-        RecursiveCutCompound(myOriginalArguments.First());
-        myArguments = myOriginalArguments;
+        Base::ScopeGuard restoreOperands([&]() { myArguments = myOriginalArguments; });
+        RecursiveCutCompound(myOriginalArguments.First(), progressRange);
     }
     else {
 #if OCC_VERSION_HEX >= 0x070600
@@ -230,12 +235,18 @@ void FCBRepAlgoAPI_BooleanOperation::Build(const Message_ProgressRange& progress
     }
 }
 
-void FCBRepAlgoAPI_BooleanOperation::RecursiveAddTools(const TopoDS_Shape& theTool)
+void FCBRepAlgoAPI_BooleanOperation::RecursiveAddTools(
+    const TopoDS_Shape& theTool,
+    const Message_ProgressRange& progressRange
+)
 {
     TopoDS_Iterator it(theTool);
     for (; it.More(); it.Next()) {
+        if (progressRange.UserBreak()) {
+            throw Standard_ConstructionError("User aborted");
+        }
         if (it.Value().ShapeType() == TopAbs_COMPOUND) {
-            RecursiveAddTools(it.Value());
+            RecursiveAddTools(it.Value(), progressRange);
         }
         else {
             myTools.Append(it.Value());
@@ -245,12 +256,14 @@ void FCBRepAlgoAPI_BooleanOperation::RecursiveAddTools(const TopoDS_Shape& theTo
 
 void FCBRepAlgoAPI_BooleanOperation::RecursiveCutFusedTools(
     const TopTools_ListOfShape& theOriginalArguments,
-    const TopoDS_Shape& theTool
+    const TopoDS_Shape& theTool,
+    const Message_ProgressRange& progressRange
 )
 {
     // get a list of shapes in the tool compound
     myTools.Clear();
-    RecursiveAddTools(theTool);
+    RecursiveAddTools(theTool, progressRange);
+    Message_ProgressScope progress(progressRange, "Compound tool cut", myTools.Size() >= 2 ? 2 : 1);
 
     // if tool consists of two or more shapes, fuse them together
     if (myTools.Size() >= 2) {
@@ -258,7 +271,7 @@ void FCBRepAlgoAPI_BooleanOperation::RecursiveCutFusedTools(
         myArguments.Append(myTools.First());
         myTools.RemoveFirst();
         myOperation = BOPAlgo_FUSE;
-        Build();
+        Build(progress.Next());
 
         // restore original state
         myOperation = BOPAlgo_CUT;
@@ -273,25 +286,34 @@ void FCBRepAlgoAPI_BooleanOperation::RecursiveCutFusedTools(
         // if the original tools didn't all touch, the fused shape will be a compound
         // which we convert into a list of shapes so we don't attempt to fuse them again
         myTools.Clear();
-        RecursiveAddTools(myShape);
+        RecursiveAddTools(myShape, progressRange);
     }
 
     // do the cut
-    Build();
+    Build(progress.Next());
 }
 
-void FCBRepAlgoAPI_BooleanOperation::RecursiveCutCompound(const TopoDS_Shape& theArgument)
+void FCBRepAlgoAPI_BooleanOperation::RecursiveCutCompound(
+    const TopoDS_Shape& theArgument,
+    const Message_ProgressRange& progressRange
+)
 {
     BRep_Builder builder;
     TopoDS_Compound comp;
     builder.MakeCompound(comp);
+
+    int childCount = 0;
+    for (TopoDS_Iterator child(theArgument); child.More(); child.Next()) {
+        ++childCount;
+    }
+    Message_ProgressScope progress(progressRange, "Compound cut", childCount);
 
     // iterate through shapes in argument compound and cut each one with the tool
     TopoDS_Iterator it(theArgument);
     for (; it.More(); it.Next()) {
         myArguments.Clear();
         myArguments.Append(it.Value());
-        Build();
+        Build(progress.Next());
 
         if (!IsDone()) {
             myShape = {};

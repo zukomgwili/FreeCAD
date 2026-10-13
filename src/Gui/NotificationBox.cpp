@@ -418,6 +418,19 @@ bool NotificationBox::isVisible()
     return (NotificationLabel::instance != nullptr && NotificationLabel::instance->isVisible());
 }
 
+void NotificationBox::destroy()
+{
+    // Its normal hide path uses deleteLater. At process shutdown that can leave
+    // a native window pending until Qt's main-thread storage is already gone.
+    // Retire the singleton first, then destroy its widget and timers while the
+    // QApplication and GUI thread are still alive.
+    auto* label = NotificationLabel::instance.release();
+    if (label) {
+        qApp->removeEventFilter(label);
+        delete label;
+    }
+}
+
 QString NotificationBox::text()
 {
     if (NotificationLabel::instance) {

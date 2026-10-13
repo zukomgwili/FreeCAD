@@ -32,6 +32,9 @@ if(NOT _result STREQUAL "0")
 endif()
 
 set(_output "${_stdout}\n${_stderr}")
+if(_output MATCHES "Not detached all observers yet")
+    message(FATAL_ERROR "FreeCADCmd leaked GUI observers during shutdown.\n${_output}")
+endif()
 foreach(
     _marker
     FREECADCMD_GUI_INITIALIZED

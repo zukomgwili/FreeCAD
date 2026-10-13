@@ -132,6 +132,7 @@ private:
     /** @name for internal use only */
     //@{
     void setValue(int step);
+    void ensureWaitCursor();
     /** Throws an exception to stop the pending operation. */
     void abort();
     //@}

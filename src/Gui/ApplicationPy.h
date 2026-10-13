@@ -25,6 +25,8 @@
 
 #include <Base/PyObjectBase.h>
 
+class QWidget;
+
 namespace Gui
 {
 
@@ -123,6 +125,10 @@ public:
     static PyObject* sSetupWithoutGUI          (PyObject *self, PyObject *args);
     static PyObject* sEmbedToWindow            (PyObject *self, PyObject *args);
     // clang-format on
+
+private:
+    static void createLazyApplication(bool guiEnabled);
+    static QWidget* setupMainWindow();
 };
 
 }  // namespace Gui

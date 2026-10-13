@@ -93,6 +93,7 @@
 #include "InputHintPy.h"
 #include "LinkViewPy.h"
 #include "MainWindow.h"
+#include "NotificationBox.h"
 #include "Macro.h"
 #include "FreeCADGuiModulePy.h"
 #include "PreferencePackManager.h"
@@ -515,6 +516,7 @@ void Application::initStyleParameterManager()
 
 // clang-format off
 Application::Application(bool GUIenabled)
+    : pNavlibInterface(nullptr)
 {
     // App::GetApplication().Attach(this);
     if (GUIenabled) {
@@ -2722,6 +2724,7 @@ void Application::shutdown()
 {
     d->isClosing = true;
     App::GetApplication().closeAllDocuments();
+    NotificationBox::destroy();
     QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
 }
 

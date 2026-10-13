@@ -1,0 +1,76 @@
+{
+  "issue": "FreeCAD-hsp",
+  "date": "2026-10-14",
+  "method": "Disposable stock native GUI document and Part.Shape.cut, using an owned QTimer and QtTest ordinary Escape keyclick. An application event filter records actual Escape keypress delivery before the normal progress event filter handles it.",
+  "probe": "/private/tmp/freecad-hsp-gui.Rl1iby/HspEscapeProbe.py",
+  "cancel_fixture": {
+    "boxes": 1200,
+    "box_dimensions_mm": [10, 10, 10],
+    "x_spacing_mm": 20,
+    "compound_depth": 2,
+    "boxes_per_inner_compound": 20,
+    "tool": "Single stock box crossing the upper Y half of every leaf box",
+    "scheduled_escape_after_seconds": 0.1,
+    "asserted_gui_timer_servicing_bound_seconds": 1.0,
+    "asserted_abort_after_delivery_bound_seconds": 2.0
+  },
+  "installed_before_fix": {
+    "application": "FreeCAD-27.1.0.app",
+    "part_module_sha256": "ef260ad07ee7c14eb709e5d2b39c8e2786d5febc19ee8ed1ae42152a6660e111",
+    "gui_timer_callback_after_seconds": 2.474281625,
+    "outcome": "The same test fails the 1-second GUI event-servicing bound.",
+    "noncancelled_geometry_control_passed": true,
+    "log": "/private/tmp/freecad-hsp-gui.Rl1iby/installed-gui.log"
+  },
+  "source_after_fix": {
+    "part_module_sha256": "0aecafca918041a50dfee55bf32c553b565e3760f778184a6e82a92ef449287d",
+    "gui_module_sha256": "b14eec6800ede5ac70d916cbf68c9a666efcaf62fac1bf32a755d9ed537c1862",
+    "integrated_changes": "Recursive boolean progress ranges, explicit OCCT version header enabling native kernel progress, and deferred wait-cursor Escape filter ordering.",
+    "gui_timer_callback_after_seconds": 0.24496662500314415,
+    "recorded_escape_keypresses": 1,
+    "abort_after_delivery_seconds": 0.0030006669694557786,
+    "total_cut_seconds": 0.2482401670422405,
+    "exception": "26Standard_ConstructionError User aborted",
+    "document_object_list_unchanged": true,
+    "document_modified_flag_unchanged": true,
+    "source_shape_brep_sha256_unchanged": true,
+    "native_tests_passed": 2,
+    "native_suite_seconds": 1.702,
+    "log": "/private/tmp/freecad-hsp-gui.Rl1iby/final-native-gui.log"
+  },
+  "preliminary_recursive_range_run": {
+    "part_module_sha256": "7776b1fb0286bf6824f9628196f3e65762a79513697283fd19b88325231bccac",
+    "gui_timer_callback_after_seconds": 0.141088416,
+    "recorded_escape_keypresses": 1,
+    "abort_after_delivery_seconds": 0.004288667,
+    "total_cut_seconds": 0.145831833,
+    "native_tests_passed": 2,
+    "native_suite_seconds": 1.501,
+    "log": "/private/tmp/freecad-hsp-gui.Rl1iby/fixed3-gui.log",
+    "qualification": "This earlier run proves the recursive servicing improvement, not native leaf-kernel progress. Later public C++ tests exposed the missing OCCT version header, corrected and qualified in source_after_fix."
+  },
+  "additional_fixed_source_run": {
+    "gui_timer_callback_after_seconds": 0.137816541,
+    "recorded_escape_keypresses": 1,
+    "abort_after_delivery_seconds": 0.003195625,
+    "total_cut_seconds": 0.141278000,
+    "native_tests_passed": 2,
+    "log": "/private/tmp/freecad-hsp-gui.Rl1iby/source2-gui.log"
+  },
+  "noncancelled_geometry_control": {
+    "boxes": 40,
+    "expected_result": "Independent stock 10x5x10 mm half-boxes at the original positions",
+    "result_valid": true,
+    "result_solid_count": 40,
+    "result_volume_mm3": 20000.00000000007,
+    "both_symmetric_difference_volume_bounds_mm3": 0.000001,
+    "passed_on_installed_and_source_builds": true
+  },
+  "scope": {
+    "original_building_files_opened": false,
+    "original_author_scripts_executed": false,
+    "installed_application_modified": false,
+    "claims": "Progress reaches recursive leaf kernel calls, allowing a delivered ordinary GUI Escape to abort this representative nested stock cut promptly without changing its completed geometry.",
+    "limitations": "This small bounded fixture does not reproduce or prove the exclusive cause of the historical greater-than-five-minute building comparison. No crash, deadlock or accepted building proof is inferred from that historical observation."
+  }
+}

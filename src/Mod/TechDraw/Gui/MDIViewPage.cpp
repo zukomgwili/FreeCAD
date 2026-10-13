@@ -47,6 +47,7 @@
 #include <App/Document.h>
 #include <App/DocumentObject.h>
 #include <Base/Console.h>
+#include <Base/Exception.h>
 #include <Base/Stream.h>
 #include <Base/Tools.h>
 #include <Gui/Application.h>
@@ -465,7 +466,16 @@ void MDIViewPage::print(QPrinter* printer)
         }
     }
 
-    PagePrinter::print(getViewProviderPage(), printer);
+    try {
+        PagePrinter::print(getViewProviderPage(), printer);
+    }
+    catch (const Base::Exception& error) {
+        QMessageBox::warning(
+            this,
+            tr("Printing failed"),
+            tr("The drawing page could not be printed.\n%1").arg(QString::fromUtf8(error.what()))
+        );
+    }
 }
 
 // static routine to print all pages in a document.  Used by PrintAll command in Command.cpp
@@ -878,11 +888,20 @@ void MDIViewPage::printAllPages()
         if (!doc) {
             return;
         }
-        if (printer.outputFileName().isEmpty()) {
-            PagePrinter::printAll(&printer, doc);
+        try {
+            if (printer.outputFileName().isEmpty()) {
+                PagePrinter::printAll(&printer, doc);
+            }
+            else {
+                PagePrinter::printAllPdf(&printer, doc);
+            }
         }
-        else {
-            PagePrinter::printAllPdf(&printer, doc);
+        catch (const Base::Exception& error) {
+            QMessageBox::warning(
+                Gui::getMainWindow(),
+                tr("Printing failed"),
+                tr("The drawing pages could not be printed.\n%1").arg(QString::fromUtf8(error.what()))
+            );
         }
     }
 }

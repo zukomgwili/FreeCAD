@@ -97,6 +97,7 @@
 #include "MenuManager.h"
 #include "ModuleIO.h"
 #include "NotificationArea.h"
+#include "NotificationBox.h"
 #include "OverlayManager.h"
 #include "ProgramInformation.h"
 #include "ProgressBar.h"
@@ -1807,8 +1808,16 @@ void MainWindow::closeEvent(QCloseEvent* e)
         }
 
         if (this->property("QuitOnClosed").isValid()) {
+            // Cocoa can terminate the process from quit() without returning to
+            // Application::runApplication(). Retire native popup windows while
+            // Qt's GUI thread services still exist, not just in its scope guard.
+            NotificationBox::destroy();
+            QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
             QApplication::closeAllWindows();
             qApp->processEvents();  // flush all pending deferredDelete events
+            QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+            // Deferred view cleanup may itself have displayed a notification.
+            NotificationBox::destroy();
             qApp->quit();           // stop the event loop
         }
     }

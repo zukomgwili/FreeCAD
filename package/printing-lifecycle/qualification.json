@@ -1,0 +1,247 @@
+{
+  "record_type": "qualification_evidence",
+  "issues": ["FreeCAD-o76", "FreeCAD-bxg"],
+  "date": "2026-10-14",
+  "purpose": "Durable reproduction, fix and verification evidence; beads remains the sole issue tracker.",
+  "conclusion": "Whole-batch PDF/print graphics preflight protects destinations, common-template printing avoids the invalid SVG downcast, printing guards restore state on qualified faults, and native notification popup destruction now precedes Cocoa termination.",
+  "runtime": {
+    "application": "source FreeCAD 27.1.0dev49114+137",
+    "platform": "macOS 27.0.1 arm64, native Cocoa display",
+    "qt": "6.11.2",
+    "baseline_source_commit": "09175e7ff0d754adf4049b3bdfc796bb42f17e3b",
+    "tested_source": "Integrated working tree before the final integration commit, with root-owned FreeCADGui/FreeCADMain build45123 completed successfully.",
+    "temporary_evidence_directory": "/private/tmp/freecad-o76.aSrbT8",
+    "installed_application_modified_by_this_qualification": false,
+    "building_documents_opened_or_modified": false
+  },
+  "printing_reproduction": {
+    "method": "Native non-installed CPython bridge calls actual production PagePrinter::printAllPdf with QPrinter(PdfFormat), a disposable active GUI document and one recomputed SVG DrawPage never shown.",
+    "graphics_prestate": [["Uninitialized", 0, 0]],
+    "baseline_result": {
+      "process_exit": 139,
+      "existing_destination_bytes_after_failure": 0,
+      "crash_report": "FreeCAD-2026-10-13-231409.ips",
+      "native_crash_frame": "TechDrawGui::PagePrinter::printAllPdf+864",
+      "log": "minimal-batch-red.log"
+    },
+    "separate_export_list_red": {
+      "call": "TechDrawGui.export([initialized_page, fresh_page], destination)",
+      "result": "The first page overwrote an existing sentinel before the second single-page d0u guard rejected uninitialized graphics.",
+      "log": "list-red.log"
+    },
+    "cleanup_red": {
+      "fault": "Exception injected at the actual native preparation/render boundary after template preparation.",
+      "failed_subcases": 3,
+      "observed_states": ["exportingPdf left true", "previously clean GUI document became modified"],
+      "log": "cleanup-red.log"
+    },
+    "template_subtype_red": {
+      "baseline_page_printer_cpp_sha256": "14ac52e71994a88ae3953daa9818904a1469a4b52275e212c8bfe1457215a028",
+      "baseline_page_printer_header_sha256": "930802f60d4ff45f2171175aaea33fe305b698e82fe9137de5cc6cdb5d608c10",
+      "method": "Compile the pinned actual baseline PagePrinter in a disposable native bridge with -fsanitize=undefined,vptr -fno-sanitize-recover=vptr. Substitute a real QGIDrawingTemplate scene item on a valid SVG-sized page.",
+      "process_exit": 134,
+      "diagnostic": "PagePrinter.cpp:456 downcast does not point to QGISVGTemplate; actual object is TechDrawGui::QGIDrawingTemplate.",
+      "log": "subtype-vptr-red.log",
+      "log_sha256": "a176e71f0cfa01b335048e8c930ce4fe314b39d42c8225e30af944007b830d11"
+    },
+    "minimal_original_case_green": {
+      "command": "build/release/bin/FreeCAD -P /private/tmp/freecad-o76.aSrbT8 -u /private/tmp/freecad-o76.aSrbT8/original-batch-final-user.cfg -s /private/tmp/freecad-o76.aSrbT8/original-batch-final-system.cfg -t O76BatchRepro",
+      "result": "Deterministic RuntimeError before writer creation; the existing PRESERVE-EXISTING-OUTPUT sentinel survives unchanged.",
+      "tests_passed": 1,
+      "process_exit": 0,
+      "log": "original-batch-final.log",
+      "log_sha256": "7daa89cabf997e70dcb950c76f5b09e611e34dc8155204e9d2f6f5d2c32c1c68"
+    }
+  },
+  "printing_fix": {
+    "production_sources": [
+      "src/Mod/TechDraw/Gui/PagePrinter.cpp",
+      "src/Mod/TechDraw/Gui/PagePrinter.h",
+      "src/Mod/TechDraw/Gui/AppTechDrawGuiPy.cpp",
+      "src/Mod/TechDraw/Gui/MDIViewPage.cpp"
+    ],
+    "changes": [
+      "Validate every batch page's provider, model, scene and graphics template before starting any painter/PDF writer; an empty document also does not open output.",
+      "Use the existing initialized scene without requiring an open or foreground MDI tab; do not silently initialize fresh pages.",
+      "Preflight PDF export lists before any one-page writer opens their shared destination, retaining successful last-selected-page-only semantics and leaving SVG/DXF behavior unchanged.",
+      "Use QGITemplate's common virtual updateView interface rather than downcasting all scene templates to QGISVGTemplate.",
+      "Own preparation cleanup before template update can fail; restore original exporting and modified state, screen mode and light-on-dark preferences using scope guards.",
+      "Catch qualified print-slot Base exceptions and show the existing translated GUI warning boundary. Preserve cleanup error diagnostics."
+    ],
+    "permanent_test_sources": [
+      "tests/src/Mod/TechDraw/Gui/PagePrinterTest.py",
+      "tests/src/Mod/TechDraw/Gui/PagePrinterTestSupport.cpp",
+      "tests/src/Mod/TechDraw/Gui/CMakeLists.txt"
+    ],
+    "test_bridge_installation": "Test-only MODULE target with no install rule or new public Python API."
+  },
+  "notification_reproduction": {
+    "method": "One ordinary native Base::Console.error, observed as an actual visible NotificationLabel using a metadata-only native bridge without Python widget wrappers. No document, GL fixture or invalid drawing model is required.",
+    "baseline_policy": "HideNonIntrusiveNotificationsWhenWindowDeactivated=true, the stock hide-on-deactivation policy. Non-intrusive notifications enabled; prevent-when-inactive disabled only to reliably observe the native popup in the harness.",
+    "baseline_result": {
+      "process_exit": 139,
+      "log": "notifier9-native-red.log",
+      "native_path": "NotificationLabel destructor -> QWidget/QWindow/QSurface -> QOpenGLContext::currentContext -> QThreadStorageData::get after main-thread storage teardown."
+    },
+    "control": "Changing only hide-on-deactivation=false exits cleanly; this is not a claim that all notification policies fail.",
+    "first_candidate_rejection": {
+      "candidate": "Synchronous NotificationBox::destroy called only from Application::shutdown.",
+      "qt_behavior_tests_passed": 3,
+      "native_process_exit": 139,
+      "log": "notifier-native-ctest-green.log",
+      "crash_report": "FreeCAD-2026-10-14-000552.ips",
+      "qualified_cause": "MainWindow::closeEvent -> QApplication::quit -> QCocoaIntegration::quit -> NSApplication terminate/exit occurs inside runEventLoop, before runApplication's shutdown scope guard unwinds.",
+      "marker_limitation": "QObject.destroyed can fire before native QWidget window destruction; the marker alone passed even on the crashing candidate. A successful complete process exit is required."
+    },
+    "minimal_original_case_green": {
+      "command": "build/release/bin/FreeCAD -P /private/tmp/freecad-o76.aSrbT8 -u /private/tmp/freecad-o76.aSrbT8/original-notification-final-user.cfg -s /private/tmp/freecad-o76.aSrbT8/original-notification-final-system.cfg -t NotificationRawTeardownRepro",
+      "actual_popup_reached": true,
+      "tests_passed": 1,
+      "process_exit": 0,
+      "log": "original-notification-final.log",
+      "log_sha256": "5e0ec41df3a9c9ce4cb1bfa1c37af000ff15a444198b76602d41a35a1cc1ff1f"
+    }
+  },
+  "notification_fix": {
+    "production_sources": [
+      "src/Gui/NotificationBox.cpp",
+      "src/Gui/NotificationBox.h",
+      "src/Gui/Application.cpp: Application::shutdown only",
+      "src/Gui/MainWindow.cpp: accepted QuitOnClosed path only"
+    ],
+    "changes": [
+      "Release the static owner before synchronous widget destruction; remove its application event filter and destroy owned timers while QApplication and GUI-thread services are alive.",
+      "Keep Application::shutdown cleanup for normal/lazy ownership, but also retire native popup/deferred widget deletion in the accepted main-window close before Cocoa can terminate without unwinding the normal guard.",
+      "Drain deferred view cleanup and destroy any popup it creates before final platform quit; rejected or cancelled close does not execute this cleanup.",
+      "Preserve ordinary notification presentation and production error logging; do not suppress expected printing error popups."
+    ],
+    "contract": "GUI-thread-only, pre-Qt-teardown, idempotent and recreatable. No new general race or thread-safety guarantee.",
+    "permanent_test_sources": [
+      "tests/src/Gui/NotificationBoxLifetime.cpp",
+      "tests/src/Gui/NotificationBoxShutdownTest.py",
+      "tests/src/Gui/NotificationBoxTestSupport.cpp",
+      "tests/src/Gui/CMakeLists.txt"
+    ],
+    "test_bridge_installation": "Test-only MODULE target with no install rule or new public Python API."
+  },
+  "final_verification": [
+    {
+      "command": "ctest --test-dir build/release/tests/src/Mod/TechDraw/Gui -R '^PagePrinterNative$' -V",
+      "ctest_entries_passed": 1,
+      "python_tests_passed": 9,
+      "python_test_seconds": 4.950,
+      "process_seconds": 6.56,
+      "process_exit": 0,
+      "expected_cleanup_diagnostics_emitted": 4,
+      "notification_suppression": false,
+      "coverage": "Batch and single-printer missing-graphics no-output/sentinel preservation; empty batch; initialized inactive and tabless printing; actual common graphics-template interface; nested exporting/modified restoration at render boundary; real QGISVGTemplate update error with ScreenMode/LightOnDark restoration and successful recovery; PDF list safety and unchanged last-page semantics.",
+      "log": "page-native-final.log",
+      "log_sha256": "7d562c0fce526702d303c6b3d233f7a0f5225559f05f9d7e0c1b1f8647af2a53"
+    },
+    {
+      "command": "ctest --test-dir build/release/tests/src/Gui -R '^NotificationBoxNativeShutdown$' -V",
+      "ctest_entries_passed": 1,
+      "python_tests_passed": 2,
+      "process_seconds": 2.32,
+      "process_exit": 0,
+      "coverage": "Actual unsaved-document confirmSave Cancel preserves modified disposable document and popup, then an ordinary native error popup with stock hide-on-deactivation reaches destruction and full process exit successfully. The cancellation control transiently disables deactivation hiding solely to distinguish ordinary popup hiding from rejected-close cleanup.",
+      "log": "notifier-native-final.log",
+      "log_sha256": "2e42c2551b858b5ca90fc0914f8c1800676037137667269c173ee024becdb8e5"
+    },
+    {
+      "command": "ctest --test-dir build/release/tests/src/Gui -R '^NotificationBoxLifetime_Tests_run$' -V",
+      "ctest_entries_passed": 1,
+      "qt_semantic_tests_passed": 3,
+      "qt_tests_including_init_cleanup_passed": 5,
+      "process_seconds": 0.54,
+      "process_exit": 0,
+      "coverage": "Synchronous destruction while QApplication lives, idempotent empty destruction, recreation, and stale hide timer cannot retire a new popup. QLabel-only offscreen execution is supported; expected platform raise warnings do not affect the results.",
+      "log": "notifier-lifetime-final.log",
+      "log_sha256": "8c50c0e9e770e117060553401fe3550359cad8535aa4bde9588c0c729556bf1f"
+    },
+    {
+      "command": "build/release/bin/FreeCAD -u /private/tmp/freecad-o76.aSrbT8/td-gui-final-user.cfg -s /private/tmp/freecad-o76.aSrbT8/td-gui-final-system.cfg -t TestTechDrawGui",
+      "tests_passed": 15,
+      "test_seconds": 20.583,
+      "process_exit": 0,
+      "coverage": "Existing stock GUI suite, including all four prior d0u single-page PDF output/inactive/tabless guards.",
+      "log": "td-gui-final.log",
+      "log_sha256": "7a49259257098bffb1ce300c5463ba3cbffa8ca17e10f2f85c4f9665af0153c7"
+    },
+    {
+      "command": "build/release/bin/FreeCADCmd -u /private/tmp/freecad-o76.aSrbT8/td-app-final-user.cfg -s /private/tmp/freecad-o76.aSrbT8/td-app-final-system.cfg -t TestTechDrawApp",
+      "tests_passed": 14,
+      "test_seconds": 0.289,
+      "process_exit": 0,
+      "log": "td-app-final.log",
+      "log_sha256": "7b3febb895ceb680fea4bb7df22eac0b44d7fc57db2a3b20e68ed2d9c51e88f5"
+    }
+  ],
+  "pdf_visual_qa": {
+    "role": "Disposable native diagnostic PDFs, not drawing-package or submission deliverables.",
+    "production_rendering_changes_after_qa": false,
+    "method": "Poppler pdfinfo and pdftotext, pdftoppm PNG rendering at 1600-pixel maximum dimension, followed by visual inspection of all seven rendered pages.",
+    "result": "Expected page identities, annotations, mixed landscape/portrait paper dimensions and unclipped content. No byte-equivalence claim between QPrinter and QPdfWriter outputs.",
+    "files": [
+      {
+        "name": "batch-native.pdf",
+        "sha256": "2e40f6d843f91cf92fa413e8c4f918a57b3cd7993491d8ee5189655d300e42fb",
+        "bytes": 22309,
+        "pages": 2,
+        "sizes_points": [[1191, 842], [595, 842]],
+        "content": ["First intended native batch page", "Second intended native batch page"]
+      },
+      {
+        "name": "printer-native.pdf",
+        "sha256": "e020e5a91e71a98c9afde5a5770657c643dc0d7c13126feecca21c0a5a86e7a9",
+        "bytes": 22192,
+        "pages": 2,
+        "sizes_points": [[1191, 842], [595, 842]],
+        "content": ["First intended native batch page", "Second intended native batch page"]
+      },
+      {
+        "name": "inactive-api-native.pdf",
+        "sha256": "f533789057332c2eaae0972132369b7d0a31e73066344862b94e19b17d519ccf",
+        "bytes": 20861,
+        "pages": 1,
+        "sizes_points": [[1191, 842]],
+        "content": ["First intended native batch page"]
+      },
+      {
+        "name": "single-printer-native.pdf",
+        "sha256": "10bf979f73f7aea55b2be1f83778d8705935dd494f2e7d025ed3af377f126406",
+        "bytes": 20814,
+        "pages": 1,
+        "sizes_points": [[595, 842]],
+        "content": ["Second intended native batch page"]
+      },
+      {
+        "name": "common-interface-native.pdf",
+        "sha256": "7ee80c7dc852d12e638960f561264d65d1ad02d98d395fca4a7a1a2d2a776a61",
+        "bytes": 20818,
+        "pages": 1,
+        "sizes_points": [[1191, 842]],
+        "content": ["Non-SVG graphics-template interface qualification"]
+      }
+    ]
+  },
+  "quality_and_review": {
+    "source_builds": "Root-owned production and test bridge builds completed with warnings-as-errors; the final native quit candidate FreeCADGui/FreeCADMain relink completed exit0.",
+    "format_checks": [
+      "Black --check --line-length 100: both new Python test drivers clean.",
+      "clang-format --dry-run --Werror: all three new C++ test/bridge files clean.",
+      "git -c core.whitespace=cr-at-eol diff --check: clean; MDIViewPage CRLF preserved."
+    ],
+    "independent_peer_review": "all_lazy_gui read-only review of printing and expanded notification shutdown changes; Standards and Spec each found zero blocking findings. Adopted test timer ownership and callback disconnection recommendation.",
+    "review_limit": "Two axes reviewed manually by one independent peer because all team concurrency slots were occupied."
+  },
+  "limitations": [
+    "The macOS native QPrintDialog was reached but its platform-panel acceptance was not completed. The qualified bridge exercises actual production PagePrinter methods, not a substitute Python implementation.",
+    "Stock DrawParametricTemplate getWidth/getHeight is unimplemented. The common-interface regression uses an actual QGIDrawingTemplate scene item on a valid SVG-sized page; full parametric-page export is not claimed.",
+    "Artificial exception throwing from QGraphicsItem.paint aborts through the configured Qt painter rather than reaching the caller's unwind boundary; this unsupported probe was removed. The supported controls cover the real graphics-template update failure and an explicit preparation/render boundary fault.",
+    "Preflight preserves destinations for incomplete graphics. Unexpected errors after writer creation are not claimed to provide transactional PDF output rollback.",
+    "The full GUI offscreen platform aborts during unsupported OpenGL startup on this machine. PagePrinter and native notification CTests use the real display; QLabel-only unit tests use offscreen.",
+    "Temporary raw logs and rendered PDFs are referenced with content hashes, but are not installed application artifacts. This record captures their measured results even if the temporary directory is later removed.",
+    "Final fresh application build, installation and repository integration are parent-owned steps, not results claimed by this qualification."
+  ]
+}

@@ -24,6 +24,8 @@
 #include <QApplication>
 #include <QDir>
 #include <QPrinter>
+#include <QPointer>
+#include <QThread>
 #include <QFileInfo>
 #include <map>
 #include <QIcon>
@@ -43,9 +45,9 @@
 #include <xercesc/util/XMLString.hpp>
 
 #include <boost/regex.hpp>
-#include <thread>
 
 #include <App/Application.h>
+#include <App/CleanupProcess.h>
 #include <App/DocumentObjectPy.h>
 #include <App/DocumentPy.h>
 #include <App/PropertyFile.h>
@@ -256,25 +258,27 @@ void applyElementColorOverrideAction(
 
 static bool _isSetupWithoutGui = false;
 
-static QWidget* setupMainWindow();
-
-class QtApplication: public QApplication
+namespace
 {
-public:
-    QtApplication(int& argc, char** argv)
-        : QApplication(argc, argv)
-    {}
-    bool notify(QObject* receiver, QEvent* event) override
-    {
-        try {
-            return QApplication::notify(receiver, event);
+Gui::Application* lazyApplication = nullptr;
+QPointer<Gui::MainWindow> lazyMainWindow;
+}  // namespace
+
+void Gui::ApplicationPy::createLazyApplication(bool guiEnabled)
+{
+    lazyApplication = new Gui::Application(guiEnabled);
+    App::CleanupProcess::registerCleanup([]() {
+        // Only own the GUI services and window created by the Python bootstrap.
+        // In particular, an embedding host's QApplication must remain alive.
+        if (lazyApplication && Gui::Application::Instance == lazyApplication) {
+            lazyApplication->shutdown();
+            delete lazyMainWindow.data();
+            lazyMainWindow = nullptr;
+            delete lazyApplication;
+            lazyApplication = nullptr;
         }
-        catch (const Base::SystemExitException& e) {
-            exit(e.getExitCode());
-            return true;
-        }
-    }
-};
+    });
+}
 
 #if defined(Q_OS_WIN)
 HHOOK hhook;
@@ -303,23 +307,10 @@ PyObject* Gui::ApplicationPy::sShowMainWindow(PyObject* /*self*/, PyObject* args
         return nullptr;
     }
 
-    static bool thr = false;
     if (!qApp) {
-        if (Base::asBoolean(inThread) && !thr) {
-            thr = true;
-            std::thread t([]() {
-                static int argc = 0;
-                static char** argv = {nullptr};
-                QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-                // This only works well if the QApplication is the very first created instance
-                // of a QObject. Otherwise the application lives in a different thread than the
-                // main thread which will cause hazardous behaviour.
-                QtApplication app(argc, argv);
-                if (setupMainWindow()) {
-                    app.exec();
-                }
-            });
-            t.detach();
+        if (Base::asBoolean(inThread)) {
+            PyErr_SetString(PyExc_RuntimeError, "Cannot start the GUI in a background thread; call showMainWindow() on the main thread");
+            return nullptr;
         }
         else {
             // In order to get Jupiter notebook integration working we must create a direct instance
@@ -346,11 +337,13 @@ PyObject* Gui::ApplicationPy::sShowMainWindow(PyObject* /*self*/, PyObject* args
         return nullptr;
     }
 
-    if (!thr) {
-        if (!setupMainWindow()) {
-            PyErr_SetString(PyExc_RuntimeError, "Cannot create main window\n");
-            return nullptr;
-        }
+    if (QThread::currentThread() != qApp->thread()) {
+        PyErr_SetString(PyExc_RuntimeError, "showMainWindow() must be called on the main thread");
+        return nullptr;
+    }
+    if (!setupMainWindow()) {
+        PyErr_SetString(PyExc_RuntimeError, "Cannot create main window\n");
+        return nullptr;
     }
 
     // if successful then enable Console logger
@@ -393,9 +386,8 @@ PyObject* Gui::ApplicationPy::sSetupWithoutGUI(PyObject* /*self*/, PyObject* arg
     }
 
     if (!Gui::Application::Instance) {
-        static Gui::Application* app = new Gui::Application(false);
+        createLazyApplication(false);
         _isSetupWithoutGui = true;
-        Q_UNUSED(app);
     }
     if (!SoDB::isInitialized()) {
         // init the Inventor subsystem
@@ -457,11 +449,10 @@ PyObject* Gui::ApplicationPy::sEmbedToWindow(PyObject* /*self*/, PyObject* args)
     return Py_None;
 }
 
-static QWidget* setupMainWindow()
+QWidget* Gui::ApplicationPy::setupMainWindow()
 {
     if (!Gui::Application::Instance) {
-        static Gui::Application* app = new Gui::Application(true);
-        Q_UNUSED(app);
+        createLazyApplication(true);
     }
 
     if (!Gui::MainWindow::getInstance()) {
@@ -479,6 +470,9 @@ static QWidget* setupMainWindow()
         // It's sufficient to create the config key
         App::Application::Config()["DontOverrideStdIn"] = "";
         Gui::MainWindow* mw = new Gui::MainWindow();
+        if (lazyApplication == Gui::Application::Instance) {
+            lazyMainWindow = mw;
+        }
         hasMainWindow = true;
 
         QIcon icon = qApp->windowIcon();

@@ -1114,6 +1114,12 @@ class TopoShape(ComplexGeoData):
         """
         Returns the count of a type of element
         countElement(type) -> int
+
+        Use this for count-only checks instead of len(shape.Edges),
+        len(shape.Faces), or len(shape.Solids). Those properties materialize
+        subshapes with their element names and Python wrappers. countElement
+        traverses topology without constructing those subshape wrappers;
+        it is not a constant-time operation on a large compound.
         """
         ...
 

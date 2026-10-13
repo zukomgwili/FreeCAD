@@ -38,3 +38,22 @@ target_link_libraries(App_tests_run PRIVATE
     ${Python3_LIBRARIES}
     FreeCADApp
 )
+
+# A separate shared-runtime Python host reaches MainPy's real import entrypoint;
+# FreeCADCmd has already initialized FreeCAD before it executes Python scripts.
+add_executable(FreeCAD_EmbeddingHost EmbeddingHost.cpp)
+target_include_directories(FreeCAD_EmbeddingHost PRIVATE ${Python3_INCLUDE_DIRS})
+target_link_libraries(FreeCAD_EmbeddingHost PRIVATE ${Python3_LIBRARIES})
+set_target_properties(FreeCAD_EmbeddingHost PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+add_dependencies(FreeCAD_EmbeddingHost FreeCADMainPy FreeCADMainCmd)
+add_test(NAME FreeCAD_EmbeddingRuntime
+    COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/EmbeddingRuntime.py"
+        --host $<TARGET_FILE:FreeCAD_EmbeddingHost>
+        --module-dir $<TARGET_FILE_DIR:FreeCADMainPy>
+        --freecadcmd $<TARGET_FILE:FreeCADMainCmd>)
+set_tests_properties(FreeCAD_EmbeddingRuntime PROPERTIES LABELS "App;Embedding")
+if(WIN32)
+    set_tests_properties(FreeCAD_EmbeddingRuntime PROPERTIES
+        ENVIRONMENT_MODIFICATION "${_test_env_mod}")
+endif()

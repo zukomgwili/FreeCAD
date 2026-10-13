@@ -1,0 +1,160 @@
+{
+  "issue": "FreeCAD-qv9",
+  "date": "2026-10-14",
+  "conclusion": "Repeated short GUI operations incur avoidable native wait-cursor changes. Defer cursor acquisition to the existing 100 ms progress interval and hide completed progress before synchronous Qt reset painting, preserving cancellation and progress visibility.",
+  "runtime": {
+    "platform": "macOS 27.0.1 arm64",
+    "qt_version": "6.11.2",
+    "application": "source build/release/bin/FreeCAD and FreeCADCmd",
+    "baseline_source_commit": "09175e7ff0d754adf4049b3bdfc796bb42f17e3b",
+    "green_build": "Root aggregate build 4081, including the uncommitted progress fixes and concurrent scoped fixes",
+    "installed_application_qualified": false
+  },
+  "scope": {
+    "author_scripts_executed": false,
+    "original_building_files_opened_or_changed": false,
+    "installed_application_modified_by_this_work": false,
+    "geometry_fixture": "Disposable native Part::Feature: stock 120x90 rectangular face cut by a 5x5 face, then document recompute; no building model or historical driver replay.",
+    "historical_limit": "The historical 735-second recovery, memory-pressure observation and earlier repaint sample are not reproduced here. These bounded stock measurements do not establish their exclusive cause, a crash/deadlock, or building acceptance."
+  },
+  "feedback_loop": {
+    "command": "build/release/bin/FreeCAD -P /private/tmp/freecad-qv9.jz0iXx -u <fresh-user.cfg> -s <fresh-system.cfg> -t SampleProgressProbe",
+    "probe": "/private/tmp/freecad-qv9.jz0iXx/SampleProgressProbe.py",
+    "public_api": "FreeCAD.Base.ProgressIndicator.start, next and stop",
+    "cycles": 50000,
+    "threshold": "visible seconds <= hidden seconds * 5 + 0.02",
+    "baseline": {
+      "hidden_seconds": 0.20516612497158349,
+      "visible_seconds": 4.2232462499523535,
+      "verdict": "RED: disproportionate visible per-operation overhead",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/sampled-timing.log"
+    },
+    "fixed": {
+      "hidden_seconds": 0.13150308409240097,
+      "visible_seconds": 0.13150612509343773,
+      "verdict": "GREEN, native suite exit 0, one test passed in 0.389 seconds",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/post-sampled-timing.log"
+    },
+    "extended_baseline": {
+      "cycles": 250000,
+      "hidden_seconds": 1.1546495000366122,
+      "visible_seconds": 55.20459124993067,
+      "verdict": "RED",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/sampled-timing-long.log"
+    }
+  },
+  "native_sampling": {
+    "command": "/usr/bin/sample 32767 3 -file /private/tmp/freecad-qv9.jz0iXx/native-progress-sample.txt",
+    "main_thread_samples": 1956,
+    "start_wait_cursor_samples": 1830,
+    "stack": [
+      "Gui::SequencerBar::startStep",
+      "Gui::WaitCursor::WaitCursor",
+      "QGuiApplication::setOverrideCursor",
+      "QCocoaWindow::setWindowCursor"
+    ],
+    "physical_footprint_mb": 341.9,
+    "finding": "About 93.6% of sampled main-thread stacks were in per-start native cursor changes. This current-source observation, not the historical explicit-repaint sample, justifies deferred cursor acquisition."
+  },
+  "stock_native_timings": {
+    "probe": "/private/tmp/freecad-qv9.jz0iXx/GuiProgressProbe.py",
+    "command": "build/release/bin/FreeCAD -P /private/tmp/freecad-qv9.jz0iXx -u <fresh-user.cfg> -s <fresh-system.cfg> -t GuiProgressProbe",
+    "order": "visible, hidden, hidden, visible for each kind",
+    "short_progress_cycles_per_trial": 1000,
+    "geometry_cycles_per_trial": 100,
+    "baseline": {
+      "short_visible_seconds": [0.32776195800397545, 0.3275352499913424],
+      "short_hidden_seconds": [0.004196834051981568, 0.004283083020709455],
+      "geometry_visible_seconds": [0.3570311249932274, 0.3312498750165105],
+      "geometry_hidden_seconds": [0.15856299991719425, 0.1527544999262318],
+      "log": "/private/tmp/freecad-qv9.jz0iXx/gui-baseline.log"
+    },
+    "fixed_cold": {
+      "short_visible_seconds": [0.005118167027831078, 0.0027450829511508346],
+      "short_hidden_seconds": [0.002698916010558605, 0.002852582954801619],
+      "geometry_visible_seconds": [0.16585020895581692, 0.1392568750306964],
+      "geometry_hidden_seconds": [0.14084008405916393, 0.13808783399872482],
+      "peak_rss_bytes": 410533888,
+      "verdict": "GREEN, native suite exit 0",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/clean-stock-timing.log"
+    },
+    "fixed_warm": {
+      "short_visible_seconds": [0.005062957992777228, 0.002665792009793222],
+      "short_hidden_seconds": [0.002947417087852955, 0.0028786250622943044],
+      "geometry_visible_seconds": [0.14521358394995332, 0.14518424996640533],
+      "geometry_hidden_seconds": [0.14681325003039092, 0.14251112507190555],
+      "peak_rss_bytes": 391577600,
+      "verdict": "GREEN, native suite exit 0",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/warm-stock-timing.log"
+    },
+    "geometry_assertions": {
+      "all_result_areas": 10775.0,
+      "area_tolerance": 0.000001,
+      "disposable_document_save_reopen_passed": true,
+      "reopened_feature_document_ownership_passed": true
+    },
+    "qualification": "Current bounded visible geometry-loop timings improved from roughly 0.33-0.36 seconds to 0.14-0.17 seconds per 100 cycles. Timing comparisons are native diagnostics, not a platform-independent CI speed assertion or attribution of all concurrent kernel changes."
+  },
+  "regressions": {
+    "registered_command": "ctest --test-dir build/release -R '^(ProgressBarReset_Tests_run|FreeCADCmdProgress)$' --output-on-failure",
+    "registered_result_build_4081": "2/2 passed; reset 0.37 seconds and process 1.41 seconds",
+    "reset_paint": "A native Qt paint filter first calibrates a visible repaint. Before hide-before-reset, resetEx synchronously delivered one paint (RED); after the fix it delivers zero and leaves the bar hidden with its reset value (GREEN).",
+    "successor_timer": "First candidate retained a redundant queued stopStep hide, which cancelled the next operation's show timer (RED). Removing that duplicate completion hide preserves the immediate successor's visibility (GREEN).",
+    "escape_filter_order": "An independently guarded native long-operation probe was RED with a wait cursor active and Escape swallowed. Reinstalling the progress filter after deferred WaitCursor creation restored cancellation (GREEN: cancelled=true, abort progress indicator).",
+    "native_process_command": "build/release/bin/FreeCADCmd --safe-mode -u <fresh-user.cfg> -s <fresh-system.cfg> tests/src/Gui/FreeCADCmdProgress.py",
+    "native_process_build_4081": "exit 0; all nine markers occurred exactly once",
+    "native_process_log": "/private/tmp/freecad-qv9.jz0iXx/final-native-controls.log",
+    "native_markers": [
+      "FREECAD_SHORT_PROGRESS_CURSOR_DEFERRED",
+      "FREECAD_LONG_NESTED_PROGRESS_CURSOR_RESTORED",
+      "FREECAD_PROGRESS_SUCCESSOR_TIMER_RETAINED",
+      "FREECAD_PROGRESS_WORKER_COMPLETION_RETAINED",
+      "FREECAD_PROGRESS_ABORTED_SHORT",
+      "FREECAD_PROGRESS_ABORTED_LONG",
+      "FREECAD_SHORT_PROGRESS_CANCELLATION_RETAINED",
+      "FREECAD_PROGRESS_EVENT_DELIVERY_RETAINED",
+      "FREECAD_PROGRESS_HOST_CURSOR_RESTORED"
+    ],
+    "worker_ownership_extension": "The synchronized worker remains active beyond 100 ms while the main thread calls public native checkAbort and pause/resume through a noninstalled test bridge. The candidate without a GUI-owner cursor guard was RED twice, reporting WaitCursor instead of the preexisting host CrossCursor. Adding d->guiThread to cursor acquisition preserves CrossCursor during both callbacks and after worker completion/drain (GREEN). No broader worker queue generation guarantee is claimed.",
+    "retained_intervals_ms": {
+      "progress_update": 100,
+      "abort_poll": 500,
+      "minimum_duration": 2000
+    }
+  },
+  "final_guarded_build_58422": {
+    "registered_command": "ctest --test-dir build/release -R '^(ProgressBarReset_Tests_run|FreeCADCmdProgress|FreeCAD_EmbeddingRuntime)$' --output-on-failure",
+    "registered_result": "3/3 passed: embedding 0.44 seconds, reset 0.37 seconds, process 1.59 seconds; total 4.71 seconds",
+    "native_control_command": "build/release/bin/FreeCADCmd --safe-mode -P /Users/zukomgwili/src/FreeCAD/build/release/tests/GuiNative -u <fresh-user.cfg> -s <fresh-system.cfg> tests/src/Gui/FreeCADCmdProgress.py",
+    "native_control_result": "exit 0, all ten markers emitted exactly once, checkAbort reports CrossCursor and pause/resume preserves the host cursor",
+    "additional_marker": "FREECAD_PROGRESS_WORKER_CURSOR_RETAINED",
+    "native_control_log": "/private/tmp/freecad-qv9.jz0iXx/final-worker-native-controls.log",
+    "short_progress_50000_cycles": {
+      "hidden_seconds": 0.14302774996031076,
+      "visible_seconds": 0.1331972919870168,
+      "verdict": "GREEN, native exit 0",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/final-ownership-sampled-timing.log"
+    },
+    "stock_100_cycles": {
+      "visible_seconds": [0.2345059170620516, 0.1547549170209095],
+      "hidden_seconds": [0.1827121670357883, 0.15671129210386425],
+      "all_result_areas": 10775.0,
+      "save_reopen_and_document_ownership_passed": true,
+      "peak_rss_bytes": 406388736,
+      "verdict": "GREEN, native exit 0",
+      "log": "/private/tmp/freecad-qv9.jz0iXx/final-ownership-stock-timing.log"
+    }
+  },
+  "fixture_limitations": [
+    "Early Python Qt paint filters recorded zero without a valid paint calibration. Those counts cannot demonstrate absence of repaint; the native calibrated Qt test supplies the paint regression instead.",
+    "An experimental global-filter run overlapped a Part module relink and produced invalid startup/teardown results; it was excluded.",
+    "The first post-fix stock prototype completed geometry measurements but crashed at late Shiboken wrapper invalidation. Removing its unused experimental Python QObject and Qt wrapper instrumentation yielded two clean native exits. No production crash cause, notification-shutdown cure or memory-leak conclusion is inferred from that fixture artifact."
+  ],
+  "review": {
+    "reviewer": "all_lazy_gui",
+    "standards": "APPROVED, no scoped blocking findings",
+    "spec": "APPROVED, no scoped blocking findings",
+    "independent_escape_red_and_green": true,
+    "limitation": "Manual two-axis peer review because team capacity did not permit two additional delegated review agents; not represented as that full delegated gate."
+  }
+}

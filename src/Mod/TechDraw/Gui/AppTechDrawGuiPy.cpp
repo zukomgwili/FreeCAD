@@ -131,6 +131,24 @@ private:
 
         TechDraw::DrawPage* page = nullptr;
         Py::Sequence list(object);
+        // The GUI export hook exports each selected page separately. For PDF,
+        // reject an invalid selection before any one-page writer opens the
+        // shared destination. Keep successful export-list semantics unchanged.
+        if (Base::FileInfo(EncodedName.c_str()).hasExtension("pdf")) {
+            for (auto it = list.begin(); it != list.end(); ++it) {
+                PyObject* item = (*it).ptr();
+                if (PyObject_TypeCheck(item, &App::DocumentObjectPy::Type)) {
+                    auto* obj = static_cast<App::DocumentObjectPy*>(item)->getDocumentObjectPtr();
+                    if (!obj->isDerivedFrom<TechDraw::DrawPage>()) {
+                        throw Py::TypeError("No Technical Drawing Page found in selection.");
+                    }
+                    auto* vpPage = dynamic_cast<ViewProviderPage*>(
+                        Gui::Application::Instance->getViewProvider(obj)
+                    );
+                    PagePrinter::checkPageGraphics(vpPage);
+                }
+            }
+        }
         for (Py::Sequence::iterator it = list.begin(); it != list.end(); ++it) {
             PyObject* item = (*it).ptr();
             if (PyObject_TypeCheck(item, &(App::DocumentObjectPy::Type))) {

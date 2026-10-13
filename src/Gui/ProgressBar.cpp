@@ -122,7 +122,9 @@ void SequencerBar::pause()
     }
 
     // allow key handling of dialog and restore cursor
-    d->waitCursor->restoreCursor();
+    if (d->waitCursor) {
+        d->waitCursor->restoreCursor();
+    }
     QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
@@ -132,7 +134,10 @@ void SequencerBar::resume()
     QThread* thr = d->bar->thread();  // this is the main thread
     if (thr == currentThread) {
         QApplication::restoreOverrideCursor();
-        d->waitCursor->setWaitCursor();
+        ensureWaitCursor();
+        if (d->waitCursor) {
+            d->waitCursor->setWaitCursor();
+        }
     }
 
     // must be called as last to get control before WaitCursor
@@ -164,7 +169,6 @@ void SequencerBar::startStep()
         d->progressTime.start();
         d->checkAbortTime.start();
         d->measureTime.start();
-        d->waitCursor = new Gui::WaitCursor;
         d->bar->enterControlEvents(d->guiThread);
         d->bar->aboutToShow();
     }
@@ -172,7 +176,9 @@ void SequencerBar::startStep()
 
 void SequencerBar::stopStep()
 {
-    QMetaObject::invokeMethod(d->bar, "aboutToHide", Qt::QueuedConnection);
+    // resetData() already hides the indicator (resetEx() does so on queued
+    // worker completions). A duplicate queued hide can cancel the next
+    // operation's delay-show timer after that operation has already started.
 }
 
 void SequencerBar::checkAbort()
@@ -180,6 +186,7 @@ void SequencerBar::checkAbort()
     if (d->bar->thread() != QThread::currentThread()) {
         return;
     }
+    ensureWaitCursor();
     if (!wasCanceled()) {
         if (d->checkAbortTime.elapsed() < 500) {
             return;
@@ -256,6 +263,9 @@ void SequencerBar::setValue(int step)
 {
     QThread* currentThread = QThread::currentThread();
     QThread* thr = d->bar->thread();  // this is the main thread
+    if (thr == currentThread) {
+        ensureWaitCursor();
+    }
     // if number of total steps is unknown then increment only by one
     if (nTotalSteps == 0) {
         int elapsed = d->progressTime.elapsed();
@@ -301,6 +311,20 @@ void SequencerBar::setValue(int step)
                 qApp->processEvents();
             }
         }
+    }
+}
+
+void SequencerBar::ensureWaitCursor()
+{
+    // Repeated short kernel operations must not change the native cursor on
+    // every start/stop. Retain input/cancel filtering from startStep(), and
+    // acquire our cursor only at the existing progress update interval.
+    if (d->guiThread && !d->waitCursor && isRunning() && d->measureTime.isValid()
+        && d->measureTime.elapsed() > 100) {
+        d->waitCursor = new Gui::WaitCursor;
+        // WaitCursor filters key events too. Keep progress handling last so
+        // Escape reaches cancellation rather than the new wait-cursor filter.
+        d->bar->enterControlEvents(d->guiThread);
     }
 }
 
@@ -491,6 +515,9 @@ int ProgressBar::minimumDuration() const
 
 void ProgressBar::resetEx()
 {
+    // QProgressBar::reset() repaints synchronously when visible. A completed
+    // operation is already hiding its indicator, so hide before resetting.
+    aboutToHide();
     QProgressBar::reset();
 #ifdef QT_WINEXTRAS_LIB
     setupTaskBarProgress();
@@ -545,6 +572,7 @@ void ProgressBar::delayedShow()
 
 void ProgressBar::aboutToHide()
 {
+    d->delayShowTimer->stop();
     hide();
 #ifdef QT_WINEXTRAS_LIB
     setupTaskBarProgress();

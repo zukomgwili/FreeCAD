@@ -1,0 +1,108 @@
+{
+  "issue": "FreeCAD-quq",
+  "date": "2026-10-13",
+  "conclusion": "Use the existing countElement API for count-only preservation checks; no native performance behavior change is warranted by this qualification.",
+  "source_document": "oomakhi/artifacts/Structural-Integration/r01/native/production/r11/EN2-structural-coordinated-r11.FCStd",
+  "source_sha256_before_and_after": "9e8a0cd19a63b29a6860d218ce92a0e7fb114d2a3124e954d4ca3b955abda3d8",
+  "source_handling": {
+    "recomputed": false,
+    "saved": false,
+    "author_scripts_executed": false,
+    "building_package_accepted": false
+  },
+  "runtime": {
+    "application": "source FreeCADCmd 27.1.0dev49114+137",
+    "platform": "macOS arm64",
+    "baseline_part_source_commit": "09175e7ff0d754adf4049b3bdfc796bb42f17e3b"
+  },
+  "method": {
+    "repetitions_per_kind": 5,
+    "kinds": ["Edge", "Face", "Solid"],
+    "comparison": "shape.countElement(kind) versus len(getattr(shape, plural_kind))",
+    "correctness": "All counts exactly matched materialized lengths. Full BREP geometry hashes were unchanged. Sampled first/middle/last mapped references and element-map version were unchanged for Array002 and StructuralPhysicalCompound159.",
+    "timing_threshold_asserted": false,
+    "independent_saved_document_runs": 2
+  },
+  "measurements": [
+    {
+      "name": "Array002",
+      "label": "BC — all 14 trusses",
+      "type": "Part::FeaturePython",
+      "edge_count": 924,
+      "edge_count_seconds": [0.000240083, 0.000232750, 0.000235417, 0.000231708, 0.000234791],
+      "edge_materialization_seconds": [0.010234708, 0.009319959, 0.008442917, 0.008378125, 0.008456458],
+      "edge_median_ratio": 36.02,
+      "face_count": 336,
+      "solid_count": 14,
+      "face_median_ratio": 149.71,
+      "solid_median_ratio": 313.61,
+      "geometry_sha256": "00177db0a0eda6a894159e7d4ec5db6f70fe12df929cfe54da33cd690d5eaaf4",
+      "mapped_reference_checked": true,
+      "element_map_version": "15.70200.5"
+    },
+    {
+      "name": "StructuralPhysicalCompound159",
+      "label": "Roof support steel and gable restraints editable physical components",
+      "type": "Part::Compound",
+      "edge_count": 21744,
+      "edge_count_seconds": [0.009800375, 0.009930875, 0.009635916, 0.009557708, 0.009460709],
+      "edge_materialization_seconds": [0.258948416, 0.226402500, 0.227229292, 0.207123833, 0.205480458],
+      "edge_median_ratio": 23.50,
+      "face_count": 9584,
+      "solid_count": 1172,
+      "face_median_ratio": 78.30,
+      "solid_median_ratio": 141.14,
+      "geometry_sha256": "98b730d639ca0fbe19e36bf72cfc5e4258ae00014216bd5916ea4026b7b8bd7c",
+      "mapped_reference_checked": true,
+      "element_map_version": "15.70200.5"
+    },
+    {
+      "name": "BuildingPart",
+      "label": "EN2 fictional architectural study",
+      "type": "App::GeometryPython",
+      "edge_count": 47655,
+      "edge_count_seconds": [0.028294250, 0.029121000, 0.029697417, 0.029677208, 0.027733083],
+      "edge_materialization_seconds": [0.546862458, 0.488702125, 0.444376083, 0.447726917, 0.443467542],
+      "edge_median_ratio": 15.37,
+      "face_count": 23674,
+      "solid_count": 3865,
+      "face_median_ratio": 71.73,
+      "solid_median_ratio": 247.27,
+      "geometry_sha256": "cd85438a96dd5a5be8f4752e0ebd099b1400ab1c2dea120e6c7a175b6a35c424",
+      "mapped_reference_checked": false,
+      "mapping_qualification": "This generic geometry object returns no mapped prefix from resolveSubElement; no mapped-reference claim is made for it."
+    }
+  ],
+  "native_sampling": {
+    "object": "StructuralPhysicalCompound159",
+    "sample_duration_seconds": 1,
+    "sample_interval_milliseconds": 1,
+    "count_path_samples": 782,
+    "count_path": ["TopoShapePy::countElement", "TopoShape::countSubShapes", "TopExp::MapShapes"],
+    "count_path_ancestry_or_name_generation_observed": false,
+    "edges_getter_samples": 626,
+    "edges_ancestry_samples": 394,
+    "edges_flush_element_map_samples": 159,
+    "edges_path": ["TopoShapePy::getEdges", "TopoShape::getSubTopoShapes", "TopoShapeCache::Ancestry", "TopoShape::flushElementMap", "ElementMap::setElementName"],
+    "repeated_loop_seconds": 12,
+    "count_loop_calls": 909,
+    "materialization_loop_calls": 42
+  },
+  "caller_recommendation": {
+    "frozen_source": "oomakhi/artifacts/Structural-Integration/r01/review/completion-12h-r01/stock_roof_ring_cage_r02.py",
+    "line": 43,
+    "change": "For the Solid, Face and Edge count comparisons, use now.countElement(kind) == before.countElement(kind) instead of len(now.Solids/Faces/Edges) == len(before.Solids/Faces/Edges). Retain the existing validity and geometric-difference checks.",
+    "applied_to_original_caller": false
+  },
+  "regression": {
+    "test": "parttests.TopoShapeTest.TopoShapeTest.testCountElementPreservesMappedCompound",
+    "checks": "Repeated counts match enumeration on mapped compounds and nested compounds; mapped element lookup still resolves each enumerated element; full ElementMap, ElementReverseMap and BREP geometry remain unchanged.",
+    "focused_tests_passed": 1,
+    "toposhape_suite_tests_passed": 62
+  },
+  "limitations": [
+    "These timings qualify the saved named geometry, not the complete historical 579.7-second cage phase or its 15-GiB in-memory state.",
+    "No performance regression, exclusive historical cause, constant-time counting, or general lazy-enumeration improvement is claimed.",
+    "The observed benefit comes from choosing the existing count API when subshapes and their names are not needed."
+  ]
+}

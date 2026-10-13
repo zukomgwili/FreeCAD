@@ -855,6 +855,38 @@ class TopoShapeTest(unittest.TestCase, TopoShapeAssertions):
             # Assert
             self.assertEqual(len(history1), 3)  # Just the Fuse operation
 
+    def testCountElementPreservesMappedCompound(self):
+        """Count-only checks agree with enumeration without changing TNP or geometry."""
+        nested = self.doc.addObject("Part::Compound", "NestedCompound")
+        nested.Links = [self.doc.Compound1, self.doc.Cylinder1]
+        self.doc.recompute()
+        for shape in (self.doc.Compound1.Shape, nested.Shape):
+            with self.subTest(solids=shape.countElement("Solid")):
+                geometry = shape.exportBrepToString()
+                names = dict(shape.ElementMap)
+                reverse_names = dict(shape.ElementReverseMap)
+                if shape.ElementMapVersion:
+                    self.assertTrue(names)
+                    self.assertTrue(reverse_names)
+                for kind, attribute in (
+                    ("Solid", "Solids"),
+                    ("Face", "Faces"),
+                    ("Edge", "Edges"),
+                    ("Vertex", "Vertexes"),
+                ):
+                    count = shape.countElement(kind)
+                    for _ in range(3):
+                        self.assertEqual(shape.countElement(kind), count)
+                    elements = getattr(shape, attribute)
+                    self.assertEqual(count, len(elements))
+                    for index, element in enumerate(elements, 1):
+                        mapped_name = reverse_names.get(f"{kind}{index}")
+                        if mapped_name:
+                            self.assertTrue(shape.getElement(mapped_name).isSame(element))
+                self.assertEqual(shape.exportBrepToString(), geometry)
+                self.assertEqual(shape.ElementMap, names)
+                self.assertEqual(shape.ElementReverseMap, reverse_names)
+
     # Todo:  Still broken, still can't find parms that consistently work to test this.
     #           However, the results with an empty elementMap are consistent with making the
     #           same calls on LS3.  So what this method is supposed to do remains a mystery;

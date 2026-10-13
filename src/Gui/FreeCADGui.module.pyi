@@ -651,7 +651,12 @@ def resumeWaitCursor() -> None:
 
 @bootstrap_export
 def showMainWindow(inThread: bool = False, /) -> None:
-    """Create the main application window if needed, then show it."""
+    """Create the main application window if needed, then show it on the main thread.
+
+    Raises RuntimeError if inThread is True and no QApplication exists. A GUI
+    cannot be initialized safely in a background thread. With an existing
+    QApplication the legacy flag is ignored and the call is synchronous.
+    """
     ...
 
 @bootstrap_export

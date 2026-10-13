@@ -69,6 +69,27 @@ constexpr double A4Heightmm = 297.0;
 constexpr double A4Widthmm = 210.0;
 constexpr double mmPerInch = 25.4;
 
+namespace
+{
+std::vector<ViewProviderPage*> printablePages(App::Document* doc)
+{
+    if (!doc) {
+        throw Base::RuntimeError("No document to print.");
+    }
+    std::vector<ViewProviderPage*> pages;
+    for (auto* object : doc->getObjectsOfType(TechDraw::DrawPage::getClassTypeId())) {
+        auto* provider = dynamic_cast<ViewProviderPage*>(
+            Gui::Application::Instance->getViewProvider(object)
+        );
+        PagePrinter::checkPageGraphics(provider);
+        pages.push_back(provider);
+    }
+    if (pages.empty()) {
+        throw Base::RuntimeError("No drawing pages to print.");
+    }
+    return pages;
+}
+}  // namespace
 
 /* TRANSLATOR TechDrawGui::PagePrinter */
 
@@ -146,35 +167,26 @@ void PagePrinter::makePageLayout(TechDraw::DrawPage* dPage, QPageLayout& pageLay
 //! print all pages in a document
 void PagePrinter::printAll(QPrinter* printer, App::Document* doc)
 {
+    // Validate the entire batch before the painter starts a print job.
+    auto pages = printablePages(doc);
     QPageLayout pageLayout = printer->pageLayout();
-    std::vector<App::DocumentObject*> docObjs =
-        doc->getObjectsOfType(TechDraw::DrawPage::getClassTypeId());
-    auto firstPage = docObjs.front();
-
-    auto dPage = static_cast<TechDraw::DrawPage*>(firstPage);
+    auto dPage = pages.front()->getDrawPage();
     double width = A4Heightmm;  // default to A4 Landscape 297 x 210
     double height = A4Widthmm;
     makePageLayout(dPage, pageLayout, width, height);
     printer->setPageLayout(pageLayout);
     QPainter painter(printer);
 
-    auto restoreScreenMode = PagePrinter::suspendScreenMode();
-
     auto ourDoc = Gui::Application::Instance->getDocument(doc);
     auto docModifiedState = ourDoc->isModified();
+    Base::ScopeGuard restoreModified([ourDoc, docModifiedState]() {
+        ourDoc->setModified(docModifiedState);
+    });
+    auto restoreScreenMode = PagePrinter::suspendScreenMode();
 
     bool firstTime = true;
-    for (auto& obj : docObjs) {
-        Gui::ViewProvider* vp = Gui::Application::Instance->getViewProvider(obj);
-        if (!vp) {
-            continue;  // can't print this one
-        }
-        auto* vpp = dynamic_cast<TechDrawGui::ViewProviderPage*>(vp);
-        if (!vpp) {
-            continue;  // can't print this one
-        }
-
-        auto dPage = static_cast<TechDraw::DrawPage*>(obj);
+    for (auto* vpp : pages) {
+        auto dPage = vpp->getDrawPage();
         double width = A4Heightmm;  // default to A4 Landscape 297 x 210
         double height = A4Widthmm;
         makePageLayout(dPage, pageLayout, width, height);
@@ -185,23 +197,21 @@ void PagePrinter::printAll(QPrinter* printer, App::Document* doc)
         }
         firstTime = false;
 
-        QGISVGTemplate* ourTemplate{nullptr};
+        QGITemplate* ourTemplate {nullptr};
         QGSPage* ourScene{nullptr};
-        preRenderSetUp(vpp, ourScene, ourTemplate);
+        auto restoreRendering = preRenderSetUp(vpp, ourScene, ourTemplate);
 
         QRectF sourceRect(0.0, Rez::guiX(-height), Rez::guiX(width), Rez::guiX(height));
         QRect targetRect = printer->pageLayout().fullRectPixels(printer->resolution());
         renderPage(vpp, painter, sourceRect, targetRect);
-
-        postRenderCleanUp(ourScene, dPage, ourTemplate);
     }
-
-    ourDoc->setModified(docModifiedState);
 }
 
 //! print all pages in a document to pdf
 void PagePrinter::printAllPdf(QPrinter* printer, App::Document* doc)
 {
+    // QPdfWriter opens/truncates its destination immediately.
+    auto pages = printablePages(doc);
     QString outputFile = printer->outputFileName();
     Base::FileInfo fi{outputFile.toStdString()};
     if (fi.exists() && !fi.isWritable()) {
@@ -228,11 +238,7 @@ void PagePrinter::printAllPdf(QPrinter* printer, App::Document* doc)
     QPageLayout pageLayout = printer->pageLayout();
     // we want to set the layout for the first page before we make the painter(&pdfWriter) or the layout for the first page will
     // not be correct.
-    std::vector<App::DocumentObject*> docObjs =
-        doc->getObjectsOfType(TechDraw::DrawPage::getClassTypeId());
-    auto firstPage = docObjs.front();
-
-    auto dPage = static_cast<TechDraw::DrawPage*>(firstPage);
+    auto dPage = pages.front()->getDrawPage();
     double width = A4Heightmm;//default to A4 Landscape 297 x 210
     double height = A4Widthmm;
     makePageLayout(dPage, pageLayout, width, height);
@@ -242,27 +248,20 @@ void PagePrinter::printAllPdf(QPrinter* printer, App::Document* doc)
     // start() or end() until all the pages are printed.
     QPainter painter(&pdfWriter);
 
-    auto restoreScreenMode = PagePrinter::suspendScreenMode();
-
     auto ourDoc = Gui::Application::Instance->getDocument(doc);
     auto docModifiedState = ourDoc->isModified();
+    Base::ScopeGuard restoreModified([ourDoc, docModifiedState]() {
+        ourDoc->setModified(docModifiedState);
+    });
+    auto restoreScreenMode = PagePrinter::suspendScreenMode();
 
     bool firstTime = true;
-    for (auto& obj : docObjs) {
-        Gui::ViewProvider* vp = Gui::Application::Instance->getViewProvider(obj);
-        if (!vp) {
-            continue;// can't print this one
-        }
-        auto vpp = dynamic_cast<TechDrawGui::ViewProviderPage*>(vp);
-        if (!vpp) {
-            continue;// can't print this one
-        }
-
-        QGISVGTemplate* ourTemplate{nullptr};
+    for (auto* vpp : pages) {
+        QGITemplate* ourTemplate {nullptr};
         QGSPage* ourScene{nullptr};
-        preRenderSetUp(vpp, ourScene, ourTemplate);
+        auto restoreRendering = preRenderSetUp(vpp, ourScene, ourTemplate);
 
-        auto dPage = static_cast<TechDraw::DrawPage*>(obj);
+        auto dPage = vpp->getDrawPage();
         double width{0};
         double height{0};
         makePageLayout(dPage, pageLayout, width, height);
@@ -276,11 +275,7 @@ void PagePrinter::printAllPdf(QPrinter* printer, App::Document* doc)
         QRectF sourceRect(0.0, Rez::guiX(-height), Rez::guiX(width), Rez::guiX(height));
         QRect targetRect(0, 0, width * dpmm, height * dpmm);
         renderPage(vpp, painter, sourceRect, targetRect);
-
-        postRenderCleanUp(ourScene, dPage, ourTemplate);
     }
-
-    ourDoc->setModified(docModifiedState);
 }
 
 
@@ -326,6 +321,9 @@ void PagePrinter::renderPage(ViewProviderPage* vpp, QPainter& painter, QRectF& s
 
     //scene might be drawn in light text.  we need to redraw in normal text.
     bool saveLightOnDark = Preferences::lightOnDark();
+    Base::ScopeGuard restoreLightOnDark([saveLightOnDark]() {
+        Preferences::lightOnDark(saveLightOnDark);
+    });
     if (Preferences::lightOnDark()) {
         Preferences::lightOnDark(false);
         vpp->getQGSPage()->redrawAllViews();
@@ -344,6 +342,7 @@ void PagePrinter::renderPage(ViewProviderPage* vpp, QPainter& painter, QRectF& s
 /// print the Page associated with the view provider
 void PagePrinter::print(ViewProviderPage* vpPage, QPrinter* printer)
 {
+    checkPageGraphics(vpPage);
     QPageLayout pageLayout = printer->pageLayout();
 
     TechDraw::DrawPage* dPage = vpPage->getDrawPage();
@@ -354,21 +353,20 @@ void PagePrinter::print(ViewProviderPage* vpPage, QPrinter* printer)
 
     QPainter painter(printer);
 
-    auto restoreScreenMode = PagePrinter::suspendScreenMode();
-
     auto ourDoc = Gui::Application::Instance->getDocument(dPage->getDocument());
     auto docModifiedState = ourDoc->isModified();
+    Base::ScopeGuard restoreModified([ourDoc, docModifiedState]() {
+        ourDoc->setModified(docModifiedState);
+    });
+    auto restoreScreenMode = PagePrinter::suspendScreenMode();
 
-    QGISVGTemplate* ourTemplate{nullptr};
+    QGITemplate* ourTemplate {nullptr};
     QGSPage* ourScene{nullptr};
-    preRenderSetUp(vpPage, ourScene, ourTemplate);
+    auto restoreRendering = preRenderSetUp(vpPage, ourScene, ourTemplate);
 
     QRect targetRect = printer->pageLayout().fullRectPixels(printer->resolution());
     QRectF sourceRect(0.0, Rez::guiX(-height), Rez::guiX(width), Rez::guiX(height));
     renderPage(vpPage, painter, sourceRect, targetRect);
-
-    postRenderCleanUp(ourScene, dPage, ourTemplate);
-    ourDoc->setModified(docModifiedState);
 }
 
 
@@ -382,11 +380,7 @@ void PagePrinter::printPdf(ViewProviderPage* vpPage, const std::string& file)
     // A fresh page has a scene but no rendered template until it is shown.
     // Check before QPdfWriter opens/truncates the destination. An initialized
     // scene remains exportable even when its MDI tab is no longer open.
-    if (!vpPage || !vpPage->getQGSPage() || !vpPage->getQTemplate()) {
-        throw Base::RuntimeError(
-            "Page graphics are not initialized. Show the page before exporting PDF."
-        );
-    }
+    checkPageGraphics(vpPage);
 
     Base::FileInfo fi{file};
     if (fi.exists() && !fi.isWritable()) {
@@ -421,14 +415,16 @@ void PagePrinter::printPdf(ViewProviderPage* vpPage, const std::string& file)
     // pdfWriter layout is established.
     QPainter painter(&pdfWriter);
 
-    auto restoreScreenMode = PagePrinter::suspendScreenMode();
-
     auto ourDoc = Gui::Application::Instance->getDocument(dPage->getDocument());
     auto docModifiedState = ourDoc->isModified();
+    Base::ScopeGuard restoreModified([ourDoc, docModifiedState]() {
+        ourDoc->setModified(docModifiedState);
+    });
+    auto restoreScreenMode = PagePrinter::suspendScreenMode();
 
-    QGISVGTemplate* ourTemplate{nullptr};
+    QGITemplate* ourTemplate {nullptr};
     QGSPage* ourScene{nullptr};
-    preRenderSetUp(vpPage, ourScene, ourTemplate);
+    auto restoreRendering = preRenderSetUp(vpPage, ourScene, ourTemplate);
 
     // render the page
     QRectF sourceRect(0.0, Rez::guiX(-height), Rez::guiX(width), Rez::guiX(height));
@@ -437,29 +433,55 @@ void PagePrinter::printPdf(ViewProviderPage* vpPage, const std::string& file)
     int thigh = int(std::round(height * dpmm));
     QRect targetRect(0, 0, twide, thigh);
     renderPage(vpPage, painter, sourceRect, targetRect);
-
-    postRenderCleanUp(ourScene, dPage, ourTemplate);
-    ourDoc->setModified(docModifiedState);
 }
 
-void PagePrinter::preRenderSetUp(TechDrawGui::ViewProviderPage* vpp,
-                                 QGSPage*& ourScene,
-                                 QGISVGTemplate*& ourTemplate)
+void PagePrinter::checkPageGraphics(ViewProviderPage* vpPage)
 {
-    if (!vpp) {
-        return;
+    if (!vpPage || !vpPage->getDrawPage() || !vpPage->getQGSPage() || !vpPage->getQTemplate()) {
+        throw Base::RuntimeError(
+            "Page graphics are not initialized. Show the page before printing or exporting PDF."
+        );
     }
+}
+
+std::unique_ptr<Base::ScopeGuard> PagePrinter::preRenderSetUp(
+    TechDrawGui::ViewProviderPage* vpp,
+    QGSPage*& ourScene,
+    QGITemplate*& ourTemplate
+)
+{
+    checkPageGraphics(vpp);
     ourScene = vpp->getQGSPage();
+    ourTemplate = vpp->getQTemplate();
+    auto* page = vpp->getDrawPage();
+    auto* guiDoc = vpp->getDocument();
+    const bool modified = guiDoc->isModified();
+    const bool exporting = ourScene->getExportingPdf();
+    // Own cleanup before the first operation that can fail. Use the template's
+    // common virtual interface: parametric pages do not have an SVG template.
+    auto restoreRendering = std::make_unique<Base::ScopeGuard>(
+        [ourScene, ourTemplate, page, guiDoc, modified, exporting]() {
+            try {
+                postRenderCleanUp(ourScene, page, ourTemplate);
+            }
+            catch (const std::exception& error) {
+                Base::Console().error("Page printing cleanup failed: {}\n", error.what());
+            }
+            catch (...) {
+                Base::Console().error("Page printing cleanup failed.\n");
+            }
+            ourScene->setExportingPdf(exporting);
+            guiDoc->setModified(modified);
+        }
+    );
     // setExportingPdf does not hurt anything here and protects against Windows
     // Pdf writer not asking for file name until after rendering.
     ourScene->setExportingPdf(true);
-    ourTemplate = static_cast<QGISVGTemplate*>(vpp->getQTemplate());
     ourTemplate->updateView(true);
+    return restoreRendering;
 }
 
-void PagePrinter::postRenderCleanUp(QGSPage* ourScene,
-                                    TechDraw::DrawPage* dPage,
-                                    QGISVGTemplate* ourTemplate)
+void PagePrinter::postRenderCleanUp(QGSPage* ourScene, TechDraw::DrawPage* dPage, QGITemplate* ourTemplate)
 {
     if (!ourScene) {
         return;

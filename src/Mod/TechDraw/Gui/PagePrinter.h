@@ -25,6 +25,7 @@
 #pragma once
 
 #include <QPrinter>
+#include <memory>
 
 
 #include <Mod/TechDraw/TechDrawGlobal.h>
@@ -32,7 +33,7 @@
 #include <Base/Tools.h>
 
 #include "ViewProviderPage.h"
-#include "QGISVGTemplate.h"
+#include "QGITemplate.h"
 
 QT_BEGIN_NAMESPACE
 class QGraphicsScene;
@@ -120,12 +121,13 @@ public:
     static void saveDXF(ViewProviderPage* vpPage, const std::string& file);
     static void savePDF(ViewProviderPage* vpPage, const std::string& file);
 
-    static void postRenderCleanUp(QGSPage* ourScene,
-                                    TechDraw::DrawPage* dPage,
-                                    QGISVGTemplate* ourTemplate);
-    static void preRenderSetUp(TechDrawGui::ViewProviderPage* vpp,
-                               QGSPage*& ourScene,
-                               QGISVGTemplate*& ourTemplate);
+    static void checkPageGraphics(ViewProviderPage* vpPage);
+    static void postRenderCleanUp(QGSPage* ourScene, TechDraw::DrawPage* dPage, QGITemplate* ourTemplate);
+    [[nodiscard]] static std::unique_ptr<Base::ScopeGuard> preRenderSetUp(
+        TechDrawGui::ViewProviderPage* vpp,
+        QGSPage*& ourScene,
+        QGITemplate*& ourTemplate
+    );
 };
 
 }  // namespace TechDrawGui

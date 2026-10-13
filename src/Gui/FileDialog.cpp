@@ -429,14 +429,37 @@ QStringList FileDialogInternal::nativeFileDialog(
         );
     }
     else /* (mode == NativeFileDialogMode::Save) */ {
-        selected << QFileDialog::getSaveFileName(
-            parent,
-            caption,
-            startPath,
-            qtFilterList.join(QStringLiteral(";;")),
-            &selectedQtFilter,
-            options
-        );
+# ifdef FC_OS_MACOSX
+        if (parent && !options.testFlag(QFileDialog::DontUseNativeDialog)) {
+            // An application-modal Cocoa panel can be obscured when the main
+            // window is raised while the panel still owns input. Attach the
+            // native save sheet to its owner instead; Qt keeps exec() and the
+            // selected-file/filter contract while Cocoa maintains ownership.
+            QFileDialog dialog(parent, caption, startPath, qtFilterList.join(QStringLiteral(";;")));
+            dialog.setOptions(options);
+            dialog.setAcceptMode(QFileDialog::AcceptSave);
+            dialog.setFileMode(QFileDialog::AnyFile);
+            if (!selectedQtFilter.isEmpty()) {
+                dialog.selectNameFilter(selectedQtFilter);
+            }
+            dialog.setWindowModality(Qt::WindowModal);
+            if (dialog.exec() == QDialog::Accepted) {
+                selected = dialog.selectedFiles();
+                selectedQtFilter = dialog.selectedNameFilter();
+            }
+        }
+        else
+# endif
+        {
+            selected << QFileDialog::getSaveFileName(
+                parent,
+                caption,
+                startPath,
+                qtFilterList.join(QStringLiteral(";;")),
+                &selectedQtFilter,
+                options
+            );
+        }
     }
     selectedFilterIndex = qtFilterList.indexOf(selectedQtFilter);
     if (selectedFilterIndex < 0 && selected.isEmpty()) {
