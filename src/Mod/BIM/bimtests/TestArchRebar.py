@@ -19,8 +19,14 @@
 #                                                                              #
 ################################################################################
 
+import itertools
+import math
+import os
+import tempfile
+
 import FreeCAD
 import Arch
+import Draft
 import Part
 from bimtests import TestArchBase
 
@@ -42,6 +48,227 @@ class TestArchRebar(TestArchBase.TestArchBase):
         host = Arch.makeStructure(length=length, width=width, height=height)
         self.document.recompute()
         return host
+
+    def _create_placement_rebar(self):
+        host = self._create_host_structure(length=200, width=300, height=100)
+        base = Draft.make_wire([FreeCAD.Vector(20, 40, 50), FreeCAD.Vector(180, 40, 50)])
+        rebar = Arch.makeRebar(baseobj=host, sketch=base, diameter=12, amount=1, offset=0)
+        rebar.Direction = FreeCAD.Vector(0, 1, 0)
+        self.document.recompute()
+        return rebar, host
+
+    def _assert_straight_rebar_data(self, rebar, offsets, axis=FreeCAD.Vector(0, 1, 0)):
+        """Compare exported local centrelines with analytic positions and actual solids."""
+        original_base = rebar.Base.Shape.exportBrepToString()
+        original_solid = rebar.Shape.exportBrepToString()
+        original_placements = list(rebar.PlacementList)
+        wires, radius = rebar.Proxy.getRebarData(rebar)
+        solids = rebar.Shape.Solids
+        self.assertEqual(len(wires), len(offsets))
+        self.assertEqual(len(solids), len(offsets))
+        self.assertAlmostEqual(radius, 6)
+        for wire, solid, offset in zip(wires, solids, offsets):
+            expected = [
+                rebar.Placement.multVec(point + axis * offset)
+                for point in (FreeCAD.Vector(20, 40, 50), FreeCAD.Vector(180, 40, 50))
+            ]
+            world_wire = wire.copy()
+            world_wire.Placement = rebar.Placement.multiply(wire.Placement)
+            self.assertEqual(len(world_wire.Vertexes), 2)
+            for vertex, point in zip(world_wire.Vertexes, expected):
+                self.assertLess((vertex.Point - point).Length, 1e-7)
+            midpoint = (expected[0] + expected[1]) * 0.5
+            self.assertLess((world_wire.CenterOfMass - midpoint).Length, 1e-7)
+            self.assertLess((solid.CenterOfMass - midpoint).Length, 1e-7)
+            self.assertAlmostEqual(wire.Length, 160)
+            self.assertAlmostEqual(solid.Volume, math.pi * radius**2 * 160, delta=1e-6)
+        self.assertEqual(rebar.Base.Shape.exportBrepToString(), original_base)
+        self.assertEqual(rebar.Shape.exportBrepToString(), original_solid)
+        self.assertEqual(rebar.PlacementList, original_placements)
+        return wires
+
+    def test_getRebarData_single_bar_placement(self):
+        """Single bars use OffsetStart, not half a host or explicit distribution span."""
+        rebar, host = self._create_placement_rebar()
+        directions = (
+            (FreeCAD.Vector(0, 2, 0), FreeCAD.Vector(0, 1, 0)),
+            (FreeCAD.Vector(0, -3, 0), FreeCAD.Vector(0, -1, 0)),
+            (FreeCAD.Vector(), FreeCAD.Vector(0, 0, -1)),
+        )
+        for hosted, (direction, axis), (distance, start) in itertools.product(
+            (False, True), directions, ((0, 0), (100, 0), (100, 5), (2, 1))
+        ):
+            with self.subTest(hosted=hosted, direction=direction, distance=distance, start=start):
+                rebar.Host = host if hosted else None
+                rebar.Direction = direction
+                rebar.Distance = distance
+                rebar.OffsetStart = start
+                rebar.OffsetEnd = 7
+                self.document.recompute()
+                self._assert_straight_rebar_data(rebar, [start], axis)
+
+    def test_getRebarData_multiple_bar_placement(self):
+        """Hosted and standalone distribution agrees with generated solid geometry."""
+        rebar, host = self._create_placement_rebar()
+        rebar.Amount = 3
+        for hosted, distance in itertools.product((False, True), (0, 100)):
+            with self.subTest(hosted=hosted, distance=distance):
+                rebar.Host = host if hosted else None
+                rebar.Distance = distance
+                rebar.OffsetStart = 5
+                rebar.OffsetEnd = 7
+                self.document.recompute()
+                size = distance or (300 if hosted else 1)
+                self._assert_straight_rebar_data(rebar, [5, (size - 2) / 2, size - 7])
+
+    def test_getRebarData_custom_spacing(self):
+        """Nonuniform placement is shared by centrelines and solids."""
+        rebar, host = self._create_placement_rebar()
+        rebar.OffsetStart = 5
+        rebar.OffsetEnd = 7
+        rebar.Distance = 72
+        rebar.CustomSpacing = "10+30+50"
+        self.document.recompute()
+        self.assertEqual(rebar.Amount, 3)
+        self._assert_straight_rebar_data(rebar, [5, 25, 65])
+
+        # Stored custom placements carry the host rotation as well as the offset.
+        host.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(10, -20, 30), FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 23)
+        )
+        rebar.Base.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(20, -30, 70), FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 31)
+        )
+        self.document.recompute()
+        original_base = rebar.Base.Shape.exportBrepToString()
+        original_solid = rebar.Shape.exportBrepToString()
+        wires, radius = rebar.Proxy.getRebarData(rebar)
+        self.assertEqual(len(wires), 3)
+        self.assertEqual(len(rebar.Proxy.wires), 3)
+        self.assertEqual(len(rebar.Shape.Solids), 3)
+        self.assertAlmostEqual(radius, 6)
+        for wire, cached, solid, offset in zip(
+            wires, rebar.Proxy.wires, rebar.Shape.Solids, (5, 25, 65)
+        ):
+            expected = [
+                host.Placement.Rotation.multVec(vertex.Point) + FreeCAD.Vector(0, offset, 0)
+                for vertex in rebar.Base.Shape.Vertexes
+            ]
+            self.assertEqual(len(wire.Vertexes), 2)
+            for vertex, point in zip(wire.Vertexes, expected):
+                self.assertLess((vertex.Point - point).Length, 1e-7)
+            midpoint = (expected[0] + expected[1]) * 0.5
+            self.assertLess((solid.CenterOfMass - rebar.Placement.multVec(midpoint)).Length, 1e-7)
+            self.assertLess((cached.CenterOfMass - midpoint).Length, 1e-7)
+        self.assertEqual(rebar.Base.Shape.exportBrepToString(), original_base)
+        self.assertEqual(rebar.Shape.exportBrepToString(), original_solid)
+
+    def test_getRebarData_local_coordinates_and_copies(self):
+        """Returned wires stay local and callers may transform them without changing the model."""
+        rebar, host = self._create_placement_rebar()
+        rebar.OffsetStart = 5
+        rebar.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(70, -20, 30), FreeCAD.Rotation(FreeCAD.Vector(1, 1, 1), 37)
+        )
+        self.document.recompute()
+        wires = self._assert_straight_rebar_data(rebar, [5])
+        wires[0].translate(FreeCAD.Vector(1000, 2000, 3000))
+        wires[0].scale(0.001)
+        self._assert_straight_rebar_data(rebar, [5])
+
+    def test_getRebarData_single_edge_base(self):
+        """The single-edge base supported by solid generation also exports as a wire."""
+        base = self.document.addObject("Part::Feature", "EdgeBase")
+        base.Shape = Part.makeLine(FreeCAD.Vector(20, 40, 50), FreeCAD.Vector(180, 40, 50))
+        base.addProperty("App::PropertyLength", "Length")
+        base.Length = 160
+        rebar = Arch.makeRebar(sketch=base, diameter=12, amount=1, offset=0)
+        rebar.Direction = FreeCAD.Vector(0, 1, 0)
+        rebar.OffsetStart = 5
+        self.document.recompute()
+        self._assert_straight_rebar_data(rebar, [5])
+
+        # Unsupported disconnected edges must not index an absent Wires list.
+        base.Shape = Part.makeCompound(
+            [
+                Part.makeLine(FreeCAD.Vector(), FreeCAD.Vector(10, 0, 0)),
+                Part.makeLine(FreeCAD.Vector(0, 5, 0), FreeCAD.Vector(10, 5, 0)),
+            ]
+        )
+        self.assertIsNone(rebar.Proxy.getRebarData(rebar))
+
+    def test_getRebarData_rounded_base(self):
+        """Rounded centreline sweeps occupy the same geometry as the generated bars."""
+        base = Draft.make_wire(
+            [FreeCAD.Vector(20, 40, 50), FreeCAD.Vector(180, 40, 50), FreeCAD.Vector(180, 100, 50)]
+        )
+        rebar = Arch.makeRebar(sketch=base, diameter=12, amount=2, offset=0)
+        rebar.Direction = FreeCAD.Vector(0, 1, 0)
+        rebar.Distance = 100
+        rebar.OffsetStart = 5
+        rebar.OffsetEnd = 7
+        rebar.Rounding = 2
+        self.document.recompute()
+        original_base = base.Shape.exportBrepToString()
+        original_solid = rebar.Shape.exportBrepToString()
+        wires, radius = rebar.Proxy.getRebarData(rebar)
+        self.assertEqual(len(wires), 2)
+        for wire, solid, offset in zip(wires, rebar.Shape.Solids, (5, 93)):
+            self.assertAlmostEqual(wire.Length, 220 - 48 + math.pi * 24 / 2)
+            for point in (
+                FreeCAD.Vector(20, 40 + offset, 50),
+                FreeCAD.Vector(180, 100 + offset, 50),
+            ):
+                self.assertLess(wire.distToShape(Part.Vertex(point))[0], 1e-7)
+            edge = wire.Edges[0]
+            profile = Part.Wire(
+                Part.makeCircle(radius, edge.Vertexes[0].Point, edge.tangentAt(edge.FirstParameter))
+            )
+            swept = wire.makePipeShell([profile], True, False, 2)
+            self.assertLess(solid.cut(swept).Volume, 1e-6)
+            self.assertLess(swept.cut(solid).Volume, 1e-6)
+        self.assertEqual(base.Shape.exportBrepToString(), original_base)
+        self.assertEqual(rebar.Shape.exportBrepToString(), original_solid)
+
+    def test_getRebarData_rotated_sketch_base(self):
+        """Exported and native display centrelines retain the transformed sketch path."""
+        base = self._create_sketch(length=160)
+        base.Placement = FreeCAD.Placement(
+            FreeCAD.Vector(20, 40, 50), FreeCAD.Rotation(FreeCAD.Vector(0, 0, 1), 31)
+        )
+        rebar = Arch.makeRebar(sketch=base, diameter=12, amount=1, offset=5)
+        rebar.Direction = FreeCAD.Vector(0, 1, 0)
+        self.document.recompute()
+        original_base = base.Shape.exportBrepToString()
+        original_solid = rebar.Shape.exportBrepToString()
+        wires, radius = rebar.Proxy.getRebarData(rebar)
+        self.assertEqual(len(wires), 1)
+        expected = base.Placement.multVec(FreeCAD.Vector(80, 0, 0)) + FreeCAD.Vector(0, 5, 0)
+        self.assertLess((rebar.Shape.Solids[0].CenterOfMass - expected).Length, 1e-7)
+        # The native Centerline display mode consumes this cache.
+        self.assertLess((rebar.Proxy.wires[0].CenterOfMass - expected).Length, 1e-7)
+        self.assertLess((wires[0].CenterOfMass - expected).Length, 1e-7)
+        self.assertAlmostEqual(wires[0].Length, 160)
+        self.assertAlmostEqual(rebar.Shape.Volume, math.pi * radius**2 * 160, delta=1e-6)
+        self.assertEqual(base.Shape.exportBrepToString(), original_base)
+        self.assertEqual(rebar.Shape.exportBrepToString(), original_solid)
+
+    def test_getRebarData_after_save_reopen(self):
+        """Persisted placements work before and after recompute, without a transient wire cache."""
+        rebar, host = self._create_placement_rebar()
+        rebar.OffsetStart = 5
+        rebar.Distance = 100
+        self.document.recompute()
+        name = rebar.Name
+        with tempfile.TemporaryDirectory() as directory:
+            path = os.path.join(directory, "rebar-placement.FCStd")
+            self.document.saveAs(path)
+            FreeCAD.closeDocument(self.document.Name)
+            self.document = FreeCAD.openDocument(path)
+            rebar = self.document.getObject(name)
+            self._assert_straight_rebar_data(rebar, [5])
+            self.document.recompute()
+            self._assert_straight_rebar_data(rebar, [5])
 
     def test_makeRebar_default_name(self):
         """Test makeRebar creates rebar with default 'Rebar' Label.

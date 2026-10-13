@@ -40,7 +40,6 @@ import FreeCAD
 import ArchCommands
 import ArchIFC
 import ArchComponent
-import Draft
 import DraftVecUtils
 
 from draftutils import params
@@ -243,44 +242,32 @@ class _Rebar(ArchComponent.Component):
         return None, None
 
     def getRebarData(self, obj):
+        """Return fresh object-local centreline wires and the bar radius.
 
-        # if not obj.Host:
-        #    return
-        # if Draft.getType(obj.Host) != "Structure":
-        #    return
-        # if not obj.Host.Shape:
-        #    return
+        Use the placements stored by the last recompute, just like the generated
+        solids. A single bar therefore uses OffsetStart rather than half the
+        distribution span. Callers may transform the returned copies (for
+        example, IFC export applies the object's global placement and scale).
+        """
+
         if not obj.Base:
             return
         if not obj.Base.Shape:
             return
-        if not obj.Base.Shape.Wires:
+        if not obj.Base.Shape.Edges:
             return
         if not obj.Diameter.Value:
             return
         if not obj.Amount:
             return
-        father = None
-        if obj.Host:
-            father = obj.Host
-        wire = obj.Base.Shape.Wires[0]
-        axis = None
-        if Draft.getType(obj.Base) == "Wire":  # Draft Wires can have "wrong" placement
-            import DraftGeomUtils
+        if obj.Base.Shape.Wires:
+            wire = obj.Base.Shape.Wires[0]
+        elif len(obj.Base.Shape.Edges) == 1:
+            import Part
 
-            axis = DraftGeomUtils.getNormal(obj.Base.Shape)
-        if not axis:
-            axis = obj.Base.Placement.Rotation.multVec(FreeCAD.Vector(0, 0, -1))
-        if hasattr(obj, "Direction"):
-            if not DraftVecUtils.isNull(obj.Direction):
-                axis = FreeCAD.Vector(obj.Direction)
-                axis.normalize()
-        size = 0
-        if father:
-            size = (ArchCommands.projectToVector(father.Shape.copy(), axis)).Length
-        if hasattr(obj, "Distance"):
-            if obj.Distance.Value:
-                size = obj.Distance.Value
+            wire = Part.Wire(obj.Base.Shape.Edges[0])
+        else:
+            return
         if hasattr(obj, "Rounding"):
             if obj.Rounding:
                 radius = obj.Rounding * obj.Diameter.Value
@@ -288,33 +275,10 @@ class _Rebar(ArchComponent.Component):
 
                 wire = DraftGeomUtils.filletWire(wire, radius)
         wires = []
-        if obj.Amount == 1:
-            if size and father:
-                offset = DraftVecUtils.scaleTo(axis, size / 2)
-            else:
-                offset = FreeCAD.Vector()
-            wire.translate(offset)
-            wires.append(wire)
-        else:
-            if obj.OffsetStart.Value:
-                baseoffset = DraftVecUtils.scaleTo(axis, obj.OffsetStart.Value)
-            else:
-                baseoffset = None
-            if hasattr(obj, "RebarShape") and obj.RebarShape == "Stirrup":
-                interval = size - (obj.OffsetStart.Value + obj.OffsetEnd.Value + obj.Diameter.Value)
-            else:
-                interval = size - (obj.OffsetStart.Value + obj.OffsetEnd.Value)
-            interval = interval / (obj.Amount - 1)
-            vinterval = DraftVecUtils.scaleTo(axis, interval)
-            for i in range(obj.Amount):
-                if i == 0:
-                    if baseoffset:
-                        wire.translate(baseoffset)
-                    wires.append(wire)
-                else:
-                    wire = wire.copy()
-                    wire.translate(vinterval)
-                    wires.append(wire)
+        for placement in obj.PlacementList:
+            placed_wire = wire.copy()
+            placed_wire.Placement = placement.multiply(wire.Placement)
+            wires.append(placed_wire)
         return [wires, obj.Diameter.Value / 2]
 
     def onChanged(self, obj, prop):
@@ -541,7 +505,8 @@ class _Rebar(ArchComponent.Component):
             bar.Placement = obj.PlacementList[i]
             shapes.append(bar)
             w = basewire.copy()
-            w.Placement = obj.PlacementList[i]
+            # The sweep retains the base path's transform; its centreline must too.
+            w.Placement = obj.PlacementList[i].multiply(basewire.Placement)
             self.wires.append(w)
         if shapes:
             obj.Shape = Part.makeCompound(shapes)
