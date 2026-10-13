@@ -40,6 +40,7 @@ import re
 import tempfile
 import unittest
 from unittest import mock
+import xml.etree.ElementTree as ET
 
 import FreeCAD as App
 import Draft
@@ -47,6 +48,7 @@ import Part
 import TechDraw
 import WorkingPlane
 import draftfunctions.svgshapes as svgshapes
+import draftfunctions.svgtext as svgtext
 import importSVG
 from drafttests import auxiliary as aux
 from drafttests import test_base
@@ -111,6 +113,215 @@ class DraftSVG(test_base.DraftTestCaseDoc):
             App.Console.PrintLog("Exception thrown, OK: {}".format(err))
         else:
             self.fail("no exception thrown")
+
+
+class DraftSVGTextExportRegression(test_base.DraftTestCaseDoc):
+    """Regression tests for text orientation in SVG exports."""
+
+    @staticmethod
+    def _text_plane_rotations():
+        return (
+            App.Rotation(),
+            App.Rotation(App.Vector(0, 0, 1), 37),
+            App.Rotation(App.Vector(1, 0, 0), 90),
+            App.Rotation(App.Vector(0, 1, 0), 90),
+            App.Rotation(App.Vector(1, 2, 3), 63),
+        )
+
+    @staticmethod
+    def _text_plane(rotation, opposite=False):
+        u = rotation.multVec(App.Vector(1, 0, 0))
+        v = rotation.multVec(App.Vector(0, 1, 0))
+        normal = rotation.multVec(App.Vector(0, 0, 1))
+        return WorkingPlane.PlaneBase(u, -v if opposite else v, -normal if opposite else normal)
+
+    @staticmethod
+    def _text_svg(rotation, plane, techdraw):
+        return svgtext.get_text(
+            plane,
+            techdraw,
+            "#123456",
+            5,
+            "DejaVu Sans",
+            rotation,
+            App.Vector(17, -23, 0),
+            ["Parallel <note> & detail", "Second line"],
+            linespacing=7,
+            align="left",
+        )
+
+    @staticmethod
+    def _svg_root(svg):
+        return ET.fromstring(
+            '<svg xmlns="http://www.w3.org/2000/svg" '
+            'xmlns:freecad="https://www.freecad.org/wiki/index.php?title=Svg_Namespace">'
+            + svg
+            + "</svg>"
+        )
+
+    def _assert_text_content(self, svg, techdraw):
+        nodes = self._svg_root(svg).findall(".//{http://www.w3.org/2000/svg}text")
+        self.assertEqual(len(nodes), 2 if techdraw else 1)
+        text = "".join("".join(node.itertext()) for node in nodes)
+        self.assertIn("Parallel <note> & detail", text)
+        self.assertIn("Second line", text)
+        return nodes
+
+    def test_text_parallel_to_rotated_plane(self):
+        """Text uses its actual normal and baseline in either SVG output mode."""
+        cases = itertools.product(
+            self._text_plane_rotations(), (False, True), (-37, -2, 0, 2, 37, 143), (False, True)
+        )
+        for frame, opposite, roll, techdraw in cases:
+            plane = self._text_plane(frame, opposite)
+            rotation = frame * App.Rotation(App.Vector(0, 0, 1), roll)
+            with self.subTest(frame=frame.Q, opposite=opposite, roll=roll, techdraw=techdraw):
+                svg = self._text_svg(rotation, plane, techdraw)
+                nodes = self._assert_text_content(svg, techdraw)
+                angle = math.radians(
+                    float(re.search(r"rotate\(([^,]+),", nodes[0].get("transform"))[1])
+                )
+                expected = math.radians(-roll if opposite else roll)
+                self.assertAlmostEqual(math.cos(angle), math.cos(expected), places=7)
+                self.assertAlmostEqual(math.sin(angle), math.sin(expected), places=7)
+
+    def test_text_perpendicular_to_rotated_plane_is_hidden(self):
+        """Actually edge-on text remains suppressed, independent of rotation axis."""
+        cases = itertools.product(
+            self._text_plane_rotations(), (False, True), (90, -90), (False, True)
+        )
+        for frame, opposite, tilt, techdraw in cases:
+            plane = self._text_plane(frame, opposite)
+            rotation = frame * App.Rotation(App.Vector(1, 0, 0), tilt)
+            with self.subTest(frame=frame.Q, opposite=opposite, tilt=tilt, techdraw=techdraw):
+                self.assertEqual(self._text_svg(rotation, plane, techdraw), "")
+
+    def test_text_oblique_to_rotated_plane(self):
+        """A non-edge-on baseline is projected into the view's u/v axes."""
+        cases = itertools.product(self._text_plane_rotations(), (False, True), (False, True))
+        for frame, opposite, techdraw in cases:
+            plane = self._text_plane(frame, opposite)
+            rotation = (
+                frame
+                * App.Rotation(App.Vector(1, 0, 0), 45)
+                * App.Rotation(App.Vector(0, 0, 1), 37)
+            )
+            with self.subTest(frame=frame.Q, opposite=opposite, techdraw=techdraw):
+                svg = self._text_svg(rotation, plane, techdraw)
+                nodes = self._assert_text_content(svg, techdraw)
+                angle = math.radians(
+                    float(re.search(r"rotate\(([^,]+),", nodes[0].get("transform"))[1])
+                )
+                x = math.cos(math.radians(37))
+                y = math.sin(math.radians(37)) * math.cos(math.radians(45))
+                length = math.hypot(x, y)
+                self.assertAlmostEqual(math.cos(angle), x / length, places=7)
+                self.assertAlmostEqual(math.sin(angle), (-y if opposite else y) / length, places=7)
+
+    def test_text_existing_numeric_and_unprojected_angles(self):
+        """Dimension angles and unprojected rotations keep their existing contract."""
+        cases = itertools.product((-0.37, 0, 0.37), (False, True))
+        for angle, techdraw in cases:
+            plane = self._text_plane(App.Rotation(App.Vector(1, 0, 0), 90))
+            svg = self._text_svg(angle, plane, techdraw)
+            nodes = self._assert_text_content(svg, techdraw)
+            actual = math.radians(
+                float(re.search(r"rotate\(([^,]+),", nodes[0].get("transform"))[1])
+            )
+            self.assertAlmostEqual(actual, angle)
+            rotation = App.Rotation(App.Vector(0, 0, 1), math.degrees(angle))
+            nodes = self._assert_text_content(self._text_svg(rotation, None, techdraw), techdraw)
+            actual = math.radians(
+                float(re.search(r"rotate\(([^,]+),", nodes[0].get("transform"))[1])
+            )
+            self.assertAlmostEqual(actual, rotation.Angle)
+
+    @unittest.skipUnless(App.GuiUp, "Draft label rendering requires its native view provider")
+    def test_label_and_text_svg_in_rotated_planes(self):
+        """Stock annotations retain parallel text, and label leaders stay intact."""
+        label = Draft.make_label(
+            custom_text=["Parallel <note> & detail", "Second line"], distance=-10
+        )
+        label.ViewObject.Justification = "Left"
+        text = Draft.make_text(["Parallel <note> & detail", "Second line"])
+        cases = itertools.product(
+            self._text_plane_rotations(), (False, True), (False, True), (0, 90)
+        )
+        for frame, opposite, techdraw, tilt in cases:
+            plane = self._text_plane(frame, opposite)
+            rotation = frame * App.Rotation(App.Vector(1, 0, 0), tilt)
+            placement = App.Placement(App.Vector(23, 31, 17), rotation)
+            label.Placement = placement
+            text.Placement = placement
+            label.TargetPoint = placement.multVec(App.Vector(-35, -20, 0))
+            self.doc.recompute()
+            for obj in (label, text):
+                with self.subTest(
+                    frame=frame.Q, opposite=opposite, tilt=tilt, techdraw=techdraw, obj=obj.Name
+                ):
+                    svg = Draft.get_svg(obj, direction=plane, techdraw=techdraw)
+                    root = self._svg_root(svg)
+                    if obj is label:
+                        self.assertTrue(root.findall(".//{http://www.w3.org/2000/svg}path"))
+                    if tilt == 0:
+                        self._assert_text_content(svg, techdraw)
+                    else:
+                        self.assertFalse(root.findall(".//{http://www.w3.org/2000/svg}text"))
+
+    @unittest.skipUnless(App.GuiUp and have_arch, "Arch label views require BIM and the GUI")
+    def test_arch_view_label_text_in_rotated_sections(self):
+        """Ordinary TechDraw Arch views retain label text and their stock leaders."""
+        label = Draft.make_label(custom_text="Section label", distance=-10)
+        label.ViewObject.Justification = "Left"
+        section = Arch.makeSectionPlane([label])
+        page = self.doc.addObject("TechDraw::DrawPage", "Page")
+        template = self.doc.addObject("TechDraw::DrawSVGTemplate", "Template")
+        template.Template = os.path.join(
+            App.getResourceDir(), "Mod", "TechDraw", "Templates", "ISO", "A3_Landscape_blank.svg"
+        )
+        page.Template = template
+        view = self.doc.addObject("TechDraw::DrawViewArch", "ArchView")
+        view.Source = section
+        view.AllOn = True
+        page.addView(view)
+        cases = itertools.product(self._text_plane_rotations(), (0, 90, 180), (0, -90))
+        for frame, flip, view_angle in cases:
+            section.Placement = App.Placement(App.Vector(), frame)
+            rotation = frame * App.Rotation(App.Vector(1, 0, 0), flip)
+            label.Placement = App.Placement(App.Vector(), rotation)
+            label.TargetPoint = label.Placement.multVec(App.Vector(-35, -20, 0))
+            view.Rotation = view_angle
+            view.touch()
+            self.doc.recompute()
+            with self.subTest(frame=frame.Q, flip=flip, view_angle=view_angle):
+                self.assertNotIn("Invalid", view.State)
+                self.assertNotIn("Touched", view.State)
+                root = ET.fromstring(view.Symbol)
+                nodes = root.findall(".//{http://www.w3.org/2000/svg}text")
+                paths = root.findall(".//{http://www.w3.org/2000/svg}path")
+                if flip == 90:
+                    self.assertFalse(nodes)
+                    self.assertFalse(paths)
+                else:
+                    self.assertEqual(len(nodes), 1)
+                    self.assertIn("Section label", "".join(nodes[0].itertext()))
+                    self.assertTrue(paths)
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = os.path.join(directory, "SectionLabel.FCStd")
+            view_name = view.Name
+            self.doc.saveAs(path)
+            App.closeDocument(self.doc.Name)
+            self.doc = App.openDocument(path)
+            view = self.doc.getObject(view_name)
+            view.touch()
+            self.doc.recompute()
+            self.assertNotIn("Invalid", view.State)
+            self.assertNotIn("Touched", view.State)
+            root = ET.fromstring(view.Symbol)
+            nodes = root.findall(".//{http://www.w3.org/2000/svg}text")
+            self.assertEqual(len(nodes), 1)
+            self.assertIn("Section label", "".join(nodes[0].itertext()))
 
 
 class DraftSVGExportRegression(test_base.DraftTestCaseDoc):

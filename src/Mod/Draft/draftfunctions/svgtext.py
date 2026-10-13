@@ -124,21 +124,15 @@ def get_text(
         if not plane:
             angle = angle.Angle
         else:
-            if plane.axis.getAngle(angle.Axis) < 0.001:
-                angle = angle.Angle
-            elif abs(plane.axis.getAngle(angle.Axis) - math.pi) < 0.001:
-                if abs(angle.Angle) > 0.1:
-                    angle = -angle.Angle
-                else:
-                    angle = angle.Angle
-            elif abs(plane.axis.getAngle(angle.Axis) - math.pi / 2) < 0.001:
+            # Rotation.Axis describes how the text was rotated, not its normal.
+            normal = angle.multVec(App.Vector(0, 0, 1))
+            if abs(plane.axis.getAngle(normal) - math.pi / 2) < 0.001:
                 # text is perpendicular to view, so it shouldn't appear
                 return ""
-            else:
-                # Compute an X vector
-                vec = App.Vector(1, 0, 0)
-                vec = angle.multVec(App.Vector(1, 0, 0))
-                angle = DraftVecUtils.angle(vec, plane.u)
+            # Project the text baseline into the view's local axes. This also
+            # handles opposite-facing normals and rotated/oblique view planes.
+            baseline = angle.multVec(App.Vector(1, 0, 0))
+            angle = math.atan2(baseline.dot(plane.v), baseline.dot(plane.u))
 
     # text should be a list of strings separated by a newline
     if not isinstance(text, list):
