@@ -1,7 +1,7 @@
 {
   "issue": "FreeCAD-6g7",
   "date": "2026-10-15",
-  "status": "source_fix_verified_installation_pending",
+  "status": "installed_and_verified",
   "retained_input": {
     "repository": "onobumba/oomakhi",
     "path": "artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-drawing-resume-input-r01/EN2-fire-access.FCStd",
@@ -62,8 +62,61 @@
     "scratch_evidence": "/private/tmp/freecad-6g7.uxtZXt"
   },
   "delivery_boundary": {
-    "current_installed_application_replaced": false,
+    "current_installed_application_replaced": true,
     "current_user_gui_touched": false,
-    "remaining_acceptance": "Save/close the user's existing FreeCAD session, install a build containing this fix, rerun the retained probe with that installed identity, and hand evidence to Oomakhi for its native affected-workflow rerun and drawing review. Source verification does not accept or close the EN2 building-delivery obligation."
+    "user_saved_and_closed_before_replacement": true,
+    "remaining_acceptance": "Oomakhi's complete affected authoring-workflow rerun and full drawing review remain separate building-delivery obligations. This installed identity, receipt, and opt-in probes are the handoff evidence; targeted source/install validation does not accept the EN2 building package."
+  },
+  "installed_release": {
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "compiled_commit": "d914ca25e4e1dadb2fa763a0a8dad0e4ef634377",
+    "compiled_version": "27.1.0dev49114+141 (Git)",
+    "build": "Full enabled-target Release rebuild of the committed fix, exit0.",
+    "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-6g7-d914ca25e4.app",
+    "old_and_new_deep_strict_signature_verified": true,
+    "signing": "Host-local ad-hoc, not notarized; QuickLook sandbox/file entitlements preserved.",
+    "self_contained": false,
+    "dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "resource_tree_readonly": true,
+    "generated_python_bytecode_removed_before_signing": true,
+    "loaded_part_module": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+    "part_sha256": "88158e37e7ea0e51a93ab4fb7defabc2461fc9571a803101f9c8eeb223fc964f",
+    "app_library_sha256": "2347c30fd04cbc7fa19fa72adc3e2f63b2f6fad004cab8c160dd7a10a3437bb1",
+    "full_ctest": {
+      "registered": 2224,
+      "passed": 2214,
+      "skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "excluded": [],
+      "seconds": 70.89,
+      "native_notification_and_page_printer_passed": true
+    },
+    "installed_part_suite": {"passed": 317, "failed": 0, "seconds": 1.408},
+    "installed_retained_cli": {"passed": true, "seconds": 65.887},
+    "installed_native_round_trip": {
+      "probe": "tests/src/Mod/Part/App/NativeRetainedDimensionReferences.py",
+      "original_native_run_passed": true,
+      "original_native_run_seconds": 92.054,
+      "fresh_native_reopen_passed": true,
+      "fresh_native_reopen_seconds": 91.692,
+      "runtime_identity_and_gui_up_checked": true,
+      "each_run": "Check both restored dimensions, then two full forced recomputes; assert778 mm spans, original Draft endpoint coordinates, owning Window links, and actual linked vertex coordinates within1e-7 mm. Save a separate successor only after all checks pass.",
+      "original_successor_sha256": "01bddbb85843b1372a4b685b6f76e50ee91a64a3a2b4330657fd816f9e0be1a9",
+      "cold_successor_sha256": "0911bfcfc16cf8b5020aaf9db5c6f1181b6975776b8e051f843d403e3f1fff97",
+      "gui_document_xml_present_in_both_successors": true,
+      "view_provider_restore_tracebacks_in_native_to_native_chain": false,
+      "existing_unrelated_stair_reference_warnings": "Dimension116/142 unresolved stair references were logged; not claimed fixed or accepted by this targeted check.",
+      "discarded_intermediate": "An earlier native run opened a CLI-saved successor lacking GuiDocument.xml and logged view-provider restore errors. It is not used as native GUI preservation evidence; the accepted chain starts from the original retained GUI file.",
+      "test_documents_closed_and_native_processes_exited_normally": true,
+      "manual_points_or_link_reassignment": false
+    },
+    "packaging_followup": {
+      "issue": "FreeCAD-5wd",
+      "cause": "The installed toroidal-cut Python regression lacked its BREP fixture. The isolated unchanged test failed in0.001s with null inputs, not a production Boolean regression.",
+      "correction": "Install the fixture even without BUILD_TEST and assert non-null import in the regression. Actual staged installation byte-matched the source fixture; the full installed317-test suite passed afterward.",
+      "fixture_sha256": "5e42a8d66b0ba283183519d57c92b36d876e322796fec68685aadf4ca575f3da",
+      "compiled_app_and_part_hashes_unchanged_by_packaging_correction": true
+    }
   }
 }

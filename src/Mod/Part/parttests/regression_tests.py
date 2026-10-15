@@ -123,6 +123,7 @@ class RegressionTests(unittest.TestCase):
         path = os.path.join(FreeCAD.getHomePath(), "tests", "brepfiles", "toroidalFitting.brep")
         first = Part.Shape()
         first.importBrep(path)
+        self.assertFalse(first.isNull(), f"Required BREP fixture missing or unreadable: {path}")
         identical = Part.Shape()
         identical.importBrep(path)
 

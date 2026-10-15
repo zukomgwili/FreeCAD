@@ -153,3 +153,10 @@ INSTALL(
     DESTINATION
         Mod/Part/parttests
 )
+
+# regression_tests.py is installed even when BUILD_TEST is off, so its BREP
+# input must not depend on the build-only PartTestData copy target.
+install(FILES
+    "${PROJECT_SOURCE_DIR}/tests/src/Mod/Part/App/brepfiles/toroidalFitting.brep"
+    DESTINATION tests/brepfiles
+)
