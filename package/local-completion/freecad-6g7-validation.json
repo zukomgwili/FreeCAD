@@ -1,0 +1,69 @@
+{
+  "issue": "FreeCAD-6g7",
+  "date": "2026-10-15",
+  "status": "source_fix_verified_installation_pending",
+  "retained_input": {
+    "repository": "onobumba/oomakhi",
+    "path": "artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-drawing-resume-input-r01/EN2-fire-access.FCStd",
+    "sha256": "164076536e2a5069862c3779953e6291304ce275ad485d4321007ee019fa113e",
+    "modified": false
+  },
+  "baseline": {
+    "executable": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "version": "27.1.0dev49114+139",
+    "commit": "abf385efed76ff4d6ee02f25242e69e8c4e6a183",
+    "full_recompute_seconds": 69.139,
+    "dimensions": ["Dimension135", "Dimension139"],
+    "first_reference_before": "Vertex43",
+    "first_reference_after": "Vertex33",
+    "projected_width_before_mm": 778,
+    "projected_width_after_mm": 1676,
+    "plain_property_link_sub_list_also_rebound": true
+  },
+  "cause": {
+    "scope": "Retained stale-map data plus a minimal core persistence reproducer; not a claim about all stock BIM windows or the historical file's authoring origin.",
+    "saved_identity": "#657c;:H9db,V;:H,V",
+    "missing_string_id_decimal": 25980,
+    "restored_window_hasher_max_id": 13335,
+    "pattern": "Saved raw hashed names have lost their backing StringIDs. Full recompute regenerates a raw name for a different vertex; the apparently valid match bypasses geometry migration because the saved element-map version still appears current.",
+    "fix": "Detect missing saved hash-prefix identities in PropertyPartShape::afterRestore and invalidate the restored map version, requesting the existing geometry-based reference migration on the next shape change. Do not clear links or assign dimension points.",
+    "historical_name_loss_origin": "Not proven; preventative cross-hasher investigation tracked separately in FreeCAD-ute."
+  },
+  "fixed_build": {
+    "executable": "build/release/bin/FreeCADCmd",
+    "version": "27.1.0dev49114+140",
+    "compiled_base_commit": "3db432a3aa9570383cbb76b3a7f8faaba175e79c",
+    "includes_working_tree_fix": true,
+    "installed": false
+  },
+  "verification": {
+    "minimal_regression_before_fix": "Failed: References changed from (Vertex1, Vertex2) to (Vertex2, Vertex2), 0.075 seconds.",
+    "minimal_and_valid_identity_control_after_fix": "2 passed, 0.079 seconds; saved/cold-reopened/recomputed missing-hash references retain physical points, while a valid identity still follows its new vertex.",
+    "retained_full_recompute_and_save": "Passed, 66.854 seconds; both dimensions retain Vertex43/Vertex10, their original start/end coordinates, and 778 mm projected spans.",
+    "retained_fresh_process_reopen_and_two_full_recomputes": "Passed, 70.597 seconds; both spans 778 mm in all three snapshots and original points retained within 1e-7 mm.",
+    "serialization_caveat": "CLI in-memory BREP serialization may differ with tiny floating-point changes; physical coordinates, not byte equality, are the correctness assertion.",
+    "part_python_suite": {"passed": 317, "seconds": 1.781},
+    "ctest": {
+      "command": "pixi run ctest --test-dir build/release --output-on-failure --parallel 4 -E '^(NotificationBoxNativeShutdown|PagePrinterNative)$'",
+      "passed": 2212,
+      "skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "seconds": 61.24,
+      "excluded": ["NotificationBoxNativeShutdown", "PagePrinterNative"],
+      "exclusion_reason": "Existing user FreeCAD GUI PID97999 remained running and was not touched; these native-app tests can collide with its process-global GUI IPC."
+    },
+    "retained_probe": "tests/src/Mod/Part/App/RetainedDimensionReferences.py",
+    "retained_probe_runs": {
+      "original_input_seconds": 67.021,
+      "fresh_process_successor_seconds": 66.705,
+      "result": "Both passed all six dimension/cycle assertions, including direct linked vertex coordinates rather than only cached Draft endpoints. Each process checks restored state and two forced recomputes, then saves a distinct successor."
+    },
+    "scratch_evidence": "/private/tmp/freecad-6g7.uxtZXt"
+  },
+  "delivery_boundary": {
+    "current_installed_application_replaced": false,
+    "current_user_gui_touched": false,
+    "remaining_acceptance": "Save/close the user's existing FreeCAD session, install a build containing this fix, rerun the retained probe with that installed identity, and hand evidence to Oomakhi for its native affected-workflow rerun and drawing review. Source verification does not accept or close the EN2 building-delivery obligation."
+  }
+}

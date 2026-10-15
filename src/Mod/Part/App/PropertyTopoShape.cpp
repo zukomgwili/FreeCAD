@@ -556,7 +556,24 @@ void PropertyPartShape::Restore(Base::XMLReader& reader)
 
 void PropertyPartShape::afterRestore()
 {
-    if (_Shape.isRestoreFailed()) {
+    bool invalidMap = _Shape.isRestoreFailed();
+    if (!invalidMap) {
+        // Some retained files contain raw hashed names without the corresponding
+        // StringIDs. Such a name can match an unrelated identity after recompute.
+        // Detect this before any new IDs are allocated and use the existing
+        // geometry-based migration instead of trusting a coincidental match.
+        for (const auto& element : _Shape.getElementMap()) {
+            const auto name = element.name.toRawBytes();
+            const auto end = name.indexOf(';');
+            const auto id = App::StringID::fromString(name.constData(), true, end);
+            if (id && (!_Shape.Hasher || !_Shape.Hasher->getID(id))) {
+                invalidMap = true;
+                FC_LOG("Missing element name identity in " << getFullName());
+                break;
+            }
+        }
+    }
+    if (invalidMap) {
         // this cause GeoFeature::updateElementReference() to call
         // PropertyLinkBase::updateElementReferences() with reverse = true, in
         // order to try to regenerate the element map

@@ -4,6 +4,7 @@ import FreeCAD as App
 import Part
 
 import unittest
+import tempfile
 
 
 class TopoShapeAssertions:
@@ -82,6 +83,99 @@ class TopoShapeTest(unittest.TestCase, TopoShapeAssertions):
 
     def tearDown(self):
         App.closeDocument("TopoShape")
+
+    def testRestoredMissingHashCannotAliasAnotherVertex(self):
+        """An unusable saved identity must use geometry recovery, not a coincidental hash."""
+        with tempfile.TemporaryDirectory() as directory:
+            path = directory + "/stale.FCStd"
+            doc = App.newDocument("StaleIdentity")
+            try:
+                target = doc.addObject("Part::Feature", "Target")
+
+                def shape_with_names(names):
+                    shape = Part.makeLine(App.Vector(0, 0, 0), App.Vector(778, 0, 0))
+                    shape.Tag = target.ID
+                    shape.Hasher = App.StringHasher()
+                    shape.ElementMap = names
+                    return shape
+
+                # Model a retained file whose raw mapped names have lost their StringIDs.
+                target.Shape = shape_with_names(
+                    {"#2;:H1,V": "Vertex1", "#3;:H1,V": "Vertex2"}
+                )
+                ref = doc.addObject("App::FeaturePython", "Reference")
+                ref.addProperty("App::PropertyLinkSubList", "References")
+                ref.References = [(target, ["Vertex1", "Vertex2"])]
+                doc.recompute()
+                doc.saveAs(path)
+                App.closeDocument(doc.Name)
+                doc = App.openDocument(path)
+                target = doc.Target
+
+                # Same physical geometry, but a regenerated name now identifies the other point.
+                target.Shape = shape_with_names(
+                    {"#2;:H1,V": "Vertex2", "#4;:H1,V": "Vertex1"}
+                )
+                doc.recompute()
+                self.assertEqual(
+                    doc.Reference.References, [(target, ("Vertex1", "Vertex2"))]
+                )
+                points = [target.Shape.getElement(sub).Point
+                          for sub in doc.Reference.References[0][1]]
+                self.assertAlmostEqual((points[1] - points[0]).Length, 778)
+
+                doc.saveAs(path)
+                App.closeDocument(doc.Name)
+                doc = App.openDocument(path)
+                for _ in range(2):
+                    doc.recompute(None, True)
+                    target, subs = doc.Reference.References[0]
+                    self.assertEqual(subs, ("Vertex1", "Vertex2"))
+                    self.assertAlmostEqual(
+                        (target.Shape.getElement(subs[1]).Point
+                         - target.Shape.getElement(subs[0]).Point).Length, 778
+                    )
+            finally:
+                App.closeDocument(doc.Name)
+
+    def testRestoredValidHashStillFollowsIdentity(self):
+        """Valid names must follow modelling changes, not get pinned to old coordinates."""
+        with tempfile.TemporaryDirectory() as directory:
+            path = directory + "/valid.FCStd"
+            doc = App.newDocument("ValidIdentity")
+            try:
+                target = doc.addObject("Part::Feature", "Target")
+                shape = Part.makeLine(App.Vector(0, 0, 0), App.Vector(778, 0, 0))
+                shape.Tag = target.ID
+                shape.ElementMap = {"seed": "Vertex1"}
+                target.Shape = shape
+                hasher = target.Shape.Hasher
+                hasher.SaveAll = True
+                first = str(hasher.getID("first")) + ";:H1,V"
+                second = str(hasher.getID("second")) + ";:H1,V"
+                shape = Part.makeLine(App.Vector(0, 0, 0), App.Vector(778, 0, 0))
+                shape.Tag = target.ID
+                shape.Hasher = hasher
+                shape.ElementMap = {first: "Vertex1", second: "Vertex2"}
+                target.Shape = shape
+                self.assertTrue(target.Shape.Hasher.isSame(hasher))
+                self.assertEqual(target.Shape.Hasher.Table, {1: "first", 2: "second"})
+                ref = doc.addObject("App::FeaturePython", "Reference")
+                ref.addProperty("App::PropertyLinkSubList", "References")
+                ref.References = [(target, ["Vertex1"])]
+                doc.recompute()
+                doc.saveAs(path)
+                App.closeDocument(doc.Name)
+                doc = App.openDocument(path)
+                target = doc.Target
+                self.assertEqual(target.Shape.Hasher.Table, {1: "first", 2: "second"})
+                shape = target.Shape.copy()
+                shape.ElementMap = {first: "Vertex2", second: "Vertex1"}
+                target.Shape = shape
+                doc.recompute()
+                self.assertEqual(doc.Reference.References, [(target, ("Vertex2",))])
+            finally:
+                App.closeDocument(doc.Name)
 
     def testTopoShapeBox(self):
         # Arrange our test TopoShape
