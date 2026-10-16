@@ -137,7 +137,7 @@ void TaskFemConstraintGear::onSelectionChanged(const Gui::SelectionChanges& msg)
         }
         std::string subName(msg.pSubName);
 
-        if (selectionMode == selnone) {
+        if (selectionMode != seldir) {
             return;
         }
 
@@ -146,11 +146,24 @@ void TaskFemConstraintGear::onSelectionChanged(const Gui::SelectionChanges& msg)
         App::DocumentObject* obj = ConstraintView->getObject()->getDocument()->getObject(
             msg.pObjectName
         );
-        Part::Feature* feat = static_cast<Part::Feature*>(obj);
-        TopoDS_Shape ref = feat->Shape.getShape().getSubShape(subName.c_str());
+        // Constraint::getDirection currently supports Part features, not links.
+        // Reject unsupported owners explicitly instead of casting an App::Link.
+        if (!dynamic_cast<Part::Feature*>(obj)) {
+            QMessageBox::warning(
+                this,
+                tr("Selection Error"),
+                tr("Direction requires a Part feature, not a link")
+            );
+            return;
+        }
+        const TopoDS_Shape ref = Fem::Tools::getFeatureSubShape(obj, subName.c_str(), true);
+        if (ref.IsNull()) {
+            QMessageBox::warning(this, tr("Selection Error"), tr("Cannot resolve selected geometry"));
+            return;
+        }
 
         if (selectionMode == seldir) {
-            if (subName.substr(0, 4) == "Face") {
+            if (ref.ShapeType() == TopAbs_FACE) {
                 if (!Fem::Tools::isPlanar(TopoDS::Face(ref))) {
                     QMessageBox::warning(
                         this,
@@ -160,7 +173,7 @@ void TaskFemConstraintGear::onSelectionChanged(const Gui::SelectionChanges& msg)
                     return;
                 }
             }
-            else if (subName.substr(0, 4) == "Edge") {
+            else if (ref.ShapeType() == TopAbs_EDGE) {
                 if (!Fem::Tools::isLinear(TopoDS::Edge(ref))) {
                     QMessageBox::warning(
                         this,

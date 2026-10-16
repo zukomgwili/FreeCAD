@@ -38,7 +38,6 @@
 
 #include <Mod/Fem/App/FemConstraintBearing.h>
 #include <Mod/Fem/App/FemTools.h>
-#include <Mod/Part/App/PartFeature.h>
 
 #include "TaskFemConstraintBearing.h"
 #include "ui_TaskFemConstraintBearing.h"
@@ -151,7 +150,8 @@ void TaskFemConstraintBearing::onSelectionChanged(const Gui::SelectionChanges& m
         }
         std::string subName(msg.pSubName);
 
-        if (selectionMode == selnone) {
+        // Derived panels handle their own modes (for example Gear direction).
+        if (selectionMode != selref && selectionMode != selloc) {
             return;
         }
 
@@ -159,8 +159,11 @@ void TaskFemConstraintBearing::onSelectionChanged(const Gui::SelectionChanges& m
         App::DocumentObject* obj = ConstraintView->getObject()->getDocument()->getObject(
             msg.pObjectName
         );
-        Part::Feature* feat = static_cast<Part::Feature*>(obj);
-        TopoDS_Shape ref = feat->Shape.getShape().getSubShape(subName.c_str());
+        const TopoDS_Shape ref = Fem::Tools::getFeatureSubShape(obj, subName.c_str(), true);
+        if (ref.IsNull()) {
+            QMessageBox::warning(this, tr("Selection Error"), tr("Cannot resolve selected geometry"));
+            return;
+        }
 
         if (selectionMode == selref) {
             std::vector<App::DocumentObject*> Objects = pcConstraint->References.getValues();
@@ -174,7 +177,7 @@ void TaskFemConstraintBearing::onSelectionChanged(const Gui::SelectionChanges& m
                 );
                 return;
             }
-            if (subName.substr(0, 4) != "Face") {
+            if (ref.ShapeType() != TopAbs_FACE) {
                 QMessageBox::warning(this, tr("Selection Error"), tr("Only faces can be picked"));
                 return;
             }
@@ -200,7 +203,7 @@ void TaskFemConstraintBearing::onSelectionChanged(const Gui::SelectionChanges& m
             onButtonReference(false);
         }
         else if (selectionMode == selloc) {
-            if (subName.substr(0, 4) == "Face") {
+            if (ref.ShapeType() == TopAbs_FACE) {
                 if (!Fem::Tools::isPlanar(TopoDS::Face(ref))) {
                     QMessageBox::warning(
                         this,
@@ -210,7 +213,7 @@ void TaskFemConstraintBearing::onSelectionChanged(const Gui::SelectionChanges& m
                     return;
                 }
             }
-            else if (subName.substr(0, 4) == "Edge") {
+            else if (ref.ShapeType() == TopAbs_EDGE) {
                 if (!Fem::Tools::isLinear(TopoDS::Edge(ref))) {
                     QMessageBox::warning(
                         this,
