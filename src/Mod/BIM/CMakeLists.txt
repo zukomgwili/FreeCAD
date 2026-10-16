@@ -238,7 +238,6 @@ SET(bimtests_SRCS
     bimtests/TestArchComponent.py
     bimtests/TestArchAreaDiagnostics.py
     bimtests/TestArchPlanarProjection.py
-    bimtests/fixtures/area_projection_open_loop.brep
     bimtests/TestArchCovering.py
     bimtests/TestArchCoveringGui.py
     bimtests/TestArchBuildingPart.py
@@ -279,6 +278,7 @@ SET(bimtests_SRCS
 )
 
 set(bimtests_FIXTURES
+    bimtests/fixtures/area_projection_open_loop.brep
     bimtests/fixtures/FC_site_simple-102.FCStd
     bimtests/fixtures/__init__.py
     bimtests/fixtures/BimFixtures.py
