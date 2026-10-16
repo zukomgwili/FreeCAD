@@ -3,6 +3,9 @@
   "issues": ["FreeCAD-901", "FreeCAD-3ir", "FreeCAD-tue", "FreeCAD-628", "FreeCAD-4ak", "FreeCAD-eg2", "FreeCAD-4kt", "FreeCAD-j97", "FreeCAD-7gr", "FreeCAD-s01"],
   "evidence_directory": "/private/tmp/freecad-open.yrxMvq",
   "precommit_runtime": "+167 /906494e81955d2ff226bec592427b13ee18a7f18 with working-tree changes",
+  "implementation_commits": ["0c7cc6a7922a7be5bf19d2844afc61b4981d05f1", "c3f1a35e6e1ec1198839b4be44b882964e848a35"],
+  "final_compiled_commit": "63a753404a7ede248606b64250e85e34bbafc943",
+  "final_version": "27.1.0dev49114+170 (Git)",
   "reproductions": {
     "901": "history-red.log: native seed with12edges reports nonexistentEdge16/17/18. history-cpp-red.log isolates decimal emission of encoded hexadecimal indices. Both expanded bytes and text now use the correct radix; all12 strict mixed-hasher Part tests pass.",
     "3ir": "red-cli.log: low-threshold native hashed postfix introspection throws UnicodeDecodeError. Explicit base64 diagnostic marker now preserves opaque bytes without pretending to recover their preimage; actual payload and topology maps are unchanged.",
@@ -12,7 +15,7 @@
     "eg2": "dimension-red.log: Vertexx1 produces int-conversion traceback; native lookup alone can also silently selectVertex1. Strict indexed/native-mapped resolution now rejects stale or malformed names with actionable owner/reference diagnostics, and resolves valid mapped vertex/edge references.",
     "4kt": "warning-red-2.log:128 native incoherent-owner operations produce128 warnings. Fixed-size mutex-protected limiter emits first/powers-of-two per boundary and severity, resets after quiet and retains exact previous burst count. Million-event test emits20 reports; shape/SID semantics unchanged.",
     "7gr": "Historical intermittent failure was not reproduced in50 isolated and30 stressed original repetitions. Deterministic probe-before-dialog test exposes the driver's one-shot cancellation hole. Repeating visible-dialog probe, queued reject and5s liveness watchdog pass200 stressed Qt test executions. This hardens the test driver, not production save behavior; exact historical timing remains unproved.",
-    "s01": "Historical cold image is genuinely blank while ordinary native opening renders. Isolated current cold-open/recompute/identity probes render correctly, and original harness now renders with an explicit pixel oracle. Test-mode view initialization is serviced before camera fitting and redraw; ten independent cold processes pass with blue fixture visible and all identity snapshots unchanged. Exact historical trigger was not established, and no production rendering defect or fix is claimed. The investigation and stronger capture qualification are complete, not evidence accepting any historical building."
+    "s01": "FINAL CORRECTION: the historical PNG is NOT blank. Independent Pillow RGB decoding finds261923 blue pixels in original b9r final-native/reopen.png, current create.png and installed+170 final-render/reopen.png. The apparent blank was in the preview/inspection path, not the saved pixels; earlier visual interpretations were incorrect. Qt capture oracle finds2632 blue sampled pixels. Ten independent cold processes and installed create/reopen pass full semantic snapshots and actual pixel assertions. Native view initialization before fitting is capture setup only, not a demonstrated rendering fix. No FreeCAD production/test-mode rendering defect is established; investigation closes as misinterpreted preview evidence."
   },
   "qualification": {
     "ctest": {"registered": 2241, "passed": 2231, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 51.22, "excluded": []},
@@ -23,5 +26,13 @@
     "lint": "Changed C++ ranges pass clang-format; changed new Python tests/helpers pass flake8 E266/W503 exemptions and100-column limit; whitespace checked with CRLF-aware git diff."
   },
   "installation": "Recorded separately after exact committed rebuild and installed-runtime verification.",
+  "final_qualification": {
+    "source_ctest": {"registered": 2241, "passed": 2231, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 69.13, "excluded": []},
+    "registered_source_python": {"run": 1020, "failed": 0, "skipped": 7, "existing_expected_failures": 1, "seconds": 73.776},
+    "source_gui": {"run": 42, "passed": 41, "skipped": 1, "failed": 0, "seconds": 8.495},
+    "registration_review": "Initial FemTest24 alias collided with an existing reference-group test alias, so direct rigid-port tests passed but broad discovery omitted them. Corrected to unique FemTest27 and explicitly verified all8 new methods appear in normal TestFemApp output.",
+    "packaging_followup": "FreeCAD-3is created and closed: installed+169 exposed missing BIM fixture at its expected path. Moved BRep into the fixtures install list in63a753404a; staged+170 passes17 native area/projection tests in0.883s. Final installed run is recorded in freecad-all-beads-installation.json.",
+    "harness_history": "Initial supplemental source GUI invocation omitted required output-directory variables for3 opt-in historical probes; corrected environment run passes42 tests with1 independent-cold opt-in skip. No application source or assertions weakened. Native cold rigid-port test runs separately."
+  },
   "limits": {"building_design_accepted": false, "historical_user_documents_modified": false, "independent_agent_review": false}
 }
