@@ -250,8 +250,13 @@ class TestCcxTools(unittest.TestCase):
     # ********************************************************************************************
     def test_constraint_sectionprint(self):
         from femexamples.constraint_section_print import setup
+        from femexamples.meshes import generate_mesh
+        from femexamples.meshes.mesh_section_print_tetra10 import create_nodes, create_elements
 
         setup(self.document, "ccxtools", test_mode=True)
+        # Keep the compact original writer golden file. The refined shipped
+        # example is exercised separately by the real-solver equilibrium probe.
+        self.document.Mesh.FemMesh = generate_mesh.mesh_from_existing(create_nodes, create_elements)
         self.input_file_writing_test(get_namefromdef("test_"))
 
     # ********************************************************************************************

@@ -24,9 +24,15 @@
 # *                                                                         *
 # ***************************************************************************
 
+import gzip
+from pathlib import Path
+import shutil
+import tempfile
+
 import FreeCAD
 from FreeCAD import Vector
 
+import Fem
 import ObjectsFem
 import Materials
 import Part
@@ -63,6 +69,14 @@ See forum topic post:
 https://forum.freecad.org/viewtopic.php?t=43044
 
 constraint section print with volume elements
+
+The quadratic mesh is refined locally at the section (1.25 mm, 5 mm elsewhere).
+For this example, compare the signed resultants with free-body equilibrium:
+force (0, -60000, 0) N; moment about the origin (0, 0, -3420000) N mm.
+The example-only numerical acceptance is 1% vector-relative error in force and
+moment, with less than 0.5% change on further section refinement. This is not a
+structural design acceptance criterion. CalculiX integrates extrapolated nodal
+stresses for Section Print; coarse meshes need not satisfy exact equilibrium.
 
 """
     )
@@ -164,9 +178,13 @@ def setup(doc=None, solvertype="ccxtools", test_mode=False):
     # mesh
     femmesh_obj = analysis.addObject(ObjectsFem.makeMeshGmsh(doc, get_meshname()))[0]
     femmesh_obj.Shape = geom_obj
-    femmesh_obj.CharacteristicLengthMax = "10 mm"
+    femmesh_obj.CharacteristicLengthMax = "5 mm"
     femmesh_obj.ElementOrder = "2nd"
     femmesh_obj.SecondOrderLinear = False
+
+    mesh_region = ObjectsFem.makeMeshRegion(doc, femmesh_obj, name="SectionMeshRegion")
+    mesh_region.CharacteristicLength = "1.25 mm"
+    mesh_region.References = [(geom_obj, ("Face2",))]
 
     doc.recompute()
     # generate the mesh
@@ -174,11 +192,14 @@ def setup(doc=None, solvertype="ccxtools", test_mode=False):
     if not test_mode:
         success = generate_mesh.mesh_from_mesher(femmesh_obj, "gmsh")
     if not success:
-        # try to create from existing mesh
-        from .meshes.mesh_section_print_tetra10 import create_nodes, create_elements
-
-        fem_mesh = generate_mesh.mesh_from_existing(create_nodes, create_elements)
-        femmesh_obj.FemMesh = fem_mesh
+        # Frozen native Gmsh mesh: also usable without Gmsh installed. Keep the
+        # original coarse Python mesh as a small input-writer regression fixture.
+        mesh_path = Path(__file__).parent / "meshes" / "section_print_refined.unv.gz"
+        with tempfile.TemporaryDirectory(prefix="freecad-section-print-") as directory:
+            unv_path = Path(directory) / "section.unv"
+            with gzip.open(mesh_path, "rb") as source, unv_path.open("wb") as target:
+                shutil.copyfileobj(source, target)
+            femmesh_obj.FemMesh = Fem.read(str(unv_path))
 
     if FreeCAD.GuiUp:
         geom_obj.ViewObject.Transparency = 50
@@ -186,6 +207,7 @@ def setup(doc=None, solvertype="ccxtools", test_mode=False):
         geom_obj.ViewObject.Document.activeView().fitAll()
         femmesh_obj.ViewObject.Visibility = False
         shell.ViewObject.Visibility = False
+        mesh_region.ViewObject.Visibility = False
 
     doc.recompute()
     return doc

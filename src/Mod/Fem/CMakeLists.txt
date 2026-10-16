@@ -158,6 +158,7 @@ SET(FemExampleMeshes_SRCS
     femexamples/meshes/mesh_platewithhole_tetra10.py
     femexamples/meshes/mesh_rc_wall_2d_tria6.py
     femexamples/meshes/mesh_section_print_tetra10.py
+    femexamples/meshes/section_print_refined.unv.gz
     femexamples/meshes/mesh_selfweight_cantilever_tetra10.py
     femexamples/meshes/mesh_square_pipe_end_twisted_tria6.py
     femexamples/meshes/mesh_thermomech_bimetal_tetra10.py
