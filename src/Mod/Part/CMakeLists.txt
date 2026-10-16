@@ -83,6 +83,7 @@ set(Part_tests
     parttests/TaskFaceAppearancesTest.py
     parttests/TopoShapeTest.py
     parttests/TestShapeHasherOwnership.py
+    parttests/TestMixedShapeHashers.py
     parttests/TestTangentMode3-0.21.FCStd
     parttests/TestLinkArrayCircular.py
     parttests/TestLinkArrayLinear.py

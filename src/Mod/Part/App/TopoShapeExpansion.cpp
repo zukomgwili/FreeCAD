@@ -778,6 +778,49 @@ size_t checkSubshapeCount(
 
 }  // namespace
 
+TopoShape TopoShape::normalizedElementHasher(const TopoShape& source)
+{
+    if (!Hasher) {
+        Hasher = source.Hasher;
+    }
+    if (!source.Hasher || source.Hasher == Hasher) {
+        return source;
+    }
+
+    // A TopoShape copy shares its ancestry/map cache. Give translated metadata
+    // a fresh cache, but preserve the exact OCCT shape for Modified/Generated.
+    TopoShape normalized(source.Tag, Hasher, source.getShape());
+    if (auto map = source.elementMap()) {
+        normalized.resetElementMap(map->rebaseHasher(source.Hasher, Hasher));
+    }
+    return normalized;
+}
+
+std::vector<TopoShape> TopoShape::normalizedElementHashers(const std::vector<TopoShape>& sources)
+{
+    bool foreign = false;
+    for (const auto& source : sources) {
+        if (!canMapElement(source) || !source.Hasher) {
+            continue;
+        }
+        if (!Hasher) {
+            Hasher = source.Hasher;
+        }
+        else if (Hasher != source.Hasher) {
+            foreign = true;
+        }
+    }
+    if (!foreign) {
+        return {};
+    }
+    std::vector<TopoShape> normalized;
+    normalized.reserve(sources.size());
+    for (const auto& source : sources) {
+        normalized.push_back(normalizedElementHasher(source));
+    }
+    return normalized;
+}
+
 void TopoShape::setupChild(
     Data::ElementMap::MappedChildElements& child,
     TopAbs_ShapeEnum elementType,
@@ -804,6 +847,10 @@ void TopoShape::setupChild(
 void TopoShape::copyElementMap(const TopoShape& topoShape, const char* op)
 {
     if (topoShape.isNull() || isNull()) {
+        return;
+    }
+    if (Hasher && topoShape.Hasher && Hasher != topoShape.Hasher) {
+        copyElementMap(normalizedElementHasher(topoShape), op);
         return;
     }
     std::vector<Data::ElementMap::MappedChildElements> children;
@@ -912,6 +959,10 @@ void TopoShape::mapSubElementForShape(const TopoShape& other, const char* op)
 void TopoShape::mapSubElement(const TopoShape& other, const char* op, bool forceHasher)
 {
     if (!canMapElement(other)) {
+        return;
+    }
+    if (Hasher && other.Hasher && Hasher != other.Hasher) {
+        mapSubElement(normalizedElementHasher(other), op, forceHasher);
         return;
     }
 
@@ -1071,11 +1122,13 @@ void TopoShape::mapCompoundSubElements(const std::vector<TopoShape>& shapes, con
     setMappedChildElements(children);
 }
 
-void TopoShape::mapSubElement(const std::vector<TopoShape>& shapes, const char* op)
+void TopoShape::mapSubElement(const std::vector<TopoShape>& sources, const char* op)
 {
-    if (shapes.empty()) {
+    if (sources.empty()) {
         return;
     }
+    auto normalized = normalizedElementHashers(sources);
+    const auto& shapes = normalized.empty() ? sources : normalized;
 
     if (shapeType(true) == TopAbs_COMPOUND) {
         int count = 0;
@@ -1420,7 +1473,7 @@ void checkForParallelOrCoplanar(
 TopoShape& TopoShape::makeShapeWithElementMap(
     const TopoDS_Shape& shape,
     const Mapper& mapper,
-    const std::vector<TopoShape>& shapes,
+    const std::vector<TopoShape>& sources,
     const char* op,
     ElementMapPolicy elementMapPolicy
 )
@@ -1435,9 +1488,13 @@ TopoShape& TopoShape::makeShapeWithElementMap(
         return *this;
     }
 
-    if (shapes.empty()) {
+    if (sources.empty()) {
         return *this;
     }
+    // Both unchanged-element mapping and modified/generated history below must
+    // see the same identity domain, including compound child-map shortcuts.
+    auto normalized = normalizedElementHashers(sources);
+    const auto& shapes = normalized.empty() ? sources : normalized;
 
     size_t canMap = 0;
     for (auto& incomingShape : shapes) {

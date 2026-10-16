@@ -127,6 +127,17 @@ public:
      */
     ElementMapPtr restore(::App::StringHasherRef hasherRef, std::istream& stream);
 
+    /** Copy this map and its child maps into one identity domain.
+     *
+     * All aliases, encoded names and recursively related identities are translated;
+     * the original maps and hashers are never modified. The source hasher is the
+     * fallback for maps that do not record their own hasher.
+     */
+    ElementMapPtr rebaseHasher(
+        const App::StringHasherRef& source,
+        const App::StringHasherRef& target
+    ) const;
+
     /**
      * @brief Add a sub-element name mapping.
      *

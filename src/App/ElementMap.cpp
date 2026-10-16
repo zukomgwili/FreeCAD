@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
+#include <functional>
 #include <unordered_map>
 #ifndef FC_DEBUG
 #include <random>
@@ -71,6 +72,114 @@ void ElementMap::init()
 ElementMap::ElementMap()
 {
     init();
+}
+
+ElementMapPtr ElementMap::rebaseHasher(
+    const App::StringHasherRef& source,
+    const App::StringHasherRef& target
+) const
+{
+    App::StringHasher::Importer importer(target);
+    std::map<const ElementMap*, ElementMapPtr> translated;
+    std::map<const ElementMap*, App::StringHasherRef> owners;
+    std::map<const MappedChildElements*, MappedChildElements*> translatedChildren;
+    auto importSIDs = [&](const ElementIDRefs& sids) {
+        ElementIDRefs result;
+        result.reserve(sids.size());
+        for (const auto& sid : sids) {
+            result.push_back(importer.importID(sid));
+        }
+        return result;
+    };
+    auto importName =
+        [&](const MappedName& name, const ElementIDRefs& sids, const App::StringHasherRef& owner) {
+            auto data = importer.importReferences(name.dataBytes(), sids, owner);
+            auto whole = importer.importReferences(name.toBytes(), sids, owner);
+            // The public text constructor strips a leading element-map prefix;
+            // these are already the exact stored bytes, not a prefixed name.
+            MappedName result;
+            result.append(whole.constData(), data.size());
+            result += whole.mid(data.size());
+            return result;
+        };
+
+    std::function<ElementMapPtr(const ElementMap*, const App::StringHasherRef&)> copy;
+    copy = [&](const ElementMap* original, const App::StringHasherRef& fallback) {
+        auto found = translated.find(original);
+        if (found != translated.end()) {
+            return found->second;
+        }
+        auto result = std::make_shared<ElementMap>();
+        translated.emplace(original, result);
+        auto owner = original->hasher ? original->hasher : fallback;
+        owners.emplace(original, owner);
+        result->hasher = target;
+        result->childElementSize = original->childElementSize;
+        for (const auto& [type, indices] : original->indexedNames) {
+            auto& destination = result->indexedNames[type];
+            destination.names.resize(indices.names.size());
+            for (std::size_t index = 0; index < indices.names.size(); ++index) {
+                const auto* input = &indices.names[index];
+                auto* output = &destination.names[index];
+                for (; input; input = input->next.get()) {
+                    output->name = importName(input->name, input->sids, owner);
+                    output->sids = importSIDs(input->sids);
+                    if (output->name) {
+                        auto indexed = IndexedName::fromConst(type, static_cast<int>(index));
+                        auto inserted = result->mappedNames.emplace(output->name, indexed);
+                        if (!inserted.second && inserted.first->second != indexed) {
+                            throw Base::RuntimeError("Ambiguous rebased element name");
+                        }
+                    }
+                    if (input->next) {
+                        output->next = std::make_unique<MappedNameRef>();
+                        output = output->next.get();
+                    }
+                }
+            }
+            for (const auto& [end, child] : indices.children) {
+                auto& output = destination.children.emplace(end, child).first->second;
+                translatedChildren.emplace(&child, &output);
+                if (child.elementMap) {
+                    output.elementMap = copy(child.elementMap.get(), owner);
+                }
+                output.postfix = importer.importReferences(child.postfix, child.sids, owner);
+                output.sids = importSIDs(child.sids);
+            }
+        }
+        return result;
+    };
+    auto result = copy(this, source);
+    // Rebuild pointer-bearing caches only after the whole DAG exists. Some
+    // disambiguation groups have no child, or refer to a later sibling map.
+    for (const auto& [original, output] : translated) {
+        ElementIDRefs references;
+        for (const auto& [type, indices] : original->indexedNames) {
+            for (const auto& child : indices.children) {
+                references += child.second.sids;
+            }
+        }
+        for (auto it = original->childElements.constBegin(); it != original->childElements.constEnd();
+             ++it) {
+            auto key = importer.importReferences(it.key(), references, owners.at(original));
+            if (output->childElements.contains(key)) {
+                throw Base::RuntimeError("Ambiguous rebased child element map");
+            }
+            auto& info = output->childElements[key];
+            info.index = it->index;
+            if (it->childMap) {
+                info.childMap = translatedChildren.at(it->childMap);
+            }
+            for (const auto& [map, count] : it->mapIndices) {
+                auto importedMap = translated.find(map);
+                // These are non-owning identity keys, never dereferenced. A
+                // discarded/expanded construction input may have no DAG node.
+                auto identity = importedMap != translated.end() ? importedMap->second.get() : map;
+                info.mapIndices.emplace(identity, count);
+            }
+        }
+    }
+    return result;
 }
 
 

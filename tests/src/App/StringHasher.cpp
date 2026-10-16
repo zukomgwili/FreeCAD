@@ -9,6 +9,7 @@
 
 #include <QCryptographicHash>
 #include <array>
+#include <sstream>
 
 class StringIDTest: public ::testing::Test
 {
@@ -1068,6 +1069,16 @@ TEST_F(StringIDRefTest, setPersistent)  // NOLINT
 }
 
 
+namespace
+{
+class StreamStringHasher: public App::StringHasher
+{
+public:
+    using App::StringHasher::restoreStreamNew;
+    using App::StringHasher::saveStream;
+};
+}  // namespace
+
 class StringHasherTest: public ::testing::Test
 {
 protected:
@@ -1585,4 +1596,337 @@ TEST_F(StringHasherTest, compact)  // NOLINT
 
     // Assert
     EXPECT_EQ(0, Hasher()->count());
+}
+
+TEST_F(StringHasherTest, importPreservesOpaquePayloadsAndFlags)  // NOLINT
+{
+    App::StringHasherRef source(new App::StringHasher);
+    source->setThreshold(3);
+    auto hashed = source->getID("An identity that must be hashed", -1, true);
+    auto binary = source->getID(QByteArray("\0#1\xff", 5), App::StringHasher::Option::Binary);
+    auto literal = source->getID("An ordinary leaf containing #1", -1, false);
+    ASSERT_TRUE(hashed.isHashed());
+    Hasher()->setThreshold(1);
+    // Equal raw bytes are not equal identities if their interpretation differs.
+    auto plainDigest = Hasher()->getID(hashed.deref().data(), App::StringHasher::Option::None);
+    auto plainBinary = Hasher()->getID(binary.deref().data(), App::StringHasher::Option::None);
+    App::StringHasher::Importer importer(Hasher());
+
+    auto importedHash = importer.importID(hashed);
+    auto importedBinary = importer.importID(binary);
+    auto importedLiteral = importer.importID(literal);
+
+    EXPECT_TRUE(importedHash.isHashed());
+    EXPECT_TRUE(importedBinary.isBinary());
+    EXPECT_FALSE(importedLiteral.isHashed());
+    EXPECT_EQ(importedHash.deref().data(), hashed.deref().data());
+    EXPECT_EQ(importedBinary.deref().data(), binary.deref().data());
+    EXPECT_EQ(importedLiteral.deref().data(), literal.deref().data());
+    EXPECT_NE(importedHash, plainDigest);
+    EXPECT_NE(importedBinary, plainBinary);
+    EXPECT_TRUE(importedHash.isFromSameHasher(Hasher()));
+    EXPECT_TRUE(importedBinary.isFromSameHasher(Hasher()));
+    EXPECT_EQ(importer.importID(hashed), importedHash);
+}
+
+TEST_F(StringHasherTest, importPreservesIndexedAndRecursiveEncoding)  // NOLINT
+{
+    App::StringHasherRef source(new App::StringHasher);
+    auto leaf = source->getID("Original identity");
+    Data::MappedName indexed(leaf.deref().toString(42));
+    indexed += ";:M;COPY;:H1:8,F";
+    auto inner = source->getID(indexed, {leaf});
+    ASSERT_TRUE(inner.deref().isPrefixIDIndex());
+    ASSERT_TRUE(inner.deref().isPostfixEncoded());
+    ASSERT_EQ(inner.getIndex(), 42);
+    Data::MappedName outer("(" + leaf.toString() + ";:H1,F|" + inner.toString() + ";:H1,F)");
+    std::string operation = ";:M" + inner.toString();
+    outer += operation + ";:H1:"
+        + QByteArray::number(static_cast<qlonglong>(operation.size()), 16).constData() + ",F";
+    auto top = source->getID(outer, {leaf, inner});
+    for (int i = 0; i < 20; ++i) {
+        Hasher()->getID(("Unrelated destination " + std::to_string(i)).c_str());
+    }
+    App::StringHasher::Importer importer(Hasher());
+
+    auto imported = importer.importID(top);
+    auto importedLeaf = importer.importID(leaf);
+    auto importedInner = importer.importID(inner);
+
+    EXPECT_EQ(importedInner.getIndex(), 42);
+    EXPECT_TRUE(importedInner.deref().isPrefixIDIndex());
+    EXPECT_TRUE(importedInner.deref().isPostfixEncoded());
+    EXPECT_EQ(importedInner.deref().data(), QByteArray((importedLeaf.deref().toString() + ':').c_str()));
+    EXPECT_EQ(importedInner.deref().postfix(), inner.deref().postfix());
+    EXPECT_EQ(
+        imported.deref().data(),
+        QByteArray(
+            ("(" + importedLeaf.toString() + ";:H1,F|" + importedInner.toString() + ";:H1,F)").c_str()
+        )
+    );
+    std::string importedOperation = ";:M" + importedInner.toString();
+    EXPECT_EQ(
+        imported.deref().postfix(),
+        QByteArray(
+            (importedOperation + ";:H1:"
+             + QByteArray::number(static_cast<qlonglong>(importedOperation.size()), 16).constData()
+             + ",F")
+                .c_str()
+        )
+    );
+    ASSERT_EQ(imported.relatedIDs().size(), 2);
+    EXPECT_EQ(imported.relatedIDs()[0], importedLeaf);
+    EXPECT_EQ(imported.relatedIDs()[1], importedInner);
+    for (const auto& related : importedInner.relatedIDs()) {
+        EXPECT_TRUE(related.isFromSameHasher(Hasher()));
+        EXPECT_EQ(Hasher()->getID(related.value(), related.getIndex()), related);
+    }
+}
+
+TEST_F(StringHasherTest, distinctDependencyGraphsDoNotAlias)  // NOLINT
+{
+    auto first = Hasher()->getID("First dependency");
+    auto second = Hasher()->getID("Second dependency");
+    Data::MappedName payload("Same opaque identity name");
+
+    auto firstGraph = Hasher()->getID(payload, {first});
+    auto secondGraph = Hasher()->getID(payload, {second});
+    auto sameGraph = Hasher()->getID(payload, {first});
+
+    EXPECT_NE(firstGraph, secondGraph);
+    EXPECT_EQ(firstGraph, sameGraph);
+    EXPECT_EQ(firstGraph.relatedIDs(), QVector<App::StringIDRef>({first}));
+    EXPECT_EQ(secondGraph.relatedIDs(), QVector<App::StringIDRef>({second}));
+    firstGraph.mark();
+    firstGraph.setPersistent(true);
+    EXPECT_EQ(Hasher()->getID(payload, {first}), firstGraph);
+}
+
+TEST_F(StringHasherTest, importSeparatesEqualPayloadsFromDifferentGraphs)  // NOLINT
+{
+    App::StringHasherRef firstSource(new App::StringHasher);
+    App::StringHasherRef secondSource(new App::StringHasher);
+    auto first = firstSource->getID("First domain");
+    auto second = secondSource->getID("Second domain");
+    Data::MappedName payload("Same opaque identity name");
+    auto firstGraph = firstSource->getID(payload, {first});
+    auto secondGraph = secondSource->getID(payload, {second});
+    ASSERT_EQ(first.value(), second.value());
+    ASSERT_EQ(firstGraph.value(), secondGraph.value());
+    App::StringHasher::Importer importer(Hasher());
+
+    auto importedFirst = importer.importID(firstGraph);
+    auto importedSecond = importer.importID(secondGraph);
+
+    EXPECT_NE(importedFirst, importedSecond);
+    EXPECT_EQ(importedFirst.deref().data(), importedSecond.deref().data());
+    EXPECT_NE(importedFirst.relatedIDs(), importedSecond.relatedIDs());
+    EXPECT_EQ(importer.importID(App::StringIDRef(firstGraph, 27)).getIndex(), 27);
+    EXPECT_EQ(importer.importID(App::StringIDRef(firstGraph, 0)), importedFirst);
+}
+
+TEST_F(StringHasherTest, opaquePayloadsSurviveStreamRoundTrip)  // NOLINT
+{
+    auto* source = new StreamStringHasher;
+    App::StringHasherRef sourceOwner(source);
+    source->setThreshold(1);
+    auto hashed = source->getID("An identity hashed before persistence", -1, true);
+    auto binary = source->getID(QByteArray("\0Binary\0#1\xff", 11), App::StringHasher::Option::Binary);
+    auto text = source->getID("Ordinary text with spaces and\na newline", -1, false);
+    auto plainASCII = source->getID(QByteArray("Equal ASCII payload"), App::StringHasher::Option::None);
+    auto binaryASCII
+        = source->getID(QByteArray("Equal ASCII payload"), App::StringHasher::Option::Binary);
+    ASSERT_NE(plainASCII, binaryASCII);
+    hashed.mark();
+    binary.mark();
+    text.mark();
+    plainASCII.mark();
+    binaryASCII.mark();
+    std::stringstream stream;
+    source->saveStream(stream);
+    auto* restored = new StreamStringHasher;
+    App::StringHasherRef restoredOwner(restored);
+
+    restored->restoreStreamNew(stream, source->count());
+
+    for (const auto& original : {hashed, binary, text, plainASCII, binaryASCII}) {
+        auto current = restored->getID(original.value());
+        ASSERT_TRUE(current);
+        EXPECT_EQ(current.deref().data(), original.deref().data());
+        EXPECT_EQ(current.isHashed(), original.isHashed());
+        EXPECT_EQ(current.isBinary(), original.isBinary());
+    }
+    auto restoredPlain = restored->getID(plainASCII.value());
+    auto restoredBinary = restored->getID(binaryASCII.value());
+    EXPECT_NE(restoredPlain, restoredBinary);
+    EXPECT_EQ(restoredPlain.deref().data(), restoredBinary.deref().data());
+    EXPECT_FALSE(restoredPlain.isBinary());
+    EXPECT_TRUE(restoredBinary.isBinary());
+    EXPECT_FALSE(restored->getSaveAll());
+}
+
+TEST_F(StringHasherTest, relatedReferenceIndexDoesNotChangePersistentInterning)  // NOLINT
+{
+    auto* source = new StreamStringHasher;
+    App::StringHasherRef sourceOwner(source);
+    auto dependency = source->getID("Retention dependency");
+    Data::MappedName name("Retention parent");
+    auto parent = source->getID(name, {App::StringIDRef(dependency, 42)});
+    parent.mark();
+    std::stringstream stream;
+    source->saveStream(stream);
+    auto* restored = new StreamStringHasher;
+    App::StringHasherRef restoredOwner(restored);
+    restored->restoreStreamNew(stream, source->count());
+    auto restoredDependency = restored->getID(dependency.value(), 42);
+    auto size = restored->size();
+
+    auto lookup = restored->getID(name, {restoredDependency});
+
+    EXPECT_EQ(lookup, restored->getID(parent.value()));
+    EXPECT_EQ(restored->size(), size);
+    EXPECT_EQ(source->getID(name, {dependency}), parent);
+}
+
+TEST_F(StringHasherTest, indexedTypeSurvivesImportAndPersistenceAtSmallThreshold)  // NOLINT
+{
+    for (int threshold : {0, 1, 40}) {
+        SCOPED_TRACE(threshold);
+        App::StringHasherRef source(new App::StringHasher);
+        source->setThreshold(threshold);
+        Data::MappedName name("Vertex12");
+        name += ";:M;LongOperationWhosePostfixCanBeHashedAtASmallThreshold;:H1:7,V";
+        auto original = source->getID(name, {});
+        ASSERT_TRUE(original.deref().isIndexed());
+        ASSERT_EQ(original.deref().data(), QByteArray("Vertex"));
+        auto* target = new StreamStringHasher;
+        App::StringHasherRef targetOwner(target);
+        target->setThreshold(1);
+        target->getID("Destination collision");
+        App::StringHasher::Importer importer(targetOwner);
+
+        auto imported = importer.importID(original);
+
+        ASSERT_TRUE(imported.deref().isIndexed());
+        EXPECT_EQ(imported.getIndex(), 12);
+        EXPECT_EQ(imported.deref().data(), original.deref().data());
+        EXPECT_EQ(imported.deref().postfix(), original.deref().postfix());
+        int offset = imported.deref().isPostfixEncoded() ? 1 : 0;
+        auto type = imported.relatedIDs()[offset];
+        EXPECT_FALSE(type.isHashed());
+        EXPECT_EQ(type.deref().data(), QByteArray("Vertex"));
+        imported.mark();
+        std::stringstream stream;
+        target->saveStream(stream);
+        auto* restored = new StreamStringHasher;
+        App::StringHasherRef restoredOwner(restored);
+
+        restored->restoreStreamNew(stream, target->count());
+
+        auto current = restored->getID(imported.value(), imported.getIndex());
+        ASSERT_TRUE(current);
+        EXPECT_EQ(current.deref().data(), original.deref().data());
+        EXPECT_EQ(current.deref().postfix(), original.deref().postfix());
+        EXPECT_EQ(current.getIndex(), original.getIndex());
+    }
+}
+
+TEST_F(StringHasherTest, importDoesNotRewriteLiteralOperationLabels)  // NOLINT
+{
+    for (const std::string label : {"Seed#1", "(#1)", "Seed(#1)"}) {
+        SCOPED_TRACE(label);
+        App::StringHasherRef source(new App::StringHasher);
+        Data::MappedName name("Vertex12");
+        std::string operation = ';' + label;
+        name += operation + ";:H1:"
+            + QByteArray::number(static_cast<qlonglong>(operation.size()), 16).constData() + ",V";
+        auto original = source->getID(name, {});
+        ASSERT_TRUE(original.deref().isIndexed());
+        ASSERT_EQ(original.relatedIDs().front().value(), 1);
+        for (int i = 0; i < 32; ++i) {
+            Hasher()->getID(("Collision " + std::to_string(i)).c_str());
+        }
+        App::StringHasher::Importer importer(Hasher());
+
+        auto imported = importer.importID(original);
+
+        EXPECT_EQ(imported.deref().data(), original.deref().data());
+        EXPECT_EQ(imported.deref().postfix(), original.deref().postfix());
+        EXPECT_EQ(imported.getIndex(), original.getIndex());
+    }
+}
+
+TEST_F(StringHasherTest, importUpdatesHierarchicalOperationLength)  // NOLINT
+{
+    App::StringHasherRef source(new App::StringHasher);
+    auto sid = source->getID("Child map identity");
+    for (int i = 0; i < 32; ++i) {
+        Hasher()->getID(("Collision " + std::to_string(i)).c_str());
+    }
+    App::StringHasher::Importer importer(Hasher());
+    QByteArray name((";:R" + sid.toString() + ";:H1:5,F").c_str());
+
+    auto imported = importer.importReferences(name, {sid}, source);
+
+    auto current = importer.importID(sid);
+    EXPECT_EQ(imported, QByteArray((";:R" + current.toString() + ";:H1:6,F").c_str()));
+    int prefixLength = -1;
+    EXPECT_GE(
+        Data::MappedName::fromRawData(imported)
+            .findTagInElementName(nullptr, &prefixLength, nullptr, nullptr, true, false),
+        0
+    );
+    EXPECT_EQ(prefixLength, 0);
+}
+
+TEST_F(StringHasherTest, importTranslatesTaggedAggregateLeavesButNotTheirLabels)  // NOLINT
+{
+    App::StringHasherRef source(new App::StringHasher);
+    auto leaf = source->getID("Original identity");
+    auto text = "(" + leaf.toString() + ";Seed#1;:H1:7,V)";
+    auto aggregate = source->getID(text.c_str());
+    ASSERT_TRUE(aggregate.relatedIDs().empty());
+    auto* target = new StreamStringHasher;
+    App::StringHasherRef targetOwner(target);
+    for (int i = 0; i < 32; ++i) {
+        target->getID(("Collision " + std::to_string(i)).c_str());
+    }
+    App::StringIDRef imported;
+    long dependencyID = 0;
+    {
+        App::StringHasher::Importer importer(targetOwner);
+        imported = importer.importID(aggregate);
+        auto importedLeaf = importer.importID(leaf);
+        dependencyID = importedLeaf.value();
+        EXPECT_EQ(
+            imported.deref().data(),
+            QByteArray(("(" + importedLeaf.toString() + ";Seed#1;:H1:7,V)").c_str())
+        );
+        auto ordinary = source->getID("(#1)");
+        EXPECT_EQ(importer.importID(ordinary).deref().data(), QByteArray("(#1)"));
+    }
+    source = nullptr;
+    leaf.reset();
+    aggregate.reset();
+    target->compact();
+    target->clearMarks();
+    // Only the imported aggregate remains externally retained or marked.
+    imported.mark();
+    ASSERT_EQ(imported.relatedIDs().size(), 1);
+    EXPECT_EQ(imported.relatedIDs()[0].value(), dependencyID);
+    std::stringstream stream;
+    target->saveStream(stream);
+    auto* restored = new StreamStringHasher;
+    App::StringHasherRef restoredOwner(restored);
+
+    restored->restoreStreamNew(stream, target->count());
+
+    auto current = restored->getID(imported.value());
+    ASSERT_TRUE(current);
+    EXPECT_EQ(current.deref().data(), imported.deref().data());
+    ASSERT_EQ(current.relatedIDs().size(), 1);
+    auto dependency = restored->getID(current.relatedIDs()[0].value());
+    ASSERT_TRUE(dependency);
+    EXPECT_EQ(dependency.deref().data(), QByteArray("Original identity"));
+    EXPECT_FALSE(restored->getSaveAll());
 }

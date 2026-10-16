@@ -560,4 +560,176 @@ TEST_F(ElementMapTest, addAndGetChildElementsTest)
         return e.indexedName.toString() == "Pong2";
     }));
 }
+TEST_F(ElementMapTest, rebaseHasherPreservesAliasesAndSharedChildMaps)
+{
+    App::StringHasherRef childHasher(new App::StringHasher);
+    auto child = std::make_shared<Data::ElementMap>();
+    child->hasher = childHasher;
+    std::vector<App::StringIDRef> childIDs;
+    for (int index = 1; index <= 6; ++index) {
+        auto sid = childHasher->getID(("Child identity " + std::to_string(index)).c_str());
+        childIDs.push_back(sid);
+        Data::ElementIDRefs refs {sid};
+        child->setElementName(
+            Data::IndexedName("Face", index),
+            Data::MappedName(sid.toString() + ";:H1,F"),
+            1,
+            &refs
+        );
+    }
+    for (int index = 0; index < 2; ++index) {
+        auto sid = childHasher->getID(("Alias identity " + std::to_string(index)).c_str());
+        Data::ElementIDRefs refs {sid};
+        child->setElementName(
+            Data::IndexedName("Face", 1),
+            Data::MappedName(sid.toString() + ";:H1,F"),
+            1,
+            &refs
+        );
+    }
+    auto parent = std::make_shared<Data::ElementMap>();
+    parent->hasher = _hasher;
+    std::vector<Data::ElementMap::MappedChildElements> children {
+        {Data::IndexedName("Face", 1), 6, 0, 10, child, QByteArray("FirstCopyOperation"), {}},
+        {Data::IndexedName("Face", 1), 6, 6, 11, child, QByteArray("SecondCopyOperation"), {}}
+    };
+    parent->addChildElements(20, children);
+    parent->hashChildMaps(20);
+    auto originalChildren = parent->getChildElements();
+    ASSERT_EQ(originalChildren.size(), 2);
+    ASSERT_FALSE(originalChildren[0].sids.empty());
+    auto originalNames = parent->getAll();
+    // Exercise the supplied fallback for a map that predates recording its owner.
+    parent->hasher = nullptr;
+    App::StringHasherRef target(new App::StringHasher);
+    for (int i = 0; i < 20; ++i) {
+        target->getID(("Unrelated identity " + std::to_string(i)).c_str());
+    }
+
+    auto rebased = parent->rebaseHasher(_hasher, target);
+
+    ASSERT_TRUE(rebased->hasher == target);
+    EXPECT_FALSE(parent->hasher);
+    EXPECT_TRUE(child->hasher == childHasher);
+    auto rebasedChildren = rebased->getChildElements();
+    ASSERT_EQ(rebasedChildren.size(), 2);
+    EXPECT_EQ(rebasedChildren[0].elementMap, rebasedChildren[1].elementMap);
+    EXPECT_NE(rebasedChildren[0].elementMap, child);
+    EXPECT_TRUE(rebasedChildren[0].elementMap->hasher == target);
+    auto aliases = rebasedChildren[0].elementMap->findAll(Data::IndexedName("Face", 1));
+    auto oldAliases = child->findAll(Data::IndexedName("Face", 1));
+    ASSERT_EQ(aliases.size(), 3);
+    ASSERT_EQ(aliases.size(), oldAliases.size());
+    for (std::size_t index = 0; index < aliases.size(); ++index) {
+        ASSERT_EQ(aliases[index].second.size(), 1);
+        auto sid = aliases[index].second.front();
+        EXPECT_TRUE(sid.isFromSameHasher(target));
+        EXPECT_EQ(sid.deref().data(), oldAliases[index].second.front().deref().data());
+        EXPECT_EQ(aliases[index].first.toString(), sid.toString() + ";:H1,F");
+    }
+    for (const auto& entry : rebased->getAll()) {
+        EXPECT_EQ(rebased->find(entry.name), entry.index);
+    }
+    for (const auto& item : rebasedChildren) {
+        EXPECT_GE(item.count, 6);
+        for (const auto& sid : item.sids) {
+            EXPECT_TRUE(sid.isFromSameHasher(target));
+        }
+    }
+    auto afterNames = parent->getAll();
+    ASSERT_EQ(afterNames.size(), originalNames.size());
+    for (std::size_t index = 0; index < afterNames.size(); ++index) {
+        EXPECT_EQ(afterNames[index].name, originalNames[index].name);
+        EXPECT_EQ(afterNames[index].index, originalNames[index].index);
+    }
+    target->clearMarks();
+    rebased->beforeSave(target);
+    for (const auto& sid : rebasedChildren[0].sids) {
+        EXPECT_TRUE(sid.isMarked());
+    }
+    EXPECT_FALSE(target->getSaveAll());
+}
+
+TEST_F(ElementMapTest, rebaseHasherPreservesIndexedReferences)
+{
+    auto sid = _hasher->getID("Indexed identity");
+    Data::ElementIDRefs refs {App::StringIDRef(sid, 42)};
+    Data::ElementMap original;
+    original.hasher = _hasher;
+    original.setElementName(
+        Data::IndexedName("Edge", 1),
+        Data::MappedName(sid.deref().toString(42) + ";:H1,E"),
+        1,
+        &refs
+    );
+    QByteArray rawName((";Raw" + sid.toString()).c_str());
+    original.setElementName(Data::IndexedName("Face", 1), Data::MappedName::fromRawData(rawName), 1, &refs);
+    App::StringHasherRef target(new App::StringHasher);
+    target->getID("Unrelated identity");
+
+    auto rebased = original.rebaseHasher(_hasher, target);
+
+    Data::ElementIDRefs output;
+    auto name = rebased->find(Data::IndexedName("Edge", 1), &output);
+    ASSERT_EQ(output.size(), 1);
+    EXPECT_EQ(output[0].getIndex(), 42);
+    EXPECT_TRUE(output[0].isFromSameHasher(target));
+    EXPECT_EQ(name.toString(), output[0].toString() + ";:H1,E");
+    EXPECT_EQ(rebased->find(name), Data::IndexedName("Edge", 1));
+    EXPECT_EQ(rebased->find(Data::IndexedName("Face", 1)).dataBytes(), rawName);
+    EXPECT_EQ(
+        original.find(Data::IndexedName("Edge", 1)).toString(),
+        sid.deref().toString(42) + ";:H1,E"
+    );
+}
+
+TEST_F(ElementMapTest, rebaseHasherPreservesLaterSiblingDisambiguation)
+{
+    auto makeChild = [&](const std::string& label) {
+        auto result = std::make_shared<Data::ElementMap>();
+        result->hasher = _hasher;
+        for (int index = 1; index <= 6; ++index) {
+            auto sid = _hasher->getID((label + std::to_string(index)).c_str());
+            Data::ElementIDRefs refs {sid};
+            result->setElementName(
+                Data::IndexedName("Face", index),
+                Data::MappedName(sid.toString() + ";:H1,F"),
+                1,
+                &refs
+            );
+        }
+        return result;
+    };
+    auto first = makeChild("First child");
+    auto later = makeChild("Later child");
+    Data::ElementMap parent;
+    parent.hasher = _hasher;
+    std::vector<Data::ElementMap::MappedChildElements> children {
+        {Data::IndexedName("Face", 1), 6, 0, 10, first, QByteArray("Copy"), {}},
+        {Data::IndexedName("Face", 1), 6, 6, 10, later, QByteArray("Copy"), {}},
+        {Data::IndexedName("Face", 1), 6, 12, 11, later, QByteArray("Copy"), {}}
+    };
+    parent.addChildElements(20, children);
+    ASSERT_EQ(parent.getChildElements().size(), 2);
+    App::StringHasherRef target(new App::StringHasher);
+
+    auto rebased = parent.rebaseHasher(_hasher, target);
+
+    auto rebasedChildren = rebased->getChildElements();
+    auto laterChild = std::find_if(rebasedChildren.begin(), rebasedChildren.end(), [](const auto& c) {
+        return c.tag == 11;
+    });
+    ASSERT_NE(laterChild, rebasedChildren.end());
+    auto additional = children[1];
+    additional.offset = 18;
+    parent.addChildElements(20, {additional});
+    additional.elementMap = laterChild->elementMap;
+    rebased->addChildElements(20, {additional});
+
+    EXPECT_EQ(parent.getChildElements().size(), 3);
+    EXPECT_EQ(rebased->getChildElements().size(), 3);
+    EXPECT_EQ(rebased->size(), parent.size());
+    EXPECT_EQ(rebased->getAll().size(), parent.getAll().size());
+}
+
 // NOLINTEND(readability-magic-numbers)

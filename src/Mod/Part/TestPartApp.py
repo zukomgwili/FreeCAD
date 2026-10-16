@@ -37,6 +37,7 @@ from parttests.regression_tests import RegressionTests
 from parttests.TopoShapeListTest import TopoShapeListTest
 from parttests.TopoShapeTest import TopoShapeTest
 from parttests.TestShapeHasherOwnership import TestShapeHasherOwnership
+from parttests.TestMixedShapeHashers import TestMixedShapeHashers
 from parttests.TestLinkArrayCircular import TestLinkArrayCircular
 from parttests.TestLinkArrayLinear import TestLinkArrayLinear
 from parttests.TestLinkArrayPath import TestLinkArrayPath

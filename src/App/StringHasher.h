@@ -25,7 +25,9 @@
 #include <FCConfig.h>
 
 #include <bitset>
+#include <map>
 #include <memory>
+#include <set>
 
 #include <QByteArray>
 #include <QVector>
@@ -635,6 +637,34 @@ class AppExport StringHasher: public Base::Persistence, public Base::Handled
     TYPESYSTEM_HEADER_WITH_OVERRIDE();  // NOLINT
 
 public:
+    /** Import a graph of string identities into one hasher without rehashing its payloads.
+     *
+     * The context preserves sharing between imported identities and keeps their source
+     * references alive. It is intended to be scoped to one geometry-map translation.
+     */
+    class AppExport Importer
+    {
+    public:
+        explicit Importer(StringHasherRef target);
+
+        /// Import an identity, its related identities and the reference's optional index.
+        StringIDRef importID(const StringIDRef& source);
+
+        /** Translate encoded references backed by the supplied identity graph.
+         * Ordinary text and binary payloads must not be passed as encoded names.
+         */
+        QByteArray importReferences(
+            const QByteArray& text,
+            const QVector<StringIDRef>& references,
+            const StringHasherRef& source = {}
+        );
+
+    private:
+        StringHasherRef _target;
+        std::map<const StringID*, std::pair<StringIDRef, StringIDRef>> _imported;
+        std::set<const StringID*> _pending;
+    };
+
     StringHasher();
     ~StringHasher() override;
 

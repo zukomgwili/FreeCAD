@@ -3079,6 +3079,10 @@ private:
 
 private:
     // Helper methods
+    // Rebase naming metadata only, keeping OCCT shapes unchanged for history queries.
+    TopoShape normalizedElementHasher(const TopoShape& source);
+    std::vector<TopoShape> normalizedElementHashers(const std::vector<TopoShape>& sources);
+
     static std::vector<Data::ElementMap::MappedChildElements> createChildMap(
         size_t count,
         const std::vector<TopoShape>& shapes,

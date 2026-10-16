@@ -24,10 +24,12 @@
 #include <QCryptographicHash>
 #include <QHash>
 #include <deque>
+#include <functional>
 
 #include <Base/Console.h>
 #include <Base/Reader.h>
 #include <Base/Stream.h>
+#include <Base/Tools.h>
 #include <Base/Writer.h>
 
 #include <boost/algorithm/string/classification.hpp>
@@ -35,10 +37,12 @@
 #include <boost/bimap.hpp>
 #include <boost/bimap/set_of.hpp>
 #include <boost/bimap/unordered_set_of.hpp>
+#include <boost/functional/hash.hpp>
 #include <boost/io/ios_state.hpp>
 #include <boost/iostreams/stream.hpp>
 
 #include "MappedElement.h"
+#include "ElementNamingUtils.h"
 #include "StringHasher.h"
 #include "StringHasherPy.h"
 #include "StringIDPy.h"
@@ -53,12 +57,26 @@ using namespace App;
 
 struct StringIDHasher
 {
+    static unsigned semanticFlags(const StringID& sid)
+    {
+        // Marked and Persistent are mutable lifetime policy, not identity data.
+        return unsigned(sid.isBinary()) | (unsigned(sid.isHashed()) << 1)
+            | (unsigned(sid.isPostfixEncoded()) << 2) | (unsigned(sid.isPostfixed()) << 3)
+            | (unsigned(sid.isIndexed()) << 4) | (unsigned(sid.isPrefixID()) << 5)
+            | (unsigned(sid.isPrefixIDIndex()) << 6);
+    }
+
     std::size_t operator()(const StringID* sid) const
     {
         if (!sid) {
             return 0;
         }
-        return qHash(sid->data(), qHash(sid->postfix()));
+        std::size_t result = qHash(sid->data(), qHash(sid->postfix()));
+        boost::hash_combine(result, semanticFlags(*sid));
+        for (const auto& related : sid->relatedIDs()) {
+            boost::hash_combine(result, related.value());
+        }
+        return result;
     }
 
     bool operator()(const StringID* IDa, const StringID* IDb) const
@@ -69,7 +87,17 @@ struct StringIDHasher
         if (!IDa || !IDb) {
             return false;
         }
-        return IDa->data() == IDb->data() && IDa->postfix() == IDb->postfix();
+        const auto& a = IDa->relatedIDs();
+        const auto& b = IDb->relatedIDs();
+        return IDa->data() == IDb->data() && IDa->postfix() == IDb->postfix()
+            && semanticFlags(*IDa) == semanticFlags(*IDb) && a.size() == b.size()
+            && std::equal(a.begin(), a.end(), b.begin(), [](const auto& first, const auto& second) {
+                   // Related identities retain their core data; reference indices
+                   // live in the encoded name and are not part of this graph.
+                   // Construction and import keep all dependencies in this
+                   // same table, so the core numeric IDs are unambiguous.
+                   return first.value() == second.value();
+               });
     }
 };
 
@@ -276,6 +304,8 @@ StringIDRef StringHasher::getID(const QByteArray& data, Options options)
     else {
         dataID._data = data;
     }
+    dataID._flags.setFlag(StringID::Flag::Binary, binary);
+    dataID._flags.setFlag(StringID::Flag::Hashed, hashed);
 
     auto it = _hashes->left.find(&dataID);
     if (it != _hashes->left.end()) {
@@ -287,14 +317,7 @@ StringIDRef StringHasher::getID(const QByteArray& data, Options options)
         dataID._data = QByteArray(data.constData(), data.size());
     }
 
-    StringID::Flags flags(StringID::Flag::None);
-    if (binary) {
-        flags.setFlag(StringID::Flag::Binary);
-    }
-    if (hashed) {
-        flags.setFlag(StringID::Flag::Hashed);
-    }
-    StringIDRef sid(new StringID(lastID() + 1, dataID._data, flags));
+    StringIDRef sid(new StringID(lastID() + 1, dataID._data, dataID._flags));
     return {insert(sid)};
 }
 
@@ -320,16 +343,6 @@ StringIDRef StringHasher::getID(const Data::MappedName& name, const QVector<Stri
         tempID._data = name.dataBytes();
     }
 
-    // Check to see if there is already an entry in the hash table for this StringID
-    auto it = _hashes->left.find(&tempID);
-    if (it != _hashes->left.end()) {
-        auto res = StringIDRef(it->first);
-        if (indexed) {
-            res._index = indexed.getIndex();
-        }
-        return res;
-    }
-
     if (!indexed && name.isRaw()) {
         // Make a copy of the memory if we didn't do so earlier
         tempID._data = QByteArray(name.dataBytes().constData(), name.dataBytes().size());
@@ -345,7 +358,9 @@ StringIDRef StringHasher::getID(const Data::MappedName& name, const QVector<Stri
     // If _data is an IndexedName, use getID to encode it:
     StringIDRef indexRef;
     if (indexed) {
-        indexRef = getID(tempID._data);
+        // Restore reconstructs the indexed type from this dependency. Its
+        // literal spelling must survive even a very small hashing threshold.
+        indexRef = getID(tempID._data, Option::None);
     }
 
     // The real StringID object that we are going to insert
@@ -429,7 +444,343 @@ StringIDRef StringHasher::getID(const Data::MappedName& name, const QVector<Stri
         }
     }
 
+    // The identity includes its encoding flags and dependency graph. Looking it
+    // up before those are complete could alias an equal payload from another
+    // encoding or identity domain.
+    auto it = _hashes->left.find(&newStringID);
+    if (it != _hashes->left.end()) {
+        return {it->first, indexed.getIndex()};
+    }
     return {insert(newStringIDRef), indexed.getIndex()};
+}
+
+StringHasher::Importer::Importer(StringHasherRef target)
+    : _target(std::move(target))
+{
+    if (!_target) {
+        throw Base::ValueError("A target string hasher is required");
+    }
+}
+
+namespace
+{
+QByteArray translateMappedReferences(
+    const QByteArray& text,
+    const QVector<StringIDRef>& references,
+    const StringHasherRef& source,
+    const std::function<StringIDRef(const StringIDRef&)>& translateID,
+    const std::set<const StringID*>& pending,
+    const std::function<void(const StringIDRef&)>& retain = {}
+);
+}
+
+StringIDRef StringHasher::Importer::importID(const StringIDRef& source)
+{
+    if (!source || source.isFromSameHasher(_target)) {
+        return source;
+    }
+    const auto& original = source.deref();
+    auto found = _imported.find(&original);
+    if (found != _imported.end()) {
+        return {found->second.second, source.getIndex()};
+    }
+    if (!_pending.insert(&original).second) {
+        throw Base::RuntimeError("Cyclic string identity references");
+    }
+    Base::ScopeGuard guard([&]() { _pending.erase(&original); });
+
+    auto flags = original._flags;
+    flags.setFlag(StringID::Flag::Marked, false);
+    StringIDRef imported(
+        new StringID(0, QByteArray(original._data.constData(), original._data.size()), flags)
+    );
+    auto& result = *imported._sid;
+    result._postfix = QByteArray(original._postfix.constData(), original._postfix.size());
+    result._sids.reserve(original._sids.size());
+    for (const auto& related : original._sids) {
+        result._sids.push_back(importID(related));
+    }
+    auto translate = [&](const QByteArray& bytes) {
+        return translateMappedReferences(
+            bytes,
+            original._sids,
+            original.getHasher(),
+            [this](const auto& sid) { return importID(sid); },
+            _pending,
+            [&](const auto& sid) {
+                auto found = std::find_if(result._sids.begin(), result._sids.end(), [&](const auto& r) {
+                    return r.value() == sid.value() && r.getHasher() == sid.getHasher();
+                });
+                if (found == result._sids.end()) {
+                    // Native tagged combo leaves can carry encoded references
+                    // whose original retention graph lived only on their parent.
+                    result._sids.emplace_back(sid, 0);
+                }
+            }
+        );
+    };
+
+    // Opaque payloads are already hashed (or explicitly binary): their original
+    // contents cannot be recovered, and must not be rehashed or treated as text.
+    if (!original.isBinary() && !original.isHashed()) {
+        if (original.isPostfixEncoded()) {
+            // This postfix is an opaque leaf's raw payload, not encoded text.
+            result._data = translate(original._data);
+        }
+        else {
+            // Tag operation lengths can span the data/postfix boundary.
+            auto data = translate(original._data);
+            auto whole = translate(original._data + original._postfix);
+            result._data = whole.left(data.size());
+            result._postfix = whole.mid(data.size());
+        }
+        int offset = original.isPostfixEncoded() ? 1 : 0;
+        if (original.isIndexed() || original.isPrefixID() || original.isPrefixIDIndex()) {
+            if (result._sids.size() <= offset) {
+                throw Base::RuntimeError("Missing encoded string prefix");
+            }
+            if (!original.isIndexed()) {
+                result._data = result._sids[offset].deref().toString().c_str();
+                if (original.isPrefixIDIndex()) {
+                    result._data += ':';
+                }
+            }
+        }
+    }
+
+    auto existing = _target->_hashes->left.find(&result);
+    if (existing != _target->_hashes->left.end()) {
+        imported = existing->first;
+        if (original.isPersistent()) {
+            imported.setPersistent(true);
+        }
+    }
+    else {
+        // Related identities have been inserted first, as required by the
+        // persistent string table's backward-reference encoding.
+        result._id = _target->lastID() + 1;
+        imported = _target->insert(imported);
+    }
+    _imported.emplace(&original, std::make_pair(StringIDRef(source, 0), imported));
+    return {imported, source.getIndex()};
+}
+
+namespace
+{
+QByteArray translateMappedReferences(
+    const QByteArray& text,
+    const QVector<StringIDRef>& references,
+    const StringHasherRef& source,
+    const std::function<StringIDRef(const StringIDRef&)>& translateID,
+    const std::set<const StringID*>& pending,
+    const std::function<void(const StringIDRef&)>& retain
+)
+{
+    auto aggregateMembers = [](const QByteArray& bytes) {
+        std::vector<QByteArray> members;
+        if (bytes.size() < 3 || bytes.front() != '(' || bytes.back() != ')') {
+            return members;
+        }
+        int depth = 1;
+        int start = 1;
+        for (int index = 1; index + 1 < bytes.size(); ++index) {
+            if (bytes[index] == '(') {
+                ++depth;
+            }
+            else if (bytes[index] == ')') {
+                if (--depth < 1) {
+                    return std::vector<QByteArray>();
+                }
+            }
+            else if (bytes[index] == '|' && depth == 1) {
+                members.push_back(bytes.mid(start, index - start));
+                start = index + 1;
+            }
+        }
+        if (depth != 1) {
+            return std::vector<QByteArray>();
+        }
+        members.push_back(bytes.mid(start, bytes.size() - start - 1));
+        return members;
+    };
+    std::map<long, StringIDRef> backed;
+    std::set<const StringID*> visited;
+    std::function<void(const StringIDRef&)> collect = [&](const StringIDRef& sid) {
+        if (!sid || !visited.insert(&sid.deref()).second) {
+            return;
+        }
+        if (!source || sid.isFromSameHasher(source)) {
+            auto [it, inserted] = backed.emplace(sid.value(), sid);
+            if (!inserted && !it->second.isFromSameHasher(sid.getHasher())) {
+                throw Base::RuntimeError("Ambiguous encoded string identity");
+            }
+        }
+        for (const auto& child : sid.relatedIDs()) {
+            collect(child);
+        }
+    };
+    for (const auto& sid : references) {
+        collect(sid);
+    }
+    // Native combo-name leaves store tagged names separated by '|'. Their
+    // retention dependencies are on the parent SID rather than the leaf.
+    // Do not infer this for ordinary leaves such as "(#1)" or operation text.
+    auto members = aggregateMembers(text);
+    bool taggedAggregate = !members.empty()
+        && std::all_of(members.begin(), members.end(), [](const auto& member) {
+               return Data::MappedName::fromRawData(member)
+                          .findTagInElementName(nullptr, nullptr, nullptr, nullptr, true, false)
+                   >= 0;
+           });
+    if (references.empty() && taggedAggregate) {
+        for (const auto* parent : pending) {
+            if (!source || parent->isFromSameHasher(source)) {
+                for (const auto& sid : parent->relatedIDs()) {
+                    collect(sid);
+                }
+            }
+        }
+    }
+    if (backed.empty() && !taggedAggregate) {
+        return QByteArray(text.constData(), text.size());
+    }
+
+    auto translateToken = [&](const QByteArray& bytes, int position) {
+        int end = position + 1;
+        auto isHex = [](char ch) {
+            return (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F');
+        };
+        while (end < bytes.size() && isHex(bytes[end])) {
+            ++end;
+        }
+        if (end == position + 1) {
+            return bytes;
+        }
+        if (end + 1 < bytes.size() && bytes[end] == ':' && isHex(bytes[end + 1])) {
+            ++end;
+            while (end < bytes.size() && isHex(bytes[end])) {
+                ++end;
+            }
+        }
+        auto id = StringID::fromString(bytes.constData() + position, true, end - position);
+        auto found = backed.find(id.id);
+        StringIDRef original = found != backed.end() ? found->second : StringIDRef();
+        if (!original && taggedAggregate && source) {
+            original = source->getID(id.id);
+        }
+        if (!original) {
+            return bytes;
+        }
+        auto imported = translateID(StringIDRef(original, id.index));
+        if (retain) {
+            retain(imported);
+        }
+        auto translated = imported.toString();
+        return bytes.left(position) + QByteArray(translated.data(), translated.size())
+            + bytes.mid(end);
+    };
+
+    std::function<QByteArray(const QByteArray&, bool)> translate;
+    translate = [&](const QByteArray& bytes, bool operation) -> QByteArray {
+        if (bytes.isEmpty()) {
+            return bytes;
+        }
+        int nameLength = 0;
+        int tag = Data::MappedName::fromRawData(bytes)
+                      .findTagInElementName(nullptr, &nameLength, nullptr, nullptr, true, false);
+        if (tag >= 0 && nameLength >= 0 && nameLength <= tag) {
+            auto prefix = translate(bytes.left(nameLength), operation);
+            auto op = translate(bytes.mid(nameLength, tag - nameLength), true);
+            auto suffix = bytes.mid(tag);
+            int colon = suffix.indexOf(':', Data::POSTFIX_TAG_SIZE);
+            if (colon >= 0) {
+                int end = suffix.indexOf(',', colon + 1);
+                bool decimal = suffix.startsWith(Data::POSTFIX_DECIMAL_TAG);
+                if (decimal) {
+                    end = suffix.indexOf(':', colon + 1);
+                }
+                if (end >= 0) {
+                    auto length = QByteArray::number(
+                        static_cast<qlonglong>(decimal ? prefix.size() : op.size()),
+                        decimal ? 10 : 16
+                    );
+                    suffix.replace(colon + 1, end - colon - 1, length);
+                }
+            }
+            return prefix + op + suffix;
+        }
+        if (!operation) {
+            auto parts = aggregateMembers(bytes);
+            if (!parts.empty()) {
+                QByteArray result("(");
+                for (const auto& part : parts) {
+                    if (result.size() != 1) {
+                        result += '|';
+                    }
+                    result += translate(part, false);
+                }
+                return result + ')';
+            }
+            int separator = bytes.indexOf(';');
+            auto prefix = separator < 0 ? bytes : bytes.left(separator);
+            if (prefix.startsWith('#')) {
+                prefix = translateToken(prefix, 0);
+            }
+            return separator < 0 ? prefix : prefix + translate(bytes.mid(separator), true);
+        }
+
+        // A tag's operation span contains both reserved naming codes and
+        // arbitrary caller-supplied operation labels. Only reserved codes
+        // encode references; a label like "Seed#1" or "(#1)" is literal.
+        QByteArray result;
+        int start = 0;
+        while (start < bytes.size()) {
+            int end = bytes.indexOf(';', start + 1);
+            if (end < 0) {
+                end = bytes.size();
+            }
+            auto chunk = bytes.mid(start, end - start);
+            int marker = 0;
+            if (chunk.startsWith(";:MG")) {
+                marker = 4;
+            }
+            else if (
+                chunk.startsWith(Data::MAPPED_CHILD_ELEMENTS_PREFIX)
+                || chunk.startsWith(Data::POSTFIX_MOD) || chunk.startsWith(Data::POSTFIX_GEN)
+                || chunk.startsWith(Data::POSTFIX_LOWER) || chunk.startsWith(Data::POSTFIX_UPPER)
+            ) {
+                marker = 3;
+            }
+            if (marker) {
+                while (marker < chunk.size() && chunk[marker] >= '0' && chunk[marker] <= '9') {
+                    ++marker;
+                }
+                if (marker < chunk.size() && chunk[marker] == '#') {
+                    chunk = translateToken(chunk, marker);
+                }
+            }
+            result += chunk;
+            start = end;
+        }
+        return result;
+    };
+    return translate(text, false);
+}
+}  // namespace
+
+QByteArray StringHasher::Importer::importReferences(
+    const QByteArray& text,
+    const QVector<StringIDRef>& references,
+    const StringHasherRef& source
+)
+{
+    return translateMappedReferences(
+        text,
+        references,
+        source,
+        [this](const auto& sid) { return importID(sid); },
+        _pending
+    );
 }
 
 StringIDRef StringHasher::getID(long id, int index) const
@@ -586,7 +937,14 @@ void StringHasher::saveStream(std::ostream& stream) const
             // Reaching here means the string may contain space and newlines
             // We rely on OutputStream (i.e. textStreamWrapper) to save the string.
             stream << ' ';
-            textStreamWrapper << d._data.constData();
+            if (d.isHashed() || d.isBinary()) {
+                // restoreStreamNew decodes opaque payloads from base64. Never
+                // send raw binary through a null-terminated text writer.
+                textStreamWrapper << d._data.toBase64().constData();
+            }
+            else {
+                textStreamWrapper << d._data.constData();
+            }
         }
     }
 }
