@@ -194,15 +194,17 @@ void PropertyPartShape::setPyObject(PyObject* value)
             if (shape.Tag || shape.getElementMapSize()) {
                 // We can't trust the meaning of the input shape tag, so we
                 // remap anyway
-                TopoShape res(owner->getID(), owner->getDocument()->getStringHasher(), shape.getShape());
+                // Mapped names and their related IDs belong to the source hasher.
+                // Retag the shape without switching that identity domain.
+                auto hasher = shape.Hasher ? shape.Hasher : owner->getDocument()->getStringHasher();
+                TopoShape res(owner->getID(), hasher, shape.getShape());
                 res.mapSubElement(shape);
                 shape = res;
             }
             else {
                 shape.Tag = owner->getID();
-                if (shape.Hasher) {  // TODO: This null guard added during TNP transition
-                    shape.Hasher->clear();
-                }
+                // The hasher may also own identities used by other shapes.
+                // An unmapped input does not give us ownership of its shared table.
             }
         }
         setValue(shape);
