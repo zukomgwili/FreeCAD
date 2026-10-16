@@ -17,9 +17,12 @@ import json
 import os
 from pathlib import Path
 import re
+import sys
 import unittest
 
 import FreeCAD as App
+import Fem
+from femmesh import meshsetsgetter
 from femexamples.constraint_section_print import setup
 from femtools.ccxtools import FemToolsCcx
 
@@ -54,6 +57,18 @@ class StockSectionEquilibrium(unittest.TestCase):
         prefs = App.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/General")
         overwrite = prefs.GetBool("OverwriteSolverWorkingDirectory", True)
         try:
+            expected_commit = os.environ.get("FREECAD_9BP_COMMIT")
+            if expected_commit:
+                self.assertEqual(App.Version()[-1], expected_commit)
+            module_paths = {
+                "Fem": Fem.__file__,
+                "example": sys.modules[setup.__module__].__file__,
+                "meshsetsgetter": meshsetsgetter.__file__,
+            }
+            resource_root = os.environ.get("FREECAD_9BP_RESOURCES")
+            if resource_root:
+                for module_path in module_paths.values():
+                    self.assertTrue(Path(module_path).is_relative_to(resource_root), module_path)
             if section_size:
                 from femexamples.meshes.generate_mesh import mesh_from_mesher
                 doc.SectionMeshRegion.CharacteristicLength = section_size + " mm"
@@ -83,11 +98,13 @@ class StockSectionEquilibrium(unittest.TestCase):
             expected_moment = -pressure_face.CenterOfMass.cross(load)
             expected_cg_moment = expected_moment - section.CenterOfMass.cross(expected_force)
             force_moment = values("total surface force")
+            support_force = values("total force")
             cg_moment = values("moment about the center of gravity")
             center_normal = values("center of gravity and mean normal")
             area = values("area, normal force")[0]
             report = {
                 "runtime": App.Version(), "gui_up": App.GuiUp,
+                "loaded_modules": module_paths,
                 "cold_reopened": bool(reopen),
                 "stock_setup_unmodified": not bool(section_size),
                 "shipped_mesh": not bool(section_size),
@@ -99,6 +116,7 @@ class StockSectionEquilibrium(unittest.TestCase):
                 "expected_centroid_moment_Nmm": list(expected_cg_moment),
                 "reported_centroid_moment_Nmm": cg_moment,
                 "reported_force_moment": force_moment,
+                "reported_support_force_N": support_force,
                 "cad_area_mm2": section.Area, "reported_area_mm2": area,
                 "cad_normal": list(normal), "reported_center_normal": center_normal,
                 "relative_force_residual": (App.Vector(*force_moment[:3])-expected_force).Length
@@ -114,6 +132,8 @@ class StockSectionEquilibrium(unittest.TestCase):
             (root / "report.json").write_text(json.dumps(report, indent=2))
             doc.saveAs(str(root / "stock.FCStd"))
             self.assertAlmostEqual(area, section.Area, delta=section.Area*1e-6)
+            self.assertLess((App.Vector(*support_force)-expected_force).Length
+                            / expected_force.Length, 1e-6)
             for actual, expected in zip(center_normal[3:], normal):
                 self.assertAlmostEqual(actual, expected, delta=1e-6)
             for key in ("relative_force_residual", "relative_origin_moment_residual",
