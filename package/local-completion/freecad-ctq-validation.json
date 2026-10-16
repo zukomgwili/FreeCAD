@@ -1,0 +1,59 @@
+{
+  "issue": "FreeCAD-ctq",
+  "date": "2026-10-16",
+  "status": "source_complete_built_and_verified_not_installed",
+  "implementation_commits": ["1713aab9788c1a1cd268c313eb31a405eb9ed296", "341650ee530d392bddbb209142beefeaee560a90"],
+  "compiled_commit": "341650ee530d392bddbb209142beefeaee560a90",
+  "compiled_version": "27.1.0dev49114+149 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "installed": false,
+  "current_app": "/Applications/FreeCAD-27.1.0.app remains +144/0ad167d65e; its deep-strict signature was verified unchanged. No installation was requested for this bead.",
+  "baseline": {
+    "native_runtime": "+146/2e5a78b500 source build, with the unchanged existing Spring API",
+    "native_probe": "1 failed in0.839s: existing Spring exposes Elmer foundation fields, not concentrated CalculiX connector inputs.",
+    "regression_control_before_implementation": "All six initial native connector tests errored against unchanged source runtime: new factory/helper/writer path absent.",
+    "classification": "Separate solver-integration enhancement, not a broken documented CalculiX promise or a physical building failure."
+  },
+  "supported_contract": "package/local-completion/freecad-ctq-contract.json",
+  "summary": "Separate native ConstraintElasticConnector with explicit unit-aware total stiffness, global CAD-vertex identity, local axis/rotation/reference, native suppression and ordinary CalculiX regeneration. Existing Elmer foundation Spring remains unchanged; attempting to use that unconsumed feature in CalculiX now gives an explicit error.",
+  "supported_scope": "Scalar linear translational SPRING1/SPRING2, one mesh node to ground or two distinct mesh nodes, in3D small-displacement static analysis. No area distribution, rotation/torsion, rigid/tie substitution, guessed Kser or equivalent stiffness.",
+  "scope_validation": "Reject dynamic/frequency,2D, geometric nonlinearity and active nonlinear material laws. The default 'use nonlinear properties if available' flag alone does not make an otherwise linear model unsupported. Z88/Mystran/Elmer reject active native connectors rather than silently omit them.",
+  "gui": "Native FEM toolbar/menu command 'Elastic Connector (CalculiX)' prefills one/two selected vertices, selects the new object for Data editing, supports Undo/Redo, rejects invalid selections and leaves Stiffness at invalid zero until supplied explicitly. Native property-editor visibility was asserted and visually checked.",
+  "verification": {
+    "full_enabled_target_release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "fem_suite": {"passed": 153, "failed": 0, "seconds": 21.633},
+    "new_tests": {"count": 19, "real_solver_methods": 5, "real_calculix_solves": 16},
+    "exact_cases": [
+      "Ground and two-node springs with0/90degree local frames, prescribed displacement or applied10N. For K2000N/mm, free displacement is0.005mm.",
+      "Prescribed two-node displacement0.1/-0.05mm gives raw holding actions+300/-300N along the selected direction; ground0.1mm gives200N. These are isolated spring nodes, not a claim that arbitrary assembly nodal RF isolates a connector force.",
+      "Negative imposed displacements and localY/Z verify signed opposite actions, not magnitudes only.",
+      "Changing End2 from a node at-0.05mm to a fixed block vertex regenerates the actual spring and changes actions from300/-300N to200/-200N.",
+      "Split-input ground force case gives the same exact0.005mm displacement without editing either generated file.",
+      "Explicit parallel2000+3000N/mm ground connectors give10/(2000+3000)=0.002mm, with no automatic stiffness division."
+    ],
+    "identity_controls": "CAD endpoint swap, remesh77/42 node IDs, translated/rotated parent geometry, nested placed App::Link orientation reference with save/reopen, unique element IDs and bounded names. Ambiguous/missing/nonvertex/same-node references, extra ground endpoint, invalid stiffness/frame and node-set name collisions are rejected.",
+    "full_fem_factory_inventory": "Updated existing independent creation/type/derived-type inventories for the actual new object; no count weakening. Existing isotropic/nonlinear material and Elmer exports remain covered.",
+    "native_gui_suite": {"passed": 5, "failed": 0, "seconds": 1.407},
+    "separate_native_process_reopen_suite": {"passed": 5, "failed": 0, "seconds": 1.513},
+    "cold_controls": "Both native saves retain GuiDocument.xml. The separate process verifies saved endpoints/stiffness/frame, then changes the frame and swaps endpoints; regenerated stock connector export contains reversed actual node IDs and the new unit-axis basis.",
+    "compiled_identity_verified_in_native_report": true,
+    "part_suite": {"passed": 317, "failed": 0, "seconds": 1.789},
+    "final_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 69.72, "excluded": [], "both_native_gui_tests_passed": true, "CocoaSaveSheet_passed": true},
+    "new_files_flake8": "Passed --ignore=E266,W503 --max-line-length=100",
+    "modified_legacy_files_lint": "No new warnings; normalized diagnostics exactly match491d01dd0e baseline.",
+    "diff_check": "Passed",
+    "raw_solver_records": "package/local-completion/freecad-ctq-exact-outputs.json",
+    "complete_solver_files": "/private/tmp/freecad-ctq.5I0Nt2/final-solver-evidence",
+    "scratch_evidence": "/private/tmp/freecad-ctq.5I0Nt2"
+  },
+  "quality_gate_history": {
+    "first_ctest": "One failure in unchanged CocoaSaveSheet forced-widget cancellation case: controlled selection watchdog fired. No connector/solver test failed in that CTest run.",
+    "isolated_cocoa_repeats": "Five consecutive passes,1.42/1.11/1.06/1.05/1.08s, no source change to that test.",
+    "followup": "FreeCAD-7gr records the intermittent existing Qt watchdog failure; timing/interference cause is not proven and not claimed fixed by this feature."
+  },
+  "user_usage": "In the new build, activate a FEM analysis, select one CAD vertex (ground) or two (pair), run Elastic Connector (CalculiX), enter justified Stiffness in Data, and set the local Axis/Orientation/OrientationReference. Each endpoint must map to one mesh node. Regenerate with stock CalculiX. This command is not yet in the installed +144 app.",
+  "result_limit": "Endpoint U and RF are raw global nodal outputs. With other connected elements, RF is not generally a separated spring force; no custom result recovery was added.",
+  "capability_followup": "FreeCAD-j97 tracks rotational connectors and explicit distributed-region coupling outside the first qualified translational scope.",
+  "limits": {"building_design_accepted": false, "Oomakhi_model_opened_or_modified": false, "project_stiffness_invented": false, "rotational_or_distributed_connector_support_claimed": false}
+}

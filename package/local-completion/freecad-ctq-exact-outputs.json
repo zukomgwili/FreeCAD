@@ -1,0 +1,171 @@
+{
+  "issue": "FreeCAD-ctq",
+  "compiled_commit": "341650ee530d392bddbb209142beefeaee560a90",
+  "solver": "CalculiX2.23",
+  "meaning": "Unmodified solver totals from synthetic isolated-spring benchmarks. Nodal RF is not in general an isolated connector force in an assembly. No input-deck editing or result recovery.",
+  "cases": [
+    {
+      "artifact": "spring-0_hlhufv",
+      "input_sha256": "0457f1ea49ea2f9f0e3ab41ecddc1e3b2df348f2c2ce1d434b0ba51c2b5035e9",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        1.000000E+01  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  5.000000E-03  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E+01  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-5ggc30z7",
+      "input_sha256": "6bc282fea6da6c94bd5af76d13bb2bd8276e902dfd0551acc27ab5b542656607",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n2.22044604925E-16,1,0,-1,2.22044604925E-16,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1,1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        6.661338E-14  3.000000E+02  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n       -6.661338E-14 -3.000000E+02  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.220446E-17  1.000000E-01  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  6.661338E-14  3.000000E+02  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -1.110223E-17 -5.000000E-02  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -6.661338E-14 -3.000000E+02  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-c3xs_51r",
+      "input_sha256": "54d3b990f3f1bd88128bab89aa1633101bde1953f50f8f5b3a4d87d6c3adb31f",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n2.22044604925E-16,1,0,-1,2.22044604925E-16,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        2.220446E-15  1.000000E+01  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  5.000000E-03  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.220446E-15  1.000000E+01  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-cn5_4kas",
+      "input_sha256": "431437476c6e1a83ad172c0a37520851e26234206b0efbf1cfbac9723eb056f5",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n2.22044604925E-16,1,0,-1,2.22044604925E-16,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        2.220446E-15  1.000000E+01  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  5.000000E-03  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.220446E-15  1.000000E+01  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-h3ylk4q4",
+      "input_sha256": "c6a0d9308f186a5e69cfe600d883e742924dd51ed64e8170f587ce52273f0a40",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        2.000000E+02  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E-01  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.000000E+02  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-i3s_1fe1",
+      "input_sha256": "4efc3c5e3624041e3e83efb977d1d80d2ac7828ac1f2ab1b0087e74d9bff1d56",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n3,3\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00 -3.000000E+02\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  3.000000E+02\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  0.000000E+00 -1.000000E-01\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  0.000000E+00 -3.000000E+02\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10  0.000000E+00  0.000000E+00  5.000000E-02\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10  0.000000E+00  0.000000E+00  3.000000E+02\n"
+    },
+    {
+      "artifact": "spring-i4n8d9xk",
+      "input_sha256": "68c8bed781b3bf2fb0385e336043214f6dbc4431aa57532fec197318f420b9b6",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n2.22044604925E-16,1,0,-1,2.22044604925E-16,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1,1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        2.220446E-15  1.000000E+01  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n       -2.220446E-15 -1.000000E+01  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  5.000000E-03  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.220446E-15  1.000000E+01  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10  0.000000E+00  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -2.220446E-15 -1.000000E+01  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-jfb5224p",
+      "input_sha256": "72f92b55efb53ec1dfef6c8030789cb3293580090178e21487f278f2002b7048",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1,1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        1.000000E+01  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n       -1.000000E+01  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  5.000000E-03  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E+01  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10  0.000000E+00  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -1.000000E+01  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-pqrk8w91",
+      "input_sha256": "d92949aa6dc9adb02288e7200cdbe2069b5552fcb03da39938d2f6ee415e0da8",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1,1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        3.000000E+02  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n       -3.000000E+02  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E-01  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  3.000000E+02  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -5.000000E-02  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -3.000000E+02  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-pz1mmx20",
+      "input_sha256": "716831887d9568983c1d0bba0bb8a68731e18cceb07ed9ea52f2354367d48322",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1\n2.000000000000e+03\n",
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector001\n3,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector001\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector001, ORIENTATION=EC_ORIENT_ElasticConnector001\n1\n3.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        1.000000E+01  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.000000E-03  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E+01  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR001 and time  0.1000000E+01\n\n         9  2.000000E-03  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR001 and time  0.1000000E+01\n\n         9  1.000000E+01  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-qf36ial2",
+      "input_sha256": "18ed5950dbc6d8e67c2a51327873e5ac192386a108f9f436d1f8dededbc10131",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n2.22044604925E-16,1,0,-1,2.22044604925E-16,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        4.440892E-14  2.000000E+02  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.220446E-17  1.000000E-01  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  4.440892E-14  2.000000E+02  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-riw8uf68",
+      "input_sha256": "d92949aa6dc9adb02288e7200cdbe2069b5552fcb03da39938d2f6ee415e0da8",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1,1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        3.000000E+02  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n       -3.000000E+02  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E-01  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  3.000000E+02  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -5.000000E-02  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10 -3.000000E+02  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-rzo2zgun",
+      "input_sha256": "ba06de282b03157989a642b051abad9772ddd18f80758511547dfa6c4b35cd69",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n2\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        0.000000E+00 -2.000000E+02  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00 -1.000000E-01  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00 -2.000000E+02  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-s1wup36c",
+      "input_sha256": "4e927ea94151dc050afe539c5e6fab7045aa8e5cc07023171549960e2e63ec88",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,5\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n1,1\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n       -2.000000E+02  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        2.000000E+02  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  1.000000E-01  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  2.000000E+02  0.000000E+00  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n         5  0.000000E+00  0.000000E+00  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n         5 -2.000000E+02  0.000000E+00  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-twazotv8",
+      "input_sha256": "e31e9d09942109865ac0a9c24aa8f488548a3428092501228e2e21d1e3b2492b",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING2, ELSET=EC_ElasticConnector\n2,9,10\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n2,2\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        0.000000E+00 -3.000000E+02  0.000000E+00\n\n total force (fx,fy,fz) for set PORT2 and time  0.1000000E+01\n\n        0.000000E+00  3.000000E+02  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00 -1.000000E-01  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00 -3.000000E+02  0.000000E+00\n\n displacements (vx,vy,vz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10  0.000000E+00  5.000000E-02  0.000000E+00\n\n forces (fx,fy,fz) for set EC_END2_ELASTICCONNECTOR and time  0.1000000E+01\n\n        10  0.000000E+00  3.000000E+02  0.000000E+00\n"
+    },
+    {
+      "artifact": "spring-v5b4tqdp",
+      "input_sha256": "a8a269b59c0a373d67246d924caa692d9ad8bf36c35267271cc176a89b421b2d",
+      "spring_and_frame_cards": [
+        "*ELEMENT, TYPE=SPRING1, ELSET=EC_ElasticConnector\n2,9\n",
+        "*ORIENTATION, NAME=EC_ORIENT_ElasticConnector\n1,0,0,0,1,0\n",
+        "*SPRING, ELSET=EC_ElasticConnector, ORIENTATION=EC_ORIENT_ElasticConnector\n3\n2.000000000000e+03\n"
+      ],
+      "raw_dat": "\n                        S T E P       1\n\n\n                                INCREMENT     1\n\n\n total force (fx,fy,fz) for set FIXED and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00  0.000000E+00\n\n total force (fx,fy,fz) for set PORT1 and time  0.1000000E+01\n\n        0.000000E+00  0.000000E+00 -2.000000E+02\n\n displacements (vx,vy,vz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  0.000000E+00 -1.000000E-01\n\n forces (fx,fy,fz) for set EC_END1_ELASTICCONNECTOR and time  0.1000000E+01\n\n         9  0.000000E+00  0.000000E+00 -2.000000E+02\n"
+    }
+  ]
+}
