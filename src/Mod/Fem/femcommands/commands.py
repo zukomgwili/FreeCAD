@@ -337,7 +337,7 @@ class _ConstraintMagnetization(CommandManager):
 
 
 class _ConstraintElasticConnector(CommandManager):
-    """Create one native connector from zero, one or two selected CAD vertices."""
+    """Create a scalar connector; rigid-region coupling is explicitly selected separately."""
 
     def __init__(self):
         super().__init__()
@@ -347,7 +347,8 @@ class _ConstraintElasticConnector(CommandManager):
         )
         self.tooltip = Qt.QT_TRANSLATE_NOOP(
             "FEM_ConstraintElasticConnector",
-            "Creates a concentrated translational spring; explicitly enter stiffness in N/mm"
+            "Creates a scalar connector between vertices or existing Rigid Body ports; "
+            "explicitly enter translational or rotational stiffness"
         )
         self.is_active = "with_analysis"
 
@@ -358,7 +359,11 @@ class _ConstraintElasticConnector(CommandManager):
         if analysis is None or not self.active_analysis_in_active_doc():
             return
         endpoints = []
+        bodies = []
         for selection in FreeCADGui.Selection.getSelectionEx():
+            if selection.Object.isDerivedFrom("Fem::ConstraintRigidBody"):
+                bodies.append(selection.Object)
+                continue
             if not selection.SubElementNames:
                 shape = getattr(selection.Object, "Shape", None)
                 if shape and shape.ShapeType == "Vertex":
@@ -371,8 +376,10 @@ class _ConstraintElasticConnector(CommandManager):
                     FreeCAD.Console.PrintError("Elastic connectors require CAD vertices.\n")
                     return
                 endpoints.append((selection.Object, [name]))
-        if len(endpoints) > 2:
-            FreeCAD.Console.PrintError("Select at most two connector vertices.\n")
+        if (endpoints and bodies) or len(endpoints) > 2 or len(bodies) > 2:
+            FreeCAD.Console.PrintError(
+                "Select at most two vertices or two existing Rigid Bodies, not a mixture.\n"
+            )
             return
         doc = analysis.Document
         doc.openTransaction("Create elastic connector")
@@ -383,6 +390,10 @@ class _ConstraintElasticConnector(CommandManager):
                 obj.End1 = endpoints[0]
             if len(endpoints) == 2:
                 obj.Mode, obj.End2 = "Two points", endpoints[1]
+            if bodies:
+                obj.Attachment, obj.RigidBody1 = "Rigid body ports", bodies[0]
+            if len(bodies) == 2:
+                obj.Mode, obj.RigidBody2 = "Two points", bodies[1]
             doc.recompute()
             doc.commitTransaction()
         except Exception:
@@ -391,7 +402,8 @@ class _ConstraintElasticConnector(CommandManager):
         FreeCADGui.Selection.clearSelection()
         FreeCADGui.Selection.addSelection(obj)
         FreeCAD.Console.PrintMessage(
-            "Set the connector's explicit Stiffness and local direction in the Data properties.\n"
+            "Set Kind, explicit Stiffness (N/mm) or RotationalStiffness (N*mm/rad), "
+            "and the local direction in Data. Rigid Body region coupling must be explicit.\n"
         )
 
 

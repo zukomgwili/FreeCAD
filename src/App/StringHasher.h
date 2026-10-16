@@ -267,7 +267,9 @@ public:
     {
         QByteArray res(_data);
         if (index != 0) {
-            res += QByteArray::number(index);
+            // An encoded #id:index reference uses hexadecimal; an ordinary
+            // indexed element name (Edge12, etc.) uses decimal.
+            res += QByteArray::number(index, isPrefixIDIndex() ? 16 : 10);
         }
         if (_postfix.size() != 0) {
             res += _postfix;

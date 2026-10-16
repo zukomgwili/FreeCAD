@@ -1,0 +1,13 @@
+{
+  "issue": "FreeCAD-j97",
+  "scope": "Scalar translational or rotational elastic connectors between existing explicit native Rigid Body ports, or one port to ground; small-displacement linear static 3D solid analyses only.",
+  "coupling": "Users create Fem::ConstraintRigidBody objects and explicitly select persistent CAD regions. No hidden rigidification, inferred region, node-wise stiffness division, equivalent lever or default engineering stiffness is introduced. ReferenceNode remains the existing native body's explicitly entered global position, not a new associative anchor.",
+  "mechanism": "Stock CalculiX RIGID BODY with distinct reference and rotation nodes. Rotational nodes do not belong to elements: an EQUATION projects their three global rotation components to a scalar auxiliary DOF1 connected by SPRING1/2. Auxiliary DOFs2/3 are computational zeros, not physical body restraints. Translational ports use the reference node and existing spring orientation.",
+  "units": {"translational_stiffness": "N/mm", "rotational_stiffness": "N*mm/rad", "reference_U": "mm", "rotation_U": "rad", "reference_RF": "N", "rotation_RF": "N*mm"},
+  "outputs": "Raw global node U/RF are requested. RF is not generally an isolated connector-action result in a connected assembly. Signed actions are qualified on separately constrained exact benchmark models.",
+  "identity": "Native body links, CAD region links, occurrence placements and orientation references persist. Region nodes are resolved against the current mesh, never cached by old node ID; sparse mesh IDs are allocated safely and native save/reopen mesh compaction is permitted. Changed occurrences with an old mesh fail closed.",
+  "unsupported": ["coupled 6x6 joint laws", "beam or shell port regions", "collinear or overlapping rigid regions", "nonlinear, dynamic or non-3D analysis", "automatic engineering restraint selection"],
+  "primary_reference": "https://www.dhondt.de/ccx_2.23.pdf",
+  "reference_sections": "CalculiX 2.23 manual: RIGID BODY pp589-590 and SPRING pp598-599; prior verified manual provenance in freecad-ctq-contract.json.",
+  "engineering_limit": "Capability qualification does not supply project Kser, justify rigid coupling for a particular connection, or accept any building design."
+}

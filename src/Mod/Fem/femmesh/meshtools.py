@@ -2310,7 +2310,17 @@ def sub_shape_at_global_placement(obj, sub_name):
     sub_sh = obj.getSubObject(sub_name)
     # get partner shape
     partner = sub_sh.transformed(FreeCAD.Placement().Matrix)
-    partner.Placement = obj.getGlobalPlacement() * obj.Placement.inverse() * sub_sh.Placement
+    if hasattr(obj, "getGlobalPlacement"):
+        placement = obj.getGlobalPlacement()
+    else:
+        # App::Link already applies its occurrence placement in getSubObject,
+        # but does not expose GeoFeature's getGlobalPlacement Python method.
+        placement = obj.Placement
+        parent = obj.getParentGeoFeatureGroup()
+        while parent:
+            placement = parent.Placement * placement
+            parent = parent.getParentGeoFeatureGroup()
+    partner.Placement = placement * obj.Placement.inverse() * sub_sh.Placement
 
     return partner
 

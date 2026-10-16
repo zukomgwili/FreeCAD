@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-"""Validate and resolve one explicit, concentrated translational connector."""
+"""Resolve scalar point springs or ports of explicit native rigid-body couplings."""
 
 import hashlib
 import math
+import re
 
 import FreeCAD
 
@@ -47,10 +48,88 @@ def endpoint_node(reference, mesh):
     return nodes[0]
 
 
-def resolve_connector(obj, mesh):
-    stiffness = obj.Stiffness.getValueAs("N/mm").Value
+def rigid_body_node_ids(analysis, mesh, body):
+    """Match native rigid-body allocation, including meshes with sparse node IDs."""
+    base = max(mesh.FemMesh.Nodes, default=0) + 2 * analysis.Group.index(body)
+    return base + 1, base + 2
+
+
+def rigid_body_nodes(body, mesh):
+    """Validate user-selected solid-mesh regions; never infer a coupling region."""
+    if body is None or not body.isDerivedFrom("Fem::ConstraintRigidBody"):
+        raise ValueError("Each port requires an existing native Rigid Body object.")
+    if not body.References:
+        raise ValueError("Rigid Body ports require explicit CAD region references.")
+    if not mesh.FemMesh.Volumes:
+        raise ValueError("Rigid Body connector ports require a 3D solid mesh, not shells or beams.")
+    nodes = set()
+    for owner, names in body.References:
+        if owner is None or not names:
+            raise ValueError("Rigid Body region references must be explicit and resolvable.")
+        for name in names:
+            _, mapped, indexed = owner.resolveSubElement(name)
+            if not mapped and (";" in name or re.fullmatch(
+                    r"(?:Vertex|Edge|Face|Solid)[1-9][0-9]*", indexed) is None):
+                raise ValueError(f"Unresolved Rigid Body region {owner.Name}.{name}.")
+            selected = meshtools.get_femnodes_by_refshape(mesh.FemMesh, (owner, [name]))
+            if not selected:
+                raise ValueError(f"Rigid Body region {owner.Name}.{name} has no mesh nodes.")
+            nodes.update(selected)
+    points = [mesh.FemMesh.Nodes[node] for node in sorted(nodes)]
+    if len(points) < 3:
+        raise ValueError("A rigid port requires at least three non-collinear solid-mesh nodes.")
+    origin = points[0]
+    vectors = [point - origin for point in points[1:]]
+    scale = max(vector.Length for vector in vectors)
+    if not math.isfinite(scale) or scale == 0:
+        raise ValueError("Rigid port node coordinates must be finite and non-collinear.")
+    direction = max(vectors, key=lambda vector: vector.Length)
+    if not any(direction.cross(vector).Length > 1e-10 * scale * scale for vector in vectors):
+        raise ValueError("Collinear rigid ports are unsupported; choose a non-collinear region.")
+    volume_nodes = set()
+    for element in mesh.FemMesh.Volumes:
+        volume_nodes.update(mesh.FemMesh.getElementNodes(element))
+    if not nodes.issubset(volume_nodes):
+        raise ValueError("Every rigid port node must belong to the solid mesh.")
+    if not all(math.isfinite(value) for point in points for value in point):
+        raise ValueError("Rigid port node coordinates must be finite.")
+    if not all(math.isfinite(value) for value in body.ReferenceNode):
+        raise ValueError("Rigid Body reference position must be finite.")
+    return nodes
+
+
+def resolve_connector(obj, mesh, analysis=None):
+    rotational = getattr(obj, "Kind", "Translational") == "Rotational"
+    ports = getattr(obj, "Attachment", "Vertices") == "Rigid body ports"
+    if rotational and not ports:
+        raise ValueError("Rotational connectors require explicit Rigid Body ports.")
+    stiffness = (obj.RotationalStiffness.getValueAs("N*mm/rad").Value if rotational
+                 else obj.Stiffness.getValueAs("N/mm").Value)
     if not math.isfinite(stiffness) or stiffness <= 0:
         raise ValueError("Connector stiffness must be explicitly supplied, finite and positive.")
+    result = {"stiffness": stiffness, "rotation": connector_rotation(obj),
+              "dof": ("X", "Y", "Z").index(obj.Axis) + 1, "rotational": rotational}
+    if ports:
+        if (obj.End1 and obj.End1[0]) or (obj.End2 and obj.End2[0]):
+            raise ValueError("Rigid Body port attachment requires empty vertex endpoints.")
+        bodies = [obj.RigidBody1]
+        if obj.Mode == "Two points":
+            bodies.append(obj.RigidBody2)
+            if bodies[0] == bodies[1]:
+                raise ValueError("The connector requires two distinct Rigid Body ports.")
+        elif obj.RigidBody2:
+            raise ValueError("Ground mode requires an empty RigidBody2.")
+        regions = []
+        for body in bodies:
+            regions.append(rigid_body_nodes(body, mesh))
+            if analysis is not None and body not in analysis.Group:
+                raise ValueError("Rigid Body ports must belong to the same analysis.")
+        if len(regions) == 2 and regions[0].intersection(regions[1]):
+            raise ValueError("Rigid Body connector regions must not overlap.")
+        result.update(bodies=bodies, regions=regions, nodes=[])
+        return result
+    if getattr(obj, "RigidBody1", None) or getattr(obj, "RigidBody2", None):
+        raise ValueError("Vertex attachment requires empty Rigid Body port links.")
     nodes = [endpoint_node(obj.End1, mesh)]
     if obj.Mode == "Two points":
         nodes.append(endpoint_node(obj.End2, mesh))
@@ -58,8 +137,8 @@ def resolve_connector(obj, mesh):
             raise ValueError("A two-point connector requires two distinct mesh nodes.")
     elif obj.End2 and obj.End2[0]:
         raise ValueError("Ground mode requires an empty End2; do not ignore a linked endpoint.")
-    return {"nodes": nodes, "stiffness": stiffness, "rotation": connector_rotation(obj),
-            "dof": ("X", "Y", "Z").index(obj.Axis) + 1}
+    result["nodes"] = nodes
+    return result
 
 
 def connectors(analysis):
@@ -95,7 +174,25 @@ def validation_errors(analysis, solver, mesh):
             errors.append(f"{obj.Label}: connector node-set name collides with an analysis object.")
         if mesh:
             try:
-                resolve_connector(obj, mesh)
+                resolve_connector(obj, mesh, analysis)
             except (ValueError, TypeError, AttributeError, RuntimeError) as error:
                 errors.append(f"{obj.Label}: {error}")
+    port_objects = [obj for obj in objects
+                    if getattr(obj, "Attachment", "Vertices") == "Rigid body ports"]
+    if port_objects and mesh:
+        if get_member(analysis, "Fem::ElementGeometry1D") or get_member(
+                analysis, "Fem::ElementGeometry2D"):
+            errors.append("Rigid Body connector ports are qualified for solid-only analyses.")
+        occupied = {}
+        for body in get_member(analysis, "Fem::ConstraintRigidBody"):
+            try:
+                nodes = rigid_body_nodes(body, mesh)
+            except (ValueError, TypeError, AttributeError, RuntimeError) as error:
+                errors.append(f"{body.Label}: {error}")
+                continue
+            for node in nodes:
+                if node in occupied:
+                    errors.append(f"Rigid Body regions overlap at mesh node {node}.")
+                    break
+                occupied[node] = body
     return errors

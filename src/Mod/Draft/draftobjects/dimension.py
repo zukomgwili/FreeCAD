@@ -103,6 +103,7 @@ the link properties are used.
 ## \addtogroup draftobjects
 # @{
 import math
+import re
 from PySide.QtCore import QT_TRANSLATE_NOOP
 
 import FreeCAD as App
@@ -351,6 +352,10 @@ class LinearDimension(DimensionBase):
                     # If it has two subelements, we assume a straight edge
                     # that is measured by two vertices
                     obj.Start, obj.End = measure_one_obj_vertices(linked_obj, sub_list)
+                else:
+                    raise RuntimeError(
+                        "Unresolved dimension reference: select one edge or two vertices"
+                    )
 
             elif len(obj.LinkedGeometry) == 2:
                 # If the list has two objects, it measures the distance
@@ -358,6 +363,8 @@ class LinearDimension(DimensionBase):
                 obj.Start, obj.End = measure_two_objects(
                     obj.LinkedGeometry[0], obj.LinkedGeometry[1]
                 )
+            else:
+                raise RuntimeError("Unsupported dimension references: expected one or two objects")
 
         # Update the distance property by comparing the floats
         # with the precision
@@ -372,6 +379,32 @@ class LinearDimension(DimensionBase):
         # update it whenever the object is recomputed
         if App.GuiUp and obj.ViewObject:
             obj.ViewObject.update()
+
+
+def _resolve_linked_element(obj, subelement, shape_type):
+    """Resolve native indexed/mapped names without guessing an obsolete index."""
+    owner = getattr(obj, "Name", "<missing object>")
+    message = "Unresolved dimension reference {}.{}: expected {}. Relink the dimension.".format(
+        owner, subelement, shape_type
+    )
+    try:
+        _, mapped_name, indexed_name = obj.resolveSubElement(subelement)
+        # Native shape lookup alone can accept malformed legacy names such as
+        # Vertexx1 as Vertex1. Require a resolved mapped name or an exact legacy
+        # index, and never fall back from an unresolved explicit mapped name.
+        if not mapped_name and (
+            ";" in subelement
+            or re.fullmatch(shape_type + r"[1-9][0-9]*", indexed_name) is None
+        ):
+            raise ValueError("No matching native element identity")
+        shape = obj.getSubObject(subelement)
+        if shape is None or not hasattr(shape, "isNull") or shape.isNull():
+            raise ValueError("Missing native subshape")
+        if shape.ShapeType != shape_type:
+            raise ValueError("Unexpected native subshape type")
+    except Exception as error:
+        raise RuntimeError(message) from error
+    return shape
 
 
 def measure_one_obj_edge(obj, subelement, dim_point, diameter=False):
@@ -391,9 +424,9 @@ def measure_one_obj_edge(obj, subelement, dim_point, diameter=False):
     start = App.Vector()
     end = App.Vector()
 
-    if "Edge" in subelement:
-        n = int(subelement[4:]) - 1
-        edge = obj.Shape.Edges[n]
+    edge = _resolve_linked_element(obj, subelement, "Edge")
+
+    if edge:
 
         if geo_general.geomType(edge) == "Line":
             start = edge.Vertexes[0].Point
@@ -425,25 +458,17 @@ def measure_one_obj_edge(obj, subelement, dim_point, diameter=False):
                 # The start is th center and the end lies on the arc
                 start = center
                 end = center.add(ray)
+        else:
+            raise RuntimeError("Unsupported dimension edge {}.{}: expected a line or circle".format(
+                obj.Name, subelement
+            ))
 
     return start, end
 
 
 def measure_one_obj_vertices(obj, subelements):
     """Measure two vertices in the same object."""
-    start = App.Vector()
-    end = App.Vector()
-
-    subelement1 = subelements[0]
-    subelement2 = subelements[1]
-
-    if "Vertex" in subelement1 and "Vertex" in subelement2:
-        n1 = int(subelement1[6:]) - 1
-        n2 = int(subelement2[6:]) - 1
-        start = obj.Shape.Vertexes[n1].Point
-        end = obj.Shape.Vertexes[n2].Point
-
-    return start, end
+    return tuple(_resolve_linked_element(obj, name, "Vertex").Point for name in subelements)
 
 
 def measure_two_objects(link_sub_1, link_sub_2):
@@ -461,9 +486,6 @@ def measure_two_objects(link_sub_1, link_sub_2):
     link_sub_2: tuple
         Same.
     """
-    start = App.Vector()
-    end = App.Vector()
-
     obj1 = link_sub_1[0]
     lsub1 = link_sub_1[1]
 
@@ -476,13 +498,10 @@ def measure_two_objects(link_sub_1, link_sub_2):
         subelement1 = lsub1[0]
         subelement2 = lsub2[0]
 
-        if "Vertex" in subelement1 and "Vertex" in subelement2:
-            n1 = int(subelement1[6:]) - 1
-            n2 = int(subelement2[6:]) - 1
-            start = obj1.Shape.Vertexes[n1].Point
-            end = obj2.Shape.Vertexes[n2].Point
+        return (_resolve_linked_element(obj1, subelement1, "Vertex").Point,
+                _resolve_linked_element(obj2, subelement2, "Vertex").Point)
 
-    return start, end
+    raise RuntimeError("Unresolved dimension reference: select a vertex on each linked object")
 
 
 # Alias for compatibility with v0.18 and earlier

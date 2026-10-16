@@ -1502,6 +1502,7 @@ class _ViewProviderSectionPlane:
         elif prop in ["CutView", "CutMargin"]:
             if (
                 hasattr(vobj, "CutView")
+                and FreeCADGui.ActiveDocument
                 and FreeCADGui.ActiveDocument.ActiveView
                 and hasattr(FreeCADGui.ActiveDocument.ActiveView, "getSceneGraph")
             ):

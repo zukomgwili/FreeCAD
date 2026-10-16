@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 
 #include <QApplication>
+#include <QEventLoop>
 #include <QFileDialog>
 #include <QLineEdit>
 #include <QTemporaryDir>
@@ -40,7 +41,9 @@ private Q_SLOTS:
         Qt::WindowModality modality = Qt::NonModal;
         QWidget* dialogParent = nullptr;
         QTimer probe;
-        probe.setSingleShot(true);
+        // Setup can pump events before the dialog is visible. Keep looking
+        // until the modal call returns, rather than missing its only probe.
+        probe.setSingleShot(false);
         connect(&probe, &QTimer::timeout, &parent, [&]() {
             auto* dialog = qobject_cast<QFileDialog*>(QApplication::activeModalWidget());
             if (!dialog) {
@@ -51,13 +54,13 @@ private Q_SLOTS:
                     }
                 }
             }
-            if (dialog) {
+            if (dialog && dialog->isVisible()) {
                 observed = true;
                 modality = dialog->windowModality();
                 dialogParent = dialog->parentWidget();
                 parent.raise();
                 parent.activateWindow();
-                dialog->reject();
+                QMetaObject::invokeMethod(dialog, "reject", Qt::QueuedConnection);
             }
         });
         probe.start(100);
@@ -69,6 +72,7 @@ private Q_SLOTS:
             {{QStringLiteral("PDF"), {QStringLiteral("*.pdf")}}},
             &selectedFilter
         );
+        probe.stop();
         parameters->SetBool("DontUseNativeDialog", wasNonNative);
         QVERIFY(observed);
         QCOMPARE(dialogParent, &parent);
@@ -86,20 +90,23 @@ private Q_SLOTS:
         QTest::addColumn<bool>("acceptSelection");
         QTest::addColumn<int>("expectedModality");
         QTest::addColumn<int>("expectedFilter");
+        QTest::addColumn<bool>("probeBeforeDialog");
         QTest::newRow("parented-native-cancel")
-            << true << false << false << false << int(Qt::WindowModal) << 0;
+            << true << false << false << false << int(Qt::WindowModal) << 0 << false;
         QTest::newRow("parentless-native-cancel")
-            << false << false << false << false << int(Qt::ApplicationModal) << 0;
+            << false << false << false << false << int(Qt::ApplicationModal) << 0 << false;
         QTest::newRow("nonnative-preference-cancel")
-            << true << true << false << false << int(Qt::ApplicationModal) << 1;
+            << true << true << false << false << int(Qt::ApplicationModal) << 1 << false;
         QTest::newRow("nonnative-preference-accept")
-            << true << true << false << true << int(Qt::ApplicationModal) << 1;
+            << true << true << false << true << int(Qt::ApplicationModal) << 1 << false;
         QTest::newRow("forced-widget-option-cancel")
-            << true << false << true << false << int(Qt::ApplicationModal) << 0;
+            << true << false << true << false << int(Qt::ApplicationModal) << 0 << false;
         QTest::newRow("forced-widget-option-accept")
-            << true << false << true << true << int(Qt::ApplicationModal) << 1;
+            << true << false << true << true << int(Qt::ApplicationModal) << 1 << false;
         QTest::newRow("parented-native-accept")
-            << true << false << false << true << int(Qt::WindowModal) << 1;
+            << true << false << false << true << int(Qt::WindowModal) << 1 << false;
+        QTest::newRow("probe-before-widget-dialog-cancel")
+            << true << false << true << false << int(Qt::ApplicationModal) << 0 << true;
     }
 
     void saveDialogSelectionContracts()
@@ -110,6 +117,7 @@ private Q_SLOTS:
         QFETCH(bool, acceptSelection);
         QFETCH(int, expectedModality);
         QFETCH(int, expectedFilter);
+        QFETCH(bool, probeBeforeDialog);
         // Qt's static application-modal Cocoa panel has no consistently
         // discoverable visible QWidget, and programmatic accept is not a
         // native Save-button action. Those contracts are covered offscreen;
@@ -136,9 +144,10 @@ private Q_SLOTS:
         QWidget* dialogParent = nullptr;
         bool nonNativeOption = false;
         bool watchdogFired = false;
+        int emptyProbes = 0;
         QStringList filesBeforeAccept;
         QTimer probe;
-        probe.setSingleShot(true);
+        probe.setSingleShot(false);
         QTimer watchdog;
         watchdog.setSingleShot(true);
         connect(&watchdog, &QTimer::timeout, &parent, [&]() {
@@ -160,7 +169,7 @@ private Q_SLOTS:
                     }
                 }
             }
-            if (dialog) {
+            if (dialog && dialog->isVisible()) {
                 observed = true;
                 modality = dialog->windowModality();
                 dialogParent = dialog->parentWidget();
@@ -177,12 +186,26 @@ private Q_SLOTS:
                     QMetaObject::invokeMethod(dialog, "accept", Qt::QueuedConnection);
                 }
                 else {
-                    dialog->reject();
+                    // Do not reject synchronously during a setup event pump:
+                    // QDialog::exec may subsequently reset that early result.
+                    QMetaObject::invokeMethod(dialog, "reject", Qt::QueuedConnection);
                 }
             }
+            else {
+                ++emptyProbes;
+            }
         });
-        watchdog.start(1000);
-        probe.start(100);
+        // A liveness guard, not a one-second file-model performance requirement.
+        watchdog.start(5000);
+        probe.start(probeBeforeDialog ? 1 : 100);
+        if (probeBeforeDialog) {
+            // File-dialog setup may process events before a modal widget exists.
+            // Exercise that interleaving without relying on machine load.
+            QEventLoop earlyEvents;
+            QTimer::singleShot(50, &earlyEvents, &QEventLoop::quit);
+            earlyEvents.exec();
+            QVERIFY(emptyProbes > 0);
+        }
         qsizetype selectedFilter = 0;
         const auto selected = Gui::FileDialog::getSaveFileName(
             hasParent ? &parent : nullptr,

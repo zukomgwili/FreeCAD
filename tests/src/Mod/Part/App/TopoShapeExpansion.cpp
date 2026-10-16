@@ -5,9 +5,13 @@
 #include "src/App/InitApplication.h"
 #include <App/Application.h>
 #include <Base/Exception.h>
+#include <Base/Console.h>
+#include <Base/Tools.h>
+#include <App/ElementMap.h>
 #include <Mod/Part/App/TopoShape.h>
 #include "Mod/Part/App/TopoShapeMapper.h"
 #include <Mod/Part/App/TopoShapeOpCode.h>
+#include <Mod/Part/App/HasherMismatchLimiter.h>
 
 #include "PartTestHelpers.h"
 
@@ -48,6 +52,27 @@
 
 using namespace Part;
 using namespace PartTestHelpers;
+
+namespace
+{
+class HasherWarningCapture: public Base::ILogger
+{
+public:
+    std::vector<std::string> messages;
+    void sendLog(
+        const std::string&,
+        const std::string& message,
+        Base::LogStyle,
+        Base::IntendedRecipient,
+        Base::ContentType
+    ) override
+    {
+        if (message.find("hasher mismatch") != std::string::npos) {
+            messages.push_back(message);
+        }
+    }
+};
+}  // namespace
 
 class TopoShapeExpansionTest: public ::testing::Test
 {
@@ -90,6 +115,66 @@ TEST_F(TopoShapeExpansionTest, makeElementCompoundOneShapeReturnsShape)
 
     // Assert
     EXPECT_EQ(edge.ShapeType(), topoShape.getShape().ShapeType());  // NOT a Compound
+}
+
+TEST_F(TopoShapeExpansionTest, repeatedIncoherentHasherDiagnosticsAreBounded)
+{
+    // Deliberately invalid retention ownership, not a supported mixed-domain
+    // source: ordinary coherent independent domains are normalized separately.
+    App::StringHasherRef owner(new App::StringHasher);
+    App::StringHasherRef foreign(new App::StringHasher);
+    auto sid = foreign->getID("Foreign retained identity");
+    auto geometry = BRepPrimAPI_MakeBox(2, 3, 4).Shape();
+    TopoShape source(1, owner, geometry);
+    auto map = std::make_shared<Data::ElementMap>();
+    map->hasher = owner;
+    Data::ElementIDRefs refs {sid};
+    map->setElementName(
+        Data::IndexedName("Vertex", 1),
+        Data::MappedName(sid.toString() + ";:H1,V"),
+        1,
+        &refs
+    );
+    source.resetElementMap(map);
+    HasherWarningCapture capture;
+    Base::Console().attachObserver(&capture);
+    Base::ScopeGuard detach([&]() { Base::Console().detachObserver(&capture); });
+    auto* level = Base::Console().getLogLevel("TopoShape");
+    auto savedLevel = *level;
+    *level = FC_LOGLEVEL_WARN;
+    Base::ScopeGuard restoreLevel([&]() { *level = savedLevel; });
+    for (int index = 0; index < 128; ++index) {
+        TopoShape target(2, owner, geometry);
+        auto targetMap = std::make_shared<Data::ElementMap>();
+        targetMap->hasher = owner;
+        target.resetElementMap(targetMap);
+        target.setElementName(Data::IndexedName("Face", 1), Data::MappedName("ExistingFace"), 2);
+        target.mapSubElement(source);
+    }
+    ASSERT_FALSE(capture.messages.empty());
+    EXPECT_LE(capture.messages.size(), 16);
+    EXPECT_TRUE(source.Hasher == owner);
+    EXPECT_TRUE(sid.isFromSameHasher(foreign));
+    EXPECT_EQ(sid.deref().data(), QByteArray("Foreign retained identity"));
+}
+
+TEST(HasherMismatchLimiterTest, millionEventsAreBoundedAndQuietPeriodRestoresFirstDiagnostic)
+{
+    Part::detail::HasherMismatchLimiter limiter;
+    using Boundary = Part::detail::HasherMismatchLimiter::Boundary;
+    auto now = Part::detail::HasherMismatchLimiter::Clock::time_point {};
+    std::size_t emitted = 0;
+    for (std::size_t index = 0; index < 1000000; ++index) {
+        emitted += limiter.record(Boundary::MappedNames, false, now).publish;
+    }
+    EXPECT_EQ(emitted, 20);
+    auto resumed = limiter.record(Boundary::MappedNames, false, now + std::chrono::seconds(2));
+    EXPECT_TRUE(resumed.publish);
+    EXPECT_EQ(resumed.count, 1);
+    EXPECT_EQ(resumed.previousBurst, 1000000);
+    // An error or another mapping boundary has its own first useful diagnostic.
+    EXPECT_TRUE(limiter.record(Boundary::MappedNames, true, now).publish);
+    EXPECT_TRUE(limiter.record(Boundary::SubElementType, false, now).publish);
 }
 
 TEST_F(TopoShapeExpansionTest, makeElementCompoundOneShapeForceReturnsCompound)

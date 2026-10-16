@@ -150,13 +150,25 @@ class NativeMixedShapeHashers(unittest.TestCase):
         doc.B.ViewObject.Visibility = False
         doc.Union.ViewObject.Visibility = True
         doc.Union.ViewObject.ShapeColor = (0.25, 0.65, 0.9)
-        Gui.activeDocument().activeView().viewAxonometric()
-        Gui.activeDocument().activeView().fitAll()
+        # Cold restore in -t runs before the ordinary application event loop.
+        # Let the native view initialize before fitting its scene bounds. This
+        # is capture setup, not a geometry recompute or visibility workaround.
         Gui.updateGui()
         loop = QtCore.QEventLoop()
         QtCore.QTimer.singleShot(250, loop.quit)
         loop.exec()
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.activeDocument().activeView().fitAll()
+        Gui.activeDocument().activeView().redraw()
         Gui.activeDocument().activeView().saveImage(str(path), 1000, 700, "White")
+        from PySide import QtGui
+        image = QtGui.QImage(str(path))
+        self.assertFalse(image.isNull())
+        blue = sum(image.pixelColor(x, y).blue() > image.pixelColor(x, y).red() + 20
+                   for x in range(0, image.width(), 10)
+                   for y in range(0, image.height(), 10))
+        self.assertGreater(blue, 100, "The native blue fixture must be visible, not just axes")
+        self.render_checks.append({"path": str(path), "blue_samples": blue})
 
     def create_fixture(self, directory, report):
         doc = App.newDocument("NativeMixedShapeHashers")
@@ -242,6 +254,9 @@ class NativeMixedShapeHashers(unittest.TestCase):
                   "part_module": Part.__file__, "helper_module": mixed_tests.__file__,
                   "gui_module": getattr(Gui, "__file__", "<built-in>"),
                   "gui_up": App.GuiUp, "stage": stage}
+        self.render_checks = []
+        report["render_checks"] = self.render_checks
+        report["harness_module"] = __file__
         try:
             self.assertIn(stage, ("create", "reopen"))
             self.direct_semantic_control(report)

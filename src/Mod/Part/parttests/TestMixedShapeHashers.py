@@ -240,14 +240,27 @@ class TestMixedShapeHashers(unittest.TestCase):
                     if operation in ("fuse", "generalFuse") or (operation == "cut" and reverse):
                         self.assert_rightmost_origin(actual, 4)
                     # Equal geometry can legitimately choose different origins
-                    # by local SID allocation order. Recursive indexed Edge
-                    # expansion also has a pre-existing public-history limit.
-                    # Compare physical support, not one control's local choice.
+                    # by local SID allocation order. Compare actual physical
+                    # support, not one control's local choice of provenance.
                     expected = self.provenance_records(control, control_origins)
-                    self.assertTrue(all(supported or geometry[0] == "Edge"
-                                        for geometry, supported in expected))
+                    self.assert_supported_provenance(expected)
                     self.assertEqual(self.provenance_records(actual, origins), expected)
                     self.identity_records(actual)
+
+    def test_recursive_indexed_history_uses_existing_seed_elements(self):
+        source = Part.makeBox(2, 3, 4)
+        source.Tag = 1
+        source = source.copy("SeedA", App.StringHasher())
+        result = source.fuse(source.translated(App.Vector(1, 0, 0)))
+        checked = 0
+        for raw in result.ElementMap:
+            history = result.getElementHistory(raw)
+            if history:
+                match = re.match(r"(Vertex|Edge|Face)([0-9]+);SeedA", history[1])
+                if match:
+                    checked += 1
+                    self.assertLessEqual(int(match[2]), source.countElement(match[1]))
+        self.assertGreater(checked, 0)
 
     def test_compound_semantics_match_shared_owner(self):
         for operation in ("compound", "nested compound"):

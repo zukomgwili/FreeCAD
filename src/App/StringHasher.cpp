@@ -176,10 +176,20 @@ std::string StringID::dataToText(int index) const
 
     std::string res(_data.constData());
     if (index != 0) {
-        res += std::to_string(index);
+        res += QByteArray::number(index, isPrefixIDIndex() ? 16 : 10).constData();
     }
     if (_postfix.size() != 0) {
-        res += _postfix.constData();
+        if (isPostfixEncoded() && !_sids.empty()
+            && (_sids.front().isHashed() || _sids.front().isBinary())) {
+            // This is textual introspection, not a reconstruction of the
+            // unavailable hash preimage. Never append raw opaque bytes as UTF-8.
+            res += "<base64:";
+            res += _postfix.toBase64().constData();
+            res += '>';
+        }
+        else {
+            res += _postfix.constData();
+        }
     }
     return res;
 }

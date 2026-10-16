@@ -37,7 +37,10 @@ class StringID(BaseClass):
     """Return the related string IDs"""
 
     Data: Final[str] = ""
-    """Return the data associated with this ID"""
+    """Return textual data. An opaque related postfix is shown as <base64:...>,
+    not its unavailable preimage. Binary/hashed leaf IDs retain their base64 form.
+    This diagnostic representation is not a serialized element name.
+    """
 
     IsBinary: Final[bool] = False
     """Check if the data is binary,"""

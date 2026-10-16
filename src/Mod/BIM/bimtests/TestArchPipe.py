@@ -20,10 +20,36 @@
 ################################################################################
 
 import Arch
+import Draft
+import FreeCAD
+import Part
 from bimtests import TestArchBase
 
 
 class TestArchPipe(TestArchBase.TestArchBase):
+
+    def test_invalid_path_is_failed_and_can_be_repaired(self):
+        arc = Draft.make_circle(20, startangle=0, endangle=90, face=False)
+        self.document.recompute()
+        self.assertEqual(len(arc.Shape.Wires), 0)
+        pipe = Arch.makePipe(arc, diameter=5)
+        self.document.recompute()
+        self.assertIn("Invalid", pipe.State)
+        self.assertTrue(pipe.Shape.isNull())
+        self.assertIn("base path", pipe.getStatusString())
+        wire = self.document.addObject("Part::Feature", "ValidPath")
+        wire.Shape = Part.Wire([Part.makeLine(FreeCAD.Vector(), FreeCAD.Vector(0, 0, 100))])
+        pipe.Base = wire
+        self.document.recompute()
+        self.assertNotIn("Invalid", pipe.State)
+        self.assertTrue(pipe.Shape.isValid())
+        self.assertGreater(pipe.Shape.Volume, 0)
+        self.assertAlmostEqual(pipe.Length.Value, 100)
+        pipe.Base = arc
+        self.document.recompute()
+        self.assertIn("Invalid", pipe.State)
+        self.assertTrue(pipe.Shape.isNull(), "Failed pipe must not retain stale geometry")
+        self.assertAlmostEqual(pipe.Length.Value, 0)
 
     def test_makePipe(self):
         """Test the makePipe function."""

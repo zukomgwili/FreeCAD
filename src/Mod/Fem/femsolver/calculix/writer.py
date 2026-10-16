@@ -149,7 +149,6 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
 
         # mesh
         inpfile = write_mesh.write_mesh(self)
-        write_constraint_elastic_connector.write_connectors(inpfile, self)
 
         # element sets for materials and element geometry
         write_femelement_matgeosets.write_femelement_matgeosets(inpfile, self)
@@ -192,6 +191,8 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
         self.write_constraints_propdata(inpfile, self.member.cons_tie, con_tie)
         self.write_constraints_propdata(inpfile, self.member.cons_transform, con_transform)
         self.write_constraints_propdata(inpfile, self.member.cons_rigidbody, con_rigidbody)
+        # Explicit rigid-body port nodes must exist before connector equations/elements.
+        write_constraint_elastic_connector.write_connectors(inpfile, self)
 
         # amplitudes
         write_amplitude.write_amplitude(inpfile, self)

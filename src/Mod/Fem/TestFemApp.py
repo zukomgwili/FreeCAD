@@ -48,6 +48,7 @@ from femtest.app.test_material_orthotropic import TestMaterialOrthotropic as Fem
 from femtest.app.test_material_orthotropic import TestMaterialOrthotropicCalculiX as FemTest21
 from femtest.app.test_elastic_connector import TestElasticConnector as FemTest22
 from femtest.app.test_elastic_connector import TestElasticConnectorCalculiX as FemTest23
+from femtest.app.test_elastic_connector import TestRigidPortConnector as FemTest24
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26

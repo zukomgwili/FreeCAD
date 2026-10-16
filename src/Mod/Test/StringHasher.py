@@ -45,3 +45,34 @@ class TestStringHasher(unittest.TestCase):
     def testStringIDIsSame(self):
         with self.assertRaises(TypeError):
             self.strID.isSame(0)
+
+    def test_native_hashed_postfix_text(self):
+        import base64
+        import re
+        import Part
+
+        for threshold in (0, 1, 40, 100):
+            with self.subTest(threshold=threshold):
+                hasher = FreeCAD.StringHasher()
+                hasher.Threshold = threshold
+                shape = Part.makeBox(2, 3, 4)
+                shape.Tag = 1
+                shape = shape.copy("Seed", hasher)
+                shape = shape.fuse(shape.translated(FreeCAD.Vector(1, 0, 0)))
+                names = dict(shape.ElementMap)
+                table = hasher.Table
+                self.assertTrue(table)
+                opaque_postfixes = 0
+                for value, text in table.items():
+                    sid = hasher.getID(value)
+                    self.assertIsInstance(text, str)
+                    self.assertEqual(text, sid.Data)
+                    if "<base64:" in text:
+                        opaque_postfixes += 1
+                        self.assertFalse(sid.IsHashed or sid.IsBinary)
+                        encoded = re.search(r"<base64:([^>]*)>", text).group(1)
+                        self.assertEqual(base64.b64decode(encoded, validate=True),
+                                         base64.b64decode(hasher.getID(sid.Related[0]).Data))
+                self.assertEqual(opaque_postfixes > 0, threshold == 1)
+                self.assertEqual(shape.ElementMap, names)
+                self.assertAlmostEqual(shape.Volume, 36)

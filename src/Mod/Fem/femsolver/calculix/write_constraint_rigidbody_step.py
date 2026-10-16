@@ -29,6 +29,7 @@ __url__ = "https://www.freecad.org"
 
 
 import FreeCAD
+from femtools.elastic_connector import rigid_body_node_ids
 
 
 def get_analysis_types():
@@ -61,11 +62,9 @@ def get_after_write_constraint():
 
 def write_constraint(f, femobj, rb_obj, ccxwriter):
 
-    rb_obj_idx = ccxwriter.analysis.Group.index(rb_obj)
-    node_count = ccxwriter.mesh_object.FemMesh.NodeCount
-    # factor 2 is to prevent conflict with other rigid body constraint
-    ref_node_idx = node_count + 2 * rb_obj_idx + 1
-    rot_node_idx = node_count + 2 * rb_obj_idx + 2
+    ref_node_idx, rot_node_idx = rigid_body_node_ids(
+        ccxwriter.analysis, ccxwriter.mesh_object, rb_obj
+    )
 
     if rb_obj.EnableAmplitude:
         rb_amplitude = f", AMPLITUDE={rb_obj.Name}"

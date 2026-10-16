@@ -79,6 +79,51 @@ class ElasticConnectorGui(unittest.TestCase):
         self.doc.redo()
         self.assertEqual(len(connectors(self.analysis)), 1)
 
+    def test_native_rigid_ports_command_units_and_cold_persistence(self):
+        from femtest.app import test_elastic_connector as app_tests
+        helper = app_tests.TestRigidPortConnector()
+        helper.doc = self.doc
+        self.analysis, _, old, mesh, bodies, _ = helper.model(angle=45)
+        self.doc = helper.doc
+        self.doc.removeObject(old.Name)
+        FemGui.setActiveAnalysis(self.analysis)
+        for body in bodies:
+            Gui.Selection.addSelection(body)
+        Gui.runCommand("FEM_ConstraintElasticConnector")
+        obj = connectors(self.analysis)[0]
+        self.assertEqual(obj.Attachment, "Rigid body ports")
+        self.assertEqual(obj.RigidBody1, bodies[0])
+        self.assertEqual(obj.RigidBody2, bodies[1])
+        self.doc.undo()
+        self.assertEqual(connectors(self.analysis), [])
+        self.doc.redo()
+        obj = connectors(self.analysis)[0]
+        obj.Kind = "Rotational"
+        obj.RotationalStiffness = App.Units.Quantity("2 N*m/rad")
+        obj.Orientation = App.Rotation(App.Vector(0, 0, 1), 45)
+        reopen = os.environ.get("FREECAD_J97_REOPEN")
+        if reopen:
+            App.closeDocument(self.doc.Name)
+            self.doc = App.openDocument(reopen)
+            self.analysis = self.doc.getObject("Analysis")
+            mesh = self.doc.getObject("Mesh")
+            obj = connectors(self.analysis)[0]
+        result = resolve_connector(obj, mesh, self.analysis)
+        self.assertAlmostEqual(result["stiffness"], 2000)
+        self.assertEqual([len(nodes) for nodes in result["regions"]], [8, 8])
+        self.assertTrue(result["rotational"])
+        stream = io.StringIO()
+        write_connectors(stream, SimpleNamespace(
+            analysis=self.analysis, mesh_object=mesh,
+            member=SimpleNamespace(cons_elasticconnector=[{"Object": obj}])
+        ))
+        self.assertIn("*EQUATION", stream.getvalue())
+        self.assertIn("TYPE=SPRING2", stream.getvalue())
+        output = os.environ.get("FREECAD_J97_OUTPUT")
+        if output:
+            self.doc.recompute()
+            self.doc.saveAs(output)
+
     def test_native_persistence_and_export(self):
         reopen = os.environ.get("FREECAD_CTQ_REOPEN")
         if reopen:

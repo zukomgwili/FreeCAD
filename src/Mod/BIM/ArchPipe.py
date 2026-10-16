@@ -238,8 +238,12 @@ class _ArchPipe(ArchComponent.Component):
         pl = obj.Placement
         w = self.getWire(obj)
         if not w:
-            FreeCAD.Console.PrintError(translate("Arch", "Unable to build the base path") + "\n")
-            return
+            # A failed recompute must not present an old pipe as current geometry.
+            obj.Shape = Part.Shape()
+            obj.Length = 0
+            raise RuntimeError(translate(
+                "Arch", "Unable to build the base path: expected one non-closed wire"
+            ))
         if obj.OffsetStart.Value:
             e = w.Edges[0]
             v = e.Vertexes[-1].Point.sub(e.Vertexes[0].Point).normalize()

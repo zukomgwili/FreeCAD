@@ -60,4 +60,6 @@ class StringHasher(BaseClass):
     """Data length exceed this threshold will be hashed before storing"""
 
     Table: Final[Dict[int, str]] = {}
-    """Return the entire string table as Int->String dictionary"""
+    """Return the entire string table as Int->String dictionary, using StringID.Data
+    diagnostic text (including <base64:...> for opaque related postfixes).
+    """

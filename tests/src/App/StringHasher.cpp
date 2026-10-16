@@ -1856,6 +1856,45 @@ TEST_F(StringHasherTest, importDoesNotRewriteLiteralOperationLabels)  // NOLINT
     }
 }
 
+TEST_F(StringHasherTest, opaquePostfixTextIsExplicitAndDoesNotChangePayload)  // NOLINT
+{
+    for (int threshold : {0, 1, 40, 100}) {
+        SCOPED_TRACE(threshold);
+        App::StringHasherRef source(new App::StringHasher);
+        source->setThreshold(threshold);
+        Data::MappedName name("Vertex12");
+        name += ";Seed;:H1:5,V";
+        auto sid = source->getID(name, {});
+        ASSERT_TRUE(sid.deref().isPostfixEncoded());
+        auto bytes = sid.deref().postfix();
+        auto expected = threshold == 1
+            ? std::string("Vertex12<base64:") + bytes.toBase64().constData() + '>'
+            : std::string("Vertex12;Seed;:H1:5,V");
+        EXPECT_EQ(sid.dataToText(), expected);
+        EXPECT_EQ(sid.deref().postfix(), bytes);
+        EXPECT_EQ(sid.deref().data(), QByteArray("Vertex"));
+        EXPECT_FALSE(sid.isHashed());
+        EXPECT_FALSE(sid.isBinary());
+    }
+}
+
+TEST_F(StringHasherTest, encodedReferenceIndexUsesHexadecimalInExpandedData)  // NOLINT
+{
+    auto leaf = Hasher()->getID("Original indexed identity");
+    for (int index : {10, 11, 12, 16, 42}) {
+        SCOPED_TRACE(index);
+        auto prefix = leaf.deref().toString(index);
+        Data::MappedName name(prefix);
+        const char* postfix = ";:M;Copy;:H1:5,E";
+        name += postfix;
+        auto sid = Hasher()->getID(name, {leaf});
+        ASSERT_TRUE(sid.deref().isPrefixIDIndex());
+        ASSERT_EQ(sid.getIndex(), index);
+        EXPECT_EQ(sid.deref().dataToBytes(index), QByteArray((prefix + postfix).c_str()));
+        EXPECT_EQ(sid.dataToText(), prefix + postfix);
+    }
+}
+
 TEST_F(StringHasherTest, importUpdatesHierarchicalOperationLength)  // NOLINT
 {
     App::StringHasherRef source(new App::StringHasher);

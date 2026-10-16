@@ -97,6 +97,7 @@
 #include "TopoShape.h"
 #include "TopoShapeOpCode.h"
 #include "TopoShapeCache.h"
+#include "HasherMismatchLimiter.h"
 #include "TopoShapeMapper.h"
 #include "FaceMaker.h"
 #include "Geometry.h"
@@ -126,6 +127,45 @@ using BRepAdaptor_HCompCurve = BRepAdaptor_CompCurve;
 
 namespace Part
 {
+
+namespace
+{
+void reportHasherMismatch(
+    detail::HasherMismatchLimiter::Boundary boundary,
+    long sourceTag,
+    long targetTag,
+    bool error = false
+)
+{
+    if (!FC_LOG_INSTANCE.isEnabled(error ? FC_LOGLEVEL_ERR : FC_LOGLEVEL_WARN)) {
+        return;
+    }
+    static detail::HasherMismatchLimiter limiter;
+    auto decision = limiter.record(boundary, error);
+    // Never call observers under the limiter mutex: observers may re-enter CAD.
+    auto report = [&](const std::string& message) {
+        if (error) {
+            FC_ERR(message);
+        }
+        else {
+            FC_WARN(message);
+        }
+    };
+    if (decision.previousBurst) {
+        report(
+            "hasher mismatch: previous burst had " + std::to_string(decision.previousBurst)
+            + " diagnostic occurrences (repetitions coalesced)"
+        );
+    }
+    if (decision.publish) {
+        report(
+            "hasher mismatch: source tag " + std::to_string(sourceTag) + ", target tag "
+            + std::to_string(targetTag) + "; occurrence " + std::to_string(decision.count)
+            + " in burst (repetitions coalesced)"
+        );
+    }
+}
+}  // namespace
 
 static void expandCompound(const TopoShape& shape, std::vector<TopoShape>& res)
 {
@@ -916,7 +956,11 @@ void TopoShape::mapSubElementTypeForShape(
                 else if (!sids[0].isFromSameHasher(Hasher)) {
                     if (!warned) {
                         warned = true;
-                        FC_WARN("hasher mismatch");  // NOLINT
+                        reportHasherMismatch(
+                            detail::HasherMismatchLimiter::Boundary::SubElementType,
+                            other.Tag,
+                            Tag
+                        );
                     }
                     sids.clear();
                 }
@@ -982,12 +1026,21 @@ void TopoShape::mapSubElement(const TopoShape& other, const char* op, bool force
             if (other.Hasher != Hasher) {
                 if (!getElementMapSize(false)) {
                     if (FC_LOG_INSTANCE.isEnabled(FC_LOGLEVEL_LOG)) {
-                        FC_WARN("hasher mismatch");
+                        reportHasherMismatch(
+                            detail::HasherMismatchLimiter::Boundary::HasherSelection,
+                            other.Tag,
+                            Tag
+                        );
                     }
                 }
                 else {
                     // FC_THROWM(Base::RuntimeError, "hasher mismatch");
-                    FC_ERR("hasher mismatch");
+                    reportHasherMismatch(
+                        detail::HasherMismatchLimiter::Boundary::HasherSelection,
+                        other.Tag,
+                        Tag,
+                        true
+                    );
                 }
                 Hasher = other.Hasher;
             }
@@ -1048,7 +1101,11 @@ void TopoShape::mapSubElement(const TopoShape& other, const char* op, bool force
                     else if (!sids[0].isFromSameHasher(Hasher)) {
                         if (!warned) {
                             warned = true;
-                            FC_WARN("hasher mismatch");
+                            reportHasherMismatch(
+                                detail::HasherMismatchLimiter::Boundary::MappedNames,
+                                other.Tag,
+                                Tag
+                            );
                         }
                         sids.clear();
                     }

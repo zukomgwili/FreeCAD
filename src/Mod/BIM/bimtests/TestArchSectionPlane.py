@@ -32,6 +32,52 @@ from unittest.mock import patch
 
 class TestArchSectionPlane(TestArchBase.TestArchBase):
 
+    def test_cutview_restore_waits_for_gui_document_and_view(self):
+        if not App.GuiUp:
+            self.skipTest("Requires native GUI view provider")
+        import FreeCADGui as Gui
+        from types import SimpleNamespace
+
+        section = Arch.makeSectionPlane()
+        self.document.recompute()
+        section.ViewObject.CutView = False
+        proxy = section.ViewObject.Proxy
+        with patch.object(Gui, "ActiveDocument", None):
+            proxy.attach(section.ViewObject)
+            section.ViewObject.CutView = True
+            for prop in ("CutView", "CutMargin"):
+                proxy.onChanged(section.ViewObject, prop)
+            self.assertIsNone(proxy.clip)
+        for view in (None, object()):
+            with patch.object(Gui, "ActiveDocument", SimpleNamespace(ActiveView=view)):
+                proxy.onChanged(section.ViewObject, "CutView")
+                self.assertIsNone(proxy.clip)
+        proxy.onChanged(section.ViewObject, "CutView")
+        self.assertIsNotNone(proxy.clip)
+        graph = Gui.activeDocument().activeView().getSceneGraph()
+        self.assertGreaterEqual(graph.findChild(proxy.clip), 0)
+        section.ViewObject.CutView = False
+        self.assertIsNone(proxy.clip)
+
+    def test_saved_cutview_restores_with_native_proxy(self):
+        if not App.GuiUp:
+            self.skipTest("Requires native GUI view provider")
+        import FreeCADGui as Gui
+
+        section = Arch.makeSectionPlane()
+        self.document.recompute()
+        section.ViewObject.CutView = True
+        with tempfile.TemporaryDirectory() as directory:
+            path = os.path.join(directory, "cutview.FCStd")
+            name = section.Name
+            self.document.saveAs(path)
+            App.closeDocument(self.document.Name)
+            self.document = App.openDocument(path)
+            Gui.updateGui()
+            section = self.document.getObject(name)
+            self.assertTrue(section.ViewObject.CutView)
+            self.assertIsNotNone(section.ViewObject.Proxy.clip)
+
     def _makeBox(self, length=1000, width=2000, height=3000):
         box = self.document.addObject("Part::Box", "SectionPlaneFitBox")
         box.Length = length

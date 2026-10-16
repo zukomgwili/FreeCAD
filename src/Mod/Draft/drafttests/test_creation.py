@@ -48,6 +48,67 @@ from draftutils.messages import _msg
 class DraftCreation(test_base.DraftTestCaseDoc):
     """Test Draft creation functions."""
 
+    def test_dimension_stale_reference_is_actionable_and_relinkable(self):
+        box = self.doc.addObject("Part::Box", "DimensionSource")
+        self.doc.recompute()
+        dim = Draft.make_dimension(Vector(), Vector(10, 0, 0), Vector(0, 10, 0))
+        dim.LinkedGeometry = [(box, ["Vertexx1", "Vertexx2"])]
+        self.doc.recompute()
+        self.assertIn("Invalid", dim.State)
+        self.assertIn("unresolved", dim.getStatusString().lower())
+        self.assertIn(box.Name, dim.getStatusString())
+        self.assertIn("Vertexx1", dim.getStatusString())
+        dim.LinkedGeometry = [(box, ["Vertex1", "Vertex2"])]
+        self.doc.recompute()
+        self.assertNotIn("Invalid", dim.State)
+        self.assertTrue(dim.Start.isEqual(box.getSubObject("Vertex1").Point, 1e-8))
+        self.assertTrue(dim.End.isEqual(box.getSubObject("Vertex2").Point, 1e-8))
+
+    def test_dimension_native_aliases_and_two_object_references(self):
+        import Part
+        from draftobjects.dimension import measure_one_obj_edge
+
+        sources = []
+        for offset in (0, 10):
+            owner = self.doc.addObject("Part::Feature", "MappedSource")
+            shape = Part.makeBox(2, 3, 4)
+            shape.Tag = 1
+            owner.Shape = shape.copy("Seed", App.StringHasher()).translated(Vector(offset, 0, 0))
+            sources.append(owner)
+        first, second = sources
+        aliases = dict((indexed, raw) for raw, indexed in first.Shape.ElementMap.items())
+        dim = Draft.make_dimension(Vector(), Vector(10, 0, 0), Vector(0, 10, 0))
+        dim.LinkedGeometry = [(first, [aliases["Vertex1"], aliases["Vertex2"]])]
+        self.doc.recompute()
+        self.assertNotIn("Invalid", dim.State)
+        self.assertTrue(dim.Start.isEqual(first.getSubObject(aliases["Vertex1"]).Point, 1e-8))
+        self.assertTrue(dim.End.isEqual(first.getSubObject(aliases["Vertex2"]).Point, 1e-8))
+        start, end = measure_one_obj_edge(first, aliases["Edge1"], Vector())
+        edge = first.getSubObject(aliases["Edge1"])
+        self.assertTrue(start.isEqual(edge.Vertexes[0].Point, 1e-8))
+        self.assertTrue(end.isEqual(edge.Vertexes[-1].Point, 1e-8))
+        other_alias = next(raw for raw, indexed in second.Shape.ElementMap.items()
+                           if indexed == "Vertex1")
+        dim.LinkedGeometry = [(first, [aliases["Vertex1"]]), (second, [other_alias])]
+        self.doc.recompute()
+        self.assertNotIn("Invalid", dim.State)
+        self.assertAlmostEqual(dim.Distance.Value, 10)
+        second.Placement.Base += Vector(5, 0, 0)
+        self.doc.recompute()
+        self.assertAlmostEqual(dim.Distance.Value, 15)
+
+    def test_dimension_rejects_malformed_indices_and_wrong_types(self):
+        from draftobjects.dimension import measure_one_obj_vertices, measure_two_objects
+
+        box = self.doc.addObject("Part::Box", "Source")
+        self.doc.recompute()
+        for name in ("Vertexx1", "Vertex0", "Vertex999999", "Face1", ";Missing.Vertex1"):
+            with self.subTest(name=name):
+                with self.assertRaisesRegex(RuntimeError, "Unresolved.*Source"):
+                    measure_one_obj_vertices(box, [name, "Vertex2"])
+                with self.assertRaisesRegex(RuntimeError, "Unresolved.*Source"):
+                    measure_two_objects((box, ["Vertex1"]), (box, [name]))
+
     def _assert_endpoint_geometry(self, obj, start, end, placement=None):
         """Check two-point wire geometry in local and document coordinates."""
         if placement is None:
