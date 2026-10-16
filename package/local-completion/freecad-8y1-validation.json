@@ -1,0 +1,53 @@
+{
+  "issue": "FreeCAD-8y1",
+  "date": "2026-10-16",
+  "status": "source_complete_built_verified_not_installed",
+  "implementation_commit": "ce1fe63cf6ebe05a9b6611f5a32db40f7d7108fc",
+  "compiled_version": "27.1.0dev49114+162 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "evidence_directory": "/private/tmp/freecad-8y1.2lFp2I",
+  "baseline": {
+    "runtime": "+160 / 3e2d8572a089fe1d5f05161a6b3df4a824a3c2be",
+    "before_implementation": "ProjectionProbe:2tests fail in0.183s. The valid20,000mm2 face becomes closed outer4edges/open inner3edges/open inner1edge through raw HLR+wire reconstruction. Native covering and union stay valid under0o1, but HorizontalArea is0 rather than the positive footprint.",
+    "input": "Unchanged3.4KB native face fixture from FreeCAD-0o1. No building document opened or edited.",
+    "raw_linework_control": "TechDraw.project is HLR drawing-linework, not a complete-face topology projection. The unchanged raw API still produces3wires; this is retained as a control, not claimed repaired or required to preserve holes.",
+    "area_integration_discovery": "The first exact affine geometry candidate passes validity/closed-hole checks but legacy nonadaptive Area gives279.9065056136522mm2 for a tilted rectangular face with circular holes, versus analytic279.5796477516664. This candidate was not accepted by loosening test tolerances.",
+    "adaptive_native_convergence": {"relative_1e_7": 279.579647751784, "relative_1e_9": 279.57964775166698, "relative_1e_11": 279.57964775166715},
+    "adaptive_api_red": "Four new Part methods produced11 missing-method AttributeErrors before native API implementation; evidence /private/tmp/freecad-8y1-area-audit.WG4E0O/adaptive-area-red.log.",
+    "vertical_edit_red": "Native horizontal-to-vertical component edit retained HorizontalArea200 instead of0. Reproduced by a new native regression before the targeted footprint reset."
+  },
+  "cause": "BIM reconstructed planar topology from HLR linework, losing shared vertices and holes in a toleranced input. Complete-face affine projection retains correct geometry, but its rational splines also expose an independent default nonadaptive surface-integration inaccuracy. Neither arbitrary edge-joining tolerances nor acceptance of the inaccurate area is appropriate.",
+  "fix": {
+    "planar_projection": "Copy the full face with no element map. Translate horizontal faces rigidly toXY. For other planar faces use a determinant1 shear that leavesX/Y unchanged and maps the located supporting plane toZ0. Derive the located normal/point through normalAt/valueAt at UV midpoint; preserve wire/hole topology without edge reconstruction. Reject invalid projected geometry and leave sourceBRep, maps, placement and tolerances unchanged.",
+    "adaptive_surface_api": "New opt-in TopoShape.getSurfaceArea(relativeTolerance=1e-9,positional-only) wraps native adaptive BRepGProp.SurfaceProperties. Validate finite0<tolerance<=0.001, finite/nonnegative estimated relative error within the request and finite area. Null/invalid tolerance raisesValueError; native failure/nonconvergence raisesOCCError. Legacy Area behavior is unchanged. This is integration tolerance, never geometry/healing tolerance.",
+    "BIM_quantities": "Measure the transient projected union with the adaptive native API. Use existing adaptive native Curve.length on trimmed outer-wire edges for perimeter, retaining the outer-only single-outline convention. Preserve0o1 known-error diagnostics/reset and exact temporary preference restoration.",
+    "vertical_edit": "Clear obsolete horizontal area/perimeter when a component has only vertical faces, retaining its computed vertical area. Exactly vertical helper inputs produce no footprint; small nonzero slopes are not arbitrarily discarded by the helper. Existing BIM face-classification thresholds are unchanged."
+  },
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "targeted_native": {"passed": 85, "failed": 0, "seconds": 0.840},
+    "combined_BIM_Part_FEM": {"run": 871, "passed": 870, "expected_failures": 1, "unexpected_failures": 0, "seconds": 44.518, "BIM": 340, "Part": 321, "FEM": 210},
+    "expected_failure": "Existing BIM tilted-beam cross-section Y-axis test, not weakened or introduced here.",
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 70.18, "excluded": [], "CocoaSaveSheet_passed": true},
+    "original_feedback_loop": {"passed": 2, "failed": 0, "seconds": 0.169, "consumer_closed_wires": 2, "unchanged_raw_HLR_wire_count": 3},
+    "projection_cases": "Original toleranced ring; placed/sloping rectangular face with two circular holes; reversed orientation; placed planar NURBS; vertical and near-vertical helper cases; coincident/stacked, overlapping and disjoint projected union areas; intentional filling of only one hole; original sourceBRep/maps/placement/tolerances unchanged; cleared analysis maps; nonplanar input rejected by planar helper; circular outer-outline native area/perimeter.",
+    "native_failure_containment": "Actual native recompute with injected known projection failure leaves material and downstream union valid, resets quantities and emits an actionable warning. Save/reopen preserves that failure state; removing the fault and ordinary recompute restores positive quantities with identical material/union volumes. Direct known/unexpected error and preference restoration cases remain covered.",
+    "native_gui_initial": {"passed": 1, "failed": 0, "seconds": 1.503},
+    "native_gui_independent_cold_process": {"passed": 1, "failed": 0, "seconds": 1.428},
+    "native_saved_fixture": {"horizontal_area_mm2": 19999.999999999985, "vertical_area_mm2": 160000.0, "outer_perimeter_mm": 900.0, "unchanged_material_volume_mm3": 1999999.9900574842, "source_profile_area_mm2": 19999.999999999964, "native_volume_per_height_mm2": 19999.999900574843},
+    "persistence": "Independent GUI process checks saved positive quantities, owner states and shapes before target recompute, then repeats ordinary recomputes. FCStd includesGuiDocument.xml; rendered native union inspected. No quantity reassignment or material-shape replacement is used to repair results.",
+    "numerical_budgets": "Direct analytic planar projection uses absolute1e-7mm2 checks; adaptive native integration convergence checked at relative1e-7/1e-9/1e-11. The inherited native extrusion differs from its pristine profile by9.94e-5mm2 in volume/height; a separate fixture-only1e-3mm2 assertion budget is documented and never passed to any geometry API. Material geometry and volume remain unchanged.",
+    "lint_format": "New/changed BIM Python tests and GUI probe pass flake8 --ignore=E266,W503 --max-line-length=100. Normalized legacy ArchComponent26 findings and Part TopoShapeTest9 findings match baseline. Changed C++ lines pass git-clang-format. CRLF-aware git diff --check passes.",
+    "independent_review": "API/source responsibilities and numerical accuracy independently audited. Independent final review found a native0o1 containment-coverage gap; added and verified native failure/save/reopen/recovery test. Re-review reports no remaining concrete findings. A source-only findPlane location suspicion was checked natively and not reproduced, so no defect was asserted from it."
+  },
+  "scope_limits": {
+    "legacy_Area_property_changed": false,
+    "raw_TechDraw_HLR_changed": false,
+    "nonplanar_projection_path_replaced": false,
+    "source_material_or_tolerances_modified": false,
+    "building_document_opened_or_modified": false,
+    "building_or_engineering_quantity_acceptance_claimed": false
+  },
+  "installation": "No installation command or application replacement performed. The source build still uses the repository Pixi dependency environment."
+}
