@@ -1527,8 +1527,8 @@ class AreaCalculator:
 
         direction = FreeCAD.Vector(0, 0, 1)
         projectedFaces = []
-        for face in horizontalAreaFaces:
-            try:
+        try:
+            for face_index, face in enumerate(horizontalAreaFaces, start=1):
                 if face.findPlane() is None:
                     if len(face.Wires) > 1:
                         # Non-planar faces with holes are not handled properly
@@ -1556,35 +1556,40 @@ class AreaCalculator:
                         "Part::FaceMakerCheese",
                         noElementMap=True,
                     )
-                # Part.show(projectedFace)
                 projectedFaces.append(projectedFace)
-            except Part.OCCError:
-                FreeCAD.Console.PrintWarning(
-                    translate(
-                        "Arch",
-                        f"Error computing areas for {self.obj.Label}: unable to project or "
-                        f"make face with normal {face.normalAt(0, 0)}. "
-                        "Area values will be reset to 0.\n",
-                    )
+        except (Part.OCCError, ValueError) as error:
+            # FaceMaker reports some geometry failures as ValueError, not OCCError.
+            # This transient analysis must not invalidate an already valid material
+            # shape or block its dependents. Never heal or replace that shape here.
+            FreeCAD.Console.PrintWarning(
+                translate(
+                    "Arch",
+                    f"Error computing areas for {self.obj.Label}: unable to project or "
+                    f"make projected face {face_index}: {error}. "
+                    "Area values are unavailable and will be reset to 0.\n",
                 )
-                self.resetAreas()
-                return
-
-        if old_allow_crazy_edge is None:
-            param_grp.RemBool("allowCrazyEdge")
-        else:
-            param_grp.SetBool("allowCrazyEdge", old_allow_crazy_edge)
+            )
+            self.resetAreas()
+            return
+        finally:
+            # Restore both the value and absence of the temporary preference, also
+            # on handled early returns and unexpected exceptions.
+            if old_allow_crazy_edge is None:
+                param_grp.RemBool("allowCrazyEdge")
+            else:
+                param_grp.SetBool("allowCrazyEdge", old_allow_crazy_edge)
 
         fusedFace = None
         if projectedFaces:
             try:
                 fusedFace = _make_projected_horizontal_area_face(projectedFaces)
-            except Part.OCCError:
+            except (Part.OCCError, ValueError) as error:
                 FreeCAD.Console.PrintWarning(
                     translate(
                         "Arch",
                         f"Error computing areas for {self.obj.Label}: unable to combine "
-                        "projected horizontal faces. Area values will be reset to 0.\n",
+                        f"projected horizontal faces: {error}. "
+                        "Area values are unavailable and will be reset to 0.\n",
                     )
                 )
                 self.resetAreas()
