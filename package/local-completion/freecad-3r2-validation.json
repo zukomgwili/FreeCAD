@@ -1,0 +1,43 @@
+{
+  "issue": "FreeCAD-3r2",
+  "date": "2026-10-16",
+  "status": "source_complete_built_and_verified_not_installed",
+  "implementation_commit": "c38e3a14eeebe612b4506616ffa264915fbc5407",
+  "compiled_version": "27.1.0dev49114+156 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "baseline": {
+    "installed_version": "+150 / 0c0815199389bf6232e1c521489bf5c888ea03f3",
+    "source_version": "+154 / 02126d0d67054ed0becba4489969bb5b1c533ff7",
+    "reproduce_before_implementation": "Retained native direct-Part witness rerun against installed app. New red-capable source tests repeated twice: Location planeZ17 and Dist2 both producedZ5.5 rather than17/15; four assertion failures in0.282s. Only a native cylinder, box and bearing, no building document or solver.",
+    "expanded_red_suite": "16 native methods produced23 failures against unchanged source implementation, including setters, invalid diagnostics, persistence, placed links and inherited updates.",
+    "glyph_red_control": "After core data fix but before provider edits, actual native scene graph retained2/3/5 SoShape nodes for Bearing/Gear/Pulley after invalid Location. GUI assertions failed for all three; process exit0 was not treated as semantic success."
+  },
+  "cause": "The References callback computed the location intersection and offset, while separate Location/Dist callbacks stored the raw cylinder center. Degenerate/unsupported geometry reached unchecked OCCT conversions or intersection access. Inherited providers only removed existing glyphs when Height remained positive.",
+  "fix": "One validated bearing refresh for References/Location/Dist, preserving original References-path seat/axis and signed normal-offset behavior. Reject unsupported, unresolved, multiple and axis-parallel location geometry, nonfinite distance and nonunique/failed intersections with explicit diagnostics and native Invalid state on recompute. Clear invalid derived geometry and remove Bearing/Gear/Pulley glyphs; recovery rebuilds them. Skip partial property restoration, use global location scope for placed occurrences, and make cylinder-parameter extraction return false for unsupported topology.",
+  "compatibility": {
+    "distance": "Positive Dist translates the location plane toward the existing reference base, negative away. It is a normal offset, not axial distance; oblique-plane test qualifies the distinction. If the reference base already lies on the plane, preserve legacy ignored-offset behavior.",
+    "no_location": "Clearing Location restores the original References-path default. Dist has no effect without Location. Native cylinder parameterization/axis sign was retained, not replaced with an assumed positive axis.",
+    "movement": "Location occurrence and common parent placement changes refresh on ordinary document recompute; no manual References reassignment is needed. Immediate placement callbacks beyond existing behavior are not claimed."
+  },
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "final_original_loop": {"passed": 2, "failed": 0, "seconds": 0.156, "Location_Z": 17, "Dist2_Z": 15},
+    "final_combined_fem_part": {"passed": 527, "failed": 0, "seconds": 22.884, "FEM": 210, "Part": 317},
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 70.98, "excluded": [], "CocoaSaveSheet_passed": true},
+    "new_native_property_methods": 20,
+    "additional_shared_helper_control": "Native cylindrical Transform retains its axis when a vertex cannot supply cylinder parameters; prior valid cylinder/link controls remain passing.",
+    "native_property_scope": "Property order, positive/negative/zero distance, opposite plane orientation, below-base plane, coplanar legacy behavior, oblique normal distance, linear-edge location, parallel/curved/unsupported/unresolved/multiple inputs, nonfinite distance, invalid-state diagnostics/recovery, clear primary/location references, Undo/Redo, placed App::Links and parent frames, save/reopen/regeneration, Gear/Pulley inheritance.",
+    "native_gui": {"initial_process": {"passed": 2, "seconds": 2.797}, "fresh_process_reopen": {"passed": 2, "seconds": 2.280}, "compiled_identity_verified": true, "GuiDocument_xml_preserved": true},
+    "native_widget": "Actual bearing task-panel spinDistance edits -2/+2 update the transformed base point to localZ19/15 immediately, with no explicit recompute or References reassignment. No geometry selection callback is exercised.",
+    "native_persistence": "Separate process verifies saved App::Link owners, distance and transformed point before explicit recompute. Moving the datum occurrence and common parent then ordinary recompute regenerates the expected point; native render and document are retained.",
+    "native_glyphs": "Actual Coin scene graphs for Bearing/Gear/Pulley each have drawable shapes when valid, zero after invalid Location/recompute, positive after recovery, and zero after cleared References. No guessed pixel counts or manually repaired geometry.",
+    "lint": "Changed C++ lines pass git-clang-format; new/changed Python tests and TestFemApp pass flake8 --ignore=E266,W503 --max-line-length=100; git diff --check passes.",
+    "independent_review": "Core math, lifecycle, explicit errors, inherited data and all three provider clearing/recovery paths reviewed; no remaining findings."
+  },
+  "evidence_directory": "/private/tmp/freecad-3r2.ZXxAVU",
+  "installed_application": "Unchanged /Applications/FreeCAD-27.1.0.app +150; deep-strict signature verified. No replacement requested or performed.",
+  "limits": {"specialized_gui_geometry_selection_qualified": false, "new_solver_or_connection_capability_claimed": false, "building_design_accepted": false, "building_document_opened_or_modified": false},
+  "existing_followup": "FreeCAD-s78 remains the separate specialized GUI selection audit; this task does not claim it complete.",
+  "metadata_note": "The final GUI probe also asserts native non-Invalid state; this evidence-only refinement and receipt are committed after the compiled implementation commit."
+}

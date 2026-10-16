@@ -81,6 +81,7 @@ class BearingLocationGui(unittest.TestCase):
         self.assertAlmostEqual(bearing.Dist, distance)
         self.assertAlmostEqual(bearing.Radius, 7)
         self.assertAlmostEqual(bearing.Height, 11)
+        self.assertNotIn("Invalid", bearing.State)
         self.assertEqual(bearing.ViewObject.TypeId,
                          "FemGui::ViewProviderFemConstraintBearing")
         expected = parent.Placement.multVec(App.Vector(0, 0, local_z))
