@@ -186,6 +186,9 @@ class NativeShapeHasherOwnership(unittest.TestCase):
             self.doc.recompute(None, True)
             self.check_snapshot(self.doc, expected, f"cold-recompute-{cycle + 1}", report)
         self.show_fixture(self.doc)
+        # Capture the actual cold-process view, not the supplemental reopen below.
+        Gui.activeDocument().activeView().saveImage(
+            str(directory / "reopen.png"), 1000, 700, "White")
         self.doc.saveAs(str(output))
         with ZipFile(output) as archive:
             self.assertIn("GuiDocument.xml", archive.namelist())
@@ -199,8 +202,6 @@ class NativeShapeHasherOwnership(unittest.TestCase):
         self.check_snapshot(self.doc, expected, "successor-recompute", report)
         self.show_fixture(self.doc)
         self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), original_hash)
-        Gui.activeDocument().activeView().saveImage(
-            str(directory / "reopen.png"), 1000, 700, "White")
         report.update(input=str(source), output=str(output), input_sha256=original_hash)
 
     def test_native_assignment_and_cold_restore(self):

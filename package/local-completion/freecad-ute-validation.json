@@ -1,0 +1,58 @@
+{
+  "issue": "FreeCAD-ute",
+  "date": "2026-10-16",
+  "status": "assignment_and_persistence_complete_built_verified_not_installed",
+  "implementation_commit": "33993eb94cc213da9f4eaa3c660aaab38872f34a",
+  "compiled_version": "27.1.0dev49114+164 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "built_part_module_sha256": "ccd71673d2a4bc5726f1143e44e471b15f0e570079b9a4f5243ff4364c9edaef",
+  "evidence_directory": "/private/tmp/freecad-ute.rFDcml",
+  "independent_audit_directory": "/private/tmp/freecad-ute-persistence.XsWPu3",
+  "baseline": {
+    "runtime": "27.1.0dev49114+162 / ce1fe63cf6ebe05a9b6611f5a32db40f7d7108fc",
+    "reproduced_before_implementation_inspection": true,
+    "native_recipe": "Part.makeBox(2,3,4), Tag=1, copy Seed with a separate App.StringHasher, then fuse with a copy translated by (1,0,0). Native operations create genuine SID-backed names and recursive Related IDs, without assigning a handwritten ElementMap.",
+    "minimal_red": "1 failure in0.074s: assignment changes the owning hasher, and native IDs3,6,9,11,13 become absent from the assigned shape hasher.",
+    "regression_red": "The first five regression methods all fail in0.093s before the fix. Numeric collisions can resolve foreign IDs to unrelated data; assigning a mapless shape can clear another shape's shared table. A sixth source-document-closure regression was added during review."
+  },
+  "cause": "Python shape assignment constructed a retagged result with the document primary hasher while copying source names and SID references. The raw names retained their source identity domain. A separate mapless branch also destructively cleared a borrowed shared hasher.",
+  "fix": {
+    "assignment": "Retain a non-null source hasher while retagging, otherwise use the existing document fallback. This matches the existing C++ setValue source-first policy.",
+    "shared_lifetime": "Do not clear an input hasher merely because this particular shape has no map or tag.",
+    "persistence": "Use existing per-property HasherIndex/save/restore registration. No file-format change, recursive translation, SaveAll workaround, reference reassignment or map clearing is introduced."
+  },
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "original_feedback_loop": {"passed": 1, "failed": 0, "seconds": 0.157},
+    "focused_regressions": {"passed": 6, "failed": 0},
+    "combined_BIM_Part_FEM": {"run": 877, "passed": 876, "expected_failures": 1, "unexpected_failures": 0, "seconds": 49.876, "BIM": 340, "Part": 327, "FEM": 210},
+    "existing_expected_failure": "Unchanged BIM tilted-beam cross-section Y-axis test.",
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 72.65, "excluded": [], "CocoaSaveSheet_passed": true},
+    "native_GUI_create": {"passed": 1, "failed": 0, "seconds": 1.353},
+    "native_GUI_independent_cold_process": {"passed": 1, "failed": 0, "seconds": 2.340},
+    "native_GUI_cold_capture_stage_rerun": {"passed": 1, "failed": 0, "seconds": 2.139},
+    "native_runtime_guards": "GuiUp1, actual Part.so build path and exact compiled33993eb94c checked in each native process.",
+    "identity_oracle": "Two distinct source documents use independently generated Seed0/Seed1 native maps, each with13 root/recursive identities. Same numeric IDs have different data. Destination primary IDs are deliberately populated with unrelated colliding data before assignment. Both source documents close and all source shape/hasher/SID Python wrappers are dropped before destination checks.",
+    "persistence_oracle": "Complete SID Data, binary/hashed flags, Related IDs, raw mapped names and actual PropertyLinkSubList physical points checked before recompute after cold restore, through two forced recomputes, native save, successor reopen and another recompute. Owners remain independent; SaveAll stays false. Unit tests additionally cover two save/reopen cycles, source GC and exact owner identity through undo/redo.",
+    "physical_points_mm": [[0, 0, 4], [8, 0, 4]],
+    "target_volumes_mm3": [36, 36],
+    "native_fixture_sha256": "a2b6268dda9d8c87dd733f24696653683add9d26e23004afd805508a63373db5",
+    "native_file_controls": "Saved fixture and successor contain GuiDocument.xml. Original cold-process input SHA remains unchanged.",
+    "render_scope": "Create-stage rendering of both synthetic solids inspected. Cold-stage saveImage returned a blank image even after moving capture before supplemental close/reopen; no cold-render appearance acceptance is claimed. The native persistence verdict uses executed identity/geometry/reference assertions, not screenshots. No visual building acceptance is implied.",
+    "lint_format": "New Python modules pass flake8 --ignore=E266,W503 --max-line-length=100; changed C++ lines pass git-clang-format; CRLF-aware git diff --check passes.",
+    "independent_review": "Independent source/ownership and persistence/test-oracle audits found no remaining assignment-boundary defects. Distinct seed data, exact undo/redo owner identity and explicit source-document closure added in response to review. Broader native Boolean defect independently reproduced on the older installed build and filed separately."
+  },
+  "followups": {
+    "FreeCAD-b9r": "P1: stock native Boolean history can corrupt naming when combining valid independent hasher domains. Installed+150/0c0815199389bf6232e1c521489bf5c888ea03f3 reproduces missing output SID61 on cold-restored valid inputs without Python shape assignment,0.1108s. Current same-owner control passes. Assignment preservation does not repair mixed-owner operations.",
+    "FreeCAD-3ir": "P2: Threshold1 hashed postfixes make composite StringID.Data and StringHasher.Table raise UnicodeDecodeError; Threshold40/100/0 controls pass. No assignment/save needed."
+  },
+  "scope_limits": {
+    "mixed_hasher_Boolean_safety_claimed": false,
+    "historical_EN2_origin_proved": false,
+    "stale_file_recovery_changed": false,
+    "building_document_opened_or_modified": false,
+    "building_or_drawing_acceptance_claimed": false
+  },
+  "installation": "No application replacement or installation performed. The compiled fix is in the repository Release build and still uses the Pixi dependency environment. The older installed app was used only for an isolated synthetic read/open Boolean control."
+}
