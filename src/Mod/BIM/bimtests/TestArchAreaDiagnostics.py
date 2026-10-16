@@ -4,8 +4,8 @@
 
 The 3.4 KB native face fixture is minimized from FreeCAD-0o1. Its shared
 vertices have legitimate kernel tolerances, but TechDraw projection separates
-one edge from the inner loop. Do not heal the input, widen tolerances, or use
-the resulting zero quantities as an engineering acceptance.
+one edge from the inner loop. Planar face projection must retain the original
+topology; failure injection still qualifies safe optional-error handling.
 """
 
 from pathlib import Path
@@ -17,7 +17,6 @@ import Arch
 import ArchComponent
 import FreeCAD as App
 import Part
-import TechDraw
 from bimtests.TestArchBase import TestArchBase
 
 
@@ -91,15 +90,21 @@ class TestArchAreaDiagnostics(TestArchBase):
         for prop in ("VerticalArea", "HorizontalArea", "PerimeterLength"):
             self.assertEqual(getattr(obj, prop).Value, 0, prop)
 
+    def assert_fixture_quantities(self, obj):
+        # A fixture-specific numerical budget, never passed to a geometry API.
+        # Native extrusion integration differs from the original20,000mm2
+        # profile by9.94e-5mm2 because its inherited vertices are toleranced.
+        self.assertAlmostEqual(obj.HorizontalArea.Value, 20000, delta=1e-3)
+        self.assertAlmostEqual(obj.PerimeterLength.Value, 900, delta=1e-6)
+        self.assertAlmostEqual(obj.VerticalArea.Value, 160000, delta=1e-3)
+
     def test_native_recompute_save_reopen(self):
         covering, union = self.make_model()
         with patch.object(App.Console, "PrintWarning") as warning:
             self.document.recompute()
         self.assert_model(covering, union)
-        self.assert_zero_areas(covering)
-        messages = " ".join(str(call.args) for call in warning.call_args_list)
-        self.assertIn(covering.Label, messages)
-        self.assertIn("FaceMaker", messages)
+        self.assert_fixture_quantities(covering)
+        self.assertFalse(warning.called)
         before = (covering.Shape.Volume, union.Shape.Volume)
         covering_name, union_name = covering.Name, union.Name
         with TemporaryDirectory() as directory:
@@ -111,10 +116,12 @@ class TestArchAreaDiagnostics(TestArchBase):
             union = self.document.getObject(union_name)
             # Check saved status/shape before explicitly touching or recomputing.
             self.assert_model(covering, union)
+            self.assert_fixture_quantities(covering)
             self.assertEqual(before, (covering.Shape.Volume, union.Shape.Volume))
             covering.touch()
             self.document.recompute()
             self.assert_model(covering, union)
+            self.assert_fixture_quantities(covering)
             self.assertEqual(before, (covering.Shape.Volume, union.Shape.Volume))
 
     def test_original_preference_and_disabled_control(self):
@@ -132,6 +139,35 @@ class TestArchAreaDiagnostics(TestArchBase):
         self.assertLess(covering.Shape.cut(before).Volume, 1e-7)
         self.assertLess(before.cut(covering.Shape).Volume, 1e-7)
         self.assertAlmostEqual(union.Shape.Volume, volume, places=7)
+        self.assert_fixture_quantities(covering)
+
+    def test_native_optional_failure_and_recovery(self):
+        covering, union = self.make_model()
+        with patch.object(ArchComponent, "_project_planar_face_to_xy",
+                          side_effect=ValueError("native FaceMaker failure probe")):
+            with patch.object(App.Console, "PrintWarning") as warning:
+                self.document.recompute()
+        self.assert_model(covering, union)
+        self.assert_zero_areas(covering)
+        messages = " ".join(str(call.args) for call in warning.call_args_list)
+        self.assertIn(covering.Label, messages)
+        self.assertIn("FaceMaker", messages)
+        before = (covering.Shape.Volume, union.Shape.Volume)
+        name = covering.Name
+        with TemporaryDirectory() as directory:
+            filename = str(Path(directory) / "failed-quantities-valid-material.FCStd")
+            self.document.saveAs(filename)
+            App.closeDocument(self.document.Name)
+            self.document = App.openDocument(filename)
+            covering = self.document.getObject(name)
+            union = self.document.getObject("Downstream")
+            self.assert_model(covering, union)
+            self.assert_zero_areas(covering)
+            covering.touch()
+            self.document.recompute()
+            self.assert_model(covering, union)
+            self.assert_fixture_quantities(covering)
+            self.assertEqual(before, (covering.Shape.Volume, union.Shape.Volume))
 
     def test_preference_restoration_on_projection_failure(self):
         obj = SimpleNamespace(Label="Projection fixture", VerticalArea=10,
@@ -139,8 +175,10 @@ class TestArchAreaDiagnostics(TestArchBase):
         for value in (None, False, True):
             with self.subTest(preference=value):
                 self.set_preference(value)
-                ArchComponent.AreaCalculator(obj)._computeHorizontalAreaAndPerimeter(
-                    [self.projection_face()])
+                with patch.object(ArchComponent, "_project_planar_face_to_xy",
+                                  side_effect=ValueError("FaceMaker projection probe")):
+                    ArchComponent.AreaCalculator(obj)._computeHorizontalAreaAndPerimeter(
+                        [self.projection_face()])
                 self.assert_preference(value)
                 self.assertEqual((obj.VerticalArea, obj.HorizontalArea, obj.PerimeterLength),
                                  (0, 0, 0))
@@ -164,7 +202,8 @@ class TestArchAreaDiagnostics(TestArchBase):
                 with self.subTest(error=error, preference=value):
                     self.set_preference(value)
                     calculator = ArchComponent.AreaCalculator(obj)
-                    with patch.object(TechDraw, "project", side_effect=error("probe")):
+                    with patch.object(ArchComponent, "_project_planar_face_to_xy",
+                                      side_effect=error("probe")):
                         if error is TypeError:
                             with self.assertRaises(TypeError):
                                 calculator._computeHorizontalAreaAndPerimeter(

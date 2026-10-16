@@ -5,6 +5,7 @@ import Part
 
 import unittest
 import tempfile
+import math
 
 
 class TopoShapeAssertions:
@@ -83,6 +84,65 @@ class TopoShapeTest(unittest.TestCase, TopoShapeAssertions):
 
     def tearDown(self):
         App.closeDocument("TopoShape")
+
+    def testGetSurfaceAreaAdaptiveRationalProjection(self):
+        """Adaptive integration retains accuracy after exact affine NURBS transforms."""
+        outer = Part.makePolygon(
+            [App.Vector(x, y, 0) for x, y in
+             [(0, 0), (30, 0), (30, 20), (0, 20), (0, 0)]]
+        )
+        holes = [Part.Wire([Part.makeCircle(radius, App.Vector(x, 10, 0))])
+                 for radius, x in [(2, 8), (3, 22)]]
+        original = Part.makeFace([outer] + holes, "Part::FaceMakerCheese")
+        expected = (600 - 13 * math.pi) * 0.5
+
+        for use_nurbs in (False, True):
+            with self.subTest(use_nurbs=use_nurbs):
+                face = original.toNurbs().Faces[0] if use_nurbs else original.copy()
+                face.Placement = App.Placement(
+                    App.Vector(100, 200, 300), App.Rotation(App.Vector(1, 0, 0), 60)
+                )
+                u_min, u_max, v_min, v_max = face.ParameterRange
+                u, v = (u_min + u_max) / 2, (v_min + v_max) / 2
+                normal, point = face.normalAt(u, v), face.valueAt(u, v)
+                transform = App.Matrix()
+                transform.A31 = normal.x / normal.z
+                transform.A32 = normal.y / normal.z
+                transform.A34 = -normal.dot(point) / normal.z
+                projected = face.transformGeometry(transform)
+                before = projected.exportBrepToString()
+                legacy_area = projected.Area
+
+                self.assertTrue(projected.isValid())
+                self.assertEqual(len(projected.Wires), 3)
+                self.assertTrue(all(wire.isClosed() for wire in projected.Wires))
+                for tolerance in (1e-7, 1e-9, 1e-11):
+                    self.assertAlmostEqual(
+                        projected.getSurfaceArea(tolerance), expected, delta=1e-7
+                    )
+                self.assertAlmostEqual(projected.getSurfaceArea(), expected, delta=1e-7)
+                self.assertEqual(projected.Area, legacy_area)
+                self.assertEqual(projected.exportBrepToString(), before)
+
+    def testGetSurfaceAreaRejectsInvalidTolerance(self):
+        for tolerance in (0, -1e-9, 0.001001, float("nan"),
+                          float("inf"), float("-inf")):
+            with self.subTest(tolerance=tolerance), self.assertRaises(ValueError):
+                self.box.getSurfaceArea(tolerance)
+        with self.assertRaises(TypeError):
+            self.box.getSurfaceArea("invalid")
+        with self.assertRaises(TypeError):
+            self.box.getSurfaceArea(relativeTolerance=1e-9)
+
+    def testGetSurfaceAreaRejectsNullShape(self):
+        with self.assertRaises(ValueError):
+            Part.Shape().getSurfaceArea()
+
+    def testGetSurfaceAreaSolidAndEdge(self):
+        self.assertAlmostEqual(self.box.getSurfaceArea(), 16)
+        self.assertAlmostEqual(self.box.getSurfaceArea(0.001), 16)
+        edge = Part.makeLine(App.Vector(0, 0, 0), App.Vector(3, 4, 0))
+        self.assertEqual(edge.getSurfaceArea(), 0)
 
     def testRestoredMissingHashCannotAliasAnotherVertex(self):
         """An unusable saved identity must use geometry recovery, not a coincidental hash."""

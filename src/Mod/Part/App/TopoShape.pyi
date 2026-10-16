@@ -71,6 +71,23 @@ class TopoShape(ComplexGeoData):
     """Total volume of the solids of the shape."""
 
     @constmethod
+    def getSurfaceArea(self, relativeTolerance: float = 1e-9, /) -> float:
+        """
+        Compute the total face area using adaptive numerical integration.
+        getSurfaceArea(relativeTolerance=1e-9) -> float
+        --
+        relativeTolerance must be finite, positive and no greater than 0.001.
+        It bounds the relative area integration error estimated by the kernel;
+        it does not change geometry or shape tolerances. The shape is unchanged.
+        Unlike the Area property, this method requests adaptive integration.
+
+        Raises ValueError for a null shape or invalid tolerance, and OCCError
+        if the kernel cannot meet the requested relative integration tolerance.
+        A non-null shape with no faces has zero surface area.
+        """
+        ...
+
+    @constmethod
     def dumps(self) -> str:
         """
         Serialize the content of this shape to a string in BREP format.

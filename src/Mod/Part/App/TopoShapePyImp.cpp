@@ -22,6 +22,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <cmath>
 #include <limits>
 #include <sstream>
 #include <boost/regex.hpp>
@@ -2891,6 +2892,42 @@ Py::Float TopoShapePy::getArea() const
     GProp_GProps props;
     BRepGProp::SurfaceProperties(shape, props);
     return Py::Float(props.Mass());
+}
+
+PyObject* TopoShapePy::getSurfaceArea(PyObject* args) const
+{
+    double relativeTolerance = 1e-9;
+    if (!PyArg_ParseTuple(args, "|d", &relativeTolerance)) {
+        return nullptr;
+    }
+    // The OCCT overload switches to non-adaptive integration above 0.001.
+    if (!std::isfinite(relativeTolerance) || relativeTolerance <= 0.0 || relativeTolerance > 0.001) {
+        PyErr_SetString(PyExc_ValueError, "relativeTolerance must be finite and in (0, 0.001]");
+        return nullptr;
+    }
+    const TopoDS_Shape& shape = getTopoShapePtr()->getShape();
+    if (shape.IsNull()) {
+        PyErr_SetString(PyExc_ValueError, "Cannot compute surface area of a null shape");
+        return nullptr;
+    }
+    try {
+        GProp_GProps props;
+        const double estimatedError = BRepGProp::SurfaceProperties(shape, props, relativeTolerance);
+        const double area = props.Mass();
+        if (!std::isfinite(area) || !std::isfinite(estimatedError) || estimatedError < 0.0
+            || estimatedError > relativeTolerance) {
+            PyErr_SetString(
+                PartExceptionOCCError,
+                "Surface area integration did not meet the requested relative tolerance"
+            );
+            return nullptr;
+        }
+        return PyFloat_FromDouble(area);
+    }
+    catch (const Standard_Failure& error) {
+        PyErr_SetString(PartExceptionOCCError, error.GetMessageString());
+        return nullptr;
+    }
 }
 
 Py::Float TopoShapePy::getVolume() const

@@ -66,6 +66,39 @@ else:
     # \endcond
 
 
+def _project_planar_face_to_xy(face):
+    """Project a complete planar analysis face, retaining its wires and holes.
+
+    HLR drawing edges need not retain the shared vertices of a toleranced
+    source face. Instead, map the supporting plane to XY with an invertible
+    shear: X/Y stay unchanged and Z becomes zero on that plane. This preserves
+    face topology without re-chaining edges or changing the material shape.
+    """
+    if face.findPlane() is None:
+        raise ValueError("Planar face required for affine XY projection")
+
+    u_min, u_max, v_min, v_max = face.ParameterRange
+    u, v = (u_min + u_max) / 2, (v_min + v_max) / 2
+    # Evaluate in the located face frame, including for planar B-spline faces.
+    normal = face.normalAt(u, v)
+    point = face.valueAt(u, v)
+    if normal.z == 0:
+        return None  # Exactly vertical planar faces have zero projected area.
+
+    projected = face.copy(noElementMap=True)
+    if normal.x == 0 and normal.y == 0:
+        projected.translate(FreeCAD.Vector(0, 0, -point.z))
+    else:
+        transform = FreeCAD.Matrix()
+        transform.A31 = normal.x / normal.z
+        transform.A32 = normal.y / normal.z
+        transform.A34 = -normal.dot(point) / normal.z
+        projected = projected.transformGeometry(transform)
+    if projected.isNull() or not projected.isValid():
+        raise ValueError("Invalid planar XY projection")
+    return projected
+
+
 def _make_projected_horizontal_area_face(projected_faces):
     """Build one transient XY face from projected coplanar analysis faces."""
 
@@ -1497,6 +1530,12 @@ class AreaCalculator:
         # Compute horizontal area and perimeter length
         if horizontalAreaFaces and hasattr(self.obj, "HorizontalArea"):
             self._computeHorizontalAreaAndPerimeter(horizontalAreaFaces)
+        elif hasattr(self.obj, "HorizontalArea"):
+            # A purely vertical face has no XY footprint. Do not retain the
+            # previous footprint when editing a planar component to vertical.
+            self.obj.HorizontalArea = 0
+            if hasattr(self.obj, "PerimeterLength"):
+                self.obj.PerimeterLength = 0
 
     def _computeHorizontalAreaAndPerimeter(self, horizontalAreaFaces):
         """Compute the horizontal area and perimeter length.
@@ -1514,7 +1553,6 @@ class AreaCalculator:
 
         import Part
         import TechDraw
-        import DraftGeomUtils
 
         # In TechDraw edges longer than 9999.9 (ca. 10m) are considered 'crazy'.
         # See also Draft/draftobjects/hatch.py.
@@ -1548,15 +1586,9 @@ class AreaCalculator:
                         noElementMap=True,
                     )
                 else:
-                    edges = TechDraw.project(face, direction)[0].Edges
-                    wires = DraftGeomUtils.findWires(edges)
-                    # Using "Part::FaceMakerCheese" as the face can have holes
-                    projectedFace = Part.makeFace(
-                        wires,
-                        "Part::FaceMakerCheese",
-                        noElementMap=True,
-                    )
-                projectedFaces.append(projectedFace)
+                    projectedFace = _project_planar_face_to_xy(face)
+                if projectedFace is not None:
+                    projectedFaces.append(projectedFace)
         except (Part.OCCError, ValueError) as error:
             # FaceMaker reports some geometry failures as ValueError, not OCCError.
             # This transient analysis must not invalidate an already valid material
@@ -1583,11 +1615,20 @@ class AreaCalculator:
         if projectedFaces:
             try:
                 fusedFace = _make_projected_horizontal_area_face(projectedFaces)
+                if fusedFace:
+                    # General affine transforms can produce rational B-splines.
+                    # Request adaptive integration, not the legacy Area estimate.
+                    horizontalArea = fusedFace.getSurfaceArea()
+                    if hasattr(self.obj, "PerimeterLength") and len(fusedFace.Faces) == 1:
+                        perimeterLength = math.fsum(
+                            edge.Curve.length(edge.FirstParameter, edge.LastParameter)
+                            for edge in fusedFace.Faces[0].OuterWire.Edges
+                        )
             except (Part.OCCError, ValueError) as error:
                 FreeCAD.Console.PrintWarning(
                     translate(
                         "Arch",
-                        f"Error computing areas for {self.obj.Label}: unable to combine "
+                        f"Error computing areas for {self.obj.Label}: unable to combine or measure "
                         f"projected horizontal faces: {error}. "
                         "Area values are unavailable and will be reset to 0.\n",
                     )
@@ -1596,11 +1637,10 @@ class AreaCalculator:
                 return
 
         if fusedFace:
-            if self.obj.HorizontalArea.Value != fusedFace.Area:
-                self.obj.HorizontalArea = fusedFace.Area
+            if self.obj.HorizontalArea.Value != horizontalArea:
+                self.obj.HorizontalArea = horizontalArea
 
             if hasattr(self.obj, "PerimeterLength") and len(fusedFace.Faces) == 1:
-                perimeterLength = fusedFace.Faces[0].OuterWire.Length
                 if self.obj.PerimeterLength.Value != perimeterLength:
                     self.obj.PerimeterLength = perimeterLength
 

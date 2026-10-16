@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-"""Native optional-area failure persistence on an isolated, minimized fixture.
+"""Native planar-area recovery persistence on an isolated, minimized fixture.
 
 Set FREECAD_0O1_OUTPUT to a new evidence directory. For an independent cold
 process set FREECAD_0O1_REOPEN to the first saved optional-area.FCStd.
@@ -40,13 +40,13 @@ class AreaDiagnosticsGui(unittest.TestCase):
                 fixture.document.recompute()
             # Cold process has not touched or recomputed the restored target yet.
             fixture.assert_model(covering, union)
-            fixture.assert_zero_areas(covering)
+            fixture.assert_fixture_quantities(covering)
             saved_volumes = [covering.Shape.Volume, union.Shape.Volume]
             for unused in range(2):
                 covering.touch()
                 fixture.document.recompute()
                 fixture.assert_model(covering, union)
-                fixture.assert_zero_areas(covering)
+                fixture.assert_fixture_quantities(covering)
                 self.assertEqual(saved_volumes, [covering.Shape.Volume, union.Shape.Volume])
             for obj in fixture.document.Objects:
                 obj.ViewObject.Visibility = obj == union
@@ -69,7 +69,13 @@ class AreaDiagnosticsGui(unittest.TestCase):
                 "covering_state": covering.State,
                 "union_state": union.State,
                 "volumes_mm3": saved_volumes,
-                "area_quantities_unavailable": True,
+                "area_quantities_unavailable": False,
+                "horizontal_area_mm2": covering.HorizontalArea.Value,
+                "vertical_area_mm2": covering.VerticalArea.Value,
+                "outer_perimeter_mm": covering.PerimeterLength.Value,
+                "original_profile_area_mm2": fixture.projection_face().Area,
+                "native_volume_per_height_mm2": covering.Shape.Volume / 100,
+                "fixture_numerical_area_budget_mm2": 1e-3,
                 "building_or_quantity_acceptance": False,
             }, indent=2))
         finally:
