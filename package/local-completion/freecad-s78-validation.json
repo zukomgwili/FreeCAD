@@ -1,0 +1,39 @@
+{
+  "issue": "FreeCAD-s78",
+  "date": "2026-10-16",
+  "status": "source_complete_built_verified_not_installed",
+  "implementation_commit": "6ae93ef11fd4904c3bec57b74086e66049564b72",
+  "compiled_version": "27.1.0dev49114+158 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "reproduction": {
+    "before_implementation_inspection": "Native Bearing edit panel: selecting direct Part::Cylinder Face1 succeeds; selecting the App::Link occurrence Face1 exits139 repeatedly. Durable marker before the synchronous Selection.addSelection call exists and the after marker does not. No building document, solver, or engineering data used.",
+    "baseline_runtime": "27.1.0dev49114+156 (Git)",
+    "evidence_directory": "/private/tmp/freecad-s78.c6d1fF",
+    "baseline_files": ["control.log", "link.log", "link2.log", "link3.log", "before-link"],
+    "additional_baseline": "Gear reference selection also crashes in the inherited Bearing callback. PlaneRotation safely rejects the link with a selection warning. Transform initially needs analysis membership to open; the valid-analysis control was used for subsequent qualification."
+  },
+  "cause": "Bearing and Gear selection callbacks assumed every selected owner was Part::Feature. App::Link violates that assumption. Bearing also processed derived-panel selection modes before the derived callback could handle them.",
+  "fix": "Bearing resolves selected reference/location geometry through the existing occurrence-aware Fem::Tools helper, checks null/topological type before OCCT conversion, preserves the original selected owner and subname, and only processes its own selection modes. Gear/Pulley Direction explicitly rejects non-Part owners because the native direction consumer does not support links; valid direct Part directions remain supported.",
+  "audit": {
+    "Bearing_Gear_Pulley_references_and_location": "Native selection callbacks accept placed linked geometry without crashing or substituting its source owner.",
+    "Gear_Pulley_direction": "Linked direction owner rejected with explicit warning, direct planar Part accepted. No new linked Direction capability claimed.",
+    "PlaneRotation_Transform": "Existing isObjectTypeOf guard checks the actual owner type before the static cast. Native Add selection safely rejects links; direct-Part controls accepted. Transform control includes a force boundary and analysis membership.",
+    "FluidBoundary_direction": "Existing actual-owner type guard safely rejects links. Native inlet/uniformVelocity direction button qualified, with direct planar Part control accepted.",
+    "command_helper": "The Part::Feature cast in Command.cpp belongs to the commented-out, unregistered CmdFemAddPart implementation, not a reachable current GUI command. No command implementation changed.",
+    "remaining_specialized_static_casts": "The three active remaining Part::Feature casts are preceded by actual-owner type guards. SelectionObject::isObjectTypeOf checks getObject()->isDerivedFrom, not the linked source type."
+  },
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "FEM_Part": {"passed": 527, "failed": 0, "seconds": 25.573},
+    "native_selection_initial": {"methods": 5, "passed": 4, "skipped": 1, "failed": 0, "seconds": 2.289},
+    "native_selection_cold_process": {"passed": 5, "failed": 0, "seconds": 2.497},
+    "native_scope": "Bearing/Gear/Pulley occurrence reference and Location callbacks, original owner retention, enclosing rotated/translated parent placement, Undo/Redo, saved FCStd cold reopen before target recompute, ordinary parent movement/recompute, unresolved owner and wrong topology rejection, Gear/Pulley linked direction rejection and direct controls, guarded PlaneRotation/Transform/FluidBoundary rejection and direct controls.",
+    "existing_native_BearingLocationGui_and_ConstraintLinksGui": {"passed": 3, "failed": 0, "seconds": 3.518},
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 68.93, "excluded": [], "CocoaSaveSheet_passed": true},
+    "lint": "New Python GUI test passes flake8 --ignore=E266,W503 --max-line-length=100. Changed C++ lines pass git-clang-format. git diff --check passes.",
+    "review": "Main-agent review of callback modes, null/topology checks, inherited Gear/Pulley dispatch, guarded remaining casts and selection-owner semantics; no delegated review claimed."
+  },
+  "installation": "No install command or replacement performed. /Applications/FreeCAD-27.1.0.app remains unchanged; this source build still requires the repository Pixi dependency environment.",
+  "limits": {"all_specialized_panels_accept_links": false, "new_solver_capability_claimed": false, "building_design_accepted": false, "building_document_opened_or_modified": false}
+}
