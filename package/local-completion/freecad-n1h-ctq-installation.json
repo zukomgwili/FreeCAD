@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-16",
+  "issue": "FreeCAD-5zx",
+  "status": "built_installed_and_verified",
+  "included_issues": ["FreeCAD-n1h", "FreeCAD-ctq"],
+  "compiled_commit": "0c0815199389bf6232e1c521489bf5c888ea03f3",
+  "compiled_version": "27.1.0dev49114+150 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-n1h-ctq-0c08151993.app",
+  "backup_version": "+144 / 0ad167d65e",
+  "build": "Release incremental build of all enabled targets, parallel 4, exit 0; not a clean-from-scratch build",
+  "installation": "Copied previous app to writable staging, installed current CMake payload with final application prefix configured, removed generated PySide cache to scratch, preserved QuickLook sandbox entitlements and ad-hoc signed bundle. Resources read-only to prevent post-signing bytecode mutation. Replaced only after confirming FreeCAD was not running; previous app retained. Outer bundle timestamp refreshed for Finder.",
+  "verification": {
+    "ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 85.75, "excluded": []},
+    "installed_cli": {"passed": 471, "failed": 0, "seconds": 38.792, "suites": {"InstalledIdentity": 1, "TestFemApp": 153, "TestPartApp": 317}},
+    "identity": "App.Version full commit matches compiled_commit. Fem, ObjectsFem, orthotropic material helper, elastic connector helper and CalculiX writer all loaded from installed Contents/Resources, not source/build directories.",
+    "solver": "Full installed FEM suite includes orthotropic material and elastic connector real CalculiX benchmarks, without modifying generated input decks.",
+    "native_gui": {"OrthotropicMaterialGui": 8, "ElasticConnectorGui": 5, "failed": 0},
+    "native_persistence": "OrthotropicRoundtrip passed in two independent native processes; connector GUI suite passed initial and fresh-process reopen with endpoint swap and frame regeneration. Both retained native view providers. Reports identify installed +150 commit.",
+    "visual": "Inspected installed orthotropic form and native connector property-editor screenshots; engineering constants, axes and explicit stiffness visible.",
+    "retained_9bp": {"StockSectionEquilibrium": 2, "failed": 0, "seconds": 10.968, "identity_guard": true},
+    "signing": "codesign --verify --deep --strict passed after native/solver tests; no generated pyc in bundle",
+    "test_harness_history": "Initial combined GUI command passed all 13 feature tests but persistence probe errored because the preceding screenshot test had created its required-new output directory. Repeated persistence in separate new directories passed; no application source change or test weakening. Final feature-only GUI run passed."
+  },
+  "evidence_directory": "/private/tmp/freecad-n1h-ctq-install.eCLmil",
+  "external_dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "limits": {"self_contained_or_notarized": false, "building_design_accepted": false, "user_building_documents_opened_or_modified": false},
+  "historical_source_receipts": ["freecad-n1h-validation.json", "freecad-ctq-validation.json"],
+  "historical_receipt_note": "Source-only receipts retain their original not-installed state; this later receipt supersedes their installation status. Metadata recording this installation is committed after the compiled source commit."
+}
