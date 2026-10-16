@@ -1,0 +1,43 @@
+{
+  "issue": "FreeCAD-s0x",
+  "date": "2026-10-16",
+  "status": "source_complete_built_and_verified_not_installed",
+  "implementation_commit": "cf0f86b1fb749c9c4c1eb074e74681ea0d6ee7d1",
+  "compiled_version": "27.1.0dev49114+152 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "baseline": {
+    "installed_commit": "0c0815199389bf6232e1c521489bf5c888ea03f3",
+    "installed_version": "+150",
+    "original_witness": "Ran the retained native_face_ownership_witness.py, copied to disposable scratch, before reading the implementation. Both independently owned faying faces mapped to Face2; semantic assertion failed despite script transport exit 0.",
+    "minimal_loop": "Two touching unit Part::Box objects, native Part::Compound and native RigidBody references. Repeated unittest invocation fails exact expected Face2/Face7 mapping twice, in0.524s; actual Face2/Face2.",
+    "regression_red": "14 initial native regression methods run against the unchanged installed helpers:9 failures, including coincident owner correspondence, explicit compound indices, external ambiguity, real generated named/analysis mesh groups and persistence. Controls for unique geometry and noncoincident faces pass."
+  },
+  "cause": "find_element_in_shape returned the first is_same_geometry match before considering native topology or owner provenance. Compound placement wrappers can preserve isPartner without isSame; independently saved BReps can lose even partner identity, while native compound element history retains owner provenance.",
+  "fix": "Prefer exact isSame topology, then same-placement isPartner topology, then only a unique geometric fallback. Group correspondence retains explicit compound subelement indices and resolves native saved owner history through bounded native history steps for Face/Edge/Vertex references. Multiple candidates raise contextual ValueError instead of silently choosing the first face. No encoded-name parsing or positional Links reconstruction.",
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "original_size_witness": {"mapping": {"RBERC": "Face2", "RBELedger": "Face7"}, "native_mapping_pass": true, "build_module_paths_verified": true},
+    "combined_fem_part": {"passed": 487, "failed": 0, "seconds": 23.287, "FEM": 170, "Part": 317},
+    "new_native_regression_methods": 17,
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 68.61, "excluded": [], "CocoaSaveSheet_passed": true},
+    "regression_scope": "Independent coincident and noncoincident owners; exact topology before geometry; opposite orientation; explicit compound FaceN; unique external copies and ambiguous external rejection; edges/vertices/solids controls; whole compound selection; moved shared-partner shapes; placed App::Link mesh groups; nested compounds; cold save/reopen before recompute; native reorder/regeneration; real Gmsh named and analysis element groups.",
+    "native_gui": {"initial_process": {"passed": 1, "seconds": 1.323}, "fresh_process_reopen": {"passed": 1, "seconds": 1.139}, "compiled_identity_verified": true, "GuiDocument_xml_preserved": true},
+    "native_mesh_groups": "Stock Gmsh generates actual Face2/Face7 element groups. Both native named mesh groups and RigidBody analysis groups equal their respective actual face groups and differ from each other. Independent-process reopen checks saved correspondence and groups before recompute, then reverses compound Links and regenerates groups correctly as Face8/Face1. No hand-filtered or repaired nodes.",
+    "lint": "New tests, geomtools and TestFemApp pass flake8 --ignore=E266,W503 --max-line-length=100. Meshtools diagnostics exactly match normalized pre-change baseline; no new warnings.",
+    "diff_check": "passed",
+    "independent_review": "No blocking findings against face-specific acceptance; qualifications below retained."
+  },
+  "evidence_directory": "/private/tmp/freecad-s0x.VZwDLW",
+  "installed_application": "Unchanged /Applications/FreeCAD-27.1.0.app +150; deep-strict code signature verified. This source task did not authorize or perform replacement.",
+  "related_followup": {"issue": "FreeCAD-6jm", "finding": "Native RigidBody.References assignment to App::Link crashes before correspondence. Independently minimized against unchanged installed +150, exit139. Separate from this fix; not addressed here."},
+  "qualification_limits": [
+    "Saved provenance resolution covers faces, edges and vertices; entirely overlapping independent solid references are not qualified by these tests.",
+    "Repeated coincident App::Links sharing the exact same TShape and placement are not qualified as separate indexed topology; the link regression uses distinct placements.",
+    "The existing geometric-equality predicate itself is unchanged; external references must match uniquely under that existing predicate.",
+    "Distinct mesh element groups do not establish independent coincident node ownership, a physical joint idealization, loading, stiffness or solver force correctness."
+  ],
+  "building_design_accepted": false,
+  "building_document_opened_or_modified": false,
+  "occt_identity_reference": "https://dev.opencascade.org/sites/default/files/pdf/Topology.pdf"
+}
