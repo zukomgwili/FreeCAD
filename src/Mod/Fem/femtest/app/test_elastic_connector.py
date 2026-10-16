@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
 import io
+import os
 import re
 import shutil
 import tempfile
@@ -193,6 +194,13 @@ class TestElasticConnector(unittest.TestCase):
             setattr(solver, prop, value)
             self.assertTrue(validation_errors(analysis, solver, mesh))
             setattr(solver, prop, original)
+        material = ObjectsFem.makeMaterialSolid(self.doc)
+        analysis.addObject(material)
+        nonlinear = ObjectsFem.makeMaterialMechanicalNonlinear(self.doc, material)
+        solver.MaterialNonlinearity = True
+        self.assertTrue(validation_errors(analysis, solver, mesh))
+        nonlinear.Suppressed = True
+        self.assertEqual(validation_errors(analysis, solver, mesh), [])
         foundation = ObjectsFem.makeConstraintSpring(self.doc)
         analysis.addObject(foundation)
         self.assertTrue(any("Elmer foundation" in error
@@ -324,6 +332,12 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
                 fea.purge_results()
                 self.assertTrue(fea.run())
                 self.assertTrue(fea.results_present)
+                capture = os.environ.get("FREECAD_CTQ_SOLVER_OUTPUT")
+                if capture:
+                    root = Path(capture)
+                    root.mkdir(parents=True, exist_ok=True)
+                    target = tempfile.mkdtemp(prefix="spring-", dir=root)
+                    shutil.copytree(directory, target, dirs_exist_ok=True)
                 return Path(directory, "Mesh.dat").read_text()
         finally:
             prefs.SetBool("OverwriteSolverWorkingDirectory", overwrite)

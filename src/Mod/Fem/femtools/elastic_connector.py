@@ -79,8 +79,15 @@ def validation_errors(analysis, solver, mesh):
         errors.append("The existing Spring is an Elmer foundation; use an Elastic Connector "
                       "for a concentrated CalculiX spring.")
     objects = connectors(analysis)
+    if not objects:
+        return errors
+    materials = get_member(analysis, "Fem::MaterialCommon")
+    materials += get_member(analysis, "Fem::MaterialReinforced")
+    active_nonlinearity = solver.MaterialNonlinearity and any(
+        material.Nonlinear and not material.Nonlinear.Suppressed for material in materials
+    )
     if objects and (solver.AnalysisType != "static" or solver.ModelSpace != "3D"
-                    or solver.GeometricalNonlinearity):
+                    or solver.GeometricalNonlinearity or active_nonlinearity):
         errors.append("Elastic connectors require a linear, small-displacement 3D static analysis.")
     for obj in objects:
         reserved = {identifier(f"EC_END{end}_", obj).upper() for end in (1, 2)}
