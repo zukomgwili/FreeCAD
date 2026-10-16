@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import unittest
 from zipfile import ZipFile
+from PySide import QtCore
 
 import FreeCAD as App
 import FreeCADGui as Gui
@@ -121,11 +122,18 @@ class ConstraintLinksGui(unittest.TestCase):
                 self.assertNotEqual(initial["points"], saved["points"])
                 self.assertNotEqual(initial["normal_direction"], saved["normal_direction"])
             doc.getObject("Source").ViewObject.Visibility = False
+            doc.getObject("Parent").ViewObject.Visibility = True
             doc.getObject("Occurrence").ViewObject.Visibility = True
             doc.getObject("RigidBody").ViewObject.Visibility = True
+            Gui.activateWorkbench("FemWorkbench")
             Gui.activeDocument().activeView().viewAxonometric()
             Gui.activeDocument().activeView().fitAll()
             Gui.updateGui()
+            loop = QtCore.QEventLoop()
+            QtCore.QTimer.singleShot(250, loop.quit)
+            loop.exec()
+            Gui.activeDocument().activeView().saveImage(
+                str(root / "native-constraint-view.png"), 1000, 700, "White")
             filename = root / "native-constraint-links.FCStd"
             doc.saveAs(str(filename))
             with ZipFile(filename) as archive:

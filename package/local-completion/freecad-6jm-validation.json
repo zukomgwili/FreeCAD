@@ -1,0 +1,39 @@
+{
+  "issue": "FreeCAD-6jm",
+  "date": "2026-10-16",
+  "status": "source_complete_built_and_verified_not_installed",
+  "implementation_commit": "02126d0d67054ed0becba4489969bb5b1c533ff7",
+  "compiled_version": "27.1.0dev49114+154 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "baseline": {
+    "installed_version": "+150 / 0c0815199389bf6232e1c521489bf5c888ea03f3",
+    "source_version": "+152 / cf0f86b1fb749c9c4c1eb074e74681ea0d6ee7d1",
+    "minimal_witness": "One recomputed Part::Box, one App::Link and one native RigidBody. Assigning References to link.Face1 exits139 on both installed and source runtimes. Both ran before relevant implementation inspection. No mesher, solver, GUI task panel or building document involved.",
+    "regression_red": "Native direct-Part control passes; native rigid-body link reference test segfaults the same unmodified source process. Red-capable command uses -P src/Mod/Fem/femtest/app -t test_constraint_links.TestConstraintLinks.test_direct_part_control -t test_constraint_links.TestConstraintLinks.test_rigid_body_link_face."
+  },
+  "cause": "Native Constraint::onChanged and getPoints cast arbitrary reference DocumentObjects to Part::Feature, then dereference Shape. App::Link is not Part::Feature. Full-shape scaling and specialized Bearing/Transform callbacks had related assumptions; link placement changes were also excluded by the GeoFeature-only observer gate.",
+  "fix": "Resolve selected occurrences using Part::Feature::getShape on generic DocumentObjects with NeedSubElement/ResolveLink/Transform, then compose only enclosing geometry-group placement. Avoid replacing the selected occurrence with its source. Use generic full-shape scaling, clear symbols on unresolved references, reject invalid geometry during recompute and observe link Placement changes. Remove reference casts from Bearing/cylindrical Transform and unsafe native Bearing Location geometry access. Invalid references no longer keep old Points/Normals.",
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "original_repro": "Final compiled +154 runtime returns normally, exit0, and prints the assignment-returned marker absent from red runs.",
+    "new_native_regression_methods": 19,
+    "fast_regression": {"passed": 19, "failed": 0, "seconds": 0.625, "runtime": "intermediate +153 build of same implementation before commit"},
+    "final_combined_fem_part": {"passed": 506, "failed": 0, "seconds": 22.741, "FEM": 189, "Part": 317},
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 68.38, "excluded": [], "CocoaSaveSheet_passed": true},
+    "controls": "Direct Part face/edge/vertex unchanged; translated/rotated and nested links; transformed parent Part; dotted subobject paths; LinkTransform false; immediate link/parent relocation; Fixed/Displacement/Force/Pressure/Temperature native factories; broken/shapeless/removed references; invalid Face999 cleared and recompute marked Invalid; save/reopen/regenerate. Bearing/cylindrical Transform checked against native direct-Part cylinder controls and transformed axes/base points.",
+    "native_gui": {"initial_process": {"passed": 1, "seconds": 2.093}, "fresh_process_reopen": {"passed": 1, "seconds": 2.060}, "compiled_identity_verified": true, "GuiDocument_xml_preserved": true},
+    "native_gui_scope": "Actual native rigid-body view provider and App::Link owner preserved. Cold-process references and world-space Points/Normals checked before explicit recompute; link and parent moved and regenerated. Rendered native-constraint-view.png inspected: linked box and constraint symbols on the expected face. No specialized selection callbacks or solver model acceptance implied.",
+    "test_harness_history": "First native run passed geometry/view-provider checks but report writing errored because FreeCADGui is a built-in module without __file__; metadata field corrected and independent runs passed. Main-window test-start screenshots had an unpainted viewport; explicit native view rendering was added and inspected rather than treating the blank capture as visual proof.",
+    "lint": "Changed C++ lines pass git-clang-format check; new Python tests and TestFemApp pass flake8 --ignore=E266,W503 --max-line-length=100; git diff --check passes.",
+    "independent_review": "No blocking findings for native References assignment scope; pre-existing auxiliary-property and GUI-selection qualifications retained below."
+  },
+  "evidence_directory": "/private/tmp/freecad-6jm.dXFqJr",
+  "installed_application": "Unchanged /Applications/FreeCAD-27.1.0.app +150; deep-strict signature verified. No application replacement requested or performed.",
+  "followups": {
+    "FreeCAD-s78": "Audit specialized FEM task-panel selection for occurrence-safe link handling. Source casts identified; no universal interactive link-selection support or GUI crash reproduction claimed here.",
+    "FreeCAD-3r2": "Existing Bearing Location/Dist setters reset BasePoint to the cylinder center until References is refreshed. Independently reproduced with direct Part objects on unchanged installed +150: planeZ17 gives setterZ5.5, reference-refreshZ17; Dist2 gives setterZ5.5, reference-refreshZ15. Invalid Vertex Location raises caught TopoDS::Edge on reference refresh, not a segfault. The linked-Location test in this fix qualifies safe access and subsequent References refresh only, not fully corrected setter semantics."
+  },
+  "limits": {"all_specialized_gui_selection_qualified": false, "linked_Direction_properties_enabled": false, "new_solver_or_connection_capability_claimed": false, "building_design_accepted": false, "building_document_opened_or_modified": false},
+  "metadata_note": "Native probe rendering refinements and this receipt are committed after the compiled implementation commit; application implementation is unchanged by those evidence-only edits."
+}
