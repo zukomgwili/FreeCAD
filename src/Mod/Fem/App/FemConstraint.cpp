@@ -487,13 +487,13 @@ Base::Vector3d Constraint::getBasePoint(
     // Get the point specified by Location and Distance
     App::DocumentObject* objLoc = location.getValue();
     std::vector<std::string> names = location.getSubValues();
-    if (names.empty()) {
-        return Base::Vector3d(0, 0, 0);
+    if (!objLoc || names.size() != 1 || names.front().empty()) {
+        throw Standard_Failure("Bearing Location must select one planar face or linear edge");
     }
     std::string subName = names.front();
     TopoDS_Shape shloc = Tools::getFeatureSubShape(objLoc, subName.c_str(), true);
     if (shloc.IsNull()) {
-        return Base::Vector3d(0, 0, 0);
+        throw Standard_Failure("Bearing Location geometry cannot be resolved");
     }
 
     // Get a plane from the Location reference
@@ -501,22 +501,37 @@ Base::Vector3d Constraint::getBasePoint(
     gp_Dir cylaxis(axis.x, axis.y, axis.z);
     if (shloc.ShapeType() == TopAbs_FACE) {
         BRepAdaptor_Surface surface(TopoDS::Face(shloc));
+        if (surface.GetType() != GeomAbs_Plane) {
+            throw Standard_Failure("Bearing Location must be a planar face or linear edge");
+        }
         plane = surface.Plane();
     }
-    else {
+    else if (shloc.ShapeType() == TopAbs_EDGE) {
         BRepAdaptor_Curve curve(TopoDS::Edge(shloc));
+        if (curve.GetType() != GeomAbs_Line) {
+            throw Standard_Failure("Bearing Location must be a planar face or linear edge");
+        }
         gp_Lin line = curve.Line();
-        gp_Dir tang = line.Direction().Crossed(cylaxis);
-        gp_Dir norm = line.Direction().Crossed(tang);
+        gp_Vec tang = gp_Vec(line.Direction()).Crossed(gp_Vec(cylaxis));
+        if (tang.Magnitude() <= Precision::Angular()) {
+            throw Standard_Failure("Bearing Location edge is parallel to the cylinder axis");
+        }
+        gp_Dir norm(gp_Vec(line.Direction()).Crossed(tang));
         plane = gp_Pln(line.Location(), norm);
+    }
+    else {
+        throw Standard_Failure("Bearing Location must be a planar face or linear edge");
+    }
+    if (std::abs(plane.Axis().Direction().Dot(cylaxis)) <= Precision::Angular()) {
+        throw Standard_Failure("Bearing Location plane must intersect the cylinder axis uniquely");
     }
 
     // Translate the plane in direction of the cylinder (for positive values of Distance)
     Handle(Geom_Plane) pln = new Geom_Plane(plane);
     gp_Pnt cylbase(base.x, base.y, base.z);
     GeomAPI_ProjectPointOnSurf proj(cylbase, pln);
-    if (!proj.IsDone()) {
-        return Base::Vector3d(0, 0, 0);
+    if (!proj.IsDone() || proj.NbPoints() == 0) {
+        throw Standard_Failure("Bearing Location projection failed");
     }
 
     gp_Pnt projPnt = proj.NearestPoint();
@@ -529,10 +544,13 @@ Base::Vector3d Constraint::getBasePoint(
     // Intersect translated plane with cylinder axis
     Handle(Geom_Curve) crv = new Geom_Line(cylbase, cylaxis);
     GeomAPI_IntCS intersector(crv, plnt);
-    if (!intersector.IsDone()) {
-        return Base::Vector3d(0, 0, 0);
+    if (!intersector.IsDone() || intersector.NbPoints() != 1) {
+        throw Standard_Failure("Bearing Location must intersect the cylinder axis uniquely");
     }
     gp_Pnt inter = intersector.Point(1);
+    if (!std::isfinite(inter.X()) || !std::isfinite(inter.Y()) || !std::isfinite(inter.Z())) {
+        throw Standard_Failure("Bearing Location intersection must be finite");
+    }
     return Base::Vector3d(inter.X(), inter.Y(), inter.Z());
 }
 

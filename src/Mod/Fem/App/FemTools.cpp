@@ -446,5 +446,8 @@ bool Fem::Tools::getCylinderParams(
         base = Base::Vector3d(center.X(), center.Y(), center.Z());
         axis = Base::Vector3d(dir.X(), dir.Y(), dir.Z());
     }
+    else {
+        return false;
+    }
     return true;
 }

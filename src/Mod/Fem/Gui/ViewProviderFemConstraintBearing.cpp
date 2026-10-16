@@ -27,6 +27,7 @@
 #include <Inventor/SbRotation.h>
 #include <Inventor/SbVec3f.h>
 #include <Inventor/nodes/SoSeparator.h>
+#include <Precision.hxx>
 
 
 #include "Gui/Control.h"
@@ -77,20 +78,20 @@ void ViewProviderFemConstraintBearing::updateData(const App::Property* prop)
         // Remove and recreate the symbol
         Gui::coinRemoveAllChildren(pShapeSep);
 
-        // This should always point outside of the cylinder
-        Base::Vector3d normal = pcConstraint->NormalDirection.getValue();
-        Base::Vector3d base = pcConstraint->BasePoint.getValue();
         double radius = pcConstraint->Radius.getValue();
-        base = base + radius * normal;
+        if (radius > Precision::Confusion()) {
+            // This should always point outside of the cylinder.
+            Base::Vector3d normal = pcConstraint->NormalDirection.getValue();
+            Base::Vector3d base = pcConstraint->BasePoint.getValue() + radius * normal;
+            SbVec3f b(base.x, base.y, base.z);
+            SbVec3f dir(normal.x, normal.y, normal.z);
+            SbRotation rot(SbVec3f(0, -1, 0), dir);
 
-        SbVec3f b(base.x, base.y, base.z);
-        SbVec3f dir(normal.x, normal.y, normal.z);
-        SbRotation rot(SbVec3f(0, -1, 0), dir);
-
-        GuiTools::createPlacement(pShapeSep, b, rot);
-        pShapeSep->addChild(
-            GuiTools::createFixed(radius / 2, radius / 2 * 1.5, pcConstraint->AxialFree.getValue())
-        );
+            GuiTools::createPlacement(pShapeSep, b, rot);
+            pShapeSep->addChild(
+                GuiTools::createFixed(radius / 2, radius / 2 * 1.5, pcConstraint->AxialFree.getValue())
+            );
+        }
     }
     else if (prop == &pcConstraint->AxialFree) {
         if (pShapeSep->getNumChildren() > 0) {

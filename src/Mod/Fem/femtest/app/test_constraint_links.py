@@ -197,6 +197,13 @@ class TestConstraintLinks(unittest.TestCase):
         self.assertFalse(constraint.Points)
         self.assertFalse(constraint.Normals)
 
+    def test_cylinder_params_do_not_fabricate_vertex_axis(self):
+        constraint = ObjectsFem.makeConstraintTransform(self.doc)
+        constraint.TransformType = "Cylindrical"
+        axis = constraint.Axis
+        constraint.References = [(self.source, ["Vertex1"])]
+        self.assert_vector(constraint.Axis, axis)
+
     def test_bearing_location_link_is_safe(self):
         cylinder = self.cylinder_link()
         # A local X-normal face becomes a global Z-normal plane at Z17.

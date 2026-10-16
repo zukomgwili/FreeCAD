@@ -74,9 +74,10 @@ void ViewProviderFemConstraintGear::updateData(const App::Property* prop)
 
     // Gets called whenever a property of the attached object changes
     if (prop == &pcConstraint->BasePoint) {
+        // Invalid/cleared bearing geometry must remove the previous glyph too.
+        Gui::coinRemoveAllChildren(pShapeSep);
         if (pcConstraint->Height.getValue() > Precision::Confusion()) {
-            // Remove and recreate the symbol
-            Gui::coinRemoveAllChildren(pShapeSep);
+            // Recreate the symbol.
 
             Base::Vector3d base = pcConstraint->BasePoint.getValue();
             Base::Vector3d axis = pcConstraint->Axis.getValue();

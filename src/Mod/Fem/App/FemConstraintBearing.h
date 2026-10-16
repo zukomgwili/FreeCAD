@@ -65,6 +65,10 @@ public:
 
 protected:
     void onChanged(const App::Property* prop) override;
+
+private:
+    void updateGeometry();
+    void clearGeometry();
 };
 
 }  // namespace Fem

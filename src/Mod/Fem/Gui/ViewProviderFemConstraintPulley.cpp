@@ -73,9 +73,10 @@ void ViewProviderFemConstraintPulley::updateData(const App::Property* prop)
     Fem::ConstraintPulley* pcConstraint = this->getObject<Fem::ConstraintPulley>();
 
     if (prop == &pcConstraint->BasePoint) {
+        // Invalid/cleared bearing geometry must remove the previous glyph too.
+        Gui::coinRemoveAllChildren(pShapeSep);
         if (pcConstraint->Height.getValue() > Precision::Confusion()) {
-            // Remove and recreate the symbol
-            Gui::coinRemoveAllChildren(pShapeSep);
+            // Recreate the symbol.
 
             // This should always point outside of the cylinder
             Base::Vector3d base = pcConstraint->BasePoint.getValue();

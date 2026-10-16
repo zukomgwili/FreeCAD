@@ -24,9 +24,9 @@
  ***************************************************************************/
 
 
-#include <BRepAdaptor_Curve.hxx>
-#include <BRepAdaptor_Surface.hxx>
-#include <TopoDS.hxx>
+#include <cmath>
+#include <Standard_Failure.hxx>
+#include <Base/Console.h>
 
 
 #include <Mod/Part/App/PartFeature.h>
@@ -65,6 +65,7 @@ ConstraintBearing::ConstraintBearing()
         App::PropertyType(App::Prop_ReadOnly | App::Prop_Output),
         "Axis of bearing seat"
     );
+    Location.setScope(App::LinkScope::Global);
 }
 
 App::DocumentObjectExecReturn* ConstraintBearing::execute()
@@ -74,76 +75,60 @@ App::DocumentObjectExecReturn* ConstraintBearing::execute()
 
 void ConstraintBearing::onChanged(const App::Property* prop)
 {
-    // Note: If we call this at the end, then the symbol is not oriented correctly initially
-    // because the NormalDirection has not been calculated yet
-    Constraint::onChanged(prop);
-
-    if (prop == &References) {
-        // Find data of cylinder
-        std::vector<App::DocumentObject*> ref = References.getValues();
-        std::vector<std::string> subRef = References.getSubValues();
-        if (ref.empty()) {
-            return;
+    try {
+        // Calculate the normal before updating the bearing symbol.
+        Constraint::onChanged(prop);
+        if (getDocument() && !isRestoring()
+            && (prop == &References || prop == &Location || prop == &Dist)) {
+            updateGeometry();
         }
-
-        TopoDS_Shape sh = Tools::getFeatureSubShape(ref.front(), subRef.front().c_str(), true);
-        double radius, height;
-        Base::Vector3d base, axis;
-        if (sh.IsNull() || !Tools::getCylinderParams(sh, base, axis, height, radius)) {
-            return;
-        }
-        Radius.setValue(radius);
-        Axis.setValue(axis);
-        Height.setValue(height);
-        // Update base point
-        base = base + axis * height / 2;
-        if (Location.getValue()) {
-            base = getBasePoint(base, axis, Location, Dist.getValue());
-        }
-        BasePoint.setValue(base);
-        BasePoint.touch();  // This triggers ViewProvider::updateData()
     }
-    else if ((prop == &Location) || (prop == &Dist)) {
-        App::DocumentObject* obj = Location.getValue();
-        std::vector<std::string> names = Location.getSubValues();
-        if (names.empty()) {
-            return;
+    catch (const Standard_Failure& error) {
+        clearGeometry();
+        if (isRecomputing()) {
+            throw;  // Constraint::execute records the diagnostic as an object error.
         }
-        std::string subName = names.front();
-        TopoDS_Shape sh = Tools::getFeatureSubShape(obj, subName.c_str(), true);
-        if (sh.IsNull()) {
-            return;
-        }
-
-        if (sh.ShapeType() == TopAbs_FACE) {
-            BRepAdaptor_Surface surface(TopoDS::Face(sh));
-            if (surface.GetType() != GeomAbs_Plane) {
-                return;  // "Location must be a planar face or linear edge"
-            }
-        }
-        else if (sh.ShapeType() == TopAbs_EDGE) {
-            BRepAdaptor_Curve line(TopoDS::Edge(sh));
-            if (line.GetType() != GeomAbs_Line) {
-                return;  // "Location must be a planar face or linear edge"
-            }
-        }
-
-        std::vector<App::DocumentObject*> ref = References.getValues();
-        std::vector<std::string> subRef = References.getSubValues();
-        if (ref.empty()) {
-            return;
-        }
-
-        sh = Tools::getFeatureSubShape(ref.front(), subRef.front().c_str(), true);
-        if (sh.IsNull()) {
-            return;
-        }
-        double radius, height;
-        Base::Vector3d base, axis;
-        if (!Tools::getCylinderParams(sh, base, axis, height, radius)) {
-            return;
-        }
-        BasePoint.setValue(base);
-        BasePoint.touch();
+        Base::Console().error("{}: {}\n", getNameInDocument(), error.GetMessageString());
     }
+}
+
+void ConstraintBearing::clearGeometry()
+{
+    Radius.setValue(0);
+    Height.setValue(0);
+    Axis.setValue(Base::Vector3d());
+    BasePoint.setValue(Base::Vector3d());
+    BasePoint.touch();
+}
+
+void ConstraintBearing::updateGeometry()
+{
+    const auto& refs = References.getValues();
+    const auto& names = References.getSubValues();
+    if (refs.empty()) {
+        clearGeometry();
+        return;  // An unfinished constraint has no bearing geometry yet.
+    }
+    if (refs.size() != 1 || names.size() != 1) {
+        throw Standard_Failure("Bearing References must select one cylindrical face or circular edge");
+    }
+    TopoDS_Shape shape = Tools::getFeatureSubShape(refs.front(), names.front().c_str(), true);
+    double radius = 0, height = 0;
+    Base::Vector3d base, axis;
+    if (shape.IsNull() || !Tools::getCylinderParams(shape, base, axis, height, radius)) {
+        throw Standard_Failure("Bearing References must select a cylindrical face or circular edge");
+    }
+    if (!std::isfinite(Dist.getValue())) {
+        throw Standard_Failure("Bearing distance must be finite");
+    }
+    // Preserve the original References-path seat and signed-offset convention.
+    base += axis * height / 2;
+    if (Location.getValue()) {
+        base = getBasePoint(base, axis, Location, Dist.getValue());
+    }
+    Radius.setValue(radius);
+    Axis.setValue(axis);
+    Height.setValue(height);
+    BasePoint.setValue(base);
+    BasePoint.touch();  // Recreate the symbol after all geometry is valid.
 }

@@ -398,6 +398,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_mesh.py
     femtest/app/test_reference_groups.py
     femtest/app/test_constraint_links.py
+    femtest/app/test_bearing_location.py
     femtest/app/test_object.py
     femtest/app/test_open.py
     femtest/app/test_result.py
