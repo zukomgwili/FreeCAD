@@ -46,6 +46,8 @@ from femtest.app.test_sectionprint import TestSectionPrint as FemTest18
 from femtest.app.test_sectionprint import TestSectionPrintEquilibrium as FemTest19
 from femtest.app.test_material_orthotropic import TestMaterialOrthotropic as FemTest20
 from femtest.app.test_material_orthotropic import TestMaterialOrthotropicCalculiX as FemTest21
+from femtest.app.test_elastic_connector import TestElasticConnector as FemTest22
+from femtest.app.test_elastic_connector import TestElasticConnectorCalculiX as FemTest23
 
 # dummy usage to get flake8 and lgtm quiet
 False if FemTest01.__name__ else True
@@ -68,3 +70,5 @@ False if FemTest18.__name__ else True
 False if FemTest19.__name__ else True
 False if FemTest20.__name__ else True
 False if FemTest21.__name__ else True
+False if FemTest22.__name__ else True
+False if FemTest23.__name__ else True

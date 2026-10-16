@@ -36,12 +36,15 @@ import FreeCAD
 from FreeCAD import Units
 
 from . import femutils
+from . import elastic_connector
 from . import material_orthotropic
 
 
 def check_member_for_solver_calculix(analysis, solver, mesh, member):
 
     message = ""
+    for error in elastic_connector.validation_errors(analysis, solver, mesh):
+        message += error + "\n"
 
     # mesh
     if not mesh:

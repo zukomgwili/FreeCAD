@@ -124,6 +124,8 @@ class Writer:
         self._addOutputSolver()
 
     def write_solver_input(self):
+        from femtools.elastic_connector import reject_unsupported
+        reject_unsupported(self.analysis, "Elmer")
         self._writeBlocks()
         self._writeSif()
         self._writeStartinfo()

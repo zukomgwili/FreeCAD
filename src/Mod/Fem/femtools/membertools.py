@@ -281,6 +281,7 @@ class AnalysisMember:
         self.cons_planerotation = self.get_several_member("Fem::ConstraintPlaneRotation")
         self.cons_pressure = self.get_several_member("Fem::ConstraintPressure")
         self.cons_sectionprint = self.get_several_member("Fem::ConstraintSectionPrint")
+        self.cons_elasticconnector = self.get_several_member("Fem::ConstraintElasticConnector")
         self.cons_selfweight = self.get_several_member("Fem::ConstraintSelfWeight")
         self.cons_temperature = self.get_several_member("Fem::ConstraintTemperature")
         self.cons_tie = self.get_several_member("Fem::ConstraintTie")

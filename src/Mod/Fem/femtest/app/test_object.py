@@ -192,6 +192,8 @@ class TestObjectType(unittest.TestCase):
             "Fem::ConstraintFluidBoundary", type_of_obj(ObjectsFem.makeConstraintFluidBoundary(doc))
         )
         self.assertEqual("Fem::ConstraintSpring", type_of_obj(ObjectsFem.makeConstraintSpring(doc)))
+        self.assertEqual("Fem::ConstraintElasticConnector",
+                         type_of_obj(ObjectsFem.makeConstraintElasticConnector(doc)))
         self.assertEqual("Fem::ConstraintForce", type_of_obj(ObjectsFem.makeConstraintForce(doc)))
         self.assertEqual("Fem::ConstraintGear", type_of_obj(ObjectsFem.makeConstraintGear(doc)))
         self.assertEqual(
@@ -393,6 +395,8 @@ class TestObjectType(unittest.TestCase):
             is_of_type(ObjectsFem.makeConstraintMagnetization(doc), "Fem::ConstraintMagnetization")
         )
         self.assertTrue(is_of_type(ObjectsFem.makeConstraintSpring(doc), "Fem::ConstraintSpring"))
+        self.assertTrue(is_of_type(ObjectsFem.makeConstraintElasticConnector(doc),
+                                   "Fem::ConstraintElasticConnector"))
         self.assertTrue(is_of_type(ObjectsFem.makeConstraintForce(doc), "Fem::ConstraintForce"))
         self.assertTrue(is_of_type(ObjectsFem.makeConstraintGear(doc), "Fem::ConstraintGear"))
         self.assertTrue(
@@ -655,6 +659,9 @@ class TestObjectType(unittest.TestCase):
         self.assertTrue(is_derived_from(constraint_magnetization, "Fem::ConstraintMagnetization"))
 
         # ConstraintSpring
+        connector = ObjectsFem.makeConstraintElasticConnector(doc)
+        self.assertTrue(is_derived_from(connector, "Fem::ConstraintElasticConnector"))
+        self.assertTrue(is_derived_from(connector, "Fem::FeaturePython"))
         constraint_spring = ObjectsFem.makeConstraintSpring(doc)
         self.assertTrue(is_derived_from(constraint_spring, "App::DocumentObject"))
         self.assertTrue(is_derived_from(constraint_spring, "Fem::Constraint"))
@@ -1046,6 +1053,8 @@ class TestObjectType(unittest.TestCase):
             ObjectsFem.makeConstraintMagnetization(doc).isDerivedFrom("Fem::ConstraintPython")
         )
         self.assertTrue(ObjectsFem.makeConstraintSpring(doc).isDerivedFrom("Fem::ConstraintSpring"))
+        self.assertTrue(ObjectsFem.makeConstraintElasticConnector(doc)
+                        .isDerivedFrom("Fem::FeaturePython"))
         self.assertTrue(ObjectsFem.makeConstraintForce(doc).isDerivedFrom("Fem::ConstraintForce"))
         self.assertTrue(ObjectsFem.makeConstraintGear(doc).isDerivedFrom("Fem::ConstraintGear"))
         self.assertTrue(
@@ -1223,6 +1232,7 @@ def create_all_fem_objects_doc(doc):
     analysis.addObject(ObjectsFem.makeConstraintFlowVelocity(doc, name="ConstraintFlowVelocity"))
     analysis.addObject(ObjectsFem.makeConstraintFluidBoundary(doc, name="ConstraintFluidBoundary"))
     analysis.addObject(ObjectsFem.makeConstraintSpring(doc, name="ConstraintSpring"))
+    analysis.addObject(ObjectsFem.makeConstraintElasticConnector(doc))
     analysis.addObject(ObjectsFem.makeConstraintForce(doc, name="ConstraintForce"))
     analysis.addObject(ObjectsFem.makeConstraintGear(doc, name="ConstraintGear"))
     analysis.addObject(ObjectsFem.makeConstraintHeatflux(doc, name="ConstraintHeatflux"))

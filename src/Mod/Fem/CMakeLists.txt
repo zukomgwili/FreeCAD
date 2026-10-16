@@ -222,6 +222,7 @@ SET(FemObjects_SRCS
     femobjects/element_geometry2D.py
     femobjects/element_rotation1D.py
     femobjects/material_common.py
+    femobjects/constraint_elastic_connector.py
     femobjects/material_mechanicalnonlinear.py
     femobjects/material_reinforced.py
     femobjects/mesh_boundarylayer.py
@@ -297,6 +298,7 @@ SET(FemSolverCalculix_SRCS
     femsolver/calculix/write_constraint_rigidbody.py
     femsolver/calculix/write_constraint_rigidbody_step.py
     femsolver/calculix/write_constraint_sectionprint.py
+    femsolver/calculix/write_constraint_elastic_connector.py
     femsolver/calculix/write_constraint_selfweight.py
     femsolver/calculix/write_constraint_temperature.py
     femsolver/calculix/write_constraint_tie.py
@@ -399,6 +401,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_result.py
     femtest/app/test_security.py
     femtest/app/test_sectionprint.py
+    femtest/app/test_elastic_connector.py
     femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
     femtest/app/test_solver_mystran.py
@@ -598,6 +601,7 @@ SET(FemTools_SRCS
     femtools/__init__.py
     femtools/ccxtools.py
     femtools/checksanalysis.py
+    femtools/elastic_connector.py
     femtools/material_orthotropic.py
     femtools/constants.py
     femtools/errors.py
@@ -796,6 +800,7 @@ SET(FemGuiViewProvider_SRCS
     femviewprovider/view_element_geometry2D.py
     femviewprovider/view_element_rotation1D.py
     femviewprovider/view_material_common.py
+    femviewprovider/view_constraint_elastic_connector.py
     femviewprovider/view_material_mechanicalnonlinear.py
     femviewprovider/view_material_reinforced.py
     femviewprovider/view_mesh_boundarylayer.py

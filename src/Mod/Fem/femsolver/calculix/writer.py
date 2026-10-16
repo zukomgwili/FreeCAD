@@ -66,8 +66,10 @@ from . import write_mesh
 from . import write_amplitude
 from . import write_step_equation
 from . import write_step_output
+from . import write_constraint_elastic_connector
 from .. import writerbase
 from femtools import constants
+from femtools import elastic_connector
 
 # Interesting forum topic: https://forum.freecad.org/viewtopic.php?&t=48451
 # TODO somehow set units at beginning and every time a value is retrieved use this identifier
@@ -127,6 +129,11 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
     # ********************************************************************************************
     # write calculix input
     def write_solver_input(self):
+        errors = elastic_connector.validation_errors(
+            self.analysis, self.solver_obj, self.mesh_object
+        )
+        if errors:
+            raise ValueError("\n".join(errors))
 
         time_start = time.process_time()
         FreeCAD.Console.PrintMessage("\n")  # because of time print in separate line
@@ -142,6 +149,7 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
 
         # mesh
         inpfile = write_mesh.write_mesh(self)
+        write_constraint_elastic_connector.write_connectors(inpfile, self)
 
         # element sets for materials and element geometry
         write_femelement_matgeosets.write_femelement_matgeosets(inpfile, self)
@@ -216,6 +224,7 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
 
         # output and step end
         write_step_output.write_step_output(inpfile, self)
+        write_constraint_elastic_connector.write_output(inpfile, self)
         write_step_equation.write_step_end(inpfile, self)
 
         # footer

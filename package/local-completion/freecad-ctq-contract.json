@@ -1,0 +1,41 @@
+{
+  "issue": "FreeCAD-ctq",
+  "date": "2026-10-16",
+  "scope": "Native concentrated, scalar, linear translational connectors in small-displacement3D static CalculiX analyses. A separate object leaves existing Elmer foundation semantics intact.",
+  "factory": "ObjectsFem.makeConstraintElasticConnector(document)",
+  "gui": "FEM > Mechanical Boundary Conditions and Loads > Elastic Connector (CalculiX). Select one CAD vertex for ground or two for a pair; selection is optional if references will be entered in Data properties. The command selects the new object, supports Undo/Redo, and never supplies a design stiffness.",
+  "properties": {
+    "Mode": "Ground or Two points",
+    "End1_End2": "Native App::PropertyLinkSubGlobal to exactly one CAD vertex each. Each is resolved afresh to exactly one node in the analysis mesh. Missing/ambiguous/nonvertex references, identical endpoint nodes and a nonempty End2 in Ground mode are errors. No nearest-node guess, pairing order, area distribution or stiffness division.",
+    "Stiffness": "Native App::PropertyStiffness; exported as total N/mm for this one connector. The Data editor displays units according to user preferences. Default zero is invalid until a positive finite value is explicitly supplied. No Kser or equivalent project stiffness is invented.",
+    "Axis": "Local translational X, Y or Z; the same DOF at both ends",
+    "Orientation": "Native App::PropertyRotation relative to global mesh axes or the optional reference frame",
+    "OrientationReference": "Native App::PropertyLinkGlobal to a placed object/occurrence. Native placement composed through parent geometry groups supplies the rigid frame; translation does not alter its directions.",
+    "Suppressed": "Native suppressible extension; suppressed connectors are omitted"
+  },
+  "stock_export": {
+    "ground": "SPRING1 with one existing mesh node",
+    "pair": "SPRING2 with two existing mesh nodes; no geometric-line or rigid-coupling substitution",
+    "direction": "Named rectangular *ORIENTATION used by *SPRING, selected DOF1/2/3",
+    "stiffness": "Always a real decimal scientific number at13significant figures. CalculiX uses a decimal point to distinguish stiffness data from the integer DOF line.",
+    "mesh_integrity": "Source FemMesh is not mutated; connector element IDs start above all source edge/face/volume element IDs. Saved vertex links are re-resolved after remeshing or reference changes, rather than retaining bare node IDs.",
+    "outputs": "Stock *NODE PRINT U,RF at each connector endpoint with GLOBAL=YES. RF is a nodal external/reaction quantity, not generally an isolated connector force when other elements attach. No custom force reconstruction or postprocessor is introduced.",
+    "validation": "Preflight and the direct CalculiX writer both reject invalid connector inputs and unsupported analysis modes before writing solver files. Generated node-set collisions with analysis objects are rejected. Other solver exporters reject active native connectors instead of dropping them. Existing native Spring is explicitly identified as an Elmer foundation if present in a CalculiX analysis."
+  },
+  "unsupported": [
+    "Rotational/torsional connectors or general coupled6x6 joint stiffness",
+    "Distributed face/edge/surface connectors, automatic master points, equivalent stiffness or nodal stiffness division",
+    "Nonlinear/contact/gap/slip laws, dynamics/frequency,2D or geometrically nonlinear analyses",
+    "Automatic structural stability restraints; user boundary conditions must remove all unsupported rigid modes"
+  ],
+  "primary_sources": {
+    "CalculiX2_23_manual": "https://www.dhondt.de/ccx_2.23.pdf",
+    "sections": ["6.2.40 and6.2.41, printed pp128-129: SPRING1/SPRING2 and force-displacement semantics", "7.122, pp598-599: *SPRING DOFs, orientation and mandatory decimal-point distinction", "7.99, pp568-569: *NODE PRINT local/global output; GLOBAL=YES explicitly requests global axes"],
+    "manual_sha256": "a0bf3fc03f374912ff2bf28da3f7dfb6a61428dd7f41b281a2e7e1fdb318f330",
+    "official_source_archive": "https://www.dhondt.de/ccx_2.23.src.tar.bz2",
+    "archive_sha256": "9c88385c10fb04f5dc6c4e98027a51bebdd8aee3920e05190d6c1dd08357d6e7",
+    "source_check": "springs.f parses DOF versus stiffness using the decimal point; elements.f identifies SPRING1/SPRING2 as one/two-node spring elements. No external solver implementation was patched.",
+    "existing_FreeCAD_spring": "https://github.com/FreeCAD/FreeCAD-documentation/blob/main/wiki/FEM_ConstraintSpring.md"
+  },
+  "limits": {"building_design_accepted": false, "Oomakhi_model_opened_or_modified": false, "project_stiffness_values_supplied": false}
+}

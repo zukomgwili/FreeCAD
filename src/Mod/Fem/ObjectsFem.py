@@ -343,6 +343,17 @@ def makeConstraintSectionPrint(doc, name="SectionPrint"):
     return obj
 
 
+def makeConstraintElasticConnector(doc, name="ElasticConnector"):
+    """Create a concentrated translational connector; enter stiffness explicitly."""
+    from femobjects.constraint_elastic_connector import ConstraintElasticConnector
+    obj = doc.addObject("Fem::FeaturePython", name)
+    ConstraintElasticConnector(obj)
+    if FreeCAD.GuiUp:
+        from femviewprovider.view_constraint_elastic_connector import VPConstraintElasticConnector
+        VPConstraintElasticConnector(obj.ViewObject)
+    return obj
+
+
 def makeConstraintSpring(doc, name="Spring"):
     """makeConstraintSpring(document, [name]):
     makes a Fem ConstraintSpring object"""

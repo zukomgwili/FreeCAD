@@ -336,6 +336,65 @@ class _ConstraintMagnetization(CommandManager):
         self.do_activated = "add_obj_on_gui_set_edit"
 
 
+class _ConstraintElasticConnector(CommandManager):
+    """Create one native connector from zero, one or two selected CAD vertices."""
+
+    def __init__(self):
+        super().__init__()
+        self.pixmap = "FEM_ConstraintSpring"
+        self.menutext = Qt.QT_TRANSLATE_NOOP(
+            "FEM_ConstraintElasticConnector", "Elastic Connector (CalculiX)"
+        )
+        self.tooltip = Qt.QT_TRANSLATE_NOOP(
+            "FEM_ConstraintElasticConnector",
+            "Creates a concentrated translational spring; explicitly enter stiffness in N/mm"
+        )
+        self.is_active = "with_analysis"
+
+    def Activated(self):
+        import FemGui
+        import ObjectsFem
+        analysis = FemGui.getActiveAnalysis()
+        if analysis is None or not self.active_analysis_in_active_doc():
+            return
+        endpoints = []
+        for selection in FreeCADGui.Selection.getSelectionEx():
+            if not selection.SubElementNames:
+                shape = getattr(selection.Object, "Shape", None)
+                if shape and shape.ShapeType == "Vertex":
+                    endpoints.append((selection.Object, ["Vertex1"]))
+                    continue
+                FreeCAD.Console.PrintError("Elastic connectors require CAD vertices.\n")
+                return
+            for name, shape in zip(selection.SubElementNames, selection.SubObjects):
+                if shape.ShapeType != "Vertex":
+                    FreeCAD.Console.PrintError("Elastic connectors require CAD vertices.\n")
+                    return
+                endpoints.append((selection.Object, [name]))
+        if len(endpoints) > 2:
+            FreeCAD.Console.PrintError("Select at most two connector vertices.\n")
+            return
+        doc = analysis.Document
+        doc.openTransaction("Create elastic connector")
+        try:
+            obj = ObjectsFem.makeConstraintElasticConnector(doc)
+            analysis.addObject(obj)
+            if endpoints:
+                obj.End1 = endpoints[0]
+            if len(endpoints) == 2:
+                obj.Mode, obj.End2 = "Two points", endpoints[1]
+            doc.recompute()
+            doc.commitTransaction()
+        except Exception:
+            doc.abortTransaction()
+            raise
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(obj)
+        FreeCAD.Console.PrintMessage(
+            "Set the connector's explicit Stiffness and local direction in the Data properties.\n"
+        )
+
+
 class _ConstraintSectionPrint(CommandManager):
     "The FEM_ConstraintSectionPrint command definition"
 
@@ -1394,6 +1453,7 @@ FreeCADGui.addCommand("FEM_ConstraintInitialFlowVelocity", _ConstraintInitialFlo
 FreeCADGui.addCommand("FEM_ConstraintInitialPressure", _ConstraintInitialPressure())
 FreeCADGui.addCommand("FEM_ConstraintMagnetization", _ConstraintMagnetization())
 FreeCADGui.addCommand("FEM_ConstraintSectionPrint", _ConstraintSectionPrint())
+FreeCADGui.addCommand("FEM_ConstraintElasticConnector", _ConstraintElasticConnector())
 FreeCADGui.addCommand("FEM_ConstraintSelfWeight", _ConstraintSelfWeight())
 FreeCADGui.addCommand("FEM_ConstraintTie", _ConstraintTie())
 FreeCADGui.addCommand("FEM_ElementFluid1D", _ElementFluid1D())
