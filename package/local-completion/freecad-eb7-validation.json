@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-16",
+  "bead": "FreeCAD-eb7",
+  "status": "source_fix_built_and_verified_not_installed",
+  "compiled_commit": "7082cb66bcc349ea2d82d09cbb538cf1b803cc24",
+  "compiled_version": "27.1.0dev49114+172 (Git)",
+  "build_directory": "/Users/zukomgwili/src/FreeCAD/build/release",
+  "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "baseline": {
+    "runtime": "+170 /63a753404a7ede248606b64250e85e34bbafc943",
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "before_implementation_inspection": true,
+    "exact_witness_sha256": "519cd5777e278e29b8186ba4f5b1132022019e5218b5e6434383fb3541c16b18",
+    "installed_red_receipt": "/private/tmp/freecad-eb7.0Jv6aY/port-region-result.json",
+    "installed_result": "Both ordinary RBE and rigid-port resolvers return the same94-node union for each receiving face. Connector overlap rejection is correct for those incorrect inputs. Independent raw VTK connectivity proves47nodes per owner with0intersection and coincident coordinates.",
+    "minimal_permanent_red": "Native second-order Gmsh regression fails on wrong-owner nodes in0.297s before the fix. Initial complete6-test suite fails with21failures and5false-overlap errors.",
+    "execution_warning": "The retained original macro also emits an exclusive-directory FileExists warning. Its trigger is unverified; no claim of one clean macro entry or a separate confirmed native execution defect is made. New unittest create/reopen harnesses avoid that macro guard."
+  },
+  "cause": "The ordinary RBE lookup expects prefixed typed-node analysis groups, while generated exact-name All groups contain face-element IDs. Its coordinate fallback and the port validator's direct geometric lookup select both independently meshed coincident owners. CAD Face2/Face7 mapping is already correct; this does not reopen FreeCAD-s0x.",
+  "implementation": {
+    "shared_resolver": "Ordinary MeshSetsGetter, public two-argument RBE lookup and elastic-connector validation use current native entity-group connectivity, not analysis aggregate names or coordinate-selected node unions.",
+    "provenance": "Generated Gmsh meshes record original entity-group names, native persistent LinkSub references, and an exact global BRep plus recursive input-link ownership signature. Existing mesh objects migrate these UI-readonly properties on restore. Native history resolves compound and App::Link occurrences; full kernel geometry only discriminates history candidates. Closed curves cannot match merely by a shared seam vertex.",
+    "freshness": "Capture ownership before the external mesher runs. Reject changed geometry/ownership before installing returned mesh data. Validate complete current references, native group type/connectivity, mesh context and geometry signature; reject missing owners, absent or ambiguous groups, partial regions and stale geometry without repairing nodes.",
+    "native_vertex_persistence": "Convert generated VertexN zero-dimensional groups to durable native Node groups using only imported Gmsh0D connectivity. Raw cells remain unchanged. This preserves independently coincident vertex ownership through FCStd/UNV serialization, which omits0D elements.",
+    "legacy_behavior": "Ungrouped/imported meshes retain the existing unambiguous geometric route. Coincident owners without native generation provenance require remeshing; no geometric union is accepted as ownership. Unsaved external geometry documents must be saved before generating ownership provenance.",
+    "retained_guards": "Genuine overlap, noncollinearity, explicit references and3D-solid port requirements remain enabled. No solver, coupling, material, load, project stiffness or physical joint model is introduced."
+  },
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "full_ctest": {"registered": 2241, "passed": 2231, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 57.89, "excluded": []},
+    "broad_python": {"run": 1034, "unexpected_failures": 0, "skipped": 7, "existing_expected_failures": 1, "seconds": 74.377, "suites": ["TestArch", "TestDraft", "TestFemApp", "TestPartApp", "StringHasher"]},
+    "new_registered_regressions": 14,
+    "new_regression_boundaries": [
+      "Independent coincident second-order face connectivity and both resolver paths",
+      "Genuinely shared regions still rejected",
+      "Base CAD groups without analysis-group meshing",
+      "Native save/reopen, reference rebind and remesh",
+      "Coincident compound reorder and moved/reordered App::Link occurrences",
+      "Closed curves sharing one seam vertex but different full geometry",
+      "Noncollinear vertex regions against raw Gmsh0D connectivity, including native reopen",
+      "Expanded faces whose old nodes remain a geometric subset",
+      "Cleared mesh owner, mixed valid/absent references and unrelated FemMesh context",
+      "Geometry invalidated during meshing cannot replace existing data",
+      "Legacy raw reader reestablishes current native provenance"
+    ],
+    "exact_cli_create": {"passed": 1, "failed": 0, "seconds": 1.580},
+    "exact_cli_independent_cold_reopen": {"passed": 1, "failed": 0, "seconds": 1.110},
+    "exact_native_gui_create": {"passed": 1, "failed": 0, "seconds": 2.145},
+    "exact_native_gui_independent_cold_reopen": {"passed": 1, "failed": 0, "seconds": 0.640},
+    "runtime_guards": "Both CLI and native GUI stages assert the exact compiled commit. Reports include actual build/release module paths and SHA256 values; GUI reports GuiUp1 and native view providers. Native files contain GuiDocument.xml.",
+    "exact_witness": {
+      "geometry": "Original two touching100x80mm receiving footprints; RC.Face2 and Ledger.Face1 map to compound Face2 and Face7. Original CAD and source file are unchanged.",
+      "mesh": "Real Pixi Gmsh, CoherenceMesh=False before meshing, second-order, max40/min20mm, AnalysisGroupMeshing=True.",
+      "final_counts": {"nodes": 873, "volumes": 395, "faces": 308, "groups": 56},
+      "independent_oracle": "Standard VTK reader inspects untouched generated CellEntityIds and quadratic-triangle connectivity:18face elements and47node IDs per receiving owner,0intersection,94union, all47coordinates coincident. Global interior volume counts can vary between Gmsh runs; ownership acceptance does not depend on those counts.",
+      "all_paths": "Public two-argument getter, explicit-context getter, rigid-port validator, actual MeshSetsGetter and connector resolution match the independent raw topology.",
+      "cold_persistence": "Independent create/reopen processes preserve exact owned node IDs, all56groups and current persistent references BEFORE manual recompute and after forced recompute. A successor native file is saved without changing the cold input; that successor is not independently cold-reopened. Native element IDs may renumber; compare their complete node connectivity rather than obsolete VTK cell IDs.",
+      "source_sha256_unchanged": true
+    },
+    "lint": "Both new Python modules are fully flake8-clean with repository ignores E266,W503 and100-column limit. Changed lines introduce no lint diagnostics; existing unrelated diagnostics are not swept. Whitespace checks pass.",
+    "independent_reviews": "Separate ownership/oracle and regression-registration audits report no blocking findings. Review corrections include full closed-curve discrimination, pre-meshing provenance, complete reference/context validation, native vertex-group persistence and unique FemTest28 discovery. Large-model performance qualification is not claimed."
+  },
+  "evidence": {
+    "main_directory": "/private/tmp/freecad-eb7.0Jv6aY",
+    "exact_cli_directory": "/private/tmp/freecad-eb7-exact-cli.hiBQNn",
+    "exact_native_gui_directory": "/private/tmp/freecad-eb7.0Jv6aY/final-native-gui",
+    "build_log": "/private/tmp/freecad-eb7.0Jv6aY/build-committed.log",
+    "ctest_log": "/private/tmp/freecad-eb7.0Jv6aY/final-ctest.log",
+    "python_log": "/private/tmp/freecad-eb7.0Jv6aY/final-broad.log",
+    "self_contained_regressions": "src/Mod/Fem/femtest/app/test_rigid_region_ownership.py",
+    "opt_in_exact_native_harness": "tests/src/Mod/Fem/NativeRigidRegionOwnership.py"
+  },
+  "installation": {
+    "performed": false,
+    "installed_version_unchanged": "+170 /63a753404a7ede248606b64250e85e34bbafc943",
+    "installed_meshtools_sha256_unchanged": "38dd2ab18de5fe3ccf19aa29ea3405ca47388629c1046125c2d43f81dca54711",
+    "note": "This request covers source work, build and verification, not application replacement. The verified Release build uses the repository Pixi environment."
+  },
+  "scope_limits": {
+    "source_witness_or_building_documents_modified": false,
+    "hand_filtered_project_node_sets_used": false,
+    "physical_joint_stiffness_or_behaviour_accepted": false,
+    "house_normal_or_R30_design_accepted": false,
+    "complete_Oomakhi_method_requalified": false,
+    "large_model_performance_qualified": false
+  },
+  "metadata_note": "Completion metadata is committed after the compiled implementation revision and does not change the verified binary identity."
+}
