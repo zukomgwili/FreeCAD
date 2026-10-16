@@ -34,11 +34,10 @@
 class TopoDS_Edge;
 class TopoDS_Face;
 
-namespace Part
+namespace App
 {
 
-class Feature;
-
+class DocumentObject;
 }
 
 namespace Fem
@@ -91,12 +90,20 @@ public:
      Subshape placement is not necessarily the same as the
      feature placement
     */
-    static Base::Placement getSubShapeGlobalLocation(const Part::Feature* feat, const TopoDS_Shape& sh);
-    static void setSubShapeGlobalLocation(const Part::Feature* feat, TopoDS_Shape& sh);
+    static Base::Placement getSubShapeGlobalLocation(
+        const App::DocumentObject* obj,
+        const TopoDS_Shape& sh
+    );
+    static void setSubShapeGlobalLocation(const App::DocumentObject* obj, TopoDS_Shape& sh);
     /*!
-     Get subshape from Part Feature. The subShape is returned with global location
+     Resolve a reference, including link occurrences, with global location.
+     Unresolvable references return a null shape when silent, otherwise throw.
     */
-    static TopoDS_Shape getFeatureSubShape(const Part::Feature* feat, const char* subName, bool silent);
+    static TopoDS_Shape getFeatureSubShape(
+        const App::DocumentObject* obj,
+        const char* subName,
+        bool silent
+    );
     /*!
      Get cylinder parameters. Base is located at the center of the cylinder
     */

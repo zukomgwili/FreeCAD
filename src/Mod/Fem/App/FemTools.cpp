@@ -47,6 +47,7 @@
 #include <gp_Vec.hxx>
 
 #include <App/Application.h>
+#include <App/GeoFeature.h>
 #include <Mod/Part/App/PartFeature.h>
 #include <Mod/Part/App/Tools.h>
 
@@ -337,37 +338,60 @@ std::string Fem::Tools::checkIfBinaryExists(
     return "";
 }
 
-Base::Placement Fem::Tools::getSubShapeGlobalLocation(const Part::Feature* feat, const TopoDS_Shape& sh)
+Base::Placement Fem::Tools::getSubShapeGlobalLocation(
+    const App::DocumentObject* obj,
+    const TopoDS_Shape& sh
+)
 {
     Base::Matrix4D matrix = Part::TopoShape::convert(sh.Location().Transformation());
     Base::Placement shPla {matrix};
-    Base::Placement featlPlaInv = feat->Placement.getValue().inverse();
-    Base::Placement shGlobalPla = feat->globalPlacement() * featlPlaInv * shPla;
+    Base::Placement local;
+    if (auto placement = obj->getPropertyByName<App::PropertyPlacement>("Placement")) {
+        local = placement->getValue();
+    }
+    Base::Placement shGlobalPla = App::GeoFeature::getGlobalPlacement(obj) * local.inverse() * shPla;
 
     return shGlobalPla;
 }
 
-void Fem::Tools::setSubShapeGlobalLocation(const Part::Feature* feat, TopoDS_Shape& sh)
+void Fem::Tools::setSubShapeGlobalLocation(const App::DocumentObject* obj, TopoDS_Shape& sh)
 {
-    Base::Placement pla = getSubShapeGlobalLocation(feat, sh);
+    Base::Placement pla = getSubShapeGlobalLocation(obj, sh);
     sh.Location(Part::Tools::fromPlacement(pla));
 }
 
 
-TopoDS_Shape Fem::Tools::getFeatureSubShape(const Part::Feature* feat, const char* subName, bool silent)
+TopoDS_Shape Fem::Tools::getFeatureSubShape(const App::DocumentObject* obj, const char* subName, bool silent)
 {
     TopoDS_Shape sh;
-    const Part::TopoShape& toposhape = feat->Shape.getShape();
-    if (toposhape.isNull()) {
+    if (!obj) {
         return sh;
     }
 
-    sh = toposhape.getSubShape(subName, silent);
+    // Keep the occurrence as the root of shape resolution: resolving only its
+    // linked source would drop its placement (and any nested link transforms).
+    try {
+        sh = Part::Feature::getShape(
+            obj,
+            Part::ShapeOption::NeedSubElement | Part::ShapeOption::ResolveLink
+                | Part::ShapeOption::Transform | Part::ShapeOption::DontSimplifyCompound,
+            subName
+        );
+    }
+    catch (const Standard_Failure&) {
+        if (!silent) {
+            throw;
+        }
+        return {};
+    }
     if (sh.IsNull()) {
+        if (!silent) {
+            throw Standard_Failure("Cannot resolve FEM reference geometry");
+        }
         return sh;
     }
 
-    setSubShapeGlobalLocation(feat, sh);
+    setSubShapeGlobalLocation(obj, sh);
 
     return sh;
 }

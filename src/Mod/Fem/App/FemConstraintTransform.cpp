@@ -98,6 +98,7 @@ const char* ConstraintTransform::getViewProviderName() const
 
 void ConstraintTransform::onChanged(const App::Property* prop)
 {
+    Constraint::onChanged(prop);
     if (prop == &References) {
         std::string transform_type = TransformType.getValueAsString();
         if (transform_type == "Cylindrical") {
@@ -108,8 +109,10 @@ void ConstraintTransform::onChanged(const App::Property* prop)
                 return;
             }
 
-            Part::Feature* feat = static_cast<Part::Feature*>(ref.front());
-            TopoDS_Shape sh = Tools::getFeatureSubShape(feat, subRef.front().c_str(), true);
+            TopoDS_Shape sh = Tools::getFeatureSubShape(ref.front(), subRef.front().c_str(), true);
+            if (sh.IsNull()) {
+                return;
+            }
 
             Base::Vector3d axis, base;
             double height, radius;
@@ -122,7 +125,6 @@ void ConstraintTransform::onChanged(const App::Property* prop)
         }
     }
 
-    Constraint::onChanged(prop);
 }
 
 namespace

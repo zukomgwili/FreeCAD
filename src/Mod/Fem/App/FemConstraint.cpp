@@ -179,8 +179,7 @@ void Constraint::onChanged(const App::Property* prop)
         bool execute = this->isRecomputing();
         for (std::size_t i = 0; i < Objects.size(); i++) {
             App::DocumentObject* obj = Objects[i];
-            Part::Feature* feat = static_cast<Part::Feature*>(obj);
-            sh = Tools::getFeatureSubShape(feat, SubElements[i].c_str(), !execute);
+            sh = Tools::getFeatureSubShape(obj, SubElements[i].c_str(), !execute);
             if (!sh.IsNull() && sh.ShapeType() == TopAbs_FACE) {
                 // Get face normal in center point
                 TopoDS_Face face = TopoDS::Face(sh);
@@ -204,6 +203,11 @@ void Constraint::onChanged(const App::Property* prop)
             Normals.setValues(normals);
             Points.touch();
         }
+        else {
+            // A broken/non-shape reference must not leave symbols from the old geometry.
+            Points.setValues(std::vector<Base::Vector3d>());
+            Normals.setValues(std::vector<Base::Vector3d>());
+        }
     }
 
     App::DocumentObject::onChanged(prop);
@@ -211,9 +215,11 @@ void Constraint::onChanged(const App::Property* prop)
 
 void Constraint::slotChangedObject(const App::DocumentObject& Obj, const App::Property& Prop)
 {
-    if (Obj.isDerivedFrom<App::GeoFeature>()
-        && (Prop.isDerivedFrom<App::PropertyPlacement>() || Obj.isRemoving())) {
+    if (Prop.isDerivedFrom<App::PropertyPlacement>() || Obj.isRemoving()) {
         for (const auto ref : References.getValues()) {
+            if (!ref) {
+                continue;
+            }
             auto v = ref->getInListEx(true);
             if ((&Obj == ref) || (std::ranges::find(v, &Obj) != v.end())) {
                 References.touch();
@@ -275,15 +281,18 @@ bool Constraint::getPoints(
     TopoDS_Shape sh;
 
     for (std::size_t i = 0; i < Objects.size(); i++) {
-        Part::Feature* feat = static_cast<Part::Feature*>(Objects[i]);
-        sh = Tools::getFeatureSubShape(feat, SubElements[i].c_str(), true);
+        sh = Tools::getFeatureSubShape(Objects[i], SubElements[i].c_str(), true);
         if (sh.IsNull()) {
             return false;
         }
 
         // Scale by bounding box of the object
         Bnd_Box box;
-        BRepBndLib::Add(feat->Shape.getShape().getShape(), box);
+        TopoDS_Shape fullShape = Tools::getFeatureSubShape(Objects[i], "", true);
+        if (fullShape.IsNull()) {
+            return false;
+        }
+        BRepBndLib::Add(fullShape, box);
         double l = sqrt(box.SquareExtent() / 3.0);
         *scale = this->calcSizeFactor(l);
 
@@ -482,8 +491,10 @@ Base::Vector3d Constraint::getBasePoint(
         return Base::Vector3d(0, 0, 0);
     }
     std::string subName = names.front();
-    Part::Feature* featLoc = static_cast<Part::Feature*>(objLoc);
-    TopoDS_Shape shloc = featLoc->Shape.getShape().getSubShape(subName.c_str());
+    TopoDS_Shape shloc = Tools::getFeatureSubShape(objLoc, subName.c_str(), true);
+    if (shloc.IsNull()) {
+        return Base::Vector3d(0, 0, 0);
+    }
 
     // Get a plane from the Location reference
     gp_Pln plane;
