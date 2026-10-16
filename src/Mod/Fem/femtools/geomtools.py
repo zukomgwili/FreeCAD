@@ -32,54 +32,40 @@ import FreeCAD
 
 # ************************************************************************************************
 def find_element_in_shape(aShape, anElement):
-    # import Part
+    """Find a subelement, preserving topology before using geometric fallback.
+
+    OCCT locations can have different representations of the same placement,
+    so isSame alone is insufficient for subshapes retrieved through a compound.
+    Partner identity must also have the same placement: isPartner alone would
+    confuse different occurrences of one shape. External geometry is supported
+    only when it identifies one element unambiguously.
+    """
     ele_st = anElement.ShapeType
-    if ele_st == "Solid" or ele_st == "CompSolid":
-        for index, solid in enumerate(aShape.Solids):
-            # FreeCAD.Console.PrintMessage("{}\n".format(is_same_geometry(solid, anElement)))
-            if is_same_geometry(solid, anElement):
-                # FreeCAD.Console.PrintMessage("{}\n".format(index))
-                # Part.show(aShape.Solids[index])
-                ele = ele_st + str(index + 1)
-                return ele
-        FreeCAD.Console.PrintError(
-            "Solid " + str(anElement) + " not found in: " + str(aShape) + "\n"
-        )
-        if ele_st == "Solid" and aShape.ShapeType == "Solid":
-            message_part = (
-                "We have been searching for a Solid in a Solid and we have not found it. "
-                "In most cases this should be searching for a Solid inside a CompSolid. "
-                "Check the ShapeType of your Part to mesh."
+    attributes = {"Solid": "Solids", "CompSolid": "Solids", "Face": "Faces",
+                  "Shell": "Faces", "Edge": "Edges", "Wire": "Edges", "Vertex": "Vertexes"}
+    if ele_st not in attributes:
+        if ele_st == "Compound":
+            FreeCAD.Console.PrintError("Compound is not supported.\n")
+        return None
+
+    elements = getattr(aShape, attributes[ele_st])
+    predicates = (
+        lambda candidate: candidate.isSame(anElement),
+        lambda candidate: candidate.isPartner(anElement)
+        and candidate.Placement.isSame(anElement.Placement),
+        lambda candidate: is_same_geometry(candidate, anElement),
+    )
+    for matches_element in predicates:
+        matches = [f"{ele_st}{index}" for index, candidate in enumerate(elements, 1)
+                   if matches_element(candidate)]
+        if len(matches) == 1:
+            return matches[0]
+        if matches:
+            raise ValueError(
+                f"Ambiguous {ele_st} reference: matches {', '.join(matches)}. "
+                "Select an explicit subelement of the part to mesh."
             )
-            FreeCAD.Console.PrintMessage(message_part + "\n")
-        # Part.show(anElement)
-        # Part.show(aShape)
-    elif ele_st == "Face" or ele_st == "Shell":
-        for index, face in enumerate(aShape.Faces):
-            # FreeCAD.Console.PrintMessage("{}\n".format(is_same_geometry(face, anElement)))
-            if is_same_geometry(face, anElement):
-                # FreeCAD.Console.PrintMessage("{}\n".format(index))
-                # Part.show(aShape.Faces[index])
-                ele = ele_st + str(index + 1)
-                return ele
-    elif ele_st == "Edge" or ele_st == "Wire":
-        for index, edge in enumerate(aShape.Edges):
-            # FreeCAD.Console.PrintMessage("{}\n".format(is_same_geometry(edge, anElement)))
-            if is_same_geometry(edge, anElement):
-                # FreeCAD.Console.PrintMessage(index, "\n")
-                # Part.show(aShape.Edges[index])
-                ele = ele_st + str(index + 1)
-                return ele
-    elif ele_st == "Vertex":
-        for index, vertex in enumerate(aShape.Vertexes):
-            # FreeCAD.Console.PrintMessage("{}\n".format(is_same_geometry(vertex, anElement)))
-            if is_same_geometry(vertex, anElement):
-                # FreeCAD.Console.PrintMessage("{}\n".format(index))
-                # Part.show(aShape.Vertexes[index])
-                ele = ele_st + str(index + 1)
-                return ele
-    elif ele_st == "Compound":
-        FreeCAD.Console.PrintError("Compound is not supported.\n")
+    return None
 
 
 # ************************************************************************************************

@@ -1770,6 +1770,42 @@ def get_analysis_group_elements(aAnalysis, aPart):
 
 
 # ************************************************************************************************
+def _get_compound_reference_element(aPart, parent, child, shape_type):
+    """Resolve saved compound provenance when source BReps no longer share TShapes.
+
+    Use the native element-history API, not encoded-name parsing or geometric
+    ordering. Object IDs are document-local. More than one resulting occurrence
+    remains ambiguous and must be selected on the meshed compound explicitly.
+    """
+    if not aPart.isDerivedFrom("Part::Compound") or parent.Document != aPart.Document:
+        return None
+    source_name = parent.Shape.getElementMappedName(child) or child
+    matches = set()
+    for indexed in set(aPart.Shape.ElementMap.values()):
+        if not indexed.startswith(shape_type):
+            continue
+        feature, element = aPart, indexed
+        visited = set()
+        # Walk one native history step at a time. A link can be retagged with its
+        # own ID, so unbounded recursive history is not safe for every occurrence.
+        while hasattr(feature, "getElementHistory"):
+            state = (feature.FullName, element)
+            if state in visited:
+                break
+            visited.add(state)
+            history = feature.getElementHistory(element, recursive=False)
+            for owner, source, _intermediates in history:
+                if owner == parent and source == source_name:
+                    matches.add(indexed)
+            if not history:
+                break
+            feature, element, _intermediates = history[-1]
+    if len(matches) > 1:
+        raise ValueError(f"Ambiguous compound reference: matches {', '.join(sorted(matches))}")
+    return next(iter(matches)) if matches else None
+
+
+# ************************************************************************************************
 def get_reference_group_elements(obj, aPart):
     """obj is an FEM object which has reference shapes like the group object
     the material, most of the constraints
@@ -1803,6 +1839,25 @@ def get_reference_group_elements(obj, aPart):
 
         for child1 in childs:
             ref_shape1 = parent.getSubObject(child1)
+            # An explicit index on the meshed object already carries ownership.
+            # Do not replace it with the first geometrically coincident element.
+            shape_type = ref_shape1.ShapeType
+            if (parent == aPart and shape_type in ("Solid", "Face", "Edge", "Vertex")
+                    and child1.startswith(shape_type)
+                    and child1[len(shape_type):].isdigit()):
+                elements.append(child1)
+                continue
+            if shape_type in ("Face", "Edge", "Vertex"):
+                try:
+                    found_element = _get_compound_reference_element(
+                        aPart, parent, child1, shape_type)
+                except ValueError as error:
+                    raise ValueError(
+                        f"{obj.Name}: reference {parent.Name}.{child1} in {aPart.Name}: {error}"
+                    ) from error
+                if found_element:
+                    elements.append(found_element)
+                    continue
             subchilds = [
                 ref_shape1,
             ]
@@ -1812,7 +1867,12 @@ def get_reference_group_elements(obj, aPart):
                 subchilds = ref_shape1.Solids
             for ref_shape in subchilds:
                 FreeCAD.Console.PrintLog(f"{ref_shape}\n")
-                found_element = geomtools.find_element_in_shape(aShape, ref_shape)
+                try:
+                    found_element = geomtools.find_element_in_shape(aShape, ref_shape)
+                except ValueError as error:
+                    raise ValueError(
+                        f"{obj.Name}: reference {parent.Name}.{child1} in {aPart.Name}: {error}"
+                    ) from error
                 if found_element is not None:
                     elements.append(found_element)
                 else:

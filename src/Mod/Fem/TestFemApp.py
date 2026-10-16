@@ -48,6 +48,7 @@ from femtest.app.test_material_orthotropic import TestMaterialOrthotropic as Fem
 from femtest.app.test_material_orthotropic import TestMaterialOrthotropicCalculiX as FemTest21
 from femtest.app.test_elastic_connector import TestElasticConnector as FemTest22
 from femtest.app.test_elastic_connector import TestElasticConnectorCalculiX as FemTest23
+from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 
 # dummy usage to get flake8 and lgtm quiet
 False if FemTest01.__name__ else True
@@ -72,3 +73,4 @@ False if FemTest20.__name__ else True
 False if FemTest21.__name__ else True
 False if FemTest22.__name__ else True
 False if FemTest23.__name__ else True
+False if FemTest24.__name__ else True
