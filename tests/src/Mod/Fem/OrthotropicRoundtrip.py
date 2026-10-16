@@ -44,7 +44,7 @@ class OrthotropicRoundtrip(unittest.TestCase):
                 parent.addObject(occurrence)
                 occurrence.Placement.Rotation = App.Rotation(App.Vector(0, 0, 1), 60)
                 material.MaterialOrientationReference = occurrence
-            material = doc.Material
+            material = doc.getObject("Material")
             self.assertEqual(material.ElasticityModel, "Orthotropic")
             self.assertEqual(engineering_constants(material),
                              (12000, 3000, 1500, 0, 0, 0, 700, 500, 300))
@@ -52,7 +52,7 @@ class OrthotropicRoundtrip(unittest.TestCase):
             self.assertLess((material_rotation(material).multVec(App.Vector(1, 0, 0))
                              - App.Vector(0, 1, 0)).Length, 1e-12)
             if reopen:
-                doc.Parent.Placement.Rotation = App.Rotation(App.Vector(0, 0, 1), 60)
+                doc.getObject("Parent").Placement.Rotation = App.Rotation(App.Vector(0, 0, 1), 60)
                 doc.recompute()
                 expected = App.Rotation(App.Vector(0, 0, 1), 120).multVec(App.Vector(1, 0, 0))
                 self.assertLess((material_rotation(material).multVec(App.Vector(1, 0, 0))

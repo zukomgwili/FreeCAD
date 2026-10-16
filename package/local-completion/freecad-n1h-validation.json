@@ -1,0 +1,67 @@
+{
+  "issue": "FreeCAD-n1h",
+  "date": "2026-10-16",
+  "status": "source_complete_built_and_verified_not_installed",
+  "implementation_commit": "2e5a78b500d42e98ba2e61454b89084f86f63993",
+  "compiled_version": "27.1.0dev49114+146 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "installed": false,
+  "installed_app_unchanged": "/Applications/FreeCAD-27.1.0.app remains +144/0ad167d65e, with its deep-strict signature verified. The user requested work on this source bead, not replacement of the installed app.",
+  "baseline": {
+    "executable": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "version": "27.1.0dev49114+144 (Git)",
+    "native_capability_probe": "1 failed in0.363s: native solid material has no ElasticityModel or directional properties.",
+    "expanded_regression_control": "Initial13-test module failed14errors against the unchanged installed runtime; the isotropic/plasticity control passed. Missing helpers/native fields prevent the requested workflow, not a physical building failure.",
+    "house_or_author_scripts_opened": false
+  },
+  "native_contract": {
+    "object": "Existing ObjectsFem.makeMaterialSolid / MaterialCommon, not a custom writer or analysis adapter",
+    "selector": "ElasticityModel = Isotropic (legacy/default) or Orthotropic",
+    "moduli": ["YoungsModulus1", "YoungsModulus2", "YoungsModulus3", "ShearModulus12", "ShearModulus13", "ShearModulus23"],
+    "modulus_storage": "Native App::PropertyPressure, displayed as MPa in the task panel; explicit GPa-to-MPa export conversion covered. Zero defaults deliberately require user-supplied values.",
+    "ratios": ["PoissonRatio12", "PoissonRatio13", "PoissonRatio23"],
+    "poisson_convention": "nu_ij = -strain_j/strain_i under uniaxial stress_i; reciprocal nu_ji/E_j=nu_ij/E_i. Verified against official CalculiX2.23 elastics.f and real nonzero-Poisson patches.",
+    "frame": "Native MaterialOrientation rotation relative to global mesh axes, or MaterialOrientationReference's placement composed through native parent geometry groups. Reference is App::PropertyLinkGlobal, including nested datum/placed object and App::Link occurrence; translation is ignored.",
+    "region_assignment": "Existing material References and actual material element sets. Different regions/axes use separate native material objects, which may share the same material card.",
+    "legacy_region_rule": "A sole material applies to the whole mesh; existing References are ignored in that case. Use multiple materials for region ownership. This inherited rule is explicit in the new GUI tooltip, not claimed fixed.",
+    "persistence": "Legacy documents gain Isotropic-default fields without replacing their cards; native constants, orientation/reference links and region references persist.",
+    "gui": "Material task panel adds Elasticity and material axes form with model selector, nine constants, local axis/angle and placed-reference chooser. Inputs are staged until Accept, shared validation keeps invalid dialogs open, Cancel preserves native values, and card changes do not overwrite directional data. Untouched values keep full native precision despite rounded widget display."
+  },
+  "export_contract": {
+    "solver": "Stock CalculiX writer / real CalculiX2.23",
+    "elastic": "*ELASTIC, TYPE=ENGINEERING CONSTANTS: E1,E2,E3,nu12,nu13,nu23,G12,G13 on first line; G23 on second line, MPa/dimensionless",
+    "orientation": "*ORIENTATION, NAME=ORIENT_<material-object-name> with material unit-X and unit-Y in global coordinates, plus matching ORIENTATION assignment on each actual solid/shell section. Long names have stable collision-resistant80-character bounds.",
+    "validation": "Finite positive E/G, finite ratios, positive-definite reciprocal compliance before and after standard13G serialization, valid placed reference, and explicit unsupported-context rejection.",
+    "supported_scope": "Linear orthotropic engineering-constant elasticity for3D solid elements and ordinary3D shells, including the documented shell-plane projection of material directions. Uses CalculiX's elastic law, not a new constitutive engine.",
+    "unsupported_scope": "No beam/truss, fluid,2D/membrane, composite layup, or isotropic-plasticity combination on an orthotropic material. No timber/plywood damage/failure or large-strain material-law qualification.",
+    "other_exporters": "Z88/Mystran and Elmer elasticity/deformation explicitly reject the native Orthotropic selector before isotropic fallback. Unrelated thermal-only Elmer use is not blocked by this mechanical guard.",
+    "no_manual_generated_deck_edits": true,
+    "primary_source_contract": "package/local-completion/freecad-n1h-solver-contract.md"
+  },
+  "verification": {
+    "full_enabled_target_release_build_exit": 0,
+    "fem_suite": {"passed": 134, "failed": 0, "seconds": 20.873},
+    "new_regressions": {"count": 28, "real_solver_test_methods": 5, "real_calculix_solves": 13},
+    "analytic_cases": [
+      "Single Hex8 axial compression at0/90degrees swaps E1/E2 and gives the independently expected displacement ratio.",
+      "Three axial load directions with unequal E and nonzero nu check full reciprocal Poisson compliance, not only axial stiffness.",
+      "Four affine shear patches at0/90degrees verify G13/G23 ordering and signed raw reaction totals.",
+      "Two conforming Hex8 cells with actual Solid1/Solid2 material references, same card and independent axes, verify element ownership and piecewise affine displacement. Swapping native references regenerates actual sets and changes the interface displacement from-0.001 to-0.0005mm.",
+      "Two native S8R shell patches at0/90degrees give raw edge reactions12N/3N with matching opposite reactions. This is a basic membrane-response shell patch, not proof of all curved-shell/bending/composite behavior."
+    ],
+    "gui_suite": {"passed": 8, "failed": 0, "seconds": 0.790},
+    "part_suite": {"passed": 317, "failed": 0, "seconds": 2.003},
+    "ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 70.08, "excluded": [], "both_native_gui_tests_passed": true},
+    "native_process_save": {"passed": 1, "seconds": 0.275},
+    "separate_native_process_reopen": {"passed": 1, "seconds": 0.315, "compiled_commit_asserted_from_report": true, "constants_and_linked_occurrence_persisted": true, "changed_parent_rotation_followed": true},
+    "native_save_and_successor_contain_GuiDocument_xml": true,
+    "new_files_flake8": "Passed --ignore=E266,W503 --max-line-length=100",
+    "preexisting_lint_baseline": "Three existing warnings reproduced from b29e78c215: geometry-writer long line, task-panel unused variable and duplicate tec_changed. No new lint warnings. Thermal callback shadowing is filed separately as FreeCAD-tue.",
+    "independent_audit": "No remaining P1/P2 findings after addressing serialization stability, other-solver fallback, placed links, shell projection/membrane boundary and long names.",
+    "raw_evidence_directory": "/private/tmp/freecad-n1h.raD5bq"
+  },
+  "usage": "In the new build, create/edit a native solid material, expand Elasticity and material axes, select Orthotropic, enter the nine justified constants, choose a global/local frame or placed reference, and assign material regions. Regenerate through stock CalculiX. The existing +144 installed app does not contain this feature.",
+  "followup": "FreeCAD-tue: pre-existing thermal expansion callback shadowing, discovered independently during lint review.",
+  "limits": {"Oomakhi_building_opened_or_modified": false, "building_design_accepted": false, "material_property_values_qualified": false},
+  "post_build_metadata": "Final changes after the compiled implementation commit correct only the opt-in roundtrip probe's lookup of the object named Material (doc.Material is a built-in dictionary) and add verification records. No application implementation changed."
+}
