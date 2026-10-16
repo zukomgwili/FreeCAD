@@ -1,0 +1,52 @@
+{
+  "issue": "FreeCAD-0o1",
+  "date": "2026-10-16",
+  "status": "source_complete_built_verified_not_installed",
+  "implementation_commit": "3e2d8572a089fe1d5f05161a6b3df4a824a3c2be",
+  "compiled_version": "27.1.0dev49114+160 (Git)",
+  "built_executable": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD",
+  "evidence_directory": "/private/tmp/freecad-0o1.WblLlY",
+  "baseline": {
+    "project_runtime": "27.1.0dev49114+158 / 6ae93ef11fd4904c3bec57b74086e66049564b72",
+    "project_input_sha256": "2326d7332b74620259497e24caae9a6082ba21e7e6eecbb98496c0fd925a63ac",
+    "reproduced_before_implementation_inspection": "Hash-verified disposable r04 project copy. Native computeAreas calls on Structure394/395 raise ValueError: Part::FaceMaker result shape is null, although both material Shapes are valid and positive-volume. Exact native trace captured. One failing test in9.279s. No full project recompute or save.",
+    "minimized_feedback_loop": "pixi run build/release/bin/FreeCAD -P /private/tmp/freecad-0o1.WblLlY -t MinimalStructureProbe (isolated user/system configs and FREECAD_USER_HOME). Native profile -> Part::Extrusion -> ArchStructure -> Part::MultiFuse. Baseline fails in0.155s: material valid/volume1999999.9900574842mm3, structure Touched+Invalid, union null.",
+    "single_face_minimization": "One valid planar face,8edges. TechDraw projection and Draft findWires produce a closed outer loop plus two open inner pieces, endpoints approximately1.4914e-6mm apart. Part.makeFace raises the same ValueError. Native two-test face/wire probe fails in0.036s.",
+    "regression_red": {"methods": 8, "failures": 8, "errors": 7, "seconds": 0.222, "runtime": "+159, prior to implementation changes"},
+    "controls": "Native solid-box and simple hollow-box controls pass. Do not characterize this as a universal fuse or hollow-profile defect. Invalid material input is rejected both before and after the change."
+  },
+  "cause": "The optional horizontal projection handler caught Part.OCCError only, whereas native FaceMaker can raise ValueError. The exception escaped after applyShape assigned the valid material Shape, so document execution marked its owner Invalid and skipped dependent union execution. Error/early-return paths also bypassed restoration of the temporary TechDraw allowCrazyEdge preference.",
+  "fix": "Catch known OCCError/ValueError only within transient horizontal projection/face-union analysis. Report object label, failed projected face and original exception, explicitly mark area values unavailable, and reset all three area quantities using the existing failure convention. Restore exact preference presence/value in finally, including unexpected exceptions. Do not heal, replace or change tolerances of the material Shape; do not swallow unexpected programming exceptions or material construction errors.",
+  "fixture": {
+    "path": "src/Mod/BIM/bimtests/fixtures/area_projection_open_loop.brep",
+    "bytes": 3431,
+    "sha256": "01cbcf693794daf96b52a0540e302ff7c3397da84917c99b09f7cc26ed4471a6",
+    "scope": "Only the minimized native face is committed, not the building document. Native profile/extrusion input constructs the disposable regression; no output-shape replacement or area substitute is used as a fix."
+  },
+  "verification": {
+    "release_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "targeted_app_methods": 8,
+    "BIM_and_Part": {"run": 648, "passed": 647, "expected_failures": 1, "unexpected_failures": 0, "seconds": 21.295, "BIM": 331, "Part": 317},
+    "expected_failure": "Existing tilted-beam cross-section Y-axis test; not introduced or weakened here.",
+    "full_ctest": {"registered": 2224, "passed": 2214, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 70.02, "excluded": [], "CocoaSaveSheet_passed": true},
+    "native_gui_initial": {"passed": 1, "failed": 0, "seconds": 1.457},
+    "native_gui_independent_cold_process": {"passed": 1, "failed": 0, "seconds": 1.411},
+    "native_gui_scope": "Saved covering/union status and shapes checked before target recompute; repeated ordinary recomputes remain Up-to-date, positive and valid with identical volumes. FCStd contains GuiDocument.xml. Native union viewport render inspected; no screenshot inferred from source geometry.",
+    "original_loops_and_previous_invalid_recovery": {"passed": 3, "failed": 0, "seconds": 9.395, "runtime_identity": "+160 / 3e2d8572a089fe1d5f05161a6b3df4a824a3c2be"},
+    "previous_invalid_recovery_detail": "Execute actual archived AreaCalculator from85f135fb34 on the minimized native chain, verify genuine Invalid structure and null union, save/reopen that failed document, then use fixed ordinary recompute. Both become Up-to-date and material volume remains1999999.9900574842mm3. No manually cleared error state or output-shape assignment.",
+    "geometry_preservation": "MaxComputeAreas0 and20 produce the same minimized material volume, bidirectional shape differences below1e-7mm3, and identical union volume. Normal10x20x30box retains VerticalArea1800mm2, HorizontalArea200mm2, PerimeterLength60mm.",
+    "error_paths": "Known OCCError/ValueError projection and combination failures reset quantities. Nonplanar-hole early return and successful computation restore absent/false/true preference states. Unexpected TypeError still propagates while restoring preference. Invalid material solid is not accepted by applyShape.",
+    "lint": "New Python tests pass flake8 --ignore=E266,W503 --max-line-length=100. Existing ArchComponent has26 baseline findings; normalized baseline/current diagnostics are identical. git diff --check passes.",
+    "review": "Main-agent review of exception scope, unchanged material validation, exact preference restoration, diagnostic semantics, real native dependency/persistence seam and fixture provenance. No delegated review claimed."
+  },
+  "project_boundary": {
+    "original_and_disposable_copy_unchanged_sha256_verified": true,
+    "final_project_probe": "Both original covering computeAreas calls return with actionable unavailable-area warnings. This direct analysis does not clear their serialized document execution errors and is not claimed to repair the building.",
+    "full_building_recompute_or_save_performed": false,
+    "reason": "Bead comments establish separate movement feedback in project relationships. Avoid triggering or presenting that as a geometry-preserving workaround. The minimal dependency chain provides isolated ordinary recompute/save/cold-open qualification.",
+    "building_or_drawing_acceptance": false
+  },
+  "followup": "FreeCAD-8y1 investigates supported projected-loop connectivity and genuine area/perimeter recovery. Whether the underlying issue is projection, expected raw-edge tolerance behavior or caller handling is not yet established. Zeroed unavailable quantities are not accepted measurements.",
+  "installation": "No installation command or application replacement performed. The source build still uses the repository Pixi dependency environment."
+}
