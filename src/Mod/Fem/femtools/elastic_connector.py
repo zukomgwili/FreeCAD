@@ -62,7 +62,6 @@ def rigid_body_nodes(body, mesh):
         raise ValueError("Rigid Body ports require explicit CAD region references.")
     if not mesh.FemMesh.Volumes:
         raise ValueError("Rigid Body connector ports require a 3D solid mesh, not shells or beams.")
-    nodes = set()
     for owner, names in body.References:
         if owner is None or not names:
             raise ValueError("Rigid Body region references must be explicit and resolvable.")
@@ -71,10 +70,10 @@ def rigid_body_nodes(body, mesh):
             if not mapped and (";" in name or re.fullmatch(
                     r"(?:Vertex|Edge|Face|Solid)[1-9][0-9]*", indexed) is None):
                 raise ValueError(f"Unresolved Rigid Body region {owner.Name}.{name}.")
-            selected = meshtools.get_femnodes_by_refshape(mesh.FemMesh, (owner, [name]))
-            if not selected:
-                raise ValueError(f"Rigid Body region {owner.Name}.{name} has no mesh nodes.")
-            nodes.update(selected)
+    nodes = set(meshtools.get_femnodes_by_femobj_with_references(
+        mesh.FemMesh, {"Object": body}, mesh))
+    if not nodes:
+        raise ValueError("Rigid Body region has no mesh nodes.")
     points = [mesh.FemMesh.Nodes[node] for node in sorted(nodes)]
     if len(points) < 3:
         raise ValueError("A rigid port requires at least three non-collinear solid-mesh nodes.")

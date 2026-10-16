@@ -281,6 +281,10 @@ class GmshTools(ObjectTools):
         return self.process
 
     def update_properties(self):
+        if (self.obj.Shape != self.part_obj
+                or getattr(self, "_input_geometry_signature", None)
+                != meshtools.get_mesh_geometry_signature(self.part_obj)):
+            raise GmshError("Geometry or ownership changed during meshing; regenerate the mesh.")
         fem_mesh = Fem.FemMesh()
         if self.group_elements and ".vtk" in self.temp_file_mesh:
             fem_mesh.read(self.temp_file_mesh, vtk_cell_group_array="CellEntityIds")
@@ -291,6 +295,25 @@ class GmshTools(ObjectTools):
 
         self.rename_groups()
         self.postprocess_groups()
+        # Native FCStd/UNV persistence omits zero-dimensional elements. Preserve
+        # generated vertex ownership as native node groups, derived only from
+        # the imported 0D connectivity (including independent coincident nodes).
+        for group in self.obj.FemMesh.Groups:
+            mesh = self.obj.FemMesh
+            name = mesh.getGroupName(group)
+            if re.fullmatch(r"Vertex[1-9][0-9]*", name) and (
+                    mesh.getGroupElementType(group) == "0DElement"):
+                nodes = {node for element in mesh.getGroupElements(group)
+                         for node in mesh.getElementNodes(element)}
+                mesh.removeGroup(group)
+                node_group = mesh.addGroup(name, "Node")
+                mesh.addGroupElements(node_group, sorted(nodes))
+        # Bind each original mesh entity group to a native persistent CAD
+        # reference, not the current index or an analysis object's cached name.
+        # LinkSub remapping preserves ownership through save/reopen and reorder.
+        self.obj.ElementGroupNames = list(self.group_indices)
+        self.obj.ElementGroupReferences = [(self.part_obj, list(self.group_indices))]
+        self.obj.ElementGroupGeometry = self._input_geometry_signature
 
     def create_mesh(self):
         # for backward compatibility only
@@ -1602,6 +1625,7 @@ class GmshTools(ObjectTools):
         geo.write("\n")
 
     def write_part_file(self):
+        self._input_geometry_signature = meshtools.get_mesh_geometry_signature(self.part_obj)
         global_pla = self.part_obj.getGlobalPlacement()
         geom = self.part_obj.getPropertyOfGeometry()
         # get partner shape
@@ -1839,16 +1863,7 @@ class GmshTools(ObjectTools):
 
     def read_and_set_new_mesh(self):
         if not self.error:
-            fem_mesh = Fem.FemMesh()
-            if self.group_elements and ".vtk" in self.temp_file_mesh:
-                fem_mesh.read(self.temp_file_mesh, vtk_cell_group_array="CellEntityIds")
-            else:
-                fem_mesh.read(self.temp_file_mesh)
-
-            self.obj.FemMesh = fem_mesh
-            self.rename_groups()
-            self.postprocess_groups()
-
+            self.update_properties()
             Console.PrintMessage("  New mesh was added to the mesh object.\n")
         else:
             Console.PrintError("No mesh was created.\n")

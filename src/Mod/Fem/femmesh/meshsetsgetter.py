@@ -312,7 +312,8 @@ class MeshSetsGetter:
         for femobj in self.member.cons_rigidbody:
             # femobj --> dict, FreeCAD document object is femobj["Object"]
             print_obj_info(femobj["Object"])
-            femobj["Nodes"] = meshtools.get_femnodes_by_femobj_with_references(self.femmesh, femobj)
+            femobj["Nodes"] = meshtools.get_femnodes_by_femobj_with_references(
+                self.femmesh, femobj, self.mesh_object)
             # add nodes to constraint_conflict_nodes, needed by constraint plane rotation
             for node in femobj["Nodes"]:
                 self.constraint_conflict_nodes.append(node)

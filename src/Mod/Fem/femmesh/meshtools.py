@@ -29,6 +29,11 @@ __url__ = "https://www.freecad.org"
 ## \addtogroup FEM
 #  @{
 
+import hashlib
+import json
+import re
+from types import SimpleNamespace
+
 import numpy as np
 
 import FreeCAD
@@ -37,7 +42,10 @@ from femtools import geomtools
 
 
 # ************************************************************************************************
-def get_femnodes_by_femobj_with_references(femmesh, femobj):
+def get_femnodes_by_femobj_with_references(femmesh, femobj, mesh_object=None):
+    obj = femobj["Object"]
+    if obj.isDerivedFrom("Fem::ConstraintRigidBody"):
+        return get_femnodes_by_owned_references(femmesh, obj, mesh_object)
     node_set = []
     if femmesh.GroupCount:
         node_set = get_femmesh_groupdata_sets_by_name(femmesh, femobj, "Node")
@@ -59,6 +67,187 @@ def get_femnodes_by_femobj_with_references(femmesh, femobj):
     # use sorted to be sure the order is the same on different runs
     # be aware a sorted set returns a list, because set are not sorted by default
     return sorted(set(node_set))
+
+
+def get_mesh_geometry_signature(part):
+    """Native global BRep and input-link ownership, not lazily populated names."""
+    shape = part.Shape.copy()
+    if hasattr(part, "getGlobalPlacement"):
+        shape.Placement = part.getGlobalPlacement()
+    shape.isValid()  # Normalize native check state on the copy, not the source.
+    graph = {}
+
+    def encode(value):
+        if hasattr(value, "Document") and hasattr(value, "Name"):
+            if value.Document != part.Document and not value.Document.FileName:
+                raise ValueError(
+                    "Save external geometry documents before generating mesh ownership.")
+            key = ("local" if value.Document == part.Document else value.Document.FileName,
+                   value.Name)
+            if key not in graph:
+                graph[key] = {}  # Mark before following potentially shared links.
+                graph[key].update({name: encode(value.getPropertyByName(name))
+                                   for name in sorted(value.PropertiesList)
+                                   if "Link" in value.getTypeIdOfProperty(name)})
+            return key
+        if isinstance(value, (list, tuple)):
+            return [encode(item) for item in value]
+        return value
+
+    encode(part)
+    data = [shape.exportBrepToString(), sorted(graph.items())]
+    return hashlib.sha256(json.dumps(data).encode("utf-8")).hexdigest()
+
+
+def _same_occurrence_geometry(first, second):
+    """Compare full kernel geometry after native history, not only vertices/COM.
+
+    A closed curve can have one seam vertex shared with a different curve.
+    Common length/area/volume must cover both candidates at kernel precision.
+    This only discriminates native-history occurrences; it cannot create one.
+    """
+    if first.ShapeType != second.ShapeType:
+        return False
+    if first.isSame(second):
+        return True
+    precision = FreeCAD.Base.Precision.confusion()
+    if first.ShapeType == "Vertex":
+        return (first.Point - second.Point).Length <= precision
+    dimension = {"Edge": 1, "Face": 2, "Solid": 3}.get(first.ShapeType)
+    if dimension is None:
+        return False
+    measure = {1: "Length", 2: "Area", 3: "Volume"}[dimension]
+    left, right = getattr(first, measure), getattr(second, measure)
+    scale = max(1., first.BoundBox.DiagonalLength, second.BoundBox.DiagonalLength)
+    tolerance = precision * scale ** (dimension - 1)
+    if min(left, right) <= tolerance or abs(left - right) > tolerance:
+        return False
+    common = getattr(first.common(second), measure)
+    return abs(common - left) <= tolerance and abs(common - right) <= tolerance
+
+
+def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
+    """Resolve current rigid-region references using owned mesh connectivity.
+
+    Coordinates may validate a result, but cannot distinguish independent
+    coincident mesh owners. Never use cached analysis aggregate groups here.
+    The optional mesh object keeps the historic two-argument API usable for a
+    constraint in an analysis with one mesh, while writers pass it explicitly.
+    """
+    if mesh_object is None:
+        meshes = {member for parent in obj.InList
+                  if parent.isDerivedFrom("Fem::FemAnalysis")
+                  for member in parent.Group if member.isDerivedFrom("Fem::FemMeshObject")}
+        if len(meshes) > 1:
+            raise ValueError(f"{obj.Name}: ambiguous mesh ownership; specify the mesh object.")
+        mesh_object = next(iter(meshes), None)
+    part = getattr(mesh_object, "Shape", None)
+    original = list(getattr(mesh_object, "ElementGroupNames", []))
+    references = [(owner, name) for owner, names in
+                  getattr(mesh_object, "ElementGroupReferences", []) for name in names]
+    signature = getattr(mesh_object, "ElementGroupGeometry", "")
+    if not part:
+        if original or references or signature:
+            raise ValueError(f"{obj.Name}: missing mesh geometry owner; regenerate the mesh.")
+        return sorted(get_femnodes_by_references(femmesh, obj.References))
+
+    for owner, names in obj.References:
+        if owner is None or not names:
+            raise ValueError(f"{obj.Name}: unresolved rigid-region references.")
+        for name in names:
+            if not name:
+                continue  # Whole shape references are supported by native RBEs.
+            _, mapped, indexed = owner.resolveSubElement(name)
+            if not mapped and (";" in name or re.fullmatch(
+                    r"(?:Vertex|Edge|Face|Solid)[1-9][0-9]*", indexed) is None):
+                raise ValueError(f"{obj.Name}: unresolved region {owner.Name}.{name}.")
+            shape = owner.getSubObject(name)
+            if shape is None or not hasattr(shape, "isNull") or shape.isNull():
+                raise ValueError(f"{obj.Name}: unresolved region {owner.Name}.{name}.")
+
+    if original or references or signature:
+        if not signature or signature != get_mesh_geometry_signature(part):
+            raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
+        own_mesh = mesh_object.FemMesh
+        ids = femmesh.getIdByElementType("All")
+        if (femmesh.Nodes != own_mesh.Nodes or ids != own_mesh.getIdByElementType("All")
+                or any(femmesh.getElementNodes(e) != own_mesh.getElementNodes(e) for e in ids)):
+            raise ValueError(f"{obj.Name}: supplied mesh does not match its geometry owner.")
+
+        def group_data(mesh):
+            return sorted((mesh.getGroupName(g), mesh.getGroupElementType(g),
+                           mesh.getGroupElements(g)) for g in mesh.Groups)
+        if group_data(femmesh) != group_data(own_mesh):
+            raise ValueError(f"{obj.Name}: supplied mesh groups do not match their geometry owner.")
+        wanted = []
+        for owner, names in obj.References:
+            for name in names:
+                selected = owner.getSubObject(name)
+                expected = len(selected.Solids) if selected.ShapeType == "Compound" else 1
+                current = get_reference_group_elements(
+                    SimpleNamespace(Name=obj.Name, References=[(owner, [name])]), part)[1]
+                if not current or len(current) != expected:
+                    raise ValueError(f"{obj.Name}: current reference is absent from mesh geometry.")
+                wanted.extend(current)
+        if len(original) != len(references) or len(original) != len(set(original)):
+            raise ValueError(f"{obj.Name}: invalid mesh group provenance; regenerate the mesh.")
+        current_groups = {}
+        for old, (owner, name) in zip(original, references):
+            if owner != part:
+                raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
+            current_groups.setdefault(name, []).append(old)
+        groups = {}
+        for group in femmesh.Groups:
+            groups.setdefault(femmesh.getGroupName(group), []).append(group)
+        result = set()
+        for name in wanted:
+            matches = current_groups.get(name, [])
+            if len(matches) != 1 or len(groups.get(matches[0], [])) != 1:
+                raise ValueError(f"{obj.Name}: missing or ambiguous mesh group for {name}; remesh.")
+            group = groups[matches[0]][0]
+            members = femmesh.getGroupElements(group)
+            if not members:
+                raise ValueError(f"{obj.Name}: empty mesh group for {name}; remesh.")
+            kind = femmesh.getGroupElementType(group)
+            if kind == "Node" and not name.startswith("Vertex"):
+                raise ValueError(f"{obj.Name}: wrong mesh group type for {name}; remesh.")
+            if kind == "Node":
+                nodes = set(members)
+            else:
+                expected_type = next((prefix for prefix in ("Face", "Edge", "Solid", "Vertex")
+                                      if name.startswith(prefix)), None)
+                allowed_kind = {"Face": "Face", "Edge": "Edge", "Solid": "Volume",
+                                "Vertex": "0DElement"}.get(expected_type)
+                if kind not in ("All", allowed_kind):
+                    raise ValueError(f"{obj.Name}: wrong mesh group type for {name}; remesh.")
+                entities = {"Face": femmesh.Faces, "Edge": femmesh.Edges,
+                            "Solid": femmesh.Volumes,
+                            "Vertex": femmesh.getIdByElementType("0DElement")}.get(expected_type)
+                if entities is not None and not set(members).issubset(entities):
+                    raise ValueError(f"{obj.Name}: invalid mesh connectivity for {name}; remesh.")
+                nodes = {node for element in members for node in femmesh.getElementNodes(element)}
+            # Validate, never repair/filter, against the current positioned CAD
+            # entity. This rejects movement without a remesh, retaining owner IDs.
+            current = set(get_femnodes_by_refshape(femmesh, (part, [name])))
+            if not nodes or not nodes.issubset(current):
+                raise ValueError(f"{obj.Name}: stale mesh for current {name}; regenerate the mesh.")
+            result.update(nodes)
+        return sorted(result)
+
+    # Ungrouped/imported meshes retain the existing unambiguous geometric route.
+    # With coincident CAD entities, however, it cannot establish ownership.
+    for owner, names in obj.References:
+        for name in names:
+            selected = sub_shape_at_global_placement(owner, name)
+            shapes = selected.Solids if selected.ShapeType == "Compound" else [selected]
+            for shape in shapes:
+                candidates = {"Face": part.Shape.Faces, "Edge": part.Shape.Edges,
+                              "Solid": part.Shape.Solids,
+                              "Vertex": part.Shape.Vertexes}[shape.ShapeType]
+                if sum(_same_occurrence_geometry(shape, other) for other in candidates) > 1:
+                    raise ValueError(
+                        f"{obj.Name}: coincident regions need owned mesh groups; remesh.")
+    return sorted(get_femnodes_by_references(femmesh, obj.References))
 
 
 # ************************************************************************************************
@@ -1779,7 +1968,10 @@ def _get_compound_reference_element(aPart, parent, child, shape_type):
     """
     if not aPart.isDerivedFrom("Part::Compound") or parent.Document != aPart.Document:
         return None
-    source_name = parent.Shape.getElementMappedName(child) or child
+    source_parent = parent.getLinkedObject(True) if parent.isDerivedFrom("App::Link") else parent
+    source_name = source_parent.Shape.getElementMappedName(child) or child
+    occurrence_shape = (sub_shape_at_global_placement(parent, child)
+                        if source_parent != parent else None)
     matches = set()
     for indexed in set(aPart.Shape.ElementMap.values()):
         if not indexed.startswith(shape_type):
@@ -1795,13 +1987,18 @@ def _get_compound_reference_element(aPart, parent, child, shape_type):
             visited.add(state)
             history = feature.getElementHistory(element, recursive=False)
             for owner, source, _intermediates in history:
-                if owner == parent and source == source_name:
+                if owner == source_parent and source == source_name and (
+                    occurrence_shape is None or _same_occurrence_geometry(
+                        aPart.Shape.getElement(indexed), occurrence_shape)
+                ):
                     matches.add(indexed)
             if not history:
                 break
             feature, element, _intermediates = history[-1]
     if len(matches) > 1:
         raise ValueError(f"Ambiguous compound reference: matches {', '.join(sorted(matches))}")
+    if not matches and source_parent != parent:
+        raise ValueError("Unresolved linked occurrence history; select the meshed subelement.")
     return next(iter(matches)) if matches else None
 
 

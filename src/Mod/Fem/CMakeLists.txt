@@ -405,6 +405,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_security.py
     femtest/app/test_sectionprint.py
     femtest/app/test_elastic_connector.py
+    femtest/app/test_rigid_region_ownership.py
     femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
     femtest/app/test_solver_mystran.py

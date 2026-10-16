@@ -49,11 +49,24 @@ class MeshGmsh(base_fempythonobject.BaseFemPythonObject):
 
         for prop in self._get_properties():
             prop.add_to_object(obj)
+        self._protect_group_provenance(obj)
 
         obj.addExtension("Fem::WorkerExtensionPython")
 
     def _get_properties(self):
         prop = []
+
+        for name, kind, description in (
+            ("ElementGroupNames", "App::PropertyStringList",
+             "Original CAD entity group names in the generated mesh"),
+            ("ElementGroupReferences", "App::PropertyLinkSubListGlobal",
+             "Persistent native CAD identities corresponding to the generated entity groups"),
+            ("ElementGroupGeometry", "App::PropertyString",
+             "Geometry signature at entity group generation; changed geometry requires remeshing"),
+        ):
+            prop.append(_PropHelper(type=kind, name=name, group="Mesh Provenance",
+                                    doc=description,
+                                    value="" if kind == "App::PropertyString" else []))
 
         prop.append(
             _PropHelper(
@@ -320,3 +333,9 @@ class MeshGmsh(base_fempythonobject.BaseFemPythonObject):
                 obj.MeshRefinementList = obj.MeshRefinementList + value
             except Base.PropertyError:
                 pass
+        self._protect_group_provenance(obj)
+
+    @staticmethod
+    def _protect_group_provenance(obj):
+        for name in ("ElementGroupNames", "ElementGroupReferences", "ElementGroupGeometry"):
+            obj.setEditorMode(name, 1)
