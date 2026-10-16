@@ -523,7 +523,10 @@ class MeshSetsGetter:
             obj = femobj["Object"]
             result = self._get_elements(obj)
 
-            femobj["SectionPrintFaces"] = result
+            femobj["SectionPrintFaces"] = [
+                meshtools.get_sectionprint_one_sided_faces(self, face_set)
+                for face_set in result
+            ]
 
     def get_constraints_heatflux_faces(self):
         for femobj in self.member.cons_heatflux:

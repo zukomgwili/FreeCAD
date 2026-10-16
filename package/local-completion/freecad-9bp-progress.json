@@ -1,0 +1,69 @@
+{
+  "issue": "FreeCAD-9bp",
+  "date": "2026-10-16",
+  "status": "in_progress_stock_equilibrium_acceptance_failed",
+  "installed": false,
+  "user_completion_boundary": "Keep FreeCAD-9bp open until the stock example meets equilibrium. Do not separate the accuracy limitation and close the export bug.",
+  "source_base_commit": "ca5431522509c6f72436f3664d22f2933a8642ab",
+  "baseline": {
+    "application": "/Applications/FreeCAD-27.1.0.app",
+    "compiled_version": "27.1.0dev49114+141",
+    "compiled_commit": "d914ca25e4e1dadb2fa763a0a8dad0e4ef634377",
+    "calculix_version": "2.23",
+    "unchanged_stock_example": "femexamples.constraint_section_print.setup(test_mode=True)",
+    "actual_solver_test_mode": false,
+    "cli_and_native_reproduction": "Both solve/import/save successfully but fail physical section assertions. Native test failed in3.242s with mean-normal norm squared1.7014383912566501e-32.",
+    "stock_section_force_near_zero": true,
+    "stock_section_mean_normal_near_zero": true,
+    "stock_reported_area_mm2": 704.9817
+  },
+  "confirmed_export_cause": {
+    "location": "femmesh.meshsetsgetter.get_constraints_sectionprint_faces",
+    "pattern": "Generic coincident-node search returns both incident volume faces for an internal patch; Section Print passed both to the unchanged writer, causing cancellation.",
+    "minimal_red": "Two tetrahedra, five nodes and one triangular CAD face. Getter returns[10,S1] and[20,S1], before any writer/solver; test fails0.075s.",
+    "partial_correction": "SectionPrint-specific pairing by full facet node IDs and selection of the volume whose outward normal agrees with the referenced CAD face. Keep sole external incident faces; reject non-manifold/ambiguous pairs. Other constraint selection and CalculiX mechanics/results are unchanged."
+  },
+  "source_validation": {
+    "runtime": "Existing build/release application libraries with current working-tree FEM Python copied by the actual FemScriptsTarget CMake target; not a new compiled or installed release.",
+    "regressions": "11 passed in0.261s, including all six supported solid face-mask families, quadratic nodes, orientation reversal, placed references, external and shell preservation, multiple section independence, ambiguous/non-manifold rejection, cold save/reopen physical ownership, and real CalculiX constant-stress signed force/moment/area/normal equilibrium.",
+    "old_installed_runtime_control": "The previous7-test subset fails6 tests against the unchanged installed code, including the exact-equilibrium benchmark.",
+    "full_fem_suite": "106 passed in19.158s, including all11 new cases and the updated existing writer regression.",
+    "golden_fixture": "Updated only the expected generated SectionPrint surface to omit the opposite10 incident sides. No runtime input-deck editing."
+  },
+  "unresolved_unchanged_stock_result": {
+    "strict_probe": "tests/src/Mod/Fem/StockSectionEquilibrium.py",
+    "status": "FAIL,0.562s",
+    "expected_force_N": [0, -60000, 0],
+    "reported_force_N": [13770.33, -74963.27, -65.11267],
+    "force_vector_relative_residual": 0.3389221793099711,
+    "expected_origin_moment_Nmm": [0, 0, -3420000],
+    "reported_origin_moment_Nmm": [-1674.982, 9042.052, -4475501],
+    "cad_area_mm2": 352.4908302398634,
+    "reported_area_mm2": 352.4908,
+    "cad_normal": [-0.7618388362742644, 0.6477666150275688, 0],
+    "reported_normal": [-0.7618388, 0.6477666, 0],
+    "interpretation": "One-sided export fixes cancellation, area and normal, but the shipped coarse mesh still fails the user's equilibrium gate. Do not accept nonzero resultants or widen tolerances to call this complete."
+  },
+  "supported_method_check": {
+    "primary_source": "https://www.dhondt.de/ccx_2.23.pdf",
+    "sections": ["5.18, pages87-89", "7.115, pages591-593"],
+    "finding": "SECTION PRINT integrates stresses interpolated from extrapolated/averaged nodal stresses. The manual demonstrates substantial coarse curved-mesh force/moment error and improvement after refinement. SOF/SOM/SOAREA request the same calculation; listed options control surface/name/output timing, not equilibrium recovery."
+  },
+  "disposable_native_gmsh_diagnostic_only": [
+    {"mesh_size_mm": 5, "volume_elements": 6432,
+     "force_N": [-1747.031, -60985.74, -12.04118],
+     "relative_force_residual": 0.03343295800959481},
+    {"mesh_size_mm": 2.5, "volume_elements": 44575,
+     "force_N": [-819.296, -60238.93, -28.95381],
+     "relative_force_residual": 0.014231926195368678}
+  ],
+  "limits": {
+    "shipped_example_and_mesh_assets_changed": false,
+    "solver_or_result_recovery_modified": false,
+    "original_house_opened_or_modified": false,
+    "building_design_accepted": false,
+    "current_installed_app_changed": false,
+    "remaining_decision": "Permission to replace/refine the shipped example mesh and specify convergence/equilibrium tolerance, or authority for a different solver method. Existing immutable stock mesh does not pass; do not install as a completed fix."
+  },
+  "evidence_directory": "/private/tmp/freecad-9bp.nMCjur"
+}

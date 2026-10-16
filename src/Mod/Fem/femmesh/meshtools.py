@@ -1564,6 +1564,57 @@ def get_elements(sets_getter, ref_pair, face_masks, edge_masks):
     return (*elem, is_sub_element)
 
 
+def get_sectionprint_one_sided_faces(sets_getter, face_set):
+    """Select one incident solid face per patch for signed section resultants.
+
+    The generic node search deliberately returns both sides of internal faces
+    (other constraints need them). Section Print instead needs the volume whose
+    outward face normal follows the referenced CAD face normal. A boundary patch
+    has only one incident volume and must be kept regardless of CAD orientation.
+    Shell and non-face sets retain their existing writer representation.
+    """
+    refs, sides, is_sub_element = face_set
+    if not is_sub_element or not is_solid_femmesh(sets_getter.femmesh):
+        return face_set
+    face = refs[0].getSubObject(refs[1][0])
+    if face.ShapeType != "Face":
+        return face_set
+
+    mask_names = {4: "tetra4", 10: "tetra10", 8: "hexa8", 20: "hexa20",
+                  6: "penta6", 15: "penta15"}
+    patches = {}
+    for element, side in sides:
+        nodes = sets_getter.femelement_table[element]
+        masks = sets_getter.face_masks["mask_" + mask_names[len(nodes)]]
+        mask = next(mask for mask, number in masks.items() if number == side)
+        # Include midside nodes: different quadratic patches must not be merged.
+        patch = frozenset(node for index, node in enumerate(nodes) if mask & (1 << index))
+        patches.setdefault(patch, []).append((element, side))
+
+    def center(nodes):
+        return sum((sets_getter.femnodes_mesh[node] for node in nodes), FreeCAD.Vector()) / len(nodes)
+
+    keep = set()
+    for nodes, incident in patches.items():
+        if len(incident) == 1:
+            keep.add(incident[0])
+            continue
+        if len(incident) != 2:
+            raise ValueError("Section Print requires a manifold section: more than two incident volumes")
+        point = center(nodes)
+        normal = face.normalAt(*face.Surface.parameter(point))
+        aligned = []
+        for element, side in incident:
+            outward = point - center(sets_getter.femelement_table[element])
+            if normal.dot(outward) > 1e-10 * normal.Length * outward.Length:
+                aligned.append((element, side))
+        if len(aligned) != 1:
+            raise ValueError("Section Print cannot determine a unique oriented incident volume")
+        keep.add(aligned[0])
+
+    return refs, [side for side in sides if tuple(side) in keep], is_sub_element
+
+
 def get_elements_by_references(sets_getter, femobj_ref):
     node_set = []
     result = []
