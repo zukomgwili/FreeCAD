@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-16",
+  "status": "built_installed_and_verified",
+  "installation_bead": "FreeCAD-o7f",
+  "included_fix": "FreeCAD-eb7",
+  "fix_commit": "7082cb66bcc349ea2d82d09cbb538cf1b803cc24",
+  "compiled_commit": "3d806095e903b85eccee66a8d84fdcc695b55d68",
+  "compiled_version": "27.1.0dev49114+173 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "application_modified_local": "2026-10-16 22:41:19 BST",
+  "previous_application_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-eb7-3d806095e9.app",
+  "backup_version": "+170 /63a753404a7ede248606b64250e85e34bbafc943",
+  "build": {
+    "type": "Release",
+    "architecture": "arm64",
+    "all_enabled_targets_built": true,
+    "clean_from_scratch_claimed": false,
+    "build_exit": 0,
+    "install_exit": 0,
+    "latest_branch_up_to_date_before_build": true,
+    "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "pixi_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7"
+  },
+  "installation": {
+    "staging": "Copied the existing app to disposable staging. CMake DESTDIR isolated the complete install, including 11 absolute Pixi namespace destinations. Merged only the staged application payload. Generated namespace code files compare equal to the existing live namespace; no dependency-prefix update was needed.",
+    "launcher": "Preserved native launcher executable content. GUI wrapper changes are confined to the renewed code signature; all 34240 pre-signature bytes match the prior wrapper. Command wrapper bytes remain identical.",
+    "cocoa_route_correction": "The current native launchers select the external build-2 patched Cocoa plugin directly. There is no app-local qt-cocoa overlay. This corrects the imprecise overlay-preservation wording in the earlier all-beads installation receipt; the historical overlay-dependent launcher was not recompiled or installed.",
+    "quicklook": "Captured and explicitly reapplied all four original sandbox/bookmark/download/user-selected read-only entitlements to both QuickLook extensions after deep signing, then signed the outer bundle and verified deep/strict signatures.",
+    "replacement": "Confirmed no processes were running from the live or staged app. Used same-filesystem guarded rename: moved the original intact to a new backup, then placed the verified stage at the application path. The swap restores the original if the second rename fails. Refreshed the outer bundle timestamp for Finder.",
+    "cache_policy": "Moved six generated PySide bytecode files in their cache directory to recoverable scratch before signing. Resources is read-only and contains no pyc or __pycache__ paths after validation.",
+    "staging_warning": "Initial ditto reported permission errors for three library-symlink metadata entries. Before merging the new payload, checksum comparison and the copied baseline strict signature passed, and the symlinks were independently verified intact. No missing payload or dependency mutation remained.",
+    "local_note": "Refreshed LOCAL-INSTALL.txt with the actual compiled revision, external dependency requirement, Cocoa route and remeshing guidance."
+  },
+  "verification": {
+    "ctest": {"registered": 2241, "passed": 2231, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 59.30, "excluded": []},
+    "staged_FEM_and_identity": {"run": 233, "failed": 0, "seconds": 35.612},
+    "staged_native_create_and_identity": {"run": 2, "failed": 0, "seconds": 2.193},
+    "staged_independent_native_cold_reopen_and_identity": {"run": 2, "failed": 0, "seconds": 1.010},
+    "installed_cli": {"run": 1035, "unexpected_failures": 0, "skipped": 7, "existing_expected_failures": 1, "seconds": 63.790, "suites": ["InstalledIdentity", "TestArch", "TestDraft", "TestFemApp", "TestPartApp", "StringHasher"]},
+    "installed_eb7_native_create_and_identity": {"run": 2, "failed": 0, "seconds": 2.291},
+    "installed_eb7_independent_native_cold_reopen_and_identity": {"run": 2, "failed": 0, "seconds": 1.073},
+    "installed_connector_material_GUI_and_identity": {"run": 15, "failed": 0, "seconds": 1.959},
+    "installed_stock_equilibrium": {"run": 2, "failed": 0, "seconds": 11.814, "force_relative_residual": 0.0044106791171284335, "origin_moment_relative_residual": 0.0008129863678002713, "example_relative_tolerance": 0.01},
+    "identity": "CLI and native GUI assert the exact compiled revision, application home and actual installed module origins for core/FEM helpers; GUI additionally checks BIM/Draft/material helpers. All 14 new ownership regressions are included in the installed TestFemApp suite.",
+    "eb7_oracle": "Exact original R26 witness, unchanged SHA256 519cd5777e278e29b8186ba4f5b1132022019e5218b5e6434383fb3541c16b18. Real Gmsh with CoherenceMesh=False, second-order max40/min20mm and analysis groups. Independent raw VTK connectivity gives 18 quadratic triangles and 47 nodes for each face, zero intersection and coincident coordinates. Public getter, explicit-context getter, actual MeshSetsGetter, rigid-port validator and connector resolution all match those owners.",
+    "eb7_cold_persistence": "Installed create and separate cold-reopen processes retain 881 nodes, 401 volumes, 308 faces and all 56 groups. Exact owned node IDs match before manual recompute and after forced recompute. Successor native file is saved; the original cold input remains unchanged. No material, load, solver object or hand-authored deck is introduced by this ownership witness.",
+    "runtime_cocoa_plugin": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+    "runtime_cocoa_sha256": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704",
+    "final_signatures": "Installed application and retained backup pass codesign --verify --deep --strict. Installed signature is checked again after native GUI, solver and broad regression tests.",
+    "independent_review": "Read-only staging and installed audits confirm source-byte equality for the seven installed eb7 production/test/registration files, unique test discovery, protected/cache-free Resources, retained entitlements, correct external plugin route and intact original backup hashes. No blocking findings."
+  },
+  "installed_sha256": {
+    "MacOS_FreeCAD": "550b313235df91c1a88883df99e552f2f7864662d58963d6894b3cfe7f33f530",
+    "MacOS_FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+    "meshtools": "08bb15ced5a0fb7852ffcd3485e5dbcea53579a9cd5082258fb869f38ffc2de7",
+    "LOCAL_INSTALL": "26fc8d77f1bfa162b2fc8628e18e3ffaebc0bf30277ace0e7b46218d359680da"
+  },
+  "evidence_directory": "/private/tmp/freecad-eb7-install.HpayX0",
+  "source_validation": "package/local-completion/freecad-eb7-validation.json",
+  "source_receipt_note": "The source-only receipt retains its historical not-installed state; this later installation receipt supersedes that installation status. Completion metadata is committed after the compiled revision without changing the installed binary identity.",
+  "operating_note": "Affected existing independently meshed coincident regions require remeshing in this installed build to generate persistent native ownership metadata. Genuine-overlap rejection remains enabled.",
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "dependency_prefix_still_required": true,
+    "user_profiles_or_building_documents_modified": false,
+    "physical_joint_or_house_design_accepted": false,
+    "complete_Oomakhi_method_requalified": false
+  }
+}
