@@ -44,6 +44,8 @@ from femtest.app.test_gmsh import TestGMSHRefinements as FemTest16
 from femtest.app.test_security import TestPostDataObjectSecurity as FemTest17
 from femtest.app.test_sectionprint import TestSectionPrint as FemTest18
 from femtest.app.test_sectionprint import TestSectionPrintEquilibrium as FemTest19
+from femtest.app.test_material_orthotropic import TestMaterialOrthotropic as FemTest20
+from femtest.app.test_material_orthotropic import TestMaterialOrthotropicCalculiX as FemTest21
 
 # dummy usage to get flake8 and lgtm quiet
 False if FemTest01.__name__ else True
@@ -64,3 +66,5 @@ False if FemTest16.__name__ else True
 False if FemTest17.__name__ else True
 False if FemTest18.__name__ else True
 False if FemTest19.__name__ else True
+False if FemTest20.__name__ else True
+False if FemTest21.__name__ else True

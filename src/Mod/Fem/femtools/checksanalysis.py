@@ -36,6 +36,7 @@ import FreeCAD
 from FreeCAD import Units
 
 from . import femutils
+from . import material_orthotropic
 
 
 def check_member_for_solver_calculix(analysis, solver, mesh, member):
@@ -108,7 +109,18 @@ def check_member_for_solver_calculix(analysis, solver, mesh, member):
     for m in member.mats_linear:
         mat_map = m["Object"].Material
         mat_obj = m["Object"]
-        if mat_obj.Category == "Solid":
+        if material_orthotropic.is_orthotropic(mat_obj):
+            errors = material_orthotropic.validation_errors(mat_obj)
+            if (solver.ModelSpace != "3D" or member.geos_beamsection
+                    or member.geos_fluidsection
+                    or (member.geos_shellthickness and solver.ExcludeBendingStiffness)):
+                errors.append("Orthotropic elasticity supports 3D solid/shell analyses only.")
+            if (solver.MaterialNonlinearity and mat_obj.Nonlinear
+                    and not mat_obj.Nonlinear.Suppressed):
+                errors.append("Orthotropic elasticity cannot use isotropic plasticity.")
+            for error in errors:
+                message += f"{mat_obj.Label}: {error}\n"
+        elif mat_obj.Category == "Solid":
             if "YoungsModulus" in mat_map:
                 # print(Units.Quantity(mat_map["YoungsModulus"]).Value)
                 if not Units.Quantity(mat_map["YoungsModulus"]).Value:

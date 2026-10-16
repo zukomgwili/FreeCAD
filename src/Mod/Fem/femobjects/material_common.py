@@ -55,6 +55,7 @@ class MaterialCommon(base_fempythonobject.BaseFemPythonObject):
             prop.add_to_object(obj)
 
         obj.addExtension("App::SuppressibleExtensionPython")
+        self._update_elasticity_editor(obj)
 
     def _get_properties(self):
         prop = []
@@ -87,6 +88,40 @@ class MaterialCommon(base_fempythonobject.BaseFemPythonObject):
                 value="",
             )
         )
+
+        prop.append(_PropHelper(
+            type="App::PropertyEnumeration", name="ElasticityModel", group="Elasticity",
+            doc="Mechanical elasticity model (orthotropic export requires CalculiX)",
+            value=["Isotropic", "Orthotropic"],
+        ))
+        for name in ("YoungsModulus1", "YoungsModulus2", "YoungsModulus3",
+                     "ShearModulus12", "ShearModulus13", "ShearModulus23"):
+            prop.append(_PropHelper(
+                type="App::PropertyPressure", name=name, group="Orthotropic elasticity",
+                doc="Directional elastic modulus in the material coordinate system",
+                value="0 MPa",
+            ))
+        for pair in ("12", "13", "23"):
+            prop.append(_PropHelper(
+                type="App::PropertyFloat", name="PoissonRatio" + pair,
+                group="Orthotropic elasticity",
+                doc=f"Minus strain in direction {pair[1]} divided by strain in direction "
+                    f"{pair[0]} under uniaxial stress in direction {pair[0]}",
+                value=0.0,
+            ))
+        prop.append(_PropHelper(
+            type="App::PropertyRotation", name="MaterialOrientation",
+            group="Orthotropic elasticity",
+            doc="Material axes relative to the orientation reference, or global mesh axes",
+            value=Base.Rotation(),
+        ))
+        prop.append(_PropHelper(
+            type="App::PropertyLinkGlobal", name="MaterialOrientationReference",
+            group="Orthotropic elasticity",
+            doc="Optional placed object/coordinate system whose global rotation defines "
+                "the reference frame; translation is ignored",
+            value=None,
+        ))
         prop.append(
             _PropHelper(
                 type="App::PropertyLink",
@@ -131,6 +166,7 @@ class MaterialCommon(base_fempythonobject.BaseFemPythonObject):
 
         if not obj.hasExtension("App::SuppressibleExtensionPython"):
             obj.addExtension("App::SuppressibleExtensionPython")
+        self._update_elasticity_editor(obj)
 
     def onChanged(self, obj, prop):
         if prop == "Material":
@@ -138,6 +174,18 @@ class MaterialCommon(base_fempythonobject.BaseFemPythonObject):
                 obj.MaterialName = obj.Material["Name"]
             else:
                 obj.MaterialName = ""
+        if prop in ("ElasticityModel", "Category"):
+            self._update_elasticity_editor(obj)
+
+    def _update_elasticity_editor(self, obj):
+        if "ElasticityModel" not in obj.PropertiesList:
+            return
+        solid = obj.Category == "Solid"
+        obj.setEditorMode("ElasticityModel", 0 if solid else 2)
+        orthotropic = solid and obj.ElasticityModel == "Orthotropic"
+        for name in obj.PropertiesList:
+            if obj.getGroupOfProperty(name) == "Orthotropic elasticity":
+                obj.setEditorMode(name, 0 if orthotropic else 2)
 
     def _get_material_uuid(self, material):
         if not material:

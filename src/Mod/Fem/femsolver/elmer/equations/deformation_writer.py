@@ -36,6 +36,7 @@ from FreeCAD import Units
 from .. import sifio
 from .. import writer as general_writer
 from femtools import femutils
+from femtools import material_orthotropic
 
 
 class DeformationWriter:
@@ -197,6 +198,7 @@ class DeformationWriter:
                 self.write.material(name, "Reference Temperature", refTemp)
         # get the material data for all bodies
         for obj in self.write.getMember("App::MaterialObject"):
+            material_orthotropic.require_isotropic_material(obj, "Elmer deformation")
             m = obj.Material
             refs = obj.References[0][1] if obj.References else self.write.getAllBodies()
             for name in (n for n in refs if n in bodies):

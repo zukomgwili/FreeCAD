@@ -399,6 +399,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_result.py
     femtest/app/test_security.py
     femtest/app/test_sectionprint.py
+    femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
     femtest/app/test_solver_mystran.py
     femtest/app/test_solver_z88.py
@@ -597,6 +598,7 @@ SET(FemTools_SRCS
     femtools/__init__.py
     femtools/ccxtools.py
     femtools/checksanalysis.py
+    femtools/material_orthotropic.py
     femtools/constants.py
     femtools/errors.py
     femtools/femutils.py

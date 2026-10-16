@@ -30,6 +30,7 @@ __url__ = "https://www.freecad.org"
 
 import FreeCAD
 from femtools import constants
+from femtools import material_orthotropic
 
 
 def write_femelement_material(f, ccxwriter):
@@ -63,9 +64,18 @@ def write_femelement_material(f, ccxwriter):
         mat_info_name = mat_obj.Material["Name"]
         mat_name = mat_obj.Name
         mat_label = mat_obj.Label
+        orthotropic = material_orthotropic.is_orthotropic(mat_obj)
+        if orthotropic:
+            errors = material_orthotropic.validation_errors(mat_obj)
+            if (ccxwriter.solver_obj.MaterialNonlinearity and mat_obj.Nonlinear
+                    and not mat_obj.Nonlinear.Suppressed):
+                errors.append("Orthotropic elasticity cannot use isotropic plasticity.")
+            if errors:
+                raise ValueError(f"{mat_label}: " + " ".join(errors))
+            elastic_constants = material_orthotropic.engineering_constants(mat_obj)
 
         # get material properties of solid material, Currently in SI units: M/kg/s/Kelvin
-        if mat_obj.Category == "Solid":
+        if mat_obj.Category == "Solid" and not orthotropic:
             YM = FreeCAD.Units.Quantity(mat_obj.Material["YoungsModulus"])
             YM_in_MPa = YM.getValueAs("MPa").Value
             PR = float(mat_obj.Material["PoissonRatio"])
@@ -117,12 +127,23 @@ def write_femelement_material(f, ccxwriter):
             vacuum_perm = FreeCAD.Units.Quantity(constants.vacuum_permittivity())
             abs_perm = vacuum_perm.getValueAs("C/(mV*mm)").Value * rel_perm
         # write material properties
+        if orthotropic:
+            rotation = material_orthotropic.material_rotation(mat_obj)
+            axes = list(rotation.multVec(FreeCAD.Vector(1, 0, 0)))
+            axes += list(rotation.multVec(FreeCAD.Vector(0, 1, 0)))
+            f.write(f"*ORIENTATION, NAME={material_orthotropic.orientation_name(mat_obj)}\n")
+            f.write(",".join(f"{value:.13G}" for value in axes) + "\n")
         f.write(f"** FreeCAD material name: {mat_info_name}\n")
         f.write(f"** {mat_label}\n")
         f.write(f"*MATERIAL, NAME={mat_name}\n")
         if mat_obj.Category == "Solid":
-            f.write("*ELASTIC\n")
-            f.write(f"{YM_in_MPa:.13G},{PR:.13G}\n")
+            if orthotropic:
+                f.write("*ELASTIC, TYPE=ENGINEERING CONSTANTS\n")
+                f.write(",".join(f"{value:.13G}" for value in elastic_constants[:8]) + "\n")
+                f.write(f"{elastic_constants[8]:.13G}\n")
+            else:
+                f.write("*ELASTIC\n")
+                f.write(f"{YM_in_MPa:.13G},{PR:.13G}\n")
         if is_density_needed() is True:
             f.write("*DENSITY\n")
             f.write(f"{density_in_tonne_per_mm3:.13G}\n")

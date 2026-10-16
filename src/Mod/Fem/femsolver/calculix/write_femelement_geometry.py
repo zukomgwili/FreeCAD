@@ -27,6 +27,8 @@ __title__ = "FreeCAD FEM calculix write inpfile femelement geometry"
 __author__ = "Bernd Hahnebach"
 __url__ = "https://www.freecad.org"
 
+from femtools import material_orthotropic
+
 
 def write_femelement_geometry(f, ccxwriter):
 
@@ -34,10 +36,22 @@ def write_femelement_geometry(f, ccxwriter):
 
     f.write("\n{}\n".format(59 * "*"))
     f.write("** Sections\n")
+    materials = {item["Object"].Name: item["Object"] for item in ccxwriter.member.mats_linear}
     for matgeoset in ccxwriter.mat_geo_sets:
         if matgeoset["ccx_elset"]:
             elsetdef = "ELSET={}, ".format(matgeoset["ccx_elset_name"])
             material = "MATERIAL={}".format(matgeoset["mat_obj_name"])
+            mat_obj = materials[matgeoset["mat_obj_name"]]
+            if material_orthotropic.is_orthotropic(mat_obj):
+                if ("beamsection_obj" in matgeoset or "fluidsection_obj" in matgeoset
+                        or ccxwriter.solver_obj.ModelSpace != "3D"
+                        or ("shellthickness_obj" in matgeoset
+                            and ccxwriter.solver_obj.ExcludeBendingStiffness)):
+                    raise ValueError(
+                        "Orthotropic elasticity supports 3D solid/shell sections only."
+                    )
+                orientation = material_orthotropic.orientation_name(mat_obj)
+                material += f", ORIENTATION={orientation}"
 
             if "beamsection_obj" in matgeoset:  # beam mesh
                 beamsec_obj = matgeoset["beamsection_obj"]

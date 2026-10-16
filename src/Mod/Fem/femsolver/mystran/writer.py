@@ -50,6 +50,7 @@ from . import add_con_force
 from . import add_con_fixed
 from . import add_solver_control
 from .. import writerbase
+from femtools import material_orthotropic
 
 
 class FemInputWriterMystran(writerbase.FemInputWriter):
@@ -79,6 +80,8 @@ class FemInputWriterMystran(writerbase.FemInputWriter):
         )
 
     def write_solver_input(self):
+        for material in self.member.mats_linear:
+            material_orthotropic.require_isotropic_material(material["Object"], "Mystran")
 
         timestart = time.process_time()
 

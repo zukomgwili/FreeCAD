@@ -39,6 +39,7 @@ import FreeCAD
 
 from .. import writerbase
 from femmesh import meshtools
+from femtools import material_orthotropic
 
 from .write_constraint_displacement import WriterDisplacement
 from .write_constraint_fixed import WriterFixed
@@ -60,6 +61,8 @@ class FemInputWriterZ88(writerbase.FemInputWriter):
     # ********************************************************************************************
     # write solver input
     def write_solver_input(self):
+        for material in self.member.mats_linear:
+            material_orthotropic.require_isotropic_material(material["Object"], "Z88")
         timestart = time.process_time()
 
         FreeCAD.Console.PrintMessage("\nZ88 solver input writing...\n")
