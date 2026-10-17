@@ -1880,12 +1880,15 @@ void MainWindow::delayedStartup()
         }
         catch (const Base::SystemExitException& e) {
             // Neither quit() nor throwing through the Qt callback is safe on Cocoa.
+            // An overdue action update must not inspect views closed by the tests.
+            d->activityTimer->stop();
             GUIApplication::requestExit(e);
         }
         catch (const Base::Exception& e) {
             e.reportException();
             if (App::Application::Config()["ExitTests"] == "yes") {
                 // With no pending Python exception, the default exit code is 1.
+                d->activityTimer->stop();
                 GUIApplication::requestExit(Base::SystemExitException());
             }
         }

@@ -54,7 +54,7 @@ if(BUILD_GUI)
                 "${CMAKE_SOURCE_DIR}/tests/src/App/TestRunnerExitStatus.py"
                 --executable $<TARGET_FILE:FreeCADMain> --gui)
         set_tests_properties(FreeCADGuiTestExitStatus PROPERTIES
-            ENVIRONMENT "QT_QPA_PLATFORM=offscreen" LABELS "Qt;Process" TIMEOUT 450)
+            ENVIRONMENT "QT_QPA_PLATFORM=offscreen" LABELS "Qt;Process" TIMEOUT 510)
         if(APPLE)
             # Cocoa can dispatch QApplication::quit immediately; offscreen alone
             # does not reproduce a failure status lost during native shutdown.

@@ -159,6 +159,23 @@ class TestRunnerExitStatus(unittest.TestCase):
         self.assertIn("deliberate test-runner suite-factory error", output)
         self.assertNotRegex(output, r"(?m)^Ran \d+ tests? in ")
 
+    @unittest.skipUnless(options.gui, "document/view lifecycle applies only to FreeCAD")
+    def test_closed_document_pass(self):
+        output = self.check_outcome(
+            ("DocumentPassing",), 0, ("DocumentPassing.test_document_pass",), "OK"
+        )
+        self.assertIn("TEST_RUNNER_DOCUMENT_CLOSED", output)
+
+    @unittest.skipUnless(options.gui, "document/view lifecycle applies only to FreeCAD")
+    def test_closed_document_failure(self):
+        output = self.check_outcome(
+            ("DocumentFailing",),
+            1,
+            ("DocumentFailing.test_document_failure",),
+            "FAILED (failures=1)",
+        )
+        self.assertIn("TEST_RUNNER_DOCUMENT_CLOSED", output)
+
     @unittest.skipUnless(options.gui, "run-open event loop applies only to FreeCAD")
     def test_run_open_stays_open_until_normal_quit(self):
         output = self.check_outcome(

@@ -62,7 +62,7 @@ if(BUILD_TEST)
     add_test(NAME FreeCADCmdTestExitStatus
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/TestRunnerExitStatus.py"
             --executable $<TARGET_FILE:FreeCADMainCmd>)
-    set_tests_properties(FreeCADCmdTestExitStatus PROPERTIES LABELS "App;Process" TIMEOUT 450)
+    set_tests_properties(FreeCADCmdTestExitStatus PROPERTIES LABELS "App;Process" TIMEOUT 510)
     if(WIN32)
         set_tests_properties(FreeCADCmdTestExitStatus PROPERTIES
             ENVIRONMENT_MODIFICATION "${_test_env_mod}")

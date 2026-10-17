@@ -69,3 +69,48 @@ class RunOpenFailing(Outcome):
         # GUI event loop resumes. --run-open must not exit on the failed test.
         QtCore.QTimer.singleShot(0, finish)
         self.fail("deliberate run-open assertion failure")
+
+
+class DocumentLifecycle(Outcome):
+    def create_and_close_document(self):
+        from pathlib import Path
+        import tempfile
+
+        import FreeCAD as App
+        import FreeCADGui as Gui
+
+        Gui.getMainWindow().show()
+        document = App.newDocument("TestRunnerDocumentLifecycle")
+        name = document.Name
+        try:
+            feature = document.addObject("App::FeaturePython", "Feature")
+            feature.addProperty("App::PropertyString", "Purpose")
+            feature.Purpose = "test-runner document lifecycle"
+            document.recompute()
+            view = Gui.getDocument(document.Name).activeView()
+            self.assertIsNotNone(view)
+            view.viewAxonometric()
+            view.fitAll()
+            with tempfile.TemporaryDirectory(prefix="freecad-test-document-") as directory:
+                path = str(Path(directory) / "document.FCStd")
+                document.saveAs(path)
+                App.closeDocument(name)
+                document = App.openDocument(path)
+                name = document.Name
+                self.assertEqual(document.Feature.Purpose, "test-runner document lifecycle")
+                self.assertIsNotNone(Gui.getDocument(name).activeView())
+        finally:
+            App.closeDocument(name)
+        self.assertNotIn(name, App.listDocuments())
+        print("TEST_RUNNER_DOCUMENT_CLOSED", flush=True)
+
+
+class DocumentPassing(DocumentLifecycle):
+    def test_document_pass(self):
+        self.create_and_close_document()
+
+
+class DocumentFailing(DocumentLifecycle):
+    def test_document_failure(self):
+        self.create_and_close_document()
+        self.fail("deliberate failure after document closure")
