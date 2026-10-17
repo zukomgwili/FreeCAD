@@ -878,46 +878,158 @@ def get_femmesh_groupdata_sets_by_name(femmesh, fem_object, group_data_type):
     # what happens if a reference shape was changed
     # but the mesh and the mesh groups were not created new !?!
     obj = fem_object["Object"]
-    if femmesh.GroupCount:
-        for g in femmesh.Groups:
-            grp_name = femmesh.getGroupName(g)
-            if grp_name.startswith(obj.Name + "_"):
-                if femmesh.getGroupElementType(g) == group_data_type:
-                    FreeCAD.Console.PrintMessage(
-                        "  found mesh group for the IDs: {}, Type: {}\n".format(
-                            grp_name, group_data_type
-                        )
-                    )
-                    return femmesh.getGroupElements(g)  # == ref_shape_femelements
-    return ()  # an empty tuple is returned if no group data IDs where found
+    exact = []
+    legacy = []
+    for group in femmesh.Groups:
+        name = femmesh.getGroupName(group)
+        kind = femmesh.getGroupElementType(group)
+        if name == obj.Name and (
+            kind == group_data_type or (kind == "All" and group_data_type != "Node")
+        ):
+            exact.append(group)
+        elif name.startswith(obj.Name + "_") and kind == group_data_type:
+            legacy.append(group)
+    groups = exact or legacy
+    if not groups:
+        return ()
+    allowed = (
+        None if group_data_type == "Node" else set(femmesh.getIdByElementType(group_data_type))
+    )
+    elements = set()
+    for group in groups:
+        members = femmesh.getGroupElements(group)
+        elements.update(members if allowed is None else allowed.intersection(members))
+    return tuple(sorted(elements))
 
 
 # ************************************************************************************************
-def get_femelement_sets_from_group_data(femmesh, fem_objects):
-    # get femelements from femmesh groupdata for reference shapes of each obj.References
-    count_femelements = 0
-    sum_group_elements = []
-    for fem_object_i, fem_object in enumerate(fem_objects):
+def _get_solid_reference_group_sets(mesh_object, fem_objects, volumes):
+    """Resolve current selections through persistent CAD entity groups.
+
+    Analysis-object groups are snapshots of old selections. The entity groups,
+    bound to the meshed geometry, also support legitimate material reassignment
+    without trusting those snapshots or classifying every mesh node in CAD.
+    None means a legacy mesh without this provenance, not invalid provenance.
+    """
+    if mesh_object is None:
+        return None
+    names = list(getattr(mesh_object, "ElementGroupNames", []))
+    references = [
+        (owner, name)
+        for owner, items in getattr(mesh_object, "ElementGroupReferences", [])
+        for name in items
+    ]
+    signature = getattr(mesh_object, "ElementGroupGeometry", "")
+    if not (names or references or signature):
+        return None
+    part = getattr(mesh_object, "Shape", None)
+    if not part or not signature or signature != get_mesh_geometry_signature(part):
+        raise ValueError("Material mesh geometry changed; regenerate the mesh.")
+    if len(names) != len(references) or len(names) != len(set(names)):
+        raise ValueError("Invalid material mesh group provenance; regenerate the mesh.")
+    current = {}
+    for old, (owner, name) in zip(names, references):
+        if owner != part:
+            raise ValueError("Material mesh geometry owner changed; regenerate the mesh.")
+        current.setdefault(name, []).append(old)
+    mesh = mesh_object.FemMesh
+    groups = {}
+    for group in mesh.Groups:
+        groups.setdefault(mesh.getGroupName(group), []).append(group)
+    result = []
+    for fem_object in fem_objects:
         obj = fem_object["Object"]
-        FreeCAD.Console.PrintMessage(
-            "Constraint: {} --> We have mesh groups. "
-            "We will search for appropriate group data.\n".format(obj.Name)
-        )
-        # unique short identifier
-        fem_object["ShortName"] = get_elset_short_name(obj, fem_object_i)
-        # see comments over there !
-        group_elements = get_femmesh_groupdata_sets_by_name(femmesh, fem_object, "Volume")
-        sum_group_elements += group_elements
-        count_femelements += len(group_elements)
-        fem_object["FEMElements"] = group_elements
-    # check if all worked out well
-    if not femelements_count_ok(femmesh.VolumeCount, count_femelements):
-        FreeCAD.Console.PrintError(
-            "Error in get_femelement_sets_from_group_data -- > femelements_count_ok() failed!\n"
-        )
-        return False
+        selected = []
+        for owner, subnames in obj.References:
+            if owner is None or not subnames:
+                raise ValueError(f"{obj.Name}: unresolved material references.")
+            for subname in subnames:
+                shape = owner.getSubObject(subname)
+                if shape is None or shape.isNull():
+                    raise ValueError(f"{obj.Name}: unresolved material reference {subname}.")
+                if shape.ShapeType not in ("Solid", "Compound", "CompSolid"):
+                    return None  # Preserve non-solid legacy selection behavior.
+                proxy = SimpleNamespace(Name=obj.Name, References=[(owner, [subname])])
+                wanted = get_reference_group_elements(proxy, part)[1]
+                expected = 1 if shape.ShapeType == "Solid" else len(shape.Solids)
+                if (
+                    not wanted
+                    or len(wanted) != expected
+                    or any(not re.fullmatch(r"Solid[1-9][0-9]*", name) for name in wanted)
+                ):
+                    raise ValueError(
+                        f"{obj.Name}: material reference is absent from mesh geometry."
+                    )
+                elements = set()
+                for name in wanted:
+                    originals = current.get(name, [])
+                    if len(originals) != 1 or len(groups.get(originals[0], [])) != 1:
+                        raise ValueError(f"{obj.Name}: missing or ambiguous mesh group for {name}.")
+                    group = groups[originals[0]][0]
+                    members = set(mesh.getGroupElements(group))
+                    if (
+                        mesh.getGroupElementType(group) not in ("All", "Volume")
+                        or not members
+                        or not members.issubset(volumes)
+                    ):
+                        raise ValueError(f"{obj.Name}: invalid volume group for {name}.")
+                    elements.update(members)
+                selected.append(((owner, (subname,)), tuple(sorted(elements)), False))
+        result.append(selected)
+    return result
+
+
+def get_femelement_sets_from_group_data(femmesh, fem_objects, mesh_object=None):
+    """Commit group-derived sets only after validating a complete volume partition."""
+    volumes = set(femmesh.Volumes)
+    reference_sets = _get_solid_reference_group_sets(mesh_object, fem_objects, volumes)
+    assigned = set()
+    pending = []
+    default = None
+    for index, fem_object in enumerate(fem_objects):
+        obj = fem_object["Object"]
+        if not obj.References:
+            if default is not None:
+                raise ValueError("Multiple default materials cannot partition mesh volumes.")
+            default = fem_object
+            continue
+        if reference_sets is not None:
+            elements = {element for _, members, _ in reference_sets[index] for element in members}
+        else:
+            # New All aggregates have no current-reference binding on old meshes.
+            # Keep their supported geometric fallback, rather than trust a stale
+            # material snapshot. Legacy typed groups retain their old contract.
+            if mesh_object is not None and any(
+                femmesh.getGroupName(group) == obj.Name
+                and femmesh.getGroupElementType(group) == "All"
+                for group in femmesh.Groups
+            ):
+                return False
+            elements = set(get_femmesh_groupdata_sets_by_name(femmesh, fem_object, "Volume"))
+        if not elements:
+            return False  # An ungrouped legacy input still needs geometric selection.
+        if elements - volumes:
+            raise ValueError(f"{obj.Name}: material group contains non-volume elements.")
+        if assigned.intersection(elements):
+            raise ValueError(f"{obj.Name}: material groups overlap.")
+        assigned.update(elements)
+        pending.append((fem_object, elements))
+    if default is not None:
+        pending.append((default, volumes - assigned))
+        assigned = volumes
+    if assigned != volumes:
+        raise ValueError("Material groups do not cover every mesh volume.")
+    for i, fem_object in enumerate(fem_objects):
+        fem_object["ShortName"] = get_elset_short_name(fem_object["Object"], i)
+    for fem_object, elements in pending:
+        fem_object["FEMElements"] = tuple(sorted(elements))
+    if reference_sets is not None:
+        for fem_object, selected in zip(fem_objects, reference_sets):
+            fem_object["MaterialElements"] = selected
     else:
-        return True
+        for fem_object in fem_objects:
+            fem_object.pop("MaterialElements", None)
+    return True
 
 
 # ************************************************************************************************

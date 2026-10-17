@@ -580,6 +580,15 @@ class MeshSetsGetter:
                 femobj["Rotation1DElements"] = result
 
     def get_materials_elements(self):
+        # The second material pass must not repeat a CAD node search after the
+        # volume partition was found. Revalidate current references for each
+        # call, so the getter is also safe after material reassignment.
+        if self.member.mats_linear and self.femmesh.VolumeCount and self.femmesh.GroupCount:
+            found = meshtools.get_femelement_sets_from_group_data(
+                self.femmesh, self.member.mats_linear, self.mesh_object
+            )
+            if found and all("MaterialElements" in row for row in self.member.mats_linear):
+                return
         for femobj in self.member.mats_linear:
             obj = femobj["Object"]
             result = self._get_elements(obj)
@@ -593,7 +602,9 @@ class MeshSetsGetter:
         # get element ids and write them into the femobj
         all_found = False
         if self.femmesh.GroupCount:
-            all_found = meshtools.get_femelement_sets_from_group_data(self.femmesh, femobjs)
+            all_found = meshtools.get_femelement_sets_from_group_data(
+                self.femmesh, femobjs, self.mesh_object
+            )
             FreeCAD.Console.PrintMessage(all_found)
             FreeCAD.Console.PrintMessage("\n")
         if all_found is False:
