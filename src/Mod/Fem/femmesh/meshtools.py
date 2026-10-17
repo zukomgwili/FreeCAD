@@ -127,12 +127,22 @@ def _same_occurrence_geometry(first, second):
 
 
 def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
-    """Resolve current rigid-region references using owned mesh connectivity.
+    """Resolve current region references using owned mesh connectivity.
 
     Coordinates may validate a result, but cannot distinguish independent
     coincident mesh owners. Never use cached analysis aggregate groups here.
     The optional mesh object keeps the historic two-argument API usable for a
     constraint in an analysis with one mesh, while writers pass it explicitly.
+    """
+    return _get_mesh_region_by_owned_references(femmesh, obj, mesh_object)[0]
+
+
+def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object):
+    """Return validated nodes and current CAD entity-to-native-group members.
+
+    Legacy meshes have no entity provenance and return None for the groups.
+    Keep entity connectivity available: a union of owned nodes alone cannot
+    establish that a volume facet belongs to one of the selected CAD faces.
     """
     if mesh_object is None:
         meshes = {member for parent in obj.InList
@@ -149,11 +159,11 @@ def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
     if not part:
         if original or references or signature:
             raise ValueError(f"{obj.Name}: missing mesh geometry owner; regenerate the mesh.")
-        return sorted(get_femnodes_by_references(femmesh, obj.References))
+        return sorted(get_femnodes_by_references(femmesh, obj.References)), None
 
     for owner, names in obj.References:
         if owner is None or not names:
-            raise ValueError(f"{obj.Name}: unresolved rigid-region references.")
+            raise ValueError(f"{obj.Name}: unresolved region references.")
         for name in names:
             if not name:
                 continue  # Whole shape references are supported by native RBEs.
@@ -200,6 +210,7 @@ def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
         for group in femmesh.Groups:
             groups.setdefault(femmesh.getGroupName(group), []).append(group)
         result = set()
+        entity_sets = {}
         for name in wanted:
             matches = current_groups.get(name, [])
             if len(matches) != 1 or len(groups.get(matches[0], [])) != 1:
@@ -232,7 +243,8 @@ def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
             if not nodes or not nodes.issubset(current):
                 raise ValueError(f"{obj.Name}: stale mesh for current {name}; regenerate the mesh.")
             result.update(nodes)
-        return sorted(result)
+            entity_sets[name] = tuple(members)
+        return sorted(result), entity_sets
 
     # Ungrouped/imported meshes retain the existing unambiguous geometric route.
     # With coincident CAD entities, however, it cannot establish ownership.
@@ -247,7 +259,7 @@ def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
                 if sum(_same_occurrence_geometry(shape, other) for other in candidates) > 1:
                     raise ValueError(
                         f"{obj.Name}: coincident regions need owned mesh groups; remesh.")
-    return sorted(get_femnodes_by_references(femmesh, obj.References))
+    return sorted(get_femnodes_by_references(femmesh, obj.References)), None
 
 
 # ************************************************************************************************
@@ -1751,6 +1763,111 @@ def get_elements(sets_getter, ref_pair, face_masks, edge_masks):
                     is_sub_element = False
 
     return (*elem, is_sub_element)
+
+
+def get_contact_elements(sets_getter, contact, ref_pair):
+    """Resolve solid Contact faces by complete, independently owned mesh patches.
+
+    Retain the existing shell/non-face representation and solver face numbers.
+    Native CAD face groups define the patches; coordinates never choose owners.
+    """
+    feature, name = ref_pair
+    shape = feature.getSubObject(name) if feature is not None else None
+    if shape is None or not hasattr(shape, "ShapeType") or shape.isNull():
+        raise ValueError(f"{contact.Name}: unresolved Contact region; select a current face.")
+    if not is_solid_femmesh(sets_getter.femmesh) or shape.ShapeType != "Face":
+        return get_elements(sets_getter, ref_pair, sets_getter.face_masks, sets_getter.edge_masks)
+
+    _validate_contact_face_reference(contact, feature, name)
+    reference = (feature, (name,))
+    region = SimpleNamespace(Name=contact.Name, References=[reference])
+    nodes, entities = _get_mesh_region_by_owned_references(
+        sets_getter.femmesh, region, sets_getter.mesh_object)
+    if entities is None:
+        _check_legacy_contact_ownership(sets_getter, contact, ref_pair)
+        bits = get_bit_pattern_dict(
+            sets_getter.femelement_table, sets_getter.femnodes_ele_table, nodes)
+        return reference, get_element_faces_from_binary_search(bits, **sets_getter.face_masks), True
+
+    mesh = sets_getter.femmesh
+    face_ids = {element for members in entities.values() for element in members}
+    patches = {frozenset(mesh.getElementNodes(element)) for element in face_ids}
+    if not face_ids or not face_ids.issubset(mesh.Faces) or len(patches) != len(face_ids):
+        raise ValueError(f"{contact.Name}: invalid owned Contact face connectivity; remesh.")
+    incident = {patch: [] for patch in patches}
+    # Only inspect volumes incident to selected nodes, retaining sparse IDs.
+    candidates = {element for node in nodes
+                  for element, _position in sets_getter.femnodes_ele_table.get(node, [])}
+    mask_names = {4: "tetra4", 10: "tetra10", 8: "hexa8", 20: "hexa20",
+                  6: "penta6", 15: "penta15"}
+    for element in sorted(candidates):
+        connectivity = sets_getter.femelement_table[element]
+        kind = mask_names.get(len(connectivity))
+        masks = sets_getter.face_masks.get("mask_" + kind, {}) if kind else {}
+        if not masks:
+            raise ValueError(f"{contact.Name}: unsupported Contact volume face masks.")
+        for mask, side in masks.items():
+            patch = frozenset(node for index, node in enumerate(connectivity)
+                              if mask & (1 << index))
+            if patch in incident:
+                incident[patch].append((element, side))
+    facets = []
+    for adjacent in incident.values():
+        if not adjacent:
+            raise ValueError(f"{contact.Name}: owned Contact face has no volume side; remesh.")
+        if len(adjacent) != 1:
+            raise ValueError(
+                f"{contact.Name}: ambiguous Contact ownership: a face patch has multiple "
+                "volume sides; use independently meshed Contact regions.")
+        facets.append(adjacent[0])
+    return reference, sorted(facets), True
+
+
+def _validate_contact_face_reference(contact, feature, name):
+    resolved, mapped, indexed = feature.resolveSubElement(name)
+    if resolved is None or (not mapped and (
+            ";" in name or re.fullmatch(r"Face[1-9][0-9]*", indexed) is None)):
+        raise ValueError(f"{contact.Name}: unresolved Contact face reference; reselect the face.")
+    return resolved, indexed
+
+
+def _check_legacy_contact_ownership(sets_getter, contact, ref_pair):
+    """A geometric fallback cannot distinguish overlapping independent owners."""
+    part = getattr(sets_getter.mesh_object, "Shape", None)
+
+    def canonical(pair):
+        feature, name = pair
+        resolved, indexed = _validate_contact_face_reference(contact, feature, name)
+        # Resolving a link to an assembly can return its shared base feature.
+        # Preserve the native occurrence chain while normalizing name aliases.
+        links = tuple(item for item in feature.getSubObjectList(name)
+                      if item.getLinkedObject() != item)
+        if not links and part and part.isDerivedFrom("Part::Compound"):
+            if resolved == part:
+                return (), part, indexed
+            entity = _get_compound_reference_element(part, resolved, indexed, "Face")
+            if entity:
+                return (), part, entity
+        return links, resolved, indexed
+
+    feature, name = ref_pair
+    selected_key = canonical(ref_pair)
+    selected = sub_shape_at_global_placement(feature, name)
+    for other_feature, other_name in pair_obj_reference(contact.References):
+        if other_feature is None:
+            raise ValueError(f"{contact.Name}: unresolved Contact region references.")
+        other_shape = other_feature.getSubObject(other_name)
+        if other_shape is None or not hasattr(other_shape, "ShapeType") or other_shape.isNull():
+            raise ValueError(f"{contact.Name}: unresolved Contact region references.")
+        if other_shape.ShapeType != "Face":
+            continue
+        if canonical((other_feature, other_name)) == selected_key:
+            continue  # Genuine self-contact, including native reference aliases.
+        other = sub_shape_at_global_placement(other_feature, other_name)
+        scale = max(1., selected.BoundBox.DiagonalLength, other.BoundBox.DiagonalLength)
+        if selected.common(other).Area > FreeCAD.Base.Precision.confusion() * scale:
+            raise ValueError(
+                f"{contact.Name}: overlapping Contact faces require owned mesh groups; remesh.")
 
 
 def get_sectionprint_one_sided_faces(sets_getter, face_set):

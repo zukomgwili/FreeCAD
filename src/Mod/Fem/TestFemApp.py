@@ -50,6 +50,7 @@ from femtest.app.test_elastic_connector import TestElasticConnector as FemTest22
 from femtest.app.test_elastic_connector import TestElasticConnectorCalculiX as FemTest23
 from femtest.app.test_elastic_connector import TestRigidPortConnector as FemTest27
 from femtest.app.test_rigid_region_ownership import TestRigidRegionOwnership as FemTest28
+from femtest.app.test_contact_ownership import TestContactOwnership as FemTest29
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26
@@ -82,3 +83,4 @@ False if FemTest25.__name__ else True
 False if FemTest26.__name__ else True
 False if FemTest27.__name__ else True
 False if FemTest28.__name__ else True
+False if FemTest29.__name__ else True

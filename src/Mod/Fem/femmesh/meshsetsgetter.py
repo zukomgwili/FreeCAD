@@ -499,7 +499,9 @@ class MeshSetsGetter:
     def get_constraints_contact_faces(self):
         for femobj in self.member.cons_contact:
             obj = femobj["Object"]
-            result = self._get_elements(obj)
+            print_obj_info(obj)
+            result = [meshtools.get_contact_elements(self, obj, pair)
+                      for pair in meshtools.pair_obj_reference(obj.References)]
 
             femobj["ContactSlaveFaces"] = result[:-1]
             femobj["ContactMasterFaces"] = result[-1:]
