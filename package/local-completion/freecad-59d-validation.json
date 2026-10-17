@@ -1,0 +1,648 @@
+{
+  "schema": 1,
+  "date": "2026-10-17",
+  "bead": "FreeCAD-59d",
+  "branch": "codex/fix-toroidal-self-cut",
+  "fix_commits": [
+    "bfe9e95e01e479b3f0a0f45e859737048a78310b",
+    "e770fefedcc2cb3cf47be1f800fc050cdfc59163"
+  ],
+  "compiled_commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+  "compiled_version": "27.1.0dev49261+187 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "previous_application_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-59d-e770fefedc.app",
+  "backup_compiled_commit": "1b0d57227d1411d5f5c9f84bd960990f2becf2f2",
+  "backup_revision": "+184",
+  "implementation": {
+    "cause": "Cocoa QApplication::quit could terminate with status 0 before the intended SystemExit result propagated.",
+    "correction": "Centralize the terminal exit exception in GUIApplication, call QCoreApplication::exit, and propagate only after the event loop returns. Stop MainWindow's activity timer before terminal test exit so overdue action updates do not inspect already-closed 3D views.",
+    "public_runner_apis_changed": false,
+    "interactive_run_open_changed": false,
+    "deferred_deletion_or_lifecycle_delivery_suppressed": false
+  },
+  "cli_contract": {
+    "supported_command": "FreeCAD -P <test-module-directory> -t <unittest-suite>",
+    "noninteractive_pass": 0,
+    "noninteractive_failure_or_error": 1,
+    "unexpected_success": 1,
+    "skipped_or_expected_failure": 0,
+    "run_open": "Remains interactive after the result; later normal GUI quit returns 0.",
+    "startup_or_crash_not_accepted_as_failed_test_proof": true
+  },
+  "build": {
+    "type": "Release",
+    "architecture": "arm64",
+    "all_enabled_targets_built": true,
+    "clean_from_scratch_claimed": false,
+    "build_exit": 0,
+    "destdir_install_exit": 0,
+    "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "warnings": "Pivy stub generation reported no coin.pyi/no generated stubs; full build succeeded. Unrelated typing-tool and headless-configure beads remain open."
+  },
+  "verification": {
+    "ctest": {
+      "registered": 2242,
+      "passed": 2232,
+      "skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "seconds": 96.41,
+      "excluded": []
+    },
+    "targeted_shutdown_and_status_ctest": {
+      "run": 4,
+      "passed": 4,
+      "seconds": 23.18
+    },
+    "quality_checks": [
+      "Black line length 100",
+      "clang-format changed C++ ranges",
+      "trailing whitespace",
+      "end of file",
+      "mixed line endings",
+      "added file sizes",
+      "git diff --check"
+    ],
+    "independent_source_review": "No remaining findings after BUILD_TEST guards, aggregate timeout, subprocess cleanup, targeted timer stops, and optional-Part-free lifecycle controls.",
+    "stage_sequence": {
+      "passed": true,
+      "elapsed_seconds": 197.826,
+      "gates": [
+        {
+          "mode": "create",
+          "run": 2,
+          "seconds": 0.564,
+          "details": ""
+        },
+        {
+          "mode": "reopen",
+          "run": 2,
+          "seconds": 0.61,
+          "details": ""
+        },
+        {
+          "mode": "cli",
+          "run": 1721,
+          "seconds": 89.866,
+          "details": "skipped=8, expected failures=1"
+        },
+        {
+          "mode": "features",
+          "run": 15,
+          "seconds": 1.625,
+          "details": ""
+        },
+        {
+          "mode": "gui",
+          "run": 17,
+          "seconds": 23.448,
+          "details": ""
+        },
+        {
+          "mode": "equilibrium",
+          "run": 3,
+          "seconds": 9.246,
+          "details": ""
+        },
+        {
+          "mode": "mixed-create",
+          "run": 2,
+          "seconds": 1.809,
+          "details": ""
+        },
+        {
+          "mode": "mixed-reopen",
+          "run": 2,
+          "seconds": 1.792,
+          "details": ""
+        },
+        {
+          "mode": "area-create",
+          "run": 2,
+          "seconds": 1.423,
+          "details": ""
+        },
+        {
+          "mode": "area-reopen",
+          "run": 2,
+          "seconds": 1.48,
+          "details": ""
+        }
+      ]
+    },
+    "stage_process_status": {
+      "passed": true,
+      "elapsed_seconds": 30.9,
+      "expected_commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+      "expected_revision": "49261 +187 (Git)",
+      "app_inventory_unchanged": true,
+      "gates": [
+        {
+          "mode": "cmd",
+          "tests_run": 15,
+          "skipped": 4,
+          "exit_code": 0,
+          "timed_out": false,
+          "process_reaped": true,
+          "timeout_seconds": 510
+        },
+        {
+          "mode": "gui",
+          "tests_run": 15,
+          "skipped": 0,
+          "exit_code": 0,
+          "timed_out": false,
+          "process_reaped": true,
+          "timeout_seconds": 510
+        }
+      ]
+    },
+    "installed_sequence": {
+      "passed": true,
+      "elapsed_seconds": 196.067,
+      "gates": [
+        {
+          "mode": "create",
+          "run": 2,
+          "seconds": 0.567,
+          "details": ""
+        },
+        {
+          "mode": "reopen",
+          "run": 2,
+          "seconds": 0.643,
+          "details": ""
+        },
+        {
+          "mode": "cli",
+          "run": 1721,
+          "seconds": 90.235,
+          "details": "skipped=8, expected failures=1"
+        },
+        {
+          "mode": "features",
+          "run": 15,
+          "seconds": 1.655,
+          "details": ""
+        },
+        {
+          "mode": "gui",
+          "run": 17,
+          "seconds": 22.976,
+          "details": ""
+        },
+        {
+          "mode": "equilibrium",
+          "run": 3,
+          "seconds": 8.901,
+          "details": ""
+        },
+        {
+          "mode": "mixed-create",
+          "run": 2,
+          "seconds": 1.782,
+          "details": ""
+        },
+        {
+          "mode": "mixed-reopen",
+          "run": 2,
+          "seconds": 1.74,
+          "details": ""
+        },
+        {
+          "mode": "area-create",
+          "run": 2,
+          "seconds": 1.49,
+          "details": ""
+        },
+        {
+          "mode": "area-reopen",
+          "run": 2,
+          "seconds": 1.551,
+          "details": ""
+        }
+      ]
+    },
+    "installed_process_status": {
+      "passed": true,
+      "elapsed_seconds": 31.019,
+      "expected_commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+      "expected_revision": "49261 +187 (Git)",
+      "app_inventory_unchanged": true,
+      "gates": [
+        {
+          "mode": "cmd",
+          "tests_run": 15,
+          "skipped": 4,
+          "exit_code": 0,
+          "timed_out": false,
+          "process_reaped": true,
+          "timeout_seconds": 510
+        },
+        {
+          "mode": "gui",
+          "tests_run": 15,
+          "skipped": 0,
+          "exit_code": 0,
+          "timed_out": false,
+          "process_reaped": true,
+          "timeout_seconds": 510
+        }
+      ]
+    },
+    "gate_scope": "Each stage/installed sequence ran 1,768 tests including 1,721 broad CLI tests and 47 native/feature/equilibrium checks. Broad CLI retained 8 skips and 1 expected failure; all 277 FEM tests ran unskipped. Separate status driver ran 15 native GUI cases and 11 headless cases (4 GUI-only skips).",
+    "minimal_installed_status": {
+      "cmd": [
+        {
+          "case": "pass",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "summary": "OK",
+          "gui": 0,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        },
+        {
+          "case": "failure",
+          "exit_code": 1,
+          "expected_exit_code": 1,
+          "summary": "FAILED (failures=1)",
+          "gui": 0,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        },
+        {
+          "case": "error",
+          "exit_code": 1,
+          "expected_exit_code": 1,
+          "summary": "FAILED (errors=1)",
+          "gui": 0,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        },
+        {
+          "case": "failure",
+          "exit_code": 1,
+          "expected_exit_code": 1,
+          "summary": "FAILED (failures=1)",
+          "gui": 0,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        }
+      ],
+      "gui": [
+        {
+          "case": "pass",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "summary": "OK",
+          "gui": 1,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        },
+        {
+          "case": "failure",
+          "exit_code": 1,
+          "expected_exit_code": 1,
+          "summary": "FAILED (failures=1)",
+          "gui": 1,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        },
+        {
+          "case": "error",
+          "exit_code": 1,
+          "expected_exit_code": 1,
+          "summary": "FAILED (errors=1)",
+          "gui": 1,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        },
+        {
+          "case": "failure",
+          "exit_code": 1,
+          "expected_exit_code": 1,
+          "summary": "FAILED (failures=1)",
+          "gui": 1,
+          "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+          "home": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//",
+          "child_reaped": true
+        }
+      ]
+    },
+    "rollback_fault_tests": {
+      "passed": true,
+      "tests_run": 9,
+      "failures": 0,
+      "errors": 0,
+      "real_app_or_prefix_used": false,
+      "script_sha256": "9da3ef97afbc9569645eff155f4d870a292797f24747cb5da267e01ce8c5cd3b"
+    },
+    "payload_audit": {
+      "passed": true,
+      "commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+      "payload_counts": {
+        "dir": 408,
+        "file": 3885,
+        "link": 3
+      },
+      "payload_native_count": 60,
+      "native_comparison": "Exact sections, post-load-command/signature-excluded body, and all non-RPATH/non-signature load commands match build output. Whole-file hash differences are CMake install RPATH/code-signature rewrites.",
+      "direct_resource_script_data_match_count": 3465,
+      "unmapped_non_native_files": 349,
+      "baseline_symlink_write_collisions": [],
+      "external_namespace_payload_identical_to_current": true
+    },
+    "signed_stage_audit": {
+      "passed": true,
+      "source_commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+      "compiled_revision": "49261 +187 (Git)",
+      "native_payload_parity_count": 60,
+      "native_exact_file_equal_count": 58,
+      "direct_script_resource_data_byte_match_count": 3459,
+      "intentional_generated_cache_removals": [
+        "Ext/PySide/__pycache__/QtCore.cpython-313.pyc",
+        "Ext/PySide/__pycache__/QtGui.cpython-313.pyc",
+        "Ext/PySide/__pycache__/QtNetwork.cpython-313.pyc",
+        "Ext/PySide/__pycache__/QtSvg.cpython-313.pyc",
+        "Ext/PySide/__pycache__/QtWidgets.cpython-313.pyc",
+        "Ext/PySide/__pycache__/__init__.cpython-313.pyc"
+      ],
+      "core_gui_library_sha256": "bcd636e1fd09a97cbea2a3eaa8de4d1e9385e85cae798bc467599da84e5e7080",
+      "previous_gui_library_sha256": "948632e0a65e863d587f53f34cb1cde1c1352053dc9fd06fc7a1f461c6b65e9c",
+      "core_gui_library_is_new_not_previous_installation": true,
+      "external_namespace_unchanged_files": 11
+    },
+    "independent_final_audit": {
+      "passed": true,
+      "compiled_commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+      "compiled_revision": "49261 +187 (Git)",
+      "installed_exact_sealed_stage_inventory": true,
+      "backup_exact_original_inventory": true,
+      "signatures_deep_strict_and_quicklook_entitlements_verified": true,
+      "profiles_exact_original_inventories": [
+        "/Users/zukomgwili/Library/Application Support/FreeCAD Local",
+        "/Users/zukomgwili/Library/Application Support/FreeCAD"
+      ],
+      "resources_readonly_cache_free": true,
+      "external_namespace_files_unchanged": 11,
+      "installed_module_origin_and_sha256_proofs_verified": true,
+      "installed_minimal_actual_process_exit_codes": {
+        "gui": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "cmd": [
+          0,
+          1,
+          1,
+          1
+        ]
+      },
+      "leftover_freecad_processes": [],
+      "limits": [
+        "No GUI launch or product/prefix/source writes by this audit.",
+        "The whole dependency prefix is not inventoried; namespace, lockfiles and Cocoa plugin checks are explicitly scoped.",
+        "Large collector export was not rerun for this GUI-only change.",
+        "The failed +186 stage remains historical, not installation acceptance."
+      ]
+    }
+  },
+  "retained_attempts": [
+    {
+      "evidence": "/private/tmp/freecad-59d.8rYhwe/permanent-native-red2.log",
+      "tests": 13,
+      "failures": 8,
+      "interpretation": "Authoritative original native status red before implementation; completed failed/error tests incorrectly returned 0."
+    },
+    {
+      "evidence": "/private/tmp/freecad-59d.8rYhwe/permanent-native-green1.log",
+      "tests": 13,
+      "failures": 11,
+      "interpretation": "Rejected candidate: throwing SystemExit through a Qt callback aborted (-6). Filename is not a passing claim."
+    },
+    {
+      "evidence": "/private/tmp/freecad-59d-install.mw7RMw/stage-create/summary.json",
+      "compiled_commit": "bfe9e95e01e479b3f0a0f45e859737048a78310b",
+      "exit_code": -6,
+      "interpretation": "Rejected +186 staging run: both Contact/identity tests and semantic report passed, but a late action timer aborted the process after OK. Never installed."
+    },
+    {
+      "evidence": "/private/tmp/freecad-59d.8rYhwe/lifecycle-red.log",
+      "interpretation": "Observer error accessed document.Name after native deletion; not product red."
+    },
+    {
+      "evidence": [
+        "/private/tmp/freecad-59d.8rYhwe/lifecycle-red2.log",
+        "/private/tmp/freecad-59d.8rYhwe/lifecycle-red3.log",
+        "/private/tmp/freecad-59d.8rYhwe/lifecycle-red4.log"
+      ],
+      "interpretation": "Corrected document controls already passed before timer fix; positive lifecycle coverage, not regression-red evidence."
+    }
+  ],
+  "evidence_directories": [
+    "/private/tmp/freecad-59d.8rYhwe",
+    "/private/tmp/freecad-59d-install.mw7RMw",
+    "/private/tmp/freecad-59d-install-final.vLjdh5"
+  ],
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "dependency_prefix_still_required": true,
+    "platforms_run": [
+      "macOS arm64 native Cocoa",
+      "macOS arm64 headless"
+    ],
+    "windows_or_linux_execution_claimed": false,
+    "original_oomakhi_command_replayed": false,
+    "original_refinement_reference_error_fixed_or_analysis_accepted": false,
+    "large_collector_export_repeated": false,
+    "whole_house_BIM_or_engineering_design_accepted": false
+  },
+  "original_evidence": {
+    "all_hashes_match": true,
+    "evidence": [
+      {
+        "role": "original_producer",
+        "path": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-contact-fix-r29/NativeCollectorFEM.py",
+        "expected_sha256": "06dd5c142519c2037713406194a1e204753342923a4ae7130075e2f453df8a7e",
+        "actual_sha256": "06dd5c142519c2037713406194a1e204753342923a4ae7130075e2f453df8a7e"
+      },
+      {
+        "role": "original_native_result",
+        "path": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-contact-fix-r29/fem-first-result.json",
+        "expected_sha256": "ab47c386e22c595bfb8f976141418a5f89f04c90c21f1658fd48be9960c4643b",
+        "actual_sha256": "ab47c386e22c595bfb8f976141418a5f89f04c90c21f1658fd48be9960c4643b"
+      },
+      {
+        "role": "original_outer_execution",
+        "path": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-contact-fix-r29/fem-first-execution.json",
+        "expected_sha256": "a9f80b1ea9ffdf167407979ed596db06d8b5ad98c1fb0740762d946822cc509d",
+        "actual_sha256": "a9f80b1ea9ffdf167407979ed596db06d8b5ad98c1fb0740762d946822cc509d"
+      },
+      {
+        "role": "original_independent_result_review",
+        "path": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-contact-fix-r29/fem-first-result-review.json",
+        "expected_sha256": "eaecd6a6adf87c233cc6c901272e39258fae0cc7b427948c85599c1b8c247de5",
+        "actual_sha256": "eaecd6a6adf87c233cc6c901272e39258fae0cc7b427948c85599c1b8c247de5"
+      },
+      {
+        "role": "original_native_log",
+        "path": "/Users/zukomgwili/src/oomakhi/artifacts/Section-Integration/r01/execution-state/aa3c698ee409951c616a3795837749107011a5273774407edea9ea32f3dfc417.log",
+        "expected_sha256": "cb78eb5d063d6bb9c875b6b504f570396150bce462b396e4cfb64852bb69b1ca",
+        "actual_sha256": "cb78eb5d063d6bb9c875b6b504f570396150bce462b396e4cfb64852bb69b1ca"
+      }
+    ],
+    "actual_native_result": {
+      "tests_run": 1,
+      "test_seconds": 9.475,
+      "summary": "FAILED (errors=1)",
+      "errors": 1,
+      "error_type": "ValueError",
+      "error": "Ambiguous Face reference: matches Face137, Face298. Select an explicit subelement of the part to mesh.",
+      "stage": "GmshTools.run -> ObjectTools.prepare -> GmshTools.update_mesh_data/get_size_field_data -> _get_reference_elements -> native geomtools.find_element_in_shape",
+      "failure_before_process_launch": true,
+      "phase": "native_gmsh",
+      "mode": "setup-mesh-write",
+      "passed": false,
+      "native_stage_complete": false,
+      "gmsh_launched": false,
+      "solver_executed": false,
+      "calculix_launched": false,
+      "loaded_results": false,
+      "mesh_or_input_writer_pass": false,
+      "numerical_or_design_acceptance": false
+    },
+    "outer_execution": {
+      "exit_code": 0,
+      "passed": true,
+      "error": null,
+      "timed_out": false,
+      "reaped": true,
+      "command_seconds": 13.516199416015297,
+      "acceptance": "not_assessed",
+      "interpretation": "Successful process exit contradicts the explicit failed unittest and failed native report. Process completion is not technical acceptance."
+    },
+    "original_replayed": false
+  },
+  "reproduction": {
+    "before_implementation": true,
+    "installed_version": "+184",
+    "native_cocoa_exit_codes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "headless_exit_codes": [
+      0,
+      1,
+      1,
+      1
+    ],
+    "case_order": [
+      "pass",
+      "failure",
+      "error",
+      "repeated failure"
+    ],
+    "targeted_python_trace": "SystemExit(1) was requested before the original native GUI returned 0."
+  },
+  "status": "built_installed_and_verified",
+  "application_modified_local": "2026-10-17 15:10:43 BST",
+  "installation": {
+    "staging": "Full CMake DESTDIR into fresh private scratch; verified literal-symlink baseline copy and explicit no-follow payload merge. No install into the live application or dependency prefix.",
+    "replacement": "Guarded same-filesystem renames after all ten application gates and both real-process status gates passed. Original +184 application retained intact. Rollback fault injection passed 9/9 scratch-only cases.",
+    "signing": "Deep/strict ad-hoc signatures verified; both QuickLook extensions retain all four original sandbox/bookmark/download/user-selected read-only entitlements.",
+    "launcher": "GUI launcher's executable instructions and complete command launcher bytes preserved. Existing external patched Cocoa plugin route retained; no app-local overlay installed.",
+    "namespace": "All 11 external namespace files and modes unchanged; canonical app-local namespace retained. No prefix helper or bytecode-cache replacement.",
+    "resources": "Read-only and cache-free after all tests; removed generated staging bytecode retained in recoverable private scratch.",
+    "custody": {
+      "passed": true,
+      "compiled_commit": "e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+      "compiled_revision": "49261 +187 (Git)",
+      "installed_inventory_entries": 4292,
+      "backup_inventory_entries": 4292,
+      "installed_equals_sealed_stage": true,
+      "backup_equals_original": true,
+      "signatures_and_quicklook_entitlements_verified": true,
+      "resources_readonly_and_cache_free": true,
+      "namespace_files_unchanged": 11,
+      "prefix_manifest_lock_cocoa_hashes": {
+        "pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+        "pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+        ".pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704"
+      },
+      "installed_file_sha256": {
+        "Contents/MacOS/FreeCAD": "95d482dde19b9918f6655ccb195cfe47925bc26e70ec01ca094dd0de1b306237",
+        "Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+        "Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+        "Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+        "Contents/Resources/lib/libFreeCADApp.dylib": "f45e2f1d1480cf0061f5a4ace245f220677e9f1771551bfcdfafeb6ff3fd0d34",
+        "Contents/Resources/lib/libFreeCADGui.dylib": "bcd636e1fd09a97cbea2a3eaa8de4d1e9385e85cae798bc467599da84e5e7080",
+        "Contents/Resources/LOCAL-INSTALL.txt": "19536368898d50d2efbbf6754f545b689557af09ec07dd2f349f03af0a681e14",
+        "Contents/Resources/Mod/Fem/femmesh/meshtools.py": "4e1847c98681b273858c7bd4b8dd937ddc35871ba5af825380eaf9736467edd3",
+        "Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py": "efc83ac328bc30355c9714d46e8cb9992c8517a3273f41a6839f7e63ca73d304",
+        "Contents/Resources/Mod/Fem/femmesh/ownership_context.py": "fb2ae3c94e212a0ed42a476c35a6904a7e3225662864f9a7eaedb6eff33169d3",
+        "Contents/Resources/Mod/Fem/TestFemApp.py": "61bbd215de1331e1e1452a73d8e7b500a42f366201006228aeb13d07c604f0dd",
+        "Contents/Resources/Mod/Fem/femtest/app/test_contact_ownership.py": "bf9cc2efcc86e83f285ac605d30f8d2ee4506a708416bd2f68cc86023d53c1f8",
+        "Contents/Resources/Mod/Fem/femtest/app/test_material_groups.py": "4cff5d7fdfacacc6c89ea3539bb48227d419ba22a56ecf97e9544d1bc27b2407",
+        "Contents/Resources/Mod/Draft/draftfunctions/svgshapes.py": "505a27e13fe7fa323093ac20585e2c44de7bffa6b9086e9cd3c4d384a2cf7e4a",
+        "Contents/Resources/Mod/Draft/drafttests/test_svg.py": "7d316257046ee880962aa72a8b99d1c045ec1e31b2c121d3590059dd25fe11c1",
+        "Contents/Resources/Mod/Spreadsheet/TestSpreadsheet.py": "69060ac258171d613a15a43c1304619097b2be4ac771dcd73b705a732e1690ea",
+        "Contents/Resources/Mod/TechDraw/TestTechDrawApp.py": "affb4840db21d97abfd9d9bebe2732abd35398e76f3146ef747588caa74963d4",
+        "Contents/Resources/Ext/freecad/utils.py": "8024aea993669521c03aeb2b7386348251cd0551555c455aef7ab0496342ec4d"
+      },
+      "native_app_processes": {
+        "/Applications/FreeCAD-27.1.0.app": [],
+        "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-59d-e770fefedc.app": []
+      },
+      "no_native_app_processes": true,
+      "user_profile_inventories_unchanged": [
+        "/Users/zukomgwili/Library/Application Support/FreeCAD Local",
+        "/Users/zukomgwili/Library/Application Support/FreeCAD"
+      ],
+      "real_process_exit_status_stage_and_installed": true,
+      "large_collector_export_repeated": false
+    },
+    "local_note": "Contents/Resources/LOCAL-INSTALL.txt documents exact build, CLI status semantics, dependencies, rollback path and scope limits."
+  },
+  "historical_receipt_note": "Prior +186 staging audits and minimal tests remain historical, not final installed acceptance. Final +187 native create/reopen rechecks resolve the observed post-OK crash. This receipt is committed after the compiled source revision and does not change binary identity.",
+  "bead_status": "closed",
+  "evidence_sha256": {
+    "/private/tmp/freecad-59d.8rYhwe/build-final2.log": "a9d99c531036315b63cdcfdc715db966dbd1d848e2b9647e617e70c6fcf2d411",
+    "/private/tmp/freecad-59d.8rYhwe/ctest-final2.log": "1fadbbb649b3214e6b99557f792057cc1bf37f55321e37941f321268e52bce4a",
+    "/private/tmp/freecad-59d.8rYhwe/permanent-native-red2.log": "b1fb009bf5fd87ee8019688fe9554b9818794104e530eafe8bfdbe42711d0d21",
+    "/private/tmp/freecad-59d.8rYhwe/permanent-native-green1.log": "a8848a35affed4efdb96591ceea222d338ab9735d43452cbeb22638ba5398339",
+    "/private/tmp/freecad-59d.8rYhwe/trace-native-red.log": "5fcb44933a6f2db2de944c558834ca313411465499411ebe9b230b70fbebabe0",
+    "/private/tmp/freecad-59d.8rYhwe/installed-gui-probe.json": "cb96d22e58edb7860ad3c6456f067c93f9d5bd5a0d0481dc299f3ec606abadca",
+    "/private/tmp/freecad-59d.8rYhwe/installed-probe.json": "2a012e145071352b737f79d1c41f07fd4223559e972bb880819589da07ca98cf",
+    "/private/tmp/freecad-59d.8rYhwe/original-evidence-audit.json": "ccc97c7de959690bba83a52b327bf52c28b738ba6b6b4eb025bf7a5ffdc4dd0b",
+    "/private/tmp/freecad-59d.8rYhwe/validation-facts.json": "27f083c854949b123e5d2adb53a306472c439427d45cc7ef8df5be492ed98961",
+    "/private/tmp/freecad-59d-install.mw7RMw/stage-create/summary.json": "2e8122f7d7fb453076255dbdf1791eb584c742f7b55d6696de5ae97be1dc365b",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/destdir-install.log": "b9eace9613dd43df9fc4f8c2f008d19b7fa7db35906b3160b1b349eb379f2c4a",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/stage-sequence-result.json": "1bcb1dc52fe9485515aaefa91e1934667e76b7d7a0ac1e83fa6299fec20f3718",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/stage-exit-status/summary.json": "a88c39b27c53f584f84e66792c9e05cd378671a1d83c5387c5929aef0918436c",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/installed-sequence-result.json": "a7d1cd79401c381719b6147fe2a7a6b604c28bd190bdffafeee8d16d1c4d4594",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/installed-exit-status/summary.json": "2b13a05a3403c7c25f4467acae68a1fd5245226a03e34c1c3fad6c62b2f1bb49",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/installed-final-gui-probe.json": "04140e660676b18e41cf02c2b75536f55ba60c78ca7d0601b21b3530b3d3a55e",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/installed-final-cmd-probe.json": "c0fae84b00544700085d0bf43e740e84c7c382a1346ee6d533e1badfe6f6611e",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/independent-payload-audit.json": "36875dd830ba890fb529c127def055930712da6381110a598ffeb53ea7422e0d",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/independent-stage-audit.json": "74321e78307c9ae9012719de30ccb6bb31d776a6f2b1ffe0ffb75940a411e95d",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/independent-final-audit.json": "e63f39c577dde0bad42936ddf7b6fade86ac69ddc3e7aca369045cca1b85ebde",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/final-audit.json": "2d9c0e56ded13bc153aab712354ae2d05b404ec825e37d5241b1796cd2931a62",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/swap-fault-audit-final.json": "81cc0e439b09c256a01c24499071798ed43655773012a28db46a308773185934",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/stage_install.py": "9da3ef97afbc9569645eff155f4d870a292797f24747cb5da267e01ce8c5cd3b",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/installed_exit_probe.py": "a74fc712e36b249602a93d1e17ce40b28cd41c3ffd7cd01edf67710e12be95ce",
+    "/private/tmp/freecad-59d-install-final.vLjdh5/InstalledExitWitness.py": "018b35ce0082acb09a74926342c82c7703abadb4a3fbdf0e7e649b35bac27caa"
+  }
+}
