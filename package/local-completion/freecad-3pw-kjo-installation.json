@@ -1,0 +1,577 @@
+{
+  "date": "2026-10-17",
+  "installation_bead": "FreeCAD-17s",
+  "included_fixes": [
+    "FreeCAD-3pw",
+    "FreeCAD-kjo"
+  ],
+  "fix_commits": {
+    "FreeCAD-3pw": "7d4e02651c50fea3ab23c5c24e886d5c9ea378f2",
+    "FreeCAD-kjo": "1204d53fb212aea60562b4052ee777f4fb94a058"
+  },
+  "branch": "codex/fix-toroidal-self-cut",
+  "compiled_commit": "1b0d57227d1411d5f5c9f84bd960990f2becf2f2",
+  "compiled_version": "27.1.0dev49261+184 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "previous_application_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-3pw-kjo-1b0d57227d.app",
+  "backup_compiled_commit": "86e6de7f1ee8b54f3e8bf54a9717e709cb2a6206",
+  "backup_revision": "+179",
+  "build": {
+    "type": "Release",
+    "architecture": "arm64",
+    "all_enabled_targets_built": true,
+    "clean_from_scratch_claimed": false,
+    "build_exit": 0,
+    "destdir_install_exit": 0,
+    "latest_branch_up_to_date_before_build": true,
+    "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "pixi_toml_sha256": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "pixi_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "warnings": "Pivy stub generation reported no coin.pyi/no generated stubs; native build completed successfully. No claim that unrelated standalone typing tools are fixed."
+  },
+  "payload_audit": {
+    "regular_files": 3874,
+    "directories": 393,
+    "literal_symlinks": 3,
+    "merge_collisions_or_symlink_write_through_paths": 0,
+    "selected_script_ui_data_files_verified": 1984,
+    "source_build_payload_fem_byte_parity": true,
+    "external_namespace_files_unchanged": 11
+  },
+  "evidence_directory": "/private/tmp/freecad-3pw-kjo-install.YgihbI",
+  "source_validation_receipts": [
+    "package/local-completion/freecad-3pw-validation.json",
+    "package/local-completion/freecad-kjo-validation.json"
+  ],
+  "historical_receipt_note": "Prior source-only and installation receipts remain historical. This receipt supersedes their installed-version status. Metadata is committed after the compiled revision without changing binary identity.",
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "dependency_prefix_still_required": true,
+    "user_profiles_or_building_documents_modified": false,
+    "loaded_joint_or_physical_contact_behaviour_accepted": false,
+    "physical_joint_or_house_design_accepted": false,
+    "whole_house_BIM_or_complete_Oomakhi_method_requalified": false
+  },
+  "status": "built_installed_and_verified",
+  "application_modified_local": "2026-10-17 14:07:56 BST",
+  "installation": {
+    "staging": "CMake DESTDIR isolated the entire install, including all 11 external namespace destinations. Cloned the signature-verified previous app with literal symlinks preserved and authenticated complete inventory equality before an explicit no-follow payload merge. No install was run directly into the live app or dependency prefix.",
+    "namespace": "All 11 generated namespace files match the live prefix and app-local Ext/freecad byte-for-byte. Verified real-directory ancestor chains and unchanged modes. No helper or bytecode cache transaction in the dependency prefix; reversing this installation needs only the retained +179 application backup.",
+    "launcher": "GUI launcher executable instructions (first 34240 pre-signature bytes) and complete command launcher bytes match the original. Both preserve the existing external patched Cocoa route; no historical app-local qt-cocoa overlay installed.",
+    "signing": "Captured both original QuickLook entitlement plists, deep-signed the stage, reapplied all four sandbox/bookmark/download/user-selected read-only entitlements to each extension, then signed the outer app. Deep/strict verification and entitlement parity pass after final installed tests.",
+    "cache_policy": "Copied generated application bytecode moved to recoverable scratch before signing. Resources non-symlinks are read-only and cache-free after all tests. Disposable observers set sys.dont_write_bytecode before product imports.",
+    "replacement": "Guarded same-filesystem application renames only after all ten stage gates passed and native executable-path enumeration confirmed neither app was running. Old app retained intact at the distinct backup path; rollback on rename or verification failure. Both inventories rechecked before swap and after final tests; Finder application timestamp refreshed.",
+    "rollback_fault_tests": {
+      "run": 7,
+      "passed": true,
+      "scope": "Private scratch-only app/prefix fixtures; real application and prefix never used.",
+      "cases": [
+        "success without prefix mutation",
+        "second rename failure",
+        "post-swap verification failure",
+        "rollback rename failure reports recoverable/manual-attention locations",
+        "changed prefix rejected",
+        "changed stage rejected",
+        "incomplete ten-gate sequence rejected"
+      ]
+    },
+    "local_note": "LOCAL-INSTALL.txt records exact compiled identity, both fixes, existing dependency/Cocoa requirements, native ownership remeshing guidance, application-only rollback path and engineering scope limits."
+  },
+  "verification": {
+    "ctest": {
+      "registered": 2240,
+      "passed": 2230,
+      "skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "seconds": 73.94,
+      "excluded": []
+    },
+    "staged_sequence": {
+      "passed": true,
+      "elapsed_seconds": 165.079,
+      "gates": [
+        {
+          "mode": "cli",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-cli/summary.json",
+          "run": 1721,
+          "seconds": 90.142,
+          "details": "skipped=8, expected failures=1",
+          "skips": 8,
+          "expected_failures": 1
+        },
+        {
+          "mode": "create",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-create/summary.json",
+          "run": 2,
+          "seconds": 0.543,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "reopen",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-reopen/summary.json",
+          "run": 2,
+          "seconds": 0.607,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "features",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-features/summary.json",
+          "run": 15,
+          "seconds": 1.583,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "gui",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-gui/summary.json",
+          "run": 17,
+          "seconds": 22.87,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "equilibrium",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-equilibrium/summary.json",
+          "run": 3,
+          "seconds": 8.872,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "mixed-create",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-mixed-create/summary.json",
+          "run": 2,
+          "seconds": 1.776,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "mixed-reopen",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-mixed-reopen/summary.json",
+          "run": 2,
+          "seconds": 1.739,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "area-create",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-area-create/summary.json",
+          "run": 2,
+          "seconds": 1.412,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "area-reopen",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/stage-area-reopen/summary.json",
+          "run": 2,
+          "seconds": 1.464,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        }
+      ]
+    },
+    "installed_sequence": {
+      "passed": true,
+      "elapsed_seconds": 163.182,
+      "gates": [
+        {
+          "mode": "cli",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-cli/summary.json",
+          "run": 1721,
+          "seconds": 89.706,
+          "details": "skipped=8, expected failures=1",
+          "skips": 8,
+          "expected_failures": 1
+        },
+        {
+          "mode": "create",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-create/summary.json",
+          "run": 2,
+          "seconds": 0.587,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "reopen",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-reopen/summary.json",
+          "run": 2,
+          "seconds": 0.603,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "features",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-features/summary.json",
+          "run": 15,
+          "seconds": 1.531,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "gui",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-gui/summary.json",
+          "run": 17,
+          "seconds": 23.283,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "equilibrium",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-equilibrium/summary.json",
+          "run": 3,
+          "seconds": 8.999,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "mixed-create",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-mixed-create/summary.json",
+          "run": 2,
+          "seconds": 1.831,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "mixed-reopen",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-mixed-reopen/summary.json",
+          "run": 2,
+          "seconds": 1.765,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "area-create",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-area-create/summary.json",
+          "run": 2,
+          "seconds": 1.481,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        },
+        {
+          "mode": "area-reopen",
+          "report": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-area-reopen/summary.json",
+          "run": 2,
+          "seconds": 1.489,
+          "details": "",
+          "skips": 0,
+          "expected_failures": 0
+        }
+      ]
+    },
+    "configured_tests_per_sequence": 1768,
+    "regression_execution": "All 277 FEM tests execute from the app bundle; the 33 Contact, 12 material-group, 14 rigid-region and 8 rigid-port regression methods are uniquely discovered and observed running without skips. Broad suite retains 8 documented non-FEM skips and 1 existing expected failure; nine other acceptance gates have neither skips nor expected failures.",
+    "identity_and_result_policy": "Every gate asserts exact compiled commit/revision, application home, actual native executable and loaded module origins. Installed Python bytes match current source; no production source path override. Dynamic suite counts match actual unittest logs; exit zero alone is insufficient. Isolated user/system/data/temp profiles, frozen observer hashes, bounded process groups and semantic JSON fail closed.",
+    "native_contact_witness": "Unchanged R27 mesh SHA fcc5b43e2d0663f0b5222c98d81ffeeec669bad93d8b78d9321951489d377387 preserves exact owner-only 18/18 slave/master facets and 47/47 disjoint public rigid-region/port nodes at creation and independent cold reopen, before and after forced recompute. Topology/groups and original/copy/cold input hashes remain unchanged. No remeshing, gap, group/reference/provenance/deck repair or loaded-joint solve in this witness.",
+    "other_preserved_witnesses": "Mixed-shape hasher physical provenance and blue-face render checks pass through create, cold reopen, forced recompute and successor reopen. BIM adaptive-area quantities pass creation and independent cold reopen. TechDraw GUI and connector/material GUI acceptance pass.",
+    "shipped_example_equilibrium": {
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +184 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/17 12:41:11",
+        "codex/fix-toroidal-self-cut",
+        "1b0d57227d1411d5f5c9f84bd960990f2becf2f2"
+      ],
+      "stock_setup_unmodified": true,
+      "shipped_mesh": true,
+      "section_size_mm": 1.25,
+      "volume_elements": 24001,
+      "cold_reopened": false,
+      "solver_test_mode": false,
+      "example_relative_tolerance": 0.01,
+      "relative_force_residual": 0.0044106791171284335,
+      "relative_origin_moment_residual": 0.0008129863678002713,
+      "relative_centroid_moment_residual": 0.00010322259531122808,
+      "building_design_accepted": false
+    },
+    "shipped_example_note": "The unmodified shipped example is solved by the existing regression harness and raw CalculiX DAT output is cross-checked. Its 1% example tolerance is not acceptance of the large collector, joint or building.",
+    "retained_collector_stock_export": {
+      "passed": true,
+      "writer_seconds": 290.655519957887,
+      "elapsed_seconds": 301.0635982500389,
+      "source_commit": "1b0d57227d1411d5f5c9f84bd960990f2becf2f2",
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +184 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/17 12:41:11",
+        "codex/fix-toroidal-self-cut",
+        "1b0d57227d1411d5f5c9f84bd960990f2becf2f2"
+      ],
+      "installed_modules_only": true,
+      "source_path_override": false,
+      "module_origins": {
+        "femmesh.meshtools": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+        "femmesh.meshsetsgetter": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+        "femmesh.ownership_context": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/ownership_context.py",
+        "femtools.ccxtools": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+        "femsolver.calculix.writer": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py"
+      },
+      "native_module_origins": {
+        "Fem": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+        "Part": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so"
+      },
+      "process_executable": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd",
+      "expected_source_hashes": {
+        "femmesh/meshtools.py": "4e1847c98681b273858c7bd4b8dd937ddc35871ba5af825380eaf9736467edd3",
+        "femmesh/meshsetsgetter.py": "efc83ac328bc30355c9714d46e8cb9992c8517a3273f41a6839f7e63ca73d304",
+        "femmesh/ownership_context.py": "fb2ae3c94e212a0ed42a476c35a6904a7e3225662864f9a7eaedb6eff33169d3",
+        "femtools/ccxtools.py": "1fcd7126a20e0458f20d54427f260bf9256930f2e3d6753f7d59cdd7326a2bb8",
+        "femsolver/calculix/writer.py": "c3b06417d5156744f36405d75aa9ff32e6b523da4308dbc6430fe15f4d5f80ed"
+      },
+      "source_unchanged_since_import": true,
+      "material_counts": {
+        "CollectorConcreteMaterial": 90804,
+        "CollectorTimberMaterial": 221102,
+        "CollectorSteelMaterial": 473228
+      },
+      "material_exact_disjoint_volume_partition": true,
+      "contacts": 193,
+      "reference_occurrences": 578,
+      "contact_facet_entries": 399822,
+      "surfaces": 418,
+      "sectionprint_requests": 32,
+      "deck_material_elset_counts": {
+        "CollectorConcreteMaterialSolid": 90804,
+        "CollectorTimberMaterialSolid": 221102,
+        "CollectorSteelMaterialSolid": 473228
+      },
+      "deck_surfaces_equal_writer_data": true,
+      "deck_material_elsets_equal_writer_data": true,
+      "sectionprint_one_side_per_native_patch": true,
+      "document_unchanged": true,
+      "fixture_before_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+      "fixture_after_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+      "fixture_final_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+      "native_counts": {
+        "getElementNodes": 6650668,
+        "getNodesByFace": 451
+      },
+      "python_counts": {
+        "femmesh.meshsetsgetter.get_mesh_sets": 1,
+        "femmesh.meshsetsgetter.get_material_elements": 1,
+        "femmesh.meshtools.get_mesh_geometry_signature": 4,
+        "femmesh.meshsetsgetter.get_materials_elements": 1,
+        "femmesh.meshsetsgetter.get_constraints_centrif_elements": 1,
+        "femmesh.meshsetsgetter.get_constraints_bodyheatsource_elements": 1,
+        "femmesh.meshsetsgetter.get_constraints_fixed_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_displacement_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_rigidbody_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_planerotation_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_contact_faces": 1,
+        "femmesh.meshtools.get_contact_elements": 578,
+        "femmesh.meshtools._validate_contact_face_reference": 578,
+        "femmesh.meshtools._get_mesh_region_by_owned_references": 578,
+        "femmesh.meshsetsgetter.get_constraints_tie_faces": 1,
+        "femmesh.meshsetsgetter.get_constraints_sectionprint_faces": 1,
+        "femmesh.meshsetsgetter.get_constraints_transform_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_temperature_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_initialtemperature_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_electrostatic_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_electricchargedensity_nodes": 1,
+        "femmesh.meshsetsgetter.get_constraints_force_nodeloads": 1,
+        "femmesh.meshsetsgetter.get_constraints_pressure_faces": 1,
+        "femmesh.meshsetsgetter.get_constraints_heatflux_faces": 1,
+        "femmesh.meshsetsgetter.get_constraints_electrostatic_faces": 1,
+        "femmesh.meshsetsgetter.get_constraints_electricchargedensity_faces": 1
+      },
+      "python_seconds": {
+        "femmesh.meshtools.get_mesh_geometry_signature": 0.7828822080045938,
+        "femmesh.meshsetsgetter.get_material_elements": 5.095072458032519,
+        "femmesh.meshsetsgetter.get_materials_elements": 4.9536541670095176,
+        "femmesh.meshsetsgetter.get_constraints_centrif_elements": 0.0007328749634325504,
+        "femmesh.meshsetsgetter.get_constraints_bodyheatsource_elements": 0.000633500050753355,
+        "femmesh.meshsetsgetter.get_constraints_fixed_nodes": 0.47270375001244247,
+        "femmesh.meshsetsgetter.get_constraints_displacement_nodes": 0.0006721250247210264,
+        "femmesh.meshsetsgetter.get_constraints_rigidbody_nodes": 0.0007803330663591623,
+        "femmesh.meshsetsgetter.get_constraints_planerotation_nodes": 0.0006206249818205833,
+        "femmesh.meshtools._validate_contact_face_reference": 0.005312626017257571,
+        "femmesh.meshtools._get_mesh_region_by_owned_references": 158.618077527266,
+        "femmesh.meshtools.get_contact_elements": 170.79670610511675,
+        "femmesh.meshsetsgetter.get_constraints_contact_faces": 190.77785608312115,
+        "femmesh.meshsetsgetter.get_constraints_tie_faces": 0.003781875129789114,
+        "femmesh.meshsetsgetter.get_constraints_sectionprint_faces": 19.488370708888397,
+        "femmesh.meshsetsgetter.get_constraints_transform_nodes": 0.0019024999346584082,
+        "femmesh.meshsetsgetter.get_constraints_temperature_nodes": 0.0017218750435858965,
+        "femmesh.meshsetsgetter.get_constraints_initialtemperature_nodes": 0.0016881672199815512,
+        "femmesh.meshsetsgetter.get_constraints_electrostatic_nodes": 0.0017279998864978552,
+        "femmesh.meshsetsgetter.get_constraints_electricchargedensity_nodes": 0.0018870418425649405,
+        "femmesh.meshsetsgetter.get_constraints_force_nodeloads": 44.11158441682346,
+        "femmesh.meshsetsgetter.get_constraints_pressure_faces": 0.001880834111943841,
+        "femmesh.meshsetsgetter.get_constraints_heatflux_faces": 0.001789500005543232,
+        "femmesh.meshsetsgetter.get_constraints_electrostatic_faces": 0.0017452910542488098,
+        "femmesh.meshsetsgetter.get_constraints_electricchargedensity_faces": 0.0017300001345574856,
+        "femmesh.meshsetsgetter.get_mesh_sets": 265.3617889159359
+      },
+      "deck": {
+        "path": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-stock/installed-deck/CollectorMesh.inp",
+        "bytes": 159084865,
+        "sha256": "91a725e79d15e8a024c12e6bbdb49563c795c57c0d51c36132922dd845000dab",
+        "headings": {
+          "*NODE": 1,
+          "*ELEMENT": 1,
+          "*ELSET": 4,
+          "*NSET": 8,
+          "*SURFACE": 418,
+          "*PHYSICAL CONSTANTS": 1,
+          "*MATERIAL": 3,
+          "*ELASTIC": 3,
+          "*DENSITY": 3,
+          "*EXPANSION": 3,
+          "*ORIENTATION": 1,
+          "*SOLID SECTION": 3,
+          "*CONTACT PAIR": 193,
+          "*SURFACE INTERACTION": 193,
+          "*SURFACE BEHAVIOR": 193,
+          "*FRICTION": 24,
+          "*STEP": 1,
+          "*STATIC": 1,
+          "*BOUNDARY": 8,
+          "*SECTION PRINT": 32,
+          "*DLOAD": 1,
+          "*CLOAD": 9,
+          "*NODE FILE": 1,
+          "*EL FILE": 1,
+          "*NODE PRINT": 8,
+          "*CONTACT PRINT": 193,
+          "*OUTPUT": 1,
+          "*END STEP": 1
+        }
+      },
+      "writer_observations": {
+        "path": "/private/tmp/freecad-3pw-kjo-install.YgihbI/installed-stock/installed-writer-observations.json",
+        "bytes": 21915931,
+        "sha256": "32fc8354e41c6ed9879c6436ac89c3c1e95ce6882d1a9fea49cf0156c9af4615"
+      },
+      "mesher_executed": false,
+      "solver_executed": false,
+      "references_or_groups_repaired": false,
+      "security_preferences_changed": false,
+      "supervision": {
+        "exit_code": 0,
+        "final_exit_code": 0,
+        "timed_out": false,
+        "timeout_seconds": 900,
+        "process_reaped": true,
+        "elapsed_seconds": 301.629,
+        "unittest": {
+          "run": 1,
+          "seconds": 300.918,
+          "outcome": "OK"
+        },
+        "pid": 4821
+      },
+      "native_getNodesBySolid_calls": 0,
+      "interpretation": "Stock writer/export completion and exact serialization of actual getter data only, not a controlled speedup benchmark. Native Gmsh regression oracles separately verify CAD ownership and facets; this full-fixture comparison does not independently recompute all CAD ownership. One-sided SectionPrint output does not establish equilibrium. The collector was not solved, remeshed or repaired."
+    },
+    "independent_reviews": {
+      "payload": "passed",
+      "stage_runtime_and_custody": "passed",
+      "installed_runtime_and_custody": "passed",
+      "retained_stock_output": "passed: separate streaming parser matched all 418 surfaces / 401260 ordered facets and all 3 material ELSETs, independently reconstructed one-sided SectionPrint patches from exported C3D10 connectivity, and verified source/runtime/artifact/fixture custody without launching the app"
+    },
+    "final_custody_audit": {
+      "passed": true,
+      "compiled_commit": "1b0d57227d1411d5f5c9f84bd960990f2becf2f2",
+      "compiled_revision": "49261 +184 (Git)",
+      "installed_inventory_entries": 4292,
+      "backup_inventory_entries": 4290,
+      "installed_equals_sealed_stage": true,
+      "backup_equals_original": true,
+      "signatures_and_quicklook_entitlements_verified": true,
+      "resources_readonly_and_cache_free": true,
+      "namespace_files_unchanged": 11,
+      "prefix_manifest_lock_cocoa_hashes": {
+        "pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+        "pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+        ".pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704"
+      },
+      "installed_file_sha256": {
+        "Contents/MacOS/FreeCAD": "6b1826813c16baf27f8b686adf7b6bd3e1bb442fe6ca9f876685ee9ee06d3316",
+        "Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+        "Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+        "Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+        "Contents/Resources/lib/libFreeCADApp.dylib": "f45e2f1d1480cf0061f5a4ace245f220677e9f1771551bfcdfafeb6ff3fd0d34",
+        "Contents/Resources/LOCAL-INSTALL.txt": "3153a53b0889e528c9c6464de91fd1a69440bcf45d1d1e114fed938feed1e344",
+        "Contents/Resources/Mod/Fem/femmesh/meshtools.py": "4e1847c98681b273858c7bd4b8dd937ddc35871ba5af825380eaf9736467edd3",
+        "Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py": "efc83ac328bc30355c9714d46e8cb9992c8517a3273f41a6839f7e63ca73d304",
+        "Contents/Resources/Mod/Fem/femmesh/ownership_context.py": "fb2ae3c94e212a0ed42a476c35a6904a7e3225662864f9a7eaedb6eff33169d3",
+        "Contents/Resources/Mod/Fem/TestFemApp.py": "61bbd215de1331e1e1452a73d8e7b500a42f366201006228aeb13d07c604f0dd",
+        "Contents/Resources/Mod/Fem/femtest/app/test_contact_ownership.py": "bf9cc2efcc86e83f285ac605d30f8d2ee4506a708416bd2f68cc86023d53c1f8",
+        "Contents/Resources/Mod/Fem/femtest/app/test_material_groups.py": "4cff5d7fdfacacc6c89ea3539bb48227d419ba22a56ecf97e9544d1bc27b2407",
+        "Contents/Resources/Mod/Draft/draftfunctions/svgshapes.py": "505a27e13fe7fa323093ac20585e2c44de7bffa6b9086e9cd3c4d384a2cf7e4a",
+        "Contents/Resources/Mod/Draft/drafttests/test_svg.py": "7d316257046ee880962aa72a8b99d1c045ec1e31b2c121d3590059dd25fe11c1",
+        "Contents/Resources/Mod/Spreadsheet/TestSpreadsheet.py": "69060ac258171d613a15a43c1304619097b2be4ac771dcd73b705a732e1690ea",
+        "Contents/Resources/Mod/TechDraw/TestTechDrawApp.py": "affb4840db21d97abfd9d9bebe2732abd35398e76f3146ef747588caa74963d4",
+        "Contents/Resources/Ext/freecad/utils.py": "8024aea993669521c03aeb2b7386348251cd0551555c455aef7ab0496342ec4d"
+      },
+      "native_app_processes": {
+        "/Applications/FreeCAD-27.1.0.app": [],
+        "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-3pw-kjo-1b0d57227d.app": []
+      },
+      "no_native_app_processes": true,
+      "stock_process_group_survivors": [],
+      "stock_fixture_original_sha256_after": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+      "stock_fixture_copy_sha256_after": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d"
+    }
+  },
+  "quality_gates": {
+    "source_code_changed": false,
+    "receipt_json": "jq parse and semantic acceptance assertions passed",
+    "whitespace_and_eof": "Trailing whitespace, end-of-file, mixed-line-ending and git diff --check passed",
+    "rails_checks": "Not applicable: no Rails application, Gemfile, wrappers or root package.json. FreeCAD native build/CTest/application gates used; unrelated vendored Doxygen package.json is not a FreeCAD JavaScript lint gate."
+  },
+  "evidence_sha256": {
+    "build.log": "d3045e3f1cca91c3af34503c9ac7cdc21563349128f11d6c47ed96347e470a27",
+    "ctest.log": "ba7e5225550dd81cd4ff1eba75108aa32c8cb768ba52e2e57053576cb320e856",
+    "install.log": "d9adb296bf63daaef0feecfed2cf23b6ab37c665fb597cdde7e445a1cce80cba",
+    "stage.log": "20eaf9fdc4fe75c02f801739877a0c22c0a034b3dad3beb68eb12dd4ada6ec10",
+    "swap.log": "c62398f26f6cd2a05dd4237de4533091e9bbe8de7a09d5070ea49fa4ebcf66ea",
+    "baseline-inventory.json": "6d5cf2ebfcc0d85af37dc096d72f0ef6c906d5c5bf0b80ec3e7401b27b12b783",
+    "stage-inventory.json": "b3883bfa3d514b929ace18a370e7acf5d144280d3f3c48bb400364893165a90c",
+    "namespace-plan.json": "ffb1f89f3cf00e0a372a6b39c97049cdcee60fd3c0ac2ad67148f54da0981c62",
+    "swap-fault-audit.json": "bb9711bd6bf4da72af36302757df54f066329f98e60afaae4392f172ed4fe0d0",
+    "stage-sequence-result.json": "7a16b65453c856b5c3ce607f20ccdac3deddc40e9f7eb520d52fce1368699137",
+    "installed-sequence-result.json": "4ab99b6f20a1f7f4e29804a419081b47b11695ff98cf372797e17cd711c76da1",
+    "final-audit.json": "3887a5db02603567a5818df87e92fd234fc648eaec74afff02472e628fcda105",
+    "stage_install.py": "15357d364dbc84e74fa23aa7f9de3d9e3f19208a30a6f87ab364ef900e47a98c",
+    "audit_swap_faults.py": "fb6ef64dd45fcfa2e31d6dfbfc4371ea59b9671919d880f94bc983c7574f7357",
+    "InstalledIdentity.py": "6c758d9cc489cca7018eeb1e780308c27b58a00d79069d3a8833c42b61bc2b2b",
+    "validate_install.py": "52b449653b62c2926beeb7cdcab61e3be64a7400100efd5aee8c9908d39f3ef4",
+    "run_gate_sequence.py": "1a6de63303209dafc7b5603c78443565728e35bdac2b94aa3466c2cbca2b7388",
+    "StockWriterQualification.py": "63116ad3c02d208134f2b257759f837eca968ca1064d751efadb1be4a1b86591",
+    "validate_stock_writer.py": "aa3c0e93f3935653c110839936f15dcc2cc469d5d5d4438941052fb0f5436874",
+    "final_audit.py": "c120df408afd0940bec8b370413c76a77b1c130185d6ea59e3cbb9d501c745ad",
+    "installed-stock/summary.json": "e33de78b4d295385ec534d5f1b6d2130eba601f7cf47295385137a36bfb61c50",
+    "installed-stock/run.log": "3c5879c2d4ddaab8167da6047527c9a6ff920b49573e4bd139c62934ce845080",
+    "installed-stock/installed-report.json": "aae246cec6adee6894d060e7dc2e2812715fb137319132fbd24f6303ad676ce8",
+    "installed-stock/installed-writer-observations.json": "32fc8354e41c6ed9879c6436ac89c3c1e95ce6882d1a9fea49cf0156c9af4615"
+  },
+  "evidence_custody_note": "Raw test logs, profiles, large deck and writer observations remain in the named private scratch directory. This committed receipt preserves exact hashes, semantic results, installed identities and rollback location; source regression tests remain in the repository."
+}
