@@ -142,9 +142,9 @@ def _get_path_circ_ellipse(
         return "edata", edata
 
     # The angle is 0 or 180, coplanar
-    occversion = Part.OCC_VERSION.split(".")
+    occversion = tuple(map(int, Part.OCC_VERSION.split(".")[0:3]))
     done = False
-    if tuple(map(int, occversion[:2])) >= (7, 1):
+    if occversion >= (7, 1, 0):
         # if using occ >= 7.1, use HLR algorithm
         # HLR chooses its own axes from the projection normal. Express the
         # edge in the same u/v coordinates as the path's existing start point

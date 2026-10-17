@@ -855,6 +855,7 @@ class DraftSVGExportRegression(test_base.DraftTestCaseDoc):
             ("7.9.3", True),
             ("8.0.0", True),
             ("8.0.1", True),
+            ("8.0.0.p1-4f95ecaa", True),
         ):
             with self.subTest(version=version):
                 with mock.patch.object(Part, "OCC_VERSION", version):
