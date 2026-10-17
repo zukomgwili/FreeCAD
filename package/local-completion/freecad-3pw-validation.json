@@ -1,9 +1,27 @@
 {
   "issue": "FreeCAD-3pw",
   "date": "2026-10-17",
-  "status": "material_fix_verified_full_writer_acceptance_pending",
-  "issue_closed": false,
-  "remaining_dependency": "FreeCAD-kjo",
+  "status": "complete",
+  "issue_closed": true,
+  "remaining_dependency": null,
+  "original_record_status": "material_fix_verified_full_writer_acceptance_pending",
+  "completion_follow_up": {
+    "date": "2026-10-17",
+    "closed_at": "2026-10-17T12:39:50Z",
+    "source_commit": "1204d53fb212aea60562b4052ee777f4fb94a058",
+    "receipt": "package/local-completion/freecad-kjo-validation.json",
+    "full_stock_writer_verified": true,
+    "writer_seconds": 364.9872700420674,
+    "deck_bytes": 159084865,
+    "deck_sha256": "166ccff4a37aad83d0c557e7ea106cb1f6c75bed8f45f59156928e73c04a1bd6",
+    "fixture_and_document_unchanged": true,
+    "material_exact_disjoint_volume_partition": true,
+    "all_serialized_material_ids_match_writer_data": true,
+    "native_getNodesBySolid_calls": 0,
+    "all_277_fem_app_tests_pass": true,
+    "installation_performed": false,
+    "interpretation": "FreeCAD-kjo completes the later Contact stage and the remaining full-writer criterion. The original material qualification and earlier bounded failures below remain historical evidence; this is stock export acceptance only, without a solve, equilibrium or building-design acceptance."
+  },
   "source_commit": "7d4e02651c50fea3ab23c5c24e886d5c9ea378f2",
   "base_commit": "a2d013936ea3bd3e28b8807f1ea972b11dd1ac04",
   "verification_runtime": {
@@ -71,7 +89,7 @@
     "solver_executed": false,
     "design_or_numerical_acceptance_claimed": false
   },
-  "full_stock_writer": {
+  "historical_full_stock_writer_attempts_before_kjo": {
     "api": "FemToolsCcx.update_objects(), check_prerequisites(), write_inp_file() with original analysis/solver and fresh work directory",
     "complete": false,
     "deck_produced": false,

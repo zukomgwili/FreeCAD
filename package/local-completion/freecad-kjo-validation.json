@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "issues": [
+    "FreeCAD-kjo",
+    "FreeCAD-3pw"
+  ],
+  "date": "2026-10-17",
+  "source_commit": "1204d53fb212aea60562b4052ee777f4fb94a058",
+  "base_commit": "3071d45cbe",
+  "source_only": true,
+  "installation_performed": false,
+  "native_cpp_changed": false,
+  "diagnosis": {
+    "smallest_reproducer": "Ten independently named native Contacts sharing two CAD faces, through MeshSetsGetter.get_constraints_contact_faces",
+    "before": {
+      "geometry_signature_calls": 20,
+      "native_face_calls": 20,
+      "native_receiver_nodes": [
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468,
+        468
+      ],
+      "seconds": 0.24103708402253687
+    },
+    "after": {
+      "geometry_signature_calls": 2,
+      "native_face_calls": 2,
+      "native_receiver_nodes": [
+        33,
+        33
+      ],
+      "seconds": 0.0462246669922024
+    },
+    "timing_note": "Observed profiler wall times, not a controlled benchmark or an end-to-end speedup ratio.",
+    "red_regressions": [
+      "permanent-candidate-red.log",
+      "cache-red.log"
+    ],
+    "final_micro_reproduction_log": "/private/tmp/freecad-kjo.jOKzMl/reuse-final.log",
+    "final_micro_log_sha256": "6cce7cb3f3a51a5c87018c9565cec1c573e166bfba7af0981d6480eb5c2f6666"
+  },
+  "implementation": [
+    "Private context lives only inside one synchronous Contact batch, with no persistent getter cache or user bypass.",
+    "Snapshot actual world-space nodes, all native connectivity, group IDs/names/types/members and CAD ownership provenance; do not use native deep copy, which can omit malformed group data.",
+    "Validate each canonical native entity once using an identity-transform native point cloud of owned candidate coordinates and compact temporary IDs; preserve the native CAD classifier and tolerance.",
+    "Recheck geometry, provenance, mesh/groups, getter tables and Contact references before publishing any rows atomically.",
+    "Preserve shell, legacy and all-non-face fallback routes, original exported IDs, complete face patches and one-sided facets."
+  ],
+  "regression_tests": {
+    "new_tests": 12,
+    "total_fem_app_tests": 277,
+    "result": "OK",
+    "seconds": 47.718,
+    "log": "/private/tmp/freecad-kjo.jOKzMl/full-fem-final.log",
+    "log_sha256": "2408b5fa7e0309c83cb955d9a35ce38f7b6b95395b4be02e3cb80542d5394f3f",
+    "coverage": [
+      "Candidate-only native geometry checks",
+      "Constant per-batch validation for repeated native faces",
+      "Reference swap on reused getter",
+      "Changed geometry and mutable native groups",
+      "Native mesh node addition and transformed replacement",
+      "In-batch reference/group/mesh mutation rejected before any row publication",
+      "Non-face volume fallback compatibility",
+      "Real native sparse-ID/nonidentity-transform mesh with unchanged world coordinates",
+      "Existing independent coincident-owner, exact facet, stale-provenance, legacy and save/reopen regressions"
+    ]
+  },
+  "quality_gates": {
+    "build": "pixi run cmake --build build/release --target FemScriptsTarget -j 4: passed",
+    "formatting": "Black 26.5.1, line length 100, new module and changed method ranges pass; unrelated existing formatting preserved.",
+    "hooks": "Trailing whitespace, end-of-file, mixed-line-ending, large-file checks and git diff --check pass.",
+    "review": "Independent safety review and post-fix review of source commit: no blocking findings. Reviewer coverage recommendations became positive sparse/transform and non-face compatibility tests.",
+    "rails_checks": "Not applicable: no Rails application/Gemfile/wrappers; FreeCAD-native gates used."
+  },
+  "retained_fixture_baseline": {
+    "fixture_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+    "nodes": 1526707,
+    "volumes": 785134,
+    "contacts": 193,
+    "first_native_face_seconds": 117.59166970779188,
+    "element_node_reads_in_partial_first_region_attempt": 2772716,
+    "native_log_sha256": "7f8958d225493fada3210c20baa1efc0f7e9d30e7b29eff5dc709a9ac9d24012",
+    "caveat": "Timing-only baseline: after the first owned-region safety check returned, the narrowed observer lacked the stock face masks and stopped. That harness setup error is not a product failure or full Contact baseline acceptance.",
+    "first_huge_face_note": "Its native group contains 118026 face elements and 238931 owned nodes. Strict native validation of this large real face remains expensive; cache reuse does not remove that safety check."
+  },
+  "prior_qualification_attempts": [
+    {
+      "label": "stock2",
+      "writer_returned": true,
+      "writer_seconds": 379.57669654209167,
+      "observer_process_seconds": 389.08216945896856,
+      "deck_bytes": 159084865,
+      "passed_development_checks": true,
+      "final_source_acceptance": false,
+      "reason": "Final non-face-only guard and formatting cleanup occurred during the run. Source-unchanged flag is false; this is supporting evidence only."
+    },
+    {
+      "label": "stock3",
+      "writer_returned": true,
+      "writer_seconds": 372.3812127080746,
+      "semantic_report_passed": false,
+      "reason": "Observer compared equal numeric surface IDs as tuple versus native list. Product writer returned normally; historical failed report is retained, not relabelled as a pass. Corrected observer is used for final qualification."
+    }
+  ],
+  "interpretation": "Writer/export correctness and completion only. No remeshing, group/provenance/reference repair, solver execution, equilibrium acceptance or building-design acceptance.",
+  "status": "complete",
+  "issues_closed": [
+    "FreeCAD-kjo",
+    "FreeCAD-3pw"
+  ],
+  "closed_at": "2026-10-17T12:39:50Z",
+  "verification_runtime": {
+    "executable": "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "mode": "Installed native runtime with source FEM Python module identities asserted; not an installed-fix qualification",
+    "bytecode_writes_disabled": true,
+    "private_user_and_system_configuration_files": true,
+    "restore_setup": "Preload unchanged installed FEM proxy modules before adding source FEM first. No restore security preference disabled.",
+    "gmsh": "4.15.2",
+    "unchanged_installed_meshtools_sha256": "e3e5f3a24da343418d90766b9318af22a4c01066da395e27883df9d0f0701e30",
+    "pixi_toml_sha256": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "pixi_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7"
+  },
+  "retained_fixture": {
+    "source": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-contact-fix-r29/fem-second/collector-meshed.FCStd",
+    "tested_copy": "/private/tmp/freecad-kjo-baseline.xs5BFh/collector-meshed.FCStd",
+    "unchanged_original_and_copy_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d"
+  },
+  "final_stock_writer": {
+    "label": "stock4",
+    "passed": true,
+    "source_commit": "1204d53fb212aea60562b4052ee777f4fb94a058",
+    "runtime": [
+      "27",
+      "1",
+      "0",
+      "49261 +179 (Git)",
+      "Unknown",
+      "2026/10/17 09:31:37",
+      "origin/codex/fix-toroidal-self-cut,main",
+      "86e6de7f1ee8b54f3e8bf54a9717e709cb2a6206"
+    ],
+    "writer_seconds": 364.9872700420674,
+    "elapsed_seconds": 377.8876980410423,
+    "stock_methods": [
+      "FemToolsCcx.update_objects",
+      "FemToolsCcx.check_prerequisites",
+      "FemToolsCcx.write_inp_file"
+    ],
+    "prerequisites": "",
+    "mesh_counts": {
+      "nodes": 1526707,
+      "volumes": 785134
+    },
+    "contacts": 193,
+    "contact_reference_occurrences": 578,
+    "contact_facet_entries": 399822,
+    "material_counts": {
+      "CollectorConcreteMaterial": 90804,
+      "CollectorTimberMaterial": 221102,
+      "CollectorSteelMaterial": 473228
+    },
+    "material_exact_disjoint_volume_partition": true,
+    "deck": {
+      "path": "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4-deck/CollectorMesh.inp",
+      "bytes": 159084865,
+      "sha256": "166ccff4a37aad83d0c557e7ea106cb1f6c75bed8f45f59156928e73c04a1bd6",
+      "headings": {
+        "*NODE": 1,
+        "*ELEMENT": 1,
+        "*ELSET": 4,
+        "*NSET": 8,
+        "*SURFACE": 418,
+        "*PHYSICAL CONSTANTS": 1,
+        "*MATERIAL": 3,
+        "*ELASTIC": 3,
+        "*DENSITY": 3,
+        "*EXPANSION": 3,
+        "*ORIENTATION": 1,
+        "*SOLID SECTION": 3,
+        "*CONTACT PAIR": 193,
+        "*SURFACE INTERACTION": 193,
+        "*SURFACE BEHAVIOR": 193,
+        "*FRICTION": 24,
+        "*STEP": 1,
+        "*STATIC": 1,
+        "*BOUNDARY": 8,
+        "*SECTION PRINT": 32,
+        "*DLOAD": 1,
+        "*CLOAD": 9,
+        "*NODE FILE": 1,
+        "*EL FILE": 1,
+        "*NODE PRINT": 8,
+        "*CONTACT PRINT": 193,
+        "*OUTPUT": 1,
+        "*END STEP": 1
+      }
+    },
+    "deck_material_elset_counts": {
+      "CollectorConcreteMaterialSolid": 90804,
+      "CollectorTimberMaterialSolid": 221102,
+      "CollectorSteelMaterialSolid": 473228
+    },
+    "deck_material_elsets_equal_writer_data": true,
+    "surfaces": 418,
+    "deck_surfaces_equal_writer_data": true,
+    "sectionprint_requests": 32,
+    "sectionprint_one_side_per_native_patch": true,
+    "source_unchanged_since_import": true,
+    "source_hashes_before_import": {
+      "femmesh/meshtools.py": "4e1847c98681b273858c7bd4b8dd937ddc35871ba5af825380eaf9736467edd3",
+      "femmesh/meshsetsgetter.py": "efc83ac328bc30355c9714d46e8cb9992c8517a3273f41a6839f7e63ca73d304",
+      "femmesh/ownership_context.py": "fb2ae3c94e212a0ed42a476c35a6904a7e3225662864f9a7eaedb6eff33169d3",
+      "femtools/ccxtools.py": "1fcd7126a20e0458f20d54427f260bf9256930f2e3d6753f7d59cdd7326a2bb8",
+      "femsolver/calculix/writer.py": "c3b06417d5156744f36405d75aa9ff32e6b523da4308dbc6430fe15f4d5f80ed"
+    },
+    "actual_module_hashes": {
+      "femmesh.meshtools": "4e1847c98681b273858c7bd4b8dd937ddc35871ba5af825380eaf9736467edd3",
+      "femmesh.meshsetsgetter": "efc83ac328bc30355c9714d46e8cb9992c8517a3273f41a6839f7e63ca73d304",
+      "femmesh.ownership_context": "fb2ae3c94e212a0ed42a476c35a6904a7e3225662864f9a7eaedb6eff33169d3",
+      "femtools.ccxtools": "1fcd7126a20e0458f20d54427f260bf9256930f2e3d6753f7d59cdd7326a2bb8",
+      "femsolver.calculix.writer": "c3b06417d5156744f36405d75aa9ff32e6b523da4308dbc6430fe15f4d5f80ed"
+    },
+    "module_origins": {
+      "femmesh.meshtools": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshtools.py",
+      "femmesh.meshsetsgetter": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshsetsgetter.py",
+      "femmesh.ownership_context": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/ownership_context.py",
+      "femtools.ccxtools": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+      "femsolver.calculix.writer": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/writer.py"
+    },
+    "native_counts": {
+      "getElementNodes": 6650668,
+      "getNodesByFace": 451
+    },
+    "python_counts": {
+      "femmesh.meshsetsgetter.get_mesh_sets": 1,
+      "femmesh.meshsetsgetter.get_material_elements": 1,
+      "femmesh.meshtools.get_mesh_geometry_signature": 4,
+      "femmesh.meshsetsgetter.get_materials_elements": 1,
+      "femmesh.meshsetsgetter.get_constraints_centrif_elements": 1,
+      "femmesh.meshsetsgetter.get_constraints_bodyheatsource_elements": 1,
+      "femmesh.meshsetsgetter.get_constraints_fixed_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_displacement_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_rigidbody_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_planerotation_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_contact_faces": 1,
+      "femmesh.meshtools.get_contact_elements": 578,
+      "femmesh.meshtools._validate_contact_face_reference": 578,
+      "femmesh.meshtools._get_mesh_region_by_owned_references": 578,
+      "femmesh.meshsetsgetter.get_constraints_tie_faces": 1,
+      "femmesh.meshsetsgetter.get_constraints_sectionprint_faces": 1,
+      "femmesh.meshsetsgetter.get_constraints_transform_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_temperature_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_initialtemperature_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_electrostatic_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_electricchargedensity_nodes": 1,
+      "femmesh.meshsetsgetter.get_constraints_force_nodeloads": 1,
+      "femmesh.meshsetsgetter.get_constraints_pressure_faces": 1,
+      "femmesh.meshsetsgetter.get_constraints_heatflux_faces": 1,
+      "femmesh.meshsetsgetter.get_constraints_electrostatic_faces": 1,
+      "femmesh.meshsetsgetter.get_constraints_electricchargedensity_faces": 1
+    },
+    "python_seconds": {
+      "femmesh.meshtools.get_mesh_geometry_signature": 0.8122044992633164,
+      "femmesh.meshsetsgetter.get_material_elements": 5.467537458054721,
+      "femmesh.meshsetsgetter.get_materials_elements": 5.537105041090399,
+      "femmesh.meshsetsgetter.get_constraints_centrif_elements": 0.0010276248212903738,
+      "femmesh.meshsetsgetter.get_constraints_bodyheatsource_elements": 0.0008901250548660755,
+      "femmesh.meshsetsgetter.get_constraints_fixed_nodes": 0.4123254590667784,
+      "femmesh.meshsetsgetter.get_constraints_displacement_nodes": 0.001107166986912489,
+      "femmesh.meshsetsgetter.get_constraints_rigidbody_nodes": 0.000978916883468628,
+      "femmesh.meshsetsgetter.get_constraints_planerotation_nodes": 0.0009260410442948341,
+      "femmesh.meshtools._validate_contact_face_reference": 0.005330297397449613,
+      "femmesh.meshtools._get_mesh_region_by_owned_references": 228.09470646711998,
+      "femmesh.meshtools.get_contact_elements": 240.61496299132705,
+      "femmesh.meshsetsgetter.get_constraints_contact_faces": 263.12368979211897,
+      "femmesh.meshsetsgetter.get_constraints_tie_faces": 0.002246459014713764,
+      "femmesh.meshsetsgetter.get_constraints_sectionprint_faces": 18.257935625035316,
+      "femmesh.meshsetsgetter.get_constraints_transform_nodes": 0.0021550829987972975,
+      "femmesh.meshsetsgetter.get_constraints_temperature_nodes": 0.002012208104133606,
+      "femmesh.meshsetsgetter.get_constraints_initialtemperature_nodes": 0.0019314168021082878,
+      "femmesh.meshsetsgetter.get_constraints_electrostatic_nodes": 0.001970000099390745,
+      "femmesh.meshsetsgetter.get_constraints_electricchargedensity_nodes": 0.0021540001034736633,
+      "femmesh.meshsetsgetter.get_constraints_force_nodeloads": 45.100758749991655,
+      "femmesh.meshsetsgetter.get_constraints_pressure_faces": 0.0018279999494552612,
+      "femmesh.meshsetsgetter.get_constraints_heatflux_faces": 0.0017254170961678028,
+      "femmesh.meshsetsgetter.get_constraints_electrostatic_faces": 0.00172466691583395,
+      "femmesh.meshsetsgetter.get_constraints_electricchargedensity_faces": 0.0017525830771774054,
+      "femmesh.meshsetsgetter.get_mesh_sets": 338.399519541068
+    },
+    "fixture_before_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+    "fixture_after_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+    "fixture_final_sha256": "ce73c53a83c2119fb66de573cbdd6956ccf5f4ba371c2ed7d0ae70f4a4c30b9d",
+    "document_unchanged": true,
+    "observer_only": true,
+    "mesher_executed": false,
+    "solver_executed": false,
+    "references_or_groups_repaired": false,
+    "security_preferences_changed": false,
+    "writer_observations": {
+      "path": "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4-writer-observations.json",
+      "bytes": 21915859,
+      "sha256": "c29c77f02dfbd2edf7dafacb32a93ba277f65fe1641c3784e1e093aaf754bb2b"
+    },
+    "prerequisites_note": "Empty stock prerequisite string means no prerequisite errors.",
+    "native_getNodesBySolid_calls": 0,
+    "contact_owned_native_face_checks": 411,
+    "unique_native_entity_reuse_note": "578 Contact reference occurrences required 411 native owned-face checks; 8 fixed-support and 32 SectionPrint calls bring the complete stock writer total to 451.",
+    "geometry_signature_note": "Four across full writer: two material passes plus Contact batch entry and exit.",
+    "first_large_face_seconds": 123.7,
+    "process": {
+      "command": [
+        "pixi",
+        "run",
+        "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+        "-u",
+        "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4-user.cfg",
+        "-s",
+        "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4-system.cfg",
+        "-P",
+        "/private/tmp/freecad-kjo-baseline.xs5BFh",
+        "-t",
+        "StockWriterQualification"
+      ],
+      "source_commit": "1204d53fb212aea60562b4052ee777f4fb94a058",
+      "pid": 93433,
+      "timeout_seconds": 900,
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_seconds": 378.3893885409925
+    },
+    "evidence": {
+      "report": {
+        "path": "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4-report.json",
+        "sha256": "5f980803f465a95ca9ca134af1c0d917c88238f4fbfc8be2888d2e33f03433aa"
+      },
+      "log": {
+        "path": "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4.log",
+        "sha256": "3277797ca6cc61cae7983222d16580e365ea9c45135519d8b6dd63fd950e7f06"
+      },
+      "process": {
+        "path": "/private/tmp/freecad-kjo-baseline.xs5BFh/stock4-process.json",
+        "sha256": "7607d61556c64a0f0592e80dc482e3454d84323cccef5d68444cef2f2f045713"
+      },
+      "observer": {
+        "path": "/private/tmp/freecad-kjo-baseline.xs5BFh/StockWriterQualification.py",
+        "sha256": "776a5b772840e578dfe3729bbbb4f596a5dc96573b78f1a2d9c21a0c833d500e"
+      },
+      "temporary_artifact_note": "Raw logs, deck and writer observations are scratch artifacts. This committed receipt preserves their identities, semantic results and timings; permanent regression tests are committed with the source fix."
+    },
+    "independent_verification": {
+      "result": "pass",
+      "frozen_source": true,
+      "unchanged_fixture": true,
+      "unchanged_document": true,
+      "checks": "Separate jq/awk/sort/diff deck parsing matched every surface element/side and every material ELSET ID against saved writer observations; both diffs exit 0.",
+      "limits": "Large-fixture comparisons prove exact serialization of actual getter data. They do not independently recompute all CAD ownership; native Gmsh regression tests supply independent ownership/facet oracles. One-sided SectionPrint checks are not equilibrium acceptance."
+    },
+    "source_hashes_before_equal_after": true
+  }
+}
