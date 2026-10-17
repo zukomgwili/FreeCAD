@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-17",
+  "bead": "FreeCAD-bt9",
+  "status": "source_fix_built_and_verified_not_installed",
+  "compiled_commit": "2191c9aef40051ca2be174c8a208c083701b49c8",
+  "compiled_version": "27.1.0dev49114+175 (Git)",
+  "build_directory": "/Users/zukomgwili/src/FreeCAD/build/release",
+  "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "baseline": {
+    "installed_runtime": "+173 /3d806095e903b85eccee66a8d84fdcc695b55d68",
+    "reproduced_before_implementation_inspection": true,
+    "exact_original_observer_red": [{"seconds": 0.312, "failed": 1}, {"seconds": 0.215, "failed": 1}],
+    "symptom": "Both ordinary Contact getter sides and both stock writer surfaces contain the same 36 facets: 18 from Solid1 plus 18 from Solid2. RBE node regions remain 47/47 with zero intersection. Stored/current geometry signatures agree; native save/cleanup succeeds; source and copied inputs remain unchanged. Launcher exit0 does not imply semantic success.",
+    "minimized_real_Gmsh_red": "Two independent native boxes, Compound, Analysis, Gmsh mesh and Contact suffice. No RBE, connector, solver, load or material. With CoherenceMesh=False and no analysis-object groups, each side incorrectly includes 12 foreign volume facets. Two precise getter/writer red runs take 0.182s and 0.181s; the exact full-patch oracle also goes red in 0.184s.",
+    "new_exact_native_harness_red": {"failed": 1, "seconds": 0.427, "assertion": "36 observed facets != 18 expected facets"}
+  },
+  "custody": {
+    "original_fixture": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-fem-owned-regions-r27/runtime/owned.FCStd",
+    "original_fixture_sha256": "fcc5b43e2d0663f0b5222c98d81ffeeec669bad93d8b78d9321951489d377387",
+    "original_observer_sha256": "650811fcc16f87c07644bd4c17c38bfd400cb3beea7fabc2c6eb9dfcda51168d",
+    "original_artifacts_modified": false,
+    "independent_oracle": "Read-only native XML/UNV/raw-VTK inspection: 881 nodes, 401 quadratic tetrahedra, 308 quadratic triangles and 56 groups. Each complete six-node Face2 triangle is incident to exactly one Solid1 volume; each Face7 triangle to exactly one Solid2 volume. There are 18 patches and 47 nodes per side, with no common node IDs. Retained side labels were crosschecked after this independent ownership classification, not claimed as a separately derived published CalculiX convention."
+  },
+  "cause": "Contact expands each CAD face through the generic geometric node search. Independently owned coincident mesh nodes are joined before the volume-face bit search. CAD owner mapping is correct, slave/master lists are not overwritten, and the unchanged stock writer serializes its supplied facets correctly. This is distinct from FreeCAD-s0x, FreeCAD-eb7 and FreeCAD-9bp.",
+  "implementation": {
+    "scope": "Only solid-mesh CAD-face Contact selection uses the new owned-facet path. Existing shell/non-face Contact representations remain on the old route. Pressure, tie and SectionPrint selection paths are not changed.",
+    "shared_validation": "An internal region resolver exposes validated current native entity-group connectivity alongside nodes. The public RBE/connector node API retains its existing arguments and list result. Generation signature, native persistent references, complete current references, group types/members, supplied mesh context and geometry validation remain shared.",
+    "exact_patches": "Each selected native Face-group element defines a full node patch. Map stock-mask-numbered volume facets to these exact patches, including all quadratic midside nodes, then require one incident volume per patch. Nodes are used only to find candidate volumes, never as sufficient proof of facet ownership. No face absent from the selected native group is invented from its neighbouring node union.",
+    "diagnostics": "Reject absent, duplicate, stale or invalid native face connectivity and zero/multiple incident volume sides. Welded/shared patches require independently meshed Contact regions rather than an arbitrary owner choice. Legacy distinct Contact faces sharing positive area, including partial overlap, require owned provenance/remeshing; ordinary noncoincident legacy workflows remain supported.",
+    "native_reference_identity": "Validate native mapped/indexed Face references before legacy geometric selection. Facex1 permissively resolves to Face1 in native shape lookup but is rejected as an unresolved reference. Legacy canonical self-contact preserves native encoded/hierarchical aliases and link-bearing occurrence chains; links to an assembly can otherwise collapse to the same resolved base feature.",
+    "not_changed": "No solver masks or contact writer changes, automatic physical coupling, artificial gap, production node/facet repair, provenance overwrite or patched input deck."
+  },
+  "verification": {
+    "all_enabled_Release_targets_build_exit": 0,
+    "clean_from_scratch_claimed": false,
+    "full_ctest": {"registered": 2241, "passed": 2231, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 56.72, "excluded": []},
+    "broad_python": {"run": 1055, "unexpected_failures": 0, "skipped": 7, "existing_expected_failures": 1, "seconds": 81.781, "suites": ["TestArch", "TestDraft", "TestFemApp", "TestPartApp", "StringHasher"]},
+    "focused_precommit": {"run": 79, "failed": 0, "seconds": 9.602, "includes": "21 Contact, 14 rigid ownership, 27 connector and 17 reference-group tests"},
+    "stock_writer_precommit": {"run": 33, "failed": 0, "seconds": 13.093, "includes": "Existing solid/solid and shell/shell Contact examples"},
+    "new_registered_Contact_tests": 21,
+    "registration": "Unique FemTest29; all 21 methods are copied into the build and included in normal TestFemApp discovery without shadowing existing tests.",
+    "regression_boundaries": "Exact getter/writer facets, save/reopen before manual recompute, reference swap/rebind/remesh, compound reorder, moved/reopened App::Link occurrences, stale expanded geometry, missing/partial provenance and groups, absent references, ambiguous legacy overlap, normal noncoincident contacts, genuinely welded native patches, node-union facet invention, true self-contact aliases, assembly-link occurrence identity and malformed legacy names.",
+    "fault_injection_boundary": "One test deliberately removes a native face-cell group membership while retaining that patch's complete node union in neighbouring native cells. It tests exact entity membership rather than node-union invention. This synthetic negative fixture is not a project repair or qualification of an incomplete CAD contact surface.",
+    "exact_native_create": {"passed": 1, "failed": 0, "seconds": 0.667},
+    "exact_native_independent_cold_reopen": {"passed": 1, "failed": 0, "seconds": 0.460},
+    "original_observer_replay": {"passed": 1, "failed": 0, "seconds": 0.207, "adaptation": "Temporary byte copy changes only the two hardcoded runtime-commit/resources guards to asserted environment values, so the original observer can run against the source build. Its input, API calls, native writer and semantic/preservation assertions are unchanged."},
+    "exact_witness_result": "Slave 18 Solid1/0 Solid2 facets; master 0 Solid1/18 Solid2 facets. Actual getter pairs and parsed stock writer surfaces match the frozen retained owner-only pairs. Native create/cold stages assert GuiUp1, exact compiled commit, build module origins and native view providers. Original/copy/cold-input hashes remain unchanged.",
+    "persistence_and_preservation": "Cold verification uses complete face/volume fingerprints, ordered ten-node connectivity and native group ownership rather than assuming persisted element IDs. Checks run before manual recompute and after forced recompute. Each getter/writer invocation preserves mesh topology and group digests, then repeats both public RBE node APIs and rigid_body_nodes: 47/47 disjoint. Counts stay 881 nodes, 401 volumes, 308 faces and 56 groups. A successor native file containing GuiDocument.xml is saved, not independently cold-reopened.",
+    "exact_witness_mechanics": "No new Gmsh or CalculiX run, material, load, solver object or hand-authored deck in the retained Contact witness. It uses the already-qualified R27 mesh and stored generation settings. Disposable configuration paths are isolated; runtime preferences are not rewritten by the observer.",
+    "lint": "Both new Python files are fully flake8-clean at 100 columns with existing E266/W503 ignores. Added production lines introduce no lint diagnostics; unrelated pre-existing formatting diagnostics are retained. Whitespace checks pass; no temporary debug instrumentation remains in source.",
+    "independent_reviews": "Separate topology/custody, production ownership and regression/harness audits report no remaining blocker. Reviews led to exact patch adjacency instead of node-union selection, welded ambiguity rejection, occurrence-preserving native alias keys and strict Facex1 validation."
+  },
+  "harness_history": "An initial test oracle swapped native S3/S4 labels; corrected full native six-node ordering was verified through public connectivity and retained output. Precise ownership red evidence cited above does not rely on that erroneous oracle. The new native harness initially called nonexistent getGroupType; setup-only errors were retained separately and corrected to getGroupElementType before the genuine 36!=18 red and final green runs. A standalone test_ccxtools invocation failed on its package-relative import; the correctly qualified module runs all 33 cases successfully. These setup errors are not Contact bug evidence.",
+  "evidence_directory": "/private/tmp/freecad-bt9.OCD4hr",
+  "exact_native_evidence": "/private/tmp/freecad-bt9.OCD4hr/final-native",
+  "self_contained_regressions": "src/Mod/Fem/femtest/app/test_contact_ownership.py",
+  "opt_in_exact_harness": "tests/src/Mod/Fem/NativeContactOwnership.py",
+  "installation": {
+    "performed": false,
+    "installed_version_unchanged": "+173 /3d806095e903b85eccee66a8d84fdcc695b55d68",
+    "installed_meshtools_sha256_unchanged": "08bb15ced5a0fb7852ffcd3485e5dbcea53579a9cd5082258fb869f38ffc2de7",
+    "installed_bundle_deep_strict_signature_valid": true,
+    "note": "This source-work request does not replace the application. The verified Release build still uses the repository Pixi environment."
+  },
+  "scope_limits": {
+    "tie_or_pressure_coincident_owner_failures_reproduced_or_fixed": false,
+    "loaded_joint_or_physical_contact_behaviour_accepted": false,
+    "normal_or_R30_house_design_accepted": false,
+    "whole_house_BIM_or_Oomakhi_method_accepted": false,
+    "large_model_performance_qualified": false
+  },
+  "metadata_note": "Completion metadata is committed after the compiled implementation revision without changing the verified binary identity."
+}
