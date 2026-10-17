@@ -73,6 +73,14 @@ GUIApplication::GUIApplication(int& argc, char** argv)
 
 GUIApplication::~GUIApplication() = default;
 
+void GUIApplication::requestExit(const Base::SystemExitException& exception)
+{
+    if (auto* application = qobject_cast<GUIApplication*>(QApplication::instance())) {
+        application->caughtException = std::make_shared<Base::SystemExitException>(exception);
+    }
+    QCoreApplication::exit(exception.getExitCode());
+}
+
 bool GUIApplication::notify(QObject* receiver, QEvent* event)
 {
     if (!receiver) {
@@ -102,8 +110,7 @@ bool GUIApplication::notify(QObject* receiver, QEvent* event)
         }
     }
     catch (const Base::SystemExitException& e) {
-        caughtException.reset(new Base::SystemExitException(e));
-        qApp->exit(e.getExitCode());
+        requestExit(e);
         return true;
     }
     catch (const Base::Exception& e) {

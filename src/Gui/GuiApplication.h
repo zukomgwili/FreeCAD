@@ -51,6 +51,9 @@ public:
      */
     bool notify(QObject* receiver, QEvent* event) override;
 
+    /// Stop the event loop and propagate the exit request after it returns.
+    static void requestExit(const Base::SystemExitException& exception);
+
     /// Pointer to exceptions caught in Qt event handler
     std::shared_ptr<Base::SystemExitException> caughtException;
 

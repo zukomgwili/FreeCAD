@@ -93,6 +93,7 @@
 #include "DockWindowManager.h"
 #include "DownloadManager.h"
 #include "FileDialog.h"
+#include "GuiApplication.h"
 #include "InputHintWidget.h"
 #include "MenuManager.h"
 #include "ModuleIO.h"
@@ -1877,15 +1878,16 @@ void MainWindow::delayedStartup()
                 );
             }
         }
-        catch (const Base::SystemExitException&) {
-            // Properly quit the Qt event loop before propagating the exception
-            QApplication::quit();
-            throw;
+        catch (const Base::SystemExitException& e) {
+            // Neither quit() nor throwing through the Qt callback is safe on Cocoa.
+            GUIApplication::requestExit(e);
         }
         catch (const Base::Exception& e) {
             e.reportException();
-            QApplication::quit();
-            throw;
+            if (App::Application::Config()["ExitTests"] == "yes") {
+                // With no pending Python exception, the default exit code is 1.
+                GUIApplication::requestExit(Base::SystemExitException());
+            }
         }
         return;
     }

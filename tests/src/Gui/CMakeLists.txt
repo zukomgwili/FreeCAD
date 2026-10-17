@@ -48,6 +48,26 @@ endif()
 # Keep this as a separate process because the relevant failure occurs during
 # application shutdown.
 if(BUILD_GUI)
+    if(BUILD_TEST)
+        add_test(NAME FreeCADGuiTestExitStatus
+            COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/src/App/TestRunnerExitStatus.py"
+                --executable $<TARGET_FILE:FreeCADMain> --gui)
+        set_tests_properties(FreeCADGuiTestExitStatus PROPERTIES
+            ENVIRONMENT "QT_QPA_PLATFORM=offscreen" LABELS "Qt;Process" TIMEOUT 450)
+        if(APPLE)
+            # Cocoa can dispatch QApplication::quit immediately; offscreen alone
+            # does not reproduce a failure status lost during native shutdown.
+            set_tests_properties(FreeCADGuiTestExitStatus PROPERTIES
+                ENVIRONMENT "QT_QPA_PLATFORM=cocoa" LABELS "Qt;NativeGui;Process"
+                RESOURCE_LOCK FreeCADNativeGui)
+        endif()
+        if(WIN32)
+            set_tests_properties(FreeCADGuiTestExitStatus PROPERTIES
+                ENVIRONMENT_MODIFICATION "${_test_env_mod}")
+        endif()
+    endif()
+
     # Test-only access to the native progress controller; never installed.
     add_library(ProgressBarTestSupport MODULE ProgressBarTestSupport.cpp)
     target_include_directories(ProgressBarTestSupport PRIVATE
