@@ -137,7 +137,7 @@ def get_femnodes_by_owned_references(femmesh, obj, mesh_object=None):
     return _get_mesh_region_by_owned_references(femmesh, obj, mesh_object)[0]
 
 
-def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object):
+def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object, context=None):
     """Return validated nodes and current CAD entity-to-native-group members.
 
     Legacy meshes have no entity provenance and return None for the groups.
@@ -145,16 +145,23 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object):
     establish that a volume facet belongs to one of the selected CAD faces.
     """
     if mesh_object is None:
-        meshes = {member for parent in obj.InList
-                  if parent.isDerivedFrom("Fem::FemAnalysis")
-                  for member in parent.Group if member.isDerivedFrom("Fem::FemMeshObject")}
+        meshes = {
+            member
+            for parent in obj.InList
+            if parent.isDerivedFrom("Fem::FemAnalysis")
+            for member in parent.Group
+            if member.isDerivedFrom("Fem::FemMeshObject")
+        }
         if len(meshes) > 1:
             raise ValueError(f"{obj.Name}: ambiguous mesh ownership; specify the mesh object.")
         mesh_object = next(iter(meshes), None)
     part = getattr(mesh_object, "Shape", None)
     original = list(getattr(mesh_object, "ElementGroupNames", []))
-    references = [(owner, name) for owner, names in
-                  getattr(mesh_object, "ElementGroupReferences", []) for name in names]
+    references = [
+        (owner, name)
+        for owner, names in getattr(mesh_object, "ElementGroupReferences", [])
+        for name in names
+    ]
     signature = getattr(mesh_object, "ElementGroupGeometry", "")
     if not part:
         if original or references or signature:
@@ -168,80 +175,134 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object):
             if not name:
                 continue  # Whole shape references are supported by native RBEs.
             _, mapped, indexed = owner.resolveSubElement(name)
-            if not mapped and (";" in name or re.fullmatch(
-                    r"(?:Vertex|Edge|Face|Solid)[1-9][0-9]*", indexed) is None):
+            if not mapped and (
+                ";" in name
+                or re.fullmatch(r"(?:Vertex|Edge|Face|Solid)[1-9][0-9]*", indexed) is None
+            ):
                 raise ValueError(f"{obj.Name}: unresolved region {owner.Name}.{name}.")
             shape = owner.getSubObject(name)
             if shape is None or not hasattr(shape, "isNull") or shape.isNull():
                 raise ValueError(f"{obj.Name}: unresolved region {owner.Name}.{name}.")
 
     if original or references or signature:
-        if not signature or signature != get_mesh_geometry_signature(part):
-            raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
-        own_mesh = mesh_object.FemMesh
-        ids = femmesh.getIdByElementType("All")
-        if (femmesh.Nodes != own_mesh.Nodes or ids != own_mesh.getIdByElementType("All")
-                or any(femmesh.getElementNodes(e) != own_mesh.getElementNodes(e) for e in ids)):
-            raise ValueError(f"{obj.Name}: supplied mesh does not match its geometry owner.")
+        if context is None:
+            if not signature or signature != get_mesh_geometry_signature(part):
+                raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
+            own_mesh = mesh_object.FemMesh
+            ids = femmesh.getIdByElementType("All")
+            if (
+                femmesh.Nodes != own_mesh.Nodes
+                or ids != own_mesh.getIdByElementType("All")
+                or any(femmesh.getElementNodes(e) != own_mesh.getElementNodes(e) for e in ids)
+            ):
+                raise ValueError(f"{obj.Name}: supplied mesh does not match its geometry owner.")
 
-        def group_data(mesh):
-            return sorted((mesh.getGroupName(g), mesh.getGroupElementType(g),
-                           mesh.getGroupElements(g)) for g in mesh.Groups)
-        if group_data(femmesh) != group_data(own_mesh):
-            raise ValueError(f"{obj.Name}: supplied mesh groups do not match their geometry owner.")
+            def group_data(mesh):
+                return sorted(
+                    (mesh.getGroupName(g), mesh.getGroupElementType(g), mesh.getGroupElements(g))
+                    for g in mesh.Groups
+                )
+
+            if group_data(femmesh) != group_data(own_mesh):
+                raise ValueError(
+                    f"{obj.Name}: supplied mesh groups do not match their geometry owner."
+                )
+        elif context.femmesh is not femmesh or context.mesh_object != mesh_object:
+            raise ValueError(f"{obj.Name}: invalid mesh ownership context.")
         wanted = []
         for owner, names in obj.References:
             for name in names:
                 selected = owner.getSubObject(name)
                 expected = len(selected.Solids) if selected.ShapeType == "Compound" else 1
                 current = get_reference_group_elements(
-                    SimpleNamespace(Name=obj.Name, References=[(owner, [name])]), part)[1]
+                    SimpleNamespace(Name=obj.Name, References=[(owner, [name])]), part
+                )[1]
                 if not current or len(current) != expected:
                     raise ValueError(f"{obj.Name}: current reference is absent from mesh geometry.")
                 wanted.extend(current)
         if len(original) != len(references) or len(original) != len(set(original)):
             raise ValueError(f"{obj.Name}: invalid mesh group provenance; regenerate the mesh.")
-        current_groups = {}
-        for old, (owner, name) in zip(original, references):
-            if owner != part:
-                raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
-            current_groups.setdefault(name, []).append(old)
-        groups = {}
-        for group in femmesh.Groups:
-            groups.setdefault(femmesh.getGroupName(group), []).append(group)
+        if context is None:
+            current_groups = {}
+            for old, (owner, name) in zip(original, references):
+                if owner != part:
+                    raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
+                current_groups.setdefault(name, []).append(old)
+            groups = {}
+            for group in femmesh.Groups:
+                groups.setdefault(femmesh.getGroupName(group), []).append(group)
+        else:
+            current_groups, groups = context.current_groups, context.group_ids
         result = set()
         entity_sets = {}
         for name in wanted:
+            if context is not None and name in context.regions:
+                nodes, members = context.regions[name]
+                result.update(nodes)
+                entity_sets[name] = members
+                continue
             matches = current_groups.get(name, [])
             if len(matches) != 1 or len(groups.get(matches[0], [])) != 1:
                 raise ValueError(f"{obj.Name}: missing or ambiguous mesh group for {name}; remesh.")
             group = groups[matches[0]][0]
-            members = femmesh.getGroupElements(group)
+            members = (
+                femmesh.getGroupElements(group) if context is None else context.groups[group][2]
+            )
             if not members:
                 raise ValueError(f"{obj.Name}: empty mesh group for {name}; remesh.")
-            kind = femmesh.getGroupElementType(group)
+            kind = (
+                femmesh.getGroupElementType(group) if context is None else context.groups[group][1]
+            )
             if kind == "Node" and not name.startswith("Vertex"):
                 raise ValueError(f"{obj.Name}: wrong mesh group type for {name}; remesh.")
             if kind == "Node":
                 nodes = set(members)
             else:
-                expected_type = next((prefix for prefix in ("Face", "Edge", "Solid", "Vertex")
-                                      if name.startswith(prefix)), None)
-                allowed_kind = {"Face": "Face", "Edge": "Edge", "Solid": "Volume",
-                                "Vertex": "0DElement"}.get(expected_type)
+                expected_type = next(
+                    (
+                        prefix
+                        for prefix in ("Face", "Edge", "Solid", "Vertex")
+                        if name.startswith(prefix)
+                    ),
+                    None,
+                )
+                allowed_kind = {
+                    "Face": "Face",
+                    "Edge": "Edge",
+                    "Solid": "Volume",
+                    "Vertex": "0DElement",
+                }.get(expected_type)
                 if kind not in ("All", allowed_kind):
                     raise ValueError(f"{obj.Name}: wrong mesh group type for {name}; remesh.")
-                entities = {"Face": femmesh.Faces, "Edge": femmesh.Edges,
-                            "Solid": femmesh.Volumes,
-                            "Vertex": femmesh.getIdByElementType("0DElement")}.get(expected_type)
+                entities = (
+                    context.faces
+                    if context is not None and expected_type == "Face"
+                    else {
+                        "Face": femmesh.Faces,
+                        "Edge": femmesh.Edges,
+                        "Solid": femmesh.Volumes,
+                        "Vertex": femmesh.getIdByElementType("0DElement"),
+                    }.get(expected_type)
+                )
                 if entities is not None and not set(members).issubset(entities):
                     raise ValueError(f"{obj.Name}: invalid mesh connectivity for {name}; remesh.")
-                nodes = {node for element in members for node in femmesh.getElementNodes(element)}
+                nodes = {
+                    node
+                    for element in members
+                    for node in (
+                        femmesh.getElementNodes(element)
+                        if context is None
+                        else context.elements[element]
+                    )
+                }
             # Validate, never repair/filter, against the current positioned CAD
             # entity. This rejects movement without a remesh, retaining owner IDs.
-            current = set(get_femnodes_by_refshape(femmesh, (part, [name])))
-            if not nodes or not nodes.issubset(current):
+            if not _owned_nodes_fit_region(
+                femmesh, part, name, nodes, context.nodes if context is not None else None
+            ):
                 raise ValueError(f"{obj.Name}: stale mesh for current {name}; regenerate the mesh.")
+            if context is not None:
+                context.regions[name] = frozenset(nodes), tuple(members)
             result.update(nodes)
             entity_sets[name] = tuple(members)
         return sorted(result), entity_sets
@@ -253,13 +314,36 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object):
             selected = sub_shape_at_global_placement(owner, name)
             shapes = selected.Solids if selected.ShapeType == "Compound" else [selected]
             for shape in shapes:
-                candidates = {"Face": part.Shape.Faces, "Edge": part.Shape.Edges,
-                              "Solid": part.Shape.Solids,
-                              "Vertex": part.Shape.Vertexes}[shape.ShapeType]
+                candidates = {
+                    "Face": part.Shape.Faces,
+                    "Edge": part.Shape.Edges,
+                    "Solid": part.Shape.Solids,
+                    "Vertex": part.Shape.Vertexes,
+                }[shape.ShapeType]
                 if sum(_same_occurrence_geometry(shape, other) for other in candidates) > 1:
                     raise ValueError(
-                        f"{obj.Name}: coincident regions need owned mesh groups; remesh.")
+                        f"{obj.Name}: coincident regions need owned mesh groups; remesh."
+                    )
     return sorted(get_femnodes_by_references(femmesh, obj.References)), None
+
+
+def _owned_nodes_fit_region(femmesh, part, name, nodes, coordinates=None):
+    """Validate every owned node with the native classifier, not every mesh node.
+
+    This temporary point cloud is only a geometry check, never an export mesh.
+    getNodeById applies the original mesh transform; compact temporary IDs avoid
+    allocating sparse mesh storage. Native CAD tolerances remain unchanged.
+    """
+    import Fem
+
+    if not nodes:
+        return False
+    candidates = Fem.FemMesh()
+    for index, node in enumerate(sorted(nodes), 1):
+        point = femmesh.getNodeById(node) if coordinates is None else coordinates[node]
+        candidates.addNode(point.x, point.y, point.z, index)
+    current = get_femnodes_by_refshape(candidates, (part, [name]))
+    return len(set(current)) == len(nodes)
 
 
 # ************************************************************************************************
@@ -1877,7 +1961,7 @@ def get_elements(sets_getter, ref_pair, face_masks, edge_masks):
     return (*elem, is_sub_element)
 
 
-def get_contact_elements(sets_getter, contact, ref_pair):
+def get_contact_elements(sets_getter, contact, ref_pair, context=None):
     """Resolve solid Contact faces by complete, independently owned mesh patches.
 
     Retain the existing shell/non-face representation and solver face numbers.
@@ -1894,24 +1978,32 @@ def get_contact_elements(sets_getter, contact, ref_pair):
     reference = (feature, (name,))
     region = SimpleNamespace(Name=contact.Name, References=[reference])
     nodes, entities = _get_mesh_region_by_owned_references(
-        sets_getter.femmesh, region, sets_getter.mesh_object)
+        sets_getter.femmesh, region, sets_getter.mesh_object, context
+    )
     if entities is None:
         _check_legacy_contact_ownership(sets_getter, contact, ref_pair)
         bits = get_bit_pattern_dict(
-            sets_getter.femelement_table, sets_getter.femnodes_ele_table, nodes)
+            sets_getter.femelement_table, sets_getter.femnodes_ele_table, nodes
+        )
         return reference, get_element_faces_from_binary_search(bits, **sets_getter.face_masks), True
 
     mesh = sets_getter.femmesh
     face_ids = {element for members in entities.values() for element in members}
-    patches = {frozenset(mesh.getElementNodes(element)) for element in face_ids}
-    if not face_ids or not face_ids.issubset(mesh.Faces) or len(patches) != len(face_ids):
+    patches = {
+        frozenset(mesh.getElementNodes(element) if context is None else context.elements[element])
+        for element in face_ids
+    }
+    faces = mesh.Faces if context is None else context.faces
+    if not face_ids or not face_ids.issubset(faces) or len(patches) != len(face_ids):
         raise ValueError(f"{contact.Name}: invalid owned Contact face connectivity; remesh.")
     incident = {patch: [] for patch in patches}
     # Only inspect volumes incident to selected nodes, retaining sparse IDs.
-    candidates = {element for node in nodes
-                  for element, _position in sets_getter.femnodes_ele_table.get(node, [])}
-    mask_names = {4: "tetra4", 10: "tetra10", 8: "hexa8", 20: "hexa20",
-                  6: "penta6", 15: "penta15"}
+    candidates = {
+        element
+        for node in nodes
+        for element, _position in sets_getter.femnodes_ele_table.get(node, [])
+    }
+    mask_names = {4: "tetra4", 10: "tetra10", 8: "hexa8", 20: "hexa20", 6: "penta6", 15: "penta15"}
     for element in sorted(candidates):
         connectivity = sets_getter.femelement_table[element]
         kind = mask_names.get(len(connectivity))
@@ -1919,8 +2011,9 @@ def get_contact_elements(sets_getter, contact, ref_pair):
         if not masks:
             raise ValueError(f"{contact.Name}: unsupported Contact volume face masks.")
         for mask, side in masks.items():
-            patch = frozenset(node for index, node in enumerate(connectivity)
-                              if mask & (1 << index))
+            patch = frozenset(
+                node for index, node in enumerate(connectivity) if mask & (1 << index)
+            )
             if patch in incident:
                 incident[patch].append((element, side))
     facets = []
@@ -1930,7 +2023,8 @@ def get_contact_elements(sets_getter, contact, ref_pair):
         if len(adjacent) != 1:
             raise ValueError(
                 f"{contact.Name}: ambiguous Contact ownership: a face patch has multiple "
-                "volume sides; use independently meshed Contact regions.")
+                "volume sides; use independently meshed Contact regions."
+            )
         facets.append(adjacent[0])
     return reference, sorted(facets), True
 

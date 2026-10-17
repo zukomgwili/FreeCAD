@@ -194,6 +194,7 @@ SET(FemMesh_SRCS
     femmesh/gmshtools.py
     femmesh/meshsetsgetter.py
     femmesh/meshtools.py
+    femmesh/ownership_context.py
     femmesh/netgentools.py
     femmesh/transfinitetools.py
     femmesh/adaptivetools.py

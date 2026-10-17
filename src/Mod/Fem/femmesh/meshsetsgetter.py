@@ -35,6 +35,7 @@ import time
 import FreeCAD
 
 from femmesh import meshtools
+from femmesh import ownership_context
 from femtools.femutils import type_of_obj
 
 
@@ -497,12 +498,45 @@ class MeshSetsGetter:
                 femobj["ChargeDensityElements"] = result
 
     def get_constraints_contact_faces(self):
+        if not self.member.cons_contact:
+            return
+        context = None
+        owned_faces = self.femmesh.VolumeCount and any(
+            getattr(owner.getSubObject(name), "ShapeType", None) == "Face"
+            for row in self.member.cons_contact
+            for owner, names in row["Object"].References
+            if owner is not None
+            for name in names
+        )
+        if owned_faces and any(
+            getattr(self.mesh_object, name, None)
+            for name in ("ElementGroupNames", "ElementGroupReferences", "ElementGroupGeometry")
+        ):
+            context = ownership_context._OwnershipContext(self.femmesh, self.mesh_object, self)
+        references = [
+            (
+                row["Object"],
+                tuple((owner, tuple(names)) for owner, names in row["Object"].References),
+            )
+            for row in self.member.cons_contact
+        ]
+        pending = []
         for femobj in self.member.cons_contact:
             obj = femobj["Object"]
             print_obj_info(obj)
-            result = [meshtools.get_contact_elements(self, obj, pair)
-                      for pair in meshtools.pair_obj_reference(obj.References)]
-
+            result = [
+                meshtools.get_contact_elements(self, obj, pair, context)
+                for pair in meshtools.pair_obj_reference(obj.References)
+            ]
+            pending.append((femobj, result))
+        if context is not None:
+            context.validate_unchanged()
+        if any(
+            tuple((owner, tuple(names)) for owner, names in obj.References) != saved
+            for obj, saved in references
+        ):
+            raise ValueError("Contact references changed during mesh gathering; retry the writer.")
+        for femobj, result in pending:
             femobj["ContactSlaveFaces"] = result[:-1]
             femobj["ContactMasterFaces"] = result[-1:]
 

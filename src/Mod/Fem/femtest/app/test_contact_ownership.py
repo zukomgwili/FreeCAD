@@ -11,13 +11,17 @@ import io
 from pathlib import Path
 import re
 import shutil
+import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
 
 import FreeCAD as App
+import Fem
 import ObjectsFem
-from femmesh import gmshtools, meshsetsgetter
+from femmesh import gmshtools
+from femmesh import meshsetsgetter
+from femmesh import meshtools
 from femsolver.calculix import calculixutils, write_constraint_contact
 
 
@@ -121,14 +125,20 @@ class TestContactOwnership(unittest.TestCase):
         self.assertEqual(len(facets), len(self.group_elements(face)))
         return facets, owned_nodes
 
-    def contact_row(self):
-        row = {"Object": self.contact}
+    def contact_getter(self, rows):
         getter = meshsetsgetter.MeshSetsGetter(
-            self.analysis, SimpleNamespace(AnalysisType="static", ModelSpace="3D"),
-            self.mesh, SimpleNamespace(cons_contact=[row]))
+            self.analysis,
+            SimpleNamespace(AnalysisType="static", ModelSpace="3D"),
+            self.mesh,
+            SimpleNamespace(cons_contact=rows),
+        )
         for name, mask in calculixutils.define_masks(SimpleNamespace(ModelSpace="3D")).items():
             setattr(getter, "mask_" + name, mask)
-        getter.get_constraints_contact_faces()
+        return getter
+
+    def contact_row(self):
+        row = {"Object": self.contact}
+        self.contact_getter([row]).get_constraints_contact_faces()
         return row
 
     def assert_owned_contact(self, entities=(("Face2", "Solid1"), ("Face7", "Solid2")),
@@ -197,6 +207,232 @@ class TestContactOwnership(unittest.TestCase):
         self.generate_mesh()
         self.assertFalse(self.mesh.CoherenceMesh)
         self.assert_owned_contact()
+
+    def test_owned_contact_geometry_checks_classify_only_candidate_nodes(self):
+        self.generate_mesh()
+        classified = []
+        previous = sys.getprofile()
+
+        def profile(frame, event, function):
+            if event == "c_call" and getattr(function, "__name__", "") == "getNodesByFace":
+                classified.append(function.__self__.NodeCount)
+
+        try:
+            sys.setprofile(profile)
+            self.contact_row()
+        finally:
+            sys.setprofile(previous)
+        self.assertEqual(len(classified), 2)
+        self.assertTrue(
+            all(count < self.mesh.FemMesh.NodeCount for count in classified),
+            "Owned face validation must not scan every node in the mesh",
+        )
+
+    def test_volume_nonface_contact_retains_existing_fallback(self):
+        self.generate_mesh()
+        self.contact.References = [(self.first, ["Solid1"]), (self.second, ["Solid1"])]
+        self.mesh.ElementGroupGeometry = "not used by the non-face fallback"
+        row = {"Object": self.contact}
+        getter = self.contact_getter([row])
+        expected = [
+            meshtools.get_contact_elements(getter, self.contact, pair)
+            for pair in meshtools.pair_obj_reference(self.contact.References)
+        ]
+        getter.get_constraints_contact_faces()
+        self.assertEqual(row["ContactSlaveFaces"], expected[:-1])
+        self.assertEqual(row["ContactMasterFaces"], expected[-1:])
+
+    def test_transformed_sparse_node_mesh_preserves_owned_contact(self):
+        self.generate_mesh()
+        original = self.mesh.FemMesh
+        coordinates = original.Nodes
+        transformed = Fem.FemMesh()
+        offset = App.Vector(11, -7, 3)
+        node_ids = {node: 100 + 7 * node for node in coordinates}
+        for node, point in coordinates.items():
+            point = point - offset
+            transformed.addNode(point.x, point.y, point.z, node_ids[node])
+        for elements, add in (
+            (original.Edges, transformed.addEdge),
+            (original.Faces, transformed.addFace),
+            (original.Volumes, transformed.addVolume),
+        ):
+            for element in elements:
+                add([node_ids[node] for node in original.getElementNodes(element)], element)
+        for group in original.Groups:
+            kind = original.getGroupElementType(group)
+            new_group = transformed.addGroup(original.getGroupName(group), kind)
+            members = original.getGroupElements(group)
+            transformed.addGroupElements(
+                new_group, [node_ids[node] for node in members] if kind == "Node" else list(members)
+            )
+        transformed.setTransform(App.Placement(offset, App.Rotation()))
+        self.mesh.FemMesh = transformed
+        self.assertEqual(set(self.mesh.FemMesh.Nodes), set(node_ids.values()))
+        for old, new in node_ids.items():
+            self.assertLess((self.mesh.FemMesh.getNodeById(new) - coordinates[old]).Length, 1e-12)
+        self.assert_owned_contact()
+
+    def test_contact_batch_reuses_unchanged_validation(self):
+        self.generate_mesh()
+        rows = [{"Object": self.contact}]
+        for _ in range(9):
+            contact = ObjectsFem.makeConstraintContact(self.doc, "RepeatedContact")
+            contact.References = self.contact.References
+            rows.append({"Object": contact})
+        getter = self.contact_getter(rows)
+        counts = {"geometry": 0, "face": 0}
+        previous = sys.getprofile()
+
+        def profile(frame, event, function):
+            if event == "call" and frame.f_code.co_name == "get_mesh_geometry_signature":
+                counts["geometry"] += 1
+            if event == "c_call" and getattr(function, "__name__", "") == "getNodesByFace":
+                counts["face"] += 1
+
+        try:
+            sys.setprofile(profile)
+            getter.get_constraints_contact_faces()
+        finally:
+            sys.setprofile(previous)
+        self.assertLessEqual(counts["geometry"], 2, "Validate geometry at batch entry and exit")
+        self.assertEqual(counts["face"], 2, "Validate each unchanged native face only once")
+        for row in rows:
+            self.assertEqual(row["ContactSlaveFaces"][0][1], rows[0]["ContactSlaveFaces"][0][1])
+            self.assertEqual(row["ContactMasterFaces"][0][1], rows[0]["ContactMasterFaces"][0][1])
+
+    def test_reused_getter_follows_changed_contact_references(self):
+        self.generate_mesh()
+        row = {"Object": self.contact}
+        getter = self.contact_getter([row])
+        getter.get_constraints_contact_faces()
+        previous_slave = row["ContactSlaveFaces"][0][1]
+        previous_master = row["ContactMasterFaces"][0][1]
+        self.assertNotEqual(previous_slave, previous_master)
+        self.contact.References = list(reversed(self.contact.References))
+        self.doc.recompute()
+        getter.get_constraints_contact_faces()
+        self.assertEqual(row["ContactSlaveFaces"][0][1], previous_master)
+        self.assertEqual(row["ContactMasterFaces"][0][1], previous_slave)
+
+    def test_reused_getter_rejects_changed_geometry(self):
+        self.generate_mesh()
+        row = {"Object": self.contact}
+        getter = self.contact_getter([row])
+        getter.get_constraints_contact_faces()
+        self.first.Width = 24
+        self.doc.recompute()
+        with self.assertRaisesRegex(ValueError, "(?i)geometry|mesh|regenerat"):
+            getter.get_constraints_contact_faces()
+
+    def test_reused_getter_rejects_changed_native_groups(self):
+        self.generate_mesh()
+        row = {"Object": self.contact}
+        getter = self.contact_getter([row])
+        getter.get_constraints_contact_faces()
+        mesh = self.mesh.FemMesh
+        group = next(group for group in mesh.Groups if mesh.getGroupName(group) == "Face2")
+        mesh.removeGroup(group)
+        with self.assertRaisesRegex(ValueError, "(?i)group|mesh|regenerat"):
+            getter.get_constraints_contact_faces()
+
+    def test_reused_getter_rejects_added_native_node(self):
+        self.generate_mesh()
+        row = {"Object": self.contact}
+        getter = self.contact_getter([row])
+        getter.get_constraints_contact_faces()
+        mesh = Fem.FemMesh(self.mesh.FemMesh)
+        mesh.addNode(1000, 1000, 1000)
+        self.mesh.FemMesh = mesh
+        self.assertEqual(
+            mesh.NodeCount,
+            self.mesh.FemMesh.NodeCount,
+            "The current mesh feature must contain the added native node",
+        )
+        with self.assertRaisesRegex(ValueError, "(?i)node|mesh|regenerat"):
+            getter.get_constraints_contact_faces()
+
+    def test_reused_getter_rejects_native_node_motion(self):
+        self.generate_mesh()
+        row = {"Object": self.contact}
+        getter = self.contact_getter([row])
+        getter.get_constraints_contact_faces()
+        mesh = Fem.FemMesh(self.mesh.FemMesh)
+        node = next(iter(mesh.Nodes))
+        previous = self.mesh.FemMesh.getNodeById(node)
+        mesh.setTransform(App.Placement(App.Vector(0, 0, 1), App.Rotation()))
+        self.mesh.FemMesh = mesh
+        self.assertEqual(
+            self.mesh.FemMesh.getNodeById(node),
+            previous + App.Vector(0, 0, 1),
+            "A fresh wrapper must observe motion with unchanged node IDs and count",
+        )
+        with self.assertRaisesRegex(ValueError, "(?i)node|mesh|regenerat"):
+            getter.get_constraints_contact_faces()
+
+    def assert_contact_batch_mutation_rejected(self, mutation):
+        self.generate_mesh()
+        other = ObjectsFem.makeConstraintContact(self.doc, "OtherContact")
+        other.References = self.contact.References
+        rows = [
+            {
+                "Object": contact,
+                "ContactSlaveFaces": ["previous slave"],
+                "ContactMasterFaces": ["previous master"],
+            }
+            for contact in (self.contact, other)
+        ]
+        previous_outputs = [(row["ContactSlaveFaces"], row["ContactMasterFaces"]) for row in rows]
+        getter = self.contact_getter(rows)
+        injected = False
+        previous = sys.getprofile()
+
+        def profile(frame, event, function):
+            nonlocal injected
+            if (
+                not injected
+                and event == "c_call"
+                and getattr(function, "__name__", "") == "getNodesByFace"
+            ):
+                injected = True
+                mutation()
+
+        try:
+            sys.setprofile(profile)
+            with self.assertRaisesRegex(ValueError, "(?i)reference|group|node|mesh|regenerat"):
+                getter.get_constraints_contact_faces()
+        finally:
+            sys.setprofile(previous)
+        self.assertTrue(injected, "Fault injection must occur during native face validation")
+        for row, (slave, master) in zip(rows, previous_outputs):
+            self.assertIs(
+                row["ContactSlaveFaces"],
+                slave,
+                "A failed batch must not publish even its earlier Contact rows",
+            )
+            self.assertIs(row["ContactMasterFaces"], master)
+
+    def test_contact_batch_reference_change_does_not_publish_partial_rows(self):
+        def swap_references():
+            self.contact.References = list(reversed(self.contact.References))
+
+        self.assert_contact_batch_mutation_rejected(swap_references)
+
+    def test_contact_batch_native_group_change_does_not_publish_partial_rows(self):
+        def remove_face_group():
+            mesh = self.mesh.FemMesh
+            group = next(group for group in mesh.Groups if mesh.getGroupName(group) == "Face2")
+            mesh.removeGroup(group)
+
+        self.assert_contact_batch_mutation_rejected(remove_face_group)
+
+    def test_contact_batch_native_mesh_change_does_not_publish_partial_rows(self):
+        def add_native_node():
+            mesh = Fem.FemMesh(self.mesh.FemMesh)
+            mesh.addNode(1000, 1000, 1000)
+            self.mesh.FemMesh = mesh
+
+        self.assert_contact_batch_mutation_rejected(add_native_node)
 
     def test_save_reopen_preserves_owned_contact_before_recompute(self):
         self.generate_mesh()
