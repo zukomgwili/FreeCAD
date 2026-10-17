@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-17",
+  "status": "built_installed_and_verified",
+  "installation_bead": "FreeCAD-d7k",
+  "branch": "codex/fix-toroidal-self-cut",
+  "compiled_commit": "86e6de7f1ee8b54f3e8bf54a9717e709cb2a6206",
+  "compiled_version": "27.1.0dev49261+179 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "application_modified_local": "2026-10-17 11:23:55 BST",
+  "previous_application_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-combined-86e6de7f1e.app",
+  "namespace_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-Namespace-before-combined-86e6de7f1e",
+  "backup_compiled_commit": "eb43e83ff31bdf7d9baf298344f8c1a2f4fc7be6",
+  "backup_revision": "+176",
+  "merge": {
+    "recent_fixes_parent": "7397949462038c904a60c45556e2c9fcaa7058ce",
+    "updated_fork_main_parent": "3399eb4a3b9bc7212e14890d465075c8fb64da19",
+    "official_upstream_main": "088f49373da7309845471e5286b2f6deb69ec8d7",
+    "common_ancestor": "92046d236cd54813bd65fd74ea8c9301baae3a74",
+    "upstream_commits_imported": 147,
+    "both_parent_histories_preserved": true,
+    "conflict_resolution": "The sole conflict was Draft SVG OCC-version parsing. Retained upstream's first-three-component numeric tuple and >=(7,1,0) guard, including OCC 8 development-suffix support, while preserving all local working-plane projection, centering, endpoint/radius precision, traversal/sweep and unique-subpath logic. Added the 8.0.0.p1-4f95ecaa regression case without weakening any existing assertion.",
+    "independent_preservation_audit": {
+      "branch_delta_paths": 271,
+      "overlap_paths_reviewed": 15,
+      "branch_only_paths": 256,
+      "branch_only_paths_byte_identical": 255,
+      "sole_branch_only_delta": "One additional OCC development-version case in src/Mod/Draft/drafttests/test_svg.py.",
+      "result": "All local fix hunks retained. Reviewed every overlap, including Spreadsheet dependency refresh plus upstream canonical aliases; precise BRep serialization plus upstream ancestor caching; TechDraw owned-source recompute plus upstream FeaturePython/cosmetic APIs; and lifecycle cleanup plus upstream GUI changes. Branch-only FEM ownership, Part/hashers, BIM geometry, fixtures, tests and Qt delivery remain byte-identical."
+    }
+  },
+  "build": {
+    "type": "Release",
+    "architecture": "arm64",
+    "all_enabled_targets_built": true,
+    "clean_from_scratch_claimed": false,
+    "build_exit": 0,
+    "destdir_install_exit": 0,
+    "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "pixi_toml_sha256": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "pixi_lock_sha256": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "dependency_policy": "Manifest and lock remain byte-identical to the recent-fixes parent, preserving patched Qt 6.11.2 Cocoa build pl5321h12ef06d_2. The controlled external namespace update below is not a claim that every byte in the dependency prefix is unchanged."
+  },
+  "installation": {
+    "staging": "CMake DESTDIR isolated both application resources and all 11 absolute external namespace destinations. Cloned the signature-verified old app with literal symlinks preserved and verified complete inventory equality before merging. The explicit no-follow payload merge rejects writes through dependency links. An independent audit matched 1982 payload Python/UI/JSON/XML/BRep files to the stage and installed app.",
+    "canonical_namespace": "Installed all 11 generated namespace files under Resources/Ext/freecad using normal FreeCAD startup precedence; retained the existing freecad/gui debugger subtree. Runtime checks establish app-local freecad and freecad.utils origins. Configured __init__.py matches build/release/Ext/freecad/__init__.py, with provenance from src/Ext/freecad/__init__.py.template.",
+    "external_namespace_transaction": {
+      "files_checked": 11,
+      "unchanged_files": 10,
+      "updated_file": "lib/python3.13/site-packages/freecad/utils.py",
+      "old_sha256": "40de733affe0d26b468a106afd52c45fda66c053b8f769c78b795dd94f04d945",
+      "new_sha256": "8024aea993669521c03aeb2b7386348251cd0551555c455aef7ab0496342ec4d",
+      "reason": "Upstream adds a backward-compatible sys.prefix interpreter fallback. The old helper equals the recent-fixes source; the new helper equals the merged source. All 11 live hashes and modes matched the before plan before swapping and the after plan afterward.",
+      "backup": "Retained original utils.py, namespace-plan.json and original utils.cpython-313.pyc in the named namespace backup. Only utils bytecode was moved out of the live prefix. Atomic same-directory file replacement preserves the original helper mode.",
+      "rollback_requirement": "Restore both the previous application and its namespace helper/cache backup together; restoring only the app does not reverse the helper update."
+    },
+    "launcher": "Preserved GUI launcher executable content before its signature (first 34240 bytes) and the complete command launcher bytes. Both select the external patched Cocoa plugin directly. No historical app-local qt-cocoa overlay is present.",
+    "signing": "Captured both original QuickLook entitlement plists; deep-signed the stage, reapplied all four sandbox/bookmark/download/user-selected read-only entitlements to each extension, and signed the outer bundle. Deep/strict signature and entitlement checks passed before and after replacement.",
+    "cache_policy": "Moved copied generated app bytecode to recoverable scratch before signing. Resources non-symlinks are read-only and cache-free. Each isolated test observer explicitly sets sys.dont_write_bytecode before product imports; no user profile is used.",
+    "replacement": "Only after all ten staged gates passed, native executable-path enumeration confirmed both apps closed. Guarded same-filesystem renames retained the old app and installed the verified stage, then atomically updated the helper with rollback protection. Refreshed the outer app timestamp. The old app's entire 4269-entry inventory still matches original hashes, modes and literal link targets.",
+    "installer_fault_tests": "Four scratch-only fixture tests passed: success, second app rename failure, post-swap verification failure with full restoration, and namespace-restore failure that still restores the app/caches and reports manual-attention backup locations. No real app or dependency prefix was used in fault injection.",
+    "local_note": "LOCAL-INSTALL.txt records exact compiled identity, dependency/Cocoa requirements, native ownership remeshing guidance, both rollback paths and engineering scope limits."
+  },
+  "verification": {
+    "ctest": {"registered": 2240, "passed": 2230, "skipped": 2, "disabled": 8, "failed": 0, "seconds": 165.67, "excluded": []},
+    "staged_sequence": {
+      "passed_gates": 10,
+      "seconds": 289.132,
+      "gates": [
+        {"mode": "broad_cli_and_identity", "run": 1697, "seconds": 184.61, "skipped": 8, "existing_expected_failures": 1, "unexpected_failures": 0},
+        {"mode": "native_contact_create_and_identity", "run": 2, "seconds": 1.269},
+        {"mode": "native_contact_cold_reopen_and_identity", "run": 2, "seconds": 1.681},
+        {"mode": "connector_material_gui_and_identity", "run": 15, "seconds": 3.597},
+        {"mode": "techdraw_gui_and_identity", "run": 17, "seconds": 24.120},
+        {"mode": "stock_equilibrium_and_identity", "run": 3, "seconds": 10.049},
+        {"mode": "mixed_hasher_create_and_identity", "run": 2, "seconds": 1.990},
+        {"mode": "mixed_hasher_cold_reopen_and_identity", "run": 2, "seconds": 2.023},
+        {"mode": "bim_area_create_and_identity", "run": 2, "seconds": 1.827},
+        {"mode": "bim_area_cold_reopen_and_identity", "run": 2, "seconds": 1.801}
+      ]
+    },
+    "installed_sequence": {
+      "passed_gates": 10,
+      "seconds": 231.960,
+      "gates": [
+        {"mode": "broad_cli_and_identity", "run": 1697, "seconds": 123.655, "skipped": 8, "existing_expected_failures": 1, "unexpected_failures": 0},
+        {"mode": "native_contact_create_and_identity", "run": 2, "seconds": 1.872},
+        {"mode": "native_contact_cold_reopen_and_identity", "run": 2, "seconds": 1.405},
+        {"mode": "connector_material_gui_and_identity", "run": 15, "seconds": 3.352},
+        {"mode": "techdraw_gui_and_identity", "run": 17, "seconds": 24.705},
+        {"mode": "stock_equilibrium_and_identity", "run": 3, "seconds": 12.050},
+        {"mode": "mixed_hasher_create_and_identity", "run": 2, "seconds": 1.978},
+        {"mode": "mixed_hasher_cold_reopen_and_identity", "run": 2, "seconds": 2.004},
+        {"mode": "bim_area_create_and_identity", "run": 2, "seconds": 1.716},
+        {"mode": "bim_area_cold_reopen_and_identity", "run": 2, "seconds": 1.709}
+      ]
+    },
+    "broad_suites": ["BaseTests", "UnitTests", "Document", "TestArch", "TestDraft", "TestFemApp", "TestPartApp", "TestSpreadsheet", "TestTechDrawApp", "StringHasher", "TestSketcherApp", "TestPartDesignApp"],
+    "identity_and_result_policy": "Every process verifies exact compiled commit/revision, executable, application home, installed module origins and source-byte parity. Dynamic configured suite counts must match the actual unittest result; launcher exit zero alone is insufficient. Fresh isolated profiles/evidence, bounded process groups, immutable observer hashes and semantic JSON checks fail closed. Native acceptance witnesses have no skips or expected failures. Broad-suite skips and its existing expected failure are retained explicitly, not counted as passes.",
+    "fem_regression_execution": "All 21 Contact, 14 rigid-region ownership and 8 rigid-port tests are uniquely discovered and observed executing without skips in both broad runs.",
+    "contact_witness": "Unchanged R27 owned.FCStd SHA256 fcc5b43e2d0663f0b5222c98d81ffeeec669bad93d8b78d9321951489d377387. Exact ordinary getter/stock writer preserves 18 Solid1-only slave facets and 18 Solid2-only master facets, plus 47/47 disjoint public RBE/port nodes. Independent complete connectivity and native solid groups establish ownership. Separate create/cold-reopen processes preserve 881 nodes,401 volumes,308 faces,56 groups before and after forced recompute; topology/group fingerprints and original/copy/cold input hashes remain unchanged. No remesh, artificial gap, runtime repair, provenance overwrite, deck patch, material, load or solver is introduced in this witness.",
+    "mixed_hasher_witness": "Unchanged native regression checks exact SID/raw-map/physical-face snapshots through recompute, save, garbage collection, independent cold reopen and successor reopen; screenshot blue-face sampling also passes. Cold inputs and observer source bytes remain immutable.",
+    "bim_area_witness": "Unchanged trimmed/open-loop model checks positive adaptive area/perimeter and volume quantities at creation and independent cold reopen, before and through two recomputes. Fixture-specific quantity budgets pass; cold input and observer remain immutable. No building-design acceptance is inferred.",
+    "stock_equilibrium": {"unmodified_shipped_volume_elements": 24001, "section_size_mm": 1.25, "force_relative_residual": 0.0044106791171284335, "origin_moment_relative_residual": 0.0008129863678002713, "centroid_moment_relative_residual": 0.00010322259531122808, "example_relative_tolerance": 0.01, "raw_solver_dat_parity": true, "solver_test_mode": false},
+    "runtime_cocoa_plugin": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib",
+    "runtime_cocoa_sha256": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704",
+    "independent_reviews": "Source-preservation, staged custody/security, post-test staged semantic evidence, post-swap backup/namespace custody and final installed-runtime audits passed without blockers. Final review reconciles all ten raw logs, identities, semantic reports, actual source/fixture hashes and 1744 tests across the installed sequence (8 skips and 1 existing expected failure in its 1697-test broad gate, no unexpected failures). Installed and backup deep/strict signatures and protected/cache-free Resources remain valid after all tests. Auditors did not launch competing GUI tests."
+  },
+  "installed_sha256": {
+    "MacOS_FreeCAD": "5a0b809e4fcb2ad533f8f6dc52fab93b7203f7ca10592a07421892979f0dfe3b",
+    "MacOS_FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+    "LOCAL_INSTALL": "9ba8a65cc0907a8503a9bdb56410512fd1f4faa2fba083759cd5bb7adcb9fc8f",
+    "svgshapes": "505a27e13fe7fa323093ac20585e2c44de7bffa6b9086e9cd3c4d384a2cf7e4a",
+    "freecad_utils": "8024aea993669521c03aeb2b7386348251cd0551555c455aef7ab0496342ec4d"
+  },
+  "evidence_directory": "/private/tmp/freecad-combined-install.YdBKlx",
+  "evidence_files": ["build.log", "ctest.log", "install.log", "stage.log", "swap.log", "preservation-audit.json", "baseline-inventory.json", "namespace-plan.json", "swap-fault-audit.json", "postswap-custody-audit.json", "final-audit.json", "stage-sequence-result.json", "installed-sequence-result.json"],
+  "historical_receipt_note": "Earlier source/installation receipts remain historical. This receipt supersedes their installed-version status. Receipt metadata is committed after the compiled merge without changing binary identity.",
+  "remaining_separate_issues": {
+    "FreeCAD-59d": "CLI -t may exit zero after failed tests; observers parse unittest and semantic evidence instead.",
+    "FreeCAD-3pw": "Large-collector material writer geometry fallback remains separate.",
+    "FreeCAD-kjo": "Proposed strict ownership-context reuse remains separate; no Contact speedup is claimed.",
+    "FreeCAD-1k2": "Untouched upstream standalone typing-tool tests have a Path-versus-SourceFile setup mismatch, recorded during main synchronization. This receipt does not claim the entire repository's standalone tools are green."
+  },
+  "limits": {
+    "self_contained": false,
+    "notarized": false,
+    "dependency_prefix_still_required": true,
+    "user_profiles_or_building_documents_modified": false,
+    "loaded_joint_or_physical_contact_behaviour_accepted": false,
+    "physical_joint_or_house_design_accepted": false,
+    "whole_house_BIM_or_complete_Oomakhi_method_requalified": false
+  }
+}
