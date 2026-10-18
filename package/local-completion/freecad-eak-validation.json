@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-eak",
+  "source_baseline": "3c379e2306",
+  "evidence_directory": "/private/tmp/freecad-open-completion.k47r6P",
+  "red": "rigid-native-probe.log: stock native Gmsh box, two standalone RBEs, no connectors. Disjoint, shared-zero and shared-conflicting all preflight[] and native CalculiX exit0. Shared cases explicitly warn repeated dependent equations are not applied. rbe-preflight-red.log additionally catches missing stale ownership validation and conflict diagnostics.",
+  "green": {
+    "focused": "rbe-preflight-green2.log: six native tests pass in0.897s",
+    "full_FEM": "fem-all-rbe.log: all301tests pass in28.387s"
+  },
+  "contract": [
+    "Standalone RBEs receive finite input, current owner-aware reference, nonempty region and distinct external Ref/Rot identity checks even without connectors.",
+    "Shared nodes with fully prescribed constant pure translations and zero prescribed rotations are compared at unchanged stock writer13G precision. Matching prescriptions are allowed; differing prescriptions are errors.",
+    "Other overlap modes/amplitudes are explicitly unqualified warnings, not a blanket rejection or claim of compatibility. Existing connector-port restrictions remain unchanged.",
+    "Cold native ownership and real geometry-change rejection are tested. Standalone collinear selection with all rotations prescribed is not incorrectly constrained to the connector-port domain.",
+    "Native writer equations, node allocation and physical output semantics are unchanged. A matching-zero native overlap solve passes with its original duplicate-MPC warning retained."
+  ],
+  "references": [
+    "https://github.com/Dhondtguido/CalculiX/blob/master/src/rigidbodys.f",
+    "https://feacluster.com/CalculiX/ccx_2.18/doc/ccx/node320.html"
+  ],
+  "limits": "Bounded preflight, not an MPC compatibility engine or Oomakhi numerical/design qualification. Final combined build/install pending remaining beads."
+}

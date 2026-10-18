@@ -411,6 +411,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_rigid_region_ownership.py
     femtest/app/test_geometry_signature.py
     femtest/app/test_mesh_quality.py
+    femtest/app/test_rigid_body_preflight.py
     femtest/app/test_contact_ownership.py
     femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
@@ -612,6 +613,7 @@ SET(FemTools_SRCS
     femtools/ccxtools.py
     femtools/checksanalysis.py
     femtools/elastic_connector.py
+    femtools/rigid_body.py
     femtools/material_orthotropic.py
     femtools/constants.py
     femtools/errors.py

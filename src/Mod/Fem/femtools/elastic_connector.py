@@ -152,7 +152,13 @@ def reject_unsupported(analysis, solver_name):
 
 def validation_errors(analysis, solver, mesh):
     from .membertools import get_member
+    from .rigid_body import validation_diagnostics
     errors = []
+    for diagnostic in validation_diagnostics(analysis, solver, mesh):
+        if diagnostic["severity"] == "error":
+            errors.append(diagnostic["message"])
+        elif diagnostic["severity"] == "warning":
+            FreeCAD.Console.PrintWarning(diagnostic["message"] + "\n")
     if get_member(analysis, "Fem::ConstraintSpring"):
         errors.append("The existing Spring is an Elmer foundation; use an Elastic Connector "
                       "for a concentrated CalculiX spring.")
