@@ -22,6 +22,7 @@
  *                                                                         *
  **************************************************************************/
 
+#include <algorithm>
 #include <cmath>
 
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
@@ -32,6 +33,7 @@
 #include <Inventor/fields/SoMFString.h>
 #include <Inventor/nodes/SoBaseColor.h>
 #include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/nodes/SoDepthBuffer.h>
 #include <Inventor/nodes/SoFont.h>
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/nodes/SoIndexedFaceSet.h>
@@ -153,8 +155,17 @@ public:
 
     void refresh()
     {
+        outlines.clear();
         rebuildGradient();
         rebuildLegend();
+    }
+
+    void setPixelScale(float scale)
+    {
+        pixelScale = scale;
+        for (const auto& outline : outlines) {
+            outline.transform->translation.setValue(outline.x * pixelScale, outline.y * pixelScale, 0.0F);
+        }
     }
 
     void setViewport(
@@ -175,6 +186,42 @@ public:
     }
 
 private:
+    SoSeparator* outlinedLabel(const std::string& text, const Base::Color& textColor)
+    {
+        // A one-pixel opposing halo preserves the configured text color on
+        // white, black, gradient and transparent exports without mutating the
+        // scene's color-scale state for an offscreen render.
+        auto group = new SoSeparator;
+        const float luminance = 0.299F * textColor.r + 0.587F * textColor.g + 0.114F * textColor.b;
+        const float contrast = luminance > 0.5F ? 0.0F : 1.0F;
+        for (int y = -1; y <= 1; ++y) {
+            for (int x = -1; x <= 1; ++x) {
+                if (x == 0 && y == 0) {
+                    continue;
+                }
+                auto shadow = new SoSeparator;
+                auto transform = new SoTransform;
+                transform->translation.setValue(x * pixelScale, y * pixelScale, 0.0F);
+                outlines.push_back({transform, x, y});
+                auto color = new SoBaseColor;
+                color->rgb.setValue(contrast, contrast, contrast);
+                auto label = new SoColorBarLabel;
+                label->string.setValue(text.c_str());
+                shadow->addChild(transform);
+                shadow->addChild(color);
+                shadow->addChild(label);
+                group->addChild(shadow);
+            }
+        }
+        auto color = new SoBaseColor;
+        color->rgb.setValue(textColor.r, textColor.g, textColor.b);
+        group->addChild(color);
+        auto label = new SoColorBarLabel;
+        label->string.setValue(text.c_str());
+        group->addChild(label);
+        return group;
+    }
+
     void rebuildGradient()
     {
         const auto snapshot = colorScale->snapshot(ColorScaleMode::Gradient);
@@ -253,9 +300,7 @@ private:
             offset->translation.setValue(0.0F, -step, 0.0F);
             gradientLabels->addChild(offset);
 
-            auto label = new SoColorBarLabel;
-            label->string.setValue(tick.text.c_str());
-            gradientLabels->addChild(label);
+            gradientLabels->addChild(outlinedLabel(tick.text, textColor));
         }
     }
 
@@ -372,9 +417,9 @@ private:
                 color->rgb.setValue(0.0F, 0.0F, 0.0F);
                 legendLabels->addChild(color);
 
-                auto label = new SoText2;
-                label->string.setValue(snapshot.intervals[index].label.c_str());
-                legendLabels->addChild(label);
+                legendLabels->addChild(
+                    outlinedLabel(snapshot.intervals[index].label, Base::Color(0.0F, 0.0F, 0.0F))
+                );
             }
         }
 
@@ -394,9 +439,9 @@ private:
                 color->rgb.setValue(0.0F, 0.0F, 0.0F);
                 legendValues->addChild(color);
 
-                auto value = new SoText2;
-                value->string.setValue(snapshot.ticks[index].text.c_str());
-                legendValues->addChild(value);
+                legendValues->addChild(
+                    outlinedLabel(snapshot.ticks[index].text, Base::Color(0.0F, 0.0F, 0.0F))
+                );
             }
         }
     }
@@ -464,6 +509,14 @@ private:
     SoCoordinate3* legendCoords {};
     SbBox2f gradientBounds;
     SbBox2f legendBounds;
+    struct Outline
+    {
+        SoTransform* transform;
+        int x;
+        int y;
+    };
+    std::vector<Outline> outlines;
+    float pixelScale {10.0F / 900.0F};
 };
 
 class ColorScaleOptionsEvent: public QObject
@@ -492,6 +545,13 @@ SoFCColorBar::SoFCColorBar()
     , windowSize(0, 0)
 {
     SO_NODE_CONSTRUCTOR(SoFCColorBar);
+
+    // This is a foreground annotation, not geometry at the model's depth.
+    // Small/portrait exports can place the model behind the label column.
+    auto depth = new SoDepthBuffer;
+    depth->test = false;
+    depth->write = false;
+    addChild(depth);
 
     auto lightModel = new SoLightModel;
     lightModel->model = SoLightModel::BASE_COLOR;
@@ -568,7 +628,13 @@ void SoFCColorBar::prepareViewport(const SbVec2s& size, bool force)
         return;
     }
 
+    // Text has pixel dimensions. Its world-space width from another viewport
+    // cannot reserve the right margin of a differently sized image.
+    boxWidth = -1.0F;
     windowSize = size;
+    presentation->setPixelScale(
+        10.0F / static_cast<float>(std::max<short>(1, std::min(size[0], size[1])))
+    );
     float minimumX {};
     float minimumY {};
     float maximumX {};
@@ -584,6 +650,14 @@ void SoFCColorBar::prepareViewport(const SbVec2s& size, bool force)
     }
 
     presentation->setViewport(colorScale->mode(), minimumX, minimumY, maximumX, maximumY, labelWidth);
+    // Portrait layout changes the bar's world-space width. Measure once more
+    // after that layout rather than reserving the previous bar's width.
+    boxWidth = -1.0F;
+    float laidOutWidth = getBoundingWidth(size);
+    if (colorScale->mode() == ColorScaleMode::Gradient) {
+        laidOutWidth = snapExtentToPixelGrid(laidOutWidth, size);
+    }
+    presentation->setViewport(colorScale->mode(), minimumX, minimumY, maximumX, maximumY, laidOutWidth);
 }
 
 void SoFCColorBar::updatePresentation()

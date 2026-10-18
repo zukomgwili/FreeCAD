@@ -48,6 +48,16 @@ endif()
 # Keep this as a separate process because the relevant failure occurs during
 # application shutdown.
 if(BUILD_GUI)
+    if(APPLE AND BUILD_TEST AND BUILD_FEM AND BUILD_FEM_VTK)
+        add_test(NAME FreeCADNativeColorbarExports
+            COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_CURRENT_SOURCE_DIR}/ColorbarExports.py"
+                --executable $<TARGET_FILE:FreeCADMain>
+                --output-root "${CMAKE_CURRENT_BINARY_DIR}/ColorbarExports")
+        set_tests_properties(FreeCADNativeColorbarExports PROPERTIES
+            ENVIRONMENT "QT_QPA_PLATFORM=cocoa" LABELS "Qt;NativeGui;FEM;Rendering"
+            TIMEOUT 150 RESOURCE_LOCK FreeCADNativeGui)
+    endif()
     if(BUILD_TEST)
         add_test(NAME FreeCADGuiTestExitStatus
             COMMAND ${Python3_EXECUTABLE}

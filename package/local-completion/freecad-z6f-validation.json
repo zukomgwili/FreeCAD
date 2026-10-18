@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-z6f",
+  "source_baseline": "30f0f8fd885b1d2e2b27ac018425eeb6a33ab5d1",
+  "evidence_directory": "/private/tmp/freecad-open-completion.k47r6P",
+  "red": {
+    "runtime": "Installed+187/e770fefe, unchanged",
+    "before_implementation_inspection": "colourbar-red.log/json and White/Black PNGs: shipped box_static.frd, default native Displacement field; numeric labels vanish on White and are readable on Black. Original red images visually inspected before reading ColorScaleOverlay/SoFCColorBar.",
+    "permanent": "colourbar-permanent-red.log:15 native exports,11 failing subtests including missing contrast and small/portrait occlusion.",
+    "intermediate": "colourbar-permanent-green.log:6 remaining failures; images reveal model depth-occlusion at small/portrait sizes, not an oracle excuse. Fixed foreground depth state next."
+  },
+  "green": {
+    "native_export_suite": "colourbar-permanent-green2.log:15 captures pass across White/Black/Current and1280x900,320x240,640x480,480x640, then1280x900 again; field Displacement Magnitude in mm",
+    "ctest": "colourbar-ctest-final.log: registered FreeCADNativeColorbarExports passes4.77s, retains actual native array ranges and fixture hash in verified.json",
+    "snapshot_state_units": "colourbar-unit-green.log:4 ColorScaleOverlay tests pass",
+    "visual_review": "Native White portrait, Black640x480, Current320x240 and initial White1280x900 outputs inspected; labels legible and complete.",
+    "existing_snapshot": "colourbar-snapshot.log initially detects intended halo/layout delta; reviewed actual/expected before updating only SoFCColorBar.png. colourbar-snapshot-final.log compares successfully after reviewed update."
+  },
+  "implementation": [
+    "One-pixel opposing native glyph halo preserves configured text color without modifying field values or rendering state for a chosen export background.",
+    "Invalidate viewport-dependent text width and remeasure after portrait bar layout; retain pixel-aligned gradient geometry.",
+    "Disable model-depth testing/writes within the native foreground colorbar separator so small/portrait models cannot occlude labels."
+  ],
+  "limits": "Native macOS arm64 GUI qualified; no custom legend/renderer, Oomakhi result alteration, field recovery or engineering-accuracy claim. Installed app remains unchanged; final installation held until remaining in-scope work is resolved."
+}
