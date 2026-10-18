@@ -44,7 +44,12 @@ def main():
     parser.add_argument("--recipe", type=Path, required=True)
     parser.add_argument("--workdir", type=Path, required=True)
     parser.add_argument("--baseline", action="store_true")
+    parser.add_argument("--patch", type=Path)
+    parser.add_argument("--extra-source", type=Path)
+    parser.add_argument("--runtime-prefix", type=Path)
     args = parser.parse_args()
+    if args.baseline and (args.patch or args.extra_source):
+        parser.error("baseline builds cannot contain a source extension")
     here = Path(__file__).resolve().parent
     recipe = args.recipe.resolve()
     archive = args.source_archive.resolve()
@@ -74,6 +79,11 @@ def main():
             target / f"recipe-patch-{index:02}.log",
         )
     if not args.baseline:
+        selected_patch = (
+            args.patch.resolve()
+            if args.patch
+            else here / "experimental-accounting.patch"
+        )
         run(
             [
                 "patch",
@@ -81,11 +91,17 @@ def main():
                 "--batch",
                 "--forward",
                 "-i",
-                str(here / "experimental-accounting.patch"),
+                str(selected_patch),
             ],
             root,
             target / "accounting-patch.log",
         )
+    if args.extra_source:
+        if args.extra_source.name != "forceaccounting.c":
+            parser.error(
+                "only the declared forceaccounting.c source overlay is supported"
+            )
+        shutil.copyfile(args.extra_source, src / args.extra_source.name)
     manifest = target / "pixi.toml"
     run(
         ["pixi", "install", "--locked", "--manifest-path", str(manifest)],
@@ -100,7 +116,8 @@ def main():
         f"-I{prefix}/include -Wno-error=implicit-function-declaration"
     )
     environment["FFLAGS"] = "-fallow-argument-mismatch"
-    environment["LDFLAGS"] = f"-L{prefix}/lib -Wl,-rpath,{prefix}/lib"
+    runtime_prefix = args.runtime_prefix.resolve() if args.runtime_prefix else prefix
+    environment["LDFLAGS"] = f"-L{prefix}/lib -Wl,-rpath,{runtime_prefix}/lib"
     base = ["pixi", "run", "--manifest-path", str(manifest)]
     run(base + ["perl", str(recipe / "date.pl")], src, target / "date.log", environment)
     run(
@@ -121,6 +138,18 @@ def main():
         environment,
     )
     binary = src / "ccx_2.23_conda"
+    if args.runtime_prefix:
+        listing = subprocess.check_output(["otool", "-l", str(binary)], text=True)
+        paths = re.findall(
+            r"cmd LC_RPATH\n\s+cmdsize \d+\n\s+path (.*?) \(offset", listing
+        )
+        for path in set(paths):
+            if path.startswith(str(target)):
+                subprocess.run(
+                    ["install_name_tool", "-delete_rpath", path, str(binary)],
+                    check=True,
+                )
+        subprocess.run(["codesign", "--force", "--sign", "-", str(binary)], check=True)
     tests = target / "functional-tests"
     tests.mkdir()
     for name in pins:
@@ -139,11 +168,15 @@ def main():
         environment,
     )
     receipt = {
-        "experimental_not_installed": True,
+        "installed": False,
+        "channel": (
+            "CCX_FORCE_ACCOUNTING_V1" if args.extra_source else "experimental 9zt probe"
+        ),
         "baseline": args.baseline,
         "source_sha256": SOURCE_SHA256,
         "recipe_pins_sha256": digest(here / "recipe-pins.json"),
-        "probe_patch_sha256": digest(here / "experimental-accounting.patch"),
+        "probe_patch_sha256": digest(selected_patch) if not args.baseline else None,
+        "extra_source_sha256": digest(args.extra_source) if args.extra_source else None,
         "toolchain_lock_sha256": digest(here / "pixi.lock"),
         "binary": str(binary),
         "binary_sha256": digest(binary),

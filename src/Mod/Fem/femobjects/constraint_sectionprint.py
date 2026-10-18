@@ -52,6 +52,27 @@ class ConstraintSectionPrint(base_fempythonobject.BaseFemPythonObject):
 
     def _get_properties(self):
         prop = []
+        prop.extend(
+            [
+                _PropHelper(
+                    type="App::PropertyBool",
+                    name="NativeEquilibriumCut",
+                    group="Native Force Accounting",
+                    value=False,
+                    doc="Request a native equilibrium-derived cut wrench on AccountingBody. "
+                    "Separate from the approximate recovered-stress SOF/SOM output.",
+                ),
+                _PropHelper(
+                    type="App::PropertyLinkSubList",
+                    name="AccountingBody",
+                    group="Native Force Accounting",
+                    value=[],
+                    doc="Explicit solid(s) on the selected facet-owner side of the cut. "
+                    "The cut must be their only shared-node interface; prescribed DOFs/MPCs "
+                    "inside this free body are not supported.",
+                ),
+            ]
+        )
 
         prop.append(
             _PropHelper(

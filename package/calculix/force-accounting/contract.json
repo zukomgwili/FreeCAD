@@ -1,0 +1,53 @@
+{
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "license": "GPL-2.0-only; see COPYING for native extension and CalculiX",
+  "purpose": "Opt-in physical support and explicitly owned equilibrium-cut resultants; not structural/design acceptance",
+  "upstream": {
+    "version": "2.23",
+    "source": "https://www.dhondt.de/ccx_2.23.src.tar.bz2",
+    "source_sha256": "9c88385c10fb04f5dc6c4e98027a51bebdd8aee3920e05190d6c1dd08357d6e7",
+    "base_recipe": "conda-forge calculix-2.23-pl5321hd17ca8b_8",
+    "recipe_package": "https://conda.anaconda.org/conda-forge/osx-arm64/calculix-2.23-pl5321hd17ca8b_8.conda",
+    "recipe_package_sha256": "fc117d68514422cb38c65fd977aaf53a2f0a3f439336e93b61e7c417711d1c40",
+    "base_patch_and_toolchain_pins": "package/local-completion/calculix-9zt-probe/recipe-pins.json and pixi.lock",
+    "build_driver": "package/local-completion/calculix-9zt-probe/build_probe.py --patch package/calculix/force-accounting/hooks.patch --extra-source package/calculix/force-accounting/forceaccounting.c --runtime-prefix <stable dependency prefix>; also supply --source-archive, --recipe and new --workdir"
+  },
+  "interface": {
+    "capability": "ccx --freecad-force-accounting-version prints exactly CCX_FORCE_ACCOUNTING_V1",
+    "activation": "CCX_FORCE_ACCOUNTING_REQUEST=<request path>, per process only",
+    "output": "<request path>.out; header, final STATE, named SUPPORT/CUT/LOAD/CONTACT six-component rows, END",
+    "state": "Final converged output state of one static step; importer requires the exact requested end time",
+    "support_request": "SUPPORT <name> <reference node> <rotation node>; exact declared native RBE identities, all six prescribed at zero",
+    "body_request": "BODY <name> <element count> <cut-node count>, followed by explicit element IDs and complete shared-interface node IDs",
+    "ownership": "Cut-body selection is explicit. Native topology checks reject undeclared shared-node interfaces, body SPCs/MPCs and ambiguous cut-node concentrated loads. A contact side must have one exterior parent volume, including matching midside identities.",
+    "support_semantics": "Native internal nodal force minus actual consistent external element/nodal loads, projected together through native decascaded MPC coefficients. Rotation port is a reference-point couple; native code translates it to the global origin.",
+    "cut_semantics": "Equilibrium-derived force and global-origin moment acting ON the declared AccountingBody across its only shared-node interface: -(native applied body/pressure/concentrated loads + native contact forces on that body). No recovered-stress integration and no reconstructed body loads.",
+    "contact_semantics": "Native face-to-face spring nodal force contributions, negated from the internal-force assembly sign and attributed separately to actual master and slave parent volumes. Each side's moment uses its own original nodal application positions. No slave-moment sign flip is used as a master-moment substitute.",
+    "load_semantics": "Actual native consistent element RHS before active-DOF filtering; concentrated loads included once when body ownership is unambiguous",
+    "frame": "Global Cartesian, original reference-state nodal positions; FreeCAD writer units N and Nmm",
+    "ordinary_channels": "RF, SOF/SOM and CF remain unchanged. SOF/SOM is still recovered/extrapolated/averaged stress integration; CF moments still use deformed slave positions. The new output is separately named and is not numerically interchangeable with those channels."
+  },
+  "supported_domain": {
+    "solver": "Standalone 32-bit-integer CalculiX 2.23 plus pinned build-8 fixes and this extension",
+    "analysis": "One small-displacement mechanical implicit static step, original global coordinates",
+    "mesh": "C3D4/C3D10 solids with current native CAD entity ownership metadata for FreeCAD cut selection",
+    "contact": "Triangular face-to-face penalty contact, frictionless or frictional; both master/slave ownership directions",
+    "supports": "Disjoint native RBE regions, all six motions prescribed at zero",
+    "cut_bodies": "Explicit solid unions, no SPC/MPC inside the selected body, complete single declared shared-node cut interface",
+    "limits": "At most 64 named supports and 64 free-body requests per run; no multi-step reuse or in-process CalculiXstep reuse",
+    "not_supported": ["NLGEOM", "dynamic/thermal/cyclic/transformed-coordinate analyses", "non-tetrahedral elements", "node-to-face or mortar contact", "partial/free/moving support ports", "split input files", "ambiguous or missing body ownership"]
+  },
+  "FreeCAD_use": {
+    "solver": "Enable NativeForceAccounting on CalculiXCcxTools. Empty NativeAccountingSolver selects the separately bundled qualified executable, not the user's ordinary ccx preference.",
+    "cut": "Enable NativeEquilibriumCut on a Section Force object and select AccountingBody solid(s) owning the selected one-sided facets. The reported wrench acts on that explicit body; do not fit signs to targets.",
+    "result": "Separate Native force accounting (N, Nmm) object with readable resultants and JSON provenance: deck/request/binary/output hashes, model fingerprint, frame, load/contact terms and applicability",
+    "staleness": "Model changes invalidate current accounting; cold restoration is explicitly historical until rerun. Failed/partial, nonfinite, wrong-time, wrong-identity and inconsistent outputs are not imported as current.",
+    "deployment": "Optional CMake FREECAD_NATIVE_CCX_ACCOUNTING points to the qualified executable. App data/NativeSolvers carries the separate binary and source/contract/license. Standard ccx and global preferences are not replaced."
+  },
+  "qualification": {
+    "tolerance": "Declared analytic fixtures compare both force-vector norm and global-origin moment-vector norm to unchanged 1% limits; no zero-error prerequisite",
+    "coverage": "GRAV under whole/face RBE, Tet4/Tet10, offset support references; deformable cuts with native GRAV, pressure and point loads, frictional contact, swapped master/slave, rotated/translated global frames; rejection and production import/restore checks",
+    "meaning": "Software/output-method qualification only. Equilibrium-derived cuts do not independently validate stresses, constitutive/contact accuracy, mesh convergence, strength or building design. No universal 1% mesh guarantee.",
+    "original_Oomakhi": "Not replayed or accepted. Frozen R42 force error 1.075520426516643%, origin moment error 1.1325582974510988%, original 1% limits and all 96 failed local checks remain unchanged. Any resolution claim requires actual new outputs for that fixture and independent review."
+  }
+}

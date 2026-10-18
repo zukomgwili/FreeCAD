@@ -28,7 +28,9 @@ class SupportGravityWitness(unittest.TestCase):
         self._run_witness("Solid1", "1st", App.Vector(-5, -5, -5))
 
     @unittest.skipUnless(
-        os.environ.get("FREECAD_9ZT_CCX"), "experimental solver not selected"
+        os.environ.get("FREECAD_9ZT_CCX")
+        or os.environ.get("FREECAD_9ZT_PRODUCTION_CCX"),
+        "accounting solver not selected",
     )
     def test_native_diagnostic_projection_variants(self):
         for selection in ("Solid1", "Face1"):
@@ -40,7 +42,9 @@ class SupportGravityWitness(unittest.TestCase):
                         self._run_witness(selection, order, reference)
 
     @unittest.skipUnless(
-        os.environ.get("FREECAD_9ZT_CCX"), "experimental solver not selected"
+        os.environ.get("FREECAD_9ZT_CCX")
+        or os.environ.get("FREECAD_9ZT_PRODUCTION_CCX"),
+        "accounting solver not selected",
     )
     def test_native_diagnostic_rejects_unqualified_nlgeom(self):
         self._run_witness("Face1", "1st", App.Vector(0, 0, 0), nonlinear=True)
@@ -58,6 +62,10 @@ class SupportGravityWitness(unittest.TestCase):
             analysis = ObjectsFem.makeAnalysis(doc)
             solver = ObjectsFem.makeSolverCalculiXCcxTools(doc)
             solver.GeometricalNonlinearity = nonlinear
+            production = os.environ.get("FREECAD_9ZT_PRODUCTION_CCX")
+            if production:
+                solver.NativeForceAccounting = True
+                solver.NativeAccountingSolver = production
             analysis.addObject(solver)
             material = ObjectsFem.makeMaterialSolid(doc)
             material.Material = {
@@ -90,6 +98,10 @@ class SupportGravityWitness(unittest.TestCase):
             fea = FemToolsCcx(analysis=analysis, solver=solver)
             fea.update_objects()
             fea.setup_working_dir(str(output))
+            if nonlinear and production:
+                with self.assertRaisesRegex(ValueError, "small-displacement"):
+                    fea.write_inp_file()
+                return
             fea.write_inp_file()
             candidate = os.environ.get("FREECAD_9ZT_CCX")
             if candidate:
@@ -189,6 +201,29 @@ class SupportGravityWitness(unittest.TestCase):
                 ).Length / moment.Length
             (output / "characterization.json").write_text(json.dumps(report, indent=2))
             self.assertEqual(code, 0)
+            if production:
+                from femtools import force_accounting
+
+                results = [
+                    obj
+                    for obj in analysis.Group
+                    if isinstance(
+                        getattr(obj, "Proxy", None), force_accounting.AccountingResult
+                    )
+                ]
+                self.assertEqual(len(results), 1)
+                self.assertTrue(results[0].Status.startswith("Current"))
+                physical = json.loads(results[0].AccountingData)["wrenches"]["SUPPORT"][
+                    "Support"
+                ]
+                self.assertLessEqual(
+                    (App.Vector(*physical[:3]) - required).Length,
+                    required.Length * 0.01,
+                )
+                self.assertLessEqual(
+                    (App.Vector(*physical[3:]) - moment).Length, moment.Length * 0.01
+                )
+                doc.saveAs(str(output / "native.FCStd"))
             if candidate:
                 self.assertLessEqual(report["experimental_force_relative_error"], 0.01)
                 self.assertLessEqual(report["experimental_moment_relative_error"], 0.01)

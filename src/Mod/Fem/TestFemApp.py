@@ -56,6 +56,7 @@ from femtest.app.test_rigid_region_ownership import TestSecondOrderLinearOwnersh
 from femtest.app.test_geometry_signature import TestGeometrySignature as FemTest32
 from femtest.app.test_mesh_quality import TestMeshQuality as FemTest33
 from femtest.app.test_rigid_body_preflight import TestRigidBodyPreflight as FemTest34
+from femtest.app.test_force_accounting import TestForceAccounting as FemTest35
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26
@@ -94,3 +95,4 @@ False if FemTest31.__name__ else True
 False if FemTest32.__name__ else True
 False if FemTest33.__name__ else True
 False if FemTest34.__name__ else True
+False if FemTest35.__name__ else True

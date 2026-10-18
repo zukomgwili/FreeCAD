@@ -25,6 +25,24 @@ endif()
 
 add_subdirectory(App)
 
+# Optional locally qualified native extension, never a silent replacement of ccx.
+set(FREECAD_NATIVE_CCX_ACCOUNTING "" CACHE FILEPATH "Qualified CalculiX force-accounting V1 executable")
+if(FREECAD_NATIVE_CCX_ACCOUNTING)
+    execute_process(COMMAND "${FREECAD_NATIVE_CCX_ACCOUNTING}" --freecad-force-accounting-version
+        OUTPUT_VARIABLE _ccx_accounting_capability OUTPUT_STRIP_TRAILING_WHITESPACE
+        RESULT_VARIABLE _ccx_accounting_status TIMEOUT 10)
+    if(NOT _ccx_accounting_status EQUAL 0 OR NOT _ccx_accounting_capability STREQUAL "CCX_FORCE_ACCOUNTING_V1")
+        message(FATAL_ERROR "FREECAD_NATIVE_CCX_ACCOUNTING does not provide the required V1 interface")
+    endif()
+    file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/data/NativeSolvers")
+    configure_file("${FREECAD_NATIVE_CCX_ACCOUNTING}"
+        "${CMAKE_BINARY_DIR}/data/NativeSolvers/ccx-force-accounting" COPYONLY)
+    install(PROGRAMS "${FREECAD_NATIVE_CCX_ACCOUNTING}" DESTINATION data/NativeSolvers
+        RENAME ccx-force-accounting)
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/package/calculix/force-accounting/"
+        DESTINATION data/NativeSolvers/source PATTERN ".gitattributes" EXCLUDE)
+endif()
+
 if(BUILD_GUI)
     add_subdirectory(Gui)
 endif(BUILD_GUI)
@@ -394,6 +412,7 @@ SET(FemTestsApp_SRCS
     femtest/app/__init__.py
     femtest/app/support_utils.py
     femtest/app/test_ccxtools.py
+    femtest/app/test_force_accounting.py
     femtest/app/test_common.py
     femtest/app/test_femimport.py
     femtest/app/test_material.py
@@ -611,6 +630,7 @@ SET(FemTestsZ88Ccxcantinl_SRCS
 SET(FemTools_SRCS
     femtools/__init__.py
     femtools/ccxtools.py
+    femtools/force_accounting.py
     femtools/checksanalysis.py
     femtools/elastic_connector.py
     femtools/rigid_body.py

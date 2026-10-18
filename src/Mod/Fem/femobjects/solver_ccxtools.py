@@ -45,6 +45,26 @@ class SolverCcxTools(SolverCalculiX):
 
     def _get_properties(self):
         prop = super()._get_properties()
+        prop.extend(
+            [
+                _PropHelper(
+                    type="App::PropertyBool",
+                    name="NativeForceAccounting",
+                    group="Native Force Accounting",
+                    value=False,
+                    doc="Opt in to versioned native support and equilibrium-cut accounting. "
+                    "Requires the qualified solver; does not change RF/SOF/SOM/CF or accept a design.",
+                ),
+                _PropHelper(
+                    type="App::PropertyFile",
+                    name="NativeAccountingSolver",
+                    group="Native Force Accounting",
+                    value="",
+                    doc="Qualified accounting executable. Empty selects the bundled native solver "
+                    "when enabled; ordinary solver preferences are unchanged.",
+                ),
+            ]
+        )
 
         # set analysis types supported by CcxTools solver
         for p in prop:
