@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-1k2",
+  "title": "Typing test inputs use parsed SourceFile contract",
+  "source_baseline": "8230cdbe3d09a74816b56cb5c6fbf23568969d7b",
+  "status": "source_fix_verified",
+  "verification": {
+    "red": "Focused existing test fails PosixPath.path in13.318s; original document module8 tests/4errors.",
+    "green": "Full standalone unittest discovery50tests/0failures309.378s; production run_generate exercised by existing end-to-end tests.",
+    "production": "Already uses load_source_files; no production discovery change or assertion weakening.",
+    "limits": "Existing unresolved dynamic-property diagnostics remain; no all-contract-completeness claim."
+  },
+  "sha256": {
+    "src/Tools/typing/stubgen/test_cpp_properties.py": "64e702f51a3bf87a641bba942820e3db092b562a54fc26c20b1543867c04a03f",
+    "src/Tools/typing/stubgen/test_document_object_types.py": "ea190130aa8b20732b19f14f186c12b89de7afd330c3fa90bdb14d43f0704468",
+    "/private/tmp/freecad-1k2-red.log": "4a4184588dc921d382270608bb7cb96dc8f0166dee4570b590af84f3202a5308",
+    "/private/tmp/freecad-open-completion.k47r6P/typing-minimal-red.log": "34eaa2d1e00592a37a749f145705ddf9b2b3aebee513a409912d9a1918ca36dd",
+    "/private/tmp/freecad-open-completion.k47r6P/typing-green.log": "2883e7a04777ecceceed3d10db4e202e54394003f32c487e5292a5ad7cd5c2eb"
+  },
+  "combined_build_install": "Deferred until remaining in-scope beads are completed; FreeCAD-4vo excluded by user."
+}
