@@ -2606,7 +2606,7 @@ Base::Quantity FemMesh::getVolume() const
     for (; aVolIter->more();) {
         const SMDS_MeshVolume* aVol = aVolIter->next();
 
-        if (aVol->NbNodes() != 10) {
+        if (aVol->NbNodes() != 4 && aVol->NbNodes() != 10) {
             continue;
         }
 
@@ -2614,6 +2614,10 @@ Base::Quantity FemMesh::getVolume() const
         Base::Vector3d v0(aVol->GetNode(0)->X(), aVol->GetNode(0)->Y(), aVol->GetNode(0)->Z());
         Base::Vector3d v2(aVol->GetNode(2)->X(), aVol->GetNode(2)->Y(), aVol->GetNode(2)->Z());
         Base::Vector3d v3(aVol->GetNode(3)->X(), aVol->GetNode(3)->Y(), aVol->GetNode(3)->Z());
+        if (aVol->NbNodes() == 4) {
+            volume += fabs((v1 - v0).Cross(v2 - v0).Dot(v3 - v0)) / 6.0;
+            continue;
+        }
         Base::Vector3d v4(aVol->GetNode(4)->X(), aVol->GetNode(4)->Y(), aVol->GetNode(4)->Z());
         Base::Vector3d v6(aVol->GetNode(6)->X(), aVol->GetNode(6)->Y(), aVol->GetNode(6)->Z());
         Base::Vector3d v5(aVol->GetNode(5)->X(), aVol->GetNode(5)->Y(), aVol->GetNode(5)->Z());

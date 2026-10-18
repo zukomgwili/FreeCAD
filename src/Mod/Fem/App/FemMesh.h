@@ -166,6 +166,7 @@ public:
     /// Bound box from the shape
     Base::BoundBox3d getBoundBox() const override;
     /// get the volume (when there are volume elements)
+    /// Sum Tet4 and subdivided Tet10 volumes; other volume element types are not counted.
     Base::Quantity getVolume() const;
     //@}
 

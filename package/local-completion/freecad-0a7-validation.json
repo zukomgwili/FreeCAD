@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-0a7",
+  "status": "source_fix_verified",
+  "source_baseline": "8230cdbe3d09a74816b56cb5c6fbf23568969d7b",
+  "native_candidate_identity": "build/release +188/8230cdbe with the qualified uncommitted content hashes below; not claimed a clean compiled commit",
+  "red": {
+    "runtime": "Installed+187/e770fefe",
+    "actual_volume_mm3": 0,
+    "expected_volume_mm3": 4,
+    "quantity_units": "mm^3",
+    "permanent_tests": 6,
+    "failures": 3,
+    "passing_controls": [
+      "empty",
+      "Tet10",
+      "unsupported hexahedron"
+    ]
+  },
+  "green": {
+    "native_target_build_exit": 0,
+    "public_witness_and_source_regressions": 7,
+    "failures": 0,
+    "seconds": 0.011,
+    "full_TestFemApp": 283,
+    "full_seconds": 24.71
+  },
+  "implementation": "Contribute absolute scalar triple product/6 for four-node tetrahedra. Existing eight-subtetrahedron Tet10 calculation unchanged. Return volume Quantity unchanged.",
+  "limits": [
+    "Other volume types explicitly excluded in C++ and public binding documentation.",
+    "No mesh-quality, solver or building-design acceptance.",
+    "No per-material mass recovery or retained Oomakhi model replay."
+  ],
+  "observer_attempts": [
+    "First direct test import lacked package context and errored; not product red.",
+    "Second private loader collected zero tests; explicitly not accepted. Corrected load_tests executed6 tests and caught all3 Tet4-related failures.",
+    "Initial broad FEM run used previously copied Python tests and ran277; after FemScriptsTarget, all283tests including six additions passed."
+  ],
+  "sha256": {
+    "src/Mod/Fem/App/FemMesh.cpp": "3edeee0519f79a81b87a93005835b239315201ace3d46b5e048cf3045917bd9a",
+    "src/Mod/Fem/App/FemMesh.h": "478daac6d8d4d6ca970be84fba2869864946638cf181bfa28b760402f7d3b91a",
+    "src/Mod/Fem/App/FemMesh.pyi": "8d3c5eda744484130bcf6c27db664350266a3b92733b399bbf7c321838fe13e5",
+    "src/Mod/Fem/femtest/app/test_mesh.py": "cae63da65e22fdd9bc19515219cf27c4666be740712565937ec0da84b446dba8",
+    "/private/tmp/freecad-open-completion.k47r6P/tet4-red.log": "5422ec83531bdcf60d5b9ed46947d6d83a4399020c92d0b8b14ce01bd6aee75a",
+    "/private/tmp/freecad-open-completion.k47r6P/tet4-permanent-red.log": "82dc8a7f463ba1cb7cf252af771fccf6e08e1050172a186f9172efca46c5720a",
+    "/private/tmp/freecad-open-completion.k47r6P/tet4-permanent-red2.log": "3b1f9f3244850c5034e75a5204d9ca653568d3909f74bd436215ac312ab70a94",
+    "/private/tmp/freecad-open-completion.k47r6P/tet4-permanent-red3.log": "44b4bd804035b4bc0cc4d1977608c97f565f46e8580b42e44abec2b082de9496",
+    "/private/tmp/freecad-open-completion.k47r6P/tet4-green.log": "4c34ab2c358de80c618e850c96e3d96f3dbeb9bd7402834470f28d69bc1846b9",
+    "/private/tmp/freecad-open-completion.k47r6P/fem-all-green.log": "ba80dd7610ddd95920de27b097280c487037d958f4d188dcdd21ccd6b17686bd",
+    "/private/tmp/freecad-open-completion.k47r6P/fem-all-green2.log": "7aa0f80f0b0bec9d56fa2f55cd9622930b346652b0c08155a479fd7c03625e7d",
+    "/private/tmp/freecad-open-completion.k47r6P/fem-volume-build.log": "79666fe2b525e208509a72211871b2a3b14613197bf26d87c6ed7a2f5d31ffa3",
+    "/private/tmp/freecad-open-completion.k47r6P/fem-scripts-build.log": "6d7c169d5209dd5372bbb03eb0f0e98967a02d05c5b47967201ed94da9cab307"
+  },
+  "combined_build_install": "Pending remaining in-scope beads; installed+187 remains unchanged."
+}

@@ -374,4 +374,9 @@ class FemMesh(ComplexGeoData):
     """Tuple of Group IDs."""
 
     Volume: Final[Any]
-    """Volume of the mesh."""
+    """Sum of Tet4 and Tet10 element volumes as a volume Quantity (mm^3).
+
+    Tet10 retains the eight-subtetrahedron approximation. Other volume element
+    types (including hexahedra, prisms and pyramids) do not contribute.
+    This geometric sum is not a mesh-quality or solver-acceptance check.
+    """

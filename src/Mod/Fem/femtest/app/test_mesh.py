@@ -52,6 +52,69 @@ class TestMeshCommon(unittest.TestCase):
         # tearDown is executed after every test
         FreeCAD.closeDocument(self.document.Name)
 
+    @staticmethod
+    def _add_volume_tetra(mesh, quadratic=False, offset=0, reverse=False):
+        points = [(0, 0, 0), (2, 0, 0), (0, 3, 0), (0, 0, 4)]
+        if quadratic:
+            points += [(1, 0, 0), (1, 1.5, 0), (0, 1.5, 0), (0, 0, 2), (1, 0, 2), (0, 1.5, 2)]
+        first = mesh.NodeCount + 1
+        nodes = []
+        for index, (x, y, z) in enumerate(points, first):
+            mesh.addNode(x + offset, y, z, index)
+            nodes.append(index)
+        if reverse:
+            nodes[0], nodes[1] = nodes[1], nodes[0]
+        mesh.addVolume(nodes)
+
+    def _assert_volume(self, mesh, expected):
+        self.assertIsInstance(mesh.Volume, FreeCAD.Units.Quantity)
+        self.assertEqual(mesh.Volume.Unit, FreeCAD.Units.Unit("mm^3"))
+        self.assertAlmostEqual(mesh.Volume.Value, expected, places=12)
+
+    def test_volume_empty(self):
+        self._assert_volume(Fem.FemMesh(), 0)
+
+    def test_volume_tet4(self):
+        mesh = Fem.FemMesh()
+        self._add_volume_tetra(mesh)
+        self.assertEqual(mesh.VolumeCount, 1)
+        self._assert_volume(mesh, 4)
+
+    def test_volume_tet4_reversed(self):
+        mesh = Fem.FemMesh()
+        self._add_volume_tetra(mesh, reverse=True)
+        self._assert_volume(mesh, 4)
+
+    def test_volume_tet10(self):
+        mesh = Fem.FemMesh()
+        self._add_volume_tetra(mesh, quadratic=True)
+        self._assert_volume(mesh, 4)
+
+    def test_volume_mixed_tet4_tet10(self):
+        mesh = Fem.FemMesh()
+        self._add_volume_tetra(mesh)
+        self._add_volume_tetra(mesh, quadratic=True, offset=10)
+        self.assertEqual(mesh.VolumeCount, 2)
+        self._assert_volume(mesh, 8)
+
+    def test_volume_unsupported_hexahedron(self):
+        mesh = Fem.FemMesh()
+        points = [
+            (0, 0, 0),
+            (1, 0, 0),
+            (1, 1, 0),
+            (0, 1, 0),
+            (0, 0, 1),
+            (1, 0, 1),
+            (1, 1, 1),
+            (0, 1, 1),
+        ]
+        for index, point in enumerate(points, 1):
+            mesh.addNode(*point, index)
+        mesh.addVolume(list(range(1, 9)))
+        self.assertEqual(mesh.VolumeCount, 1)
+        self._assert_volume(mesh, 0)
+
     # ********************************************************************************************
     def test_00print(self):
         # since method name starts with 00 this will be run first
