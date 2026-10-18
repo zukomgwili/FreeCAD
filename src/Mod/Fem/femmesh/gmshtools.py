@@ -60,6 +60,8 @@ class GmshTools(ObjectTools):
 
     def __init__(self, obj):
         super().__init__(obj)
+        from . import quality
+        self._quality_diagnostics = quality.NativeDiagnostics(self.process)
         self.analysis = obj.getParentGroup()
         self.load_properties()
         self.error = False
@@ -273,12 +275,25 @@ class GmshTools(ObjectTools):
         self.convert()
 
     def compute(self):
+        from . import quality
+        quality.invalidate(self.obj, "Gmsh generation started; quality is unchecked.")
+        self._quality_diagnostics.reset()
         log_level = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/Gmsh").GetString(
             "LogVerbosity", "3"
         )
         command_list = ["-v", log_level, "-", self.model_file]
         self.process.start(self.gmsh_bin, command_list)
         return self.process
+
+    def _process_finished(self, code, status):
+        from . import quality
+        super()._process_finished(code, status)
+        quality.record(
+            self.obj, "Gmsh", self._quality_diagnostics.text(),
+            exit_code=code, command=f"{self.gmsh_bin} - {self.model_file}",
+            binary=self.gmsh_bin,
+            scope="generation attempt; Gmsh IDs are not imported FreeCAD IDs",
+        )
 
     def update_properties(self):
         if (self.obj.Shape != self.part_obj

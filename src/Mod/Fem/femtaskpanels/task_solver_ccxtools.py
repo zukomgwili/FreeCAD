@@ -198,6 +198,11 @@ class _TaskPanel:
         # https://forum.freecad.org/viewtopic.php?f=18&t=39195
         # convert QByteArray to a binary string an decode it to "utf-8"
         out = out.data().decode()  # "utf-8" can be omitted
+        from femmesh import quality
+        quality.record(self.fea.mesh, "CalculiX", out,
+                       exit_code=self.Calculix.exitCode(), command=self.Calculix.program(),
+                       binary=self.Calculix.program(),
+                       input_signature=getattr(self, "_quality_input", None))
         out = os.linesep.join([s for s in out.splitlines() if s])
         out = out.replace("\n", "<br>")
         # print(out)
@@ -374,6 +379,8 @@ class _TaskPanel:
             self.cwd = QtCore.QDir.currentPath()
             fi = QtCore.QFileInfo(self.fea.inp_file_name)
             QtCore.QDir.setCurrent(fi.path())
+            from femmesh import quality
+            self._quality_input = quality.input_fingerprint(self.fea.mesh)
             self.Calculix.start(self.fea.ccx_binary, ["-i", fi.baseName()])
 
             QApplication.restoreOverrideCursor()

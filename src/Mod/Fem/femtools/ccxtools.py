@@ -486,6 +486,8 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
 
     def start_ccx(self):
         import multiprocessing
+        from femmesh import quality
+        self._quality_input = quality.input_fingerprint(self.mesh)
 
         self.ccx_stdout = ""
         self.ccx_stderr = ""
@@ -692,7 +694,22 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             return False
 
     def has_nonpositive_jacobians(self):
+        from femmesh import quality
+        diagnostics = "\n".join(line for line in self.ccx_stdout.splitlines()
+                                if "nonpositive jacobian" in line
+                                or "determinant in element" in line
+                                or "Version" in line)
+        readiness = quality.record(self.mesh, "CalculiX", diagnostics,
+                       command=str(getattr(self, "ccx_binary", "")),
+                       binary=str(getattr(self, "ccx_binary", "")),
+                       input_signature=getattr(self, "_quality_input", None))
         if "*ERROR in e_c3d: nonpositive jacobian" in self.ccx_stdout:
+            if readiness["state"] == "Unchecked":
+                FreeCAD.Console.PrintError(
+                    "CalculiX reported nonpositive Jacobians, but the input changed; "
+                    "diagnostic IDs are historical and cannot highlight the current mesh.\n"
+                )
+                return True
             nonpositive_jacobian_elements = []
             nonpositive_jacobian_elenodes = []
             for line in self.ccx_stdout.splitlines():

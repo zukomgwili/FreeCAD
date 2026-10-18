@@ -50,6 +50,8 @@ class MeshGmsh(base_fempythonobject.BaseFemPythonObject):
         for prop in self._get_properties():
             prop.add_to_object(obj)
         self._protect_group_provenance(obj)
+        from femmesh import quality
+        quality.initialize(obj)
 
         obj.addExtension("Fem::WorkerExtensionPython")
 
@@ -281,7 +283,21 @@ class MeshGmsh(base_fempythonobject.BaseFemPythonObject):
 
         return prop
 
+    def onChanged(self, obj, name):
+        if name in ("FemMesh", "Shape") or (
+            name in obj.PropertiesList and obj.getGroupOfProperty(name) == "Mesh Parameters"
+        ):
+            from femmesh import quality
+            quality.invalidate(obj, "Mesh or meshing controls changed; native quality is unchecked.")
+
+    def execute(self, obj):
+        from femmesh import quality
+        quality.readiness(obj)
+
     def onDocumentRestored(self, obj):
+        from femmesh import quality
+        quality.initialize(obj)
+        quality.invalidate(obj, "Cold restore: previous diagnostic IDs are historical; recheck mesh.")
         # update old project with new properties
         for prop in self._get_properties():
             try:

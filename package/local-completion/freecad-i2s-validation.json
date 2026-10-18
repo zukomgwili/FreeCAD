@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-i2s",
+  "source_baseline": "ee510c752c",
+  "evidence_directory": "/private/tmp/freecad-open-completion.k47r6P",
+  "red": "quality-readiness-red.log: native MeshGmsh has no explicit readiness state",
+  "native_observations": [
+    "quality-native-probe.log: full torus failed Gmsh exit1 (periodic surface); no replacement mesh imported; original raw error retained.",
+    "quality-native-probe2.log: bounded half-torus produces a zero-exit quadratic mesh with a native warning of7 negative-Jacobian elements.",
+    "quality-native-ccx.log: harness initially omitted update_objects; AttributeError is an observer error, not product failure.",
+    "quality-native-ccx2.log: same small half-torus, optimization disabled, Gmsh warning7; native CalculiX returns0. Different native criteria are explicitly not equivalent. No engineering acceptance."
+  ],
+  "green": {
+    "focused": "quality-tests3.log: four tests pass including native curved Gmsh warning and GUI-style raw log consumer; subsequent fifth test checks input changed during solve",
+    "full_FEM": "fem-all-quality-final.log: 295tests pass in26.947s",
+    "native": "No hand-edited mesh or deck, custom determinant engine, option sweep or retained large-model rerun"
+  },
+  "contract": [
+    "Visible read-only Mesh Quality properties and femmesh.quality.readiness expose Unchecked versus Known failed; no positive qualification channel is invented.",
+    "Known failed means the named native diagnostic criterion was observed; a Gmsh warning is not a CalculiX nonpositive-Gauss-point verdict, nor proof of the final optimized stage unless the log establishes that stage.",
+    "Zero mesher/solver exit, mesh import and input writing do not establish positive quality. No automatic writer/solver bypass or numerical acceptance is added.",
+    "Evidence includes diagnostic text/hash, command, executable hash when available, FreeCAD version, exitcode, scope, ID namespace and exact input fingerprint.",
+    "Native QProcess output is observed without consumption; raw logs and existing failure/highlighting behavior remain. Changed solver input retains historical diagnostics without highlighting unrelated IDs.",
+    "Mesh, geometry and meshing-control changes invalidate current evidence; cold restore explicitly makes IDs historical because persistence can renumber elements."
+  ],
+  "reference": "https://gmsh.info/doc/texinfo/gmsh.html",
+  "limits": "Diagnostic readiness only, not a quality engine or structural/design qualification. Installed+187 remains unchanged pending final combined build."
+}

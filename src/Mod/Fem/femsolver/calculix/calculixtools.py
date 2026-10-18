@@ -54,6 +54,8 @@ class CalculiXTools(ObjectTools):
 
     def __init__(self, obj):
         super().__init__(obj)
+        from femmesh import quality
+        self._quality_diagnostics = quality.NativeDiagnostics(self.process)
         self.model_file = ""
 
     def prepare(self):
@@ -103,6 +105,10 @@ class CalculiXTools(ObjectTools):
         self.input_deck = os.path.splitext(os.path.basename(self.model_file))[0]
 
     def compute(self):
+        from femmesh import quality
+        self._quality_input = quality.input_fingerprint(
+            membertools.get_mesh_to_solve(self.analysis))
+        self._quality_diagnostics.reset()
         self._clear_results()
         ccx_bin = settings.get_binary("Calculix")
         env = QProcessEnvironment.systemEnvironment()
@@ -119,6 +125,15 @@ class CalculiXTools(ObjectTools):
         self.process.start(ccx_bin, command_list)
 
         return self.process
+
+    def _process_finished(self, code, status):
+        from femmesh import quality
+        mesh = membertools.get_mesh_to_solve(self.analysis)
+        if mesh:
+            quality.record(mesh, "CalculiX", self._quality_diagnostics.text(), exit_code=code,
+                           command=self.process.program(), binary=self.process.program(),
+                           input_signature=self._quality_input)
+        return super()._process_finished(code, status)
 
     def update_properties(self):
         # TODO at the moment, only one .vtm file is assumed
