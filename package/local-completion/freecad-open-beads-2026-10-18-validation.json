@@ -1,0 +1,92 @@
+{
+  "date": "2026-10-18",
+  "status": "verified_FreeCAD_source_work_pushed_pending_9zt_scope_decision",
+  "compiled_commit": "44467afe28404f34b20f9f13e06ec2c8dfa8150c",
+  "compiled_version": "27.1.0devR49261 +196 (Git)",
+  "note": "This receipt is metadata added after the clean-commit build/tests; no production source changes follow that build.",
+  "closed_beads": [
+    "FreeCAD-1k2",
+    "FreeCAD-t3g",
+    "FreeCAD-0a7",
+    "FreeCAD-fmi",
+    "FreeCAD-c28",
+    "FreeCAD-i2s",
+    "FreeCAD-eak",
+    "FreeCAD-z6f"
+  ],
+  "excluded": {
+    "id": "FreeCAD-4vo",
+    "reason": "Explicit user skip; full exported record unchanged from start"
+  },
+  "remaining": {
+    "id": "FreeCAD-9zt",
+    "status": "in_progress",
+    "reason": "Physical support/output contract unfilled; request direction before solver-side scope expansion. See freecad-9zt-characterization.json."
+  },
+  "quality_gates": {
+    "native_full_build": {
+      "exit": 0
+    },
+    "full_CTest": {
+      "exit": 0,
+      "enabled": 2238,
+      "passed": 2236,
+      "skipped": 2,
+      "preexisting_disabled": 8,
+      "seconds": 89.08
+    },
+    "full_TestFemApp": {
+      "exit": 0,
+      "tests": 301,
+      "seconds": 45.311
+    },
+    "typing": {
+      "tests": 50,
+      "seconds": 309.378,
+      "exit": 0
+    },
+    "native_colourbar": {
+      "exports": 15,
+      "CTest_exit": 0,
+      "reviewed_snapshot_comparison_exit": 0
+    },
+    "style": {
+      "new_Python_Black_check": "pass",
+      "Python_compileall": "pass",
+      "changed_Cpp_ranges_clang_format": "applied",
+      "git_diff_check": "pass"
+    },
+    "Rails_pre_push_gate": "SKIPPED: no Rails application, Gemfile or configured Rails checks; only third-party documentation JS package exists"
+  },
+  "beads": {
+    "start_count": 113,
+    "final_count": 114,
+    "missing_ids": [],
+    "added_ids": [
+      "FreeCAD-fmi"
+    ],
+    "skipped_4vo_unchanged": true,
+    "Dolt_sync": {
+      "status": "ok",
+      "pulled": true,
+      "pushed": true,
+      "rows_corrected": 0
+    }
+  },
+  "installation": {
+    "performed": false,
+    "reason": "User requires remaining in-scope beads completed before installation",
+    "unchanged_app": "/Applications/FreeCAD-27.1.0.app",
+    "version": "+187/e770fefedcc2cb3cf47be1f800fc050cdfc59163",
+    "mtime": "2026-10-17 15:10:43 BST"
+  },
+  "sha256": {
+    "/private/tmp/freecad-open-completion.k47r6P/full-build-final-head.log": "ee882bf2e157a17c4499a4a2afa6cafb28841e59a934c854e451bc83ed4d6449",
+    "/private/tmp/freecad-open-completion.k47r6P/full-ctest-final-head.log": "f858c71a33de7007b1ea2edf751ca06293453011801121dd92446512842ec36a",
+    "/private/tmp/freecad-open-completion.k47r6P/fem-final-head.log": "645531818236d46a7045fd63b9b2eb1e2e15bf38326e1d4396764c93e316f4de",
+    "/private/tmp/freecad-open-completion.k47r6P/typing-green.log": "2883e7a04777ecceceed3d10db4e202e54394003f32c487e5292a5ad7cd5c2eb",
+    "/private/tmp/freecad-open-completion.k47r6P/colourbar-ctest-final.log": "47f9a0eab86044b6f3fe17ee1503570f235e72f1d8dd3849f5f2a2f3a1a4c877",
+    "/private/tmp/freecad-open-completion.k47r6P/colourbar-snapshot-final.log": "cb5ac515591e093fbfd77b9dcb19fb731f9df9723ce8df1c600936be55d00d43",
+    ".beads/issues.jsonl": "17ede93e06c2bd5c2cc0b2ca3b14b65566c2aa648b02d77799bbc0bb4166a50a"
+  }
+}
