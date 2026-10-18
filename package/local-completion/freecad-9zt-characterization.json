@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-9zt",
+  "status": "open_requirement_not_met",
+  "source_baseline": "22fb8d08a2",
+  "reproducer": "package/local-completion/FreeCAD9ztSupportWitness.py",
+  "native_evidence": "/private/tmp/freecad-open-completion.k47r6P/support-gravity-bwya9yem",
+  "native_log": "/private/tmp/freecad-open-completion.k47r6P/support-gravity-native3.log",
+  "actual_case": {
+    "geometry": "Stock native10mm box, native Gmsh first-order tetrahedra, one whole-solid RBE with all6motions prescribed zero, external Ref/Rot nodes, gravity and7900kg/m3 material",
+    "native_writer": "Unmodified stock FreeCAD writer; no mesh/deck edits",
+    "solver": "CalculiX2.23",
+    "solver_sha256": "b94868f6dd50533d7a8f11d271864a04bbf01f4117046d0c5b35e3cad470aac6",
+    "solver_exit": 0,
+    "native_gravity_m_s2": 9.80665,
+    "required_static_support_force_N": [0, 0, 0.077472535],
+    "required_static_origin_moment_Nmm": [0.387362675, -0.387362675, 0],
+    "raw_native_Ref_Rot_RF": [0, 0, 0, 0, 0, 0],
+    "deck_sha256": "5734f936011d0172105abe6c82db402a4d0ff1ed2acaf27f685beea5ad4e3501",
+    "dat_sha256": "295439b40d23bb3d72bc53c5a179460d8277d2cf0b514daf83e848dc6a6fc576"
+  },
+  "observer_history": "First characterization assumed9.81m/s2; inspected native deck actually uses9.80665. Original artifact retained. Corrected independent analytic reference reads actual native gravity. Final raw RF values are parsed from actual DAT, not fitted or corrected.",
+  "source_contract": {
+    "manual": "Official CalculiX2.23 manual sections6.11.5 and7.99; native RF is not generally pure support reaction under distributed loading",
+    "manual_url": "https://www.dhondt.de/ccx_2.23.pdf",
+    "manual_text_sha256": "bd8d59e5e9b504715e19e487bf3cb6fec8231c338f2e4454f3599902b7fd0519",
+    "version_bound_source": "Read retained official2.23 archive resultsforc.c25-117 and mafillsm.f579-613: internal-force MPC projection and separate distributed-load active-RHS assembly; no load-accounted generalized residual supplied by the RF printer",
+    "upstream_RR_candidate": "https://github.com/Dhondtguido/CalculiX/pull/154",
+    "upstream_RR_observation": "Read-only API inspection: open/unmerged, head b21494164b5ce86b3d3a4c761a4fa4c79038850c. printoutnode.f filters fn by prescribed DOF; no missing GRAV contribution is established by that change. Not installed or treated as qualified.",
+    "section_contact": "Existing SOF/SOM remains recovered-stress integration; native CF free-body accounting remains conditional on complete body/load/frame/application-point contracts and actual accuracy qualification. No new recovered/internal-force field is relabelled as a conservative reaction."
+  },
+  "disposition": "Keep9zt open. No specifically applicable stock method meeting both physical duties has been established. Extending scope into solver-side consistent-load/MPC reaction output and its integration requires user direction before modifying or replacing CalculiX. Do not close this bead through documentation, a guessed correction or only a reporting rename.",
+  "preserved_limits": [
+    "No original Oomakhi model, mesh, deck, solver output or acceptance limit changed; no original large solve/remesh replayed.",
+    "The small whole-solid counterexample is not claimed the quantitative cause of the original eight-face fixture's1.0755%force/1.1326%moment failures.",
+    "No zero-percent prerequisite or universal1%method is introduced.",
+    "User requested installation after open beads are completed. Installed+187 remains unchanged pending resolution/direction;4vo is explicitly skipped."
+  ]
+}
