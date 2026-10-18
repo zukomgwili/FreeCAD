@@ -210,7 +210,9 @@ class MeshGmsh(base_fempythonobject.BaseFemPythonObject):
                 type="App::PropertyBool",
                 name="SecondOrderLinear",
                 group="Mesh Parameters",
-                doc="Second order nodes are created by linear interpolation",
+                doc="Second order nodes are created by linear interpolation. "
+                "Chordal nodes on curved faces cannot establish exact CAD face ownership; "
+                "disable this option for curved-face constraints and contacts.",
                 value=False,
             )
         )

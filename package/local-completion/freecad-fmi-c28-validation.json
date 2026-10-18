@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-18",
+  "beads": ["FreeCAD-fmi", "FreeCAD-c28"],
+  "source_baseline": "8db9d6a15c",
+  "evidence_directory": "/private/tmp/freecad-open-completion.k47r6P",
+  "native_candidate": "build/release +191 with the changes in this commit; not yet installed",
+  "red": {
+    "native_vertex": "part-persistence-red.log: inherited fixed formatting rounds two tiny coordinates",
+    "native_curve": "part-curve-red.log: same rounding in curve geometry, independent of vertex writer",
+    "signature": "signature-regression-red.log: unchanged native cylinder has different hash after FCStd reopen",
+    "curved_linear": "c28-permanent-red2.log: 4 tests, two live/cold diagnostic subtest failures; planar contact and RBE controls pass"
+  },
+  "green": {
+    "native": "part-curve-green.log: all 21 TopoShapeTest tests pass",
+    "signature": "signature-regression-final.log: 3 tests pass, including real geometry/placement and coincident input-owner negative checks",
+    "curved_linear": "c28-permanent-green.log: all 4 native producer/consumer/writer and cold-reopen tests pass",
+    "full_FEM": "fem-all-current.log: 289 tests pass in 26.352s, before addition of the separately passing third signature test",
+    "canonical_probe": "canonical-probe2.log: native box and cylinder canonical BRep stable and idempotent across FCStd reopen"
+  },
+  "contract": [
+    "BRep geometry stream writers restore flags/precision and use max_digits10 significant digits for both vertex and curve/surface paths.",
+    "Ownership fingerprints normalize cached native topology through lossless BRep read/write, without coordinate rounding or relaxed membership. Existing exact legacy raw hashes remain recognized.",
+    "SecondOrderLinear remains usable on planar owned faces. Chordal curved-face nodes remain rejected, with an actionable limitation rather than a false stale-mesh diagnosis.",
+    "Native persistence may renumber volume IDs; cold contact tests use a fresh independent connectivity oracle instead of comparing old numeric IDs."
+  ],
+  "limits": [
+    "No arbitrary document-property or placement XML precision guarantee.",
+    "No mesh-quality, solver-equilibrium or building-design acceptance.",
+    "No original Oomakhi mesh or model was changed or replayed.",
+    "Combined build/install remains pending the other open beads. FreeCAD-4vo is explicitly excluded."
+  ]
+}

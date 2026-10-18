@@ -22,7 +22,93 @@ from femtools import elastic_connector
 
 
 @unittest.skipUnless(shutil.which("gmsh"), "Gmsh binary required")
+class TestSecondOrderLinearOwnership(unittest.TestCase):
+    """Characterize native curved-face limits, not a relaxed CAD classifier."""
+
+    def setUp(self):
+        self.directory = tempfile.TemporaryDirectory(prefix="freecad-linear-ownership-")
+        self.doc = App.newDocument("SecondOrderLinearOwnership")
+        self.solid = self.doc.addObject("Part::Cylinder", "Cylinder")
+        self.solid.Radius = 3
+        self.solid.Height = 5
+        self.analysis = ObjectsFem.makeAnalysis(self.doc)
+        self.body = ObjectsFem.makeConstraintRigidBody(self.doc, "CurvedBody")
+        self.body.References = [(self.solid, ["Face1"])]
+        self.analysis.addObject(self.body)
+        self.mesh = ObjectsFem.makeMeshGmsh(self.doc, "Mesh")
+        self.mesh.Shape = self.solid
+        self.mesh.ElementOrder = "2nd"
+        self.mesh.CharacteristicLengthMax = 2
+        self.mesh.CharacteristicLengthMin = 1
+        self.analysis.addObject(self.mesh)
+        self.doc.recompute()
+
+    def tearDown(self):
+        try:
+            App.closeDocument(self.doc.Name)
+        finally:
+            self.directory.cleanup()
+
+    def generate(self, linear):
+        self.mesh.SecondOrderLinear = linear
+        self.mesh.WorkingDirectory = self.directory.name
+        tool = gmshtools.GmshTools(self.mesh)
+        tool.create_mesh()
+        self.assertEqual(tool.process.exitCode(), 0)
+        self.assertEqual(tool.process.exitStatus(), tool.process.ExitStatus.NormalExit)
+        self.assertGreater(self.mesh.FemMesh.VolumeCount, 0)
+
+    def nodes(self):
+        return meshtools.get_femnodes_by_femobj_with_references(
+            self.mesh.FemMesh, {"Object": self.body}, self.mesh
+        )
+
+    def test_curved_linear_limitation_is_actionable_after_reopen(self):
+        self.generate(True)
+        for phase in ("live", "cold-reopened"):
+            with self.subTest(phase=phase):
+                self.assertEqual(
+                    self.mesh.ElementGroupGeometry,
+                    meshtools.get_mesh_geometry_signature(self.solid),
+                )
+                with self.assertRaisesRegex(ValueError, "SecondOrderLinear.*curved.*Face1"):
+                    self.nodes()
+            if phase == "live":
+                path = str(Path(self.directory.name) / "linear.FCStd")
+                self.doc.saveAs(path)
+                App.closeDocument(self.doc.Name)
+                self.doc = App.openDocument(path)
+                self.solid = self.doc.Cylinder
+                self.mesh = self.doc.Mesh
+                self.body = self.doc.CurvedBody
+
+    def test_curved_second_order_still_requires_current_geometry(self):
+        self.generate(False)
+        mesh = self.mesh.FemMesh
+        group = [g for g in mesh.Groups if mesh.getGroupName(g) == "Face1"]
+        self.assertEqual(len(group), 1)
+        expected = {
+            node
+            for element in mesh.getGroupElements(group[0])
+            for node in mesh.getElementNodes(element)
+        }
+        self.assertTrue(expected)
+        self.assertEqual(set(self.nodes()), expected)
+        self.solid.Radius = 3.5
+        self.doc.recompute()
+        with self.assertRaisesRegex(ValueError, "changed mesh geometry"):
+            self.nodes()
+
+
+@unittest.skipUnless(shutil.which("gmsh"), "Gmsh binary required")
 class TestRigidRegionOwnership(unittest.TestCase):
+    def test_second_order_linear_planar_regions_survive_reopen(self):
+        self.mesh.SecondOrderLinear = True
+        self.generate_mesh()
+        self.assert_owned_regions()
+        self.reopen()
+        self.assert_owned_regions()
+
     def test_closed_curve_occurrences_do_not_match_only_their_seam_vertex(self):
         source = self.doc.addObject("Part::Feature", "Circle")
         source.Shape = Part.makeCircle(5)
@@ -403,11 +489,21 @@ class TestRigidRegionOwnership(unittest.TestCase):
             tool.update_properties()
         mesh = self.mesh.FemMesh
         self.assertEqual(dict(mesh.Nodes), old_nodes)
-        self.assertEqual({element: mesh.getElementNodes(element)
-                          for element in mesh.getIdByElementType("All")}, old_elements)
         self.assertEqual(
-            [(mesh.getGroupName(group), mesh.getGroupElementType(group),
-              tuple(mesh.getGroupElements(group))) for group in mesh.Groups], old_groups)
+            {element: mesh.getElementNodes(element) for element in mesh.getIdByElementType("All")},
+            old_elements,
+        )
+        self.assertEqual(
+            [
+                (
+                    mesh.getGroupName(group),
+                    mesh.getGroupElementType(group),
+                    tuple(mesh.getGroupElements(group)),
+                )
+                for group in mesh.Groups
+            ],
+            old_groups,
+        )
         self.assertEqual(list(self.mesh.ElementGroupNames), old_names)
         self.assertEqual([(owner.Name, list(names))
                           for owner, names in self.mesh.ElementGroupReferences], old_references)

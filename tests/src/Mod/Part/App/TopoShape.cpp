@@ -3,10 +3,15 @@
 #include <gtest/gtest.h>
 
 #include <BRepBuilderAPI_MakeEdge.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
+#include <BRep_Tool.hxx>
 #include <BRepCheck_Analyzer.hxx>
 #include <BRep_Builder.hxx>
 #include <Geom_Ellipse.hxx>
+#include <Geom_Circle.hxx>
 #include <TopExp.hxx>
+#include <TopoDS.hxx>
+#include <iomanip>
 #include "PartTestHelpers.h"
 #include <Mod/Part/App/TopoShape.h>
 #include "src/App/InitApplication.h"
@@ -216,3 +221,37 @@ TEST_F(TopoShapeTest, TestBrepRoundTripPreservesValidityNearVertexTolerance)
 }
 
 // clang-format on
+
+TEST_F(TopoShapeTest, TestBrepRoundTripIgnoresInheritedFixedFormatting)
+{
+    const gp_Pnt point(1.2345678901234567e-16, -7.3478807948841188e-16, 2.3456789012345678);
+    const Part::TopoShape original(BRepBuilderAPI_MakeVertex(point).Vertex());
+    std::stringstream brep;
+    brep << std::fixed << std::setprecision(4);
+    original.exportBrep(brep);
+    Part::TopoShape restored;
+    restored.importBrep(brep);
+    const gp_Pnt actual = BRep_Tool::Pnt(TopoDS::Vertex(restored.getShape()));
+    EXPECT_DOUBLE_EQ(actual.X(), point.X());
+    EXPECT_DOUBLE_EQ(actual.Y(), point.Y());
+    EXPECT_DOUBLE_EQ(actual.Z(), point.Z());
+}
+
+TEST_F(TopoShapeTest, TestBrepCurveGeometryIgnoresInheritedFixedFormatting)
+{
+    const gp_Pnt center(1.2345678901234567e-16, -7.3478807948841188e-16, 2.3456789012345678);
+    const Handle(Geom_Circle) circle = new Geom_Circle(gp_Ax2(center, gp_Dir(0, 0, 1)), 3.0);
+    const Part::TopoShape original(BRepBuilderAPI_MakeEdge(circle).Edge());
+    std::stringstream brep;
+    brep << std::fixed << std::setprecision(4);
+    original.exportBrep(brep);
+    Part::TopoShape restored;
+    restored.importBrep(brep);
+    Standard_Real first, last;
+    const Handle(Geom_Circle) actual = Handle(Geom_Circle)::DownCast(
+        BRep_Tool::Curve(TopoDS::Edge(restored.getShape()), first, last));
+    ASSERT_FALSE(actual.IsNull());
+    EXPECT_DOUBLE_EQ(actual->Location().X(), center.X());
+    EXPECT_DOUBLE_EQ(actual->Location().Y(), center.Y());
+    EXPECT_DOUBLE_EQ(actual->Location().Z(), center.Z());
+}

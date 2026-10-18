@@ -27,6 +27,17 @@ from femsolver.calculix import calculixutils, write_constraint_contact
 
 @unittest.skipUnless(shutil.which("gmsh"), "Gmsh binary required")
 class TestContactOwnership(unittest.TestCase):
+    def test_second_order_linear_planar_contact_writer_survives_reopen(self):
+        self.mesh.SecondOrderLinear = True
+        self.generate_mesh()
+        expected_counts = [len(facets) for facets, _nodes in self.assert_owned_contact()]
+        self.reopen()
+        # Native persistence can renumber volumes: compare a fresh physical
+        # connectivity oracle, never saved numeric element labels.
+        self.assertEqual(
+            [len(facets) for facets, _nodes in self.assert_owned_contact()], expected_counts
+        )
+
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory(prefix="freecad-contact-ownership-")
         self.doc = App.newDocument("ContactOwnership")

@@ -30,6 +30,7 @@
 #include <cstdlib>
 #include <limits>
 #include <sstream>
+#include <boost/io/ios_state.hpp>
 #include <boost/regex.hpp>
 
 #include <APIHeaderSection_MakeHeader.hxx>
@@ -204,13 +205,26 @@ class PreciseBRepToolsShapeSet: public BRepTools_ShapeSet
 public:
     using BRepTools_ShapeSet::BRepTools_ShapeSet;
 
+    void WriteGeometry(Standard_OStream& out,
+                       const Message_ProgressRange& progress = Message_ProgressRange()) override
+    {
+        // Curves and surfaces are written separately from per-shape vertex geometry.
+        boost::io::ios_flags_saver flags(out);
+        boost::io::ios_precision_saver precision(out, std::numeric_limits<double>::max_digits10);
+        out.unsetf(std::ios::floatfield);
+        BRepTools_ShapeSet::WriteGeometry(out, progress);
+    }
+
     void WriteGeometry(const TopoDS_Shape& shape, Standard_OStream& out) const override
     {
         // TopTools_ShapeSet lowers the precision to 15 digits while writing topology. Preserve
         // doubles exactly so text rounding cannot move a valid vertex outside its tolerance.
-        const std::streamsize precision = out.precision(std::numeric_limits<double>::max_digits10);
+        // Document streams can inherit fixed formatting; max_digits10 must mean significant
+        // digits, not decimal places, including for coordinates close to zero.
+        boost::io::ios_flags_saver flags(out);
+        boost::io::ios_precision_saver precision(out, std::numeric_limits<double>::max_digits10);
+        out.unsetf(std::ios::floatfield);
         BRepTools_ShapeSet::WriteGeometry(shape, out);
-        out.precision(precision);
     }
 };
 }  // namespace

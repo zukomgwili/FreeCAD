@@ -26,7 +26,7 @@ class _OwnershipContext:
             or len(self._names) != len(set(self._names))
         ):
             raise ValueError("Invalid mesh group provenance; regenerate the mesh.")
-        if self._signature != meshtools.get_mesh_geometry_signature(self.part):
+        if not meshtools.mesh_geometry_matches(mesh_object, self.part):
             raise ValueError("Changed mesh geometry; regenerate the mesh.")
 
         self.current_groups = {}
@@ -126,9 +126,7 @@ class _OwnershipContext:
             self._names,
             self._references,
             self._signature,
-        ) != self._provenance() or self._signature != meshtools.get_mesh_geometry_signature(
-            self.part
-        ):
+        ) != self._provenance() or not meshtools.mesh_geometry_matches(self.mesh_object, self.part):
             raise ValueError(
                 "Mesh geometry owner or group provenance changed during Contact batch."
             )

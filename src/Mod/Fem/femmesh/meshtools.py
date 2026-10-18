@@ -69,12 +69,25 @@ def get_femnodes_by_femobj_with_references(femmesh, femobj, mesh_object=None):
     return sorted(set(node_set))
 
 
-def get_mesh_geometry_signature(part):
-    """Native global BRep and input-link ownership, not lazily populated names."""
+def get_mesh_geometry_signature(part, *, canonical=True):
+    """Native global BRep and input-link ownership, not lazily populated names.
+
+    A native BRep read normalizes cached topology flags and signed-zero frames.
+    It does not round coordinates or relax geometry membership. The legacy raw
+    representation remains available for exact comparison with existing meshes.
+    """
     shape = part.Shape.copy()
     if hasattr(part, "getGlobalPlacement"):
         shape.Placement = part.getGlobalPlacement()
     shape.isValid()  # Normalize native check state on the copy, not the source.
+    brep = shape.exportBrepToString()
+    if canonical:
+        import Part
+
+        restored = Part.Shape()
+        restored.importBrepFromString(brep, False)
+        restored.isValid()
+        brep = restored.exportBrepToString()
     graph = {}
 
     def encode(value):
@@ -95,8 +108,17 @@ def get_mesh_geometry_signature(part):
         return value
 
     encode(part)
-    data = [shape.exportBrepToString(), sorted(graph.items())]
+    data = [brep, sorted(graph.items())]
     return hashlib.sha256(json.dumps(data).encode("utf-8")).hexdigest()
+
+
+def mesh_geometry_matches(mesh_object, part):
+    """Accept only an exact current or legacy native ownership fingerprint."""
+    signature = getattr(mesh_object, "ElementGroupGeometry", "")
+    return bool(signature) and (
+        signature == get_mesh_geometry_signature(part)
+        or signature == get_mesh_geometry_signature(part, canonical=False)
+    )
 
 
 def _same_occurrence_geometry(first, second):
@@ -186,7 +208,7 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object, context=None
 
     if original or references or signature:
         if context is None:
-            if not signature or signature != get_mesh_geometry_signature(part):
+            if not mesh_geometry_matches(mesh_object, part):
                 raise ValueError(f"{obj.Name}: changed mesh geometry; regenerate the mesh.")
             own_mesh = mesh_object.FemMesh
             ids = femmesh.getIdByElementType("All")
@@ -300,6 +322,18 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object, context=None
             if not _owned_nodes_fit_region(
                 femmesh, part, name, nodes, context.nodes if context is not None else None
             ):
+                region = part.getSubObject(name)
+                if (
+                    getattr(mesh_object, "ElementOrder", "") == "2nd"
+                    and getattr(mesh_object, "SecondOrderLinear", False)
+                    and region.ShapeType == "Face"
+                    and region.findPlane() is None
+                ):
+                    raise ValueError(
+                        f"{obj.Name}: SecondOrderLinear cannot establish exact curved face "
+                        f"ownership for {name}; disable SecondOrderLinear and regenerate "
+                        "the mesh, or qualify a first-order mesh."
+                    )
                 raise ValueError(f"{obj.Name}: stale mesh for current {name}; regenerate the mesh.")
             if context is not None:
                 context.regions[name] = frozenset(nodes), tuple(members)
