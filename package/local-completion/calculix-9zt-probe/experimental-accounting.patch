@@ -1,0 +1,226 @@
+--- a/ccx_2.23/src/CalculiX.h
++++ b/ccx_2.23/src/CalculiX.h
+@@ -70,6 +70,14 @@
+ #define ITG int
+ #define ITGFORMAT "d"
+ #endif
++
++/* Experimental FreeCAD-9zt accounting probe; never changes RF. */
++extern double *ccx9zt_loads;
++void ccx9zt_require_linear(ITG nmethod,ITG iperturb,ITG ithermal,
++                          ITG ntrans,ITG mcs,ITG ne,ITG *ipkon,char *lakon);
++ITG FORTRAN(ccx9zt_collect,());
++void ccx9zt_record(double *fn,ITG *nk,ITG *mi,ITG *nactdof,
++                  ITG *ipompc,ITG *nodempc,double *coefmpc,ITG *nmpc);
+ 
+ void FORTRAN(actideacti,(char *set,ITG *nset,ITG *istartset,ITG *iendset,
+                          ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
+--- a/ccx_2.23/src/ccx_2.23.c
++++ b/ccx_2.23/src/ccx_2.23.c
+@@ -1239,6 +1239,7 @@
+     /* nmethod=15: Crack propagation */
+     /* nmethod=16: Feasible direction based on sensitivity information */
+ 
++    ccx9zt_require_linear(nmethod,iperturb[0],ithermal[0],ntrans,mcs,ne,ipkon,lakon);
+     if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
+       {
+ 	if(iperturb[0]<2){
+--- a/ccx_2.23/src/ccx_2.23step.c
++++ b/ccx_2.23/src/ccx_2.23step.c
+@@ -1390,6 +1390,7 @@
+     /* nmethod=13: Green function calculation */
+     /* nmethod=14: Robustness w.r.t. to geometric tolerances */
+ 
++    ccx9zt_require_linear(*nmethod,iperturb[0],ithermal[0],ntrans,mcs,*ne,ipkon,lakon);
+     if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
+       {
+ 	if(iperturb[0]<2){
+--- a/ccx_2.23/src/linstatic.c
++++ b/ccx_2.23/src/linstatic.c
+@@ -380,6 +380,14 @@
+ 
+   NNEW(ad,double,*neq);
+   NNEW(fext,double,*neq);
++  if(getenv("CCX_9ZT_DIAGNOSTIC")){
++    if((*nmethod!=1)||(ithermal[0]>1)||(*mcs!=0)||(*ntrans!=0)){
++      fprintf(stderr,"9zt diagnostic requires linear static mechanical global coordinates\n");
++      exit(201);
++    }
++    NNEW(fnext,double,mt**nk);
++    ccx9zt_loads=fnext;
++  }
+ 
+   if(*nmethod==11){
+       
+@@ -976,6 +984,7 @@
+   (*ttime)+=(*tper);
+   
+   SFREE(iponoel);
++  if(ccx9zt_loads){ccx9zt_loads=NULL;SFREE(fnext);}
+  
+   return;
+ }
+--- a/ccx_2.23/src/mafillsm.f
++++ b/ccx_2.23/src/mafillsm.f
+@@ -40,6 +40,7 @@
+       implicit none
+ !     
+       integer mass(2),stiffness,buckling,rhsi,stiffonly(2),coriolis
++      integer ccx9zt_collect
+ !     
+       character*8 lakon(*)
+       character*20 sideload(*)
+@@ -585,7 +586,8 @@
+ !     updating the external force vector for dynamic
+ !     calculations
+ !     
+-                if(nmethod.eq.4) fnext(k,node1)=fnext(k,node1)+ff(jj)
++                if((nmethod.eq.4).or.(ccx9zt_collect().eq.1))
++     &               fnext(k,node1)=fnext(k,node1)+ff(jj)
+ !     
+                 if(jdof1.le.0) then
+                   if(nmpc.ne.0) then
+--- a/ccx_2.23/src/mafillsmforc.f
++++ b/ccx_2.23/src/mafillsmforc.f
+@@ -23,6 +23,7 @@
+ !     including point forces into the external force vector
+ !
+       implicit none
++      integer ccx9zt_collect
+ !
+       integer nforc,ndirforc(*),nodeforc(2,*),mi(*),nactdof(0:mi(2),*),
+      &  ipompc(*),nodempc(3,*),i,jdof,id,ist,
+@@ -55,7 +56,8 @@
+ !              updating the external force vector for dynamic
+ !              calculations
+ !
+-               if(nmethod.eq.4) fnext(ndirforc(i),nodeforc(1,i))=
++               if((nmethod.eq.4).or.(ccx9zt_collect().eq.1))
++     &              fnext(ndirforc(i),nodeforc(1,i))=
+      &              fnext(ndirforc(i),nodeforc(1,i))+xforc(i)
+ !     
+                jdof=nactdof(ndirforc(i),nodeforc(1,i))
+@@ -94,7 +96,7 @@
+ !     updating the external force vector for dynamic
+ !     calculations
+ !     
+-               if(nmethod.eq.4) then
++               if((nmethod.eq.4).or.(ccx9zt_collect().eq.1)) then
+                   do j=1,3
+                      fnext(j,node)=fnext(j,node)+a(j,idir)*xforc(i)
+                   enddo
+--- a/ccx_2.23/src/mafillsmmain.c
++++ b/ccx_2.23/src/mafillsmmain.c
+@@ -191,7 +191,7 @@
+     NNEW(aub1,double,(long long)num_cpus*nzs[1]);
+   }
+ 
+-  if(*nmethod==4){
++  if((*nmethod==4)||(ccx9zt_loads!=NULL)){
+     NNEW(fnext1,double,num_cpus*mt**nk);
+   }
+ 
+@@ -371,7 +371,7 @@
+     SFREE(adb1);SFREE(aub1);
+   }
+ 
+-  if(*nmethod==4){
++  if((*nmethod==4)||(ccx9zt_loads!=NULL)){
+     for(i=0;i<mt**nk;i++){
+       fnext[i]=fnext1[i];
+     }
+@@ -428,7 +428,7 @@
+     indexadb=*i*neq1[0];
+     indexaub=(long long)*i*nzs1[0];
+   }
+-  if(nmethod1[0]==4){
++  if((nmethod1[0]==4)||(ccx9zt_loads!=NULL)){
+     indexfnext=*i*(mi1[1]+1)**nk1;
+   }
+ 
+--- a/ccx_2.23/src/results.c
++++ b/ccx_2.23/src/results.c
+@@ -389,6 +389,9 @@
+   }
+ 
+   /* calculating the matrix system internal force vector */
++  if(ccx9zt_loads&&(*iout>0)&&(calcul_fn==1)){
++    ccx9zt_record(fn,nk,mi,nactdof,ipompc,nodempc,coefmpc,nmpc);
++  }
+ 
+   resultsforc(nk,f,fn,nactdof,ipompc,nodempc,
+ 	      coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,
+--- a/ccx_2.23/src/resultsforc.c
++++ b/ccx_2.23/src/resultsforc.c
+@@ -22,6 +22,71 @@
+ #include <pthread.h>
+ #include "CalculiX.h"
+ 
++/* Experimental native probe, not an installed output contract. The load
++   vector is retained from the actual element RHS and point-load assembly,
++   not reconstructed from density, volume, or printed RF. */
++double *ccx9zt_loads=NULL;
++
++void ccx9zt_require_linear(ITG nmethod,ITG iperturb,ITG ithermal,
++                          ITG ntrans,ITG mcs,ITG ne,ITG *ipkon,char *lakon){
++  ITG i;
++  if(!getenv("CCX_9ZT_DIAGNOSTIC"))return;
++  if((nmethod!=1)||(iperturb>=2)||(ithermal>1)||(ntrans!=0)||(mcs!=0)){
++    fprintf(stderr,"9zt experimental probe: unsupported analysis; requires linear static mechanical global coordinates\n");
++    exit(201);
++  }
++  for(i=0;i<ne;i++){
++    if(ipkon[i]<0)continue;
++    if((strcmp1(&lakon[8*i],"C3D4    ")!=0)&&
++       (strcmp1(&lakon[8*i],"C3D10   ")!=0)){
++      fprintf(stderr,"9zt experimental probe: unsupported element; only C3D4/C3D10 benchmarked\n");
++      exit(201);
++    }
++  }
++}
++
++ITG FORTRAN(ccx9zt_collect,()){
++  return ccx9zt_loads!=NULL;
++}
++
++void ccx9zt_record(double *fn,ITG *nk,ITG *mi,ITG *nactdof,
++                  ITG *ipompc,ITG *nodempc,double *coefmpc,ITG *nmpc){
++  ITG mt=mi[1]+1,i,j,index,ist,node,dir;
++  double *internal=NULL,*external=NULL,fi,fe;
++  FILE *out=fopen(getenv("CCX_9ZT_DIAGNOSTIC"),"w");
++  if(!out){perror("9zt diagnostic");exit(201);}
++  NNEW(internal,double,mt**nk);
++  NNEW(external,double,mt**nk);
++  memcpy(internal,fn,sizeof(double)*mt**nk);
++  memcpy(external,ccx9zt_loads,sizeof(double)*mt**nk);
++  /* Use the solver's already decascaded MPC coefficients for both vectors.
++     Do not re-add dependent forces: these are generalized residuals. */
++  for(i=0;i<*nmpc;i++){
++    ist=ipompc[i]-1;
++    node=nodempc[3*ist]-1;dir=nodempc[3*ist+1];
++    if(dir>3)continue;
++    fi=internal[mt*node+dir]/coefmpc[ist];
++    fe=external[mt*node+dir]/coefmpc[ist];
++    internal[mt*node+dir]=0.;external[mt*node+dir]=0.;
++    index=nodempc[3*ist+2]-1;
++    while(index>=0){
++      node=nodempc[3*index]-1;dir=nodempc[3*index+1];
++      internal[mt*node+dir]-=coefmpc[index]*fi;
++      external[mt*node+dir]-=coefmpc[index]*fe;
++      index=nodempc[3*index+2]-1;
++    }
++  }
++  fprintf(out,"CCX9ZT_DIAGNOSTIC_V0 node dof internal external residual\n");
++  for(i=0;i<*nk;i++)for(j=1;j<=3;j++){
++    index=mt*i+j;
++    if((nactdof[index]<0)&&(nactdof[index]%2==0))
++      fprintf(out,"%d %d %.17g %.17g %.17g\n",(int)i+1,(int)j,
++              internal[index],external[index],internal[index]-external[index]);
++  }
++  SFREE(internal);SFREE(external);
++  if(fclose(out)){perror("9zt diagnostic close");exit(201);}
++}
++
+ void resultsforc(ITG *nk,double *f,double *fn,ITG *nactdof,ITG *ipompc,
+ 		 ITG *nodempc,double *coefmpc,char *labmpc,ITG *nmpc,
+ 		 ITG *mi,double *fmpc,ITG *calcul_fn,ITG *calcul_f,

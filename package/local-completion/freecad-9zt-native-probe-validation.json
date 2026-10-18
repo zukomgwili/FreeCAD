@@ -1,0 +1,1115 @@
+{
+  "date": "2026-10-18",
+  "issue": "FreeCAD-9zt",
+  "status": "in_progress; incomplete, not installed",
+  "source_commit_before_work": "77540b9f29d72a1c5bf2e16b2fffc7df182fb227",
+  "authority": "User approved extending native CalculiX work and final build/install after issue completion; FreeCAD-4vo remains skipped.",
+  "source_archive_sha256": "9c88385c10fb04f5dc6c4e98027a51bebdd8aee3920e05190d6c1dd08357d6e7",
+  "candidate_build_receipt": "/private/tmp/freecad-9zt-solver.x5D8yg/rebuilt-probe-v3/build-receipt.json",
+  "candidate_binary_sha256": "687f0342809bab988603bef7a44769972bb2b6d8f0b83bbaee9fb00f3094690e",
+  "probe_patch_sha256": "57fd7261522d3c8ecb646a2f8941c8b478ac5aae82ab655829d7ce8668df5e3a",
+  "installed_solver_unchanged_sha256": "b94868f6dd50533d7a8f11d271864a04bbf01f4117046d0c5b35e3cad470aac6",
+  "installed_app_unchanged": "/Applications/FreeCAD-27.1.0.app (+187/e770fefedcc2; not replaced)",
+  "diagnostics_contract": "calculix-9zt-probe/contract.json",
+  "gates": {
+    "stock_physical_RF": "Expected FAIL, real wrapper exit1; force error0.077472535N exceeds1% tolerance0.00077472535N",
+    "stock_red_log": "/private/tmp/freecad-9zt-solver.x5D8yg/wrapper-red/witness.log",
+    "guarded_candidate": "PASS: nine small physical cases and one NLGEOM rejection at each of1/2/4threads",
+    "dependency_suite": "PASS /private/tmp/freecad-9zt-solver.x5D8yg/rebuilt-probe-v3/functional-tests.log",
+    "RF_compatibility": "PASS nine cases, independently run baseline; tolerance1e-12 native N/Nmm units",
+    "RF_receipt": "/private/tmp/freecad-9zt-solver.x5D8yg/rf-comparison/comparison.json",
+    "Python": "Black check and compileall PASS",
+    "Rails": "Not applicable: no Gemfile, Rails app, bin wrappers or applicable package lint config",
+    "full_FreeCAD_build_install": "Not performed: production application unchanged and9zt not complete"
+  },
+  "retained_failed_attempts": [
+    "/private/tmp/freecad-9zt-solver.x5D8yg/baseline-build.log (initial CFLAGS command-line override omitted Makefile flags; corrected by environment inputs)",
+    "/private/tmp/freecad-9zt-solver.x5D8yg/recipe-tests.log (wrong working directory invocation; corrected separately)",
+    "/private/tmp/freecad-9zt-solver.x5D8yg/rebuilt-probe/date.log (PKG_VERSION omitted from date stamp; corrected in durable builder)",
+    "/private/tmp/freecad-9zt-solver.x5D8yg/baseline-missing-channel.log (baseline correctly supplies no experimental channel)"
+  ],
+  "engineering_acceptance": "No Oomakhi replay, no original1% acceptance claim, original96local checks stillfailed. No reconstructed nodal body loads, deck edits, model/mesh tuning or changes to RF semantics.",
+  "remaining_scope": "Native contact/deformable-cut ownership, force/moment/frame/position contract; broader support/load domains; production channel/parser/importer/deployment and appropriate regression qualification. Keep9zt open; build/install only after completion.",
+  "cases": [
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-1qer312x",
+      "selection": "Solid1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000069
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000023,
+        -0.3873626750000039,
+        0
+      ],
+      "experimental_force_relative_error": 9.314849010766875e-15,
+      "experimental_moment_relative_error": 8.689789931716816e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-3thc_zyd",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000013
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000009,
+        -0.38736267500000054,
+        0
+      ],
+      "experimental_force_relative_error": 2.1495805409462016e-15,
+      "experimental_moment_relative_error": 2.332842398862012e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-7r92tcgo",
+      "selection": "Solid1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000066
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000032,
+        -0.3873626750000032,
+        0
+      ],
+      "experimental_force_relative_error": 8.95658558727584e-15,
+      "experimental_moment_relative_error": 8.741627533181222e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-l6cct78o",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        -5,
+        -5,
+        -5
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000012
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000006,
+        -0.3873626750000007,
+        0
+      ],
+      "experimental_force_relative_error": 1.970448829200685e-15,
+      "experimental_moment_relative_error": 2.1543520907484945e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-nkakytpp",
+      "selection": "Face1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        -2.439454888092385e-17,
+        2.0313882954231532e-16,
+        0.07747253500000015
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000001,
+        -0.38736267499999905,
+        1.1770474824820145e-15
+      ],
+      "experimental_force_relative_error": 3.5209841863524755e-15,
+      "experimental_moment_relative_error": 2.6240955221376456e-15,
+      "raw_ref_rot_RF": [
+        -2.439455e-17,
+        2.031388e-16,
+        0.07323098,
+        0.3662452,
+        -0.3873627,
+        1.177047e-15
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-o85ajgdh",
+      "selection": "Face1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        3.1387652893455353e-17,
+        -1.0570971181733668e-17,
+        0.07747253500000029
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000165,
+        -0.38736267500000154,
+        -4.705437428587089e-17
+      ],
+      "experimental_force_relative_error": 4.142149560400485e-15,
+      "experimental_moment_relative_error": 4.588814394722886e-15,
+      "raw_ref_rot_RF": [
+        3.138765e-17,
+        -1.057097e-17,
+        0.06505309,
+        0.7802415,
+        0.4583275,
+        -1.293453e-16
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-qid2fb40",
+      "selection": "Face1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        1.5612511283791264e-17,
+        -4.754226526348937e-17,
+        0.07747253500000037
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000023,
+        -0.38736267500000227,
+        -2.229119666630197e-16
+      ],
+      "experimental_force_relative_error": 5.234820791713282e-15,
+      "experimental_moment_relative_error": 6.39045967807123e-15,
+      "raw_ref_rot_RF": [
+        1.561251e-17,
+        -4.754227e-17,
+        0.06487773,
+        0.3244367,
+        -0.3873627,
+        -2.22912e-16
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-r6yw_bx8",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000013
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000066,
+        -0.3873626750000007,
+        0
+      ],
+      "experimental_force_relative_error": 2.1495805409462016e-15,
+      "experimental_moment_relative_error": 2.2223886136162426e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-1thread/support-gravity-sx0tmfdq",
+      "selection": "Face1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        1.209969624493823e-16,
+        -3.991219247462263e-18,
+        0.07747253500000062
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000254,
+        -0.3873626750000022,
+        -4.0755837290087915e-16
+      ],
+      "experimental_force_relative_error": 8.562981700496436e-15,
+      "experimental_moment_relative_error": 6.6478121902544114e-15,
+      "raw_ref_rot_RF": [
+        1.20997e-16,
+        -3.991219e-18,
+        0.07352845,
+        0.8827268,
+        0.5685071,
+        -1.202651e-15
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-43ra31q4",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        -5,
+        -5,
+        -5
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000013
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000077,
+        -0.3873626750000009,
+        0
+      ],
+      "experimental_force_relative_error": 2.1495805409462016e-15,
+      "experimental_moment_relative_error": 2.5834742870403834e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-5s6rdvhd",
+      "selection": "Face1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        1.2641797331180982e-16,
+        -1.871604000253102e-17,
+        0.07747253500000081
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000045,
+        -0.3873626750000034,
+        -1.353196714612257e-15
+      ],
+      "experimental_force_relative_error": 1.1050843527673129e-14,
+      "experimental_moment_relative_error": 1.098239065647302e-14,
+      "raw_ref_rot_RF": [
+        1.26418e-16,
+        -1.871604e-17,
+        0.07360035,
+        0.3679433,
+        -0.3873627,
+        -1.353197e-15
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-_xqn4wu_",
+      "selection": "Face1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        -3.469446951953614e-17,
+        -2.5478751053409354e-18,
+        0.07747253500000045
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000265,
+        -0.3873626750000029,
+        3.2959746043559335e-17
+      ],
+      "experimental_force_relative_error": 6.285669501806091e-15,
+      "experimental_moment_relative_error": 7.600828536174617e-15,
+      "raw_ref_rot_RF": [
+        -3.469447e-17,
+        -2.547875e-18,
+        0.06505015,
+        0.3246867,
+        -0.3873627,
+        3.295975e-17
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-acd_epxu",
+      "selection": "Solid1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000068
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000031,
+        -0.38736267500000343,
+        0
+      ],
+      "experimental_force_relative_error": 9.135717299021357e-15,
+      "experimental_moment_relative_error": 8.895328017751072e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-kcyo1l_1",
+      "selection": "Face1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        8.023096076392733e-18,
+        -1.6046192152785466e-17,
+        0.07747253500000055
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000277,
+        -0.38736267500000177,
+        -3.887948990533019e-16
+      ],
+      "experimental_force_relative_error": 7.527094795276264e-15,
+      "experimental_moment_relative_error": 6.475004347072185e-15,
+      "raw_ref_rot_RF": [
+        8.023096e-18,
+        -1.604619e-17,
+        0.07340502,
+        0.880839,
+        0.5669025,
+        -2.363561e-16
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-nq35zhbk",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000015
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000009,
+        -0.38736267500000077,
+        0
+      ],
+      "experimental_force_relative_error": 2.3287122526917188e-15,
+      "experimental_moment_relative_error": 2.5834742870403834e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-r5xxyara",
+      "selection": "Face1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        -3.0357660829594124e-17,
+        -2.2388774861825667e-17,
+        0.07747253500000022
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000066,
+        -0.38736267500000165,
+        3.236343484869231e-17
+      ],
+      "experimental_force_relative_error": 3.260924586738779e-15,
+      "experimental_moment_relative_error": 3.6736798897782325e-15,
+      "raw_ref_rot_RF": [
+        -3.035766e-17,
+        -2.238877e-17,
+        0.06515787,
+        0.7819834,
+        0.4596896,
+        5.359211e-16
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-u6_2nlb3",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000016
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000007,
+        -0.38736267500000066,
+        0
+      ],
+      "experimental_force_relative_error": 2.5078439644372355e-15,
+      "experimental_moment_relative_error": 2.2223886136162426e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-2threads/support-gravity-y9xxxdfv",
+      "selection": "Solid1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000065
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000031,
+        -0.38736267500000343,
+        0
+      ],
+      "experimental_force_relative_error": 8.777453875530324e-15,
+      "experimental_moment_relative_error": 8.895328017751072e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-3n0c12wt",
+      "selection": "Solid1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000063
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000032,
+        -0.387362675000003,
+        0
+      ],
+      "experimental_force_relative_error": 8.598322163784806e-15,
+      "experimental_moment_relative_error": 8.459873208800542e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-7os3qbf6",
+      "selection": "Face1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        -1.0570971181733668e-16,
+        -7.101524229780054e-18,
+        0.07747253500000106
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000343,
+        -0.38736267500000543,
+        7.694379530222284e-16
+      ],
+      "experimental_force_relative_error": 1.4217330186367385e-14,
+      "experimental_moment_relative_error": 1.2251614396980847e-14,
+      "raw_ref_rot_RF": [
+        -1.057097e-16,
+        -7.101524e-18,
+        0.07336346,
+        0.8804076,
+        0.5663623,
+        1.601726e-15
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-9op9etox",
+      "selection": "Solid1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000062
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000028,
+        -0.3873626750000032,
+        0
+      ],
+      "experimental_force_relative_error": 8.41919045203929e-15,
+      "experimental_moment_relative_error": 8.255309763872606e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-9ylpr4gn",
+      "selection": "Face1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        1.734723475976807e-17,
+        6.739671754713017e-17,
+        0.07747253500000016
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000005,
+        -0.3873626750000008,
+        4.848552115355176e-16
+      ],
+      "experimental_force_relative_error": 2.6638732268286224e-15,
+      "experimental_moment_relative_error": 2.364081073660673e-15,
+      "raw_ref_rot_RF": [
+        1.734723e-17,
+        6.739672e-17,
+        0.06496511,
+        0.3245489,
+        -0.3873627,
+        4.848552e-16
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-f_tm8vrj",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000015
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.387362675000001,
+        -0.38736267500000077,
+        0
+      ],
+      "experimental_force_relative_error": 2.3287122526917188e-15,
+      "experimental_moment_relative_error": 2.737845238086426e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-gp73eqqa",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000013
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000006,
+        -0.3873626750000007,
+        0
+      ],
+      "experimental_force_relative_error": 2.1495805409462016e-15,
+      "experimental_moment_relative_error": 2.1543520907484945e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-k_61q3oj",
+      "selection": "Solid1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        -5,
+        -5,
+        -5
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        0,
+        0,
+        0.07747253500000016
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.3873626750000006,
+        -0.3873626750000006,
+        0
+      ],
+      "experimental_force_relative_error": 2.5078439644372355e-15,
+      "experimental_moment_relative_error": 2.0062751715497887e-15,
+      "raw_ref_rot_RF": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-u6ypl6no",
+      "selection": "Face1",
+      "element_order": "2nd",
+      "reference_node_mm": [
+        0,
+        0,
+        0
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        -1.919037845299343e-17,
+        1.3444106938820255e-17,
+        0.07747253500000079
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000454,
+        -0.3873626750000036,
+        7.659436376088468e-16
+      ],
+      "experimental_force_relative_error": 1.0573097575794707e-14,
+      "experimental_moment_relative_error": 1.1118587542759061e-14,
+      "raw_ref_rot_RF": [
+        -1.919038e-17,
+        1.344411e-17,
+        0.07352851,
+        0.3674756,
+        -0.3873627,
+        7.659436e-16
+      ]
+    },
+    {
+      "directory": "/private/tmp/freecad-9zt-solver.x5D8yg/guarded-probe-4threads/support-gravity-x0yicvjf",
+      "selection": "Face1",
+      "element_order": "1st",
+      "reference_node_mm": [
+        13,
+        -7,
+        19
+      ],
+      "required_support_force_N": [
+        0,
+        0,
+        0.07747253499999997
+      ],
+      "required_global_origin_moment_Nmm": [
+        0.3873626749999998,
+        -0.3873626749999998,
+        0
+      ],
+      "experimental_support_force_N": [
+        -1.9081958235744878e-17,
+        6.028164079019405e-17,
+        0.0774725350000001
+      ],
+      "experimental_origin_moment_Nmm": [
+        0.38736267500000066,
+        -0.3873626750000013,
+        7.21102864920109e-16
+      ],
+      "experimental_force_relative_error": 1.968483825408051e-15,
+      "experimental_moment_relative_error": 3.395379012947876e-15,
+      "raw_ref_rot_RF": [
+        -1.908196e-17,
+        6.028164e-17,
+        0.06497859,
+        0.7790432,
+        0.457359,
+        7.101524e-17
+      ]
+    }
+  ]
+}

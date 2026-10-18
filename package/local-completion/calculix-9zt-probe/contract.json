@@ -1,0 +1,60 @@
+{
+  "status": "experimental diagnostic only; FreeCAD-9zt remains open",
+  "production_integration": false,
+  "installed": false,
+  "native_patch_license": "GPL-2.0-only",
+  "native_probe_channel": "CCX9ZT_DIAGNOSTIC_V0",
+  "enable_environment_variable": "CCX_9ZT_DIAGNOSTIC=<new output path>",
+  "tested_domain": {
+    "analysis": "single-step linear static, mechanical, global coordinates",
+    "elements": ["C3D4", "C3D10"],
+    "loads": "uniform GRAV on a 10mm cube, native consistent element RHS",
+    "supports": "one fully prescribed whole-solid or planar-face RBE",
+    "threads": [1, 2, 4],
+    "reference_points_mm": [[-5, -5, -5], [0, 0, 0], [13, -7, 19]],
+    "observer_tolerance": "1% relative norm for both force and origin moment; no exactness prerequisite"
+  },
+  "semantics": {
+    "internal": "native stress/shape-gradient integration before resultsforc MPC force transfer",
+    "external": "actual native consistent element RHS and point loads retained during mafillsm assembly, before active-DOF filtering",
+    "projection": "both vectors projected through the solver's decascaded MPC coefficients; dependent contributions are not re-added",
+    "residual": "projected internal minus projected external, selected prescribed degrees of freedom only",
+    "support_identity": "observer selects the exact stock-deck REF NODE and ROT NODE; do not sum all SPC rows, which also include internal auxiliary nodes",
+    "force_frame": "global Cartesian, native model units (FreeCAD benchmark N)",
+    "rotation_port": "generalized couple about the RBE reference point for the tested zero-rotation linear domain",
+    "global_origin_moment": "reference couple + reference position cross reference force (FreeCAD benchmark Nmm)",
+    "RF": "unmodified standard channel; never relabel this diagnostic as standard RF"
+  },
+  "rejected_when_requested": [
+    "nonlinear/contact dispatch",
+    "dynamics and other non-static analysis",
+    "coupled thermal analysis",
+    "transformed nodal coordinates",
+    "cyclic symmetry",
+    "elements other than C3D4/C3D10"
+  ],
+  "not_established": [
+    "multiple, shared or partially free support ports",
+    "applied pressure or concentrated load qualification (code retention is not qualification)",
+    "multi-step/time/amplitude/channel persistence contract",
+    "deformable-cut resultants and arbitrary force/moment components",
+    "contact force ownership, master application point and moment transfer",
+    "finite rotations and nonlinear residual conventions",
+    "production keyword, parser, importer, UI and solver deployment",
+    "original Oomakhi fixture acceptance"
+  ],
+  "section_contract_unchanged": {
+    "SOF_SOM": "recovered/extrapolated/averaged stress surface integration; not a residual-conservative reaction channel",
+    "CF": "native contact forces; native moments use deformed slave application positions",
+    "master_moment": "not established by simply negating the slave moment",
+    "free_body_statics": "conditionally admissible only after complete body/load/frame/point accounting and independent accuracy qualification"
+  },
+  "original_R42_acceptance": {
+    "status": "FAIL, unchanged; no original replay or new engineering acceptance",
+    "force_error_percent": 1.075520426516643,
+    "origin_moment_error_percent": 1.1325582974510988,
+    "force_limit_percent": 1.0,
+    "origin_moment_limit_percent": 1.0,
+    "local_checks_failed": 96
+  }
+}
