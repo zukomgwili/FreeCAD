@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-18",
+  "bead": "FreeCAD-t3g",
+  "title": "Discover core LinguistTools outside GUI builds",
+  "source_baseline": "8230cdbe3d09a74816b56cb5c6fbf23568969d7b",
+  "status": "source_fix_verified",
+  "verification": {
+    "red": "Actual and isolated headless configure fail unknown qt_add_translation before fix.",
+    "green": "Focused real Qt fixture compiles nonempty tiny.qm using lrelease; supported whole-project headless configure succeeds2.0s/0.8s.",
+    "limits": "First whole-project retry retained unrelated invalid scratch option dependencies (OpenSCAD/Spreadsheet with Draft off). Corrected scratch options, no dependency install or external workaround. Full headless application build not claimed."
+  },
+  "sha256": {
+    "cMake/FreeCAD_Helpers/SetupQt.cmake": "5ffe57c0d38e79be23cfc981e502715dbd2e60e69046f459c4e234694c2f7166",
+    "tests/HeadlessTranslations.cmake": "59b6ea4a7ff867fcf247564472ef9b33bd5a22e7d4a25b1ccaff5ba10cb423e2",
+    "tests/CMakeLists.txt": "9f9339aa4b060ed7de370310de6d02052fe50a78bcb5439f1939b875ac9a51a7",
+    "/private/tmp/freecad-open-completion.k47r6P/headless-red.log": "8aa5add10c20dd83f498b1c8bde6a977a32ce467c95a9fc52ef3735d5ed5c1a0",
+    "/private/tmp/freecad-open-completion.k47r6P/translation-test-red.log": "ff1e8b52cb1fb20ac10d218fe3d8681977c290dd2edf8b5756c1c699b92ec128",
+    "/private/tmp/freecad-open-completion.k47r6P/translation-test-green.log": "a1ce625314e3e2c2508169d5b1093f05305e7934f1c44b132da3d2217a39fc57",
+    "/private/tmp/freecad-open-completion.k47r6P/headless-green.log": "a7010950da46a3cc0284445649f9c44bfed34e6d8d859c379b1ba7fb72214340",
+    "/private/tmp/freecad-open-completion.k47r6P/headless-green2.log": "720e0597a788e2cf3cdf2af163013f96d75d0e374a9972ceff5402d19ac4fec0"
+  },
+  "combined_build_install": "Deferred until remaining in-scope beads are completed; FreeCAD-4vo excluded by user."
+}

@@ -10,6 +10,16 @@ include_directories(
 
 set(CMAKE_AUTOMOC ON)
 
+add_test(NAME HeadlessQtTranslations
+    COMMAND ${CMAKE_COMMAND}
+        "-DFREECAD_SOURCE_DIR=${CMAKE_SOURCE_DIR}"
+        "-DTEST_ROOT=${CMAKE_CURRENT_BINARY_DIR}/HeadlessQtTranslations"
+        "-DTEST_QT_MAJOR=${FREECAD_QT_MAJOR_VERSION}"
+        "-DTEST_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+        "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/HeadlessTranslations.cmake")
+set_tests_properties(HeadlessQtTranslations PROPERTIES LABELS "Build;Qt" TIMEOUT 90)
+
 if(APPLE)
     add_test(NAME ModernQuickLookInstallRouting
         COMMAND ${CMAKE_COMMAND}
