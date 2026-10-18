@@ -357,8 +357,14 @@ class NativeContactOwnership(unittest.TestCase):
             meshtools.get_mesh_geometry_signature(compound))
         report["oracle"] = self.incidence_oracle(previous)
         report["rbe_precheck"] = self.rbe_precheck(report["oracle"])
-        self.assertEqual(report["stored_geometry_signature"],
-                         report["signature_observations"]["before_geometry"])
+        # The frozen predecessor predates canonical BRep fingerprints. Accept
+        # only the exact current or legacy signature, as the production reader
+        # does; topology and geometry are still checked independently below.
+        report["legacy_geometry_signature"] = meshtools.get_mesh_geometry_signature(
+            compound, canonical=False)
+        self.assertIn(report["stored_geometry_signature"], (
+            report["signature_observations"]["before_geometry"],
+            report["legacy_geometry_signature"]))
         return report["oracle"]
 
     def test_exact_native_contact_and_cold_restore(self):

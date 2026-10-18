@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-19",
+  "issue": "FreeCAD-9zt",
+  "status": "Completed software/output-method qualification; built and installed",
+  "compiled_source_commit": "4630d4debdd088b3d033a8f1429ad15a57059156",
+  "compiled_version": "27.1.0devR49261 +200 (Git)",
+  "installed_app": "/Applications/FreeCAD-27.1.0.app",
+  "rollback_app": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-9zt-e770fefedc.app",
+  "installation_evidence": "/private/tmp/freecad-9zt-install.IqIEa8",
+  "development_evidence": "/private/tmp/freecad-9zt-production.2iRiVk",
+  "contract": "../calculix/force-accounting/contract.json",
+  "native_channel": "CCX_FORCE_ACCOUNTING_V1",
+  "qualified_unsigned_binary_sha256": "4a7ab387a477000ddf502a27ccde4d98a4a873f9b80d41aa8dd9bb626f74401d",
+  "installed_signed_binary_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+  "matching_native_code_identity_excluding_signature_and_linkedit_sizes": "09e5735a7733ce43e3d367b77d6c8be200d85319abb54defe12dbab3797f58c5",
+  "ordinary_ccx_unchanged_sha256": "b94868f6dd50533d7a8f11d271864a04bbf01f4117046d0c5b35e3cad470aac6",
+  "dependency_prefix_still_required": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "implementation": {
+    "native": "Actual consistent external RHS and nodal loads retained before active-DOF filtering; native MPC projection for support residuals. Contact forces assigned separately to master/slave parent volumes and original nodal application positions. Explicit owned free-body cuts balance actual native loads and contact contributions, not recovered stresses.",
+    "production": "Opt-in properties, normal writer and runner, separate result with hashes/model fingerprint, stale-on-change and cold-restore behavior; qualified solver separately bundled by CMake. RF/SOF/SOM/CF and the ordinary solver preference remain unchanged.",
+    "activation": "Enable solver NativeForceAccounting; for sections enable NativeEquilibriumCut and explicitly select AccountingBody solid(s). Empty NativeAccountingSolver chooses the bundled executable.",
+    "domain": "One small-displacement static mechanical step; C3D4/C3D10, disjoint all-zero prescribed RBEs, triangular face-to-face penalty contact; complete explicit cut-body ownership with no body SPC/MPC. Unsupported cases reject explicitly. See contract for full limits."
+  },
+  "gates": {
+    "clean_source_build": "PASS full native FreeCAD build at compiled_source_commit",
+    "CTest": "PASS 2238 enabled tests, including 2 explicit skips; 8 pre-disabled, 88.30 seconds",
+    "FEM": "PASS 306 tests, 57.183 seconds; repeated within staged and installed application suites",
+    "native_build_dependency_tests": "PASS pinned CalculiX 2.23 plus conda build-8 patches and V1 extension; build receipt itself precedes physical qualification",
+    "native_analytic": "PASS 48 cases and 6 fail-closed cases on freshly built, signed staged and actual installed binaries: Tet4/Tet10, friction/shear, master/slave roles, rotated/translated frames, 1/2/4 threads. Both force and origin-moment relative limits remain 1%.",
+    "disjoint_supports": "PASS two disjoint fully prescribed GRAV RBEs on source, signed staged and installed binaries",
+    "installed_support_matrix": "PASS all 3 tests without skips, including nine whole/face RBE gravity cases across Tet4/Tet10 and offset reference nodes, plus NLGEOM frontend rejection; installed-support-matrix.log, 3.613 seconds",
+    "pipeline": "PASS normal CAD/Gmsh/writer/runner/bundled-solver/import, provenance tampering rejection, change invalidation, cold restore and second solve; command-line and native GUI at staged and installed paths; five fixed-source repetitions also passed",
+    "application": "PASS ten serial gates each at staged and installed locations: native contact create/reopen, CLI (1750 tests, 8 skips, 1 expected failure), feature tests, GUI, equilibrium, mixed-shape create/reopen, area diagnostics create/reopen",
+    "exit_status": "PASS 15 real-process tests each for command-line and GUI at staged and installed locations",
+    "custody": "PASS strict deep signatures, exact sealed inventory, rollback inventory, native code parity, compiled identity, source parity, read-only/cache-free resources and QuickLook entitlements; user profiles and 11 external namespace files unchanged",
+    "format": "PASS Black for new witness and git diff whitespace checks; native source clang-format checked before source commit",
+    "Rails": "N/A: FreeCAD is not a Rails application; no Gemfile, applicable bin wrappers or importmap"
+  },
+  "durable_evidence_directory": "freecad-9zt-production-evidence",
+  "retained_failed_attempts": [
+    "Development pipeline provenance mismatch retained in pipeline-final-precommit.log; named diagnostics added and five unchanged-build repetitions passed. No unsupported unique cause is asserted.",
+    "Staging attempt1 exposed stale contact count and a legacy raw BRep fingerprint in the frozen native contact predecessor. The observer now accepts only exact current/legacy fingerprints, retaining independent geometry/topology/contact checks.",
+    "Staging attempt2 exposed another stale rigid-region test count and correctly refused reused evidence. Counts corrected; complete evidence directories retained under attempt names and fresh final serial runs passed."
+  ],
+  "engineering_acceptance": {
+    "original_Oomakhi_replayed": false,
+    "design_accepted": false,
+    "frozen_R42_force_error_percent": 1.075520426516643,
+    "frozen_R42_origin_moment_error_percent": 1.1325582974510988,
+    "original_limit_percent": 1,
+    "original_failed_local_checks": 96,
+    "meaning": "Software method qualification only. An equilibrium-derived cut does not independently establish stress accuracy, contact accuracy, strength, mesh convergence or design acceptance. Original fixture resolution still requires applicable actual outputs and independent review; no remesh, original solve or sign/target fitting was performed here."
+  },
+  "preserved_skip": "FreeCAD-4vo remains unchanged and skipped",
+  "historical_receipts": "freecad-9zt-characterization.json and freecad-9zt-native-probe-validation.json remain unmodified historical pre-production records, not the final installed state"
+}
