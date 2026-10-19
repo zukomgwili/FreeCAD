@@ -192,8 +192,10 @@ class TestObjectType(unittest.TestCase):
             "Fem::ConstraintFluidBoundary", type_of_obj(ObjectsFem.makeConstraintFluidBoundary(doc))
         )
         self.assertEqual("Fem::ConstraintSpring", type_of_obj(ObjectsFem.makeConstraintSpring(doc)))
-        self.assertEqual("Fem::ConstraintElasticConnector",
-                         type_of_obj(ObjectsFem.makeConstraintElasticConnector(doc)))
+        self.assertEqual(
+            "Fem::ConstraintElasticConnector",
+            type_of_obj(ObjectsFem.makeConstraintElasticConnector(doc)),
+        )
         self.assertEqual("Fem::ConstraintForce", type_of_obj(ObjectsFem.makeConstraintForce(doc)))
         self.assertEqual("Fem::ConstraintGear", type_of_obj(ObjectsFem.makeConstraintGear(doc)))
         self.assertEqual(
@@ -287,6 +289,9 @@ class TestObjectType(unittest.TestCase):
         )
         self.assertEqual("Fem::MeshResult", type_of_obj(ObjectsFem.makeMeshResult(doc)))
         self.assertEqual("Fem::ResultMechanical", type_of_obj(ObjectsFem.makeResultMechanical(doc)))
+        self.assertEqual(
+            "Fem::ContactSideObservation", type_of_obj(ObjectsFem.makeResultContactObservation(doc))
+        )
         solverelmer = ObjectsFem.makeSolverElmer(doc)
         self.assertEqual(
             "Fem::SolverCcxTools", type_of_obj(ObjectsFem.makeSolverCalculiXCcxTools(doc))
@@ -395,8 +400,11 @@ class TestObjectType(unittest.TestCase):
             is_of_type(ObjectsFem.makeConstraintMagnetization(doc), "Fem::ConstraintMagnetization")
         )
         self.assertTrue(is_of_type(ObjectsFem.makeConstraintSpring(doc), "Fem::ConstraintSpring"))
-        self.assertTrue(is_of_type(ObjectsFem.makeConstraintElasticConnector(doc),
-                                   "Fem::ConstraintElasticConnector"))
+        self.assertTrue(
+            is_of_type(
+                ObjectsFem.makeConstraintElasticConnector(doc), "Fem::ConstraintElasticConnector"
+            )
+        )
         self.assertTrue(is_of_type(ObjectsFem.makeConstraintForce(doc), "Fem::ConstraintForce"))
         self.assertTrue(is_of_type(ObjectsFem.makeConstraintGear(doc), "Fem::ConstraintGear"))
         self.assertTrue(
@@ -486,6 +494,9 @@ class TestObjectType(unittest.TestCase):
         )
         self.assertTrue(is_of_type(ObjectsFem.makeMeshResult(doc), "Fem::MeshResult"))
         self.assertTrue(is_of_type(ObjectsFem.makeResultMechanical(doc), "Fem::ResultMechanical"))
+        self.assertTrue(
+            is_of_type(ObjectsFem.makeResultContactObservation(doc), "Fem::ContactSideObservation")
+        )
         solverelmer = ObjectsFem.makeSolverElmer(doc)
         self.assertTrue(
             is_of_type(ObjectsFem.makeSolverCalculiXCcxTools(doc), "Fem::SolverCcxTools")
@@ -897,6 +908,12 @@ class TestObjectType(unittest.TestCase):
         self.assertTrue(is_derived_from(result_mechanical, "Fem::FemResultObjectPython"))
         self.assertTrue(is_derived_from(result_mechanical, "Fem::ResultMechanical"))
 
+        observation = ObjectsFem.makeResultContactObservation(doc)
+        self.assertTrue(is_derived_from(observation, "App::DocumentObject"))
+        self.assertTrue(is_derived_from(observation, "App::FeaturePython"))
+        self.assertTrue(is_derived_from(observation, "Fem::ContactSideObservation"))
+        self.assertFalse(observation.isDerivedFrom("Fem::FemResultObjectPython"))
+
         # SolverCcxTools
         solver_ccxtools = ObjectsFem.makeSolverCalculiXCcxTools(doc)
         self.assertTrue(is_derived_from(solver_ccxtools, "App::DocumentObject"))
@@ -1053,8 +1070,9 @@ class TestObjectType(unittest.TestCase):
             ObjectsFem.makeConstraintMagnetization(doc).isDerivedFrom("Fem::ConstraintPython")
         )
         self.assertTrue(ObjectsFem.makeConstraintSpring(doc).isDerivedFrom("Fem::ConstraintSpring"))
-        self.assertTrue(ObjectsFem.makeConstraintElasticConnector(doc)
-                        .isDerivedFrom("Fem::FeaturePython"))
+        self.assertTrue(
+            ObjectsFem.makeConstraintElasticConnector(doc).isDerivedFrom("Fem::FeaturePython")
+        )
         self.assertTrue(ObjectsFem.makeConstraintForce(doc).isDerivedFrom("Fem::ConstraintForce"))
         self.assertTrue(ObjectsFem.makeConstraintGear(doc).isDerivedFrom("Fem::ConstraintGear"))
         self.assertTrue(
@@ -1144,6 +1162,9 @@ class TestObjectType(unittest.TestCase):
         self.assertTrue(ObjectsFem.makeMeshResult(doc).isDerivedFrom("Fem::FemMeshObjectPython"))
         self.assertTrue(
             ObjectsFem.makeResultMechanical(doc).isDerivedFrom("Fem::FemResultObjectPython")
+        )
+        self.assertTrue(
+            ObjectsFem.makeResultContactObservation(doc).isDerivedFrom("App::FeaturePython")
         )
         solverelmer = ObjectsFem.makeSolverElmer(doc)
         self.assertTrue(
@@ -1282,6 +1303,7 @@ def create_all_fem_objects_doc(doc):
     rm = ObjectsFem.makeMeshResult(doc)
 
     res = analysis.addObject(ObjectsFem.makeResultMechanical(doc))[0]
+    ObjectsFem.makeResultContactObservation(doc, analysis)
     res.Mesh = rm
     if "BUILD_FEM_VTK" in FreeCAD.__cmake__:
         vres = analysis.addObject(ObjectsFem.makePostVtkResult(doc, [res]))[0]

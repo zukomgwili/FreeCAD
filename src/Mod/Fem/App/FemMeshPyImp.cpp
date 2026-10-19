@@ -49,6 +49,11 @@
 #include <Mod/Part/App/TopoShapeSolidPy.h>
 #include <Mod/Part/App/TopoShapeVertexPy.h>
 
+#if defined(FC_USE_VTK) && defined(FC_USE_VTK_PYTHON)
+# include <vtkPythonUtil.h>
+# include "FemVTKTools.h"
+#endif
+
 // clang-format off
 // inclusion of the generated files (generated out of FemMeshPy.xml)
 #include "FemMeshPy.h"
@@ -1233,6 +1238,30 @@ PyObject* FemMeshPy::write(PyObject* args, PyObject* kwds) const
         return nullptr;
     }
     Py_Return;
+}
+
+PyObject* FemMeshPy::toVTK(PyObject* args, PyObject* kwds) const
+{
+    static const std::array<const char*, 2> kwlist {"highest", nullptr};
+    int highest = 1;
+    if (!Base::Wrapped_ParseTupleAndKeywords(args, kwds, "|p", kwlist, &highest)) {
+        return nullptr;
+    }
+
+#if defined(FC_USE_VTK) && defined(FC_USE_VTK_PYTHON)
+    try {
+        auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+        FemVTKTools::exportVTKMesh(getFemMeshPtr(), grid, highest != 0, 1.0, true);
+        return vtkPythonUtil::GetObjectFromPointer(grid);
+    }
+    catch (const std::exception& e) {
+        PyErr_SetString(Base::PyExc_FC_GeneralError, e.what());
+        return nullptr;
+    }
+#else
+    PyErr_SetString(PyExc_NotImplementedError, "VTK Python wrappers are not available");
+    return nullptr;
+#endif
 }
 
 namespace

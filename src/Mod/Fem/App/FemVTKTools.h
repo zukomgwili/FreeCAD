@@ -50,12 +50,14 @@ public:
     static void importVTKCellGroup(vtkSmartPointer<vtkDataSet> grid, FemMesh* mesh, std::string arrayname);
 
     // extract data from FreCAD FEM mesh and fill a vtkUnstructuredGrid instance with that data. Set
-    // `highest` to false to export all elements levels.
+    // `highest` to false to export all elements levels. The optional identity
+    // mode uses double coordinates and records native node/element IDs.
     static void exportVTKMesh(
         const FemMesh* mesh,
         vtkSmartPointer<vtkUnstructuredGrid> grid,
         bool highest = true,
-        float scale = 1.0
+        float scale = 1.0,
+        bool preserveIdentity = false
     );
 
     // extract data from vtkUnstructuredGrid object and fill a FreeCAD FEM result object with that

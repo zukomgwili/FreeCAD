@@ -348,13 +348,14 @@ class _ConstraintElasticConnector(CommandManager):
         self.tooltip = Qt.QT_TRANSLATE_NOOP(
             "FEM_ConstraintElasticConnector",
             "Creates a scalar connector between vertices or existing Rigid Body ports; "
-            "explicitly enter translational or rotational stiffness"
+            "explicitly enter translational or rotational stiffness",
         )
         self.is_active = "with_analysis"
 
     def Activated(self):
         import FemGui
         import ObjectsFem
+
         analysis = FemGui.getActiveAnalysis()
         if analysis is None or not self.active_analysis_in_active_doc():
             return
@@ -1124,6 +1125,51 @@ class _ResultShow(CommandManager):
         self.selobj.ViewObject.Document.setEdit(self.selobj.ViewObject, 0)
 
 
+class _ResultContactObservation(CommandManager):
+    "Create an editable result without guessing a run or refreshing its data."
+
+    def __init__(self):
+        super().__init__()
+        self.pixmap = "FEM_PostFilterDataAtPoint"
+        self.menutext = Qt.QT_TRANSLATE_NOOP(
+            "FEM_ResultContactObservation", "Contact-Side Displacement Observation"
+        )
+        self.tooltip = Qt.QT_TRANSLATE_NOOP(
+            "FEM_ResultContactObservation",
+            "Creates a saved contact-side observation from selected native accounting and contacts; "
+            "edit its links and use Refresh to validate the source",
+        )
+        self.is_active = "with_analysis"
+
+    def Activated(self):
+        if not self.IsActive():
+            return
+        import ObjectsFem
+
+        doc, analysis = FreeCAD.ActiveDocument, self.active_analysis
+        selected = FreeCADGui.Selection.getSelection()
+        sources = [obj for obj in selected if is_of_type(obj, "Fem::NativeForceAccountingResult")]
+        source = sources[0] if len(sources) == 1 else None
+        if source is not None and (source.Document != doc or source not in analysis.Group):
+            source = None
+        contacts = [
+            obj
+            for obj in selected
+            if obj.Document == doc
+            and obj in analysis.Group
+            and obj.isDerivedFrom("Fem::ConstraintContact")
+        ]
+        doc.openTransaction("Create contact-side observation")
+        try:
+            result = ObjectsFem.makeResultContactObservation(doc, analysis, source, contacts)
+            doc.commitTransaction()
+        except Exception:
+            doc.abortTransaction()
+            raise
+        FreeCADGui.Selection.clearSelection()
+        FreeCADGui.Selection.addSelection(result)
+
+
 class _ResultsPurge(CommandManager):
     "The FEM_ResultsPurge command definition"
 
@@ -1506,6 +1552,7 @@ FreeCADGui.addCommand("FEM_MeshTransfiniteSurface", _MeshTransfiniteSurface())
 FreeCADGui.addCommand("FEM_MeshTransfiniteVolume", _MeshTransfiniteVolume())
 FreeCADGui.addCommand("FEM_MeshGMSHRefinement", _GMSHRefine())
 FreeCADGui.addCommand("FEM_ResultShow", _ResultShow())
+FreeCADGui.addCommand("FEM_ResultContactObservation", _ResultContactObservation())
 FreeCADGui.addCommand("FEM_ResultsPurge", _ResultsPurge())
 FreeCADGui.addCommand("FEM_SolverCalculiXCcxTools", _SolverCcxTools())
 FreeCADGui.addCommand("FEM_SolverCalculiX", _SolverCalculiX())

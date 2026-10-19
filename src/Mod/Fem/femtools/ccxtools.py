@@ -402,6 +402,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             )
             self.inp_file_name = inp_writer.write_solver_input()
             from femtools import force_accounting
+
             force_accounting.prepare_request(inp_writer)
         except Exception:
             FreeCAD.Console.PrintError(
@@ -423,6 +424,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         """
         error_title = self.tr("No or wrong CalculiX binary ccx")
         from femtools import force_accounting
+
         if ccx_binary is None and force_accounting.enabled(self.solver):
             ccx_binary = force_accounting.solver_binary(self.solver)
             force_accounting.require_capability(ccx_binary)
@@ -494,6 +496,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         import multiprocessing
         from femmesh import quality
         from femtools import force_accounting
+
         self._quality_input = quality.input_fingerprint(self.mesh)
 
         self.ccx_stdout = ""
@@ -511,7 +514,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             environment.pop("CCX_FORCE_ACCOUNTING_REQUEST", None)
         f = QtCore.QFileInfo(self.inp_file_name)
         p = subprocess.Popen(
-            [self.ccx_binary, "-i", f.baseName()],
+            [self.ccx_binary, "-i", f.completeBaseName()],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             shell=False,
@@ -519,6 +522,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             cwd=f.path(),
         )
         self.ccx_stdout, self.ccx_stderr = p.communicate()
+        force_accounting.finish_run(context, p.returncode)
         self.ccx_stdout = self.ccx_stdout.decode()
         self.ccx_stderr = self.ccx_stderr.decode()
         if p.returncode == 0 and context:
@@ -701,14 +705,22 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
 
     def has_nonpositive_jacobians(self):
         from femmesh import quality
-        diagnostics = "\n".join(line for line in self.ccx_stdout.splitlines()
-                                if "nonpositive jacobian" in line
-                                or "determinant in element" in line
-                                or "Version" in line)
-        readiness = quality.record(self.mesh, "CalculiX", diagnostics,
-                       command=str(getattr(self, "ccx_binary", "")),
-                       binary=str(getattr(self, "ccx_binary", "")),
-                       input_signature=getattr(self, "_quality_input", None))
+
+        diagnostics = "\n".join(
+            line
+            for line in self.ccx_stdout.splitlines()
+            if "nonpositive jacobian" in line
+            or "determinant in element" in line
+            or "Version" in line
+        )
+        readiness = quality.record(
+            self.mesh,
+            "CalculiX",
+            diagnostics,
+            command=str(getattr(self, "ccx_binary", "")),
+            binary=str(getattr(self, "ccx_binary", "")),
+            input_signature=getattr(self, "_quality_input", None),
+        )
         if "*ERROR in e_c3d: nonpositive jacobian" in self.ccx_stdout:
             if readiness["state"] == "Unchecked":
                 FreeCAD.Console.PrintError(

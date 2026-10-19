@@ -128,6 +128,20 @@ class FemMesh(ComplexGeoData):
         ...
 
     @constmethod
+    def toVTK(self, highest: bool = True) -> Any:
+        """
+        Return an independent vtkUnstructuredGrid with original mesh identity.
+
+        Coordinates are double precision in mesh units. FreeCADNodeId and
+        FreeCADElementId arrays retain native IDs, not VTK indices. Point slots
+        for sparse node-ID gaps have FreeCADNodeId=-1 and are not used by cells.
+        Coincident nodes are not merged. highest selects only the highest
+        element dimension by default; False exports all element dimensions.
+        Requires VTK and its Python wrappers, otherwise raises NotImplementedError.
+        """
+        ...
+
+    @constmethod
     def writeABAQUS(
         self,
         fileName: str,

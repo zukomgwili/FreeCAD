@@ -57,6 +57,12 @@ from femtest.app.test_geometry_signature import TestGeometrySignature as FemTest
 from femtest.app.test_mesh_quality import TestMeshQuality as FemTest33
 from femtest.app.test_rigid_body_preflight import TestRigidBodyPreflight as FemTest34
 from femtest.app.test_force_accounting import TestForceAccounting as FemTest35
+from femtest.app.test_contact_observation import TestContactObservation as FemTest36
+from femtest.app.test_contact_observation_source import TestContactObservationSource as FemTest37
+from femtest.app.test_contact_observation_native import TestContactObservationNative as FemTest38
+from femtest.app.test_movement_provenance import TestMovementProvenance as FemTest39
+from femtest.app.test_mesh_vtk_identity import TestMeshVTKIdentity as FemTest40
+from femtest.app.test_owned_probe import TestOwnedProbe as FemTest41
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26
@@ -96,3 +102,9 @@ False if FemTest32.__name__ else True
 False if FemTest33.__name__ else True
 False if FemTest34.__name__ else True
 False if FemTest35.__name__ else True
+False if FemTest36.__name__ else True
+False if FemTest37.__name__ else True
+False if FemTest38.__name__ else True
+False if FemTest39.__name__ else True
+False if FemTest40.__name__ else True
+False if FemTest41.__name__ else True

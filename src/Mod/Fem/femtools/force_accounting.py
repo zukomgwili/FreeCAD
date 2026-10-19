@@ -14,7 +14,9 @@ import json
 import math
 import os
 from pathlib import Path
+import stat
 import subprocess
+import tempfile
 from types import SimpleNamespace
 
 import FreeCAD
@@ -28,6 +30,7 @@ from femtools.native_properties import property_value
 
 
 SCHEMA = "CCX_FORCE_ACCOUNTING_V1"
+MOVEMENT_SOURCE_SCHEMA = "FREECAD_MOVEMENT_SOURCE_V1"
 _reports = {}
 _FACE_NODES = {
     4: ((0, 1, 2), (0, 3, 1), (1, 3, 2), (2, 3, 0)),
@@ -47,10 +50,7 @@ def enabled(solver):
 def solver_binary(solver):
     explicit = str(solver.NativeAccountingSolver)
     return explicit or str(
-        Path(FreeCAD.ConfigGet("AppHomePath"))
-        / "data"
-        / "NativeSolvers"
-        / "ccx-force-accounting"
+        Path(FreeCAD.ConfigGet("AppHomePath")) / "data" / "NativeSolvers" / "ccx-force-accounting"
     )
 
 
@@ -64,9 +64,7 @@ def require_capability(binary):
             check=False,
         )
     except (OSError, subprocess.TimeoutExpired) as error:
-        raise ValueError(
-            "Qualified native force-accounting solver is unavailable."
-        ) from error
+        raise ValueError("Qualified native force-accounting solver is unavailable.") from error
     if result.returncode != 0 or result.stdout.strip() != SCHEMA:
         raise ValueError(
             "Solver does not implement native force accounting V1; "
@@ -79,10 +77,130 @@ def _sha(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def _is_result(obj):
-    return obj.isDerivedFrom("Fem::FemResultObject") or (
-        "Proxy" in obj.PropertiesList and isinstance(obj.Proxy, AccountingResult)
+class _RunMetadata(dict):
+    """Accounting metadata with non-serialized, process-lifetime output custody."""
+
+
+def _file_identity(info, *, changed_time=True):
+    identity = (
+        info.st_dev,
+        info.st_ino,
+        info.st_mode,
+        info.st_nlink,
+        info.st_size,
+        info.st_mtime_ns,
     )
+    return identity + (info.st_ctime_ns,) if changed_time else identity
+
+
+def _prepare_movement_run(deck):
+    # Use the exact generated sibling, never a wildcard or a user-selected result.
+    path = Path(deck).parent.resolve(strict=True) / Path(deck).with_suffix(".frd").name
+    state = {"path": str(path), "finished": False, "returncode": None}
+    try:
+        previous = path.lstat()
+    except FileNotFoundError:
+        return state
+    if not stat.S_ISREG(previous.st_mode) or previous.st_nlink != 1:
+        raise ValueError("Generated FRD output must be a regular, unshared file, not a symlink.")
+    recovery = Path(tempfile.mkdtemp(prefix="." + path.stem + "-previous-frd-", dir=path.parent))
+    saved = recovery / path.name
+    path.replace(saved)
+    state["recovery_path"] = str(saved)
+    if _file_identity(saved.lstat(), changed_time=False) != _file_identity(
+        previous, changed_time=False
+    ):
+        # The exact file remains recoverable even if a competing writer raced us.
+        raise ValueError("Previous FRD changed during quarantine; inspect the recovery directory.")
+    return state
+
+
+def _capture_movement(path):
+    try:
+        before = path.lstat()
+        if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not before.st_size:
+            raise ValueError("Fresh FRD must be a nonempty regular, unshared file.")
+        descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+        with os.fdopen(descriptor, "rb") as stream:
+            identity = _file_identity(before)
+            if _file_identity(os.fstat(stream.fileno())) != identity:
+                raise ValueError("Fresh FRD identity changed before hashing.")
+            digest = hashlib.file_digest(stream, "sha256").hexdigest()
+            if (
+                _file_identity(os.fstat(stream.fileno())) != identity
+                or _file_identity(path.lstat()) != identity
+            ):
+                raise ValueError("Fresh FRD changed while hashing.")
+        return {"sha256": digest, "identity": identity}
+    except FileNotFoundError:
+        return {"reason": "Successful solver run produced no fresh FRD."}
+    except (OSError, ValueError) as error:
+        return {"reason": str(error)}
+
+
+def finish_run(context, returncode):
+    """Record an actual completed child process before importing its accounting.
+
+    This is in-process custody, not an attestation for arbitrary external files.
+    Only the solver subprocess owner calls this after communicate has completed.
+    Legacy accounting contexts remain supported without displacement provenance.
+    """
+    if context is not None:
+        state = getattr(context[1], "movement_run", None)
+        if state is not None and not state["finished"]:
+            state.update(finished=True, returncode=returncode)
+            if returncode == 0:
+                state["completed_file"] = _capture_movement(Path(state["path"]))
+
+
+def _movement_source(metadata, deck):
+    path = Path(deck).parent.resolve(strict=True) / Path(deck).with_suffix(".frd").name
+    source = {
+        "schema": MOVEMENT_SOURCE_SCHEMA,
+        "status": "UNAVAILABLE",
+        "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+        "path": str(path),
+        "deck": str(Path(deck).resolve()),
+        "request": str(Path(deck).with_suffix(".accounting").resolve()),
+        "requested_end_time": metadata["end_time"],
+        "time_basis": "Requested final static time; field reader must verify actual FRD state",
+        **{
+            key: metadata[key]
+            for key in ("deck_sha256", "request_sha256", "binary_sha256", "model_digest", "binary")
+        },
+    }
+    state = getattr(metadata, "movement_run", None)
+    if state is None:
+        source["reason"] = "Legacy accounting context has no fresh solver-run FRD custody."
+    else:
+        if "recovery_path" in state:
+            source["recovery_path"] = state["recovery_path"]
+        if not state["finished"] or state["returncode"] != 0:
+            source["reason"] = "No successful completed solver run owns this FRD."
+        else:
+            completed = state["completed_file"]
+            current = _capture_movement(path)
+            if "reason" in completed:
+                source["reason"] = completed["reason"]
+            elif completed != current:
+                source["reason"] = "Fresh FRD changed after solver completion."
+            else:
+                source.update(status="BOUND", sha256=current["sha256"])
+    return source
+
+
+def _is_result(obj):
+    if obj.isDerivedFrom("Fem::FemResultObject") or (
+        "Proxy" in obj.PropertiesList and isinstance(obj.Proxy, AccountingResult)
+    ):
+        return True
+    if "Proxy" in obj.PropertiesList:
+        # Sample observations are not mechanical nodal result objects, but are
+        # still outputs and must never participate in the physical input digest.
+        from femobjects.result_contact_observation import ContactObservationResult
+
+        return isinstance(obj.Proxy, ContactObservationResult)
+    return False
 
 
 def _model_digest(analysis, mesh):
@@ -97,8 +215,7 @@ def _model_digest(analysis, mesh):
             seen.add(item.Name)
             shape = (
                 meshtools.get_mesh_geometry_signature(item)
-                if "Shape" in item.PropertiesList
-                and hasattr(item.Shape, "exportBrepToString")
+                if "Shape" in item.PropertiesList and hasattr(item.Shape, "exportBrepToString")
                 else None
             )
             return {
@@ -147,18 +264,12 @@ def _connectivity(path):
             count = 0
             if text.upper().startswith("*ELEMENT,"):
                 fields = text.upper().replace(" ", "").split(",")
-                kind = next(
-                    (field[5:] for field in fields if field.startswith("TYPE=")), ""
-                )
+                kind = next((field[5:] for field in fields if field.startswith("TYPE=")), "")
                 if kind not in ("C3D4", "C3D10"):
-                    raise ValueError(
-                        "Native force accounting V1 requires only C3D4/C3D10 volumes."
-                    )
+                    raise ValueError("Native force accounting V1 requires only C3D4/C3D10 volumes.")
                 count = 4 if kind == "C3D4" else 10
         elif count:
-            pending.extend(
-                int(item.strip()) for item in text.split(",") if item.strip()
-            )
+            pending.extend(int(item.strip()) for item in text.split(",") if item.strip())
             if len(pending) == count + 1:
                 if pending[0] in elements:
                     raise ValueError("Duplicate native element identity.")
@@ -181,11 +292,7 @@ def prepare_request(writer):
                 "Enable NativeForceAccounting on the solver to request NativeEquilibriumCut."
             )
         return
-    if (
-        solver.AnalysisType != "static"
-        or solver.GeometricalNonlinearity
-        or solver.SplitInputWriter
-    ):
+    if solver.AnalysisType != "static" or solver.GeometricalNonlinearity or solver.SplitInputWriter:
         raise ValueError(
             "Native force accounting V1 requires an unsplit small-displacement static deck."
         )
@@ -232,15 +339,11 @@ def prepare_request(writer):
             raise ValueError(
                 "Native equilibrium cuts require current CAD entity groups; regenerate the mesh."
             )
-        volumes = sorted(
-            {element for reference, group, sub in owned[0] for element in group}
-        )
+        volumes = sorted({element for reference, group, sub in owned[0] for element in group})
         cut = set()
         for reference, faces, sub in row["SectionPrintFaces"]:
             if not sub:
-                raise ValueError(
-                    "Native equilibrium cuts require solid element facets."
-                )
+                raise ValueError("Native equilibrium cuts require solid element facets.")
             for element, face in faces:
                 if element not in volumes:
                     raise ValueError(
@@ -259,9 +362,7 @@ def prepare_request(writer):
         )
         expected.append(("CUT", obj.Name))
     if not expected:
-        raise ValueError(
-            "No rigid support or NativeEquilibriumCut was selected for accounting."
-        )
+        raise ValueError("No rigid support or NativeEquilibriumCut was selected for accounting.")
     lines.append("END")
     path = Path(writer.file_name).with_suffix(".accounting")
     path.write_text("\n".join(lines) + "\n")
@@ -290,9 +391,7 @@ def parse_output(text, expected, end_time):
         or int(state[2]) < 1
         or not math.isclose(float(state[3]), end_time, rel_tol=1e-10, abs_tol=1e-12)
     ):
-        raise ValueError(
-            "Native accounting output is not at the requested final state."
-        )
+        raise ValueError("Native accounting output is not at the requested final state.")
     result = {kind: {} for kind in ("SUPPORT", "CUT", "LOAD", "CONTACT")}
     for row in lines[2:-1]:
         if len(row) != 8 or row[0] not in result or row[1] in result[row[0]]:
@@ -303,9 +402,7 @@ def parse_output(text, expected, end_time):
         result[row[0]][row[1]] = values
     actual = {(kind, name) for kind in ("SUPPORT", "CUT") for name in result[kind]}
     if actual != set(expected):
-        raise ValueError(
-            "Native accounting output identities differ from the current request."
-        )
+        raise ValueError("Native accounting output identities differ from the current request.")
     cuts = set(result["CUT"])
     if set(result["LOAD"]) != cuts or set(result["CONTACT"]) != cuts:
         raise ValueError("Native cut load/contact accounting is incomplete.")
@@ -337,17 +434,17 @@ def run_context(fea, binary):
         or metadata["request_sha256"] != _sha(path)
         or metadata["model_digest"] != _model_digest(fea.analysis, fea.mesh)
     ):
-        raise ValueError(
-            "Accounting inputs changed; rewrite the solver deck and request."
-        )
+        raise ValueError("Accounting inputs changed; rewrite the solver deck and request.")
     output = Path(str(path) + ".out")
     if output.exists():
         output.unlink()  # exact generated output, never an input or a project document
     environment = dict(os.environ)
     environment.pop("CCX_9ZT_DIAGNOSTIC", None)
     environment["CCX_FORCE_ACCOUNTING_REQUEST"] = str(path.resolve())
+    metadata = _RunMetadata(metadata)
     metadata["binary_sha256"] = _sha(binary)
     metadata["binary"] = str(Path(binary).resolve())
+    metadata.movement_run = _prepare_movement_run(fea.inp_file_name)
     return environment, metadata, output
 
 
@@ -373,6 +470,7 @@ def import_result(fea, context):
         metadata["end_time"],
     )
     metadata.update(
+        movement_source=_movement_source(metadata, fea.inp_file_name),
         wrenches=values,
         output_sha256=_sha(output),
         units="N and Nmm",
@@ -438,9 +536,7 @@ class _Observer:
             return
         for name in tuple(_reports.get(obj.Document.Name, ())):
             result = obj.Document.getObject(name)
-            if result is None or not getattr(result, "Status", "").startswith(
-                "Current"
-            ):
+            if result is None or not getattr(result, "Status", "").startswith("Current"):
                 continue
             metadata = json.loads(result.AccountingData or "{}")
             analysis = obj.Document.getObject(metadata.get("analysis", ""))
@@ -456,12 +552,8 @@ class _Observer:
         if obj.Document is not None and not _is_result(obj):
             for name in tuple(_reports.get(obj.Document.Name, ())):
                 result = obj.Document.getObject(name)
-                if result is not None and getattr(result, "Status", "").startswith(
-                    "Current"
-                ):
-                    result.Status = (
-                        "Stale after model deletion; rerun native accounting"
-                    )
+                if result is not None and getattr(result, "Status", "").startswith("Current"):
+                    result.Status = "Stale after model deletion; rerun native accounting"
 
     def slotDeletedDocument(self, doc):
         _reports.pop(doc.Name, None)

@@ -44,6 +44,7 @@
 #include <vtkFloatArray.h>
 #include <vtkHexahedron.h>
 #include <vtkIdList.h>
+#include <vtkIdTypeArray.h>
 #include <vtkLine.h>
 #include <vtkMultiBlockDataSet.h>
 #include <vtkPointData.h>
@@ -114,7 +115,12 @@ namespace
 
 // Helper function to fill vtkCellArray from SMDS_Mesh using vtk cell order
 template<typename T, typename E>
-void fillVtkArray(vtkSmartPointer<vtkCellArray>& elemArray, std::vector<int>& types, const E* elem)
+void fillVtkArray(
+    vtkSmartPointer<vtkCellArray>& elemArray,
+    std::vector<int>& types,
+    const E* elem,
+    vtkIdTypeArray* elementIds
+)
 {
     vtkSmartPointer<T> cell = vtkSmartPointer<T>::New();
     const std::vector<int>& order = SMDS_MeshCell::toVtkOrder(elem->GetEntityType());
@@ -130,6 +136,9 @@ void fillVtkArray(vtkSmartPointer<vtkCellArray>& elemArray, std::vector<int>& ty
     }
     elemArray->InsertNextCell(cell);
     types.push_back(SMDS_MeshCell::toVtkType(elem->GetEntityType()));
+    if (elementIds) {
+        elementIds->InsertNextValue(elem->GetID());
+    }
 }
 
 // Helper function to fill SMDS_Mesh elements ID from vtk cell
@@ -506,7 +515,8 @@ FemMesh* FemVTKTools::readVTKMesh(const char* filename, FemMesh* mesh, const cha
 void exportFemMeshVertices(
     vtkSmartPointer<vtkCellArray>& elemArray,
     std::vector<int>& types,
-    const SMDS_ElemIteratorPtr& aVertexIter
+    const SMDS_ElemIteratorPtr& aVertexIter,
+    vtkIdTypeArray* elementIds
 )
 {
     Base::Console().log("  Start: VTK mesh builder vertices.\n");
@@ -514,7 +524,7 @@ void exportFemMeshVertices(
     while (aVertexIter->more()) {
         const SMDS_MeshElement* aVertex = aVertexIter->next();
         if (aVertex->GetEntityType() == SMDSEntity_0D) {
-            fillVtkArray<vtkVertex>(elemArray, types, aVertex);
+            fillVtkArray<vtkVertex>(elemArray, types, aVertex, elementIds);
         }
         else {
             throw Base::TypeError("Vertex not yet supported by FreeCAD's VTK mesh builder\n");
@@ -527,7 +537,8 @@ void exportFemMeshVertices(
 void exportFemMeshEdges(
     vtkSmartPointer<vtkCellArray>& elemArray,
     std::vector<int>& types,
-    const SMDS_EdgeIteratorPtr& aEdgeIter
+    const SMDS_EdgeIteratorPtr& aEdgeIter,
+    vtkIdTypeArray* elementIds
 )
 {
     Base::Console().log("  Start: VTK mesh builder edges.\n");
@@ -536,11 +547,11 @@ void exportFemMeshEdges(
         const SMDS_MeshEdge* aEdge = aEdgeIter->next();
         // edge
         if (aEdge->GetEntityType() == SMDSEntity_Edge) {
-            fillVtkArray<vtkLine>(elemArray, types, aEdge);
+            fillVtkArray<vtkLine>(elemArray, types, aEdge, elementIds);
         }
         // quadratic edge
         else if (aEdge->GetEntityType() == SMDSEntity_Quad_Edge) {
-            fillVtkArray<vtkQuadraticEdge>(elemArray, types, aEdge);
+            fillVtkArray<vtkQuadraticEdge>(elemArray, types, aEdge, elementIds);
         }
         else {
             throw Base::TypeError("Edge not yet supported by FreeCAD's VTK mesh builder\n");
@@ -553,7 +564,8 @@ void exportFemMeshEdges(
 void exportFemMeshFaces(
     vtkSmartPointer<vtkCellArray>& elemArray,
     std::vector<int>& types,
-    const SMDS_FaceIteratorPtr& aFaceIter
+    const SMDS_FaceIteratorPtr& aFaceIter,
+    vtkIdTypeArray* elementIds
 )
 {
     Base::Console().log("  Start: VTK mesh builder faces.\n");
@@ -562,19 +574,19 @@ void exportFemMeshFaces(
         const SMDS_MeshFace* aFace = aFaceIter->next();
         // triangle
         if (aFace->GetEntityType() == SMDSEntity_Triangle) {
-            fillVtkArray<vtkTriangle>(elemArray, types, aFace);
+            fillVtkArray<vtkTriangle>(elemArray, types, aFace, elementIds);
         }
         // quad
         else if (aFace->GetEntityType() == SMDSEntity_Quadrangle) {
-            fillVtkArray<vtkQuad>(elemArray, types, aFace);
+            fillVtkArray<vtkQuad>(elemArray, types, aFace, elementIds);
         }
         // quadratic triangle
         else if (aFace->GetEntityType() == SMDSEntity_Quad_Triangle) {
-            fillVtkArray<vtkQuadraticTriangle>(elemArray, types, aFace);
+            fillVtkArray<vtkQuadraticTriangle>(elemArray, types, aFace, elementIds);
         }
         // quadratic quad
         else if (aFace->GetEntityType() == SMDSEntity_Quad_Quadrangle) {
-            fillVtkArray<vtkQuadraticQuad>(elemArray, types, aFace);
+            fillVtkArray<vtkQuadraticQuad>(elemArray, types, aFace, elementIds);
         }
         else {
             throw Base::TypeError("Face not yet supported by FreeCAD's VTK mesh builder\n");
@@ -587,7 +599,8 @@ void exportFemMeshFaces(
 void exportFemMeshCells(
     vtkSmartPointer<vtkCellArray>& elemArray,
     std::vector<int>& types,
-    const SMDS_VolumeIteratorPtr& aVolIter
+    const SMDS_VolumeIteratorPtr& aVolIter,
+    vtkIdTypeArray* elementIds
 )
 {
     Base::Console().log("  Start: VTK mesh builder volumes.\n");
@@ -596,28 +609,28 @@ void exportFemMeshCells(
         const SMDS_MeshVolume* aVol = aVolIter->next();
 
         if (aVol->GetEntityType() == SMDSEntity_Tetra) {  // tetra4
-            fillVtkArray<vtkTetra>(elemArray, types, aVol);
+            fillVtkArray<vtkTetra>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Pyramid) {  // pyra5
-            fillVtkArray<vtkPyramid>(elemArray, types, aVol);
+            fillVtkArray<vtkPyramid>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Penta) {  // penta6
-            fillVtkArray<vtkWedge>(elemArray, types, aVol);
+            fillVtkArray<vtkWedge>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Hexa) {  // hexa8
-            fillVtkArray<vtkHexahedron>(elemArray, types, aVol);
+            fillVtkArray<vtkHexahedron>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Quad_Tetra) {  // tetra10
-            fillVtkArray<vtkQuadraticTetra>(elemArray, types, aVol);
+            fillVtkArray<vtkQuadraticTetra>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Quad_Pyramid) {  // pyra13
-            fillVtkArray<vtkQuadraticPyramid>(elemArray, types, aVol);
+            fillVtkArray<vtkQuadraticPyramid>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Quad_Penta) {  // penta15
-            fillVtkArray<vtkQuadraticWedge>(elemArray, types, aVol);
+            fillVtkArray<vtkQuadraticWedge>(elemArray, types, aVol, elementIds);
         }
         else if (aVol->GetEntityType() == SMDSEntity_Quad_Hexa) {  // hexa20
-            fillVtkArray<vtkQuadraticHexahedron>(elemArray, types, aVol);
+            fillVtkArray<vtkQuadraticHexahedron>(elemArray, types, aVol, elementIds);
         }
         else {
             throw Base::TypeError("Volume not yet supported by FreeCAD's VTK mesh builder\n");
@@ -631,7 +644,8 @@ void FemVTKTools::exportVTKMesh(
     const FemMesh* mesh,
     vtkSmartPointer<vtkUnstructuredGrid> grid,
     bool highest,
-    float scale
+    float scale,
+    bool preserveIdentity
 )
 {
 
@@ -643,6 +657,10 @@ void FemVTKTools::exportVTKMesh(
     Base::Console().log("  Start: VTK mesh builder nodes.\n");
 
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    std::vector<vtkIdType> nativeNodeIds;
+    if (preserveIdentity) {
+        points->SetDataTypeToDouble();
+    }
     SMDS_NodeIteratorPtr aNodeIter = meshDS->nodesIterator();
 
     while (aNodeIter->more()) {
@@ -650,6 +668,9 @@ void FemVTKTools::exportVTKMesh(
         double coords[3]
             = {double(node->X() * scale), double(node->Y() * scale), double(node->Z() * scale)};
         points->InsertPoint(node->GetID() - 1, coords);
+        if (preserveIdentity) {
+            nativeNodeIds.push_back(node->GetID());
+        }
         // memory is allocated by VTK points size for max node id, not for point count
         // if the SMESH mesh has gaps in node numbering, points without any element
         // assignment will be inserted in these point gaps too
@@ -657,6 +678,24 @@ void FemVTKTools::exportVTKMesh(
         // are exported to vtk
     }
     grid->SetPoints(points);
+    if (preserveIdentity) {
+        auto nodeIds = vtkSmartPointer<vtkIdTypeArray>::New();
+        nodeIds->SetName("FreeCADNodeId");
+        nodeIds->SetNumberOfTuples(points->GetNumberOfPoints());
+        // SetValue also supports the older VTK versions accepted by CMake.
+        for (vtkIdType index = 0; index < points->GetNumberOfPoints(); ++index) {
+            nodeIds->SetValue(index, -1);
+        }
+        for (const vtkIdType nodeId : nativeNodeIds) {
+            nodeIds->SetValue(nodeId - 1, nodeId);
+        }
+        for (vtkIdType index = 0; index < points->GetNumberOfPoints(); ++index) {
+            if (nodeIds->GetValue(index) == -1) {
+                points->SetPoint(index, 0.0, 0.0, 0.0);
+            }
+        }
+        grid->GetPointData()->AddArray(nodeIds);
+    }
     // nodes debugging
     const SMDS_MeshInfo& info = meshDS->GetMeshInfo();
     Base::Console().log("    Size of nodes in SMESH grid: {}.\n", info.NbNodes());
@@ -666,45 +705,53 @@ void FemVTKTools::exportVTKMesh(
 
     vtkSmartPointer<vtkCellArray> elemArray = vtkSmartPointer<vtkCellArray>::New();
     std::vector<int> types;
+    vtkSmartPointer<vtkIdTypeArray> elementIds;
+    if (preserveIdentity) {
+        elementIds = vtkSmartPointer<vtkIdTypeArray>::New();
+        elementIds->SetName("FreeCADElementId");
+    }
 
     if (highest) {
         // try volumes
         SMDS_VolumeIteratorPtr aVolIter = meshDS->volumesIterator();
-        exportFemMeshCells(elemArray, types, aVolIter);
+        exportFemMeshCells(elemArray, types, aVolIter, elementIds);
         // try faces
         if (elemArray->GetNumberOfCells() == 0) {
             SMDS_FaceIteratorPtr aFaceIter = meshDS->facesIterator();
-            exportFemMeshFaces(elemArray, types, aFaceIter);
+            exportFemMeshFaces(elemArray, types, aFaceIter, elementIds);
         }
         // try edges
         if (elemArray->GetNumberOfCells() == 0) {
             SMDS_EdgeIteratorPtr aEdgeIter = meshDS->edgesIterator();
-            exportFemMeshEdges(elemArray, types, aEdgeIter);
+            exportFemMeshEdges(elemArray, types, aEdgeIter, elementIds);
         }
         // try vertices
         if (elemArray->GetNumberOfCells() == 0) {
             SMDS_ElemIteratorPtr aVertexIter = meshDS->elementsIterator(SMDSAbs_0DElement);
-            exportFemMeshVertices(elemArray, types, aVertexIter);
+            exportFemMeshVertices(elemArray, types, aVertexIter, elementIds);
         }
     }
     else {
         // export all elements
         // vertices
         SMDS_ElemIteratorPtr aVertexIter = meshDS->elementsIterator(SMDSAbs_0DElement);
-        exportFemMeshVertices(elemArray, types, aVertexIter);
+        exportFemMeshVertices(elemArray, types, aVertexIter, elementIds);
         // edges
         SMDS_EdgeIteratorPtr aEdgeIter = meshDS->edgesIterator();
-        exportFemMeshEdges(elemArray, types, aEdgeIter);
+        exportFemMeshEdges(elemArray, types, aEdgeIter, elementIds);
         // faces
         SMDS_FaceIteratorPtr aFaceIter = meshDS->facesIterator();
-        exportFemMeshFaces(elemArray, types, aFaceIter);
+        exportFemMeshFaces(elemArray, types, aFaceIter, elementIds);
         // volumes
         SMDS_VolumeIteratorPtr aVolIter = meshDS->volumesIterator();
-        exportFemMeshCells(elemArray, types, aVolIter);
+        exportFemMeshCells(elemArray, types, aVolIter, elementIds);
     }
 
     if (elemArray->GetNumberOfCells() > 0) {
         grid->SetCells(types.data(), elemArray);
+    }
+    if (preserveIdentity) {
+        grid->GetCellData()->AddArray(elementIds);
     }
 
     Base::Console().log("End: VTK mesh builder ======================\n");

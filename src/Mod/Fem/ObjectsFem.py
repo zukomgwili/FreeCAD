@@ -346,10 +346,12 @@ def makeConstraintSectionPrint(doc, name="SectionPrint"):
 def makeConstraintElasticConnector(doc, name="ElasticConnector"):
     """Create a concentrated translational connector; enter stiffness explicitly."""
     from femobjects.constraint_elastic_connector import ConstraintElasticConnector
+
     obj = doc.addObject("Fem::FeaturePython", name)
     ConstraintElasticConnector(obj)
     if FreeCAD.GuiUp:
         from femviewprovider.view_constraint_elastic_connector import VPConstraintElasticConnector
+
         VPConstraintElasticConnector(obj.ViewObject)
     return obj
 
@@ -759,6 +761,38 @@ def makeResultMechanical(doc, name="ResultMechanical"):
         from femviewprovider import view_result_mechanical
 
         view_result_mechanical.VPResultMechanical(obj.ViewObject)
+    return obj
+
+
+def makeResultContactObservation(
+    doc, analysis=None, accounting_result=None, contacts=(), name="ContactSideObservation"
+):
+    """Create editable, saved owner-specific contact displacement observations.
+
+    The result reports independently owned side vectors, not contact-law CDIS
+    or structural acceptance. Refresh validates the original solver source.
+    """
+    from femobjects.result_contact_observation import ContactObservationResult
+
+    contacts = list(contacts)
+    if any(item.Document != doc for item in (analysis, accounting_result, *contacts) if item):
+        raise ValueError("Contact observation inputs must belong to the target document")
+    if analysis and not analysis.isDerivedFrom("Fem::FemAnalysis"):
+        raise ValueError("Select a native FEM analysis")
+    obj = doc.addObject("App::FeaturePython", name)
+    ContactObservationResult(obj)
+    obj.Analysis = analysis
+    obj.AccountingResult = accounting_result
+    obj.Contacts = contacts
+    if analysis:
+        analysis.addObject(obj)
+        meshes = [item for item in analysis.Group if item.isDerivedFrom("Fem::FemMeshObject")]
+        if len(meshes) == 1:
+            obj.Mesh = meshes[0]
+    if FreeCAD.GuiUp:
+        from femviewprovider.view_contact_observation import VPContactObservation
+
+        VPContactObservation(obj.ViewObject)
     return obj
 
 

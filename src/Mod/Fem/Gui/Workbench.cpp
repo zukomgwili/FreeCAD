@@ -181,7 +181,8 @@ Gui::ToolBarItem* Workbench::setupToolBars() const
     Gui::ToolBarItem* results = new Gui::ToolBarItem(root);
     results->setCommand("Results");
     *results << "FEM_ResultsPurge"
-             << "FEM_ResultShow";
+             << "FEM_ResultShow"
+             << "FEM_ResultContactObservation";
 #ifdef FC_USE_VTK
     *results << "Separator"
              << "FEM_PostApplyChanges"
@@ -335,7 +336,8 @@ Gui::MenuItem* Workbench::setupMenuBar() const
     root->insertItem(item, results);
     results->setCommand("&Results");
     *results << "FEM_ResultsPurge"
-             << "FEM_ResultShow";
+             << "FEM_ResultShow"
+             << "FEM_ResultContactObservation";
 #ifdef FC_USE_VTK
     *results << "Separator"
              << "FEM_PostApplyChanges"

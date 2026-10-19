@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "issue": "FreeCAD-927",
+  "date": "2026-10-19",
+  "status": "IMPLEMENTED; RETAINED_FIXTURE_QUALIFICATION_PENDING",
+  "parent_commit": "4951ed07750aecfad1d2f19f7ae6a619e5f9027e",
+  "human_interface_choice": "Saved contact-side observation result",
+  "interface": {
+    "factory": "ObjectsFem.makeResultContactObservation",
+    "native_type": "App::FeaturePython",
+    "fem_type": "Fem::ContactSideObservation",
+    "gui_command": "FEM_ResultContactObservation",
+    "inputs": ["Analysis", "Mesh", "AccountingResult", "Contacts", "SlaveVertex"],
+    "actions": ["Proxy.refresh", "Proxy.getObservations"],
+    "refresh": "Explicit only; ordinary recompute never qualifies a source",
+    "outputs": "Literal independently owned XYZ vectors in mm, original IDs, native locations, slave reference frame and source provenance; no engineering verdict"
+  },
+  "implementation": [
+    "Detached native double-coordinate FemMesh.toVTK with actual original node/element ID arrays; unchanged legacy export defaults",
+    "Exact native CAD/mesh ownership and original-node shortcut; guarded native VTK surface probing only when no coincident original node exists",
+    "Strict native parametric and reconstructed world-residual guards, validity and complete finite vectors; no snapping, extrapolation, zero-fill or custom shape functions",
+    "Complete trace/topology checks distinguish connected consistent edges from independent overlapping owners",
+    "Fresh run-produced FRD custody through the ordinary runner, with old generated FRD preserved recoverably rather than reused as current",
+    "Original-ID native FRD decoder behind strict original geometry, exact ordered Tet4/Tet10 topology, final static frame/time, global XYZ and unchanged file/model bindings",
+    "Initial node adjustment, local output, includes, unsupported states and incomplete/ambiguous fields remain unavailable",
+    "Per-call file identities across decoding reject a changed source even when its original bytes are restored before final hashing",
+    "Cold restoration preserves literal history as Historical; changed native IDs are not remapped. A fresh ordinary solve and explicit source relink restore availability"
+  ],
+  "candidate_runtime": {
+    "binary": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCADCmd",
+    "compiled_commit": "4951ed07750aecfad1d2f19f7ae6a619e5f9027e",
+    "revision": "49261 +207 (Git)",
+    "qualification": "Dirty implementation candidate, not final clean-source build",
+    "profiles": "Fresh task-specific private profiles; installed application and user profiles untouched"
+  },
+  "candidate_checks": [
+    {
+      "suite": "TestFemApp",
+      "tests": 368,
+      "result": "PASS",
+      "test_seconds": 35.648,
+      "supervisor_seconds": 42.59148987499066,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false,
+      "log_sha256": "de37d0fab00faf64a467fda782ef1191ca5842bae1ed6379260437b86fce939d",
+      "receipt": "/private/tmp/freecad-927-source.9KQEzZ/fem-all-candidate/execution.json"
+    },
+    {
+      "suite": "TestFemGui",
+      "tests": 7,
+      "result": "PASS",
+      "test_seconds": 2.650,
+      "supervisor_seconds": 4.101433791220188,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false,
+      "log_sha256": "b84a6ad7ab922cde85ae9286817a7ea2025842612e136240f6e8cfd0bf212512",
+      "receipt": "/private/tmp/freecad-927-source.9KQEzZ/fem-gui-all-candidate/execution.json"
+    },
+    {
+      "suite": "Native material CTest regressions",
+      "tests": 38,
+      "result": "PASS",
+      "wall_seconds": 3.35,
+      "log": "/private/tmp/freecad-927-source.9KQEzZ/material-ctest.log"
+    }
+  ],
+  "red_to_green_evidence": {
+    "root": "/private/tmp/freecad-927-source.9KQEzZ",
+    "native_mesh_adapter": "/private/tmp/freecad-927-vtk-adapter.U28bMD",
+    "source_and_producer": "/private/tmp/freecad-927-movement.qd7nSP",
+    "native_gui": "/private/tmp/freecad-927-gui.OzC9Uv",
+    "description": "Missing factory, missing command, nonconformal backend, legacy-source availability, dependency cycle, implicit recompute refresh, native failure escape and changed-then-restored file regressions were retained separately from corrected harness/API attempts"
+  },
+  "independent_reviews": {
+    "backend": "Ownership, original-ID data, explicit refresh, source revalidation and history reviewed. Native exception withdrawal and changed-then-restored source custody findings addressed",
+    "native_adapter": "Standards/spec review of all four adapter files. Older-VTK FillValue incompatibility replaced with exact SetValue loop; no outstanding findings. Review was single-agent because all slots were occupied; main independently inspected the diff and tests",
+    "compatibility_source": "https://raw.githubusercontent.com/Kitware/VTK/v6.2.0/Common/Core/vtkDataArrayTemplate.h",
+    "compatibility_limit": "VTK 6.2 was source-reviewed, not built locally"
+  },
+  "discovered_issue": "FreeCAD-cac: exact dotted CalculiX deck basename; fixed and regression-tested",
+  "scope": {
+    "application_installed": false,
+    "installed_app_changed": false,
+    "original_model_changed": false,
+    "original_fixture_displacement_read": false,
+    "retained_97_location_response_qualification": "Pending fresh ordinary native run on private unchanged-configuration copy",
+    "engineering_acceptance": false,
+    "oomakhi_historical_method_amended": false,
+    "physical_or_acceptance_tolerances_changed": false
+  },
+  "privacy": "No original CAD/mesh/configuration, displacement report body, solver executable or user-profile contents published. Immutable source commit retains the implementation; private native test evidence remains separate."
+}

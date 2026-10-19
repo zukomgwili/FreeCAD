@@ -259,6 +259,7 @@ SET(FemObjects_SRCS
     femobjects/mesh_tfvolume.py
     femobjects/mesh_result.py
     femobjects/result_mechanical.py
+    femobjects/result_contact_observation.py
     femobjects/solver_calculix.py
     femobjects/solver_ccxtools.py
     femobjects/solver_elmer.py
@@ -280,6 +281,9 @@ endif(BUILD_FEM_VTK_PYTHON)
 
 SET(FemResult_SRCS
     femresult/__init__.py
+    femresult/contact_observation.py
+    femresult/contact_observation_source.py
+    femresult/owned_probe.py
     femresult/resulttools.py
 )
 
@@ -413,6 +417,12 @@ SET(FemTestsApp_SRCS
     femtest/app/support_utils.py
     femtest/app/test_ccxtools.py
     femtest/app/test_force_accounting.py
+    femtest/app/test_contact_observation.py
+    femtest/app/test_contact_observation_source.py
+    femtest/app/test_contact_observation_native.py
+    femtest/app/test_movement_provenance.py
+    femtest/app/test_mesh_vtk_identity.py
+    femtest/app/test_owned_probe.py
     femtest/app/test_common.py
     femtest/app/test_femimport.py
     femtest/app/test_material.py
@@ -788,6 +798,7 @@ endif(BUILD_FEM_VTK_PYTHON)
 SET(FemGuiTests_SRCS
     femtest/gui/__init__.py
     femtest/gui/test_open.py
+    femtest/gui/test_contact_observation.py
 )
 
 SET(FemGuiUtils_SRCS
@@ -850,6 +861,7 @@ SET(FemGuiViewProvider_SRCS
     femviewprovider/view_mesh_tfvolume.py
     femviewprovider/view_mesh_result.py
     femviewprovider/view_result_mechanical.py
+    femviewprovider/view_contact_observation.py
     femviewprovider/view_solver_calculix.py
     femviewprovider/view_solver_ccxtools.py
     femviewprovider/view_solver_elmer.py
