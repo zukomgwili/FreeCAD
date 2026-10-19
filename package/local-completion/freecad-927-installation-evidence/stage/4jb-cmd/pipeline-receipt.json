@@ -1,0 +1,84 @@
+{
+  "analysis": "Analysis",
+  "binary": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+  "deck_sha256": "19e9acf0a3551a310560608baee8bf2c228b0db97928517acc21c3cc874fa849",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "Support"
+    ],
+    [
+      "CUT",
+      "SectionPrint"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; native-load/contact equilibrium-derived cut",
+  "model_digest": "87e5d171f496dc23e566350e1f756ebc9c48c095faad92ebb7a349b6999d25f4",
+  "movement_source": {
+    "binary": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+    "deck": "/private/tmp/freecad-927-install.O8eMXG/stage-4jb-cmd/native-accounting-yfarmk2i/Mesh.inp",
+    "deck_sha256": "19e9acf0a3551a310560608baee8bf2c228b0db97928517acc21c3cc874fa849",
+    "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+    "model_digest": "87e5d171f496dc23e566350e1f756ebc9c48c095faad92ebb7a349b6999d25f4",
+    "path": "/private/tmp/freecad-927-install.O8eMXG/stage-4jb-cmd/native-accounting-yfarmk2i/Mesh.frd",
+    "request": "/private/tmp/freecad-927-install.O8eMXG/stage-4jb-cmd/native-accounting-yfarmk2i/Mesh.accounting",
+    "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+    "requested_end_time": 1.0,
+    "schema": "FREECAD_MOVEMENT_SOURCE_V1",
+    "sha256": "5a90a445fa4338d9fad04920acf52f4525506746611f5f04d22aae258e960e6c",
+    "status": "BOUND",
+    "time_basis": "Requested final static time; field reader must verify actual FRD state"
+  },
+  "output_sha256": "e40adc2a036213b20d4e372c2ce28898cb458164ad5df814ea379e59601c71e6",
+  "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "SectionPrint": [
+        -2.8661242955387653e-15,
+        -4.021573400708586e-15,
+        100.15502253090214,
+        500.7751126450327,
+        -500.7751126443349,
+        -2.8345132308044876e-15
+      ]
+    },
+    "CUT": {
+      "SectionPrint": [
+        2.8661242955387653e-15,
+        4.021573400708586e-15,
+        -100.07747252336715,
+        -500.3873626073577,
+        500.3873626066599,
+        2.8345132308044876e-15
+      ]
+    },
+    "LOAD": {
+      "SectionPrint": [
+        0.0,
+        0.0,
+        -0.07755000753500071,
+        -0.38775003767500377,
+        0.38775003767500327,
+        0.0
+      ]
+    },
+    "SUPPORT": {
+      "Support": [
+        -2.8661242955387685e-15,
+        -4.0215734007085886e-15,
+        100.23249506590203,
+        501.1624752990898,
+        -501.1624753240452,
+        -2.83451323260361e-15
+      ]
+    }
+  }
+}

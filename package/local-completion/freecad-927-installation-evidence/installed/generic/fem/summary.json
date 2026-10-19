@@ -1,0 +1,54 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "resources": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "fem",
+  "expected_commit": "f0c43f0a9368eaab7d469d825d1a3e75bff90903",
+  "expected_revision": "49261 +213 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "TestFemApp"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "-u",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-fem/user.cfg",
+    "-s",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-fem/system.cfg",
+    "-P",
+    "/private/tmp/freecad-927-install.O8eMXG",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "TestFemApp"
+  ],
+  "identity_report": "/private/tmp/freecad-927-install.O8eMXG/installed-fem/identity.json",
+  "log": "/private/tmp/freecad-927-install.O8eMXG/installed-fem/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {},
+  "cold_inputs_sha256_before": {},
+  "pid": 38623,
+  "exit_code": 0,
+  "unittest": {
+    "run": 374,
+    "seconds": 55.378,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "TestFemApp": 373
+  },
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {},
+  "cold_inputs_sha256_after": {},
+  "elapsed_seconds": 59.347
+}

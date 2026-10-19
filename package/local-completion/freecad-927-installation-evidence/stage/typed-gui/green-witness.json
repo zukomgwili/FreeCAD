@@ -1,0 +1,1362 @@
+{
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +213 (Git)",
+    "Unknown",
+    "2026/10/19 17:20:12",
+    "codex/fix-toroidal-self-cut",
+    "f0c43f0a9368eaab7d469d825d1a3e75bff90903"
+  ],
+  "stock_model_uuid": "2afbba4b-55c0-4c4a-a6dc-4f5716cc5571",
+  "runtime_identity_start": {
+    "version": [
+      "27",
+      "1",
+      "0",
+      "49261 +213 (Git)",
+      "Unknown",
+      "2026/10/19 17:20:12",
+      "codex/fix-toroidal-self-cut",
+      "f0c43f0a9368eaab7d469d825d1a3e75bff90903"
+    ],
+    "application": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app",
+    "phase": "stage",
+    "module_images": [
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+        "sha256": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+        "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so",
+        "sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+        "sha256": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f"
+      }
+    ],
+    "manifest_sha256": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+  },
+  "property": "ElasticProperties",
+  "loaded_material_images": [
+    {
+      "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+      "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+    },
+    {
+      "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so",
+      "sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d"
+    }
+  ],
+  "Materials_module": {
+    "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+    "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+  },
+  "protected_sha256_before": {
+    "/private/tmp/freecad-927-install.O8eMXG/typed/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.so": "cd1d66ceef0b1bded3d6e0334c22b7fbd298f1df359cf2b2bf49ee4acb854a86",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-compile.log": "1c34616b45bcd9e778e2d068c3846f326eaf760495a4ca617de582d5806a80c8",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-links.txt": "b04fcb20349adb780f0d37ad5bc9d5216b4e80f4128d82b1a42873829b164f07",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/LOCAL-INSTALL.txt": "3f130ff2385aee5e56a98a6025fdc5776cae3351d012a1a1489878e74ed87ecd",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Info.plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/_CodeSignature/CodeResources": "2cbba0dbd688d39f4634a60b4e6e275ddc01f6675333c7f09ab848a8364ddc7f",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD": "33715c3e9899d82ca1c1f192e88169876071246c432926bedd05c7b49e50dbec",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/native_properties.py": "cc049d67d4289a9055094c32a52ca49ff171059e4689ab346b6701d73fa3395a",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py": "1f70995650486f07b886229e4ee0a684d08e084471680335b658a39c4e34a708",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py": "0abb379b924889d155f706810ceca26fc24765d5ae2898d0084b393c83be2cf5",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/runtime.json": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+  },
+  "bridge": "readonly copy of existing native GUI-owned Material; no cell replacement",
+  "persistence": {
+    "assessed": true,
+    "verdict": "PASS",
+    "actual_scope": {
+      "output": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui",
+      "user_app_data_dir": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data",
+      "user_library": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/Material",
+      "material_libraries": [
+        {
+          "name": "System",
+          "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/share/Mod/Material/Resources/Materials"
+        },
+        {
+          "name": "User",
+          "path": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/Material"
+        }
+      ],
+      "native_config": {
+        "UserAppData": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/",
+        "UserHomePath": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_home",
+        "UserParameter": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/user.cfg",
+        "SystemParameter": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/system.cfg",
+        "AppHomePath": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/",
+        "ExeName": "FreeCAD",
+        "BinPath": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/"
+      },
+      "private_environment": {
+        "FREECAD_USER_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_home",
+        "FREECAD_USER_DATA": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data",
+        "FREECAD_USER_TEMP": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_temp",
+        "XDG_CONFIG_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/xdg_config_home",
+        "XDG_DATA_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/xdg_data_home",
+        "XDG_CACHE_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/xdg_cache_home"
+      }
+    },
+    "producer_sha256_before": {
+      "/private/tmp/freecad-927-install.O8eMXG/typed/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.so": "cd1d66ceef0b1bded3d6e0334c22b7fbd298f1df359cf2b2bf49ee4acb854a86",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-compile.log": "1c34616b45bcd9e778e2d068c3846f326eaf760495a4ca617de582d5806a80c8",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-links.txt": "b04fcb20349adb780f0d37ad5bc9d5216b4e80f4128d82b1a42873829b164f07",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/LOCAL-INSTALL.txt": "3f130ff2385aee5e56a98a6025fdc5776cae3351d012a1a1489878e74ed87ecd",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Info.plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/_CodeSignature/CodeResources": "2cbba0dbd688d39f4634a60b4e6e275ddc01f6675333c7f09ab848a8364ddc7f",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD": "33715c3e9899d82ca1c1f192e88169876071246c432926bedd05c7b49e50dbec",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/native_properties.py": "cc049d67d4289a9055094c32a52ca49ff171059e4689ab346b6701d73fa3395a",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py": "1f70995650486f07b886229e4ee0a684d08e084471680335b658a39c4e34a708",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py": "0abb379b924889d155f706810ceca26fc24765d5ae2898d0084b393c83be2cf5",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/runtime.json": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+    },
+    "gui_precision_fixture": {
+      "0": 301.1234567890123,
+      "1": 1000.1234567890123,
+      "2": 0.314159,
+      "3": 2000.2345678901233,
+      "4": 3000.3456789012344
+    },
+    "fcstd_semantics": "UUID lookup into saved available private User library; not embedded unsaved material",
+    "null_fixture_origin": "Separate documented public Array2D.Columns/Rows setters; not GUI-authored nulls",
+    "public_manager_save_refresh_exact": true,
+    "same_process_fcstd_uuid_library_restore_exact": true,
+    "same_process_fem_hashes_exact": true,
+    "source_material_before_card_save": {
+      "canonical": {
+        "native_material": {
+          "UUID": "086cef1d-1384-4bf5-baa1-1c6db950c1e2",
+          "Name": "Unnamed",
+          "Directory": "",
+          "Parent": "",
+          "Description": "",
+          "URL": "",
+          "Reference": "",
+          "Author": "",
+          "License": "All rights reserved"
+        },
+        "tags": [],
+        "physical_models": [
+          "2afbba4b-55c0-4c4a-a6dc-4f5716cc5571"
+        ],
+        "appearance_models": [],
+        "declarations": {
+          "ElasticProperties": {
+            "name": "ElasticProperties",
+            "type": "2DArray",
+            "units": "",
+            "inheritance": "",
+            "inherited": false,
+            "columns": [
+              {
+                "name": "Temperature",
+                "type": "Quantity",
+                "units": "C",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "BulkModulus",
+                "type": "Quantity",
+                "units": "kPa",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "PoissonRatio",
+                "type": "Float",
+                "units": "",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "ShearModulus",
+                "type": "Quantity",
+                "units": "kPa",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "YoungsModulus",
+                "type": "Quantity",
+                "units": "kPa",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              }
+            ],
+            "empty": false
+          }
+        },
+        "physical": {
+          "ElasticProperties": {
+            "array2d": [
+              [
+                {
+                  "quantity": {
+                    "float": "0x1.2d1f9add3746fp+8"
+                  },
+                  "unit": [
+                    0,
+                    0,
+                    1,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "quantity": {
+                    "float": "0x1.f40fcd6e9ba37p+9"
+                  },
+                  "unit": [
+                    -1,
+                    1,
+                    -2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "float": "0x1.4b5f5f0b28523p-3"
+                },
+                {
+                  "quantity": {
+                    "float": "0x1.f40f03290a316p+10"
+                  },
+                  "unit": [
+                    -1,
+                    1,
+                    -2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "quantity": {
+                    "float": "0x1.770b0fcd32f70p+11"
+                  },
+                  "unit": [
+                    -1,
+                    1,
+                    -2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            ],
+            "rows": 1,
+            "columns": 5
+          }
+        },
+        "appearance": {},
+        "legacy": {}
+      },
+      "sha256": "f5a7d66a1cca53815d4f924f7e45fde63d132d26e61c930ead568f9506f72d18"
+    },
+    "saved_material_identity": {
+      "canonical": {
+        "native_material": {
+          "UUID": "d8b45985-b4ba-4b62-b1dd-760b45097155",
+          "Name": "GuiCreated",
+          "Directory": "",
+          "Parent": "",
+          "Description": "",
+          "URL": "",
+          "Reference": "",
+          "Author": "",
+          "License": "All rights reserved"
+        },
+        "tags": [],
+        "physical_models": [
+          "2afbba4b-55c0-4c4a-a6dc-4f5716cc5571"
+        ],
+        "appearance_models": [],
+        "declarations": {
+          "ElasticProperties": {
+            "name": "ElasticProperties",
+            "type": "2DArray",
+            "units": "",
+            "inheritance": "",
+            "inherited": false,
+            "columns": [
+              {
+                "name": "Temperature",
+                "type": "Quantity",
+                "units": "C",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "BulkModulus",
+                "type": "Quantity",
+                "units": "kPa",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "PoissonRatio",
+                "type": "Float",
+                "units": "",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "ShearModulus",
+                "type": "Quantity",
+                "units": "kPa",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              },
+              {
+                "name": "YoungsModulus",
+                "type": "Quantity",
+                "units": "kPa",
+                "inheritance": "",
+                "inherited": false,
+                "columns": []
+              }
+            ],
+            "empty": false
+          }
+        },
+        "physical": {
+          "ElasticProperties": {
+            "array2d": [
+              [
+                {
+                  "quantity": {
+                    "float": "0x1.2d1f9add3746fp+8"
+                  },
+                  "unit": [
+                    0,
+                    0,
+                    1,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "quantity": {
+                    "float": "0x1.f40fcd6e9ba37p+9"
+                  },
+                  "unit": [
+                    -1,
+                    1,
+                    -2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "float": "0x1.4b5f5f0b28523p-3"
+                },
+                {
+                  "quantity": {
+                    "float": "0x1.f40f03290a316p+10"
+                  },
+                  "unit": [
+                    -1,
+                    1,
+                    -2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "quantity": {
+                    "float": "0x1.770b0fcd32f70p+11"
+                  },
+                  "unit": [
+                    -1,
+                    1,
+                    -2,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            ],
+            "rows": 1,
+            "columns": 5
+          }
+        },
+        "appearance": {},
+        "legacy": {}
+      },
+      "sha256": "b16c896345d592f75715696c657eeed532eb8783094462eff17ee222c8530a54"
+    },
+    "producer_sha256_after": {
+      "/private/tmp/freecad-927-install.O8eMXG/typed/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.so": "cd1d66ceef0b1bded3d6e0334c22b7fbd298f1df359cf2b2bf49ee4acb854a86",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-compile.log": "1c34616b45bcd9e778e2d068c3846f326eaf760495a4ca617de582d5806a80c8",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-links.txt": "b04fcb20349adb780f0d37ad5bc9d5216b4e80f4128d82b1a42873829b164f07",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/LOCAL-INSTALL.txt": "3f130ff2385aee5e56a98a6025fdc5776cae3351d012a1a1489878e74ed87ecd",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Info.plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/_CodeSignature/CodeResources": "2cbba0dbd688d39f4634a60b4e6e275ddc01f6675333c7f09ab848a8364ddc7f",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD": "33715c3e9899d82ca1c1f192e88169876071246c432926bedd05c7b49e50dbec",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/native_properties.py": "cc049d67d4289a9055094c32a52ca49ff171059e4689ab346b6701d73fa3395a",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py": "1f70995650486f07b886229e4ee0a684d08e084471680335b658a39c4e34a708",
+      "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py": "0abb379b924889d155f706810ceca26fc24765d5ae2898d0084b393c83be2cf5",
+      "/private/tmp/freecad-927-install.O8eMXG/typed/stage/runtime.json": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+    },
+    "cases": {
+      "scope": {
+        "output": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui",
+        "user_app_data_dir": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data",
+        "user_library": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/Material",
+        "material_libraries": [
+          {
+            "name": "System",
+            "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/share/Mod/Material/Resources/Materials"
+          },
+          {
+            "name": "User",
+            "path": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/Material"
+          }
+        ],
+        "native_config": {
+          "UserAppData": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/",
+          "UserHomePath": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_home",
+          "UserParameter": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/user.cfg",
+          "SystemParameter": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/system.cfg",
+          "AppHomePath": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/",
+          "ExeName": "FreeCAD",
+          "BinPath": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/"
+        },
+        "private_environment": {
+          "FREECAD_USER_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_home",
+          "FREECAD_USER_DATA": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data",
+          "FREECAD_USER_TEMP": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_temp",
+          "XDG_CONFIG_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/xdg_config_home",
+          "XDG_DATA_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/xdg_data_home",
+          "XDG_CACHE_HOME": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/xdg_cache_home"
+        }
+      },
+      "producer_sha256": {
+        "/private/tmp/freecad-927-install.O8eMXG/typed/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.so": "cd1d66ceef0b1bded3d6e0334c22b7fbd298f1df359cf2b2bf49ee4acb854a86",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-compile.log": "1c34616b45bcd9e778e2d068c3846f326eaf760495a4ca617de582d5806a80c8",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-links.txt": "b04fcb20349adb780f0d37ad5bc9d5216b4e80f4128d82b1a42873829b164f07",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/LOCAL-INSTALL.txt": "3f130ff2385aee5e56a98a6025fdc5776cae3351d012a1a1489878e74ed87ecd",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Info.plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/_CodeSignature/CodeResources": "2cbba0dbd688d39f4634a60b4e6e275ddc01f6675333c7f09ab848a8364ddc7f",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD": "33715c3e9899d82ca1c1f192e88169876071246c432926bedd05c7b49e50dbec",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/native_properties.py": "cc049d67d4289a9055094c32a52ca49ff171059e4689ab346b6701d73fa3395a",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py": "1f70995650486f07b886229e4ee0a684d08e084471680335b658a39c4e34a708",
+        "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py": "0abb379b924889d155f706810ceca26fc24765d5ae2898d0084b393c83be2cf5",
+        "/private/tmp/freecad-927-install.O8eMXG/typed/stage/runtime.json": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+      },
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +213 (Git)",
+        "Unknown",
+        "2026/10/19 17:20:12",
+        "codex/fix-toroidal-self-cut",
+        "f0c43f0a9368eaab7d469d825d1a3e75bff90903"
+      ],
+      "materials_module": {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+        "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+      },
+      "runtime_identity": {
+        "version": [
+          "27",
+          "1",
+          "0",
+          "49261 +213 (Git)",
+          "Unknown",
+          "2026/10/19 17:20:12",
+          "codex/fix-toroidal-self-cut",
+          "f0c43f0a9368eaab7d469d825d1a3e75bff90903"
+        ],
+        "application": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app",
+        "phase": "stage",
+        "module_images": [
+          {
+            "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+            "sha256": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44"
+          },
+          {
+            "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+            "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+          },
+          {
+            "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so",
+            "sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d"
+          },
+          {
+            "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+            "sha256": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f"
+          }
+        ],
+        "manifest_sha256": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+      },
+      "gui_material": {
+        "uuid": "d8b45985-b4ba-4b62-b1dd-760b45097155",
+        "typed_array": [
+          [
+            {
+              "type": "Quantity",
+              "value_hex": "0x1.2d1f9add3746fp+8",
+              "unit_signature": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "type": "Quantity",
+              "value_hex": "0x1.f40fcd6e9ba37p+9",
+              "unit_signature": [
+                -1,
+                1,
+                -2,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "type": "float",
+              "value_hex": "0x1.4b5f5f0b28523p-3"
+            },
+            {
+              "type": "Quantity",
+              "value_hex": "0x1.f40f03290a316p+10",
+              "unit_signature": [
+                -1,
+                1,
+                -2,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "type": "Quantity",
+              "value_hex": "0x1.770b0fcd32f70p+11",
+              "unit_signature": [
+                -1,
+                1,
+                -2,
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        ],
+        "identity": {
+          "canonical": {
+            "native_material": {
+              "UUID": "d8b45985-b4ba-4b62-b1dd-760b45097155",
+              "Name": "GuiCreated",
+              "Directory": "",
+              "Parent": "",
+              "Description": "",
+              "URL": "",
+              "Reference": "",
+              "Author": "",
+              "License": "All rights reserved"
+            },
+            "tags": [],
+            "physical_models": [
+              "2afbba4b-55c0-4c4a-a6dc-4f5716cc5571"
+            ],
+            "appearance_models": [],
+            "declarations": {
+              "ElasticProperties": {
+                "name": "ElasticProperties",
+                "type": "2DArray",
+                "units": "",
+                "inheritance": "",
+                "inherited": false,
+                "columns": [
+                  {
+                    "name": "Temperature",
+                    "type": "Quantity",
+                    "units": "C",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "BulkModulus",
+                    "type": "Quantity",
+                    "units": "kPa",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "PoissonRatio",
+                    "type": "Float",
+                    "units": "",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "ShearModulus",
+                    "type": "Quantity",
+                    "units": "kPa",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "YoungsModulus",
+                    "type": "Quantity",
+                    "units": "kPa",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  }
+                ],
+                "empty": false
+              }
+            },
+            "physical": {
+              "ElasticProperties": {
+                "array2d": [
+                  [
+                    {
+                      "quantity": {
+                        "float": "0x1.2d1f9add3746fp+8"
+                      },
+                      "unit": [
+                        0,
+                        0,
+                        1,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0
+                      ]
+                    },
+                    {
+                      "quantity": {
+                        "float": "0x1.f40fcd6e9ba37p+9"
+                      },
+                      "unit": [
+                        -1,
+                        1,
+                        -2,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                      ]
+                    },
+                    {
+                      "float": "0x1.4b5f5f0b28523p-3"
+                    },
+                    {
+                      "quantity": {
+                        "float": "0x1.f40f03290a316p+10"
+                      },
+                      "unit": [
+                        -1,
+                        1,
+                        -2,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                      ]
+                    },
+                    {
+                      "quantity": {
+                        "float": "0x1.770b0fcd32f70p+11"
+                      },
+                      "unit": [
+                        -1,
+                        1,
+                        -2,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                      ]
+                    }
+                  ]
+                ],
+                "rows": 1,
+                "columns": 5
+              }
+            },
+            "appearance": {},
+            "legacy": {}
+          },
+          "sha256": "b16c896345d592f75715696c657eeed532eb8783094462eff17ee222c8530a54"
+        },
+        "card": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/Material/GuiCreated.FCMat",
+        "document": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/NativeGuiArrayFEM.FCStd",
+        "document_name": "NativeGuiArrayFEM",
+        "fem_hashes": {
+          "model_digest": "75914165afa3a7404275d16e3e145c2f5ba5363d7ed46ffeabbe616f249aa88c",
+          "quality_input_fingerprint": "2dd185e79424e8b5f67631db40909233bef8bb396cbddb15f0ac48c242cd5e9f"
+        },
+        "card_sha256": "0613f31c25e9fb154a5daf203eb1a3ab6dd436775ddc7e31e04fa492c5937a37",
+        "document_sha256": "c3cdf1f84466233088c285f297eeab10ef4af8ad2d6b36a000cde1d00ae943c4"
+      },
+      "public_api_null_material": {
+        "uuid": "181d2b70-edef-4c22-a9e0-576d372809c1",
+        "typed_array": [
+          [
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            }
+          ],
+          [
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            },
+            {
+              "type": "NoneType",
+              "value": null
+            }
+          ]
+        ],
+        "identity": {
+          "canonical": {
+            "native_material": {
+              "UUID": "181d2b70-edef-4c22-a9e0-576d372809c1",
+              "Name": "PublicApiNullSeed",
+              "Directory": "",
+              "Parent": "",
+              "Description": "",
+              "URL": "",
+              "Reference": "",
+              "Author": "",
+              "License": ""
+            },
+            "tags": [],
+            "physical_models": [
+              "2afbba4b-55c0-4c4a-a6dc-4f5716cc5571"
+            ],
+            "appearance_models": [],
+            "declarations": {
+              "ElasticProperties": {
+                "name": "ElasticProperties",
+                "type": "2DArray",
+                "units": "",
+                "inheritance": "",
+                "inherited": false,
+                "columns": [
+                  {
+                    "name": "Temperature",
+                    "type": "Quantity",
+                    "units": "C",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "BulkModulus",
+                    "type": "Quantity",
+                    "units": "kPa",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "PoissonRatio",
+                    "type": "Float",
+                    "units": "",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "ShearModulus",
+                    "type": "Quantity",
+                    "units": "kPa",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  },
+                  {
+                    "name": "YoungsModulus",
+                    "type": "Quantity",
+                    "units": "kPa",
+                    "inheritance": "",
+                    "inherited": false,
+                    "columns": []
+                  }
+                ],
+                "empty": false
+              }
+            },
+            "physical": {
+              "ElasticProperties": {
+                "array2d": [
+                  [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ],
+                  [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+                ],
+                "rows": 2,
+                "columns": 5
+              }
+            },
+            "appearance": {},
+            "legacy": {}
+          },
+          "sha256": "91118ee240f7260c01374b2fa6f8dadb7ed7cbd8a414f2c90f3b76a5afebae89"
+        },
+        "card": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/freecad_user_data/Material/PublicApiNullSeed.FCMat",
+        "document": "/private/tmp/freecad-927-install.O8eMXG/typed/stage-3sc-gui/NativeNullArray.FCStd",
+        "document_name": "NativeNullArray",
+        "origin": "Native public dimension setters, not GUI row insertion",
+        "card_sha256": "0d134368f662f83bf832fb945a1126d9c1c2f74e15c40c8a74b595db6077f45a",
+        "document_sha256": "f996a09028a96aae01c81a1a586be19e7fc1031d9a814fbfd864eb3eaec3d899"
+      }
+    },
+    "cold_process_restore_assessed": false
+  },
+  "engineering_acceptance": false,
+  "solver_launched": false,
+  "runtime_identity": {
+    "version": [
+      "27",
+      "1",
+      "0",
+      "49261 +213 (Git)",
+      "Unknown",
+      "2026/10/19 17:20:12",
+      "codex/fix-toroidal-self-cut",
+      "f0c43f0a9368eaab7d469d825d1a3e75bff90903"
+    ],
+    "application": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app",
+    "phase": "stage",
+    "module_images": [
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+        "sha256": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+        "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so",
+        "sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+        "sha256": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f"
+      }
+    ],
+    "manifest_sha256": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+  },
+  "loaded_material_images_after_bridge_gui": [
+    {
+      "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+      "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+    },
+    {
+      "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so",
+      "sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d"
+    }
+  ],
+  "headers": [
+    "Temperature",
+    "Bulk Modulus",
+    "Poisson Ratio",
+    "Shear Modulus",
+    "Young's Modulus"
+  ],
+  "delegates": [
+    {
+      "column": 2,
+      "class": "Gui::DoubleSpinBox",
+      "authored_value": 0.314159
+    },
+    {
+      "column": 0,
+      "class": "Gui::QuantitySpinBox",
+      "authored_value": 301.1234567890123
+    },
+    {
+      "column": 1,
+      "class": "Gui::QuantitySpinBox",
+      "authored_value": 1000.1234567890123
+    },
+    {
+      "column": 3,
+      "class": "Gui::QuantitySpinBox",
+      "authored_value": 2000.2345678901233
+    },
+    {
+      "column": 4,
+      "class": "Gui::QuantitySpinBox",
+      "authored_value": 3000.3456789012344
+    },
+    {
+      "column": 2,
+      "class": "Gui::DoubleSpinBox",
+      "authored_value": 0.271828
+    },
+    {
+      "column": 2,
+      "class": "Gui::DoubleSpinBox",
+      "authored_value": 0.161803
+    }
+  ],
+  "native_raw_float": 0.314159,
+  "legacy_quantity_zero_compatibility": [
+    {
+      "type": "Quantity",
+      "value_hex": "0x0.0p+0",
+      "unit_signature": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "type": "Quantity",
+      "value_hex": "0x0.0p+0",
+      "unit_signature": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "type": "Quantity",
+      "value_hex": "0x0.0p+0",
+      "unit_signature": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "initial_typed_array": [
+    [
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.2d1f9add3746fp+8",
+        "unit_signature": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.f40fcd6e9ba37p+9",
+        "unit_signature": [
+          -1,
+          1,
+          -2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "float",
+        "value_hex": "0x1.41b2e59af9ebfp-2"
+      },
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.f40f03290a316p+10",
+        "unit_signature": [
+          -1,
+          1,
+          -2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.770b0fcd32f70p+11",
+        "unit_signature": [
+          -1,
+          1,
+          -2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  ],
+  "readonly_copies": 64,
+  "initial_fem_hashes": {
+    "model_digest": "f46631e87456af787de8fd0d18cb7df1e3d6385ad59a0ecec0773133d9c26306",
+    "quality_input_fingerprint": "82d2307eb2a73dc7e36925f19630fd3815f3bcee0bd480aeb7a354a171ca25cb"
+  },
+  "mutations": [
+    {
+      "authored_float": 0.271828,
+      "hashes": {
+        "model_digest": "4e4b7dc994b26dc0a107791aa387c46c14a6669443e61a9caaf543c255d72207",
+        "quality_input_fingerprint": "0c88ea9cae10dc3dbf8f12ec79d4353db1c2d254a0db24655d794b074cdfe455"
+      }
+    },
+    {
+      "authored_float": 0.161803,
+      "hashes": {
+        "model_digest": "d5d8eb79339abe3db1034f94de67b27dc174851e9f185c3e07f8b6cb0a1b8deb",
+        "quality_input_fingerprint": "327b12aff1d99b917373bd64063499049b3131a3c29e767b235a3d1be7f7ac9b"
+      }
+    }
+  ],
+  "final_typed_array": [
+    [
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.2d1f9add3746fp+8",
+        "unit_signature": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.f40fcd6e9ba37p+9",
+        "unit_signature": [
+          -1,
+          1,
+          -2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "float",
+        "value_hex": "0x1.4b5f5f0b28523p-3"
+      },
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.f40f03290a316p+10",
+        "unit_signature": [
+          -1,
+          1,
+          -2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "type": "Quantity",
+        "value_hex": "0x1.770b0fcd32f70p+11",
+        "unit_signature": [
+          -1,
+          1,
+          -2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  ],
+  "fem_hash_read_repeatability": true,
+  "runtime_identity_final": {
+    "version": [
+      "27",
+      "1",
+      "0",
+      "49261 +213 (Git)",
+      "Unknown",
+      "2026/10/19 17:20:12",
+      "codex/fix-toroidal-self-cut",
+      "f0c43f0a9368eaab7d469d825d1a3e75bff90903"
+    ],
+    "application": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app",
+    "phase": "stage",
+    "module_images": [
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+        "sha256": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so",
+        "sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so",
+        "sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d"
+      },
+      {
+        "path": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+        "sha256": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f"
+      }
+    ],
+    "manifest_sha256": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+  },
+  "protected_sha256_after": {
+    "/private/tmp/freecad-927-install.O8eMXG/typed/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/RuntimeIdentity.py": "f2521a9d6b94da80b36647b0ea7d3b4c1d325eb46e083c7bc710ec8b01baaf2f",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiWitness.py": "9ad660973edbd5fa6a41fb39f6ff93c8bbf96365a6b46d9589037e38de4ae8e2",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiGreenWitness.py": "be0feae8f8a6d7d1f52cb90f802d9021def8461354844b6293b1f357b9f2f037",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiPersistenceWitness.py": "cd7b3fd7c6a098d082a9bc69efeee16fb948f784482b275639e0725d62176993",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/NativeMixedGuiColdRestore.py": "20a5204c9668e2a459a4aaebd3452bcf38695d93fb4e7037b0d2430ffae10e78",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.cpp": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/compile_bridge.py": "0a184d6da9419ad6fe2d786944185e76caafa7488fa231e2e331c0e94a9166da",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/run_typed.py": "f5d24f0b0adab32288a27e06c64dbf4aa2f1956f581fade8e0ecc59efca6235d",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/TypedMaterialReadBridge.so": "cd1d66ceef0b1bded3d6e0334c22b7fbd298f1df359cf2b2bf49ee4acb854a86",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-compile.log": "1c34616b45bcd9e778e2d068c3846f326eaf760495a4ca617de582d5806a80c8",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/bridge-links.txt": "b04fcb20349adb780f0d37ad5bc9d5216b4e80f4128d82b1a42873829b164f07",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/LOCAL-INSTALL.txt": "3f130ff2385aee5e56a98a6025fdc5776cae3351d012a1a1489878e74ed87ecd",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Info.plist": "310b86cd5c8cc604b29f79dcd5a45a7da7583cacc8fafcd7c8a6560a38d5f025",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/_CodeSignature/CodeResources": "2cbba0dbd688d39f4634a60b4e6e275ddc01f6675333c7f09ab848a8364ddc7f",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD": "33715c3e9899d82ca1c1f192e88169876071246c432926bedd05c7b49e50dbec",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCAD": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Materials.so": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/MatGui.so": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/native_properties.py": "cc049d67d4289a9055094c32a52ca49ff171059e4689ab346b6701d73fa3395a",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py": "1f70995650486f07b886229e4ee0a684d08e084471680335b658a39c4e34a708",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py": "0abb379b924889d155f706810ceca26fc24765d5ae2898d0084b393c83be2cf5",
+    "/private/tmp/freecad-927-install.O8eMXG/typed/stage/runtime.json": "4fbb16e345db1323162748d1937fab936199d0e7e6404866078dc507c5021124"
+  },
+  "verdict": "PASS"
+}

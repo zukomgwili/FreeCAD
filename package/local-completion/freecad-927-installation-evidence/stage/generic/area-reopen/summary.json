@@ -1,0 +1,67 @@
+{
+  "application": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app",
+  "resources": "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "area-reopen",
+  "expected_commit": "f0c43f0a9368eaab7d469d825d1a3e75bff90903",
+  "expected_revision": "49261 +213 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "AreaDiagnosticsGui"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/private/tmp/freecad-927-install.O8eMXG/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "-u",
+    "/private/tmp/freecad-927-install.O8eMXG/stage-area-reopen/user.cfg",
+    "-s",
+    "/private/tmp/freecad-927-install.O8eMXG/stage-area-reopen/system.cfg",
+    "-P",
+    "/private/tmp/freecad-927-install.O8eMXG",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Fem",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/BIM",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "AreaDiagnosticsGui"
+  ],
+  "identity_report": "/private/tmp/freecad-927-install.O8eMXG/stage-area-reopen/identity.json",
+  "log": "/private/tmp/freecad-927-install.O8eMXG/stage-area-reopen/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/BIM/AreaDiagnosticsGui.py": "0e6d0158b8537671454ce2a1fe8937f70d52fb3513083594800a12e6b3d4e93e"
+  },
+  "cold_inputs_sha256_before": {
+    "/private/tmp/freecad-927-install.O8eMXG/stage-area-create/area/optional-area.FCStd": "8c41f73dd9c6f918f0dfca1b4d19f9403884ac17b87060e149fa9cc50b736650"
+  },
+  "pid": 36045,
+  "exit_code": 0,
+  "unittest": {
+    "run": 2,
+    "seconds": 1.947,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "AreaDiagnosticsGui": 1
+  },
+  "native_report": "/private/tmp/freecad-927-install.O8eMXG/stage-area-reopen/area/report.json",
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/BIM/AreaDiagnosticsGui.py": "0e6d0158b8537671454ce2a1fe8937f70d52fb3513083594800a12e6b3d4e93e"
+  },
+  "cold_inputs_sha256_after": {
+    "/private/tmp/freecad-927-install.O8eMXG/stage-area-create/area/optional-area.FCStd": "8c41f73dd9c6f918f0dfca1b4d19f9403884ac17b87060e149fa9cc50b736650"
+  },
+  "elapsed_seconds": 5.885
+}

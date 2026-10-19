@@ -1,0 +1,68 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "resources": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "equilibrium",
+  "expected_commit": "f0c43f0a9368eaab7d469d825d1a3e75bff90903",
+  "expected_revision": "49261 +213 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "StockSectionEquilibrium"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "-u",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-equilibrium/user.cfg",
+    "-s",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-equilibrium/system.cfg",
+    "-P",
+    "/private/tmp/freecad-927-install.O8eMXG",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Fem",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "StockSectionEquilibrium"
+  ],
+  "identity_report": "/private/tmp/freecad-927-install.O8eMXG/installed-equilibrium/identity.json",
+  "log": "/private/tmp/freecad-927-install.O8eMXG/installed-equilibrium/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {},
+  "cold_inputs_sha256_before": {},
+  "extra_harness_sha256_before": {
+    "StockSectionEquilibrium.py": "1a4d9b3698d2ef845ce83416347c16aed0b0534dd3a426c755fa95078174c7ef"
+  },
+  "pid": 41738,
+  "exit_code": 0,
+  "unittest": {
+    "run": 3,
+    "seconds": 9.97,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "StockSectionEquilibrium": 2
+  },
+  "equilibrium_report": "/private/tmp/freecad-927-install.O8eMXG/installed-equilibrium/equilibrium/report.json",
+  "equilibrium_residuals": {
+    "relative_force_residual": 0.0044106791171284335,
+    "relative_origin_moment_residual": 0.0008129863678002713,
+    "relative_centroid_moment_residual": 0.00010322259531122808
+  },
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {},
+  "cold_inputs_sha256_after": {},
+  "extra_harness_sha256_after": {
+    "StockSectionEquilibrium.py": "1a4d9b3698d2ef845ce83416347c16aed0b0534dd3a426c755fa95078174c7ef"
+  },
+  "elapsed_seconds": 12.221
+}

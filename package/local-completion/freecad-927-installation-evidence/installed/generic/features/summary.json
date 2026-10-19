@@ -1,0 +1,68 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "resources": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "features",
+  "expected_commit": "f0c43f0a9368eaab7d469d825d1a3e75bff90903",
+  "expected_revision": "49261 +213 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "ElasticConnectorGui",
+    "OrthotropicMaterialGui"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "-u",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-features/user.cfg",
+    "-s",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-features/system.cfg",
+    "-P",
+    "/private/tmp/freecad-927-install.O8eMXG",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Fem",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "ElasticConnectorGui",
+    "-t",
+    "OrthotropicMaterialGui"
+  ],
+  "identity_report": "/private/tmp/freecad-927-install.O8eMXG/installed-features/identity.json",
+  "log": "/private/tmp/freecad-927-install.O8eMXG/installed-features/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {},
+  "cold_inputs_sha256_before": {},
+  "extra_harness_sha256_before": {
+    "ElasticConnectorGui.py": "41f46796570de843620581e773b8752d8b3421ff5f8b63c30326a53e3d8075f9",
+    "OrthotropicMaterialGui.py": "20b3f024fc542e2ee010fd716bb24f2e20d0d205ccd457e75e085105f21797e6"
+  },
+  "pid": 41318,
+  "exit_code": 0,
+  "unittest": {
+    "run": 15,
+    "seconds": 1.578,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "ElasticConnectorGui": 6,
+    "OrthotropicMaterialGui": 8
+  },
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {},
+  "cold_inputs_sha256_after": {},
+  "extra_harness_sha256_after": {
+    "ElasticConnectorGui.py": "41f46796570de843620581e773b8752d8b3421ff5f8b63c30326a53e3d8075f9",
+    "OrthotropicMaterialGui.py": "20b3f024fc542e2ee010fd716bb24f2e20d0d205ccd457e75e085105f21797e6"
+  },
+  "elapsed_seconds": 5.698
+}

@@ -1,0 +1,63 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "resources": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "mixed-create",
+  "expected_commit": "f0c43f0a9368eaab7d469d825d1a3e75bff90903",
+  "expected_revision": "49261 +213 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "NativeMixedShapeHashers"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "-u",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-mixed-create/user.cfg",
+    "-s",
+    "/private/tmp/freecad-927-install.O8eMXG/installed-mixed-create/system.cfg",
+    "-P",
+    "/private/tmp/freecad-927-install.O8eMXG",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Fem",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Part/App",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "NativeMixedShapeHashers"
+  ],
+  "identity_report": "/private/tmp/freecad-927-install.O8eMXG/installed-mixed-create/identity.json",
+  "log": "/private/tmp/freecad-927-install.O8eMXG/installed-mixed-create/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Part/App/NativeMixedShapeHashers.py": "63a39903f435093a987710530fab2d86230f073f73607ef4265e401ba0a1567b"
+  },
+  "cold_inputs_sha256_before": {},
+  "pid": 41913,
+  "exit_code": 0,
+  "unittest": {
+    "run": 2,
+    "seconds": 2.274,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "NativeMixedShapeHashers": 1
+  },
+  "native_report": "/private/tmp/freecad-927-install.O8eMXG/installed-mixed-native/create-result.json",
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Part/App/NativeMixedShapeHashers.py": "63a39903f435093a987710530fab2d86230f073f73607ef4265e401ba0a1567b"
+  },
+  "cold_inputs_sha256_after": {},
+  "elapsed_seconds": 5.993
+}

@@ -1,0 +1,46 @@
+FreeCAD Local Release built from f0c43f0a9368eaab7d469d825d1a3e75bff90903.
+19 October 2026, version 27.1.0dev49261+213 (Git).
+Includes FreeCAD-927 and FreeCAD-89o: saved editable contact-side
+observations, strict source-run bindings, exact native mesh IDs and
+bounded owner-side native VTK sampling; no gap/slip acceptance computed.
+PointSide selects an existing Slave or Master vertex while original
+slave/master owners and the slave reference frame remain unchanged.
+Historical observations are not current results; refresh is explicit.
+Moving the app changes the exact solver-path binding. Staged saved
+results remain historical; installed checks create fresh native runs.
+No staged AccountingData or ObservationData paths are rewritten.
+Includes FreeCAD-3sc: lossless native Array2D TypedArray, material-card
+persistence and exact FEM input provenance for native GUI cell edits.
+New typed Array2D cards require this version or newer compatible readers;
+older FreeCAD versions cannot read the new typed card representation.
+ShapeMaterial in FCStd remains a UUID reference, not embedded unsaved
+material data: retain the saved material library with the project.
+Array3D/scalar persistence is unchanged and separately tracked.
+Includes FreeCAD-4jb: native accounting provenance stability correction.
+Software import/lifecycle qualification is not engineering acceptance.
+Includes FreeCAD-9zt: separately versioned native support and explicit
+equilibrium-cut accounting, owned contact/load terms and provenance.
+Enable NativeForceAccounting on the CalculiX solver; for a native cut,
+enable NativeEquilibriumCut and select AccountingBody on SectionPrint.
+The qualified solver is data/NativeSolvers/ccx-force-accounting.
+Its source, precise domain and contract are in data/NativeSolvers/source.
+Standard RF/SOF/SOM/CF and ordinary solver preferences are unchanged.
+All earlier fixes, including native GUI colourbar/export improvements,
+mesh ownership, Tet4 volume and typing/build fixes, remain included.
+Updated main and all earlier recent fixes remain included.
+Affected older independently meshed coincident regions require remeshing
+to generate persistent native ownership metadata. Genuine overlap is rejected.
+Native program and workbenches are installed in Contents/Resources.
+External Python, Qt, OCCT and other dependencies remain required at:
+/Users/zukomgwili/src/FreeCAD/.pixi/envs/default
+Qt 6.11.2 Cocoa accessibility package: pl5321h12ef06d_2.
+Preserved native launchers select this external patched plugin directly;
+no historical app-local qt-cocoa overlay is installed.
+This host-local app is not a self-contained, notarized distribution.
+User profiles remain under Library/Application Support/FreeCAD Local.
+Native startup uses the canonical namespace in this app Ext/freecad.
+All 11 external namespace files are unchanged; no helper/cache swap is needed.
+To reverse this install, quit FreeCAD and restore /Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-927-5591e8e388.app.
+The earlier combined-main namespace backup remains historical and is not
+needed to reverse only this 927 application replacement.
+This software fix is not physical joint, house/BIM or Oomakhi design acceptance.
