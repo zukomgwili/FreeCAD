@@ -26,7 +26,17 @@ class Array2D(BaseClass):
     """
 
     Array: Final[List] = ...
-    """The 2 dimensional array."""
+    """The legacy 2 dimensional array, with all cells coerced to Quantity."""
+
+    TypedArray: Final[List[List[Any]]] = ...
+    """
+    A detached, type-preserving copy of the native cells.
+
+    Null cells are None. Supported values are Quantity, float, int, bool and str;
+    numeric precision, units and embedded string nulls are preserved. Unsupported
+    native cell types raise TypeError rather than being coerced. This read-only
+    property does not change the legacy Array, getRow or getValue behaviour.
+    """
 
     Dimensions: Final[int] = ...
     """The number of dimensions in the array, in this case 2."""
@@ -40,19 +50,21 @@ class Array2D(BaseClass):
     @constmethod
     def getRow(self, value: int, /) -> List[Quantity]:
         """
-        Get the row given the first column value
+        Legacy row read, coercing every cell to Quantity. Use TypedArray for
+        exact native types and nulls.
         """
         ...
 
     @constmethod
     def getValue(self, row: int, column: int, /) -> Quantity:
         """
-        Get the value at the given row and column
+        Legacy cell read, coercing the value to Quantity. Use TypedArray for
+        exact native types and nulls.
         """
         ...
 
     def setValue(self, row: int, column: int, value: str, /) -> None:
         """
-        Set the value at the given row and column
+        Set a Quantity parsed from a string at the given row and column.
         """
         ...

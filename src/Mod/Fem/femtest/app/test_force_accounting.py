@@ -338,7 +338,74 @@ class TestForceAccounting(unittest.TestCase):
                 )
                 self.assertNotEqual(quality.input_fingerprint(model.mesh), fingerprint)
 
-    def test_ambiguous_or_lossy_native_material_properties_are_rejected(self):
+    def test_native_array_null_and_authored_zero_fingerprints_are_distinct(self):
+        import Materials
+        from femmesh import quality
+        from femtools import force_accounting
+        from femtools.native_properties import property_value
+
+        model = self.make_native_model()
+        material = Materials.Material()
+        material.addPhysicalModel(Materials.UUIDs().TestModel)
+        array = material.getPhysicalValue("TestArray2D")
+        array.Rows = 1
+        material.setValue("TestArray2D", array)
+        self.assertEqual(array.TypedArray, [[None, None]])
+        model.geometry.ShapeMaterial = material
+        baseline = property_value(model.geometry.ShapeMaterial)
+        digest = force_accounting._model_digest(model.analysis, model.mesh)
+        fingerprint = quality.input_fingerprint(model.mesh)
+        self.assertEqual(baseline["physical"]["TestArray2D"]["array2d"], [[None, None]])
+        legacy = array.Array
+        array.setValue(0, 0, "0")
+        self.assertEqual(array.Array, legacy)  # Legacy coercion remains compatible.
+        self.assertIsInstance(array.TypedArray[0][0], FreeCAD.Units.Quantity)
+        material.setValue("TestArray2D", array)
+        model.geometry.ShapeMaterial = material
+        zero = property_value(model.geometry.ShapeMaterial)
+        self.assertNotEqual(zero, baseline)
+        self.assertNotEqual(
+            force_accounting._model_digest(model.analysis, model.mesh), digest
+        )
+        self.assertNotEqual(quality.input_fingerprint(model.mesh), fingerprint)
+        retained = [model.geometry.ShapeMaterial for _ in range(32)]
+        self.assertEqual(property_value(model.geometry.ShapeMaterial), zero)
+        self.assertEqual(len(retained), 32)
+
+    def test_native_array_nonquantity_columns_preserve_input_sensitivity(self):
+        import Materials
+        from femmesh import quality
+        from femtools import force_accounting
+        from femtools.native_properties import property_value
+
+        model = self.make_native_model()
+        material = Materials.Material()
+        material.addPhysicalModel(Materials.UUIDs().OgdenN1)
+        array = material.getPhysicalValue("OgdenN1")
+        array.Rows = 1
+        for column, value in enumerate(("20 C", "1000 Pa", "2", "0.001 1/Pa")):
+            array.setValue(0, column, value)
+        material.setValue("OgdenN1", array)
+        self.assertIn(
+            "Float",
+            [column.Type for column in material.PropertyObjects["OgdenN1"].Columns],
+        )
+        model.geometry.ShapeMaterial = material
+        baseline = property_value(model.geometry.ShapeMaterial)
+        digest = force_accounting._model_digest(model.analysis, model.mesh)
+        fingerprint = quality.input_fingerprint(model.mesh)
+        self.assertEqual(property_value(model.geometry.ShapeMaterial), baseline)
+        array.setValue(0, 2, "2.0000000000000004")
+        material.setValue("OgdenN1", array)
+        model.geometry.ShapeMaterial = material
+        self.assertEqual(model.geometry.ShapeMaterial.UUID, material.UUID)
+        self.assertNotEqual(property_value(model.geometry.ShapeMaterial), baseline)
+        self.assertNotEqual(
+            force_accounting._model_digest(model.analysis, model.mesh), digest
+        )
+        self.assertNotEqual(quality.input_fingerprint(model.mesh), fingerprint)
+
+    def test_ambiguous_native_material_properties_are_rejected(self):
         import Materials
         from femmesh import quality
         from femtools import force_accounting
@@ -351,37 +418,8 @@ class TestForceAccounting(unittest.TestCase):
         self.assertTrue(overlap.hasPhysicalProperty("Density"))
         self.assertTrue(overlap.hasAppearanceProperty("Density"))
 
-        mixed_array = Materials.Material()
-        mixed_array.addPhysicalModel(Materials.UUIDs().OgdenN1)
-        array = mixed_array.getPhysicalValue("OgdenN1")
-        self.assertTrue(mixed_array.PropertyObjects["OgdenN1"].Empty)
-        # A genuinely empty declared array can be represented by dimensions.
-        property_value(mixed_array)
-        array.Rows = 1
-        for column, value in enumerate(("20 C", "1000 Pa", "2", "0.001 1/Pa")):
-            array.setValue(0, column, value)
-        mixed_array.setValue("OgdenN1", array)
-        self.assertFalse(mixed_array.PropertyObjects["OgdenN1"].Empty)
-        self.assertIn(
-            "Float",
-            [column.Type for column in mixed_array.PropertyObjects["OgdenN1"].Columns],
-        )
-
-        null_array = Materials.Material()
-        null_array.addPhysicalModel(Materials.UUIDs().TestModel)
-        array = null_array.getPhysicalValue("TestArray2D")
-        array.Rows = 1  # Native resize creates null QVariant cells.
-        null_array.setValue("TestArray2D", array)
-        empty_cells = array.Array
-        array.setValue(0, 0, "0")
-        # The Python getter loses that change.
-        self.assertEqual(array.Array, empty_cells)
-        null_array.setValue("TestArray2D", array)
-
         for material, message in (
             (overlap, "Ambiguous native material physical/appearance"),
-            (mixed_array, "non-Quantity columns"),
-            (null_array, "ambiguous null/zero cells"),
         ):
             with self.subTest(message=message):
                 model = self.make_native_model()

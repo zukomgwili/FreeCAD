@@ -21,6 +21,12 @@
  *                                                                         *
  **************************************************************************/
 
+#include <bit>
+#include <charconv>
+#include <climits>
+#include <cstdint>
+#include <type_traits>
+
 #include <QDirIterator>
 #include <QFileInfo>
 #include <QList>
@@ -34,6 +40,7 @@
 #include <Base/Stream.h>
 #include <Gui/MetaTypes.h>
 
+#include "Exceptions.h"
 #include "Materials.h"
 
 #include "MaterialConfigLoader.h"
@@ -98,16 +105,215 @@ std::shared_ptr<QList<QVariant>> MaterialYamlEntry::readImageList(const YAML::No
     return readList(node, true);
 }
 
+namespace
+{
+
+QVariant arrayTypedNull(int type)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QVariant(QMetaType(type), nullptr);
+#else
+    return QVariant(type, nullptr);
+#endif
+}
+
+template<typename T>
+T arrayHex(const std::string& text)
+{
+    T value {};
+    const auto result = std::from_chars(text.data(), text.data() + text.size(), value, 16);
+    if (text.size() != sizeof(T) * 2 || result.ec != std::errc()
+        || result.ptr != text.data() + text.size()) {
+        throw MaterialReadError("Invalid Array2D hexadecimal value");
+    }
+    return value;
+}
+
+template<typename T>
+QVariant readArrayNumber(const YAML::Node& cell)
+{
+    const bool null = cell["Null"].as<bool>();
+    if (cell.size() != (null ? 3 : 4) || cell["Bits"].as<int>() != sizeof(T) * CHAR_BIT) {
+        throw MaterialReadError("Unsupported Array2D numeric width or fields");
+    }
+    if (null) {
+        return arrayTypedNull(qMetaTypeId<T>());
+    }
+    const auto text = cell["Value"].as<std::string>();
+    T value {};
+    if constexpr (std::is_floating_point_v<T>) {
+        using Bits = std::conditional_t<sizeof(T) == 4, std::uint32_t, std::uint64_t>;
+        value = std::bit_cast<T>(arrayHex<Bits>(text));
+    }
+    else {
+        const auto result = std::from_chars(text.data(), text.data() + text.size(), value);
+        if (result.ec != std::errc() || result.ptr != text.data() + text.size()) {
+            throw MaterialReadError("Invalid or out-of-range Array2D integer");
+        }
+    }
+    return QVariant::fromValue(value);
+}
+
+QVariant readArrayCell(const YAML::Node& cell)
+{
+    if (!cell.IsMap()) {
+        throw MaterialReadError("Invalid Array2D cell");
+    }
+    const auto type = cell["Type"].as<std::string>();
+    const bool null = cell["Null"].as<bool>();
+    if (type == "Null") {
+        if (!null || cell.size() != 2) {
+            throw MaterialReadError("Invalid Array2D null cell");
+        }
+        return QVariant();
+    }
+    if (type == "Char") {
+        return readArrayNumber<char>(cell);
+    }
+    if (type == "SChar") {
+        return readArrayNumber<signed char>(cell);
+    }
+    if (type == "UChar") {
+        return readArrayNumber<unsigned char>(cell);
+    }
+    if (type == "Short") {
+        return readArrayNumber<short>(cell);
+    }
+    if (type == "UShort") {
+        return readArrayNumber<unsigned short>(cell);
+    }
+    if (type == "Int") {
+        return readArrayNumber<int>(cell);
+    }
+    if (type == "UInt") {
+        return readArrayNumber<unsigned int>(cell);
+    }
+    if (type == "Long") {
+        return readArrayNumber<long>(cell);
+    }
+    if (type == "ULong") {
+        return readArrayNumber<unsigned long>(cell);
+    }
+    if (type == "LongLong") {
+        return readArrayNumber<qlonglong>(cell);
+    }
+    if (type == "ULongLong") {
+        return readArrayNumber<qulonglong>(cell);
+    }
+    if (type == "Float") {
+        return readArrayNumber<float>(cell);
+    }
+    if (type == "Double") {
+        return readArrayNumber<double>(cell);
+    }
+    if (type == "Quantity") {
+        if (cell.size() != (null ? 2 : 4)) {
+            throw MaterialReadError("Invalid Array2D quantity fields");
+        }
+        if (null) {
+            return arrayTypedNull(qMetaTypeId<Base::Quantity>());
+        }
+        const auto bits = arrayHex<std::uint64_t>(cell["Value"].as<std::string>());
+        const auto unit = cell["Unit"];
+        if (!unit.IsSequence() || unit.size() != Base::unitNumExponents) {
+            throw MaterialReadError("Invalid Array2D quantity unit");
+        }
+        Base::UnitExponents exponents;
+        for (std::size_t i = 0; i < exponents.size(); ++i) {
+            const int exponent = unit[i].as<int>();
+            if (exponent < -Base::unitExponentLimit || exponent >= Base::unitExponentLimit) {
+                throw MaterialReadError("Invalid Array2D unit exponent");
+            }
+            exponents[i] = static_cast<std::int8_t>(exponent);
+        }
+        Base::Quantity quantity(std::bit_cast<double>(bits), Base::Unit(exponents));
+        // Display format is not physical quantity data; retain the material display convention.
+        quantity.setFormat(MaterialValue::getQuantityFormat());
+        return QVariant::fromValue(quantity);
+    }
+    if (type == "Bool") {
+        if (cell.size() != (null ? 2 : 3)) {
+            throw MaterialReadError("Invalid Array2D boolean fields");
+        }
+        return null ? arrayTypedNull(QMetaType::Bool) : QVariant::fromValue(cell["Value"].as<bool>());
+    }
+    if (type == "QString") {
+        if (cell.size() != (null ? 2 : 4)) {
+            throw MaterialReadError("Invalid Array2D string fields");
+        }
+        if (null) {
+            return arrayTypedNull(QMetaType::QString);
+        }
+        const auto units = cell["UTF16"].as<std::string>();
+        const bool stringNull = cell["StringNull"].as<bool>();
+        if (units.size() % 4 != 0 || (stringNull && !units.empty())) {
+            throw MaterialReadError("Invalid Array2D UTF-16 string");
+        }
+        QString text = stringNull ? QString() : QStringLiteral("");
+        for (std::size_t i = 0; i < units.size(); i += 4) {
+            text.append(QChar(arrayHex<std::uint16_t>(units.substr(i, 4))));
+        }
+        return QVariant::fromValue(text);
+    }
+    throw MaterialReadError("Unsupported Array2D cell type");
+}
+
+}  // namespace
+
 std::shared_ptr<Array2D> MaterialYamlEntry::read2DArray(const YAML::Node& node, int columns)
 {
     auto array2d = std::make_shared<Array2D>();
     array2d->setColumns(columns);
+    array2d->setExplicitValue(true);
 
+    if (node.IsNull() || (node.IsSequence() && node.size() == 0)) {
+        return array2d;
+    }
+    if (!node.IsSequence() || (node.size() != 1 && node.size() != 2)) {
+        throw MaterialReadError("Invalid Array2D outer sequence");
+    }
     if (node.size() == 1 || node.size() == 2) {
         // There used to be a default value. Ignore it.
         auto yamlArray = node[0];
         if (node.size() == 2) {
             yamlArray = node[1];
+        }
+
+        if (yamlArray.IsMap()) {
+            try {
+                if (node.size() != 1 || yamlArray["Format"].as<std::string>() != "FreeCAD.Array2D"
+                    || yamlArray["Version"].as<int>() != 1 || yamlArray.size() != 4) {
+                    throw MaterialReadError("Unsupported Array2D format/version");
+                }
+                const int storedColumns = yamlArray["Columns"].as<int>();
+                const auto rows = yamlArray["Rows"];
+                if (storedColumns < 0 || !rows.IsSequence()) {
+                    throw MaterialReadError("Invalid Array2D dimensions");
+                }
+                array2d->setColumns(storedColumns);
+                for (const auto& row : rows) {
+                    if (!row.IsSequence() || row.size() != static_cast<std::size_t>(storedColumns)) {
+                        throw MaterialReadError("Inconsistent Array2D row width");
+                    }
+                    auto values = std::make_shared<QList<QVariant>>();
+                    for (const auto& cell : row) {
+                        const auto value = readArrayCell(cell);
+                        if (value.isNull() != cell["Null"].as<bool>()) {
+                            throw MaterialReadError("Unsupported Array2D null representation");
+                        }
+                        values->append(value);
+                    }
+                    array2d->addRow(values);
+                }
+                return array2d;
+            }
+            catch (const YAML::Exception& error) {
+                throw MaterialReadError(error.what());
+            }
+        }
+
+        if (!yamlArray.IsSequence()) {
+            throw MaterialReadError("Invalid legacy Array2D rows");
         }
 
         for (std::size_t i = 0; i < yamlArray.size(); i++) {
@@ -516,8 +722,22 @@ void MaterialLoader::dereference(
             auto name = itp.first;
             auto property = itp.second;
 
-            if (material->getPhysicalProperty(name)->isNull()) {
-                material->getPhysicalProperty(name)->setValue(property->getValue());
+            const auto target = material->getPhysicalProperty(name);
+            if (target->getType() == MaterialValue::Array2D
+                || property->getType() == MaterialValue::Array2D) {
+                const auto array = std::dynamic_pointer_cast<Array2D>(target->getMaterialValue());
+                const auto source = std::dynamic_pointer_cast<Array2D>(property->getMaterialValue());
+                if (!array || !source) {
+                    throw MaterialReadError("Incompatible inherited Array2D property types");
+                }
+                if (!array->hasExplicitValue()) {
+                    const auto inherited = std::make_shared<Array2D>(*source);
+                    target->setValue(std::static_pointer_cast<MaterialValue>(inherited));
+                    inherited->setExplicitValue(false);
+                }
+            }
+            else if (target->isNull()) {
+                target->setValue(property->getValue());
             }
         }
 
@@ -526,8 +746,22 @@ void MaterialLoader::dereference(
             auto name = itp.first;
             auto property = itp.second;
 
-            if (material->getAppearanceProperty(name)->isNull()) {
-                material->getAppearanceProperty(name)->setValue(property->getValue());
+            const auto target = material->getAppearanceProperty(name);
+            if (target->getType() == MaterialValue::Array2D
+                || property->getType() == MaterialValue::Array2D) {
+                const auto array = std::dynamic_pointer_cast<Array2D>(target->getMaterialValue());
+                const auto source = std::dynamic_pointer_cast<Array2D>(property->getMaterialValue());
+                if (!array || !source) {
+                    throw MaterialReadError("Incompatible inherited Array2D property types");
+                }
+                if (!array->hasExplicitValue()) {
+                    const auto inherited = std::make_shared<Array2D>(*source);
+                    target->setValue(std::static_pointer_cast<MaterialValue>(inherited));
+                    inherited->setExplicitValue(false);
+                }
+            }
+            else if (target->isNull()) {
+                target->setValue(property->getValue());
             }
         }
     }

@@ -23,6 +23,7 @@
 
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QSaveFile>
 #include <QVector>
 
 
@@ -279,22 +280,24 @@ void MaterialLibraryLocal::updatePaths(const QString& oldPath, const QString& ne
     _materialPathMap = std::move(pathMap);
 }
 
-std::shared_ptr<Material>
-MaterialLibraryLocal::saveMaterial(const std::shared_ptr<Material>& material,
-                                   const QString& path,
-                                   bool overwrite,
-                                   bool saveAsCopy,
-                                   bool saveInherited)
+std::shared_ptr<Material> MaterialLibraryLocal::saveMaterial(
+    const std::shared_ptr<Material>& material,
+    const QString& path,
+    bool overwrite,
+    bool saveAsCopy,
+    bool saveInherited
+)
 {
     QString filePath = getLocalPath(path);
-    QFile file(filePath);
+    QSaveFile file(filePath);
+    file.setDirectWriteFallback(false);
 
-    QFileInfo info(file);
+    QFileInfo info(filePath);
     QDir fileDir(info.path());
     if (!fileDir.exists()) {
         if (!fileDir.mkpath(info.path())) {
-            Base::Console().error("Unable to create directory path '{}'\n",
-                                  info.path().toStdString());
+            Base::Console().error("Unable to create directory path '{}'\n", info.path().toStdString());
+            throw CreationError(QStringLiteral("Unable to create material directory: ") + info.path());
         }
     }
 
@@ -305,16 +308,40 @@ MaterialLibraryLocal::saveMaterial(const std::shared_ptr<Material>& material,
         }
     }
 
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        throw CreationError(file.errorString());
+    }
+
+    // Serialize a private copy. Validation or I/O failure must preserve both
+    // the previous card and the caller's UUID/name/library metadata.
+    auto savedMaterial = std::make_shared<Material>(*material);
+    {
         QTextStream stream(&file);
         stream.setGenerateByteOrderMark(true);
 
-        // Write the contents
-        material->setName(info.fileName().remove(QStringLiteral(".FCMat"), Qt::CaseInsensitive));
-        material->setLibrary(getptr());
-        material->setDirectory(getRelativePath(path));
-        material->save(stream, overwrite, saveAsCopy, saveInherited);
+        savedMaterial->setName(info.fileName().remove(QStringLiteral(".FCMat"), Qt::CaseInsensitive));
+        savedMaterial->setLibrary(getptr());
+        savedMaterial->setDirectory(getRelativePath(path));
+        savedMaterial->save(stream, overwrite, saveAsCopy, saveInherited);
+        stream.flush();
+        if (stream.status() != QTextStream::Ok) {
+            file.cancelWriting();
+            throw CreationError(QStringLiteral("Could not write material card: ") + filePath);
+        }
     }
+    if (!file.commit()) {
+        throw CreationError(file.errorString());
+    }
+    // Publish only fields changed by save, keeping native editor property/array
+    // aliases live. Assigning the whole Material would replace all its properties.
+    material->setName(savedMaterial->getName());
+    material->setLibrary(savedMaterial->getLibrary());
+    material->setDirectory(savedMaterial->getDirectory());
+    material->setUUID(savedMaterial->getUUID());
+    material->setParentUUID(savedMaterial->getParentUUID());
+    material->setOldFormat(savedMaterial->isOldFormat());
+    material->resetEditState();
+    material->setEditState(savedMaterial->getEditState());
 
     return addMaterial(material, path);
 }

@@ -27,17 +27,12 @@ def _material_value(value):
     if isinstance(value, (list, tuple)):
         return [_material_value(item) for item in value]
     if isinstance(value, Materials.Array2D):
-        rows = value.Array
-        if any(
-            cell.Value == 0 and not any(cell.Unit.Signature)
-            for row in rows
-            for cell in row
-        ):
-            # A null native QVariant cell is exposed as a dimensionless zero,
-            # indistinguishable from an authored zero through the current API.
+        try:
+            rows = value.TypedArray
+        except AttributeError as error:
             raise ValueError(
-                "Cannot fingerprint native 2D material arrays with ambiguous null/zero cells"
-            )
+                "Native Array2D.TypedArray is required for lossless material fingerprints"
+            ) from error
         return {
             "array2d": _material_value(rows),
             "rows": value.Rows,
@@ -72,16 +67,6 @@ def _property_value(getter, key, prop):
     # value. Empty arrays still have dimensions/columns that must be retained.
     if prop.Empty and prop.Type == "Quantity":
         return None
-    if (
-        prop.Type == "2DArray"
-        and not prop.Empty
-        and any(column.Type != "Quantity" for column in prop.Columns)
-    ):
-        # The native Array2D Python getter converts every QVariant cell to a
-        # Quantity, losing raw Float/Integer cells written by the native GUI.
-        raise ValueError(
-            "Cannot fingerprint native 2D material arrays with non-Quantity columns"
-        )
     return _material_value(getter(key))
 
 

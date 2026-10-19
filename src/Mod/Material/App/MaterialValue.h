@@ -147,6 +147,7 @@ public:
     ~Array2D() override = default;
 
     Array2D& operator=(const Array2D& other);
+    bool operator==(const MaterialValue& other) const override;
 
     bool isNull() const override;
     bool isEmpty() const override;
@@ -172,7 +173,17 @@ public:
     }
     void setColumns(int size)
     {
+        _hasExplicitValue = _hasExplicitValue || _columns != size;
         _columns = size;
+    }
+    // Presence for native material inheritance, separate from the legacy empty/null shape.
+    bool hasExplicitValue() const
+    {
+        return _hasExplicitValue;
+    }
+    void setExplicitValue(bool value)
+    {
+        _hasExplicitValue = value;
     }
     void addRow(const std::shared_ptr<QList<QVariant>>& row);
     void insertRow(int index, const std::shared_ptr<QList<QVariant>>& row);
@@ -189,6 +200,7 @@ protected:
 
     QList<std::shared_ptr<QList<QVariant>>> _rows;
     int _columns;
+    bool _hasExplicitValue = false;
 
 private:
     static void dumpRow(const std::shared_ptr<QList<QVariant>>& row);

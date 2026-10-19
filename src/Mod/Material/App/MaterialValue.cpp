@@ -21,8 +21,14 @@
  *                                                                         *
  **************************************************************************/
 
+#include <bit>
+#include <climits>
+#include <cstdint>
+#include <type_traits>
+
 #include <QMetaType>
 #include <QRegularExpression>
+#include <yaml-cpp/yaml.h>
 
 
 #include <App/Application.h>
@@ -368,6 +374,9 @@ void Array2D::deepCopy(const Array2D& other)
 {
     // Deep copy
     for (auto& row : other._rows) {
+        if (!row) {
+            throw InvalidProperty("Cannot copy Array2D with a null row");
+        }
         QList<QVariant> vv;
         for (auto& col : *row) {
             QVariant newVariant(col);
@@ -375,6 +384,7 @@ void Array2D::deepCopy(const Array2D& other)
         }
         addRow(std::make_shared<QList<QVariant>>(vv));
     }
+    _hasExplicitValue = other._hasExplicitValue;
 }
 
 bool Array2D::isNull() const
@@ -452,11 +462,13 @@ std::shared_ptr<QList<QVariant>> Array2D::getRow(int row)
 void Array2D::addRow(const std::shared_ptr<QList<QVariant>>& row)
 {
     _rows.push_back(row);
+    _hasExplicitValue = true;
 }
 
 void Array2D::insertRow(int index, const std::shared_ptr<QList<QVariant>>& row)
 {
     _rows.insert(_rows.begin() + index, row);
+    _hasExplicitValue = true;
 }
 
 void Array2D::deleteRow(int row)
@@ -465,10 +477,12 @@ void Array2D::deleteRow(int row)
         throw InvalidIndex();
     }
     _rows.erase(_rows.begin() + row);
+    _hasExplicitValue = true;
 }
 
 void Array2D::setRows(int rowCount)
 {
+    _hasExplicitValue = true;
     while (rows() < rowCount) {
         auto row = std::make_shared<QList<QVariant>>();
         for (int i = 0; i < columns(); i++) {
@@ -486,6 +500,7 @@ void Array2D::setValue(int row, int column, const QVariant& value)
     auto val = getRow(row);
     try {
         val->replace(column, value);
+        _hasExplicitValue = true;
     }
     catch (const std::out_of_range&) {
         throw InvalidIndex();
@@ -521,48 +536,212 @@ void Array2D::dump() const
     }
 }
 
-QString Array2D::getYAMLString() const
+namespace
 {
-    if (isNull()) {
-        return QString();
+
+bool arrayCellsEqual(const QVariant& left, const QVariant& right)
+{
+    if (left.userType() != right.userType() || left.isNull() != right.isNull()) {
+        return false;
     }
+    if (!left.isValid()) {
+        return true;
+    }
+    if (left.userType() == qMetaTypeId<Base::Quantity>()) {
+        if (left.isNull()) {
+            return true;
+        }
+        const auto lhs = left.value<Base::Quantity>();
+        const auto rhs = right.value<Base::Quantity>();
+        return std::bit_cast<std::uint64_t>(lhs.getValue())
+            == std::bit_cast<std::uint64_t>(rhs.getValue())
+            && lhs.getUnit() == rhs.getUnit();
+    }
+    switch (left.userType()) {
+        case QMetaType::Float:
+            return left.isNull()
+                || std::bit_cast<std::uint32_t>(left.value<float>())
+                == std::bit_cast<std::uint32_t>(right.value<float>());
+        case QMetaType::Double:
+            return left.isNull()
+                || std::bit_cast<std::uint64_t>(left.value<double>())
+                == std::bit_cast<std::uint64_t>(right.value<double>());
+        case QMetaType::QString:
+            return left.isNull()
+                || (left.value<QString>() == right.value<QString>()
+                    && left.value<QString>().isNull() == right.value<QString>().isNull());
+        case QMetaType::Char:
+        case QMetaType::SChar:
+        case QMetaType::UChar:
+        case QMetaType::Short:
+        case QMetaType::UShort:
+        case QMetaType::Int:
+        case QMetaType::UInt:
+        case QMetaType::Long:
+        case QMetaType::ULong:
+        case QMetaType::LongLong:
+        case QMetaType::ULongLong:
+        case QMetaType::Bool:
+            return left == right;
+        default:
+            throw InvalidProperty("Unsupported Array2D cell type");
+    }
+}
 
-    // Set the correct indentation. 9 chars in this case
-    QString pad;
-    pad.fill(QChar::fromLatin1(' '), 9);
+void beginArrayCell(YAML::Emitter& yaml, const char* type, bool null)
+{
+    yaml << YAML::Flow << YAML::BeginMap << YAML::Key << "Type" << YAML::Value << type << YAML::Key
+         << "Null" << YAML::Value << null;
+}
 
-    // Save the array contents
-    QString yaml = QStringLiteral("\n      - [");
-    bool firstRow = true;
-    for (auto& row : _rows) {
-        if (!firstRow) {
-            // Each row is on its own line, padded for correct indentation
-            yaml += QStringLiteral(",\n") + pad;
+template<typename T>
+void emitArrayNumber(YAML::Emitter& yaml, const QVariant& cell, const char* type)
+{
+    beginArrayCell(yaml, type, cell.isNull());
+    yaml << YAML::Key << "Bits" << YAML::Value << sizeof(T) * CHAR_BIT;
+    if (!cell.isNull()) {
+        std::string value;
+        if constexpr (std::is_floating_point_v<T>) {
+            using Bits = std::conditional_t<sizeof(T) == 4, std::uint32_t, std::uint64_t>;
+            value = QString::number(std::bit_cast<Bits>(cell.value<T>()), 16)
+                        .rightJustified(sizeof(T) * 2, QLatin1Char('0'))
+                        .toStdString();
+        }
+        else if constexpr (std::is_signed_v<T>) {
+            value = std::to_string(static_cast<long long>(cell.value<T>()));
         }
         else {
-            firstRow = false;
+            value = std::to_string(static_cast<unsigned long long>(cell.value<T>()));
         }
-        yaml += QStringLiteral("[");
-
-        bool first = true;
-        for (auto& column : *row) {
-            if (!first) {
-                // TODO: Fix for arrays with too many columns to fit on a single line
-                yaml += QStringLiteral(", ");
-            }
-            else {
-                first = false;
-            }
-            yaml += QStringLiteral("\"");
-            auto quantity = column.value<Base::Quantity>();
-            yaml += QString::fromStdString(quantity.getUserString());
-            yaml += QStringLiteral("\"");
-        }
-
-        yaml += QStringLiteral("]");
+        yaml << YAML::Key << "Value" << YAML::Value << value;
     }
-    yaml += QStringLiteral("]");
-    return yaml;
+    yaml << YAML::EndMap;
+}
+
+void emitArrayCell(YAML::Emitter& yaml, const QVariant& cell)
+{
+    if (!cell.isValid()) {
+        beginArrayCell(yaml, "Null", true);
+    }
+    else if (cell.userType() == qMetaTypeId<Base::Quantity>()) {
+        beginArrayCell(yaml, "Quantity", cell.isNull());
+        if (!cell.isNull()) {
+            const auto quantity = cell.value<Base::Quantity>();
+            const auto bits = std::bit_cast<std::uint64_t>(quantity.getValue());
+            const auto value = QString::number(bits, 16).rightJustified(16, QLatin1Char('0'));
+            yaml << YAML::Key << "Value" << YAML::Value << value.toStdString() << YAML::Key
+                 << "Unit" << YAML::Value << YAML::Flow << YAML::BeginSeq;
+            for (const auto exponent : quantity.getUnit().exponents()) {
+                yaml << static_cast<int>(exponent);
+            }
+            yaml << YAML::EndSeq;
+        }
+    }
+    else {
+        switch (cell.userType()) {
+            case QMetaType::Char:
+                return emitArrayNumber<char>(yaml, cell, "Char");
+            case QMetaType::SChar:
+                return emitArrayNumber<signed char>(yaml, cell, "SChar");
+            case QMetaType::UChar:
+                return emitArrayNumber<unsigned char>(yaml, cell, "UChar");
+            case QMetaType::Short:
+                return emitArrayNumber<short>(yaml, cell, "Short");
+            case QMetaType::UShort:
+                return emitArrayNumber<unsigned short>(yaml, cell, "UShort");
+            case QMetaType::Int:
+                return emitArrayNumber<int>(yaml, cell, "Int");
+            case QMetaType::UInt:
+                return emitArrayNumber<unsigned int>(yaml, cell, "UInt");
+            case QMetaType::Long:
+                return emitArrayNumber<long>(yaml, cell, "Long");
+            case QMetaType::ULong:
+                return emitArrayNumber<unsigned long>(yaml, cell, "ULong");
+            case QMetaType::LongLong:
+                return emitArrayNumber<qlonglong>(yaml, cell, "LongLong");
+            case QMetaType::ULongLong:
+                return emitArrayNumber<qulonglong>(yaml, cell, "ULongLong");
+            case QMetaType::Float:
+                return emitArrayNumber<float>(yaml, cell, "Float");
+            case QMetaType::Double:
+                return emitArrayNumber<double>(yaml, cell, "Double");
+            case QMetaType::Bool:
+                beginArrayCell(yaml, "Bool", cell.isNull());
+                if (!cell.isNull()) {
+                    yaml << YAML::Key << "Value" << YAML::Value << cell.value<bool>();
+                }
+                break;
+            case QMetaType::QString: {
+                beginArrayCell(yaml, "QString", cell.isNull());
+                if (!cell.isNull()) {
+                    // Explicit UTF-16 code units preserve NUL and even unpaired surrogates;
+                    // UTF-8 conversion would silently replace the latter.
+                    const auto text = cell.value<QString>();
+                    QString units;
+                    for (const auto code : text) {
+                        units += QString::number(code.unicode(), 16).rightJustified(4, QLatin1Char('0'));
+                    }
+                    yaml << YAML::Key << "StringNull" << YAML::Value << text.isNull() << YAML::Key
+                         << "UTF16" << YAML::Value << units.toStdString();
+                }
+                break;
+            }
+            default:
+                throw InvalidProperty("Unsupported Array2D cell type");
+        }
+    }
+    yaml << YAML::EndMap;
+}
+
+}  // namespace
+
+bool Array2D::operator==(const MaterialValue& other) const
+{
+    const auto* array = dynamic_cast<const Array2D*>(&other);
+    if (!array || columns() != array->columns() || rows() != array->rows()) {
+        return false;
+    }
+    for (int row = 0; row < rows(); ++row) {
+        const auto left = getRow(row);
+        const auto right = array->getRow(row);
+        if (!left || !right || left->size() != columns() || right->size() != columns()) {
+            throw InvalidProperty("Cannot compare Array2D with inconsistent row width");
+        }
+        for (int column = 0; column < columns(); ++column) {
+            if (!arrayCellsEqual(left->at(column), right->at(column))) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+QString Array2D::getYAMLString() const
+{
+    if (columns() < 0) {
+        throw InvalidProperty("Cannot save Array2D with negative column count");
+    }
+    // Version 1 reads the historical quantity-string format, but old FreeCAD versions cannot
+    // read this typed format. Native IEEE bits and unit exponents avoid display/locale rounding.
+    YAML::Emitter yaml;
+    yaml << YAML::Flow << YAML::BeginMap << YAML::Key << "Format" << YAML::Value << "FreeCAD.Array2D"
+         << YAML::Key << "Version" << YAML::Value << 1 << YAML::Key << "Columns" << YAML::Value
+         << columns() << YAML::Key << "Rows" << YAML::Value << YAML::BeginSeq;
+    for (const auto& row : _rows) {
+        if (!row || row->size() != columns()) {
+            throw InvalidProperty("Cannot save Array2D with inconsistent row width");
+        }
+        yaml << YAML::Flow << YAML::BeginSeq;
+        for (const auto& cell : *row) {
+            emitArrayCell(yaml, cell);
+        }
+        yaml << YAML::EndSeq;
+    }
+    yaml << YAML::EndSeq << YAML::EndMap;
+    if (!yaml.good()) {
+        throw InvalidProperty("Could not serialize Array2D");
+    }
+    return QStringLiteral("\n      - ") + QString::fromUtf8(yaml.c_str());
 }
 
 //===

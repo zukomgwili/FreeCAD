@@ -208,6 +208,7 @@ void MaterialProperty::setType(const QString& type)
     if (mappedType == MaterialValue::Array2D) {
         auto arrayPtr = std::make_shared<Array2D>();
         arrayPtr->setColumns(columns());
+        arrayPtr->setExplicitValue(false);
         _valuePtr = arrayPtr;
     }
     else if (mappedType == MaterialValue::Array3D) {
@@ -337,6 +338,9 @@ void MaterialProperty::setValue(const QString& value)
 
 void MaterialProperty::setValue(const std::shared_ptr<MaterialValue>& value)
 {
+    if (const auto array = std::dynamic_pointer_cast<Array2D>(value)) {
+        array->setExplicitValue(true);
+    }
     _valuePtr = value;
 }
 
@@ -1451,7 +1455,13 @@ void Material::saveModels(QTextStream& stream, bool saveInherited) const
                 }
 
                 if (!inherited || !parentProperty || (*property != *parentProperty)) {
-                    if (!property->isNull()) {
+                    if (const auto array
+                        = std::dynamic_pointer_cast<Array2D>(property->getMaterialValue());
+                        inherited && parentProperty && array && !array->hasExplicitValue()
+                        && array->isNull()) {
+                        continue;
+                    }
+                    if (!property->isNull() || property->getType() == MaterialValue::Array2D) {
                         stream << "    " << *property << "\n";
                     }
                 }
@@ -1503,7 +1513,13 @@ void Material::saveAppearanceModels(QTextStream& stream, bool saveInherited) con
                 }
 
                 if (!inherited || !parentProperty || (*property != *parentProperty)) {
-                    if (!property->isNull()) {
+                    if (const auto array
+                        = std::dynamic_pointer_cast<Array2D>(property->getMaterialValue());
+                        inherited && parentProperty && array && !array->hasExplicitValue()
+                        && array->isNull()) {
+                        continue;
+                    }
+                    if (!property->isNull() || property->getType() == MaterialValue::Array2D) {
                         stream << "    " << *property << "\n";
                     }
                 }
