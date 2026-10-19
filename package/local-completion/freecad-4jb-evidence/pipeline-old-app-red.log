@@ -1,0 +1,104 @@
+test_native_contact_cut_pipeline (FreeCAD4jbWitness.MaterialLifetimePipelineWitness.test_native_contact_cut_pipeline) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +200 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-4jb.PL4i24/pipeline-red/native-accounting-1so_4kfx/Geometry_Geometry.brep
+  /private/tmp/freecad-4jb.PL4i24/pipeline-red/native-accounting-1so_4kfx/Geometry_Mesh.vtk
+  /private/tmp/freecad-4jb.PL4i24/pipeline-red/native-accounting-1so_4kfx/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 72
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 73
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 74
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 75
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 76
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 77
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 78
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 79
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 80
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 81
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 82
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 83
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 84
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 85
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 86
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 87
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 88
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 89
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 90
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 91
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+ERROR
+
+======================================================================
+ERROR: test_native_contact_cut_pipeline (FreeCAD4jbWitness.MaterialLifetimePipelineWitness.test_native_contact_cut_pipeline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD4jbWitness.py", line 44, in test_native_contact_cut_pipeline
+    super().test_native_contact_cut_pipeline()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztProductionWitness.py", line 121, in test_native_contact_cut_pipeline
+    code = fea.ccx_run()
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py", line 571, in ccx_run
+    ret_code = self.start_ccx()
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py", line 525, in start_ccx
+    force_accounting.import_result(self, context)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py", line 364, in import_result
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: Accounting provenance changed while solving (model_digest); native accounting is historical, not current.
+
+----------------------------------------------------------------------
+Ran 1 test in 1.252s
+
+FAILED (errors=1)
+
+Get mesh data for constraints, materials and element geometry...
+LateralGuide:
+    Type: Fem::ConstraintDisplacement, Name: LateralGuide
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face17
+Support:
+    Type: Fem::ConstraintRigidBody, Name: Support
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+Contact:
+    Type: Fem::ConstraintContact, Name: Contact
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face6
+SectionPrint:
+    Type: Fem::ConstraintSectionPrint, Name: SectionPrint
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face12
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face17
+Getting mesh data time: 0.177 seconds.
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-4jb.PL4i24/pipeline-red/native-accounting-1so_4kfx/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.007 seconds.
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+
+CalculiX solver run...

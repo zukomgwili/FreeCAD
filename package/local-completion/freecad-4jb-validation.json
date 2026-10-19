@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "date": "2026-10-19",
+  "issue": "FreeCAD-4jb",
+  "status": "COMPLETE_SOFTWARE_FIX_AND_INSTALLED_VERIFICATION",
+  "compiled_source_commit": "d00e4a3eb79400bf25ac1f6fe16b322666464415",
+  "compiled_version": "27.1.0devR49261 +202 (Git)",
+  "installed_app": "/Applications/FreeCAD-27.1.0.app",
+  "rollback_app": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-4jb-4630d4debd.app",
+  "dependency_prefix_still_required": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "diagnosis": {
+    "historical_R44": "A completed stock retained solve refused native import on model_digest. Its post-solve constituent state was not captured; no unique retrospective historical cause is asserted.",
+    "first_full_old_installation_replay": {
+      "outcome": "PASS, not a red reproduction",
+      "revision": "49261 +200 (Git)",
+      "elapsed_seconds": 1103.3909799170215,
+      "model_digest_observations": 4,
+      "all_equal": true,
+      "report": "/private/tmp/freecad-4jb.PL4i24/retained-red/report.json",
+      "report_sha256": "5107c04945d06040acca138d3407ff54152a5515954eec423f9d16f7ee18802b"
+    },
+    "minimal_red": {
+      "outcome": "EXPECTED_FAIL",
+      "elapsed_seconds": 0.097,
+      "solver_invoked": false,
+      "reproduced_before_implementation_read": true,
+      "operation": "Retain a read-only stock ShapeMaterial getter copy in a one-tetrahedron fixture; authored input values do not change.",
+      "evidence": "minimal-old-app-red.json"
+    },
+    "real_pipeline_red": {
+      "outcome": "EXPECTED_FAIL",
+      "elapsed_seconds": 1.252,
+      "evidence": "pipeline-old-app-red.log",
+      "operation": "Real CAD/Gmsh/writer/bundled-solver/import, retaining read-only ShapeMaterial copies after actual subprocess communicate. No solver arguments, input files, returned output or recovery values substituted.",
+      "diagnostic": "Accounting provenance changed while solving (model_digest)"
+    },
+    "exact_reproduced_constituents": "Address-based ShapeMaterial strings in the analysis graph and nested mesh-quality input fingerprint. Materials::PropertyMaterial.getPyObject creates a native Material copy; its string representation includes that copy's address."
+  },
+  "implementation": {
+    "shared_leaf": "src/Mod/Fem/femtools/native_properties.py:property_value",
+    "callers": [
+      "femmesh.quality.input_fingerprint",
+      "femtools.force_accounting._model_digest"
+    ],
+    "contract": "Hash native Material identity, safe metadata, model membership, declarations, Empty state, physical/appearance/legacy contents and exact typed values. Floats use hex; Quantities retain exact value and unit signature; arrays retain dimensions and 3D depth coordinates. Non-Material leaf behaviour is unchanged.",
+    "fingerprint_migration": "Older stored material fingerprints are intentionally incompatible. Regenerate request/metadata with the ordinary writer before a new solve; never patch old metadata or promote historical results.",
+    "provenance_bypassed": false,
+    "native_solver_or_force_recovery_changed": false,
+    "ordinary_RF_SOF_SOM_CF_changed": false,
+    "fail_closed_domains": [
+      "Overlapping native physical/appearance property names whose declaration namespace is merged.",
+      "Populated native Array2D values with non-Quantity columns: the current getter can coerce raw variants and lose typed contents.",
+      "Populated dimensionless zero/null Array2D cells: the current getter cannot distinguish an empty QVariant from authored zero.",
+      "Unsupported or populated nonfinite native material values."
+    ],
+    "follow_up": "FreeCAD-3sc remains open for a qualified lossless native Array2D Python API. The guard is not silently weakened."
+  },
+  "regression_coverage": {
+    "focused_accounting_tests": 12,
+    "readonly_wrappers": "One retained copy plus 32 more preserve both input identities.",
+    "genuine_in_flight_model_mutations_rejected": 13,
+    "model_categories": [
+      "FEM material",
+      "geometry",
+      "mesh coordinates",
+      "mesh connectivity",
+      "mesh ownership",
+      "gravity",
+      "contact law",
+      "contact references",
+      "RBE reference",
+      "RBE mode",
+      "section references",
+      "section body",
+      "solver nonlinearity"
+    ],
+    "post_launch_file_identity_mutations_rejected": [
+      "deck",
+      "request",
+      "binary"
+    ],
+    "typed_native_material_mutations": 9,
+    "typed_categories": [
+      "quantity precision",
+      "float precision",
+      "list",
+      "2D cell",
+      "3D cell",
+      "3D depth coordinate",
+      "appearance",
+      "identity metadata",
+      "model membership"
+    ],
+    "empty_array_dimension_cases": 2,
+    "real_native_fail_closed_domain_cases": 3,
+    "lifecycle": "Installed command-line and GUI: ordinary Current import, exact AccountingData and Resultants preservation through save/reopen with Stale status, and an ordinary second writer/run/current result. No result promotion or hand-edited metadata."
+  },
+  "gates": {
+    "clean_native_build": "PASS at the exact compiled source commit",
+    "CTest": {
+      "outcome": "PASS",
+      "enabled_tests": 2238,
+      "included_explicit_skips": 2,
+      "pre_disabled": 8,
+      "elapsed_seconds": 106.82
+    },
+    "FEM": {
+      "outcome": "PASS",
+      "tests": 313,
+      "elapsed_seconds": 50.7
+    },
+    "staged_and_installed_application": "PASS ten serial gates at each location, including 1757 CLI tests (8 skips, 1 existing expected failure). Real-process exit status: 15 tests per mode (command-line and GUI), per location.",
+    "native_pipeline": "PASS command-line and GUI at staged and installed paths.",
+    "focused_material_lifetime_pipeline": "PASS command-line and GUI at staged and installed paths, including cold historical preservation and ordinary rerun.",
+    "native_analytic": "PASS 48 analytic contact/cut cases plus 6 explicit exit-201 rejections on staged and installed binaries; original analytic 1% force and origin-moment limits unchanged.",
+    "disjoint_supports": "PASS both locations. The exact qualification receipt has no individual executable hash field; none is invented.",
+    "installed_full_retained_replay": {
+      "outcome": "PASS_SOFTWARE_SCOPE",
+      "elapsed_seconds": 1159.3112072921358,
+      "writers": 1,
+      "solves": 1,
+      "remeshes": 0,
+      "solver_iterations": 41,
+      "readonly_material_copies_retained": 414,
+      "model_digest_observations": 4,
+      "all_equal": true,
+      "current_import": true,
+      "exact_saved_AccountingData_and_Resultants_preserved": true,
+      "restored_result_historical": true,
+      "generated_inputs_unchanged": true,
+      "protected_original_sources_unchanged": true,
+      "regenerated_deck_difference": "Only native timestamp and owned document-name footer comments.",
+      "request_sha256": "5ca9e95051c4acc1bb20162575448ca38eaee01d0a6cb8a4233ef097a047bcbb",
+      "repeat_solve_scope": "Second ordinary solve covered in faithful small installed pipeline; full retained assembly solved once."
+    },
+    "custody": "PASS installed equals sealed stage (4308 inventory entries); rollback equals original (4307); strict deep signatures/QuickLook entitlements; source/module hashes; read-only/cache-free resources; both user profiles and 11 external namespace files unchanged; no native app processes left.",
+    "review": "Independent source and final-audit reviews completed; actionable findings addressed. This is software review, not engineering review.",
+    "formatting": "PASS standalone Black check on four new/updated helper/test/witness files and git diff --check. Pixi Python has no Black module; the installed standalone Black tool was used.",
+    "Rails": "N/A: no Rails app, Gemfile, applicable bin wrappers or importmap; FreeCAD native gates apply."
+  },
+  "binary_custody": {
+    "bundled_signed_native_unchanged_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+    "signature_normalized_native_code_identity": "09e5735a7733ce43e3d367b77d6c8be200d85319abb54defe12dbab3797f58c5",
+    "ordinary_ccx_unchanged_sha256": "b94868f6dd50533d7a8f11d271864a04bbf01f4117046d0c5b35e3cad470aac6"
+  },
+  "development_evidence": {
+    "root": "/private/tmp/freecad-4jb.PL4i24",
+    "full_build_log_sha256": "0972073b5693b2972e8621061652c1288c3f801d884a76a4f1f44162cd965ba2",
+    "ctest_log_sha256": "b3500ae8986e4703b5d771bd17766e0feed41097e39bf3a332db98d2922ea7f9",
+    "fem_log_sha256": "21b97074d12e51893228f697525596abfbe9be96052c27e9b219d3ae88960198",
+    "installation_root": "/private/tmp/freecad-4jb-install.xm5ICZ",
+    "retained_private_producer_limit": "Final audit records current private witness/supervisor hashes; it does not invent a before/after producer hash capture.",
+    "retained_failed_attempts": [
+      "Old-installation minimal and real-pipeline red cases preserved.",
+      "Initial Fem target did not copy Python scripts; corrected with FemScriptsTarget. Initial logs remain private and are not claimed green.",
+      "Initial cold-rerun witness assumed an old document name; corrected to locate its actual owning document. Failed pipeline-green2.log preserved.",
+      "Initial focused staged supervisor OK regex captured a newline and rejected green process output; stage-4jb-cmd-attempt1 summary/logs preserved as supervisor failure."
+    ]
+  },
+  "durable_evidence_directory": "freecad-4jb-evidence",
+  "durable_evidence_sha256": {
+    "final-audit.json": "1981d3cca212c5024d1ee3ecc3ad08cd14e7884b2c8522b1d9b05e542c336ee6",
+    "installed-disjoint-supports.json": "dfc9a9097acebfe0b97b07950f33df3e5587c5fb6c400313d0017daac369b207",
+    "installed-focused-cmd.json": "b514215f10969dca19eafb206f9911813ee46d20681bc88a54f35d4d6a333317",
+    "installed-focused-gui.json": "fc175b6f091301c11eea31b29f30a7dd11a8b9baa2b903940e36c78e1f90a266",
+    "installed-native-analytic.json": "5bcb15ba299d66249f5a1256132b3ffa2c001f74d245c41420a1f254d06add54",
+    "installed-sequence.json": "09721a9c1a6bf52382b6cd653441706f502549b7f437dba81899ea62119e4fa0",
+    "minimal-old-app-red.json": "959dd5a4bad6c1bf333711dd5eaab2f455ada0dc246c216a7fd008c5f205f4a3",
+    "pipeline-old-app-red.log": "8289b23959176097129e3320cace90aa60a6a177a5e8e8fc2d447eb345935e24",
+    "retained-installed-software-replay.json": "13ffab0a18ad0027e8de753f4639f37a555c4cee73c5f9ca42d617e6a798cc4a",
+    "retained-installed-supervisor.json": "6cd0693d1d33433c356c69f1df71ff2ae78e2be127f7ba74ee0277ab6b5978bd",
+    "stage-focused-cmd.json": "7772434ba9c618217793754dfa7dad6e621d5e9d41ed1563e341176fa284e8dd",
+    "stage-focused-gui.json": "52ad725d8cd3245204fa35c1cf16a8aadb1aeeb13017dccd48e8e0b21cb27c2a",
+    "stage-sequence.json": "00107690211e0bd9d02a0ef5516fccdf1ac52d9785ecf32f07d29b939f50c991"
+  },
+  "engineering_boundary": {
+    "design_accepted": false,
+    "engineering_acceptance": "NOT_ASSESSED",
+    "original_declared_50_checks": "NOT_ASSESSED_BY_THIS_SOURCE_BUG_TASK",
+    "original_force_and_global_origin_moment_limits_percent": 1,
+    "legacy_96_failed_checks": "UNCHANGED_FAILED",
+    "original_physics_retuned_or_remeshed": false,
+    "original_evidence_or_BIM_repository_modified": false,
+    "full_building_vectors_or_geometry_snapshots_published": false,
+    "meaning": "Successful native import/lifecycle is not equilibrium, stress/contact accuracy, mesh convergence, strength, BIM or building-design acceptance. The original applicable equilibrium checks and independent engineering review remain separate work."
+  },
+  "preserved_skip": "FreeCAD-4vo remains skipped and unchanged."
+}
