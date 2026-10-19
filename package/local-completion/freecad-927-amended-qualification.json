@@ -1,0 +1,306 @@
+{
+  "schema": "FREECAD_927_AMENDED_SOFTWARE_QUALIFICATION_V1",
+  "issue": "FreeCAD-927",
+  "date": "2026-10-19",
+  "status": "VERIFIED_AMENDED_SAMPLING_SOFTWARE",
+  "source_commit": "e1620949c96bdd8cea229fcc8e127bb56ac21f8b",
+  "compiled_revision": "49261 +211 (Git)",
+  "scope": "FreeCAD saved owner-specific contact-side displacement capability on an unchanged private retained fixture. This completes the amended software qualification, not the original97 sample record or any engineering acceptance.",
+  "public_interface": "ObjectsFem.makeResultContactObservation / explicit Proxy.refresh / qualified Proxy.getObservations; native GUI command, editable saved properties and context-menu Refresh",
+  "implementation": {
+    "properties": {
+      "PointSide": "Slave or Master; default Slave",
+      "SlaveVertex": "Existing behavior/default1 preserved",
+      "MasterVertex": "Existing master-face vertex ordinal; default1"
+    },
+    "original_owners_and_slave_reference_frame_preserved": true,
+    "existing_query_vertex_on_both_bounded_CAD_faces_required_before_source_access": true,
+    "legacy_restore_preserves_literal_and_saved_slave_vertex": true,
+    "any_selector_edit_withdraws_qualified_reads": true,
+    "output": "Independent owner-grounded global XYZ/mm displacement at the SAME unchanged reference point, original IDs, source provenance and original-slave frame. Not CDIS, recovered stress, gap/slip acceptance or a building verdict.",
+    "native_sampler_sha256": "4efd77f264efd71910bec2b543d054728c3ac7ca4858812ef963c138749d0d73",
+    "native_sampler_changed_in_this_amendment": false,
+    "source_hashes": {
+      "src/Mod/Fem/femobjects/result_contact_observation.py": "1135a6eea603542de11750376522012e3643a76f64db95334f2e5f1e417ec2e9",
+      "src/Mod/Fem/femresult/contact_observation.py": "972d22bb0cf2453fb6a25f0053594606014c8373b56bafc42435f5f9307dfa5c",
+      "src/Mod/Fem/femtest/app/test_contact_observation_native.py": "a68163a46bae6c7a3bd71dec49fa67cf84aa1f606006226064fcf5dd5e529d9c",
+      "src/Mod/Fem/femtest/gui/test_contact_observation.py": "b93fbd8438a15ec7c5e1fe9ddf0af2315b3fc90813e2b50b9e059c0e872b9c1e"
+    }
+  },
+  "amendment": {
+    "human_authorization": "Yes, prepare the reviewed sampling-method amendment, keeping geometry, loads and acceptance limits unchanged, then continue FreeCAD-927 to completion.",
+    "rejected_r01_preserved": "freecad-927-sampling-amendment.json",
+    "r01_review": "freecad-927-sampling-r01-review.json",
+    "r02_method": "freecad-927-sampling-amendment-r02.json",
+    "r02_method_sha256": "e38cd7a25a0299b786c26e1ed2b8df947d61631855876a312ae7a1127e13cf88",
+    "r02_geometry_review": "freecad-927-sampling-r02-review.json",
+    "r02_geometry_review_sha256": "7c4877ff3f8c108275948320bf80038e775c34d8bbb5044d5b507138d6ce1d2a",
+    "frozen_candidate_inventory_sha256": "e31a920c06bdb97c4c65cfb0690b88e500d8cb4cce33f3cc5ea2535dc48ef0a9",
+    "selected_map_sha256": "8172ecfba338511b796c43f63788553fdedf8ba420138ea18d93a9079151fc04",
+    "groups": {
+      "Master:1": 24,
+      "Slave:1": 72,
+      "Slave:5": 1
+    },
+    "selection": "Geometry-only deterministic lowest eligible EXISTING vertex, on both bounded faces and positive-area native overlap for the25amended samples; exact native owner-mesh containment and finite native frames proved using synthetic vectors before physical U. No response-guided selection, projection, snapping, tolerance relaxation or physical change.",
+    "original_72_samples_and_48_raw_pair_identities_preserved": true,
+    "eight_separate_support_controls_preserved": true
+  },
+  "preserved_original_failed_qualification": {
+    "public_record": "freecad-927-qualification.json",
+    "source_commit": "e5d76bbcdd5a2831a5a9702d2c90128b1832e0b1",
+    "result": "72/97 AVAILABLE;25 master samples genuinely outside their bounded CAD faces. Original97 aggregate remains failed and unrepaired; r02 is a distinct human-authorized amended set.",
+    "full_report_sha256": "0817885da087d4592f586e6ffc4ebf2efd9a497b34cc319acec993ef0ca3b7ea",
+    "literal_sha256": "083f729ea09b8a5bbfa90ca8c469b2d29e80204a83b79f7eff23ab13bd40430b",
+    "no_retrospective_BOUND_rebinding": true
+  },
+  "test_first": {
+    "missing_selector_native_RED": {
+      "tests": 1,
+      "exit_code": 1,
+      "reaped": true,
+      "timed_out": false,
+      "log_sha256": "d82fa50b832b759289eccab9847465b92524ab5cf484e37eba258664f8e22c9f"
+    },
+    "initial_native_GREEN": {
+      "tests": 1,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false,
+      "log_sha256": "b156330f455705c46d8237ac13d6fe0b42a2b74b22db191691fbbd4743ced4c4"
+    },
+    "final_focused_native": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/selector-native-final/execution.json",
+      "execution_sha256": "8ad736604ba4913293ac55f83d6bdc1f1ee7c0dd16e15618fe58351bbf6da4da",
+      "log_sha256": "22f94bbc24d81a7a5a5b2ef77b0c30dfe8d9b0bcd16c68701bd9a197d51cd6c1",
+      "tests": 10,
+      "test_seconds": 7.578,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false
+    },
+    "permanent_failure_regression": "Public bounded-CAD refusal precedes a temporarily missing newly generated toy FRD; valid query reports missing source; original toy bytes/history preserved and Available recovers after exact restore. No permanent private-helper call-count test."
+  },
+  "clean_compiled_quality_gates": {
+    "commit": "e1620949c96bdd8cea229fcc8e127bb56ac21f8b",
+    "native_revision": "49261 +211 (Git)",
+    "Version_h_commit_and_revision_read": true,
+    "git_status_porcelain_empty": true,
+    "all_four_built_python_file_hashes_match_reviewed_sources": true,
+    "clean_build": {
+      "log": "/private/tmp/freecad-927-source.9KQEzZ/clean-selector-build.log",
+      "log_sha256": "c17b2b8fd7c7748b16a2f76d005d5c30a9b6b987e89e3c1838d4ed0734670a53",
+      "root_reported_exit_code": 0,
+      "reviewer_read_generated_version_and_successful_link_steps": true
+    },
+    "FEM_App": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/fem-clean-selector/execution.json",
+      "execution_sha256": "b8e23f96efadcf74b70531893fbfe6340e334ae093a13f8c551b02bb26b10f36",
+      "log_sha256": "dbe35e555ba3d046588ee7d437acc02bac5ed126ba103079dece122d38009593",
+      "tests": 373,
+      "test_seconds": 51.275,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false
+    },
+    "FEM_GUI": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/gui-clean-selector/execution.json",
+      "execution_sha256": "10b2e88745d1387b41662b46e6c6c800e1e8d14b23d899073a0fa1ddc681fdd1",
+      "log_sha256": "4c25a711a7710b4332a8dc11d2133d23dcd6632e7f9f223f58478956aa959c15",
+      "tests": 7,
+      "test_seconds": 2.497,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false
+    },
+    "CTest": {
+      "log": "/private/tmp/freecad-927-source.9KQEzZ/ctest-clean-selector.log",
+      "log_sha256": "0963eb3bbd69ec5e1a79d620a7700919df6d9175eb3ed987e0c21badcf389b6e",
+      "root_reported_exit_code": 0,
+      "catalogue_tests": 2274,
+      "actual_passed": 2264,
+      "runtime_skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "elapsed_seconds": 164.4,
+      "literal_summary": "100% tests passed out of 2266",
+      "skipped_and_disabled_are_not_counted_as_passed": true
+    }
+  },
+  "formatting": "Existing /opt/anaconda3/bin/black --check --line-length 100 on all four changed Python files and git diff --check pass; no dependency installed. Pixi environment has no Black module.",
+  "Rails_checks": "Not applicable: no Rails app, Gemfile or configured Rails wrappers. Native FreeCAD gates are recorded explicitly.",
+  "warning_free_claim": false,
+  "no_U_preflight": {
+    "passed": true,
+    "elapsed_seconds": 149.8238397918176,
+    "current_native_resolver_calls": 97,
+    "selector_groups": {
+      "Master:1": 24,
+      "Slave:1": 72,
+      "Slave:5": 1
+    },
+    "selected_points_sha256": "8172ecfba338511b796c43f63788553fdedf8ba420138ea18d93a9079151fc04",
+    "prohibited_source_solver_calls": {},
+    "physical_response_reads": 0,
+    "final_physical_unchanged": true,
+    "owned_input_file_unchanged": true
+  },
+  "fresh_retained_run": {
+    "passed": true,
+    "ordinary_writers": 1,
+    "ordinary_solves": 1,
+    "solver_seconds": 763.6058579159435,
+    "native_report_seconds": 1488.2445080000907,
+    "supervisor_seconds": 1488.7261685000267,
+    "exit_code": 0,
+    "reaped": true,
+    "timed_out": false,
+    "pairs": 97,
+    "sides": 194,
+    "unavailable_pairs": 0,
+    "ambiguous_sides": 0,
+    "side_methods": {
+      "NATIVE_VTK_SURFACE": 48,
+      "ORIGINAL_NODE": 146
+    },
+    "public_refreshes": 3,
+    "ownership_contexts_per_group": [
+      1,
+      1,
+      1
+    ],
+    "exact_raw_original_node_pairs": 48,
+    "separate_raw_support_controls": 8,
+    "deck_comparison": {
+      "allowed_comment_counts": {
+        "file_name": 1,
+        "written_on": 1
+      },
+      "compared_lines": 2238970,
+      "identical_except_two_declared_native_footer_comments": true
+    },
+    "accounting_request_sha256": "5ca9e95051c4acc1bb20162575448ca38eaee01d0a6cb8a4233ef097a047bcbb",
+    "actual_qualified_successor_saved": true,
+    "qualified_FCStd_sha256": "6115f7ba9000ecefce6b02666a4a6dc7e36e687e514d1c4449d73db4667d3210",
+    "fresh_FRD_sha256": "b95facd2f70b5673e51301425d83a75d445e14c66ce81bfdc133bbacc742a56e",
+    "saved_manifest_sha256": "897f13da48ede905b6a55c446b397a606a4ef2a58f6f51f12512dfd3ff692ede",
+    "final_physical_unchanged": true,
+    "original_inputs_final_fence": {
+      "count": 4,
+      "passed": true
+    },
+    "source_build_harness_final_fence": {
+      "count": 1711,
+      "passed": true
+    },
+    "generated_input_final_fence": {
+      "count": 3,
+      "passed": true
+    },
+    "fresh_source_final_fence": {
+      "count": 5,
+      "passed": true
+    }
+  },
+  "separate_cold_history": {
+    "passed": true,
+    "supervisor_seconds": 14.835391084197909,
+    "exit_code": 0,
+    "reaped": true,
+    "timed_out": false,
+    "historical_features": 3,
+    "contacts": 97,
+    "exact_literal_hashes": [
+      "d97721270ea3b3fb63026112412d210e10bbaf869381f6de89a3a332d1301e27",
+      "5b6b85f1d78ee696f703150650d6846898b1164657c73ee878a85f1304135d5f",
+      "850cfa9fafe881700e375d5d86eb288598c13b6161159498b70a20f9faf3ffd9"
+    ],
+    "all_qualified_reads_rejected": true,
+    "prohibited_source_solver_calls": {},
+    "saved_file_unchanged": true,
+    "native_identity_unchanged": false,
+    "rule": "Preserves history; NOT current-qualified after restore. No FRD decoding, implicit/explicit refresh, writer, solver, recompute, save or native-ID repair. A future current source requires explicit validation and possibly a new ordinary solve; no such claim is made by this cold gate.",
+    "original_inputs_final_fence": {
+      "count": 4,
+      "passed": true
+    },
+    "source_build_harness_final_fence": {
+      "count": 1711,
+      "passed": true
+    },
+    "fresh_source_hash_fence_only": {
+      "count": 5,
+      "passed": true
+    }
+  },
+  "cross_session_diagnostic_limit": {
+    "model_digest_cross_session_equal": false,
+    "group_hash_cross_session_equal": false,
+    "model_digest_explanation": "force_accounting._model_digest includes quality.input_fingerprint. Its linked-control identity explicitly includes (value.Document.Name, value.Name), so differently named private document opens are run-local input identities. A differing digest across preflight-owned/full-owned sessions is not itself a changed physics finding; each native run uses and verifies its own before/final identity.",
+    "group_hash_explanation": "The retained diagnostic hashes ordered native group records including numeric group identity, name, type and member list, not a canonical name/type/member semantic map. Exact changed group records were not retained, so the precise cross-process delta is unproven. FemMeshPy::getGroupElements sorts element IDs, so no unsorted element-iteration cause is asserted.",
+    "not_claimed": "No cross-session equality or repaired/normalized original native identity is claimed. Physical preservation relies on literal deck/request equality, unchanged within-run physical snapshots, same node/connectivity/geometry signatures and exact frozen native ownership cohorts, not on concealing these unequal diagnostics."
+  },
+  "custody": {
+    "private_root": "/private/tmp/freecad-927-amended-qualification.vWihUU",
+    "files_pinned_and_archived_per_stage": 1711,
+    "regular_file_bytes_per_stage": 939561381,
+    "closure_digest": "093f7773170bdda13d8f5cbcc5bf5b7ae84db1ddc218fd814ef8d00b1335d215",
+    "headless_dependency_boundary": "Includes prior955+733additional Python/VTK/ccx/Part/Fem/core dependency paths plus reviewed harnesses/methods/gates. This is headless qualification, not a complete GUI dependency closure.17 inaccessible Apple shared-cache image bytes are NOT claimed hash-frozen; OS identity is recorded.",
+    "freeze_sha256": {
+      "preflight": "572b8be5b19a95b35f6181bb18b5e0470638c2d8d6825de0e89bb5bf0e13aa18",
+      "full": "cb28cb200e9d811b767d4c201d874523927bc87202a97db9b4e37f03c502342e",
+      "cold": "2374ec60621346c5ed35cb04fcad54740aea164ab53d457fa6f6c299c98529d8"
+    },
+    "report_sha256": {
+      "preflight": "456708b60d021e518aaf34235ecca77c81afc4abf203352ed885648c52d77148",
+      "full": "52f225f3dfd02fd677f4a44215befafca0d834c5ce745e2fbb47d12c000c51b0",
+      "cold": "b0d87572b355a9168d7e6c81ca13e2dd868bf5a1ac1371511d37060cb672be8e"
+    },
+    "execution_sha256": {
+      "preflight": "c9071f92f63a81245d30ec1987acc89deb40e0f02372dcb6726d1cb9597cf934",
+      "full": "75b199594814b4af962546dfe8318da32d27db96ead4e92c7a1e53d933d51735",
+      "cold": "a12c688e615796c1558f93b597f7bad7e345a94b620b1bd0918cb21dd9df1c16"
+    }
+  },
+  "boundaries": {
+    "original_geometry_mesh_material_contact_support_load_and_solver_flags_changed": false,
+    "original_inputs_written": false,
+    "original_FRD_read": false,
+    "new_full_solve_retried": false,
+    "acceptance_limits_changed": false,
+    "unchanged_engineering_duties": "0.02mm sampled overclosure;0.01mm rear-TIED slip;5% sensitivity;both1% force/moment limits;96gapped pockets engagement-only;all whole-collector/whole-house/R30/BIM duties remain separate.",
+    "engineering_thresholds_evaluated": false,
+    "engineering_acceptance": false,
+    "Oomakhi_project_admission": false,
+    "installed_application_changed": false,
+    "installed_version_remains": "49261 +205 /5591e8e388; /Applications/FreeCAD-27.1.0.app"
+  },
+  "privacy": "Only generic behavior, aggregate qualification outcomes, review text and custody hashes are published. Original CAD/mesh, point coordinates, displacement vectors, solver outputs and profiles remain private.",
+  "independent_reviews": {
+    "source": {
+      "file": "freecad-927-amended-source-review.json",
+      "sha256": "ef4b0be9e3f1444fd07a53be7ffb6f46f17ab789e7ba94f9ce6a3157bb54ce52"
+    },
+    "runtime_harness": {
+      "file": "freecad-927-amended-harness-review.json",
+      "sha256": "d6c2cc441f75300d382370ad3d1eccfd299918ac6711ba4fcc69ed5680452a35"
+    },
+    "actual_full": {
+      "file": "freecad-927-amended-full-review.json",
+      "sha256": "dde399b2bd1c2e02b5089fe53ae9b4cc2b94dfc6b4e0cdbc131cf97c75d3a965"
+    },
+    "actual_cold_and_software_closure": {
+      "file": "freecad-927-amended-closure-review.json",
+      "sha256": "3b4956b458886b508bb5fd2ffe8c9bc920cbd7354afd5f7dabb484cf56916598",
+      "decision": "ACCEPT_FREECAD_927_SOFTWARE_CAPABILITY_QUALIFICATION_NO_REMAINING_TECHNICAL_CLOSURE_BLOCKER"
+    },
+    "actual_preflight": {
+      "private_file": "/private/tmp/freecad-927-amendment-review.JClzQB/r02-actual-preflight-full-readiness-review.json",
+      "sha256": "3801a26aba2f054aee8375fc8a48900d6cd9c6b813d8ab7d8ee06c3f7cb89a43"
+    },
+    "root_preparation": {
+      "private_file": "/private/tmp/freecad-927-amendment-review.JClzQB/r02-root-freeze-preparation-review.json",
+      "sha256": "d73f4ea6cfd9802f400bdffcd2a8edbdec55191b0966aa8652cbb72a8b53a81b"
+    }
+  }
+}

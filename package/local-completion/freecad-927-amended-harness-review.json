@@ -1,0 +1,78 @@
+{
+  "schema": "FREECAD_927_R02_PRIVATE_HARNESS_REVIEW_V1",
+  "decision": "ACCEPT_FINAL_PRIVATE_HARNESS_FOR_ROOT_STAGE_FREEZE_REVIEW",
+  "review_mode": "Independent read-only full-file review of all seven files and the imported prior helper globals/function bodies. The reviewer did not execute native FreeCAD, create an approval freeze, read physical response values or edit the harness.",
+  "private_bundle": "/private/tmp/freecad-927-amended-qualification.vWihUU",
+  "files": {
+    "scope.json": "2673ddf0d7ca625d25b057684d1383fb81b73eddabdea442265cbe529a4ca753",
+    "custody.py": "67b829098c3cdf4c2b8a09c2ba2070140a67e4fcad124ea74af3b47b02b680ec",
+    "Amended927Witness.py": "ab641e8561ffff386cd7f17875d58d67f9fb69842ac3a6460c5b46d892ba3106",
+    "Preflight927Witness.py": "01d2a23a4090ea42374d81a5308484857f1a265fbcad539d4ccf1e6e9745d681",
+    "Cold927Witness.py": "ec889fbfab1a1d58517d3a3c02f63996c1308a2abe89b304ddb2e6dd7e33cd8c",
+    "audit_saved.py": "d282c7dabf966c502b9d1350b4bb97d577d58e1ec07b9671ec1d16076ccd5c0f",
+    "run_stage.py": "3e151b83f205221eccb0e1a71880fd7cee060d26ff416cf068d4414eac4686f4"
+  },
+  "immutable_method_binding": {
+    "amendment_plan_sha256": "e38cd7a25a0299b786c26e1ed2b8df947d61631855876a312ae7a1127e13cf88",
+    "geometry_method_review_sha256": "7c4877ff3f8c108275948320bf80038e775c34d8bbb5044d5b507138d6ce1d2a",
+    "candidate_inventory_sha256": "e31a920c06bdb97c4c65cfb0690b88e500d8cb4cce33f3cc5ea2535dc48ef0a9",
+    "prior_helper_sha256": "aab4bb3102300ba4de815fb0a2975cc1aaa3a4abe5278896dfd395345cbf8962",
+    "prior_closure_manifest_sha256": "70bffd3c7b816f3d8de42857ffa216e74533f262234f4e0bf151f39ac9b8e6bf"
+  },
+  "source_contract_reviewed": {
+    "commit": "e1620949c96bdd8cea229fcc8e127bb56ac21f8b",
+    "resolver": "_resolve_point(contact, point_side, slave_vertex=1, master_vertex=1) returns original-order faces and unchanged existing vertex; no source/response read",
+    "saved_definition": ["point_side", "slave_vertex", "master_vertex"],
+    "row_selection": ["side", "vertex_ordinal_1based"],
+    "requires_clean_compiled_root_freeze_before_execution": true
+  },
+  "resolved_before_freeze": [
+    "Full witness now asserts actual emitted units/global-reference-frame label and each emitted original-slave reference frame equals the selected inventory frame at the exact frozen point.",
+    "Full and cold approval now bind the passed no-U preflight report SHA to its execution receipt.",
+    "Cold witness now binds the saved full-run manifest source_closure_digest to the currently approved immutable source/build/harness closure."
+  ],
+  "unresolved_findings": [],
+  "verified_method_and_count_contract": [
+    "Exact frozen inventory and model hashes; all 97 unique contacts and original slave/master references checked.",
+    "Three ordinary saved-feature groups only: 72 unchanged Slave:1, 24 FrontBearing Master:1, one CollectorFaying Slave:5; no response-guided reselection or reference/ownership swapping.",
+    "Each existing candidate sequence and deterministic lowest eligible ordinal remains bound to the reviewed native CAD/Common-face/frame/synthetic-ownership inventory. Current source resolver, face BRep identities, same point and original-slave frame are checked before fresh physical source access.",
+    "Public factory/refresh/getObservations used, one refresh and one observed native ownership context per group; every contact exactly once, 97 available pairs and 194 finite three-component sides required with nonempty original node/element provenance.",
+    "Every observed ownership node cohort, native assembly entity cohort and original reference is compared with the frozen contract; reported contributing node IDs must belong to that exact owner cohort.",
+    "All 48 unchanged bore pairs require ORIGINAL_NODE on both sides, distinct source identities retained by frozen/config evidence, exact original node and point IDs, and exact equality to this one freshly generated native FRD field.",
+    "Eight separate support controls retain original references, six Constraint modes, zero prescribed movement, exact native owned cohorts/minimum original node and original point; finite three-component raw fresh-U values are recorded separately without engineering thresholds or contact-slip classification."
+  ],
+  "verified_source_physical_and_custody_contract": [
+    "Only a new byte-verified private model copy and isolated stage profiles are used; original four retained model/sample/deck/request inputs are fenced before launch and in supervisor finally.",
+    "Imported old helper functions frozen/config read only their fixed byte-pinned original EVIDENCE paths; physical_snapshot uses only model/mesh identities and compare_deck uses its explicit arguments. Old helper approval, progress, reports, solver, saves and test methods are not invoked.",
+    "The old 955-path closure is required as a path set, freshly re-pinned together with current executable/Fem/native solver, source/built adapters, all seven files, method/inventory and actual separate review receipts. All bytes are archived and checked before launch and in supervisor finally.",
+    "Stage execution requires root-written stage-specific approval plus sampling/source/clean-build/harness review fields. Harnesses do not manufacture their own freeze; full/cold require the same closure digest as a successful no-U preflight.",
+    "No-U preflight has no writer, solve, refresh, save, recompute or response-read operation; selected current resolver calls and separate support identities are checked.",
+    "One ordinary native writer and bundled native solver only; unchanged model/mesh/configuration snapshots, solver hash, exact accounting request bytes and literal linewise physical deck equality are required. Only two declared nonphysical footer comments after END STEP may differ.",
+    "New solver directory and explicit new accounting result required. Only native runner-created BOUND source accepted; exact fresh FRD path/hash and generated deck/request/metadata/binary hashes fenced. No retained original FRD is decoded.",
+    "Physical snapshot/original copied file/source/generated-input/fresh-source fences remain in full witness finally; supervisor independently records original/source/build/harness fences and log/report/snapshot hashes on process exit or timeout.",
+    "Supervisor uses an isolated process group, 60-second phase progress, 180-second preflight, 3000-second full, 1800-second solver-phase, 300-second cold and bounded TERM/KILL/reap cleanup. Existing stage execution receipts and solver directories prevent silent reuse/retry.",
+    "Presolver working save is private setup, not a qualified result claim. Qualified successor save and passed report happen only after all 97/194, 48-pair and eight-support checks and fences succeed; any failure remains failure with last-phase evidence."
+  ],
+  "verified_saved_cold_chain": [
+    "Actual saved FCStd XML literal/hash/accounting string properties are audited against the full-run manifest; no reconstruction of the literal observation JSON is substituted for serialized strings.",
+    "Manifest binds exact successor file hash, feature literals/hashes/selectors/contact names, analysis/mesh/solver/accounting identities, accounting literal hash, method/inventory/closure and fresh source/controls hashes.",
+    "Separate cold process opens only that private saved successor, requires all three features Historical and accounting Stale, exact links/selector values and all 97 contact identities/literal bytes/hashes preserved, and every qualified read rejected.",
+    "Cold does not refresh, write, solve, decode FRD, save, globally recompute or repair/remap IDs. Physical save/restore identity changes are reported rather than silently repaired; historical preservation is not source requalification.",
+    "Cold finally verifies unchanged private saved successor, fresh-bound-source hashes, original inputs and source/build/harness closure."
+  ],
+  "remaining_root_gates": [
+    "Complete clean source/build/global quality gates and review the exact resulting compiled artifacts.",
+    "Root writes and reviews immutable stage approval freeze including this receipt and final source-integration review, with all required current source/build/harness pins.",
+    "Perform no-U preflight before separate full-stage authorization. Retain a failure without retry or tuning; run cold only after a genuinely successful full witness."
+  ],
+  "actual_preflight_executed": false,
+  "actual_full_qualification_executed": false,
+  "actual_cold_qualification_executed": false,
+  "authorizes_native_launch": false,
+  "physical_response_values_read_by_reviewer": false,
+  "prior_original_97_failure_preserved": true,
+  "r01_slave_only_STOP_preserved": true,
+  "engineering_acceptance": false,
+  "Oomakhi_project_admission": false,
+  "installation_approval": false
+}

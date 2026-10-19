@@ -1,0 +1,120 @@
+{
+  "schema": "FREECAD_927_R02_SOURCE_INTEGRATION_REVIEW_V1",
+  "decision": "ACCEPT_REVIEWED_SELECTOR_SOURCE_AND_COMPLETED_CLEAN_COMPILED_QUALITY_GATES_FOR_ROOT_STAGE_FREEZE_REVIEW",
+  "review_baseline": "704842182c75d5df8447b72fe82abd199886129d",
+  "reviewed_commit": "e1620949c96bdd8cea229fcc8e127bb56ac21f8b",
+  "review_mode": "Independent read-only Standards and Spec review by one reviewer. Additional review subagents unavailable because all four team slots were occupied; root separately reviewed the implementation. No reviewer source edits or native launches.",
+  "files": {
+    "src/Mod/Fem/femobjects/result_contact_observation.py": "1135a6eea603542de11750376522012e3643a76f64db95334f2e5f1e417ec2e9",
+    "src/Mod/Fem/femresult/contact_observation.py": "972d22bb0cf2453fb6a25f0053594606014c8373b56bafc42435f5f9307dfa5c",
+    "src/Mod/Fem/femtest/app/test_contact_observation_native.py": "a68163a46bae6c7a3bd71dec49fa67cf84aa1f606006226064fcf5dd5e529d9c",
+    "src/Mod/Fem/femtest/gui/test_contact_observation.py": "b93fbd8438a15ec7c5e1fe9ddf0af2315b3fc90813e2b50b9e059c0e872b9c1e"
+  },
+  "method_binding": {
+    "path": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-927-sampling-amendment-r02.json",
+    "sha256": "e38cd7a25a0299b786c26e1ed2b8df947d61631855876a312ae7a1127e13cf88",
+    "geometry_method_review_sha256": "7c4877ff3f8c108275948320bf80038e775c34d8bbb5044d5b507138d6ce1d2a"
+  },
+  "standards": {
+    "unresolved_findings": [],
+    "resolved_findings": [
+      "Permanent internal _frame/load_source profiler call-count regression was replaced with public saved-feature behavior against a temporarily missing newly generated toy FRD. The original private diagnostic remains evidence only."
+    ],
+    "observations": [
+      "Minimal existing saved-feature extension; no new recovery, interpolation formula, custom query matching or external dependency.",
+      "Source uses native face and distance APIs with unchanged 128*epsilon coordinate-roundoff bound; original IDs and existing ownership route remain unchanged.",
+      "Changed tests cover public factory/refresh/getObservations and native GUI properties, with isolated generated toy data and restored external source bytes."
+    ]
+  },
+  "spec": {
+    "unresolved_findings": [],
+    "verified_by_code_and_retained_test_evidence": [
+      "New objects retain Slave first-vertex behavior; MasterVertex defaults to one.",
+      "Legacy saved objects missing new properties restore Slave/MasterVertex=1 without replacing SlaveVertex=2, literal bytes, hash or Historical state; explicit fresh-source workflow remains required.",
+      "PointSide, SlaveVertex and MasterVertex bind the saved definition and every edit withdraws qualified reads while preserving history.",
+      "All requested existing vertices are validated on both original bounded CAD faces before load_source or native reference-frame evaluation; invalid selected Master query wins over a missing external FRD, without a point fallback.",
+      "Original references and slave/master ownership never swap. Both sides use the exact same selected vertex and the reference frame remains original-slave at that point.",
+      "Refresh failures withdraw Available; getObservations revalidates the definition and source; restored history and recompute do not automatically refresh.",
+      "GUI default modes, editability, selector changes, native links, save/reopen selector persistence and Historical qualified-read rejection are covered."
+    ]
+  },
+  "retained_tests_reviewed_not_rerun_by_reviewer": {
+    "focused_precommit_evidence_not_the_final_clean_runtime_identity": true,
+    "native": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/selector-native-final/execution.json",
+      "execution_sha256": "8ad736604ba4913293ac55f83d6bdc1f1ee7c0dd16e15618fe58351bbf6da4da",
+      "log_sha256": "22f94bbc24d81a7a5a5b2ef77b0c30dfe8d9b0bcd16c68701bd9a197d51cd6c1",
+      "tests": 10,
+      "test_seconds": 7.578,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false
+    },
+    "gui_current_built_test_only": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/selector-gui-current/execution.json",
+      "execution_sha256": "bf10c2c96fbca92904d9dcd79120e3579ad3845022a91ba41ccd515366e40ca1",
+      "log_sha256": "32c8de2d2f73a7a92f6c3d0a6cc38a8e29bca1e53976c22ed6ca802371c3333a",
+      "tests": 7,
+      "test_seconds": 1.981,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false,
+      "earlier_old_built_GUI_test_run_not_counted": true
+    }
+  },
+  "clean_compiled_identity_and_gates": {
+    "commit": "e1620949c96bdd8cea229fcc8e127bb56ac21f8b",
+    "native_revision": "49261 +211 (Git)",
+    "Version_h_commit_and_revision_read": true,
+    "git_status_porcelain_empty": true,
+    "all_four_built_python_file_hashes_match_reviewed_sources": true,
+    "clean_build": {
+      "log": "/private/tmp/freecad-927-source.9KQEzZ/clean-selector-build.log",
+      "log_sha256": "c17b2b8fd7c7748b16a2f76d005d5c30a9b6b987e89e3c1838d4ed0734670a53",
+      "root_reported_exit_code": 0,
+      "reviewer_read_generated_version_and_successful_link_steps": true
+    },
+    "FEM_App": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/fem-clean-selector/execution.json",
+      "execution_sha256": "b8e23f96efadcf74b70531893fbfe6340e334ae093a13f8c551b02bb26b10f36",
+      "log_sha256": "dbe35e555ba3d046588ee7d437acc02bac5ed126ba103079dece122d38009593",
+      "tests": 373,
+      "test_seconds": 51.275,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false
+    },
+    "FEM_GUI": {
+      "execution": "/private/tmp/freecad-927-source.9KQEzZ/gui-clean-selector/execution.json",
+      "execution_sha256": "10b2e88745d1387b41662b46e6c6c800e1e8d14b23d899073a0fa1ddc681fdd1",
+      "log_sha256": "4c25a711a7710b4332a8dc11d2133d23dcd6632e7f9f223f58478956aa959c15",
+      "tests": 7,
+      "test_seconds": 2.497,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false
+    },
+    "CTest": {
+      "log": "/private/tmp/freecad-927-source.9KQEzZ/ctest-clean-selector.log",
+      "log_sha256": "0963eb3bbd69ec5e1a79d620a7700919df6d9175eb3ed987e0c21badcf389b6e",
+      "root_reported_exit_code": 0,
+      "catalogue_tests": 2274,
+      "actual_passed": 2264,
+      "runtime_skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "elapsed_seconds": 164.40,
+      "literal_summary": "100% tests passed out of 2266",
+      "skipped_and_disabled_are_not_counted_as_passed": true
+    }
+  },
+  "remaining_gates": [
+    "Independent final private retained harness review and root-written immutable stage freeze before launch.",
+    "Actual amended 97-pair/194-side fresh-native result qualification, 48 raw-node-pair controls, eight separate support controls, save and cold history checks."
+  ],
+  "authorizes_native_launch": false,
+  "original_response_values_read_by_reviewer": false,
+  "engineering_acceptance": false,
+  "Oomakhi_project_admission": false,
+  "installation_approval": false
+}
