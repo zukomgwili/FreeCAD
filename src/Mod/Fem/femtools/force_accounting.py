@@ -24,6 +24,7 @@ from femmesh import quality
 from femobjects.base_fempythonobject import BaseFemPythonObject
 from femtools.elastic_connector import rigid_body_node_ids
 from femtools.elastic_connector import rigid_body_nodes
+from femtools.native_properties import property_value
 
 
 SCHEMA = "CCX_FORCE_ACCOUNTING_V1"
@@ -128,7 +129,7 @@ def _model_digest(analysis, mesh):
                 for entry in item
                 if not (hasattr(entry, "PropertiesList") and _is_result(entry))
             ]
-        return str(item)
+        return property_value(item)
 
     state = [quality.input_fingerprint(mesh), value(analysis)]
     return hashlib.sha256(json.dumps(state, sort_keys=True).encode()).hexdigest()

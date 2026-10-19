@@ -631,6 +631,7 @@ SET(FemTools_SRCS
     femtools/__init__.py
     femtools/ccxtools.py
     femtools/force_accounting.py
+    femtools/native_properties.py
     femtools/checksanalysis.py
     femtools/elastic_connector.py
     femtools/rigid_body.py

@@ -130,7 +130,9 @@ class ProductionAccountingWitness(unittest.TestCase):
                 )
             )
             self.assertTrue(result.Status.startswith("Current"))
-            data = json.loads(result.AccountingData)
+            raw_data = result.AccountingData
+            resultants = list(result.Resultants)
+            data = json.loads(raw_data)
             weight = (
                 1000
                 * 1e-9
@@ -181,6 +183,8 @@ class ProductionAccountingWitness(unittest.TestCase):
             doc = App.openDocument(str(saved))
             result = doc.getObject(name)
             self.assertTrue(result.Status.startswith("Stale"))
+            self.assertEqual(result.AccountingData, raw_data)
+            self.assertEqual(list(result.Resultants), resultants)
             self.assertEqual(
                 json.loads(result.AccountingData)["output_sha256"],
                 data["output_sha256"],

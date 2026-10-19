@@ -15,6 +15,8 @@ import re
 
 import FreeCAD
 
+from femtools.native_properties import property_value
+
 from . import meshtools
 
 
@@ -115,7 +117,7 @@ def input_fingerprint(mesh):
             ]
         if isinstance(value, (list, tuple)):
             return [control(item) for item in value]
-        return str(value)
+        return property_value(value)
 
     for name in sorted(mesh.PropertiesList):
         if mesh.getGroupOfProperty(name) in ("Mesh Parameters", "Mesh Provenance", "FEM Mesh"):
