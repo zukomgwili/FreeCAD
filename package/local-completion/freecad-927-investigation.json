@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "issue": "FreeCAD-927",
+  "date": "2026-10-19",
+  "status": "REPRODUCED_AND_RESEARCHED; INTERFACE_CHOICE_PENDING",
+  "source_head": "e87804280680a916ac431fdfbd0c06a57345c527",
+  "installed_compiled_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+  "installed_revision": "49261 +205 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "private_evidence": "/private/tmp/freecad-927.QNb1lN",
+  "interpretation": "Expected paired-node availability assertions fail. This reproduces the missing native master-node inputs, not a mesh-ownership regression or engineering result.",
+  "scope": {
+    "production_code_changed": false,
+    "application_built_or_installed": false,
+    "original_model_changed": false,
+    "displacement_or_stress_values_read_from_original": false,
+    "physical_tolerances_or_acceptance_limits_changed": false,
+    "engineering_or_BIM_acceptance": false,
+    "support_controls_reexecuted_this_checkpoint": false,
+    "support_controls_in_preexisting_verified_evidence": 8
+  },
+  "cases": [
+    {
+      "case": "full",
+      "meaning": "All 97 fixed samples",
+      "execution": {
+        "command": [
+          "pixi",
+          "run",
+          "--frozen",
+          "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+          "-u",
+          "/private/tmp/freecad-927.QNb1lN/full-profile/user.cfg",
+          "-s",
+          "/private/tmp/freecad-927.QNb1lN/full-profile/system.cfg",
+          "-P",
+          "/private/tmp/freecad-927.QNb1lN",
+          "-t",
+          "AvailabilityWitness"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 120.65389029099606,
+        "timed_out": false,
+        "reaped": true,
+        "witness_sha256": "8ecbfbc3374a3ca01820603ee8bc46c76e2761054dedf992bb6441bcb5777ecb",
+        "log_sha256": "1356b8bf999ebfc8fb4cc067fd847cf42490451c013e637be2f2a3fbf1c62652"
+      },
+      "execution_sha256": "db7fafeaa152156242349f2ed6f4c91f5a5cd4357a979889b806dec3a41894f1",
+      "private_observation_sha256": "99d7841b955a9d6313c21c773d5f973e8cb3e912992e41881b5bb5055883b875",
+      "aggregate_observation": {
+        "attempt": "full",
+        "source_sha256": "56bbd2b7760e270337c506088cf8717605201555d2eb65e60780afcfd1e660e5",
+        "prior_observation_sha256": "5b4f82fd8bd0b16887771eae7bd189751975473f93c2c3930e0f8f77bb6413be",
+        "compiled_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+        "no_displacement_values_read": true,
+        "writes_solves_remeshes_recomputes_saves": 0,
+        "engineering_acceptance": false,
+        "available": 48,
+        "unavailable": 49,
+        "exact_recorded_cohorts_and_candidates_reproduced": true,
+        "source_bytes_unchanged": true,
+        "owned_bytes_unchanged": true,
+        "elapsed_seconds": 118.49521941598505
+      },
+      "expected_single_assertion_failure_confirmed": true
+    },
+    {
+      "case": "minimal",
+      "meaning": "One fixed rear-seat sample; retained model not geometrically minimized",
+      "execution": {
+        "command": [
+          "pixi",
+          "run",
+          "--frozen",
+          "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+          "-u",
+          "/private/tmp/freecad-927.QNb1lN/minimal-profile/user.cfg",
+          "-s",
+          "/private/tmp/freecad-927.QNb1lN/minimal-profile/system.cfg",
+          "-P",
+          "/private/tmp/freecad-927.QNb1lN",
+          "-t",
+          "AvailabilityWitness"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 103.28999466705136,
+        "timed_out": false,
+        "reaped": true,
+        "witness_sha256": "517f3abbdf42fc8f27ed0af440dde4a85486d6a49596a513dfe3c7f0c8bffc6b",
+        "log_sha256": "8546b89397d051449e4659e1f9ee47513efa0f18eaf582eb556ee1f055c1ffd3"
+      },
+      "execution_sha256": "1db87c0055d4051e2600d739dfa4f9a53bd3493988aa0631068437e6f222ab14",
+      "private_observation_sha256": "e61a7b2173847862eb9cfa4bec728c4ee62d0d048ad6d88c931bf739f971593d",
+      "aggregate_observation": {
+        "attempt": "minimal",
+        "source_sha256": "56bbd2b7760e270337c506088cf8717605201555d2eb65e60780afcfd1e660e5",
+        "prior_observation_sha256": "5b4f82fd8bd0b16887771eae7bd189751975473f93c2c3930e0f8f77bb6413be",
+        "compiled_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+        "no_displacement_values_read": true,
+        "writes_solves_remeshes_recomputes_saves": 0,
+        "engineering_acceptance": false,
+        "available": 0,
+        "unavailable": 1,
+        "exact_recorded_cohorts_and_candidates_reproduced": true,
+        "source_bytes_unchanged": true,
+        "owned_bytes_unchanged": true,
+        "elapsed_seconds": 102.3850007080473
+      },
+      "expected_single_assertion_failure_confirmed": true
+    }
+  ],
+  "source_snapshots": [
+    {
+      "source": "/private/tmp/freecad-927.QNb1lN/AvailabilityWitness-full.py",
+      "sha256": "8ecbfbc3374a3ca01820603ee8bc46c76e2761054dedf992bb6441bcb5777ecb",
+      "bytes": 6979,
+      "preservation": "Lossless UTF-8 source snapshot, not a new execution",
+      "text": "\"\"\"Read-only actual retained first-vertex availability reproduction.\n\nNot an engineering response calculation. No matching or interpolation.\n\"\"\"\nimport sys\nsys.dont_write_bytecode = True\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport shutil\nfrom types import SimpleNamespace\nimport time\nimport unittest\n\nimport FreeCAD as App\nfrom femmesh import meshtools\nfrom femmesh.meshsetsgetter import MeshSetsGetter\nfrom femsolver.calculix.calculixutils import define_masks\nfrom femtools import membertools\n\nROOT = Path(__file__).resolve().parent\nEVIDENCE = Path('/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-accounting-fix-verification-r45')\nSOURCE = EVIDENCE / 'work/native-gravity-results.FCStd'\nSOURCE_SHA = '56bbd2b7760e270337c506088cf8717605201555d2eb65e60780afcfd1e660e5'\nOBSERVED = EVIDENCE / 'collector-native-point-observation-r02.json'\nOBSERVED_SHA = '5b4f82fd8bd0b16887771eae7bd189751975473f93c2c3930e0f8f77bb6413be'\n\n\ndef sha(path):\n    return hashlib.sha256(Path(path).read_bytes()).hexdigest()\n\n\nclass AvailabilityWitness(unittest.TestCase):\n    def test_fixed_original_points_have_independent_owned_nodes(self):\n        started = time.monotonic()\n        self.assertEqual(sha(SOURCE), SOURCE_SHA)\n        self.assertEqual(sha(OBSERVED), OBSERVED_SHA)\n        self.assertEqual(App.Version()[-1], '5591e8e388bf3506450cb407f784b89064804ddc')\n        self.assertEqual(Path(App.getHomePath()).resolve(), Path('/Applications/FreeCAD-27.1.0.app/Contents/Resources'))\n        self.assertTrue(Path(App.ConfigGet('UserParameter')).resolve().is_relative_to(ROOT))\n        prior = json.loads(OBSERVED.read_text())\n        attempt = os.environ.get('FREECAD_927_ATTEMPT', 'full')\n        owned = ROOT / (attempt + '.FCStd')\n        self.assertFalse(owned.exists())\n        shutil.copyfile(SOURCE, owned)\n        self.assertEqual(sha(owned), SOURCE_SHA)\n        doc = None\n        report = {'attempt': attempt, 'source_sha256': SOURCE_SHA,\n                  'prior_observation_sha256': OBSERVED_SHA,\n                  'compiled_commit': App.Version()[-1], 'rows': [],\n                  'no_displacement_values_read': True,\n                  'writes_solves_remeshes_recomputes_saves': 0,\n                  'engineering_acceptance': False}\n        try:\n            doc = App.openDocument(str(owned))\n            self.assertEqual(Path(doc.FileName).resolve(), owned)\n            mesh, analysis = doc.CollectorMesh, doc.CollectorAnalysis\n            member = membertools.AnalysisMember(analysis)\n            self.assertEqual(len(member.cons_contact), 193)\n            before = [(row['Object'].Name, list(row['Object'].References)) for row in member.cons_contact]\n            getter = MeshSetsGetter(analysis, doc.CollectorSolver, mesh, member)\n            masks = define_masks(doc.CollectorSolver)\n            for key in getter.face_masks:\n                getter.face_masks[key] = masks[key.removeprefix('mask_')]\n            contexts = []\n\n            def profile(frame, event, value):\n                if (event == 'return' and frame.f_globals.get('__name__') == 'femmesh.meshsetsgetter'\n                        and frame.f_code.co_name == 'get_constraints_contact_faces'):\n                    contexts.append(frame.f_locals.get('context'))\n\n            print('AVAILABILITY_927: stock ownership batch', flush=True)\n            sys.setprofile(profile)\n            try:\n                getter.get_constraints_contact_faces()\n            finally:\n                sys.setprofile(None)\n            self.assertEqual(len(contexts), 1)\n            context = contexts[0]\n            context.validate_unchanged()\n            selected = prior['initially_coincident_interfaces']\n            if attempt == 'minimal':\n                selected = [next(row for row in selected if row['contact'].endswith('RearSeat_TIED'))]\n            self.assertEqual(len(selected), 1 if attempt == 'minimal' else 97)\n            for frozen in selected:\n                contact = doc.getObject(frozen['contact'])\n                refs = list(contact.References)\n                self.assertEqual([[obj.Name, list(names)] for obj, names in refs], frozen['references_slave_then_master'])\n                face = meshtools.sub_shape_at_global_placement(refs[0][0], refs[0][1][0])\n                vertex = face.Vertexes[0]\n                self.assertEqual(list(vertex.Point), frozen['native_CAD_point_mm'])\n                candidates = set(mesh.FemMesh.getNodesByVertex(vertex))\n                self.assertEqual(sorted(candidates), frozen['native_vertex_query_ids'])\n                sides = []\n                for index, ref in enumerate(refs):\n                    selector = SimpleNamespace(Name=contact.Name + str(index), References=[ref])\n                    nodes, entities = meshtools._get_mesh_region_by_owned_references(context.femmesh, selector, mesh, context)\n                    self.assertIsNotNone(entities)\n                    self.assertTrue(nodes)\n                    side = 'slave' if index == 0 else 'master'\n                    self.assertEqual(sorted(entities), frozen[side]['native_assembly_entities'])\n                    self.assertEqual(set(nodes), set(frozen[side]['native_owned_face_node_ids']))\n                    sides.append(sorted(candidates.intersection(nodes)))\n                available = len(sides[0]) == len(sides[1]) == 1 and sides[0][0] != sides[1][0]\n                self.assertEqual(sides[0], frozen['slave_membership_candidates'])\n                self.assertEqual(sides[1], frozen['master_membership_candidates'])\n                report['rows'].append({'contact': contact.Name, 'slave_candidates': sides[0],\n                                       'master_candidates': sides[1], 'available': available})\n            self.assertEqual([(row['Object'].Name, list(row['Object'].References)) for row in member.cons_contact], before)\n            context.validate_unchanged()\n            report['available'] = sum(row['available'] for row in report['rows'])\n            report['unavailable'] = len(report['rows']) - report['available']\n            report['exact_recorded_cohorts_and_candidates_reproduced'] = True\n            print('AVAILABILITY_927: %d available, %d unavailable' % (report['available'], report['unavailable']), flush=True)\n            self.assertEqual(report['available'], len(selected), 'Missing independently owned master-node samples; paired-U route unavailable')\n        finally:\n            sys.setprofile(None)\n            if doc is not None:\n                App.closeDocument(doc.Name)\n            report['source_bytes_unchanged'] = sha(SOURCE) == SOURCE_SHA\n            report['owned_bytes_unchanged'] = sha(owned) == SOURCE_SHA\n            report['elapsed_seconds'] = time.monotonic() - started\n            (ROOT / (attempt + '-availability.json')).write_text(json.dumps(report, indent=2) + '\\n')\n            self.assertTrue(report['source_bytes_unchanged'] and report['owned_bytes_unchanged'])\n"
+    },
+    {
+      "source": "/private/tmp/freecad-927.QNb1lN/AvailabilityWitness.py",
+      "sha256": "517f3abbdf42fc8f27ed0af440dde4a85486d6a49596a513dfe3c7f0c8bffc6b",
+      "bytes": 6974,
+      "preservation": "Lossless UTF-8 source snapshot, not a new execution",
+      "text": "\"\"\"Read-only actual retained first-vertex availability reproduction.\n\nNot an engineering response calculation. No matching or interpolation.\n\"\"\"\nimport sys\nsys.dont_write_bytecode = True\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport shutil\nfrom types import SimpleNamespace\nimport time\nimport unittest\n\nimport FreeCAD as App\nfrom femmesh import meshtools\nfrom femmesh.meshsetsgetter import MeshSetsGetter\nfrom femsolver.calculix.calculixutils import define_masks\nfrom femtools import membertools\n\nROOT = Path(__file__).resolve().parent\nEVIDENCE = Path('/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/native-accounting-fix-verification-r45')\nSOURCE = EVIDENCE / 'work/native-gravity-results.FCStd'\nSOURCE_SHA = '56bbd2b7760e270337c506088cf8717605201555d2eb65e60780afcfd1e660e5'\nOBSERVED = EVIDENCE / 'collector-native-point-observation-r02.json'\nOBSERVED_SHA = '5b4f82fd8bd0b16887771eae7bd189751975473f93c2c3930e0f8f77bb6413be'\n\n\ndef sha(path):\n    return hashlib.sha256(Path(path).read_bytes()).hexdigest()\n\n\nclass AvailabilityWitness(unittest.TestCase):\n    def test_fixed_original_points_have_independent_owned_nodes(self):\n        started = time.monotonic()\n        self.assertEqual(sha(SOURCE), SOURCE_SHA)\n        self.assertEqual(sha(OBSERVED), OBSERVED_SHA)\n        self.assertEqual(App.Version()[-1], '5591e8e388bf3506450cb407f784b89064804ddc')\n        self.assertEqual(Path(App.getHomePath()).resolve(), Path('/Applications/FreeCAD-27.1.0.app/Contents/Resources'))\n        self.assertTrue(Path(App.ConfigGet('UserParameter')).resolve().is_relative_to(ROOT))\n        prior = json.loads(OBSERVED.read_text())\n        attempt = os.environ.get('FREECAD_927_ATTEMPT', 'full')\n        owned = ROOT / (attempt + '.FCStd')\n        self.assertFalse(owned.exists())\n        shutil.copyfile(SOURCE, owned)\n        self.assertEqual(sha(owned), SOURCE_SHA)\n        doc = None\n        report = {'attempt': attempt, 'source_sha256': SOURCE_SHA,\n                  'prior_observation_sha256': OBSERVED_SHA,\n                  'compiled_commit': App.Version()[-1], 'rows': [],\n                  'no_displacement_values_read': True,\n                  'writes_solves_remeshes_recomputes_saves': 0,\n                  'engineering_acceptance': False}\n        try:\n            doc = App.openDocument(str(owned))\n            self.assertEqual(Path(doc.FileName).resolve(), owned)\n            mesh, analysis = doc.CollectorMesh, doc.CollectorAnalysis\n            member = membertools.AnalysisMember(analysis)\n            self.assertEqual(len(member.cons_contact), 193)\n            before = [(row['Object'].Name, list(row['Object'].References)) for row in member.cons_contact]\n            getter = MeshSetsGetter(analysis, doc.CollectorSolver, mesh, member)\n            masks = define_masks(doc.CollectorSolver)\n            for key in getter.face_masks:\n                getter.face_masks[key] = masks[key.removeprefix('mask_')]\n            contexts = []\n\n            def profile(frame, event, value):\n                if (event == 'return' and frame.f_globals.get('__name__') == 'femmesh.meshsetsgetter'\n                        and frame.f_code.co_name == 'get_constraints_contact_faces'):\n                    contexts.append(frame.f_locals.get('context'))\n\n            print('AVAILABILITY_927: stock ownership batch', flush=True)\n            sys.setprofile(profile)\n            try:\n                getter.get_constraints_contact_faces()\n            finally:\n                sys.setprofile(None)\n            self.assertEqual(len(contexts), 1)\n            context = contexts[0]\n            context.validate_unchanged()\n            selected = prior['initially_coincident_interfaces']\n            if attempt == 'minimal':\n                selected = [next(row for row in selected if row['contact'].endswith('RearSeat'))]\n            self.assertEqual(len(selected), 1 if attempt == 'minimal' else 97)\n            for frozen in selected:\n                contact = doc.getObject(frozen['contact'])\n                refs = list(contact.References)\n                self.assertEqual([[obj.Name, list(names)] for obj, names in refs], frozen['references_slave_then_master'])\n                face = meshtools.sub_shape_at_global_placement(refs[0][0], refs[0][1][0])\n                vertex = face.Vertexes[0]\n                self.assertEqual(list(vertex.Point), frozen['native_CAD_point_mm'])\n                candidates = set(mesh.FemMesh.getNodesByVertex(vertex))\n                self.assertEqual(sorted(candidates), frozen['native_vertex_query_ids'])\n                sides = []\n                for index, ref in enumerate(refs):\n                    selector = SimpleNamespace(Name=contact.Name + str(index), References=[ref])\n                    nodes, entities = meshtools._get_mesh_region_by_owned_references(context.femmesh, selector, mesh, context)\n                    self.assertIsNotNone(entities)\n                    self.assertTrue(nodes)\n                    side = 'slave' if index == 0 else 'master'\n                    self.assertEqual(sorted(entities), frozen[side]['native_assembly_entities'])\n                    self.assertEqual(set(nodes), set(frozen[side]['native_owned_face_node_ids']))\n                    sides.append(sorted(candidates.intersection(nodes)))\n                available = len(sides[0]) == len(sides[1]) == 1 and sides[0][0] != sides[1][0]\n                self.assertEqual(sides[0], frozen['slave_membership_candidates'])\n                self.assertEqual(sides[1], frozen['master_membership_candidates'])\n                report['rows'].append({'contact': contact.Name, 'slave_candidates': sides[0],\n                                       'master_candidates': sides[1], 'available': available})\n            self.assertEqual([(row['Object'].Name, list(row['Object'].References)) for row in member.cons_contact], before)\n            context.validate_unchanged()\n            report['available'] = sum(row['available'] for row in report['rows'])\n            report['unavailable'] = len(report['rows']) - report['available']\n            report['exact_recorded_cohorts_and_candidates_reproduced'] = True\n            print('AVAILABILITY_927: %d available, %d unavailable' % (report['available'], report['unavailable']), flush=True)\n            self.assertEqual(report['available'], len(selected), 'Missing independently owned master-node samples; paired-U route unavailable')\n        finally:\n            sys.setprofile(None)\n            if doc is not None:\n                App.closeDocument(doc.Name)\n            report['source_bytes_unchanged'] = sha(SOURCE) == SOURCE_SHA\n            report['owned_bytes_unchanged'] = sha(owned) == SOURCE_SHA\n            report['elapsed_seconds'] = time.monotonic() - started\n            (ROOT / (attempt + '-availability.json')).write_text(json.dumps(report, indent=2) + '\\n')\n            self.assertTrue(report['source_bytes_unchanged'] and report['owned_bytes_unchanged'])\n"
+    },
+    {
+      "source": "/private/tmp/freecad-927.QNb1lN/run_availability.py",
+      "sha256": "f3d73b208ab4edbb86d88433d56c7c05a8fb8f09af08958b1f0447a6c71b9906",
+      "bytes": 1704,
+      "preservation": "Lossless UTF-8 source snapshot, not a new execution",
+      "text": "import hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport subprocess\nimport time\n\nroot = Path(__file__).resolve().parent\nattempt = os.environ.get('FREECAD_927_ATTEMPT', 'full')\nprofile = root / (attempt + '-profile')\nprofile.mkdir()\nenv = os.environ.copy()\nenv.update(PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1', PYTHONPATH='', OMP_NUM_THREADS='2')\nfor key, child in [('FREECAD_USER_HOME', 'user'), ('FREECAD_USER_DATA', 'data'),\n                   ('FREECAD_USER_TEMP', 'temp'), ('XDG_CONFIG_HOME', 'config'),\n                   ('XDG_CACHE_HOME', 'cache'), ('XDG_DATA_HOME', 'xdgdata'), ('TMPDIR', 'temp')]:\n    target = profile / child\n    target.mkdir(exist_ok=True)\n    env[key] = str(target)\ncommand = ['pixi', 'run', '--frozen', '/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd',\n           '-u', str(profile / 'user.cfg'), '-s', str(profile / 'system.cfg'),\n           '-P', str(root), '-t', 'AvailabilityWitness']\nstarted = time.monotonic()\nlog = root / (attempt + '.log')\nwith log.open('xb') as stream:\n    completed = subprocess.run(command, cwd='/Users/zukomgwili/src/FreeCAD', env=env,\n                               stdout=stream, stderr=subprocess.STDOUT, timeout=500)\nreceipt = {'command': command, 'exit_code': completed.returncode,\n           'elapsed_seconds': time.monotonic() - started, 'timed_out': False, 'reaped': True,\n           'witness_sha256': hashlib.sha256((root / 'AvailabilityWitness.py').read_bytes()).hexdigest(),\n           'log_sha256': hashlib.sha256(log.read_bytes()).hexdigest()}\n(root / (attempt + '-execution.json')).write_text(json.dumps(receipt, indent=2) + '\\n')\nprint(json.dumps(receipt, indent=2))\nprint(log.read_text()[-5000:])\n"
+    }
+  ],
+  "research": {
+    "path": "package/local-completion/freecad-927-contact-output-research.md",
+    "sha256": "3a12c1c6220a2e897f201831fe853600efb63baa4b862c09299e7559511f9eda",
+    "conclusion": "No complete existing owner-specific same-point vector observation established. CDIS/submodel and generic VTK probing have incompatible or permissive sampling semantics; native ownership, vector, location, ambiguity and fresh-result provenance guards are required."
+  },
+  "proposed_interface": "Editable saved Contact side displacement observation result linked to native contact, mesh, analysis and qualified source output; alternative owner-selection VTK filter offered to user.",
+  "confirmation_gate": "The TDD skill requires human-confirmed public seams before new interface tests. Drafts preserved privately; no new interface or implementation is accepted.",
+  "implementation_findings": [
+    "DataAtPoint has no contact-side selector, reduces vector output to magnitude and does not enforce its validity mask.",
+    "Ordinary FRD import compacts node identity and rounds stored result time; original-ID/frame custody cannot be inferred from those properties.",
+    "A native owner-restricted probe requires exact original IDs, native higher-order geometry, strict parametric and reconstructed world-position guards; zero probe tolerance alone is insufficient.",
+    "Additive movement provenance must prove a fresh run-owned FRD, complete original topology/field and exact final frame; a post-run hash alone can bind stale output.",
+    "Legacy force-accounting histories remain valid accounting history, but cannot be called qualified movement sources without the new binding.",
+    "Using a new native interpolation method for Oomakhi acceptance requires a separately reviewed method/input amendment; source qualification does not amend the historical no-interpolation route."
+  ],
+  "privacy": "No original CAD, geometry/vector report body, mesh/card/config, user-profile data or solver binary published. Only aggregate reproduction facts, exact command receipts and diagnostic source snapshots are preserved.",
+  "drafts_not_accepted_or_registered": [
+    {
+      "path": "/private/tmp/freecad-927.QNb1lN/drafts/test_mesh_vtk_identity.py",
+      "sha256": "b324774ee23d6cc123c1c014bd2cb7a269251f16c20b162aa8855d46d467ebcd",
+      "status": "Unexecuted native converter draft"
+    },
+    {
+      "path": "/private/tmp/freecad-927.QNb1lN/drafts/test_owned_probe.py",
+      "sha256": "1de05bcc502454316199be56f6916d96b63eb0cbed54d6788aa96e5c2d4002b5",
+      "status": "One missing-module draft run; not a feature regression qualification"
+    }
+  ]
+}
