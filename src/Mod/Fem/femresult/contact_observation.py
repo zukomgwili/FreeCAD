@@ -59,9 +59,50 @@ def definition(obj):
         "analysis": analysis.Name,
         "mesh": mesh.Name,
         "accounting_result": accounting.Name,
+        "point_side": obj.PointSide,
         "slave_vertex": obj.SlaveVertex,
+        "master_vertex": obj.MasterVertex,
         "contacts": rows,
     }
+
+
+def _resolve_point(contact, point_side, slave_vertex=1, master_vertex=1):
+    """Resolve one existing vertex on both original bounded faces, without U.
+
+    Faces remain in original slave/master order even when the master supplies
+    the point. Native distance checks use the existing coordinate-roundoff
+    bound, not a CAD, movement or design tolerance; no point is moved.
+    """
+    if point_side not in ("Slave", "Master"):
+        raise ValueError("Select the existing Slave or Master query vertex")
+    refs = list(contact.References)
+    if len(refs) != 2 or any(
+        owner is None or len(names) != 1 or not names[0] for owner, names in refs
+    ):
+        raise ValueError("Select one independent native contact face per side")
+    faces = [meshtools.sub_shape_at_global_placement(owner, names[0]) for owner, names in refs]
+    if any(face.ShapeType != "Face" for face in faces):
+        raise ValueError(f"{contact.Name}: contact references must resolve to native faces")
+    index = 0 if point_side == "Slave" else 1
+    ordinal = slave_vertex if index == 0 else master_vertex
+    if (
+        isinstance(ordinal, bool)
+        or not isinstance(ordinal, int)
+        or ordinal < 1
+        or ordinal > len(faces[index].Vertexes)
+    ):
+        raise ValueError(
+            f"{contact.Name}: selected existing {point_side.lower()} vertex is unavailable"
+        )
+    vertex = faces[index].Vertexes[ordinal - 1]
+    point = tuple(vertex.Point)
+    if not all(math.isfinite(value) for value in point):
+        raise ValueError("The existing native query vertex is nonfinite")
+    bound = 128 * sys.float_info.epsilon * max(1.0, *(abs(value) for value in point))
+    distances = [face.distToShape(vertex)[0] for face in faces]
+    if not all(math.isfinite(value) and value <= bound for value in distances):
+        raise ValueError(f"{contact.Name}: selected vertex is not on both bounded native faces")
+    return faces, vertex
 
 
 def _surface_grid(context, nodes, members, field):
@@ -189,6 +230,12 @@ def observe(obj):
     from femresult.contact_observation_source import load_source, validate_source
 
     selected = definition(obj)
+    prepared = []
+    for contact in obj.Contacts:
+        faces, vertex = _resolve_point(
+            contact, selected["point_side"], selected["slave_vertex"], selected["master_vertex"]
+        )
+        prepared.append((contact, list(contact.References), faces, vertex))
     field, source = load_source(obj.Analysis, obj.Mesh, obj.AccountingResult)
     native_mesh = obj.Mesh.FemMesh
     tables = SimpleNamespace(
@@ -207,18 +254,18 @@ def observe(obj):
         "contacts": [],
         "engineering_acceptance": False,
     }
-    for contact in obj.Contacts:
-        refs = list(contact.References)
-        faces = [meshtools.sub_shape_at_global_placement(owner, names[0]) for owner, names in refs]
-        if any(face.ShapeType != "Face" for face in faces):
-            raise ValueError(f"{contact.Name}: contact references must resolve to native faces")
-        ordinal = obj.SlaveVertex
-        if ordinal < 1 or ordinal > len(faces[0].Vertexes):
-            raise ValueError(f"{contact.Name}: selected existing slave vertex is unavailable")
-        vertex = faces[0].Vertexes[ordinal - 1]
+    for contact, refs, faces, vertex in prepared:
         row = {
             "contact": contact.Name,
             "point_mm": list(vertex.Point),
+            "point_selection": {
+                "side": selected["point_side"],
+                "vertex_ordinal_1based": (
+                    selected["slave_vertex"]
+                    if selected["point_side"] == "Slave"
+                    else selected["master_vertex"]
+                ),
+            },
             "references_slave_then_master": [[owner.Name, list(names)] for owner, names in refs],
             "reference_frame": _frame(faces[0], vertex.Point),
         }

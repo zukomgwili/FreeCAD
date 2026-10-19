@@ -327,6 +327,215 @@ class TestContactObservationNative(unittest.TestCase):
                 self.assertIn(node, row[side]["source_node_ids"])
                 self.assertEqual(row[side]["value_mm"], list(field[node]))
 
+    def test_existing_master_vertex_preserves_original_side_owners_and_slave_frame(self):
+        model = self.make_native_nonconformal_source(conformal=True)
+        result = self.make_available_observation(model)
+        default = result.Proxy.getObservations(result)["contacts"][0]
+        slave_face = meshtools.sub_shape_at_global_placement(model.slave, "Face2")
+        master_face = meshtools.sub_shape_at_global_placement(model.master, "Face1")
+        ordinal, vertex = next(
+            (index, vertex)
+            for index, vertex in enumerate(master_face.Vertexes, 1)
+            if list(vertex.Point) != default["point_mm"]
+        )
+        point = vertex.Point
+        self.assertEqual(slave_face.distToShape(vertex)[0], 0)
+        self.assertEqual(master_face.distToShape(vertex)[0], 0)
+        self.assertIn("PointSide", result.PropertiesList)
+        self.assertIn("MasterVertex", result.PropertiesList)
+        self.assertEqual(result.PointSide, "Slave")
+        self.assertEqual(result.MasterVertex, 1)
+        result.PointSide = "Master"
+        result.MasterVertex = ordinal
+        result.Proxy.refresh(result)
+        self.assertTrue(result.Status.startswith("Available"), result.Status)
+        observed = result.Proxy.getObservations(result)
+        self.assertEqual(observed["definition"]["point_side"], "Master")
+        self.assertEqual(observed["definition"]["master_vertex"], ordinal)
+        self.assertEqual(observed["definition"]["slave_vertex"], 1)
+        row = observed["contacts"][0]
+        self.assertEqual(
+            row["point_selection"], {"side": "Master", "vertex_ordinal_1based": ordinal}
+        )
+        self.assertEqual(row["point_mm"], list(point))
+        self.assertNotEqual(row["point_mm"], default["point_mm"])
+        self.assertEqual(
+            row["references_slave_then_master"], default["references_slave_then_master"]
+        )
+        self.assertEqual(
+            [[owner.Name, list(names)] for owner, names in model.contact.References],
+            default["references_slave_then_master"],
+        )
+        self.assertEqual(row["reference_frame"]["side"], "slave")
+        uv = slave_face.Surface.parameter(point)
+        for actual, expected in zip(row["reference_frame"]["normal"], slave_face.normalAt(*uv)):
+            self.assertAlmostEqual(actual, expected, places=14)
+        frd = Path(model.fea.inp_file_name).with_suffix(".frd")
+        field = read_frd_result(str(frd))["Results"][-1]["disp"]
+        native = model.mesh.FemMesh
+        ids = []
+        for side, owner in (("slave", "Solid1"), ("master", "Solid2")):
+            with self.subTest(side=side):
+                groups = [group for group in native.Groups if native.getGroupName(group) == owner]
+                self.assertEqual(len(groups), 1)
+                nodes = {
+                    node
+                    for element in native.getGroupElements(groups[0])
+                    for node in native.getElementNodes(element)
+                }
+                matching = set(native.getNodesByVertex(vertex)).intersection(nodes)
+                self.assertEqual(len(matching), 1)
+                node = matching.pop()
+                ids.append(node)
+                self.assertEqual(row[side]["status"], "AVAILABLE")
+                self.assertEqual(row[side]["method"], "ORIGINAL_NODE")
+                self.assertEqual(row[side]["original_node_id"], node)
+                self.assertEqual(row[side]["value_mm"], list(field[node]))
+        self.assertNotEqual(*ids)
+
+    def test_point_selector_edits_withdraw_qualified_reads_without_replacing_history(self):
+        model = self.make_native_nonconformal_source(conformal=True)
+        result = self.make_available_observation(model)
+        for prop, value in (("PointSide", "Master"), ("MasterVertex", 2), ("SlaveVertex", 2)):
+            with self.subTest(property=prop):
+                raw, previous = result.ObservationData, getattr(result, prop)
+                setattr(result, prop, value)
+                self.assertTrue(result.Status.startswith("Stale"), result.Status)
+                with self.assertRaises(ValueError):
+                    result.Proxy.getObservations(result)
+                self.assertEqual(result.ObservationData, raw)
+                setattr(result, prop, previous)
+                result.Proxy.refresh(result)
+                self.assertTrue(result.Status.startswith("Available"), result.Status)
+                result.Proxy.getObservations(result)
+
+    def test_off_face_query_precedes_missing_source_and_preserves_history(self):
+        model = self.make_native_nonconformal_source()
+        result = self.make_available_observation(model)
+        raw = result.ObservationData
+        slave_face = meshtools.sub_shape_at_global_placement(model.slave, "Face2")
+        master_face = meshtools.sub_shape_at_global_placement(model.master, "Face1")
+        self.assertGreater(slave_face.distToShape(master_face.Vertexes[0])[0], 0)
+        result.PointSide = "Master"
+        result.MasterVertex = 1
+        frd = Path(model.fea.inp_file_name).with_suffix(".frd")
+        original_hash = self.file_hash(frd)
+        held = frd.with_name(frd.name + ".held-for-invalid-query-test")
+        self.assertFalse(held.exists())
+        frd.rename(held)
+        try:
+            self.assertFalse(frd.exists())
+            result.Proxy.refresh(result)
+            self.assertIn("not on both bounded native faces", result.Status)
+            self.assertEqual(result.ObservationData, raw)
+            with self.assertRaises(ValueError):
+                result.Proxy.getObservations(result)
+            # At a valid existing point the same missing external source must
+            # instead be reported, proving the invalid-query error has priority.
+            result.PointSide = "Slave"
+            result.Proxy.refresh(result)
+            self.assertIn("Native source file is unavailable", result.Status)
+            self.assertEqual(result.ObservationData, raw)
+            with self.assertRaises(ValueError):
+                result.Proxy.getObservations(result)
+        finally:
+            self.assertFalse(
+                frd.exists(), "Unexpected replacement; original remains at " + str(held)
+            )
+            held.rename(frd)
+        self.assertEqual(self.file_hash(frd), original_hash)
+        result.Proxy.refresh(result)
+        self.assertTrue(result.Status.startswith("Available"), result.Status)
+        result.Proxy.getObservations(result)
+
+    def test_legacy_saved_selectors_restore_defaults_and_preserve_vertex_and_history(self):
+        model = self.make_native_nonconformal_source(conformal=True)
+        result = ObjectsFem.makeResultContactObservation(
+            self.doc, model.analysis, model.accounting, [model.contact]
+        )
+        result.SlaveVertex = 2
+        result.Proxy.refresh(result)
+        self.assertTrue(result.Status.startswith("Available"), result.Status)
+        result.Proxy.getObservations(result)
+        raw = result.ObservationData
+        for name in ("PointSide", "MasterVertex"):
+            result.setPropertyStatus(name, "-LockDynamic")
+            result.removeProperty(name)
+        self.assertEqual(result.SlaveVertex, 2)
+        document_path = self.output / "legacy-observation.FCStd"
+        self.doc.saveAs(str(document_path))
+        report_path = self.output / "legacy-cold-report.json"
+        case_path = self.output / "legacy-cold-case.json"
+        case_path.write_text(
+            json.dumps(
+                {
+                    "document": str(document_path),
+                    "result": result.Name,
+                    "analysis": model.analysis.Name,
+                    "solver": model.solver.Name,
+                    "accounting": model.accounting.Name,
+                    "mesh": model.mesh.Name,
+                    "raw_sha256": hashlib.sha256(raw.encode()).hexdigest(),
+                    "native_mesh_identity": native_mesh_identity(model.mesh),
+                    "report": str(report_path),
+                    "version": App.Version(),
+                    "legacy_selectors_absent": True,
+                    "saved_slave_vertex": 2,
+                }
+            )
+        )
+        App.closeDocument(self.doc.Name)
+        self.doc = None
+        child = self.output / "legacy-cold-process"
+        child.mkdir()
+        environment = dict(os.environ)
+        for key, directory in (
+            ("FREECAD_USER_HOME", "user"),
+            ("FREECAD_USER_DATA", "data"),
+            ("FREECAD_USER_TEMP", "temp"),
+            ("XDG_CONFIG_HOME", "xdg-config"),
+            ("XDG_DATA_HOME", "xdg-data"),
+            ("XDG_CACHE_HOME", "xdg-cache"),
+        ):
+            path = child / directory
+            path.mkdir()
+            environment[key] = str(path)
+        environment.update(
+            FREECAD_CONTACT_OBSERVATION_COLD_CASE=str(case_path),
+            PYTHONDONTWRITEBYTECODE="1",
+            PYTHONNOUSERSITE="1",
+            TMPDIR=str(child / "temp"),
+        )
+        executable = Path(App.ConfigGet("BinPath")) / (
+            "FreeCADCmd.exe" if os.name == "nt" else "FreeCADCmd"
+        )
+        completed = subprocess.run(
+            [
+                str(executable),
+                "-u",
+                str(child / "user.cfg"),
+                "-s",
+                str(child / "system.cfg"),
+                "-P",
+                str(Path(__file__).parent),
+                "--run-test",
+                "test_contact_observation_native._ColdObservationWitness",
+            ],
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=45,
+            check=False,
+        )
+        log = completed.stdout + completed.stderr
+        (child / "run.log").write_text(log)
+        self.assertEqual(completed.returncode, 0, log)
+        report = json.loads(report_path.read_text())
+        self.assertTrue(report["historical_until_explicit_refresh"])
+        self.assertTrue(report["legacy_selector_defaults_restored"])
+        self.assertEqual(report["raw_sha256"], hashlib.sha256(raw.encode()).hexdigest())
+        self.assertTrue(report["fresh_native_run_available"])
+
     def test_changed_model_contact_and_source_bytes_reject_cached_values(self):
         model = self.make_native_nonconformal_source()
         result = self.make_available_observation(model)
@@ -408,6 +617,10 @@ if os.environ.get("FREECAD_CONTACT_OBSERVATION_COLD_CASE"):
             document = App.openDocument(case["document"])
             try:
                 result = document.getObject(case["result"])
+                if case.get("legacy_selectors_absent"):
+                    self.assertEqual(result.PointSide, "Slave")
+                    self.assertEqual(result.MasterVertex, 1)
+                    self.assertEqual(result.SlaveVertex, case["saved_slave_vertex"])
                 raw = result.ObservationData
                 digest = hashlib.sha256(raw.encode()).hexdigest()
                 self.assertEqual(digest, case["raw_sha256"])
@@ -470,6 +683,9 @@ if os.environ.get("FREECAD_CONTACT_OBSERVATION_COLD_CASE"):
                             "native_ids_unchanged": identity == case["native_mesh_identity"],
                             "explicit_refresh_available": revalidated,
                             "fresh_native_run_available": True,
+                            "legacy_selector_defaults_restored": bool(
+                                case.get("legacy_selectors_absent")
+                            ),
                         }
                     )
                 )

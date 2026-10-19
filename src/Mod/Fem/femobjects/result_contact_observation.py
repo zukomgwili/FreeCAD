@@ -8,7 +8,17 @@ from femobjects.base_fempythonobject import BaseFemPythonObject
 
 class ContactObservationResult(BaseFemPythonObject):
     Type = "Fem::ContactSideObservation"
-    _inputs = frozenset(("Analysis", "Mesh", "AccountingResult", "Contacts", "SlaveVertex"))
+    _inputs = frozenset(
+        (
+            "Analysis",
+            "Mesh",
+            "AccountingResult",
+            "Contacts",
+            "PointSide",
+            "SlaveVertex",
+            "MasterVertex",
+        )
+    )
 
     def __init__(self, obj):
         self._updating = True
@@ -40,12 +50,38 @@ class ContactObservationResult(BaseFemPythonObject):
         ):
             obj.addProperty(kind, name, "Contact Observation", description)
             obj.setPropertyStatus(name, "LockDynamic")
+        self._add_point_selectors(obj)
         obj.SlaveVertex = (1, 1, 1000000, 1)
         for name in ("Status", "ObservationData", "ObservationHash"):
             obj.setEditorMode(name, 1)
             obj.setPropertyStatus(name, "Output")
         obj.Status = "Unavailable: select analysis, mesh, native source and contacts"
         self._updating = False
+
+    @staticmethod
+    def _add_point_selectors(obj):
+        # Restore older saved results without replacing their existing vertex
+        # choice, literal observations or hashes. New objects use the same
+        # original first-slave-vertex default.
+        if "PointSide" not in obj.PropertiesList:
+            obj.addProperty(
+                "App::PropertyEnumeration",
+                "PointSide",
+                "Contact Observation",
+                "Existing face supplying the query vertex; side owners are not swapped",
+            )
+            obj.PointSide = ["Slave", "Master"]
+            obj.PointSide = "Slave"
+            obj.setPropertyStatus("PointSide", "LockDynamic")
+        if "MasterVertex" not in obj.PropertiesList:
+            obj.addProperty(
+                "App::PropertyIntegerConstraint",
+                "MasterVertex",
+                "Contact Observation",
+                "One-based existing master-face vertex",
+            )
+            obj.MasterVertex = (1, 1, 1000000, 1)
+            obj.setPropertyStatus("MasterVertex", "LockDynamic")
 
     def refresh(self, obj):
         """Explicitly revalidate a saved source before exposing observations."""
@@ -117,6 +153,9 @@ class ContactObservationResult(BaseFemPythonObject):
 
     def onDocumentRestored(self, obj):
         self._updating = True
-        self._historical = True
-        obj.Status = "Historical after restore; refresh required"
-        self._updating = False
+        try:
+            self._add_point_selectors(obj)
+            self._historical = True
+            obj.Status = "Historical after restore; refresh required"
+        finally:
+            self._updating = False

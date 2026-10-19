@@ -1,0 +1,97 @@
+{
+  "schema": "FREECAD_927_INDEPENDENT_SAMPLING_METHOD_REVIEW_V1",
+  "issue": "FreeCAD-927",
+  "revision": "amended-samples-r01",
+  "reviewer": "/root/point_evidence_review",
+  "date": "2026-10-19",
+  "decision": "ACCEPT_REJECTION_AND_STOP; NO_RESPONSE_EXECUTION_APPROVAL",
+  "review_scope": "Independent read-only review of the actual geometry-only existing-slave-vertex inventory, native source/supervisor and finalized rejected method record. No native application or physical response read by this review; no source/model edits.",
+  "method_record": {
+    "path": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-927-sampling-amendment.json",
+    "sha256": "de6dff0cbd22c81fb92a96dd916a2cc1beff81f2d8dbc02b5f1b29dd069a56db",
+    "status_reviewed": "REJECTED_AS_NOT_EXECUTABLE; NO_COMMON_SLAVE_VERTEX_FOR_24_FRONT_BEARINGS"
+  },
+  "evidence": {
+    "private_root": "/private/tmp/freecad-927-sampling-candidates.SIsgFq",
+    "candidate_inventory_sha256": "da1f081ce2795873db33980075fe10821cf640e63f928e29b07bde2265aac3ad",
+    "completed_CAD_inventory_sha256": "00b1a6768e6803d3b5e845b419668ef6c68ae0108a26d42dde6e7d3a951dfd99",
+    "execution_sha256": "ca6e56a93bb99d2de2d25c1b2a6160e68145cd90ee4408ea1c436db986f1a93b",
+    "harness_sha256": "55b858e8d6ddf0e76cc96456292c4a12253fb36c8a200a5504fdae59a28c43ee",
+    "supervisor_sha256": "aeb0a7beb47720f96c1a78b0e58e4077188bb5ab13f3ef367f9750e1788c38d6",
+    "scope_sha256": "8d4354c378f084378ef10225682f4d62a6132e590bc4ec1e0996aba2e3ed223d",
+    "log_sha256": "533c79e391c7755c617e5d67f28dc7bed8374c8c9a7801f7ec83c4236657faec",
+    "source_model_sha256": "56bbd2b7760e270337c506088cf8717605201555d2eb65e60780afcfd1e660e5",
+    "original_sample_inventory_sha256": "5b4f82fd8bd0b16887771eae7bd189751975473f93c2c3930e0f8f77bb6413be",
+    "original_failed_observation_literal_sha256": "083f729ea09b8a5bbfa90ca8c469b2d29e80204a83b79f7eff23ab13bd40430b"
+  },
+  "runtime": {
+    "compiled_version_reported": [
+      "27", "1", "0", "49261 +209 (Git)", "Unknown", "2026/10/19 15:49:55",
+      "codex/fix-toroidal-self-cut", "3e2ddb56e7268ef3fbda82902878a775235ee98e"
+    ],
+    "execution_reported_Part_module_sha256": "682e7be651f11b573f34842394ea4359915e560ba9951fada2f127f562885d14",
+    "execution_reported_frame_source_sha256": "3c6c8a1f6ffc45cfe84fe69bf9aca496a31b5e142aa0677e76b65fddfa6a4ad4",
+    "both_execution_reported_files_match_current_bytes_at_review": true,
+    "review_time_FreeCADCmd_sha256": "5b5f2cdb3818fefdf4dc2876373de9f4b618e3d977c5282d3ea8826bf677ab42",
+    "review_time_binary_hash_is_not_claimed_as_an_execution_time_hash": true
+  },
+  "independent_checks": {
+    "all_evidence_source_receipt_hashes_match": true,
+    "exact_unique_original_contacts": 97,
+    "exact_original_contact_refs_and_original_XYZ_preserved": true,
+    "locked_original_ordinal1_rows": 72,
+    "all_72_locked_CAD_and_frame_predicates_pass": true,
+    "amendment_contacts_only": 25,
+    "complete_existing_vertex_candidate_records": 220,
+    "all_amendment_existing_ordinals_enumerated_in_native_order": true,
+    "all_candidate_arithmetic_bounds_match_unchanged_128_double_epsilon_rule": true,
+    "all_membership_flags_match_finite_native_distances_against_unchanged_bound": true,
+    "no_nearest_or_projected_response_query_in_harness": true,
+    "retained_literal_read_is_jq_identity_fields_only": true,
+    "original_model_sample_literal_and_owned_copy_hashes_unchanged_at_review": true
+  },
+  "actual_outcome": {
+    "inventory_outcome": "STOP_NO_EXISTING_COMMON_SLAVE_VERTEX",
+    "viable_existing_vertex_selection_plan": false,
+    "FrontBearing_contacts_without_any_common_existing_slave_vertex": 24,
+    "existing_slave_vertices_per_FrontBearing": 5,
+    "FrontBearing_valid_ordinal_count_each": 0,
+    "CollectorFaying_CAD_and_frame_valid_slave_ordinals": [
+      5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+      17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+    ],
+    "CollectorFaying_CAD_candidates_do_not_waive_24_missing_functions": true,
+    "native_owned_mesh_or_synthetic_sampling_stage_executed": false,
+    "no_owner_mesh_containment_or_selected_final_plan_claim": true,
+    "support_controls_requeried_in_this_CAD_stage": 0,
+    "support_control_requirement_retained": 8
+  },
+  "frame_geometry_review": {
+    "native_slave_frames_checked": 220,
+    "all_frames_have_finite_2_component_UV_3_component_normal_and_two_3_component_tangents": true,
+    "native_normal_lengths_min_max": [1.0, 1.0],
+    "all_native_tangents_nonzero": true,
+    "no_assumed_tangent_orthogonality_or_engineering_normal_sign_acceptance": true
+  },
+  "process_and_nonclaims": {
+    "inventory_process_exit_code": 0,
+    "reaped": true,
+    "timed_out": false,
+    "supervisor_elapsed_seconds": 5.587913583032787,
+    "successful_inventory_process_does_not_mean_feasible_or_qualified_method": true,
+    "writers": 0,
+    "solves": 0,
+    "saves": 0,
+    "recomputes": 0,
+    "remeshes": 0,
+    "physical_response_or_FRD_read": false,
+    "production_amendment_adopted": false,
+    "full_response_execution_approved": false,
+    "engineering_acceptance": false,
+    "Oomakhi_project_BIM_house_or_R30_admission": false,
+    "installation_approved": false,
+    "historical_approvals_original_97_failure_limits_and_duties_untouched": true
+  },
+  "next_boundary": "Any master-vertex or other point-selection proposal requires its own pre-response method/scope and actual geometric-domain review. No alternative, source selector change, response run, criterion relaxation or engineering acceptance is approved by this rejection receipt.",
+  "findings": []
+}

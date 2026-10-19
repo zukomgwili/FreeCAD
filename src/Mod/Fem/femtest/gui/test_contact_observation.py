@@ -110,13 +110,30 @@ class TestContactObservationGui(unittest.TestCase):
         self.assertEqual(result.Mesh, self.mesh)
         self.assertEqual(list(result.Contacts), self.contacts)
         self.assertIn(result, self.analysis.Group)
-        for name in ("Analysis", "Mesh", "AccountingResult", "Contacts", "SlaveVertex"):
+        self.assertEqual(result.PointSide, "Slave")
+        self.assertEqual(result.MasterVertex, 1)
+        for name in (
+            "Analysis",
+            "Mesh",
+            "AccountingResult",
+            "Contacts",
+            "SlaveVertex",
+            "PointSide",
+            "MasterVertex",
+        ):
             self.assertNotIn("ReadOnly", result.getEditorMode(name), name)
             self.assertNotIn("Hidden", result.getEditorMode(name), name)
         result.Contacts = self.contacts[:1]
         result.SlaveVertex = 2
+        result.PointSide = "Master"
+        result.MasterVertex = 3
         self.assertEqual(list(result.Contacts), self.contacts[:1])
         self.assertEqual(result.SlaveVertex, 2)
+        self.assertEqual(result.PointSide, "Master")
+        self.assertEqual(result.MasterVertex, 3)
+        self.assertEqual(result.Analysis, self.analysis)
+        self.assertEqual(result.Mesh, self.mesh)
+        self.assertEqual(result.AccountingResult, self.source)
         self.assertTrue(result.Status.startswith("Stale"))
         with self.assertRaises(ValueError):
             result.Proxy.getObservations(result)
@@ -137,12 +154,21 @@ class TestContactObservationGui(unittest.TestCase):
         from PySide import QtWidgets
 
         result = self.create_from_selection([self.source, *self.contacts])
+        result.PointSide = "Master"
+        result.MasterVertex = 3
+        result.SlaveVertex = 2
         menu = QtWidgets.QMenu()
         result.ViewObject.Proxy.setupContextMenu(result.ViewObject, menu)
         self.assertEqual(len(menu.actions()), 1)
         menu.actions()[0].trigger()
         self.assertTrue(result.Status.startswith("Unavailable"), result.Status)
         before = result.ObservationData, result.ObservationHash
+        before_links = (
+            result.Analysis.Name,
+            result.Mesh.Name,
+            result.AccountingResult.Name,
+            [contact.Name for contact in result.Contacts],
+        )
         name = result.Name
         path = Path(self.directory.name) / "ContactObservation.FCStd"
         self.document.saveAs(str(path))
@@ -150,6 +176,18 @@ class TestContactObservationGui(unittest.TestCase):
         self.document = App.openDocument(str(path))
         result = self.document.getObject(name)
         self.assertEqual(result.Proxy.Type, "Fem::ContactSideObservation")
+        self.assertEqual(
+            (result.PointSide, result.MasterVertex, result.SlaveVertex), ("Master", 3, 2)
+        )
+        self.assertEqual(
+            (
+                result.Analysis.Name,
+                result.Mesh.Name,
+                result.AccountingResult.Name,
+                [contact.Name for contact in result.Contacts],
+            ),
+            before_links,
+        )
         self.assertTrue(result.Status.startswith("Historical"), result.Status)
         self.assertEqual((result.ObservationData, result.ObservationHash), before)
         self.document.recompute()

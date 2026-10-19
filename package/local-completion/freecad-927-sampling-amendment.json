@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "issue": "FreeCAD-927",
+  "date": "2026-10-19",
+  "revision": "amended-samples-r01",
+  "status": "REJECTED_AS_NOT_EXECUTABLE; NO_COMMON_SLAVE_VERTEX_FOR_24_FRONT_BEARINGS",
+  "human_authorization": "Yes, prepare the reviewed sampling-method amendment, keeping geometry, loads and acceptance limits unchanged, then continue FreeCAD-927 to completion.",
+  "purpose": "Qualify the saved owner-specific contact-side observation capability at a separately identified amended 97-point sample set. This is not a retrospective pass of the original sample set or engineering acceptance of the fixture/building.",
+  "historical_restriction_disposition": "For this separately identified source-capability qualification only, the human-authorized geometry-only inventory replaces the former no-rescan first-vertex selection restriction for exactly 25 invalid points, and admits the newly built-in owner-restricted native observation route instead of the former no-interpolation availability restriction. Historical approvals and failed observations are untouched. No project-side interpolation/recovery or engineering-method admission is authorized by a software pass.",
+  "original_evidence": {
+    "model_sha256": "56bbd2b7760e270337c506088cf8717605201555d2eb65e60780afcfd1e660e5",
+    "sample_inventory_sha256": "5b4f82fd8bd0b16887771eae7bd189751975473f93c2c3930e0f8f77bb6413be",
+    "failed_observation_literal_sha256": "083f729ea09b8a5bbfa90ca8c469b2d29e80204a83b79f7eff23ab13bd40430b",
+    "original_qualification": "72 available pairs, 25 unavailable master points; preserved unchanged",
+    "reason_for_amendment": "All 24 FrontBearing first-slave vertices are 1.4142135623730951 mm outside the bounded master faces, and CollectorFaying is 80 mm outside, although the selected face pairs touch elsewhere"
+  },
+  "selection_rule": {
+    "unchanged": "Retain the 72 previously available original first-slave-vertex physical points and all eight separate support controls, with exact original contact references and owner identities",
+    "eligible_contacts_only": "The fixed 24 FrontBearing contacts and CollectorFaying; no other point may be replaced",
+    "candidate_inventory": "Enumerate every existing native slave-face vertex in native ordinal order; retain each candidate point, reference identity and all pass/fail evidence privately",
+    "CAD_membership": "The exact candidate must lie on both bounded selected native faces under native distance checks and the unchanged numerical roundoff bound, not a widened CAD tolerance or minimum face-pair distance test",
+    "mesh_membership": "At the exact same candidate point, both independent owned original mesh sides must supply AVAILABLE results through the existing native sampler with explicit synthetic constant vectors only; original-node and cell-containment guards remain unchanged",
+    "deterministic_choice": "For each eligible contact, choose the lowest existing slave-vertex ordinal satisfying both CAD and native owned-mesh requirements",
+    "stop_rule": "If any eligible contact has no such existing vertex, stop and report before introducing an alternative point construction or method",
+    "freeze_before_values": "Freeze the complete candidate inventory, selected physical XYZ, ordinal, contact references, exact owner cohorts, model/mesh identity and native runtime before any new physical response values are read",
+    "no_response_selection": "No point selection or reselection based on displacement, stress, gap/slip, criterion margin, failed response qualification or later sensitivity-mesh results",
+    "sensitivity": "Future sensitivity studies must retain these frozen physical points, not reselect them for each mesh; missing native support remains explicitly unavailable"
+  },
+  "native_route": {
+    "factory": "ObjectsFem.makeResultContactObservation",
+    "configuration": "Group contacts by selected SlaveVertex ordinal into ordinary editable saved result objects; report actual feature/context counts",
+    "sampling": "Existing independently owned original-node values or guarded native VTK cell interpolation; no custom shape functions or weighted-U formula",
+    "frame": "Reference-state global Cartesian XYZ in mm, with existing native slave-face reference frame; not CalculiX CDIS",
+    "source": "Fresh ordinary native writer/solver run with original-ID global final static FRD and exact unchanged input/output bindings; no retrospective BOUND metadata manufacture",
+    "persistence": "Save literal observations and editable links. Cold restore is Historical and rejects qualified reads until explicit successful revalidation; changed native IDs are never remapped",
+    "external_files": "FRD, deck, accounting request and native binary are external exact-path dependencies, not embedded in FCStd; no relocated or rewritten source binding is qualified"
+  },
+  "unchanged_requirements": {
+    "geometry_mesh_placements_contacts_supports_materials_loads_solver_configuration": true,
+    "sampled_overclosure_limit_mm": 0.02,
+    "rear_TIED_slip_limit_mm": 0.01,
+    "sensitivity_limit_percent": 5,
+    "force_balance_limit_percent": 1,
+    "moment_balance_limit_percent": 1,
+    "gapped_pocket_engagement_only_duties_retained": 96,
+    "whole_collector_whole_house_fire_and_R30_obligations_retained": true
+  },
+  "qualification": {
+    "geometry_preflight": "All amended points plus 72 unchanged points and eight support controls, exact native identities and independent ownership; no physical response reads",
+    "physical_input_invariance": "Exact original physical deck and accounting request, permitting only the two declared native footer comments; physical snapshots before/after writer, solve, observation and save",
+    "response_coverage": "97 of 97 amended pairs AVAILABLE, finite three-component native vectors, exact independent owner cohorts; retain every unavailable or ambiguous failure",
+    "independent_controls": "48 unchanged original-node pairs compared exactly against fresh raw original-ID native FRD vectors; eight unchanged support controls captured from the same bound source",
+    "saved_and_cold": "Actual final saved observation literals/hashes/links verified in a separate cold process; historical status and rejected qualified reads without implicit refresh/source reading",
+    "custody": "Final original/source/build/harness/input hash fences execute and are recorded even on failure; all native processes bounded and reaped",
+    "engineering_verdict": "Not evaluated by this software qualification; no gap/slip acceptance, engineering design, project admission or installation is implied"
+  },
+  "review": {
+    "preliminary_method": "Independent reviewer conditionally accepts the deterministic geometry-only rule before numbers; final frozen inventory and execution scope still require review",
+    "preliminary_review_sha256": "f8f185770582efa37ded75a3409bbd5c66e0bb8cf538ebe836f9da13e84ae2f7",
+    "final_decision": "NO_EXECUTION_APPROVAL: the required existing slave vertices do not exist for 24 contacts"
+  },
+  "geometry_inventory_outcome": {
+    "disposition": "STOP_NO_EXISTING_COMMON_SLAVE_VERTEX",
+    "FrontBearing": "Each of 24 slave faces has five vertices; four are 1.4142135623730951 mm from the bounded master, and the fifth is 1 mm away. None qualifies",
+    "CollectorFaying": "Existing slave ordinals 5 through 28 pass the CAD/frame predicates, but cannot waive the 24 unsupported front bearings",
+    "unchanged_controls": "All 72 original ordinal-1 points pass CAD/frame checks and remain unchanged",
+    "native_mesh_stage_executed": false,
+    "physical_response_read": false,
+    "writer_or_solver_calls": 0,
+    "process_exit_code": 0,
+    "process_success_is_not_qualification": true,
+    "reaped": true,
+    "supervisor_seconds": 5.588,
+    "private_root": "/private/tmp/freecad-927-sampling-candidates.SIsgFq",
+    "candidate_inventory_sha256": "da1f081ce2795873db33980075fe10821cf640e63f928e29b07bde2265aac3ad",
+    "completed_CAD_inventory_sha256": "00b1a6768e6803d3b5e845b419668ef6c68ae0108a26d42dde6e7d3a951dfd99",
+    "execution_sha256": "ca6e56a93bb99d2de2d25c1b2a6160e68145cd90ee4408ea1c436db986f1a93b",
+    "reassessment": "Preserve this failed method. Separately review whether an existing master-face vertex supplies a mutually on-face point, without changing the physical model or using a nearest/projected query. No alternative is approved by this rejected record"
+  }
+}
