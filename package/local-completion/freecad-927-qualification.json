@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "issue": "FreeCAD-927",
+  "date": "2026-10-19",
+  "status": "IMPLEMENTED; ORIGINAL_RETAINED_QUALIFICATION_FAILED; SAMPLING_INPUT_REVIEW_REQUIRED",
+  "source_commit": "e5d76bbcdd5a2831a5a9702d2c90128b1832e0b1",
+  "compiled_revision": "49261 +208 (Git)",
+  "supersedes_pending_qualification_only": "freecad-927-implementation.json records an earlier dirty +207 candidate and is preserved unchanged",
+  "clean_source_gates": {
+    "release_build": {"result": "PASS", "steps": 244},
+    "TestFemApp": {
+      "result": "PASS", "tests": 368, "test_seconds": 35.930,
+      "exit_code": 0, "reaped": true, "timed_out": false,
+      "log_sha256": "5a41cd48bd18df5be1394d00c9fb991a9073abeee2f952a20db0af679803162f"
+    },
+    "TestFemGui": {
+      "result": "PASS", "tests": 7, "test_seconds": 2.889,
+      "exit_code": 0, "reaped": true, "timed_out": false,
+      "log_sha256": "c5219a897a0c4c45c11b2cd856d1cda881f265bb01a5cdc90b826f603b661824"
+    },
+    "CTest": {
+      "result": "PASS_WITH_RECORDED_SKIPS", "catalogued": 2274,
+      "passed": 2264, "runtime_skipped": 2, "disabled": 8,
+      "failed": 0, "wall_seconds": 89.03,
+      "log_sha256": "0595b4c3d3f1051b4611b8771bcfd17c234ae1e07b0b9a75d1ab93e2f662d6c5"
+    },
+    "private_evidence_root": "/private/tmp/freecad-927-source.9KQEzZ",
+    "warning_free_claim": false
+  },
+  "retained_qualification": {
+    "result": "FAIL",
+    "preflight": "PASS: exact 97 fixed point/reference identities and eight support cohorts; no response reads",
+    "ordinary_writer_calls": 1,
+    "deck_comparison_lines": 2238970,
+    "deck_difference": "Only the two declared native footer comments; physical deck and accounting request otherwise unchanged",
+    "ordinary_solver_calls": 1,
+    "native_solver_result": "PASS",
+    "solver_seconds": 749.2788647920825,
+    "source_custody": "Fresh run-produced FRD BOUND through ordinary runner",
+    "public_refreshes": 1,
+    "ownership_contexts": 1,
+    "native_sides": 194,
+    "contact_pairs": {"available": 72, "unavailable": 25, "ambiguous": 0},
+    "side_counts": {"available": 169, "unavailable": 25, "ambiguous": 0},
+    "available_pairs": "All 24 RearSeat and 48 bore contacts",
+    "unavailable_pairs": "All 24 FrontBearing masters and CollectorFaying master",
+    "unavailable_values": "No displacement value key is emitted for unavailable masters",
+    "aggregate_behavior": "getObservations correctly raises instead of accepting an incomplete set",
+    "independent_48_pair_raw_value_checks": "NOT_REACHED",
+    "eight_support_raw_value_checks": "NOT_REACHED",
+    "actual_retained_saved_and_cold_qualification": "NOT_REACHED",
+    "presolve_save_warning": "full-results.FCStd is a pre-solve save, not a qualified saved observation",
+    "exit_code": 1, "reaped": true, "timed_out": false,
+    "supervisor_seconds": 1267.7623170840088,
+    "original_and_private_model_bytes_unchanged": true,
+    "frozen_source_and_build_files_unchanged": 955,
+    "physical_snapshots_unchanged": true,
+    "remeshes": 0, "recomputes": 0,
+    "original_FRD_read": false,
+    "private_evidence_root": "/private/tmp/freecad-927-retained.EJd4GH",
+    "report_sha256": "0817885da087d4592f586e6ffc4ebf2efd9a497b34cc319acec993ef0ca3b7ea",
+    "execution_sha256": "6adb972e6daf3b72d3c17dc8643c0e10d8c71cb97b0d669aa8898bc208f274cf",
+    "literal_sha256": "083f729ea09b8a5bbfa90ca8c469b2d29e80204a83b79f7eff23ab13bd40430b",
+    "log_sha256": "1272d3eacc8cc533a82739fe26382b730cedeeb1a2edee64aaae606329402b32"
+  },
+  "bounded_diagnosis": {
+    "geometry_replay": {
+      "private_root": "/private/tmp/freecad-927-geometry-replay.7CbNjc",
+      "feedback_seconds": [0.18377325, 0.116494209],
+      "result": "Two expected fixed-point failures and a positive RearSeat control reproduced through public native sampler",
+      "field": "Explicit synthetic constant vectors, not solver responses",
+      "native_full_and_reduced_cohorts_agree": true,
+      "replay_sha256": "b622f86c13b2877116ae8d49557efa5cc576781fc498173fd15e64e0793c5409"
+    },
+    "all_unavailable_native_CAD_check": {
+      "result": "PASS", "cases": 26,
+      "exact_missing_status_identities": 25,
+      "FrontBearing": {"count": 24, "fixed_point_to_master_distance_mm": 1.4142135623730951},
+      "CollectorFaying": {"count": 1, "fixed_point_to_master_distance_mm": 80.0},
+      "positive_RearSeat_point_to_master_distance_mm": 4.263256414560601e-14,
+      "all_fixed_points_on_slave_faces": true,
+      "all_missing_face_pairs_have_zero_minimum_distance": true,
+      "conclusion": "Faces meeting somewhere does not establish that the declared first-slave vertex belongs to the bounded master face. All 25 unavailable original master samples are genuinely off-face, not merely missing coincident mesh nodes or failing a roundoff guard.",
+      "query_replacements": false,
+      "response_value_or_FRD_reads": false,
+      "mesh_access": false,
+      "native_face_BREP_and_original_private_literal_bytes_unchanged": true,
+      "exit_code": 0, "reaped": true, "timed_out": false,
+      "supervisor_seconds": 4.875652292044833,
+      "private_root": "/private/tmp/freecad-927-all-native-cad-footprints.5KndD5",
+      "report_sha256": "af6ec4f972f01d978530930a3959669be4c4e8282a3f43ad8c94a732dcbf3984",
+      "execution_sha256": "0155699cac7d040eccbfa97c91c9bc1423a436b6301c5edcb3fd56e4dea0c210",
+      "log_sha256": "12db6e2f81a166b2ea3745aadac848a89890f5b9be0d3844839e44f05c8abea1"
+    },
+    "separate_discovered_bug": "FreeCAD-89o: a valid translated planar native center can pass the unchanged containment guards but be rejected by vtkProbeFilter broad-phase bounds; correcting it cannot make the original 25 off-face points valid"
+  },
+  "remaining_authority": "A separately reviewed sampling/input-method amendment is required before selecting different physical sample points. Preserve the original failed qualification and all geometry, loads, solver configuration and acceptance limits. Do not silently project, snap, extrapolate or change the historical Oomakhi method.",
+  "scope": {
+    "issue_closed": false,
+    "installed_application_changed": false,
+    "application_installed": false,
+    "engineering_acceptance": false,
+    "Oomakhi_project_admission": false,
+    "historical_method_amended": false,
+    "physical_or_acceptance_tolerances_changed": false,
+    "original_model_changed": false
+  },
+  "privacy": "Only aggregate software results and custody hashes are published. Original CAD, mesh, observation/vector bodies, solver outputs and user profiles remain private."
+}

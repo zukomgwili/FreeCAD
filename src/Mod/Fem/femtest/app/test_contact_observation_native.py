@@ -380,14 +380,14 @@ class TestContactObservationNative(unittest.TestCase):
         finally:
             App.closeDocument(foreign.Name)
 
-    def test_native_probe_failure_withdraws_availability_and_preserves_history(self):
+    def test_native_sampler_failure_withdraws_availability_and_preserves_history(self):
         model = self.make_native_nonconformal_source()
         result = self.make_available_observation(model)
         raw = result.ObservationData
         # This is an external native algorithm boundary, not an ownership,
         # source-reader or interpolation implementation double.
         with patch(
-            "femresult.owned_probe.vtkProbeFilter",
+            "femresult.owned_probe.vtkPointData",
             side_effect=RuntimeError("Native VTK factory unavailable"),
         ):
             result.Proxy.refresh(result)

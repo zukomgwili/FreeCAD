@@ -3,7 +3,7 @@
 """Sample a caller-validated, owner-restricted native surface dataset.
 
 Ownership, source-result provenance, units (mm), and the declared physical
-point belong to the caller. This adapter uses native VTK location/probing;
+point belong to the caller. This adapter uses native VTK cell location/interpolation;
 it does not construct shape functions, move a point, or recover missing U.
 """
 
@@ -11,9 +11,9 @@ import math
 import sys
 from itertools import combinations
 
-from vtkmodules.vtkCommonCore import VTK_DOUBLE, reference, vtkIdList, vtkPoints
-from vtkmodules.vtkCommonDataModel import vtkPolyData
-from vtkmodules.vtkFiltersCore import vtkExtractCells, vtkProbeFilter
+from vtkmodules.vtkCommonCore import VTK_DOUBLE, reference, vtkIdList
+from vtkmodules.vtkCommonDataModel import vtkPointData
+from vtkmodules.vtkFiltersCore import vtkExtractCells
 
 
 def _unavailable(reason):
@@ -188,7 +188,7 @@ def sample_surface(dataset, point):
             inside != 1
             or not all(
                 math.isfinite(value)
-                for value in (*pcoords, *world, parametric, residual, float(distance))
+                for value in (*pcoords, *world, *weights, parametric, residual, float(distance))
             )
             or parametric > 128 * sys.float_info.epsilon
             or residual > bound
@@ -227,31 +227,27 @@ def sample_surface(dataset, point):
             return _unavailable(
                 "Native extraction did not preserve the exact requested original IDs"
             )
-        point_data = vtkPoints()
-        point_data.SetDataTypeToDouble()
-        point_data.InsertNextPoint(point)
-        probe_points = vtkPolyData()
-        probe_points.SetPoints(point_data)
-        probe = vtkProbeFilter()
-        probe.SetInputData(probe_points)
-        probe.SetSourceData(source)
-        probe.ComputeToleranceOff()
-        probe.SetTolerance(bound)
-        probe.SnapToCellWithClosestPointOff()
-        probe.Update()
-        output = probe.GetOutput().GetPointData()
-        mask = output.GetArray("vtkValidPointMask")
+        # The native inverse/reconstruction guards above establish membership.
+        # vtkProbeFilter adds an exact dataset-bounds intersection that can
+        # reject a native forward-evaluated planar point by one double ULP.
+        # Use its native field-interpolation operation directly, with the
+        # exact native weights and verified extracted connectivity order.
+        # Only the vector field is allocated: original integer IDs must never
+        # be interpolated through a floating-point array.
+        field_data = vtkPointData()
+        field_data.AddArray(source.GetPointData().GetArray("Displacement"))
+        output = vtkPointData()
+        output.InterpolateAllocate(field_data, 1)
+        output.InterpolatePoint(field_data, 0, extracted_indices, weights)
         field = output.GetArray("Displacement")
         if (
-            mask is None
-            or mask.GetNumberOfTuples() != 1
-            or mask.GetTuple1(0) != 1
-            or field is None
+            field is None
             or field.GetNumberOfTuples() != 1
             or field.GetNumberOfComponents() != 3
+            or field.GetDataType() != VTK_DOUBLE
             or not all(math.isfinite(value) for value in field.GetTuple(0))
         ):
-            return _unavailable("A containing native cell has no valid finite displacement probe")
+            return _unavailable("A containing native cell has no valid finite native interpolation")
         matches.append(
             {
                 "element_id": elements[index],
@@ -262,7 +258,8 @@ def sample_surface(dataset, point):
                 "spatial_residual_mm": residual,
                 "roundoff_bound_mm": bound,
                 "native_squared_distance_mm2": float(distance),
-                "vtk_valid": True,
+                "native_interpolation_method": "vtkDataSetAttributes.InterpolatePoint",
+                "native_interpolation_valid": True,
                 "value_mm": tuple(field.GetTuple(0)),
             }
         )

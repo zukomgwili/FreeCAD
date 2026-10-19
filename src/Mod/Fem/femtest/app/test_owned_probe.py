@@ -55,6 +55,35 @@ def surface(points, cells, values, point_ids=None, element_ids=None):
 
 @unittest.skipUnless(HAS_VTK, "VTK Python support is not available in this build")
 class TestOwnedProbe(unittest.TestCase):
+    def test_planar_point_within_native_roundoff_guard_remains_available(self):
+        from femresult.owned_probe import sample_surface
+
+        # An unrelated generic plane: declare a query one double ULP beyond
+        # its zero-thickness bounds, within the unchanged native roundoff guard.
+        grid = surface(
+            [(0, 0, 0.1), (2, 0, 0.1), (0, 2, 0.1)],
+            [(vtkTriangle, [0, 1, 2])],
+            [(1, 2, 3)] * 3,
+            point_ids=[11, 31, 97],
+            element_ids=[100003],
+        )
+        point = [0.0] * 3
+        grid.GetCell(0).EvaluateLocation(reference(0), (1 / 3, 1 / 3, 0), point, [0.0] * 3)
+        point[2] = math.nextafter(0.1, math.inf)
+        result = sample_surface(grid, point)
+        self.assertEqual(result["status"], "AVAILABLE", result)
+        self.assertEqual(result["source_node_ids"], (11, 31, 97))
+        self.assertEqual(result["source_element_ids"], (100003,))
+        self.assertGreater(point[2], grid.GetBounds()[5])
+        location = result["native_locations"][0]
+        self.assertEqual(
+            location["native_interpolation_method"], "vtkDataSetAttributes.InterpolatePoint"
+        )
+        self.assertTrue(location["native_interpolation_valid"])
+        self.assertNotIn("vtk_valid", location)
+        for actual, expected in zip(result["value_mm"], (1, 2, 3)):
+            self.assertAlmostEqual(actual, expected, places=14)
+
     def test_triangle_interior_retains_vector_components_and_original_ids(self):
         from femresult.owned_probe import sample_surface
 
