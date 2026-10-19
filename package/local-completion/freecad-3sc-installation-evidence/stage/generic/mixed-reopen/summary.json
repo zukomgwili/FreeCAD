@@ -1,0 +1,69 @@
+{
+  "application": "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app",
+  "resources": "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "mixed-reopen",
+  "expected_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+  "expected_revision": "49261 +205 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "NativeMixedShapeHashers"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "-u",
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-reopen/user.cfg",
+    "-s",
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-reopen/system.cfg",
+    "-P",
+    "/private/tmp/freecad-3sc-install.NqfZNl",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Fem",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Part/App",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "NativeMixedShapeHashers"
+  ],
+  "identity_report": "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-reopen/identity.json",
+  "log": "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-reopen/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Part/App/NativeMixedShapeHashers.py": "63a39903f435093a987710530fab2d86230f073f73607ef4265e401ba0a1567b"
+  },
+  "cold_inputs_sha256_before": {
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-native/mixed-hashers.FCStd": "307efd088a1e00ff0308b2c16eb7b75d16906053b5425e9c4cabcd86b22d9a5f",
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-native/expected.json": "d84269d0e5831fe6171afa2b24a174f539ada51923f6b3566467ef7b3298a528"
+  },
+  "pid": 49757,
+  "exit_code": 0,
+  "unittest": {
+    "run": 2,
+    "seconds": 1.746,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "NativeMixedShapeHashers": 1
+  },
+  "native_report": "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-native/reopen-result.json",
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Part/App/NativeMixedShapeHashers.py": "63a39903f435093a987710530fab2d86230f073f73607ef4265e401ba0a1567b"
+  },
+  "cold_inputs_sha256_after": {
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-native/mixed-hashers.FCStd": "307efd088a1e00ff0308b2c16eb7b75d16906053b5425e9c4cabcd86b22d9a5f",
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-mixed-native/expected.json": "d84269d0e5831fe6171afa2b24a174f539ada51923f6b3566467ef7b3298a528"
+  },
+  "elapsed_seconds": 4.1
+}

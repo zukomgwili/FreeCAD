@@ -1,0 +1,68 @@
+{
+  "analysis": "Analysis",
+  "binary": "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+  "deck_sha256": "436b1b4b7ff9805cad220fb5cc502d73412a6ace0d6aa30c51632edea7559831",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "Support"
+    ],
+    [
+      "CUT",
+      "SectionPrint"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; native-load/contact equilibrium-derived cut",
+  "model_digest": "378507b22d505c20edf1c4705c7ad594d34058ad4447305f07d5400a08b79026",
+  "output_sha256": "d818c901c2008cf6e7d666505afd9d5fa512a6c8c87a6a1b9e389d777e6ebbc6",
+  "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "SectionPrint": [
+        -2.8661213245742106e-15,
+        -4.021601934606299e-15,
+        100.15502254497356,
+        500.77511268272457,
+        -500.7751126759341,
+        -2.8345279609172566e-15
+      ]
+    },
+    "CUT": {
+      "SectionPrint": [
+        2.8661213245742106e-15,
+        4.021601934606299e-15,
+        -100.07747253743857,
+        -500.38736264504956,
+        500.3873626382591,
+        2.8345279609172566e-15
+      ]
+    },
+    "LOAD": {
+      "SectionPrint": [
+        0.0,
+        0.0,
+        -0.0775500075350007,
+        -0.38775003767500366,
+        0.38775003767500343,
+        0.0
+      ]
+    },
+    "SUPPORT": {
+      "Support": [
+        -2.8661213245742126e-15,
+        -4.021601934606295e-15,
+        100.23249507997348,
+        501.1624753367836,
+        -501.1624753556448,
+        -2.834527962716474e-15
+      ]
+    }
+  }
+}

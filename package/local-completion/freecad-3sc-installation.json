@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "date": "2026-10-19",
+  "task": "FreeCAD-9dm",
+  "fix": "FreeCAD-3sc",
+  "status": "INSTALLED_AND_VERIFIED",
+  "compiled_source_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+  "compiled_revision": "49261 +205 (Git)",
+  "compiled_version": "27.1.0dev49261+205 (Git)",
+  "production_tree_equivalent_to_qualified_fix": "455ff652d2755fdc1ae29921318a054e758c26b6",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-3sc-d00e4a3eb7.app",
+  "previous_compiled_source": "d00e4a3eb79400bf25ac1f6fe16b322666464415",
+  "previous_revision": "49261 +202 (Git)",
+  "dependency_prefix_still_required": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "distribution_limit": "Host-local, ad-hoc signed installation, not a self-contained or notarized distribution. Existing native launchers and external patched Cocoa dependency remain in use.",
+  "installation": {
+    "latest_branch_pull": "Already up to date before the build; no unrelated upstream merge was performed.",
+    "build": "PASS frozen Pixi Release incremental build at clean source HEAD5591e8e388; not a from-empty or warning-free build claim.",
+    "staging": "CMake DESTDIR payload merged into a private literal-link-preserving copy, signed and verified before replacement. No direct install into the live dependency prefix.",
+    "replacement": "Verified same-filesystem reversible rename. Original +202 app moved intact to the unique backup; sealed +205 app moved into the original Applications path. App directory modification time refreshed for Finder.",
+    "installed_inventory_entries": 4308,
+    "backup_inventory_entries": 4308,
+    "installed_matches_sealed_stage": true,
+    "backup_matches_original": true,
+    "deep_strict_signatures_and_preserved_quicklook_entitlements": true,
+    "resources_readonly_and_cache_free": true,
+    "both_existing_user_profiles_unchanged": true,
+    "external_namespace_files_unchanged": 11,
+    "critical_pixi_manifest_lock_cocoa_and_standard_solver_pins_unchanged": true,
+    "no_app_processes_left_running": true
+  },
+  "gates": {
+    "CTest": {"outcome": "PASS", "enabled_tests": 2266, "included_existing_skips": 2, "pre_disabled": 8, "seconds": 93.53},
+    "staged_application": {
+      "outcome": "PASS", "serial_generic_gates": 10, "sequence_seconds": 203.405,
+      "CLI_tests_including_identity": 1774, "CLI_seconds": 95.679,
+      "GUI_tests_including_identity": 20, "GUI_seconds": 23.754
+    },
+    "installed_application": {
+      "outcome": "PASS", "serial_generic_gates": 10, "sequence_seconds": 199.103,
+      "CLI_tests_including_identity": 1774, "CLI_seconds": 94.691,
+      "GUI_tests_including_identity": 20, "GUI_seconds": 23.116
+    },
+    "CLI_existing_controls_each_location": "8 skips and 1 expected failure, no unexpected failures. All 315 FEM tests and 15 MaterialsApp tests are included; GUI coverage includes 3 MaterialsGui tests.",
+    "process_exit_status": "PASS 15 permanent real-process tests per command-line/GUI mode at each location; command-line has 4 expected GUI-only skips. Deliberate child failure/error/timeout fixtures are checked, not misreported as unexpected application failures.",
+    "native_solver_lifecycles": "PASS ordinary CAD/Gmsh/writer/bundled solver/Current import and exact saved historical data plus ordinary rerun, in command-line and GUI modes at both paths; preserved 4jb read-only material-lifetime witness also passes in both modes and locations.",
+    "native_analytic_each_location": "PASS 48 synthetic contact/cut cases, 6 explicit exit-201 fail-closed cases, and disjoint support force/origin-moment checks. No native solver source or standard RF/SOF/SOM/CF behavior changed.",
+    "typed_3sc_each_location": {
+      "outcome": "PASS",
+      "stage_GUI_test_seconds": 1.515, "stage_cold_test_seconds": 0.313,
+      "installed_GUI_test_seconds": 1.530, "installed_cold_test_seconds": 0.315,
+      "method": "Fresh read-only bridge linked to each signed target's Materials module. Actual stock GUI delegates author mixed Float/Quantity data. Normal native User-library save/refresh, FCStd close/reopen and a separate command-line process retain full canonical material identity and both FEM fingerprints without metadata exclusions.",
+      "mutation_controls": "64 held read-only copies preserve identity; two real Float edits change both fingerprints. Legacy Quantity-coercing accessors remain compatible.",
+      "null_origin": "A separate public native Columns/Rows fixture seeds nulls; null cells are not claimed to be GUI-authored.",
+      "isolation_and_custody": "Actual native app-data and User-library paths proven strictly inside each owned private profile before saving. Exact source5591/+205, target-only native images, supervisor/producer/module/card/document hashes, normal one-test OK, exit0 and reaped process required. No typed supervisor timeout occurred."
+    },
+    "independent_payload_and_stage_audits": "PASS all 61 native payloads retain compiled code/data and non-RPATH/non-signature load commands; signed-stage parity matches. Literal dependency links and exact source/data comparisons preserved.",
+    "final_custody_audit": "PASS installed equals sealed stage, backup equals original +202, signatures/QuickLook/source/native parity, read-only cache-free resources, profiles, 11 external namespace files and critical dependency pins. Historical stage paths bind through the sealed inventory to current installed bytes.",
+    "Rails": "SKIPPED: not a Rails repository; native/application tests and JSON/diff checks apply."
+  },
+  "installed_module_sha256": {
+    "Materials.so": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+    "MatGui.so": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+    "signed_bundled_ccx_unchanged": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e"
+  },
+  "evidence": {
+    "directory": "freecad-3sc-installation-evidence",
+    "index_sha256": "5b4c455bc5c08a8235501c9b051feb39b808c517263b5e18a735afc6e29742c6",
+    "final_audit_sha256": "4fe63284538d7d0f959e7f3ec7f70fb1596a7a47fd9820b9972dbe12dad530df",
+    "complete_build_log_sha256": "53dac724478a28aaef3d93a9a879e1c0b7e6d305407405c906e8985cfa30137f",
+    "complete_CTest_log_sha256": "309b0d481fda6720ff6478cee05e63f2a705293089a828898087feb7a90f6f29",
+    "private_root": "/private/tmp/freecad-3sc-install.NqfZNl",
+    "privacy": "Only generic software receipts, synthetic native fixtures and source snapshots retained. No CAD, material cards, user configs/profile inventory bodies, compiled bridges/app binaries or original-building geometry/vector reports published.",
+    "harness_setup_note": "A no-launch bridge setup was preserved privately before adding an early dont_write_bytecode guard. It was a setup refinement, not a product failure; all actual staged/installed typed tests passed normally.",
+    "archive_format_note": "The first generated evidence set is preserved privately. Shorter exact CLI log suffixes avoid a native diagnostic's trailing space; two helper sources with blank EOF lines are retained as lossless JSON text wrappers with separate decoded-source hashes. Qualified producers and original logs were not edited."
+  },
+  "compatibility_and_scope": [
+    "New typed Array2D cards are readable by the new reader alongside old cards; older FreeCAD versions cannot read the new typed representation. No user library was automatically rewritten.",
+    "ShapeMaterial in FCStd still references a saved available library material by UUID; unsaved material contents are not embedded. Retain the library with the project.",
+    "Array3D/scalar persistence and general Array2D copy assignment are unchanged, tracked separately as FreeCAD-b7d and FreeCAD-36b.",
+    "The full original 4jb retained assembly was not replayed for this installation. Small native lifecycle controls pass; original Oomakhi 50 engineering checks remain NOT ASSESSED, 96 legacy failures and original 1% limits unchanged. No engineering/BIM/design acceptance is claimed.",
+    "FreeCAD-4vo remains skipped; no upstream contribution or PR was published."
+  ]
+}

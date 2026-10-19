@@ -1,0 +1,184 @@
+{
+  "label": "installed",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "passed": true,
+  "gates": [
+    {
+      "mode": "create",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-create/summary.json",
+      "unittest": {
+        "run": 2,
+        "seconds": 0.587,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "reopen",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-reopen/summary.json",
+      "unittest": {
+        "run": 2,
+        "seconds": 0.676,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "cli",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-cli/summary.json",
+      "unittest": {
+        "run": 1774,
+        "seconds": 94.691,
+        "outcome": "OK",
+        "details": "skipped=8, expected failures=1",
+        "expected_failures": [
+          "For a tilted beam, the cross-section Y axis must remain perfectly"
+        ],
+        "skips": [
+          [
+            "test_cutview_restore_waits_for_gui_document_and_view (bimtests.TestArchSectionPlane.TestArchSectionPlane.test_cutview_restore_waits_for_gui_document_and_view)",
+            "'Requires native GUI view provider'"
+          ],
+          [
+            "test_saved_cutview_restores_with_native_proxy (bimtests.TestArchSectionPlane.TestArchSectionPlane.test_saved_cutview_restores_with_native_proxy)",
+            "'Requires native GUI view provider'"
+          ],
+          [
+            "Document-owned print colors still work, but bare shapes cannot inherit them.",
+            "'Layer print colors require native view providers'"
+          ],
+          [
+            "A rotated section's multiline label keeps its bottom baseline clear.",
+            "'Arch label views require BIM and the GUI'"
+          ],
+          [
+            "Ordinary TechDraw Arch views retain label text and their stock leaders.",
+            "'Arch label views require BIM and the GUI'"
+          ],
+          [
+            "Stock annotations retain parallel text, and label leaders stay intact.",
+            "'Draft label rendering requires its native view provider'"
+          ],
+          [
+            "The first label baseline and margin follow alignment at the export size.",
+            "'Draft label rendering requires its native view provider'"
+          ],
+          [
+            "testCircleToLineDistance_Driving_Secant (SketcherTests.TestSketcherSolver.TestSketcherSolver.testCircleToLineDistance_Driving_Secant)",
+            "'Support for secants still under discussion, see comments in PR 9044'"
+          ]
+        ]
+      }
+    },
+    {
+      "mode": "features",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-features/summary.json",
+      "unittest": {
+        "run": 15,
+        "seconds": 1.526,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "gui",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-gui/summary.json",
+      "unittest": {
+        "run": 20,
+        "seconds": 23.116,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "equilibrium",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-equilibrium/summary.json",
+      "unittest": {
+        "run": 3,
+        "seconds": 9.036,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "mixed-create",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-mixed-create/summary.json",
+      "unittest": {
+        "run": 2,
+        "seconds": 1.751,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "mixed-reopen",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-mixed-reopen/summary.json",
+      "unittest": {
+        "run": 2,
+        "seconds": 1.748,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "area-create",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-area-create/summary.json",
+      "unittest": {
+        "run": 2,
+        "seconds": 1.443,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    },
+    {
+      "mode": "area-reopen",
+      "report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-area-reopen/summary.json",
+      "unittest": {
+        "run": 2,
+        "seconds": 1.46,
+        "outcome": "OK",
+        "details": "",
+        "expected_failures": [],
+        "skips": []
+      }
+    }
+  ],
+  "runner_sha256_before": {
+    "/private/tmp/freecad-3sc-install.NqfZNl/run_gate_sequence.py": "92dcfe49212af53832f9e3b7e3f4e1abaf4ced9dd171840e1d4d31a1a53c2a08",
+    "/private/tmp/freecad-3sc-install.NqfZNl/validate_install.py": "c3a71ce49a8ce746d793d2c4d2baa27d8294a5c8c39a2da86f32a8ff6d98944b",
+    "/private/tmp/freecad-3sc-install.NqfZNl/InstalledIdentity.py": "04f9ba6f9381b19e4d52d0cccabe00b43cf94af659c39d72790a7b3076ebf59e",
+    "/private/tmp/freecad-3sc-install.NqfZNl/verify_exit_status.py": "41788b92547724189053650cbd5140e4966d471151c914d8e0cae9a9c548c443",
+    "/private/tmp/freecad-3sc-install.NqfZNl/InstalledExitWitness.py": "07fa78e006ab42cde4ff212dabeb377fd09a5cd0f6354a391708ea01189d454b",
+    "/private/tmp/freecad-3sc-install.NqfZNl/validate_native_accounting.py": "c1f17326a3efd20907248007e0660b1999e66d728ae9e9b0e1a904532cb6e831",
+    "/private/tmp/freecad-3sc-install.NqfZNl/validate_4jb.py": "dfa45be903f1eef782e0991cf5cadef6e923f5105e324336a0dd4bd9b1c30772",
+    "/private/tmp/freecad-3sc-install.NqfZNl/harness_config.py": "03239af9f3a657739a1e49c5267339a685fed1ab890c5801400275d716814b74"
+  },
+  "exit_status_report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-exit-status/summary.json",
+  "runner_sha256_after": {
+    "/private/tmp/freecad-3sc-install.NqfZNl/run_gate_sequence.py": "92dcfe49212af53832f9e3b7e3f4e1abaf4ced9dd171840e1d4d31a1a53c2a08",
+    "/private/tmp/freecad-3sc-install.NqfZNl/validate_install.py": "c3a71ce49a8ce746d793d2c4d2baa27d8294a5c8c39a2da86f32a8ff6d98944b",
+    "/private/tmp/freecad-3sc-install.NqfZNl/InstalledIdentity.py": "04f9ba6f9381b19e4d52d0cccabe00b43cf94af659c39d72790a7b3076ebf59e",
+    "/private/tmp/freecad-3sc-install.NqfZNl/verify_exit_status.py": "41788b92547724189053650cbd5140e4966d471151c914d8e0cae9a9c548c443",
+    "/private/tmp/freecad-3sc-install.NqfZNl/InstalledExitWitness.py": "07fa78e006ab42cde4ff212dabeb377fd09a5cd0f6354a391708ea01189d454b",
+    "/private/tmp/freecad-3sc-install.NqfZNl/validate_native_accounting.py": "c1f17326a3efd20907248007e0660b1999e66d728ae9e9b0e1a904532cb6e831",
+    "/private/tmp/freecad-3sc-install.NqfZNl/validate_4jb.py": "dfa45be903f1eef782e0991cf5cadef6e923f5105e324336a0dd4bd9b1c30772",
+    "/private/tmp/freecad-3sc-install.NqfZNl/harness_config.py": "03239af9f3a657739a1e49c5267339a685fed1ab890c5801400275d716814b74"
+  },
+  "elapsed_seconds": 199.103
+}

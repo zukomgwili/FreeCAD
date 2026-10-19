@@ -1,0 +1,57 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "resources": "/Applications/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "create",
+  "expected_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+  "expected_revision": "49261 +205 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "NativeContactOwnership"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+    "-u",
+    "/private/tmp/freecad-3sc-install.NqfZNl/installed-create/user.cfg",
+    "-s",
+    "/private/tmp/freecad-3sc-install.NqfZNl/installed-create/system.cfg",
+    "-P",
+    "/private/tmp/freecad-3sc-install.NqfZNl",
+    "-P",
+    "/Users/zukomgwili/src/FreeCAD/tests/src/Mod/Fem",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "NativeContactOwnership"
+  ],
+  "identity_report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-create/identity.json",
+  "log": "/private/tmp/freecad-3sc-install.NqfZNl/installed-create/run.log",
+  "timeout_seconds": 180,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {},
+  "cold_inputs_sha256_before": {},
+  "pid": 51417,
+  "exit_code": 0,
+  "unittest": {
+    "run": 2,
+    "seconds": 0.587,
+    "outcome": "OK",
+    "details": "",
+    "expected_failures": [],
+    "skips": []
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "NativeContactOwnership": 1
+  },
+  "native_report": "/private/tmp/freecad-3sc-install.NqfZNl/installed-native/create-result.json",
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {},
+  "cold_inputs_sha256_after": {},
+  "elapsed_seconds": 2.997
+}

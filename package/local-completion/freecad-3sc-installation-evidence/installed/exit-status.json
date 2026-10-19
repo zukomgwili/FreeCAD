@@ -1,0 +1,51 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "expected_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+  "expected_revision": "49261 +205 (Git)",
+  "passed": true,
+  "gates": [
+    {
+      "mode": "cmd",
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/python",
+        "/Users/zukomgwili/src/FreeCAD/tests/src/App/TestRunnerExitStatus.py",
+        "--executable",
+        "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd"
+      ],
+      "log": "/private/tmp/freecad-3sc-install.NqfZNl/installed-exit-status/cmd.log",
+      "passed": true,
+      "timed_out": false,
+      "process_reaped": true,
+      "timeout_seconds": 510,
+      "pid": 52606,
+      "exit_code": 0,
+      "tests_run": 15,
+      "skipped": 4
+    },
+    {
+      "mode": "gui",
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/python",
+        "/Users/zukomgwili/src/FreeCAD/tests/src/App/TestRunnerExitStatus.py",
+        "--executable",
+        "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCAD",
+        "--gui"
+      ],
+      "log": "/private/tmp/freecad-3sc-install.NqfZNl/installed-exit-status/gui.log",
+      "passed": true,
+      "timed_out": false,
+      "process_reaped": true,
+      "timeout_seconds": 510,
+      "pid": 52619,
+      "exit_code": 0,
+      "tests_run": 15,
+      "skipped": 0
+    }
+  ],
+  "driver_sha256_before": "b9f6d820cf434084f6cae6ec665e5dbf942716dc3d93c96147c05fe71fe93286",
+  "fixture_sha256_before": "aadbb62582a5464a545c4ebc198e06d8cbdfa8a81b77b9f31e201ac03b56f4cd",
+  "driver_sha256_after": "b9f6d820cf434084f6cae6ec665e5dbf942716dc3d93c96147c05fe71fe93286",
+  "fixture_sha256_after": "aadbb62582a5464a545c4ebc198e06d8cbdfa8a81b77b9f31e201ac03b56f4cd",
+  "app_inventory_unchanged": true,
+  "elapsed_seconds": 30.051
+}

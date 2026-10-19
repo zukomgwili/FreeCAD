@@ -1,0 +1,68 @@
+{
+  "analysis": "Analysis",
+  "binary": "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+  "deck_sha256": "d0af2a1db3cc7253030f86d6961acfe80c9a247df3396c7a5d56cbb1a83bb9d4",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "Support"
+    ],
+    [
+      "CUT",
+      "SectionPrint"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; native-load/contact equilibrium-derived cut",
+  "model_digest": "af81498b9a3efe88d6b12ea329fa2298de097a7752e32d835e54f2a5daf41c63",
+  "output_sha256": "ee986cc460f4ccb912dcc7c5ae58df15df4986194b23749d90f38f45f08bd7c1",
+  "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "SectionPrint": [
+        -7.233716876280782e-15,
+        -4.2447704346489416e-15,
+        100.15502253571641,
+        500.7751127015167,
+        -500.7751126779056,
+        3.944963907619591e-14
+      ]
+    },
+    "CUT": {
+      "SectionPrint": [
+        7.233716876280782e-15,
+        4.2447704346489416e-15,
+        -100.07747252818142,
+        -500.3873626638417,
+        500.3873626402306,
+        -3.944963907619591e-14
+      ]
+    },
+    "LOAD": {
+      "SectionPrint": [
+        0.0,
+        0.0,
+        -0.0775500075350007,
+        -0.3877500376750036,
+        0.38775003767500316,
+        0.0
+      ]
+    },
+    "SUPPORT": {
+      "Support": [
+        -7.23371687628078e-15,
+        -4.244770434648946e-15,
+        100.23249507071633,
+        501.1624753738008,
+        -501.16247535561945,
+        3.9449639080152314e-14
+      ]
+    }
+  }
+}

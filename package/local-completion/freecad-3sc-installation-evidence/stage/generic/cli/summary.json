@@ -1,0 +1,137 @@
+{
+  "application": "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app",
+  "resources": "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app/Contents/Resources",
+  "mode": "cli",
+  "expected_commit": "5591e8e388bf3506450cb407f784b89064804ddc",
+  "expected_revision": "49261 +205 (Git)",
+  "suites": [
+    "InstalledIdentity",
+    "BaseTests",
+    "UnitTests",
+    "Document",
+    "TestArch",
+    "TestDraft",
+    "TestFemApp",
+    "TestMaterialsApp",
+    "TestPartApp",
+    "TestSpreadsheet",
+    "TestTechDrawApp",
+    "StringHasher",
+    "TestSketcherApp",
+    "TestPartDesignApp"
+  ],
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "/private/tmp/freecad-3sc-install.NqfZNl/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "-u",
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-cli/user.cfg",
+    "-s",
+    "/private/tmp/freecad-3sc-install.NqfZNl/stage-cli/system.cfg",
+    "-P",
+    "/private/tmp/freecad-3sc-install.NqfZNl",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "BaseTests",
+    "-t",
+    "UnitTests",
+    "-t",
+    "Document",
+    "-t",
+    "TestArch",
+    "-t",
+    "TestDraft",
+    "-t",
+    "TestFemApp",
+    "-t",
+    "TestMaterialsApp",
+    "-t",
+    "TestPartApp",
+    "-t",
+    "TestSpreadsheet",
+    "-t",
+    "TestTechDrawApp",
+    "-t",
+    "StringHasher",
+    "-t",
+    "TestSketcherApp",
+    "-t",
+    "TestPartDesignApp"
+  ],
+  "identity_report": "/private/tmp/freecad-3sc-install.NqfZNl/stage-cli/identity.json",
+  "log": "/private/tmp/freecad-3sc-install.NqfZNl/stage-cli/run.log",
+  "timeout_seconds": 900,
+  "passed": true,
+  "timed_out": false,
+  "process_reaped": true,
+  "harness_sha256_before": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_before": {},
+  "cold_inputs_sha256_before": {},
+  "pid": 48857,
+  "exit_code": 0,
+  "unittest": {
+    "run": 1774,
+    "seconds": 95.679,
+    "outcome": "OK",
+    "details": "skipped=8, expected failures=1",
+    "expected_failures": [
+      "For a tilted beam, the cross-section Y axis must remain perfectly"
+    ],
+    "skips": [
+      [
+        "test_cutview_restore_waits_for_gui_document_and_view (bimtests.TestArchSectionPlane.TestArchSectionPlane.test_cutview_restore_waits_for_gui_document_and_view)",
+        "'Requires native GUI view provider'"
+      ],
+      [
+        "test_saved_cutview_restores_with_native_proxy (bimtests.TestArchSectionPlane.TestArchSectionPlane.test_saved_cutview_restores_with_native_proxy)",
+        "'Requires native GUI view provider'"
+      ],
+      [
+        "Document-owned print colors still work, but bare shapes cannot inherit them.",
+        "'Layer print colors require native view providers'"
+      ],
+      [
+        "A rotated section's multiline label keeps its bottom baseline clear.",
+        "'Arch label views require BIM and the GUI'"
+      ],
+      [
+        "Ordinary TechDraw Arch views retain label text and their stock leaders.",
+        "'Arch label views require BIM and the GUI'"
+      ],
+      [
+        "Stock annotations retain parallel text, and label leaders stay intact.",
+        "'Draft label rendering requires its native view provider'"
+      ],
+      [
+        "The first label baseline and margin follow alignment at the export size.",
+        "'Draft label rendering requires its native view provider'"
+      ],
+      [
+        "testCircleToLineDistance_Driving_Secant (SketcherTests.TestSketcherSolver.TestSketcherSolver.testCircleToLineDistance_Driving_Secant)",
+        "'Support for secants still under discussion, see comments in PR 9044'"
+      ]
+    ]
+  },
+  "configured_suite_counts": {
+    "InstalledIdentity": 1,
+    "BaseTests": 49,
+    "UnitTests": 12,
+    "Document": 137,
+    "TestArch": 343,
+    "TestDraft": 115,
+    "TestFemApp": 315,
+    "TestMaterialsApp": 15,
+    "TestPartApp": 339,
+    "TestSpreadsheet": 91,
+    "TestTechDrawApp": 16,
+    "StringHasher": 5,
+    "TestSketcherApp": 94,
+    "TestPartDesignApp": 242
+  },
+  "harness_sha256_after": "73b8265ed4cc6b9003e6783b6e844d01739e073c09fd35dc0600ac686a1e1b6d",
+  "additional_observer_sha256_after": {},
+  "cold_inputs_sha256_after": {},
+  "elapsed_seconds": 107.095
+}

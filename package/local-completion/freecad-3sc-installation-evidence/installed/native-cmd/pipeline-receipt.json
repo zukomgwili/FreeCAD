@@ -1,0 +1,68 @@
+{
+  "analysis": "Analysis",
+  "binary": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "54311d44545363ff17406531ca2b489364af77a14141d6addc305f226ea3611e",
+  "deck_sha256": "30331019ac75589329331de5578d23ea88735e1c2f3d17d6a080a6de9a3a7f49",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "Support"
+    ],
+    [
+      "CUT",
+      "SectionPrint"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; native-load/contact equilibrium-derived cut",
+  "model_digest": "4a1691d8d85750a7ade7fceb653381ae8e50d037e91cfb42a2ca8d4bec2bdb76",
+  "output_sha256": "f22521d7d4970ee71a48d867889ff478813817d7b1e5fcc225b3b25c6fbce038",
+  "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "SectionPrint": [
+        -5.744660556960992e-15,
+        -2.831762973695761e-15,
+        100.15502255461972,
+        500.7751128247322,
+        -500.77511278332184,
+        3.419076827679258e-14
+      ]
+    },
+    "CUT": {
+      "SectionPrint": [
+        5.744660556960992e-15,
+        2.831762973695761e-15,
+        -100.07747254708472,
+        -500.3873627870572,
+        500.38736274564684,
+        -3.419076827679258e-14
+      ]
+    },
+    "LOAD": {
+      "SectionPrint": [
+        0.0,
+        0.0,
+        -0.07755000753500066,
+        -0.3877500376750036,
+        0.3877500376750031,
+        0.0
+      ]
+    },
+    "SUPPORT": {
+      "Support": [
+        -5.744660556961001e-15,
+        -2.831762973695761e-15,
+        100.23249508961962,
+        501.1624754991178,
+        -501.1624754583214,
+        3.41907682713148e-14
+      ]
+    }
+  }
+}
