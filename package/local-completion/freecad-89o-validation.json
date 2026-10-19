@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "issue": "FreeCAD-89o",
+  "discovered_from": "FreeCAD-927",
+  "date": "2026-10-19",
+  "status": "VERIFIED",
+  "source_commit": "3e2ddb56e7268ef3fbda82902878a775235ee98e",
+  "compiled_revision": "49261 +209 (Git)",
+  "diagnosis": "vtkProbeFilter rejects a one-ULP planar query at its exact dataset-bounds broad phase before reaching cell location, even when the existing native inverse, parametric and world reconstruction guards pass. Changing the cell locator does not avoid that early return, and extraction preserves exact double coordinates.",
+  "primary_sources": [
+    "https://raw.githubusercontent.com/Kitware/VTK/v9.7.0/Filters/Core/vtkProbeFilter.cxx",
+    "https://raw.githubusercontent.com/Kitware/VTK/v9.7.0/Common/DataModel/vtkDataSetAttributes.cxx"
+  ],
+  "implementation": {
+    "public_seam": "femresult.owned_probe.sample_surface",
+    "native_operation": "vtkDataSetAttributes.InterpolatePoint",
+    "method": "Use the native cell-produced weights and verified extracted-local connectivity after all unchanged ownership, original-ID, inverse, parametric and world-residual checks. Interpolate only the double-precision Displacement field, never integer IDs. Reject nonfinite native weights or output.",
+    "query_point_moved": false,
+    "guards_or_tolerances_increased": false,
+    "custom_shape_functions_or_Python_weighted_sum": false,
+    "fallback_or_forged_VTK_mask": false,
+    "source_sha256": "4efd77f264efd71910bec2b543d054728c3ac7ca4858812ef963c138749d0d73",
+    "regression_sha256": "7d7baafeb48e257b942b856a958b7394fdb6fa01b9e05576a14bc2b85a488a4f",
+    "native_failure_regression_sha256": "36c2488d3af434fcfb2897b2ec8b2527e7eec094a1db5a5f78bb16e9bcb0cc7b"
+  },
+  "red_green": {
+    "fixture": "Non-proprietary single Tri3 at z=0.1 with an explicit nextafter query within the existing arithmetic guard, sparse original IDs and an independently known constant field",
+    "baseline_commit": "e5d76bbcdd5a2831a5a9702d2c90128b1832e0b1",
+    "baseline_sampler_sha256": "31e766e689a3d0b942d0e07d88744c35666592b0960e832c0481b69f23c1fa22",
+    "red": {"expected_exit_code": 1, "actual_exit_code": 1, "reaped": true, "timed_out": false, "receipt_sha256": "a2f0d446ae0b5604e63f155b6c8613ca0741013a5fd2454ddb60f210cc83df71"},
+    "green": {"tests": 1, "exit_code": 0, "reaped": true, "timed_out": false, "receipt_sha256": "570c80168b042a8927f62e0ad16d74e56cae67105ce84fae0f17d910ae7ef656"},
+    "kernel_suite": {"tests": 15, "exit_code": 0, "reaped": true, "timed_out": false, "receipt_sha256": "092e3b2f72bec9943bda5cdd0b11a72e75f63f244169407545ab479b339edb34"},
+    "private_root": "/private/tmp/freecad-89o-probe.9WXG87"
+  },
+  "captured_geometry_replay": {
+    "result": "PASS",
+    "native_forward_center_controls": {"available": 8, "unavailable": 0},
+    "original_fixed_controls": {"RearSeat": "AVAILABLE", "FrontBearing": "UNAVAILABLE", "CollectorFaying": "UNAVAILABLE"},
+    "field": "Explicit synthetic constant vectors, not physical responses",
+    "original_point_identity_and_containment_guards_preserved": true,
+    "report_sha256": "1fc884af63582107fb3559349c864bf731a5575dcf4de576c1947a0672e4fa83",
+    "execution_sha256": "046c23c5044a0e1f214f08cef5d76b2d79b2d038203cbc78cba75862e39678ec",
+    "exit_code": 0, "reaped": true, "timed_out": false,
+    "supervisor_seconds": 0.25661533302627504,
+    "private_root": "/private/tmp/freecad-89o-captured-replay.EJGmf6",
+    "FRD_or_physical_response_read": false,
+    "new_solve_or_source_binding_created": false
+  },
+  "clean_source_gates": {
+    "release_build": {"result": "PASS", "exit_code": 0, "log_sha256": "98a8d61061fcfe38b30653260f11275f18bd2757b4d72018906e857d1037cc95"},
+    "TestFemApp": {"result": "PASS", "tests": 369, "test_seconds": 56.799, "supervisor_seconds": 63.42797112488188, "exit_code": 0, "reaped": true, "timed_out": false, "log_sha256": "0ca0aed1528b547d4d6c1706b6f81c8aec342fa199ba411f526c0794bbac90f7"},
+    "TestFemGui": {"result": "PASS", "tests": 7, "test_seconds": 3.134, "supervisor_seconds": 7.950653292005882, "exit_code": 0, "reaped": true, "timed_out": false, "log_sha256": "099520cf6dfcd5f6c64ede6fba6b3916e2844a1e37339d9571c4e0474ac81df9"},
+    "CTest": {"result": "PASS_WITH_RECORDED_SKIPS", "catalogued": 2274, "passed": 2264, "runtime_skipped": 2, "disabled": 8, "failed": 0, "wall_seconds": 100.16, "log_sha256": "74e9ada3084f350955dc18f57045f09d2eaade84ef076c27eee0fac9cbee89da"},
+    "formatting": "Black --check --line-length 100 on all three changed Python files; git diff --check passes",
+    "Rails_checks": "Not applicable: no Rails application, Gemfile or configured Rails check wrappers",
+    "warning_free_claim": false,
+    "private_root": "/private/tmp/freecad-927-source.9KQEzZ"
+  },
+  "independent_review": {
+    "standards_outstanding": 0,
+    "spec_outstanding": 0,
+    "finding_resolved": "The regression no longer depends on compiler-specific native forward summation rounding; it declares an explicit one-ULP query",
+    "scope": "One independent reviewer covered both axes because all agent slots were occupied; main also independently inspected the complete diff",
+    "native_failure_test": "External vtkPointData allocation failure withdraws public availability and preserves exact historical literal bytes"
+  },
+  "boundaries": {
+    "FreeCAD_927_closed": false,
+    "original_25_off_face_points_requalified": false,
+    "retained_full_solver_repeated": false,
+    "original_model_changed": false,
+    "engineering_acceptance": false,
+    "historical_Oomakhi_method_amended": false,
+    "installed_application_changed": false,
+    "application_installed": false
+  },
+  "privacy": "Only generic fixture description, aggregate outcomes and custody hashes are published. Original CAD/mesh, physical vectors, solver outputs and user profiles remain private."
+}
