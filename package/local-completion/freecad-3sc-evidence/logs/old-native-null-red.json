@@ -1,0 +1,7 @@
+{
+  "source": "/private/tmp/freecad-3sc.I13i45/null-minimal-red/run.log",
+  "source_bytes": 1275,
+  "source_sha256": "0fbe66b28cada15bf3681e52284f5cbf238983d8f7e97a8d2e95b1802cdae21b",
+  "capture": "complete_lossless_utf8_log",
+  "text": "test_native_empty_cell_is_not_authored_zero (ArrayNullWitness.ArrayNullWitness.test_native_empty_cell_is_not_authored_zero) ... [DEBUG-3sc] native-resized-empty 0.0 authored-zero 0.0\nFAIL\n\n======================================================================\nFAIL: test_native_empty_cell_is_not_authored_zero (ArrayNullWitness.ArrayNullWitness.test_native_empty_cell_is_not_authored_zero)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/private/tmp/freecad-3sc.I13i45/ArrayNullWitness.py\", line 15, in test_native_empty_cell_is_not_authored_zero\n    self.assertNotEqual(null_value, authored_zero,\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                        \"Native empty cell and authored zero must remain distinguishable\")\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0.0 == 0.0 : Native empty cell and authored zero must remain distinguishable\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\nFreeCAD 27.1.0, Libs: 27.1.0devR49261 +202 (Git)\n(C) 2001-2026 FreeCAD contributors\nFreeCAD is free and open-source software licensed under the terms of LGPL2+ license.\n\n"
+}

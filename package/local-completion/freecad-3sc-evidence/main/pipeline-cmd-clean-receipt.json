@@ -1,0 +1,68 @@
+{
+  "analysis": "Analysis",
+  "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "4a7ab387a477000ddf502a27ccde4d98a4a873f9b80d41aa8dd9bb626f74401d",
+  "deck_sha256": "6738698b6bcd7182ce95b1cfbf585d1c7fb193997d6dba0f989cc268d4ee37a1",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "Support"
+    ],
+    [
+      "CUT",
+      "SectionPrint"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; native-load/contact equilibrium-derived cut",
+  "model_digest": "0718ddf2b2213d100f2ae104289600b608426bc7a5ce69fe12666e3cad310373",
+  "output_sha256": "0a8c8c666c87adfea4ebf7534ac09f14e7efec361bf2b96f8977c670336f28bc",
+  "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "SectionPrint": [
+        -3.381333498838732e-15,
+        -4.284151462118533e-15,
+        100.15502254407058,
+        500.7751127250176,
+        -500.77511271599064,
+        2.0281885279394847e-14
+      ]
+    },
+    "CUT": {
+      "SectionPrint": [
+        3.381333498838732e-15,
+        4.284151462118533e-15,
+        -100.07747253653558,
+        -500.3873626873426,
+        500.38736267831564,
+        -2.0281885279394847e-14
+      ]
+    },
+    "LOAD": {
+      "SectionPrint": [
+        0.0,
+        0.0,
+        -0.07755000753500069,
+        -0.38775003767500354,
+        0.3877500376750031,
+        0.0
+      ]
+    },
+    "SUPPORT": {
+      "Support": [
+        -3.3813334988387354e-15,
+        -4.284151462118531e-15,
+        100.23249507907053,
+        501.16247539638937,
+        -501.1624753765723,
+        2.0281885261035296e-14
+      ]
+    }
+  }
+}

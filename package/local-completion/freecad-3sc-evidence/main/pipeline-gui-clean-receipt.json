@@ -1,0 +1,68 @@
+{
+  "analysis": "Analysis",
+  "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "4a7ab387a477000ddf502a27ccde4d98a4a873f9b80d41aa8dd9bb626f74401d",
+  "deck_sha256": "d6c701129beb79a576d26e1d2894896d4b701d96cb1c9ab834333f74b445e3e9",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "Support"
+    ],
+    [
+      "CUT",
+      "SectionPrint"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; native-load/contact equilibrium-derived cut",
+  "model_digest": "7a1393486124b1705a20af1ad20c401d350b29b0d42c211b25ff0dc94859275c",
+  "output_sha256": "0b031c3986001148809caa96ed0a3aaae9fdbe2959d2a0aa8f0a334c3145eb1c",
+  "request_sha256": "fcaaf39dfc4c396244615e547a2faeb7b07edfa963dbe5325ec56688de2b02bd",
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "SectionPrint": [
+        -1.852979337055786e-15,
+        -2.554728002405308e-15,
+        100.1550225416269,
+        500.77511268898013,
+        -500.7751126929441,
+        2.743758990166513e-14
+      ]
+    },
+    "CUT": {
+      "SectionPrint": [
+        1.852979337055786e-15,
+        2.554728002405308e-15,
+        -100.07747253409191,
+        -500.3873626513051,
+        500.3873626552691,
+        -2.743758990166513e-14
+      ]
+    },
+    "LOAD": {
+      "SectionPrint": [
+        0.0,
+        0.0,
+        -0.0775500075350007,
+        -0.3877500376750036,
+        0.38775003767500305,
+        0.0
+      ]
+    },
+    "SUPPORT": {
+      "Support": [
+        -1.8529793370557917e-15,
+        -2.554728002405302e-15,
+        100.23249507662679,
+        501.1624753485287,
+        -501.16247537191373,
+        2.743758987145847e-14
+      ]
+    }
+  }
+}

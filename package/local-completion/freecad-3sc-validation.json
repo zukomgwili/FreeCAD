@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "date": "2026-10-19",
+  "issue": "FreeCAD-3sc",
+  "status": "COMPLETE_SOURCE_FIX_AND_CLEAN_SOURCE_BUILD_VERIFICATION",
+  "compiled_source_commit": "455ff652d2755fdc1ae29921318a054e758c26b6",
+  "compiled_version": "27.1.0devR49261 +204 (Git)",
+  "installation": {
+    "performed": false,
+    "path": "/Applications/FreeCAD-27.1.0.app",
+    "unchanged_installed_source": "d00e4a3eb79400bf25ac1f6fe16b322666464415",
+    "unchanged_installed_version": "49261 +202 (Git)",
+    "scope": "Source implementation, build and isolated application verification only; no app replacement or installer run.",
+    "dependency_prefix": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default"
+  },
+  "diagnosis": {
+    "minimal_old_runtime": "Public Array2D resize creates null native QVariant cells. Legacy readers expose these and an authored dimensionless Quantity zero identically. Minimal 1x1 expected-fail test took 0.000s; this feedback loop preceded implementation inspection.",
+    "actual_old_native_gui": "The stock material editor's Array2DModel/DoubleSpinBox delegate stores Float-column 0.314159. A read-only native Material copy bridge proves all three legacy Python readers instead return Quantity zero, without save/reload. Reproduced twice, 0.684s and 0.624s.",
+    "accessor_regression_red": "Five new accessor checks failed while the legacy control passed before the accessor implementation.",
+    "independent_persistence_red": "Native Array2D::getYAMLString/native loader helper roundtrip changes Quantity 123.45678901234567 to 123.46 and a tiny nonzero value to zero. Qualified native-persistence-red3.log, not the earlier harness attempts. Full Material::save roundtrip coverage was added later and passes on the final source.",
+    "review_regressions": "Native red/green checks additionally cover dropped empty dimensions, inherited rows and overrides, rejected-save truncation/partial files, unsupported typed-null cells, and successful-save detachment of held native aliases.",
+    "harness_exclusions": [
+      "GUI red1 failed its widget locator before reaching the product assertion.",
+      "The first persistence attempt encountered an unclassified display/unit exception; it is not precision-loss proof.",
+      "Persistence red2 used the wrong native getter and obtained a null pointer.",
+      "The development review-red log mixes useful inheritance/type-mismatch failures with an unclassified legacy-reader exception subcase; that exception alone is not used as product proof.",
+      "The final success-path test initially used an unqualified nested enum and did not compile; the corrected test then reproduced actual detached values before the fix."
+    ],
+    "private_evidence_root": "/private/tmp/freecad-3sc.I13i45",
+    "durable_evidence": "freecad-3sc-evidence/"
+  },
+  "implementation": {
+    "interface": "Additive readonly Materials.Array2D.TypedArray returns detached rows containing None, Quantity, float, int, bool and str. It retains precision, units and Unicode/NUL/surrogates. Unsupported populated or typed-null native types raise TypeError; inconsistent native dimensions/rows raise ValueError.",
+    "legacy_compatibility": "Array/getRow/getValue retain Quantity coercion; setValue retains string-to-Quantity parsing.",
+    "persistence": "Versioned FreeCAD.Array2D v1 cell records preserve native type/width/null state, exact IEEE floating/Quantity bits, all unit exponents, integer signedness/ranges, and UTF-16 code units. Ordinary physical and appearance saves retain empty dimensions. Inheritance distinguishes unresolved absence from explicit empty overrides and copies actual native rows independently.",
+    "atomic_library_save": "QSaveFile with direct-write fallback disabled. Serialize a private Material, verify stream and atomic commit, then publish only the seven save-mutated metadata fields. Failure preserves existing card bytes and caller state; success retains held native property/array aliases.",
+    "reader_compatibility": "The new reader accepts historical one/two-element Quantity-string representations and bare null/empty forms. Strict typed-format validation does not claim to tighten all historical row layouts.",
+    "old_application_limit": "Older FreeCAD versions cannot read the new typed cards. No existing library is automatically rewritten; do not open/resave new cards with an older application.",
+    "fem_provenance": "Both mesh-quality and native-accounting material fingerprints use the qualified typed accessor. The old null/zero and non-Quantity-column exclusions are removed only after native GUI, native wrapper and save/reopen qualification. Read-only copies remain stable; genuine semantic cell edits change both identities. Namespace overlap, unsupported/nonfinite values and missing typed interface remain fail closed.",
+    "fingerprint_type_scope": "Python semantic types/values, not every QVariant storage width or typed-null metatype: native integer widths map to int, Float32/Float64 to float, supported nulls to None. Native card persistence separately retains the native storage distinctions.",
+    "migration": "Use the ordinary writer to regenerate requests after fingerprint changes. No manual metadata edits, provenance bypass, historical-result promotion, mechanics change or solver recovery change.",
+    "fcstd_semantics": "ShapeMaterial remains a UUID lookup into an available saved material library, not embedded unsaved material contents. Save the material before relying on document reopen.",
+    "documentation": "src/Mod/Material/Array2D.md"
+  },
+  "gates": {
+    "clean_source_build": {
+      "outcome": "PASS",
+      "command": "pixi run --frozen cmake --build build/release -j 4",
+      "source_tree_clean_at_build": true,
+      "log_sha256": "948403038aae451ec7d472eca27921f2573b48e82bd65b876723bc2d14673442",
+      "warning_limit": "Existing Pivy stub-generation warnings are nonfatal; this is a successful clean-source incremental build, not a claim of a warning-free or from-empty-directory build."
+    },
+    "CTest": {
+      "outcome": "PASS",
+      "enabled_tests": 2266,
+      "included_explicit_skips": 2,
+      "pre_disabled": 8,
+      "elapsed_seconds": 100.42,
+      "log_sha256": "2ee0b5d62be8a1a5626926f96df93fcc1f5a1162ef8d7789abc4de2add268e61"
+    },
+    "focused_native": {
+      "outcome": "PASS",
+      "tests": 31,
+      "elapsed_seconds": 6.09,
+      "composition": "12 persistence, 11 TypedArray, 7 MaterialCards and one existing Array2D type check",
+      "log_sha256": "3880670ce6f1575ecf98fbcec539f388c68c679b6885cd5a604e6e42ed780688"
+    },
+    "FEM": {"outcome": "PASS", "tests": 315, "elapsed_seconds": 51.471},
+    "focused_FEM": {"outcome": "PASS", "tests": 14, "elapsed_seconds": 0.731},
+    "MaterialsApp": {"outcome": "PASS", "tests": 15, "elapsed_seconds": 0.274},
+    "MaterialsGui": {"outcome": "PASS", "tests": 3, "elapsed_seconds": 0.161},
+    "native_pipeline": {
+      "outcome": "PASS",
+      "command_line_test_seconds": 2.536,
+      "gui_test_seconds": 4.785,
+      "workflow": "Existing real CAD/Gmsh/ordinary writer/native bundled solver/Current import witness retaining readonly material copies; exact saved historical AccountingData/Resultants and ordinary second solve remain verified.",
+      "actual_build_solver_sha256": "4a7ab387a477000ddf502a27ccde4d98a4a873f9b80d41aa8dd9bb626f74401d",
+      "binary_limit": "This is the unsigned build-resource solver, not the differently signed installed binary. No native solver source was changed by this fix."
+    },
+    "native_gui_and_cold_restore": {
+      "outcome": "PASS",
+      "gui_test_seconds": 1.532,
+      "cold_command_line_test_seconds": 0.495,
+      "gui_supervisor_seconds": 4.523,
+      "cold_supervisor_seconds": 1.012,
+      "workflow": "Actual stock GUI delegates author the mixed row; ordinary private User-library manager save/refresh, FCStd close/reopen and a separate cold Cmd process retain exact typed values, full canonical material identities and both FEM hashes with no metadata exclusions.",
+      "null_fixture_origin": "Separate public native Array2D.Columns/Rows setters; GUI row insertion authors zeros and is not claimed to produce invalid native null cells.",
+      "custody": "Actual native User-library and app-data paths proven strictly inside the owned profile before saves. Producers, supervisors, build modules, saved cards and FCStd documents hash-pinned; one build Materials image only. Native and supervisor PASS receipts, exit0, reaped processes, no timeout. Installed Materials/MatGui hashes protected before/after; no installation operation.",
+      "Materials_sha256": "8e3a84525a9a745e1e1644d3811fa33aca8b12eeb6d43434449d7a6bd200c89b",
+      "MatGui_sha256": "0733a378594e5c14a15a27cff524f0b8759d7db0621ab7dc57cabf547d5e7554"
+    },
+    "independent_review": "Two final read-only source audits signed off after actionable findings were reproduced and fixed. This is software review only.",
+    "formatting": "PASS standalone Black on changed FEM helper/tests; clang-format on native accessor/tests and changed library-save range; git diff --check.",
+    "Rails": "SKIPPED, not applicable: no Rails app/Gemfile/root package or importmap checks. Native FreeCAD gates apply."
+  },
+  "scope_limits": [
+    "Array3D and scalar persistence are unchanged. Array3D precision/inherited-save follow-up: FreeCAD-b7d.",
+    "General Array2D copy assignment appends rows; this independent source-inspected issue is tracked as FreeCAD-36b. This change uses fresh copies instead; no native GUI assignment reproduction is claimed.",
+    "Inherited appearance-array handling follows the same code path but has no separate dedicated inheritance test. Physical inheritance and flat physical/appearance empty-dimension saves are covered.",
+    "Cross-platform numeric-width rejection is implemented and validated for malformed inputs on this runtime, not runtime-qualified on every architecture.",
+    "Quantity display-format preferences are not physical payload and are not preserved by the typed persistence format.",
+    "Original Oomakhi 50 engineering checks are NOT ASSESSED; 96 legacy failures and original 1% limits are unchanged. No mesh/convergence, building/BIM or engineering acceptance follows from software closure.",
+    "FreeCAD-4vo remains skipped; no upstream PR or contribution was published."
+  ]
+}

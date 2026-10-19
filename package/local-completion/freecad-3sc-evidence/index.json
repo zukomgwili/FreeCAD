@@ -1,0 +1,312 @@
+{
+  "schema": "FreeCAD.SourceBugEvidence.v1",
+  "issue": "FreeCAD-3sc",
+  "scope": "Generic native Array2D value, persistence and FEM provenance software witnesses only.",
+  "final_source": {
+    "commit": "455ff652d2755fdc1ae29921318a054e758c26b6",
+    "revision": "27.1.0devR49261 +204 (Git)",
+    "clean_source_at_qualification": true,
+    "Materials_sha256": "8e3a84525a9a745e1e1644d3811fa33aca8b12eeb6d43434449d7a6bd200c89b",
+    "MatGui_sha256": "0733a378594e5c14a15a27cff524f0b8759d7db0621ab7dc57cabf547d5e7554",
+    "build_native_ccx_sha256": "4a7ab387a477000ddf502a27ccde4d98a4a873f9b80d41aa8dd9bb626f74401d",
+    "ccx_identity_note": "This is the actual unsigned build solver used by the generic source pipeline, not the separately signed installed solver."
+  },
+  "old_product": {
+    "commit": "d00e4a3eb79400bf25ac1f6fe16b322666464415",
+    "revision": "27.1.0devR49261 +202 (Git)",
+    "app": "/Applications/FreeCAD-27.1.0.app"
+  },
+  "classifications": [
+    {
+      "paths": [
+        "old-gui-red2",
+        "old-gui-red3"
+      ],
+      "classification": "OLD_PRODUCT_RED",
+      "symptom": "Real stock IsotropicLinearElasticArrays native GUI delegate authors Float 0.314159. In-memory legacy Python getValue/getRow/Array each return Quantity zero.",
+      "persistence_used": false,
+      "test_seconds": [
+        0.684,
+        0.624
+      ],
+      "notes": "Readonly C++ bridge only copies the existing native Material from the real QStandardItem. No mock or raw QVariant replacement."
+    },
+    {
+      "paths": [
+        "harness-red1",
+        "logs/old-gui-red1-harness.json"
+      ],
+      "classification": "HARNESS_ERROR_NOT_PRODUCT_REPRO",
+      "symptom": "StopIteration before editing, due to matching sanitized UI objectName as an unsanitized class name.",
+      "resolution": "Subsequent unchanged native producer matches metaObject className. This attempt is not counted as product-red evidence."
+    },
+    {
+      "paths": [
+        "old-native-null-red",
+        "logs/old-native-null-red.json"
+      ],
+      "classification": "OLD_PRODUCT_RED_PUBLIC_NATIVE_API",
+      "symptom": "Native Array2D resized empty cell and subsequently authored Quantity zero both read as 0.0 through the legacy getter.",
+      "notes": "Actual execution receipt and exact raw-log JSON wrapper retained; no separate original symptom JSON receipt existed."
+    },
+    {
+      "paths": [
+        "final-gui"
+      ],
+      "classification": "FINAL_SOURCE_GREEN",
+      "test_seconds": 1.532,
+      "notes": "Actual stock native Float and Quantity delegates, TypedArray value/types/units/precision, legacy compatibility, 64 initial held readonly copies, two real Float mutations changing both FEM identities, private card save/refresh and same-process FCStd restoration."
+    },
+    {
+      "paths": [
+        "final-cold"
+      ],
+      "classification": "FINAL_SOURCE_GREEN_SEPARATE_CMD_PROCESS",
+      "test_seconds": 0.495,
+      "notes": "Cold reader pins runtime, loaded Materials image, producer hashes, card/document hashes, full canonical material identity and both FEM identities."
+    },
+    {
+      "paths": [
+        "main",
+        "logs/build-clean.json",
+        "logs/ctest-clean-summary.json",
+        "logs/fem-clean-summary.json",
+        "logs/native-focused-clean.json"
+      ],
+      "classification": "ACTUAL_FINAL_SOURCE_MAIN_GATES",
+      "notes": "Execution receipts and generic native pipeline receipts copied mechanically. Large CTest/FEM logs retain only exact summary tails plus complete original hashes; other captured logs are complete lossless JSON-wrapped UTF-8."
+    },
+    {
+      "paths": [
+        "logs/native-persistence-quantity-red.json"
+      ],
+      "classification": "QUALIFIED_DEVELOPMENT_PRECISION_RED",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-persistence-red3.log",
+      "source_sha256": "e42e55164c5e8932edee62b350ab8b2f6bdc8e11aae569a5d02999d8ca62b32a",
+      "symptom": "The loaded native Quantity 123.45678901234567 becomes 123.46, and 1.2345678901234567e-123 becomes zero.",
+      "seam": "Array2D::getYAMLString to the native loader helper; this qualified red is not a full Material::save/card/library roundtrip.",
+      "notes": "Final source native/card/GUI/cold green gates separately qualify ordinary full material-library persistence. The test name alone must not be used to broaden this red's actual seam."
+    },
+    {
+      "paths": [
+        "logs/native-persistence-quantity-red1-harness-exception.json",
+        "logs/native-persistence-quantity-red2-harness-null-loader.json"
+      ],
+      "classification": "EXCLUDED_PRECISION_HARNESS_ATTEMPTS_NOT_PRODUCT_PROOF",
+      "notes": "First attempt threw an unknown C++ exception; second stopped at a nullptr restored loader value. Neither establishes a precision roundtrip failure. The original first-attempt wrapper is preserved byte-for-byte under its explicit harness name."
+    },
+    {
+      "paths": [
+        "logs/native-accessor-red.json",
+        "logs/native-persistence-mixed-red.json",
+        "logs/native-persistence-shapes-red.json",
+        "logs/native-persistence-inherited-red.json",
+        "logs/native-persistence-inherit-load-red.json",
+        "logs/native-persistence-unresolved-red.json",
+        "logs/native-persistence-atomic-red.json",
+        "logs/native-persistence-review-red.json",
+        "logs/native-final-review-red.json",
+        "logs/native-final-review-green.json"
+      ],
+      "classification": "DEVELOPMENT_NATIVE_RED_GREEN_HISTORY",
+      "notes": "These original logs include intermediate failing source states and final fixes. They are not all executions of the final committed source; final-source gate evidence is separately identified. native-persistence-review-red.json is a mixed log: mutable-inherited-row and inheritance-type-mismatch assertions are useful regressions, but its LegacyQuantityStringCardsRemainReadable unknown-C++-exception subcase is excluded from product proof."
+    }
+  ],
+  "semantics": {
+    "final_api": "TypedArray is additive. Legacy Array/getRow/getValue intentionally retain Quantity coercion; old red witnesses are archival symptom evidence, not green test targets for the new API.",
+    "gui_fixture": "One generic stock model row. Quantity delegates receive high-precision native doubles; Float delegate has its existing six-decimal editor contract.",
+    "null_fixture": "A separate generic Array2D with Columns=5 and Rows=2 is seeded through documented public native setters. These invalid QVariant nulls are not claimed to have been authored by GUI row insertion, which initializes zero values.",
+    "card_identity": "Full canonical post-save identity is established through manager.getMaterial, then compared after refresh. Legitimate save-assigned UUID/name/directory metadata changes are recorded separately, not omitted from hashes.",
+    "fcstd": "Library-backed UUID lookup only. ShapeMaterial does not embed an unsaved material; the saved private User library must remain available.",
+    "confinement": "Before each save, actual native User library and getUserAppDataDir paths must resolve strictly inside the owned run output. Native config/library paths are recorded; environment values alone are not treated as proof.",
+    "custody": "Exact copies retain original private evidence paths and hashes. Bridges/native binaries, CAD, profiles and saved library cards are not included. Generic pipeline result vectors are from the synthetic regression fixture, not an original building project.",
+    "screenshot": "final-gui/native-array-green.png was visually inspected and contains only the generic native material table.",
+    "bounds": {
+      "each_process_timeout_seconds": 180,
+      "owned_group_term_grace_seconds": 5,
+      "timeout_scope": "Only the spawned process group may be terminated and reaped.",
+      "final_gui_and_cold": "Both exited 0 and were reaped normally; no timeout or kill occurred."
+    },
+    "exclusions": [
+      "No installation performed by this qualification.",
+      "No original project geometry or original building numerical vectors copied.",
+      "No engineering, stress, mesh convergence, equilibrium or building-design acceptance claimed.",
+      "Array3D/scalar persistence and other follow-ups are outside this Array2D proof."
+    ]
+  },
+  "mechanical_copies": [
+    {
+      "path": "old-gui-red2/witness.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red2/witness.json",
+      "sha256": "2c9d606d7bda3005100e476a5c31e3835d28b053f836d780682a8116a3eaee87"
+    },
+    {
+      "path": "old-gui-red2/execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red2/execution.json",
+      "sha256": "f23b90c5fcd3bde9dc1e29b376cafe2b36f101552dc6c5e2e2f5a389231c1727"
+    },
+    {
+      "path": "old-gui-red3/witness.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red3/witness.json",
+      "sha256": "2c9d606d7bda3005100e476a5c31e3835d28b053f836d780682a8116a3eaee87"
+    },
+    {
+      "path": "old-gui-red3/execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red3/execution.json",
+      "sha256": "4aa4779279b8d4ef38d4632e4dfa6c5e3d0b7aa394c3669683971209bc241a2f"
+    },
+    {
+      "path": "harness-red1/execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red1/execution.json",
+      "sha256": "7a4dd3db69916c7729c387a947d7199c2a628415b7b26cfe0eea9d4470cdfbea"
+    },
+    {
+      "path": "harness-red1/NativeMixedGuiWitness.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red1/NativeMixedGuiWitness.py",
+      "sha256": "0a07addd533ca442753d36c8366dd3e5133aa03d58e6a6f500bc060c83a64a4e"
+    },
+    {
+      "path": "old-native-null-red/execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/null-minimal-red/execution.json",
+      "sha256": "f78d909bcde2143b3eb702d0e5db8b39e8d2a66a636642bfa37b2d247872db5c"
+    },
+    {
+      "path": "old-native-null-red/ArrayNullWitness.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/ArrayNullWitness.py",
+      "sha256": "ca511f0c7067e0f3bb7828af6d1aeb806084fd76e46ee74490da34befac7b02e"
+    },
+    {
+      "path": "final-gui/green-witness.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/green-witness.json",
+      "sha256": "c2ca6c45be7b5fc03922cfb74f4abdd23192650b29aae7f3b7a86315f9c0cdb0"
+    },
+    {
+      "path": "final-gui/execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/execution.json",
+      "sha256": "8954dfef0b11598296939a2e252bf39a7066b387859f6c5d85029ab3384e9142"
+    },
+    {
+      "path": "final-gui/cold-restore-expected.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/cold-restore-expected.json",
+      "sha256": "ed548cec54943527790e324241f0079a13fccc516fbe8fc25e9aa48c81618a88"
+    },
+    {
+      "path": "final-gui/native-array-green.png",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/native-array-green.png",
+      "sha256": "f7b7b1acb3acf3425dbb59e3f1a59eac0865479357024fce3151cef95fa8aa9b"
+    },
+    {
+      "path": "final-cold/cold-restore-report.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-cold-final455ff/cold-restore-report.json",
+      "sha256": "c9d51534c20b357667a31fdbbe0aa0a9bf1b249abbdd3c6f53c83a5c39bed47f"
+    },
+    {
+      "path": "final-cold/execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-cold-final455ff/execution.json",
+      "sha256": "4509f5959e8131ea21612bd0a0b5d5a2098d99e67f0bfe5ff385c2267522fcd3"
+    },
+    {
+      "path": "sources/NativeMixedGuiWitness.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red2/NativeMixedGuiWitness.py",
+      "sha256": "4e4a28dd2575473a88e6bc50826cb815137a114edbfee73bcdf8f3cfc63c218f"
+    },
+    {
+      "path": "sources/NativeMixedGuiGreenWitness.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/NativeMixedGuiGreenWitness.py",
+      "sha256": "b847cd69bdeb316c396e2ce8c7b870a5a11f430af337589a1c91d38ad77f9cd5"
+    },
+    {
+      "path": "sources/NativeMixedGuiPersistenceWitness.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/NativeMixedGuiPersistenceWitness.py",
+      "sha256": "2b3c49fe144eac920f3f787d6cd189644e66bfbf91932c2340a945d74e855aae"
+    },
+    {
+      "path": "sources/NativeMixedGuiColdRestore.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/NativeMixedGuiColdRestore.py",
+      "sha256": "1d53e49c19fb1768f389dcdc7acd37545de744a4e59c73ad1558e1ad076efd89"
+    },
+    {
+      "path": "sources/GuiMaterialReadBridge.cpp",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/GuiMaterialReadBridge.cpp",
+      "sha256": "f68ef71d940c0cd61396d5c5a020d3a8db00946fb066bb6b14f9f676d0b1ad73"
+    },
+    {
+      "path": "sources/compile_green_bridge.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/compile_green_bridge.py",
+      "sha256": "8edd98c11734e76bf2dd69054e51abde4323df1f3896dad39b6040fc84461d42"
+    },
+    {
+      "path": "sources/run_gui_persistence.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/run_gui_persistence.py",
+      "sha256": "0283016de2b1b1e06cb7d869cfd89360acf5ea339e099f6a052f41de55d5766b"
+    },
+    {
+      "path": "sources/run_cold_restore.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-final455ff/run_cold_restore.py",
+      "sha256": "e5a2e9f7a3ae7372b775996b537ffe5852f8f591153b2abb206545ec2961444b"
+    },
+    {
+      "path": "sources/run.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/run.py",
+      "sha256": "ef2342223a682409f055403d6f7ad2b1f4af8d3bc1e7df644bf94743ebe2e2a4"
+    },
+    {
+      "path": "sources/compile_bridge.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/compile_bridge.py",
+      "sha256": "8bd0a3beaf77ed75b6a9219c8163a199b393edbfb932673ede16aa08dd79323c"
+    },
+    {
+      "path": "main/fem-clean-execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/fem-clean/execution.json",
+      "sha256": "3cb3bb8ec3208b12b109bb935a42debf52886c9a898ec7a18144b5bda7c46ffd"
+    },
+    {
+      "path": "main/fem-focused-clean-execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/fem-focused-clean/execution.json",
+      "sha256": "80dc760b8c1b5d1aa307275b7537f79e23bb030406b4534ee1eb2ec7d9bb822e"
+    },
+    {
+      "path": "main/materials-app-clean-execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/materials-app-clean/execution.json",
+      "sha256": "6829e9db2cdba7781c176b1e18f1d52acdfb1208204b60b74566a36ed55590f0"
+    },
+    {
+      "path": "main/materials-gui-clean-execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/materials-gui-clean/execution.json",
+      "sha256": "539ac885b0549ae7a6bf1f51b2c81cf6d9a367d40763601879ea39e9e0a2b9e7"
+    },
+    {
+      "path": "main/pipeline-cmd-clean-execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/pipeline-cmd-clean/execution.json",
+      "sha256": "f70754a738d97120e62a05358f31000b601b689b67a7541df8a94bf8f0713936"
+    },
+    {
+      "path": "main/pipeline-gui-clean-execution.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/pipeline-gui-clean/execution.json",
+      "sha256": "44d0f6060e5b89247c4f93512ce0b23f30e41bd229ead6a1bb1c70191b5345a3"
+    },
+    {
+      "path": "main/pipeline-cmd-clean-receipt.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/pipeline-cmd-clean/native-accounting-qyutf1t9/pipeline-receipt.json",
+      "sha256": "001efb39b8a104b8b17905ead87448457698333749b34009f3fe3a6f919f0443"
+    },
+    {
+      "path": "main/pipeline-gui-clean-receipt.json",
+      "source": "/private/tmp/freecad-3sc.I13i45/pipeline-gui-clean/native-accounting-5hcmo397/pipeline-receipt.json",
+      "sha256": "cb2d37d6ff13b658a974a36f48c878d18ac38661a059adc0fed213ebd920f5b5"
+    },
+    {
+      "path": "sources/NativeSourcePipelineWitness.py",
+      "source": "/private/tmp/freecad-3sc.I13i45/NativeSourcePipelineWitness.py",
+      "sha256": "3f78fd2e90cc041c38d09e4ffb6c168c54e5762fef3e88085cacdd1694fdd617"
+    }
+  ],
+  "log_capture_manifest": {
+    "path": "log-captures.json",
+    "sha256": "e37f6841cab2b487573950eea1aeb1c7831fd4d817b192fccb5d2025a04ccc09",
+    "script": "sources/capture_logs.py",
+    "script_sha256": "b25d50750354cea2c7822608200d92c0fe62c7203d70bb64b87cb5e31364166a",
+    "large_log_limit_bytes": 131072,
+    "note": "Complete wrappers decode to original UTF-8 bytes. Summary wrappers declare exact byte slice offsets and full original SHA256."
+  }
+}

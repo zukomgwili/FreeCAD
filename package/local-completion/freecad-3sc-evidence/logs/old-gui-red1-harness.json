@@ -1,0 +1,7 @@
+{
+  "source": "/private/tmp/freecad-3sc.I13i45/native-mixed-gui-red1/run.log",
+  "source_bytes": 1135,
+  "source_sha256": "df5c98f111b2cf2b7b1d8f71151c5c7ef0d71baf6c7a944795e5a51a68eb015e",
+  "capture": "complete_lossless_utf8_log",
+  "text": "FreeCAD 27.1.0, Libs: 27.1.0devR49261 +202 (Git)\n(C) 2001-2026 FreeCAD contributors\nFreeCAD is free and open-source software licensed under the terms of LGPL2+ license.\n\nMigrating Start Workbench to Start command... done.\ntest_stock_native_float_is_not_lost_by_python_read (NativeMixedGuiWitness.NativeMixedGuiWitness.test_stock_native_float_is_not_lost_by_python_read) ... ERROR\n\n======================================================================\nERROR: test_stock_native_float_is_not_lost_by_python_read (NativeMixedGuiWitness.NativeMixedGuiWitness.test_stock_native_float_is_not_lost_by_python_read)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/private/tmp/freecad-3sc.I13i45/NativeMixedGuiWitness.py\", line 51, in test_stock_native_float_is_not_lost_by_python_read\n    editor = next(w for w in QtWidgets.QApplication.topLevelWidgets()\n                  if w.objectName() == \"MatGui::MaterialsEditor\" and w.isVisible())\nStopIteration\n\n----------------------------------------------------------------------\nRan 1 test in 0.557s\n\nFAILED (errors=1)\nSystem exit\n"
+}
