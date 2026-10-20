@@ -1,0 +1,445 @@
+{
+  "candidate": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+  "case": "tie-tet10",
+  "checks": [
+    {
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "denominator": 1.0,
+      "identity": "CONTACT/Lower",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        0
+      ],
+      "relative_error": 0.0
+    },
+    {
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "denominator": 1.0,
+      "identity": "CONTACT/Lower",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        0
+      ],
+      "relative_error": 0.0
+    },
+    {
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "denominator": 1.0,
+      "identity": "CONTACT/Upper",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        0
+      ],
+      "relative_error": 0.0
+    },
+    {
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "denominator": 1.0,
+      "identity": "CONTACT/Upper",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        0
+      ],
+      "relative_error": 0.0
+    },
+    {
+      "actual": [
+        -5.551115123125783e-16,
+        -3.6463887465032485e-15,
+        -10.000000000000012
+      ],
+      "denominator": 10.0,
+      "identity": "CUT/Lower",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        -10
+      ],
+      "relative_error": 1.297000528546715e-15
+    },
+    {
+      "actual": [
+        -35.000000000000036,
+        25.000000000000018,
+        -7.105427357601002e-15
+      ],
+      "denominator": 43.01162633521314,
+      "identity": "CUT/Lower",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        -35,
+        25,
+        0
+      ],
+      "relative_error": 9.381433384331935e-16
+    },
+    {
+      "actual": [
+        -8.88178419700123e-16,
+        1.3322676295501831e-15,
+        10.000000000000037
+      ],
+      "denominator": 10.0,
+      "identity": "CUT/Upper",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        10
+      ],
+      "relative_error": 3.733784185985892e-15
+    },
+    {
+      "actual": [
+        35.00000000000013,
+        -25.0000000000001,
+        6.377614485902269e-15
+      ],
+      "denominator": 43.01162633521314,
+      "identity": "CUT/Upper",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        35,
+        -25,
+        0
+      ],
+      "relative_error": 3.770007161243902e-15
+    },
+    {
+      "actual": [
+        0.0,
+        0.0,
+        -6.0000000000000515
+      ],
+      "denominator": 6.0,
+      "identity": "LOAD/Lower",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        -6
+      ],
+      "relative_error": 8.585724723767877e-15
+    },
+    {
+      "actual": [
+        -21.000000000000185,
+        15.000000000000131,
+        0.0
+      ],
+      "denominator": 25.80697580112788,
+      "identity": "LOAD/Lower",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        -21,
+        15,
+        0
+      ],
+      "relative_error": 8.785779483249773e-15
+    },
+    {
+      "actual": [
+        8.88178419700123e-16,
+        -1.3322676295501831e-15,
+        -10.000000000000037
+      ],
+      "denominator": 10.0,
+      "identity": "LOAD/Upper",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        -10
+      ],
+      "relative_error": 3.733784185985892e-15
+    },
+    {
+      "actual": [
+        -35.00000000000013,
+        25.0000000000001,
+        -6.377614485902269e-15
+      ],
+      "denominator": 43.01162633521314,
+      "identity": "LOAD/Upper",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        -35,
+        25,
+        0
+      ],
+      "relative_error": 3.770007161243902e-15
+    },
+    {
+      "actual": [
+        5.551115123125783e-16,
+        3.6463887465032485e-15,
+        16.000000000000064
+      ],
+      "denominator": 16.0,
+      "identity": "MPC/Lower",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        16
+      ],
+      "relative_error": 4.003445406941031e-15
+    },
+    {
+      "actual": [
+        56.00000000000022,
+        -40.00000000000015,
+        7.105427357601002e-15
+      ],
+      "denominator": 68.81860213634101,
+      "identity": "MPC/Lower",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        56,
+        -40,
+        0
+      ],
+      "relative_error": 3.867347456809417e-15
+    },
+    {
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "denominator": 1.0,
+      "identity": "MPC/Upper",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        0
+      ],
+      "relative_error": 0.0
+    },
+    {
+      "actual": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "denominator": 1.0,
+      "identity": "MPC/Upper",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        0
+      ],
+      "relative_error": 0.0
+    },
+    {
+      "actual": [
+        4.908491328310619e-16,
+        3.532178848355474e-15,
+        22.00000000000011
+      ],
+      "denominator": 22.0,
+      "identity": "SUPPORT/Support",
+      "limit": 0.01,
+      "meaning": "force",
+      "passed": true,
+      "reference": [
+        0,
+        0,
+        22
+      ],
+      "relative_error": 5.008720184880179e-15
+    },
+    {
+      "actual": [
+        77.00000000000041,
+        -55.00000000000027,
+        7.834701549570595e-15
+      ],
+      "denominator": 94.62557793746889,
+      "identity": "SUPPORT/Support",
+      "limit": 0.01,
+      "meaning": "original_origin_moment",
+      "passed": true,
+      "reference": [
+        77,
+        -55,
+        0
+      ],
+      "relative_error": 5.207374255815656e-15
+    }
+  ],
+  "child_reaped": true,
+  "command": [
+    "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+    "-i",
+    "contact"
+  ],
+  "custody_after": {
+    "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+    "deck": "4a764219eb6ed35f6acbb45dc339d97ff664e0d11b37194a53c6b943c5fdbf1d",
+    "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+    "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+  },
+  "custody_before": {
+    "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+    "deck": "4a764219eb6ed35f6acbb45dc339d97ff664e0d11b37194a53c6b943c5fdbf1d",
+    "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+    "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+  },
+  "elapsed_seconds": 0.012382832821458578,
+  "log_sha256": "cbf1bdb0c3c0486240eaf4a7951de5c7191b1dfff15aa733c890c70f7a00113b",
+  "native_output_sha256": "1470e1004dc09e9dc78d130072a2dbc55ad1bc431ce0b24d84086d47cb5400d6",
+  "observed_wrenches": {
+    "CONTACT/Lower": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "CONTACT/Upper": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "CUT/Lower": [
+      -5.551115123125783e-16,
+      -3.6463887465032485e-15,
+      -10.000000000000012,
+      -35.000000000000036,
+      25.000000000000018,
+      -7.105427357601002e-15
+    ],
+    "CUT/Upper": [
+      -8.88178419700123e-16,
+      1.3322676295501831e-15,
+      10.000000000000037,
+      35.00000000000013,
+      -25.0000000000001,
+      6.377614485902269e-15
+    ],
+    "LOAD/Lower": [
+      0.0,
+      0.0,
+      -6.0000000000000515,
+      -21.000000000000185,
+      15.000000000000131,
+      0.0
+    ],
+    "LOAD/Upper": [
+      8.88178419700123e-16,
+      -1.3322676295501831e-15,
+      -10.000000000000037,
+      -35.00000000000013,
+      25.0000000000001,
+      -6.377614485902269e-15
+    ],
+    "MPC/Lower": [
+      5.551115123125783e-16,
+      3.6463887465032485e-15,
+      16.000000000000064,
+      56.00000000000022,
+      -40.00000000000015,
+      7.105427357601002e-15
+    ],
+    "MPC/Upper": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "SUPPORT/Support": [
+      4.908491328310619e-16,
+      3.532178848355474e-15,
+      22.00000000000011,
+      77.00000000000041,
+      -55.00000000000027,
+      7.834701549570595e-15
+    ]
+  },
+  "passed": true,
+  "pid": 14261,
+  "process_group": 14261,
+  "process_group_gone": true,
+  "protected_inputs_unchanged": true,
+  "reaped": true,
+  "returncode": 0,
+  "solver_log_sha256": "cbf1bdb0c3c0486240eaf4a7951de5c7191b1dfff15aa733c890c70f7a00113b",
+  "state": [
+    "STATE",
+    "1",
+    "1",
+    "1"
+  ],
+  "timed_out": false
+}

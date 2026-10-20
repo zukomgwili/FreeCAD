@@ -1,0 +1,266 @@
+{
+  "schema": "FreeCAD.LOCAL_INSTALL_INDEPENDENT_INSTALLED_AUDIT_V1",
+  "passed": true,
+  "created_utc": "2026-10-20T10:28:15.386977+00:00",
+  "reviewer": "5ar_evidence independent custody reviewer",
+  "scope": "Read-only receipt/filesystem audit; no app, solver, build, test, signing or installer launch. Generic software qualification only.",
+  "compiled_commit": "b6b9e216c4ee2ca1bbc73db70076a6c99b2b1ab5",
+  "compiled_revision": "49261 +218 (Git)",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-5ar-f0c43f0a93.app",
+  "native_binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+  "source_sha256": {
+    "forceaccounting.c": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+    "hooks.patch": "c8088592a0e366bfb7b7dbc8227efc5f0ff950d9f4bb2200ca1bb1bc684ac92d",
+    "contract.json": "33991f2d092074eca9d695654495ce6a3d3756c51d5007857e6d40a9dfa56cdf",
+    "COPYING": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+  },
+  "custody": {
+    "installed_equals_sealed_stage": true,
+    "backup_equals_original_213": true,
+    "stage_path_absent": true,
+    "installed_inventory_entries": 4322,
+    "backup_inventory_entries": 4320,
+    "installed_inventory_sha256": "0e6183c3b87ecb47618e4009827cfea1c098df6125e0cfd1e5dbdd05606671f2",
+    "baseline_inventory_sha256": "054bc25c94abce102f685898e23316b700855aa7743e7485767d3acdd46a7b99",
+    "profiles_exact_unchanged_count": 2,
+    "selected_critical_files_unchanged_count": 16,
+    "external_namespace_files_unchanged_count": 11,
+    "literal_dependency_links_unchanged_count": 3,
+    "native_wrapper_body_and_rpaths_preserved": true,
+    "source_data_matches_count": 25,
+    "resources_readonly_cachefree": true,
+    "local_note_sha256": "9f5bb0a6069b2427c8062e77babf795dc69d236dd92cb63bef7925b142af705c",
+    "signature_bytes_equal_sealed_verified_stage": true,
+    "codesign_not_reexecuted_by_reviewer": true
+  },
+  "qualification": {
+    "installed-fem": {
+      "passed": true,
+      "actual_tests": 390,
+      "identity_tests": 1,
+      "seconds": 63.336,
+      "skipped": 0,
+      "all_four_native_methods_executed": true
+    },
+    "installed-gui": {
+      "passed": true,
+      "actual_tests": 8,
+      "identity_tests": 1,
+      "seconds": 4.246,
+      "skipped": 0,
+      "native_Tie_methods_are_in_the_separate_FEM_suite": true
+    },
+    "installed-cold": {
+      "passed": true,
+      "actual_cold_tests": 1,
+      "identity_tests": 1,
+      "seconds": 1.86,
+      "literal_Historical_Stale_preserved": true,
+      "after_explicit_refresh": "Unavailable: Native movement source is stale after a physical model change.",
+      "fresh_installed_manifest_sha256": "96dbcec85728e919e7481b49813d6ae45ef8ac05d009fc1e9664d93a022703ab",
+      "no_solve_save_or_repair": true
+    },
+    "installed-v2": {
+      "passed": true,
+      "positive_cases": 8,
+      "explicit_domain_refusals": 2,
+      "force_and_original_origin_moment_checks": 144,
+      "limit": 0.01,
+      "maximum_normalized_error": 1.4277135179137764e-14,
+      "independently_recomputed_errors": true,
+      "public_writer_coverage": false
+    },
+    "installed-v1": {
+      "passed": true,
+      "positive_cases": 48,
+      "explicit_refusals": 6,
+      "legacy_solver_log_count": 54,
+      "legacy_solver_log_hash_inventory_sha256": "206d92f122617aa532469b94a5bcdbc8ea9e374512bc3c238731d4f09154f146",
+      "maximum_reported_relative_error": 6.452359784175251e-11,
+      "per_child_custody_not_in_legacy_receipt": true
+    },
+    "installed-coordinate": {
+      "passed": true,
+      "explicit_refusal_exit_code": 201,
+      "complete_output_absent": true
+    },
+    "build": {
+      "passed": true,
+      "seconds": 15.601,
+      "compiled_commit": "b6b9e216c4ee2ca1bbc73db70076a6c99b2b1ab5",
+      "compiled_revision": "49261 +218 (Git)"
+    },
+    "CTest": {
+      "passed": true,
+      "catalogue": 2274,
+      "executed_passing": 2264,
+      "skipped": 2,
+      "disabled": 8,
+      "failed": 0,
+      "seconds": 73.24
+    }
+  },
+  "receipt_hashes": {
+    "critical-before-DESTDIR.json": {
+      "sha256": "5c37da1dcc332e03b34dbbbea50b555ca6452cedc360d659939ee2900482fca3",
+      "bytes": 6110
+    },
+    "installed-fem/execution.json": {
+      "sha256": "a03bb6926f4a892c69333d73e7ac7999b2f8135025a1495aa2d0783003bb6610",
+      "bytes": 2018409
+    },
+    "installed-fem/identity.json": {
+      "sha256": "d32dc30a6b2547e772faa4328c4eb9f9d2747866eb8e90dbf48e30f4e53ab05b",
+      "bytes": 97687
+    },
+    "installed-gui/execution.json": {
+      "sha256": "9861d1ba71fdcb6b4d833fc7825ae3fc226b9dddae349dccf6f72c4de8da42e9",
+      "bytes": 2017482
+    },
+    "installed-gui/identity.json": {
+      "sha256": "d8b3860a195894559284deac2d5fe3cf353be0754d7928744d07cf8da84e040c",
+      "bytes": 55874
+    },
+    "installed-cold/execution.json": {
+      "sha256": "c88aa8ef5d8b63ad295fbc3d14b2538236401da8f74905deaf8ffc5e7763e4ce",
+      "bytes": 2037404
+    },
+    "installed-cold/identity.json": {
+      "sha256": "6bef51d21acc8f97e542f57a3fa0142ce81ec4d09fdb134e383dca64586e1acd",
+      "bytes": 45639
+    },
+    "installed-cold/probe.json": {
+      "sha256": "497cc6187f7e7d8d050602d6f05051848b325a1eb6987ea0fe60295f8dbbddac",
+      "bytes": 2281
+    },
+    "installed-v2/summary.json": {
+      "sha256": "f0ab9fe1861c757de76784094c9e512e45e365be40806aa7fff0210fa0071882",
+      "bytes": 96836
+    },
+    "installed-v2/manifest.json": {
+      "sha256": "56fe19547ab01ec20eaf3f42182cfa2e6db9bcf1c92ed0baf5154fdfd8ba4877",
+      "bytes": 23176
+    },
+    "installed-v1/qualification.json": {
+      "sha256": "a82a1a859885d7506ea29d58314ef0272d7224956b9d7a9b31ed7c9ea98ca05a",
+      "bytes": 20818
+    },
+    "installed-coordinate/execution.json": {
+      "sha256": "9964d05d69437ec64e1c672b7af7a285b93df93c2b99c8523d0a1478f003418f",
+      "bytes": 2783
+    },
+    "installed-coordinate/manifest.json": {
+      "sha256": "819bb82933bd828c587c3caff0f1cfa85f372a9d65749eca251250b548380258",
+      "bytes": 2827
+    },
+    "step-swap.json": {
+      "sha256": "d49311435eff3d335770197b942f4235269dca48916ae4fcca53c5d894cd0967",
+      "bytes": 2631
+    },
+    "independent-payload-audit.json": {
+      "sha256": "cd0149eb8a6a068ae64da2a666d3a652f9195de968fc9a01e94ccae0b5e17bb3",
+      "bytes": 55950
+    },
+    "independent-stage-audit.json": {
+      "sha256": "84204dd564fbfa64549780bc55e67d9782cc9eca82bd87ca2402c028d64cda81",
+      "bytes": 28989
+    },
+    "independent-stage-custody.json": {
+      "sha256": "ff02ec4dad71e1593870b79a07d8c589cf7679fa1d5fc40ab30b8678f39c719b",
+      "bytes": 1306
+    },
+    "build-latest/execution.json": {
+      "sha256": "f40ac3d6f9b029039bf02388c73649aba72b8fae2ed0755776cedca77807c95e",
+      "bytes": 22489
+    },
+    "ctest-latest/execution.json": {
+      "sha256": "82fb69960dfe12717a39eb39d08604254d86115e034ac3af06cbe6eac0e94176",
+      "bytes": 26792
+    }
+  },
+  "log_hashes": {
+    "installed-fem/run.log": {
+      "sha256": "6d83886d9cc5492600517433d00c7bd6658597084378a8f8f03aa536b08b02c9",
+      "bytes": 720960
+    },
+    "installed-gui/run.log": {
+      "sha256": "ba6c9996094209b4aec6a0f1d5cc2430a9f8924d5bca7b00d1fa3428b2951c82",
+      "bytes": 3395
+    },
+    "installed-cold/run.log": {
+      "sha256": "bc719db7d5a926461ce406d3affbdf399ec58aa95736210a64047c90f85e5aa2",
+      "bytes": 1027
+    },
+    "installed-v2/tie-tet4/solver.log": {
+      "sha256": "0dc3575942f587cf673d2a2c554cd9c28d5eaf3b64bf59c1764e1d02a4789d42",
+      "bytes": 2478
+    },
+    "installed-v2/tie-tet10/solver.log": {
+      "sha256": "cbf1bdb0c3c0486240eaf4a7951de5c7191b1dfff15aa733c890c70f7a00113b",
+      "bytes": 2480
+    },
+    "installed-v2/equation-unit-tet4/solver.log": {
+      "sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "bytes": 2649
+    },
+    "installed-v2/equation-negative-scale-reverse-tet4/solver.log": {
+      "sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "bytes": 2649
+    },
+    "installed-v2/equation-quarter-scale-tet10/solver.log": {
+      "sha256": "687f6ea757ecba40d4e8da786d0abe7513cb0f93a23549e4c1834bb72e22fa55",
+      "bytes": 2594
+    },
+    "installed-v2/equation-chain-reverse-tet4/solver.log": {
+      "sha256": "833ee1806b342455ec40b5af92b96e14c9244bd82861457c82ede2f1f68575b0",
+      "bytes": 2706
+    },
+    "installed-v2/tie-dependent-point-tet4/solver.log": {
+      "sha256": "06f5d5418784766f42bf2d99546037cfe0cf6e26fea5740dc9dbf3f72c936ded",
+      "bytes": 2478
+    },
+    "installed-v2/equation-chain-dependent-point-tet10/solver.log": {
+      "sha256": "f96f17ee3546cc68c738388bdd7343d009e8ca8dfecf0993eb715c7f43afc87c",
+      "bytes": 2651
+    },
+    "installed-v2/reject-shared-cut-mpc-tet4/solver.log": {
+      "sha256": "c02d1ae6cab83fe1ca57ab1922c1489c58c1f98906516532e1a29d14ab7054f5",
+      "bytes": 2267
+    },
+    "installed-v2/reject-body-spc-tet4/solver.log": {
+      "sha256": "60f10a2d388fb893de68a38fa418ad7c94d05982e3bac7239561b26979f1f97b",
+      "bytes": 2264
+    },
+    "installed-coordinate/solver.log": {
+      "sha256": "76d6c4a215ef74cd1195062c36bf94c9af9f2298227693aa650cb0ae749819e1",
+      "bytes": 3031
+    },
+    "build-latest/run.log": {
+      "sha256": "701629fe249513823f5beeab1862bd14cf1571e65ba54303aeb8f69c5e7a6b16",
+      "bytes": 6036
+    },
+    "ctest-latest/run.log": {
+      "sha256": "a91763a8915ebef7c27b7208903e2af77216f9f44729a95c4932c7f8e0552dfc",
+      "bytes": 466364
+    }
+  },
+  "holds": {
+    "Oomakhi_opened_altered_or_solved": false,
+    "engineering_or_BIM_design_acceptance": false,
+    "R49_percent": 11.123267892,
+    "unchanged_limit_percent": 5,
+    "R49_status": "failed",
+    "original_geometry_loads_samples_and_acceptance_limits_unchanged": true,
+    "no_per_Tie_multiplier_or_CF_claim": true,
+    "host_local_Pixi_prefix_still_required": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+    "self_contained_or_notarized_distribution": false
+  },
+  "findings": [],
+  "path_basis": "receipt_hashes and log_hashes are relative to /private/tmp/freecad-5ar-install-qjCS3M; retained private receipts are not rewritten or rebound.",
+  "limitations": [
+    "The legacy V1 receipt has no per-child ownership/custody records. All 48 retained case-error reports, V1 output headers and six exit-201 diagnostic logs were independently checked; 54 legacy solver logs are bound by the stated canonical inventory hash.",
+    "No native application, solver, build, test, signing or installation operation was invoked by this reviewer. Signature confidence is exact equality with the sealed stage verified by the installer, not an independent rerun of codesign.",
+    "Read-only software/output evidence does not assess physical anchorage, Oomakhi force/displacement admission, whole-house/R30/BIM acceptance, or upstream review."
+  ]
+}

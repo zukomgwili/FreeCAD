@@ -1,0 +1,40 @@
+FreeCAD Local Release built from b6b9e216c4ee2ca1bbc73db70076a6c99b2b1ab5.
+20 October 2026, version 27.1.0dev49261+218 (Git).
+
+Includes FreeCAD-5ar: V2 native support and explicit-body equilibrium-cut
+accounting with separate physical LOAD, CONTACT and aggregate MPC action.
+Ordinary non-cyclic Ties require ADJUST=NO. MPCs at shared cut nodes, body SPCs,
+changed reference coordinates and unsupported domains are explicitly refused.
+Aggregate MPC output is not a per-Tie multiplier or CF row. Existing RF/SOF/SOM,
+CF and ordinary solver preferences remain unchanged.
+The separately bundled V2 executable and matching source/contract are in:
+Contents/Resources/data/NativeSolvers
+
+Saved ContactSideObservation now accepts ordinary Ties and mixed selections,
+retaining original owner identities, bounded original-coordinate native U and
+the existing authored vertex selectors. Contact-only payloads remain V1;
+Tie/mixed observation payloads use INTERFACE_SIDE_OBSERVATION_V2.
+Old force V1 literals remain historical data without invented MPC values.
+Old requests require normal writer regeneration; a fresh native solve establishes
+current accounting. Cold reports stay Historical/Stale. No saved status, hash,
+node ID or solver path is repaired to imply current provenance.
+
+Includes FreeCAD-ro1 native owner-safe Tie export and earlier recent fixes,
+including FreeCAD-927/89o saved observation tools, FreeCAD-3sc exact typed Array2D
+access/persistence, FreeCAD-4jb material provenance and FreeCAD-9zt native ledger.
+New typed Array2D cards require this or newer compatible readers. FCStd material
+UUID links still require their saved material library. Array3D remains separate.
+
+This host-local application requires the existing Pixi dependency environment:
+/Users/zukomgwili/src/FreeCAD/.pixi/envs/default
+It is not a self-contained or notarized distribution. Existing native launchers,
+external patched Qt Cocoa plugin, dependency links and canonical app Ext/freecad
+namespace are retained. User preferences and material libraries are not migrated.
+
+Rollback: quit FreeCAD, move this application aside, and restore the exact backup:
+/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-5ar-f0c43f0a93.app
+
+Software/output qualification is not engineering acceptance. Oomakhi was not
+opened, altered or solved. Its R49 11.123267892% comparison remains failed against
+the fixed 5% limit. All original geometry/loads, 97 pairs/194 vectors, paired cuts,
+contact-state duties, slip/overclosure and engineering review obligations remain.
