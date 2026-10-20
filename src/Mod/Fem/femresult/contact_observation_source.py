@@ -138,7 +138,7 @@ def validate_source(analysis, mesh, accounting_result):
         raw = accounting_result.AccountingData
         data = json.loads(raw)
         if (
-            data["schema"] != force_accounting.SCHEMA
+            data["schema"] not in (force_accounting.SCHEMA, force_accounting.V2_SCHEMA)
             or data["analysis"] != analysis.Name
             or data["mesh"] != mesh.Name
         ):

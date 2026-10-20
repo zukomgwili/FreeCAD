@@ -18,6 +18,7 @@ ITG FORTRAN(fa_collect_loads, ())
 }
 
 #define FA_MAX 64
+#define FA_CONNECTOR_MAX (6 * FA_MAX)
 typedef struct
 {
     ITG key[3], element;
@@ -30,21 +31,60 @@ typedef struct
 typedef struct
 {
     char name[81];
+    ITG count, *nodes, *directions;
+} SPCSupport;
+typedef struct
+{
+    char name[81];
+    ITG ref, rot;
+    int used;
+} Port;
+typedef struct
+{
+    ITG node, rot;
+    double axis[3];
+    int used;
+} Angle;
+typedef struct
+{
+    ITG element, nodes[2];
+    int used;
+} Spring;
+typedef struct
+{
+    char name[81];
     ITG *elements, *cut, ne, nn;
 } Body;
 static struct
 {
-    int active, version, ns, nb;
+    int active, version, ns, nss, nb, np, na, nsp;
     ITG nk, ne, nfaces, mpc_capacity;
     double *co, *original_co, *loads, *contacts;
     ITG *ipkon, *kon;
     char* lakon;
     uint64_t *owners, *node_union, *node_intersection, *contact_owners;
     Face* faces;
+    unsigned char* structural_nodes;
     Support supports[FA_MAX];
+    SPCSupport spc_supports[FA_MAX];
+    Port ports[FA_MAX];
+    Angle angles[FA_CONNECTOR_MAX];
+    Spring springs[FA_CONNECTOR_MAX];
     Body bodies[FA_MAX];
     double points[FA_MAX][6];
 } fa;
+/* The main driver decascades before fa_prepare. V3 keeps the original
+ * equations separately so a declared angular auxiliary is proved against
+ * its actual input equation, not guessed from dummy-node coordinates.
+ */
+static struct
+{
+    int captured;
+    ITG nk, nmpc, capacity;
+    ITG *ipompc, *nodempc;
+    double* coef;
+    char* labels;
+} original_mpcs;
 
 static void fail(const char* message)
 {
@@ -58,6 +98,48 @@ static void* allocate(size_t count, size_t size)
         fail("allocation failed");
     }
     return p;
+}
+void fa_capture_mpcs(
+    ITG nk,
+    ITG nmpc,
+    ITG* ipompc,
+    ITG* nodempc,
+    double* coef,
+    char* labels,
+    ITG capacity
+)
+{
+    const char* path = getenv("CCX_FORCE_ACCOUNTING_REQUEST");
+    char schema[81];
+    FILE* input;
+    if (!path || !(input = fopen(path, "r"))) {
+        return;
+    }
+    if (fscanf(input, "%80s", schema) != 1 || strcmp(schema, "CCX_FORCE_ACCOUNTING_V3")) {
+        fclose(input);
+        return;
+    }
+    fclose(input);
+    fa.version = 3;
+    if (original_mpcs.captured || nk < 1 || nmpc < 0 || capacity < 0) {
+        fail("invalid or repeated original MPC capture");
+    }
+    original_mpcs.captured = 1;
+    original_mpcs.nk = nk;
+    original_mpcs.nmpc = nmpc;
+    original_mpcs.capacity = capacity;
+    original_mpcs.ipompc = allocate(nmpc, sizeof(ITG));
+    original_mpcs.nodempc = allocate(3 * (size_t)capacity, sizeof(ITG));
+    original_mpcs.coef = allocate(capacity, sizeof(double));
+    original_mpcs.labels = allocate(20 * (size_t)nmpc, sizeof(char));
+    if (nmpc > 0) {
+        memcpy(original_mpcs.ipompc, ipompc, (size_t)nmpc * sizeof(ITG));
+        memcpy(original_mpcs.labels, labels, 20 * (size_t)nmpc);
+    }
+    if (capacity > 0) {
+        memcpy(original_mpcs.nodempc, nodempc, 3 * (size_t)capacity * sizeof(ITG));
+        memcpy(original_mpcs.coef, coef, (size_t)capacity * sizeof(double));
+    }
 }
 static ITG read_identifier(FILE* input)
 {
@@ -163,7 +245,7 @@ void fa_check_contact_domain(ITG ntie, char* tieset, double* tietol, ITG mortar)
         if (tieset[243 * (size_t)i + 80] == 'C' && mortar != 1) {
             fail("face-to-face penalty contact required");
         }
-        if (fa.version == 2 && tieset[243 * (size_t)i + 80] == 'T' &&
+        if (fa.version >= 2 && tieset[243 * (size_t)i + 80] == 'T' &&
             tietol[4 * (size_t)i + 1] != -1.) {
             fail("original-coordinate MPC accounting requires ordinary Tie ADJUST=NO");
         }
@@ -209,6 +291,365 @@ static ITG parent(const ITG* nodes, ITG count)
     }
     return index;
 }
+static int port_reference(ITG node)
+{
+    int i;
+    for (i = 0; i < fa.np; i++) {
+        if (fa.ports[i].ref == node) {
+            return i;
+        }
+    }
+    return -1;
+}
+static int port_rotation(ITG node)
+{
+    int i;
+    for (i = 0; i < fa.np; i++) {
+        if (fa.ports[i].rot == node) {
+            return i;
+        }
+    }
+    return -1;
+}
+static int angle_node(ITG node)
+{
+    int i;
+    for (i = 0; i < fa.na; i++) {
+        if (fa.angles[i].node == node) {
+            return i;
+        }
+    }
+    return -1;
+}
+static ITG original_term(ITG identifier)
+{
+    if (identifier < 1 || identifier > original_mpcs.capacity) {
+        fail("original MPC term index is outside native storage");
+    }
+    return identifier - 1;
+}
+static void validate_angle(const Angle* angle)
+{
+    ITG row, first, index, visited, node, dir, matches = 0;
+    double pivot, coefficients[3] = {0., 0., 0.};
+    if (!original_mpcs.captured || original_mpcs.nk != fa.nk) {
+        fail("original angular equation identity is unavailable");
+    }
+    for (row = 0; row < original_mpcs.nmpc; row++) {
+        first = original_term(original_mpcs.ipompc[row]);
+        index = first;
+        visited = 0;
+        for (;;) {
+            if (++visited > original_mpcs.capacity) {
+                fail("cyclic original angular equation term list");
+            }
+            if (original_mpcs.nodempc[3 * index] == angle->node &&
+                original_mpcs.coef[index] != 0. &&
+                (index != first || original_mpcs.nodempc[3 * index + 1] != 1)) {
+                fail("angular auxiliary participates outside its defining dependent term");
+            }
+            if (!original_mpcs.nodempc[3 * index + 2]) {
+                break;
+            }
+            index = original_term(original_mpcs.nodempc[3 * index + 2]);
+        }
+        if (original_mpcs.nodempc[3 * first] != angle->node ||
+            original_mpcs.nodempc[3 * first + 1] != 1) {
+            continue;
+        }
+        if (++matches != 1) {
+            fail("angular auxiliary has repeated dependent equations");
+        }
+        pivot = original_mpcs.coef[first];
+        if (!isfinite(pivot) || pivot == 0.) {
+            fail("invalid angular auxiliary dependent coefficient");
+        }
+        index = first;
+        visited = 0;
+        while (original_mpcs.nodempc[3 * index + 2]) {
+            if (++visited > original_mpcs.capacity) {
+                fail("cyclic original angular equation term list");
+            }
+            index = original_term(original_mpcs.nodempc[3 * index + 2]);
+            node = original_mpcs.nodempc[3 * index];
+            dir = original_mpcs.nodempc[3 * index + 1];
+            if (!isfinite(original_mpcs.coef[index])) {
+                fail("nonfinite original angular equation coefficient");
+            }
+            if (original_mpcs.coef[index] == 0.) {
+                continue;
+            }
+            if (node != angle->rot || dir < 1 || dir > 3) {
+                fail("angular auxiliary equation is not bound only to its rotation port");
+            }
+            coefficients[dir - 1] += original_mpcs.coef[index] / pivot;
+            if (!isfinite(coefficients[dir - 1])) {
+                fail("nonfinite normalized angular equation");
+            }
+        }
+    }
+    if (matches != 1) {
+        fail("angular auxiliary has no native defining equation");
+    }
+    for (dir = 0; dir < 3; dir++) {
+        if (fabs(coefficients[dir] + angle->axis[dir]) > 1.e-12) {
+            fail("angular auxiliary equation differs from its declared rotation axis");
+        }
+    }
+}
+static void validate_port(const Port* port)
+{
+    ITG row, first, index, visited, node, dir, translations = 0, rotations = 0;
+    double pivot;
+    int has_reference, has_rotation;
+    if (!original_mpcs.captured || original_mpcs.nk != fa.nk) {
+        fail("original native RBE identity is unavailable");
+    }
+    for (row = 0; row < original_mpcs.nmpc; row++) {
+        if (strncmp(&original_mpcs.labels[20 * (size_t)row], "RIGID", 5)) {
+            continue;
+        }
+        first = original_term(original_mpcs.ipompc[row]);
+        node = original_mpcs.nodempc[3 * first] - 1;
+        dir = original_mpcs.nodempc[3 * first + 1];
+        pivot = original_mpcs.coef[first];
+        if (node < 0 || node >= fa.nk || dir < 1 || dir > 3 ||
+            !fa.structural_nodes[node] || !isfinite(pivot) || pivot == 0.) {
+            continue;
+        }
+        index = first;
+        visited = 0;
+        has_reference = has_rotation = 0;
+        for (;;) {
+            if (++visited > original_mpcs.capacity) {
+                fail("cyclic original RBE equation term list");
+            }
+            if (original_mpcs.nodempc[3 * index] == port->ref &&
+                original_mpcs.nodempc[3 * index + 1] == dir &&
+                isfinite(original_mpcs.coef[index]) &&
+                fabs(original_mpcs.coef[index] / pivot + 1.) <= 1.e-12) {
+                has_reference = 1;
+            }
+            if (original_mpcs.nodempc[3 * index] == port->rot &&
+                original_mpcs.nodempc[3 * index + 1] >= 1 &&
+                original_mpcs.nodempc[3 * index + 1] <= 3 &&
+                isfinite(original_mpcs.coef[index]) && original_mpcs.coef[index] != 0.) {
+                has_rotation |= 1 << (original_mpcs.nodempc[3 * index + 1] - 1);
+            }
+            if (!original_mpcs.nodempc[3 * index + 2]) {
+                break;
+            }
+            index = original_term(original_mpcs.nodempc[3 * index + 2]);
+        }
+        if (has_reference && has_rotation) {
+            translations |= 1 << (dir - 1);
+            rotations |= has_rotation;
+        }
+    }
+    if (translations != 7 || rotations != 7) {
+        fail("declared port is not a finite native RBE receiving region");
+    }
+}
+static void validate_composition(void)
+{
+    int i, j, p, left, right;
+    double norm;
+    for (i = 0; i < fa.np; i++) {
+        Port* port = &fa.ports[i];
+        if (port->ref > fa.nk || port->rot > fa.nk || port->ref == port->rot ||
+            fa.structural_nodes[port->ref - 1] || fa.structural_nodes[port->rot - 1]) {
+            fail("RBE port identities must be distinct detached native nodes");
+        }
+        for (j = 0; j < i; j++) {
+            Port* other = &fa.ports[j];
+            if (!strcmp(port->name, other->name) || port->ref == other->ref ||
+                port->rot == other->rot || port->ref == other->rot || port->rot == other->ref) {
+                fail("RBE port identities overlap");
+            }
+        }
+        validate_port(port);
+    }
+    for (i = 0; i < fa.ns; i++) {
+        p = port_reference(fa.supports[i].ref);
+        if (p < 0 || fa.ports[p].rot != fa.supports[i].rot) {
+            fail("V3 support must identify a declared native RBE port");
+        }
+        fa.ports[p].used = 1;
+    }
+    for (i = 0; i < fa.na; i++) {
+        Angle* angle = &fa.angles[i];
+        if (angle->node > fa.nk || fa.structural_nodes[angle->node - 1] ||
+            port_reference(angle->node) >= 0 || port_rotation(angle->node) >= 0 ||
+            port_rotation(angle->rot) < 0) {
+            fail("angular auxiliary must be detached and identify one declared rotation port");
+        }
+        for (j = 0; j < i; j++) {
+            if (fa.angles[j].node == angle->node) {
+                fail("duplicate angular auxiliary identity");
+            }
+        }
+        norm = 0.;
+        for (j = 0; j < 3; j++) {
+            if (!isfinite(angle->axis[j])) {
+                fail("nonfinite angular auxiliary axis");
+            }
+            norm += angle->axis[j] * angle->axis[j];
+        }
+        if (!isfinite(norm) || fabs(norm - 1.) > 1.e-12) {
+            fail("angular auxiliary axis must be a unit vector");
+        }
+        validate_angle(angle);
+    }
+    for (i = 0; i < fa.nsp; i++) {
+        Spring* spring = &fa.springs[i];
+        if (spring->element > fa.ne || fa.ipkon[spring->element - 1] < 0 ||
+            strcmp1(&fa.lakon[8 * (spring->element - 1)], "ESPRNG21") != 0) {
+            fail("declared connector must be an active native SPRING2");
+        }
+        for (j = 0; j < i; j++) {
+            if (fa.springs[j].element == spring->element) {
+                fail("duplicate native connector identity");
+            }
+        }
+        for (j = 0; j < 2; j++) {
+            if (spring->nodes[j] > fa.nk || fa.structural_nodes[spring->nodes[j] - 1] ||
+                fa.kon[fa.ipkon[spring->element - 1] + j] != spring->nodes[j]) {
+                fail("native connector endpoint identity or detached ownership differs");
+            }
+        }
+        if (spring->nodes[0] == spring->nodes[1]) {
+            fail("native connector endpoints must be distinct");
+        }
+        left = port_reference(spring->nodes[0]);
+        right = port_reference(spring->nodes[1]);
+        if (left >= 0 && right >= 0) {
+            fa.ports[left].used = fa.ports[right].used = 1;
+        }
+        else {
+            left = angle_node(spring->nodes[0]);
+            right = angle_node(spring->nodes[1]);
+            if (left < 0 || right < 0 || fa.angles[left].rot == fa.angles[right].rot) {
+                fail("native connector must join two reference ports or two angular auxiliaries");
+            }
+            for (j = 0; j < 3; j++) {
+                if (fabs(fa.angles[left].axis[j] - fa.angles[right].axis[j]) > 1.e-12) {
+                    fail("native rotational connector axes differ");
+                }
+            }
+            fa.angles[left].used = fa.angles[right].used = 1;
+            fa.ports[port_rotation(fa.angles[left].rot)].used = 1;
+            fa.ports[port_rotation(fa.angles[right].rot)].used = 1;
+        }
+    }
+    for (i = 0; i < fa.np; i++) {
+        if (!fa.ports[i].used) {
+            fail("unused native RBE port declaration");
+        }
+    }
+    for (i = 0; i < fa.na; i++) {
+        if (!fa.angles[i].used) {
+            fail("unused angular auxiliary declaration");
+        }
+    }
+    for (i = 0; i < fa.nsp; i++) {
+        if (!fa.springs[i].used) {
+            fail("unused native connector declaration");
+        }
+    }
+}
+static void validate_spc_supports(
+    ITG nboun, ITG* nodes, ITG* directions, double* values, ITG* amplitudes, char* types
+)
+{
+    int i, j;
+    ITG term, boundary, node, direction;
+    unsigned char *selected, *states, *state, bit;
+    enum { SPC_PRESENT = 1, SPC_REPEATED = 2, SPC_INVALID = 4 };
+    if (!fa.nss) {
+        return;
+    }
+    selected = allocate(fa.nk, sizeof(unsigned char));
+    states = allocate(3 * (size_t)fa.nk, sizeof(unsigned char));
+    for (boundary = 0; boundary < nboun; boundary++) {
+        node = nodes[boundary];
+        direction = directions[boundary];
+        if (node < 1 || node > fa.nk || direction < 1 || direction > 3) {
+            continue;
+        }
+        state = &states[3 * (size_t)(node - 1) + direction - 1];
+        if (*state & SPC_PRESENT) {
+            *state |= SPC_REPEATED;
+        }
+        *state |= SPC_PRESENT;
+        if (!isfinite(values[boundary]) || values[boundary] != 0. ||
+            (amplitudes && amplitudes[boundary]) || types[boundary] == 'R') {
+            *state |= SPC_INVALID;
+        }
+    }
+    for (i = 0; i < fa.nss; i++) {
+        SPCSupport* support = &fa.spc_supports[i];
+        for (j = 0; j < fa.ns; j++) {
+            if (!strcmp(support->name, fa.supports[j].name)) {
+                fail("SPC support identity duplicates an RBE support");
+            }
+        }
+        for (j = 0; j < i; j++) {
+            if (!strcmp(support->name, fa.spc_supports[j].name)) {
+                fail("duplicate SPC support identity");
+            }
+        }
+        for (term = 0; term < support->count; term++) {
+            node = support->nodes[term];
+            direction = support->directions[term];
+            if (node > fa.nk || direction < 1 || direction > 3 ||
+                !fa.structural_nodes[node - 1] || fa.node_union[node - 1] ||
+                port_reference(node) >= 0 || port_rotation(node) >= 0 || angle_node(node) >= 0) {
+                fail("SPC support requires a structural translation outside every cut body and helper port");
+            }
+            bit = 1 << (direction - 1);
+            if (selected[node - 1] & bit) {
+                fail("SPC support degrees of freedom overlap");
+            }
+            selected[node - 1] |= bit;
+            state = &states[3 * (size_t)(node - 1) + direction - 1];
+            if (*state & SPC_INVALID) {
+                fail("SPC support must be an original zero boundary without amplitude or RBE helper type");
+            }
+            if (!(*state & SPC_PRESENT) || (*state & SPC_REPEATED)) {
+                fail("SPC support degree of freedom is missing or ambiguous in native boundaries");
+            }
+        }
+    }
+    free(selected);
+    free(states);
+}
+void FORTRAN(
+    fa_check_spring,
+    (ITG * element, ITG* direction1, ITG* direction2, ITG* orientation, ITG* kind, ITG* tables,
+     double* stiffness)
+)
+{
+    int i;
+    if (!fa.active || fa.version != 3) {
+        return;
+    }
+    for (i = 0; i < fa.nsp; i++) {
+        if (fa.springs[i].element == *element) {
+            break;
+        }
+    }
+    if (i == fa.nsp) {
+        fail("native scalar spring force has no qualified connector declaration");
+    }
+    if (*kind != 2 || *tables != 1 || !isfinite(*stiffness) || *stiffness <= 0. ||
+        *direction1 < 1 || *direction1 > 3 || *direction2 != *direction1) {
+        fail("native connector requires one finite positive linear scalar spring law");
+    }
+    if (angle_node(fa.springs[i].nodes[0]) >= 0 &&
+        (*direction1 != 1 || *direction2 != 1 || *orientation != 0)) {
+        fail("native angular connector must act only on untransformed auxiliary angle DOF1");
+    }
+}
 void fa_prepare(
     ITG nmethod,
     ITG* iperturb,
@@ -224,6 +665,10 @@ void fa_prepare(
     char* lakon,
     ITG nboun,
     ITG* nodeboun,
+    ITG* ndirboun,
+    double* xboun,
+    ITG* iamboun,
+    char* typeboun,
     ITG nmpc,
     ITG* ipompc,
     ITG* nodempc,
@@ -277,10 +722,14 @@ void fa_prepare(
     else if (!strcmp(token, "CCX_FORCE_ACCOUNTING_V2")) {
         fa.version = 2;
     }
+    else if (!strcmp(token, "CCX_FORCE_ACCOUNTING_V3")) {
+        fa.version = 3;
+        fa.structural_nodes = allocate(nk, sizeof(unsigned char));
+    }
     else {
         fail("unsupported request schema");
     }
-    if (fa.version == 2) {
+    if (fa.version >= 2) {
         fa.original_co = allocate(3 * (size_t)nk, sizeof(double));
         for (coordinate = 0; coordinate < 3 * (size_t)nk; coordinate++) {
             if (!isfinite(co[coordinate])) {
@@ -299,7 +748,7 @@ void fa_prepare(
         }
         if (!strcmp(token, "SUPPORT")) {
             Support* s;
-            if (fa.ns == FA_MAX) {
+            if (fa.ns == FA_MAX || (fa.version == 3 && fa.ns + fa.nss == FA_MAX)) {
                 fail("too many support requests");
             }
             s = &fa.supports[fa.ns++];
@@ -311,6 +760,60 @@ void fa_prepare(
             if (s->ref < 1 || s->ref > nk || s->rot < 1 || s->rot > nk || s->ref == s->rot) {
                 fail("invalid support ports");
             }
+        }
+        else if (fa.version == 3 && !strcmp(token, "SPC_SUPPORT")) {
+            SPCSupport* support;
+            if (fa.ns + fa.nss == FA_MAX) {
+                fail("too many support requests");
+            }
+            support = &fa.spc_supports[fa.nss++];
+            if (fscanf(input, "%80s", support->name) != 1) {
+                fail("invalid SPC support name");
+            }
+            support->count = read_identifier(input);
+            if (support->count > nboun) {
+                fail("SPC support term count exceeds native boundary count");
+            }
+            support->nodes = allocate(support->count, sizeof(ITG));
+            support->directions = allocate(support->count, sizeof(ITG));
+            for (j = 0; j < support->count; j++) {
+                support->nodes[j] = read_identifier(input);
+                support->directions[j] = read_identifier(input);
+            }
+        }
+        else if (fa.version == 3 && !strcmp(token, "PORT")) {
+            Port* port;
+            if (fa.np == FA_MAX) {
+                fail("too many native RBE port declarations");
+            }
+            port = &fa.ports[fa.np++];
+            if (fscanf(input, "%80s", port->name) != 1) {
+                fail("invalid native RBE port name");
+            }
+            port->ref = read_identifier(input);
+            port->rot = read_identifier(input);
+        }
+        else if (fa.version == 3 && !strcmp(token, "ANGLE")) {
+            Angle* angle;
+            if (fa.na == FA_CONNECTOR_MAX) {
+                fail("too many angular auxiliary declarations");
+            }
+            angle = &fa.angles[fa.na++];
+            angle->node = read_identifier(input);
+            angle->rot = read_identifier(input);
+            if (fscanf(input, "%lf %lf %lf", &angle->axis[0], &angle->axis[1], &angle->axis[2]) != 3) {
+                fail("invalid angular auxiliary axis");
+            }
+        }
+        else if (fa.version == 3 && !strcmp(token, "SPRING")) {
+            Spring* spring;
+            if (fa.nsp == FA_CONNECTOR_MAX) {
+                fail("too many native connector declarations");
+            }
+            spring = &fa.springs[fa.nsp++];
+            spring->element = read_identifier(input);
+            spring->nodes[0] = read_identifier(input);
+            spring->nodes[1] = read_identifier(input);
         }
         else if (!strcmp(token, "BODY")) {
             Body* b;
@@ -356,7 +859,7 @@ void fa_prepare(
         fail("trailing request data");
     }
     fclose(input);
-    if (!fa.nb && !fa.ns) {
+    if (!fa.nb && !fa.ns && !fa.nss) {
         fail("empty request");
     }
     for (i = 0; i < fa.ns; i++) {
@@ -384,10 +887,28 @@ void fa_prepare(
             if (strcmp1(&lakon[8 * i], "ESPRNGC") == 0) {
                 continue;
             }
+            if (fa.version == 3 && strcmp1(&lakon[8 * i], "ESPRNG21") == 0) {
+                for (j = 0; j < fa.nsp; j++) {
+                    if (fa.springs[j].element == i + 1) {
+                        fa.springs[j].used = 1;
+                        break;
+                    }
+                }
+                if (j == fa.nsp) {
+                    fail("native SPRING2 has no qualified connector declaration");
+                }
+                continue;
+            }
             fail("only C3D4/C3D10 volumes and face-to-face penalty contact are supported");
         }
         for (j = 0; j < n; j++) {
             k = kon[ipkon[i] + j] - 1;
+            if (fa.version == 3) {
+                if (k < 0 || k >= nk) {
+                    fail("native structural node identity is outside storage");
+                }
+                fa.structural_nodes[k] = 1;
+            }
             fa.node_union[k] |= fa.owners[i];
             fa.node_intersection[k] &= fa.owners[i];
         }
@@ -401,6 +922,10 @@ void fa_prepare(
         }
     }
     qsort(fa.faces, fa.nfaces, sizeof(Face), face_compare);
+    if (fa.version == 3) {
+        validate_composition();
+        validate_spc_supports(nboun, nodeboun, ndirboun, xboun, iamboun, typeboun);
+    }
     for (i = 0; i < fa.nb; i++) {
         Body* b = &fa.bodies[i];
         bit = UINT64_C(1) << i;
@@ -508,7 +1033,7 @@ void fa_begin_results(ITG ne, ITG* ipkon, ITG* kon, char* lakon, double* co)
     if (!fa.active) {
         return;
     }
-    if (fa.version == 2) {
+    if (fa.version >= 2) {
         for (coordinate = 0; coordinate < 3 * (size_t)fa.nk; coordinate++) {
             if (co[coordinate] != fa.original_co[coordinate]) {
                 fail("native reference coordinates changed after accounting preparation");
@@ -518,7 +1043,7 @@ void fa_begin_results(ITG ne, ITG* ipkon, ITG* kon, char* lakon, double* co)
     fa.ipkon = ipkon;
     fa.kon = kon;
     fa.lakon = lakon;
-    fa.co = fa.version == 2 ? fa.original_co : co;
+    fa.co = fa.version >= 2 ? fa.original_co : co;
     free(fa.contacts);
     free(fa.contact_owners);
     contact_capacity = ne;
@@ -704,7 +1229,7 @@ void fa_emit(
     const char* path = getenv("CCX_FORCE_ACCOUNTING_REQUEST");
     char* output;
     FILE* f;
-    double *residual, *mpc = NULL, force, couple[3], w[6], load[6], contact[6], transfer[6];
+    double *residual, *mpc = NULL, force, couple[3], w[6], load[6], contact[6], transfer[6], nodal[3];
     ITG *order = NULL, i, j, k, index, start, node, dir, row;
     uint64_t bit;
     if (!fa.active) {
@@ -716,14 +1241,29 @@ void fa_emit(
     if (nk < 1 || mt < 4 || nk > INT_MAX / mt) {
         fail("native nodal dimensions exceed the 32-bit accounting domain");
     }
-    if (fa.version == 2) {
+    if (fa.version >= 2) {
         order = validate_mpcs(nk, mt, nactdof, nmpc, ipompc, nodempc, coef);
         mpc = allocate((size_t)mt * nk, sizeof(double));
+    }
+    if (fa.version == 3) {
+        for (i = 0; i < fa.na; i++) {
+            node = fa.angles[i].node - 1;
+            index = mt * node + 1;
+            if (nactdof[index] >= 0 || !(nactdof[index] % 2) || !isfinite(v[index])) {
+                fail("angular auxiliary must retain its native dependent angle degree of freedom");
+            }
+            for (dir = 2; dir <= 3; dir++) {
+                index = mt * node + dir;
+                if (nactdof[index] >= 0 || nactdof[index] % 2 || v[index] != 0.) {
+                    fail("angular auxiliary unused degrees of freedom must be prescribed at zero");
+                }
+            }
+        }
     }
     residual = allocate((size_t)mt * nk, sizeof(double));
     for (i = 0; i < mt * nk; i++) {
         residual[i] = fn[i] - external[i];
-        if (fa.version == 2 && !isfinite(residual[i])) {
+        if (fa.version >= 2 && !isfinite(residual[i])) {
             fail("nonfinite native physical nodal residual");
         }
     }
@@ -795,6 +1335,24 @@ void fa_emit(
         w[5] = couple[2] + fa.co[3 * (s->ref - 1)] * w[1] - fa.co[3 * (s->ref - 1) + 1] * w[0];
         write_wrench(f, "SUPPORT", s->name, w);
     }
+    if (fa.version == 3) {
+        for (i = 0; i < fa.nss; i++) {
+            SPCSupport* support = &fa.spc_supports[i];
+            memset(w, 0, sizeof(w));
+            for (j = 0; j < support->count; j++) {
+                node = support->nodes[j] - 1;
+                dir = support->directions[j];
+                index = mt * node + dir;
+                if (nactdof[index] >= 0 || nactdof[index] % 2 || v[index] != 0.) {
+                    fail("SPC support degree of freedom must remain prescribed at zero");
+                }
+                memset(nodal, 0, sizeof(nodal));
+                nodal[dir - 1] = residual[index];
+                add_wrench(w, &fa.co[3 * (size_t)node], nodal);
+            }
+            write_wrench(f, "SUPPORT", support->name, w);
+        }
+    }
     for (i = 0; i < fa.nb; i++) {
         Body* b = &fa.bodies[i];
         bit = UINT64_C(1) << i;
@@ -826,7 +1384,7 @@ void fa_emit(
         write_wrench(f, "CUT", b->name, w);
         write_wrench(f, "LOAD", b->name, load);
         write_wrench(f, "CONTACT", b->name, contact);
-        if (fa.version == 2) {
+        if (fa.version >= 2) {
             write_wrench(f, "MPC", b->name, transfer);
         }
     }

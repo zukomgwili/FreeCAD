@@ -6,8 +6,11 @@ Cut wrenches are equilibrium-derived on an explicitly owned free body. They are
 not SOF/SOM, and agreement with equilibrium is not stress/design acceptance.
 V2 adds the net native MPC action on each explicitly owned cut body, separately
 from LOAD and CONTACT. It is not a per-Tie multiplier or a projected RF value.
+V3 separates selected physical external supports from moving internal RBE
+scalar-connector ports. Ordinary zero Fixed/Displacement translations may be
+selected outside cut bodies; internal ports are not reported as supports.
 The solver rejects prescribed body DOFs, shared-node MPC participation and
-cut-node point loads. V1 literal output remains readable, without an MPC channel.
+cut-node point loads. Literal V1/V2 output remains readable; V1 has no MPC channel.
 """
 
 import hashlib
@@ -30,7 +33,8 @@ from femtools.elastic_connector import rigid_body_nodes
 from femtools.native_properties import property_value
 
 
-SCHEMA = "CCX_FORCE_ACCOUNTING_V2"
+SCHEMA = "CCX_FORCE_ACCOUNTING_V3"
+V2_SCHEMA = "CCX_FORCE_ACCOUNTING_V2"
 LEGACY_SCHEMA = "CCX_FORCE_ACCOUNTING_V1"
 MOVEMENT_SOURCE_SCHEMA = "FREECAD_MOVEMENT_SOURCE_V1"
 _reports = {}
@@ -69,7 +73,7 @@ def require_capability(binary):
         raise ValueError("Qualified native force-accounting solver is unavailable.") from error
     if result.returncode != 0 or result.stdout.strip() != SCHEMA:
         raise ValueError(
-            "Solver does not implement native force accounting V2; "
+            "Solver does not implement native force accounting V3; "
             "select the qualified bundled solver or disable NativeForceAccounting."
         )
 
@@ -192,16 +196,21 @@ def _movement_source(metadata, deck):
 
 
 def _is_result(obj):
-    if obj.isDerivedFrom("Fem::FemResultObject") or (
-        "Proxy" in obj.PropertiesList and isinstance(obj.Proxy, AccountingResult)
-    ):
+    # The stock FRD/DAT import also adds post-processing pipelines and a text
+    # document to the analysis. Like the nodal result, these are outputs, not
+    # mechanical inputs. Importing them must not invalidate the owning run.
+    if any(
+        obj.isDerivedFrom(kind)
+        for kind in ("Fem::FemResultObject", "Fem::FemPostObject", "App::TextDocument")
+    ) or ("Proxy" in obj.PropertiesList and isinstance(obj.Proxy, AccountingResult)):
         return True
     if "Proxy" in obj.PropertiesList:
         # Sample observations are not mechanical nodal result objects, but are
         # still outputs and must never participate in the physical input digest.
+        from femobjects.mesh_result import MeshResult
         from femobjects.result_contact_observation import ContactObservationResult
 
-        return isinstance(obj.Proxy, ContactObservationResult)
+        return isinstance(obj.Proxy, (ContactObservationResult, MeshResult))
     return False
 
 
@@ -254,8 +263,12 @@ def _model_digest(analysis, mesh):
     return hashlib.sha256(json.dumps(state, sort_keys=True).encode()).hexdigest()
 
 
-def _connectivity(path):
+def _connectivity(path, springs=()):
     elements, count, pending = {}, 0, []
+    expected_springs = {row["element"]: list(row["nodes"]) for row in springs}
+    if len(expected_springs) != len(springs):
+        raise ValueError("Duplicate native scalar spring identity.")
+    found_springs, seen, kind = set(), set(), ""
     for line in Path(path).read_text().splitlines():
         text = line.strip()
         if not text or text.startswith("**"):
@@ -267,18 +280,32 @@ def _connectivity(path):
             if text.upper().startswith("*ELEMENT,"):
                 fields = text.upper().replace(" ", "").split(",")
                 kind = next((field[5:] for field in fields if field.startswith("TYPE=")), "")
-                if kind not in ("C3D4", "C3D10"):
+                if kind not in ("C3D4", "C3D10", "SPRING2") or (
+                    kind == "SPRING2" and not expected_springs
+                ):
                     raise ValueError("Native force accounting requires only C3D4/C3D10 volumes.")
-                count = 4 if kind == "C3D4" else 10
+                count = {"C3D4": 4, "C3D10": 10, "SPRING2": 2}[kind]
         elif count:
             pending.extend(int(item.strip()) for item in text.split(",") if item.strip())
             if len(pending) == count + 1:
-                if pending[0] in elements:
+                if pending[0] in seen:
                     raise ValueError("Duplicate native element identity.")
-                elements[pending[0]] = pending[1:]
+                seen.add(pending[0])
+                if kind == "SPRING2":
+                    if expected_springs.get(pending[0]) != pending[1:]:
+                        raise ValueError(
+                            "Scalar spring connectivity differs from the stock writer."
+                        )
+                    found_springs.add(pending[0])
+                else:
+                    elements[pending[0]] = pending[1:]
                 pending = []
             elif len(pending) > count + 1:
                 raise ValueError("Invalid native element connectivity.")
+    if pending:
+        raise ValueError("Incomplete native element connectivity.")
+    if found_springs != set(expected_springs):
+        raise ValueError("Declared scalar spring is missing from the stock deck.")
     return elements
 
 
@@ -298,11 +325,40 @@ def prepare_request(writer):
         raise ValueError(
             "Native force accounting requires an unsplit small-displacement static deck."
         )
-    elements = _connectivity(writer.file_name)
+    springs = getattr(writer, "native_accounting_springs", ())
+    for spring in springs:
+        if spring["kind"] != "SPRING2" or len(spring["bodies"]) != 2:
+            raise ValueError(
+                "Native accounting supports two-point scalar connectors on explicit RBE ports, "
+                "not ground or direct solid-node springs."
+            )
+    elements = _connectivity(writer.file_name, springs)
     lines, expected = [SCHEMA], []
-    support_regions = set()
+    support_regions, selected_rigid_regions = set(), set()
+    rigid_rows = {row["Object"]: row for row in writer.member.cons_rigidbody}
+    fixed_rows = {row["Object"]: row for row in writer.member.cons_fixed}
+    displacement_rows = {row["Object"]: row for row in writer.member.cons_displacement}
+    ordinary_rows = {**fixed_rows, **displacement_rows}
+    selected = list(getattr(solver, "NativeAccountingSupports", ())) or list(rigid_rows)
+    if len(selected) != len(set(selected)):
+        raise ValueError("Native accounting support selection contains duplicates.")
+    if any(body not in rigid_rows and body not in ordinary_rows for body in selected):
+        raise ValueError(
+            "Selected native accounting support is not a supported analysis constraint."
+        )
     for row in writer.member.cons_rigidbody:
         body = row["Object"]
+        ref, rot = rigid_body_node_ids(analysis, mesh, body)
+        nodes = rigid_body_nodes(body, mesh)
+        if support_regions.intersection(nodes):
+            raise ValueError(
+                "Native accounting requires disjoint RBE regions, not duplicate ports."
+            )
+        support_regions.update(nodes)
+        lines.append(f"PORT {body.Name} {ref} {rot}")
+        if body not in selected:
+            continue
+        selected_rigid_regions.update(nodes)
         if (
             any(
                 getattr(body, kind + "Mode" + axis) != "Constraint"
@@ -316,15 +372,57 @@ def prepare_request(writer):
             raise ValueError(
                 f"{body.Name}: accounting supports must have all six motions prescribed at zero."
             )
-        ref, rot = rigid_body_node_ids(analysis, mesh, body)
-        nodes = rigid_body_nodes(body, mesh)
-        if support_regions.intersection(nodes):
-            raise ValueError(
-                "Native support accounting requires disjoint RBE regions, not duplicate ports."
-            )
-        support_regions.update(nodes)
         lines.append(f"SUPPORT {body.Name} {ref} {rot}")
         expected.append(("SUPPORT", body.Name))
+    # Use the same physical nodes and directions as the stock boundary writer,
+    # not inferred reactions on all fixed/helper nodes. Check attribution
+    # against *all* ordinary constraints: even an unselected duplicate would
+    # make a selected constraint's reaction ambiguous after native SPC merging.
+    terms_by_support, dof_owner = {}, {}
+    for obj, row in ordinary_rows.items():
+        directions = (
+            [1, 2, 3]
+            if obj in fixed_rows
+            else [index for index, axis in enumerate("xyz", 1) if not getattr(obj, axis + "Free")]
+        )
+        terms = [(node, direction) for node in row["Nodes"] for direction in directions]
+        if any(node in selected_rigid_regions for node, direction in terms):
+            raise ValueError(
+                "Ordinary physical supports must not overlap a selected external RBE receiving region."
+            )
+        terms_by_support[obj] = terms
+        for term in terms:
+            if term in dof_owner and (obj in selected or dof_owner[term] in selected):
+                raise ValueError("Native accounting physical support degrees of freedom overlap.")
+            dof_owner[term] = obj
+    for obj in selected:
+        if obj not in ordinary_rows:
+            continue
+        terms = terms_by_support[obj]
+        if solver.ModelSpace != "3D" or not terms:
+            raise ValueError(f"{obj.Name}: select nonempty ordinary 3D support translations.")
+        if obj in displacement_rows and (
+            obj.EnableAmplitude
+            or any(
+                not getattr(obj, axis + "Free")
+                and getattr(obj, axis + "Displacement").getValueAs("mm").Value != 0
+                for axis in "xyz"
+            )
+        ):
+            raise ValueError(
+                f"{obj.Name}: accounting requires zero support motions without amplitude."
+            )
+        if any(node in support_regions for node, direction in terms):
+            raise ValueError("Ordinary physical supports must not overlap an RBE receiving region.")
+        lines.append(f"SPC_SUPPORT {obj.Name} {len(terms)}")
+        lines.extend(f"{node} {direction}" for node, direction in sorted(terms))
+        expected.append(("SUPPORT", obj.Name))
+    for spring in springs:
+        for auxiliary, rotation, axis in spring["angles"]:
+            lines.append(
+                f"ANGLE {auxiliary} {rotation} " + " ".join(f"{value:.12e}" for value in axis)
+            )
+        lines.append(f"SPRING {spring['element']} " + " ".join(map(str, spring["nodes"])))
     for row in writer.member.cons_sectionprint:
         obj = row["Object"]
         if not getattr(obj, "NativeEquilibriumCut", False):
@@ -364,7 +462,7 @@ def prepare_request(writer):
         )
         expected.append(("CUT", obj.Name))
     if not expected:
-        raise ValueError("No rigid support or NativeEquilibriumCut was selected for accounting.")
+        raise ValueError("No physical support or NativeEquilibriumCut was selected for accounting.")
     lines.append("END")
     path = Path(writer.file_name).with_suffix(".accounting")
     path.write_text("\n".join(lines) + "\n")
@@ -385,7 +483,7 @@ def parse_output(text, expected, end_time, *, schema=None):
     lines = [line.split() for line in text.splitlines() if line.strip()]
     if (
         len(lines) < 4
-        or lines[0] not in ([SCHEMA], [LEGACY_SCHEMA])
+        or lines[0] not in ([SCHEMA], [V2_SCHEMA], [LEGACY_SCHEMA])
         or (schema is not None and lines[0] != [schema])
         or lines[-1] != ["END"]
     ):
@@ -399,7 +497,7 @@ def parse_output(text, expected, end_time, *, schema=None):
         or not math.isclose(float(state[3]), end_time, rel_tol=1e-10, abs_tol=1e-12)
     ):
         raise ValueError("Native accounting output is not at the requested final state.")
-    channels = ("LOAD", "CONTACT", "MPC") if lines[0] == [SCHEMA] else ("LOAD", "CONTACT")
+    channels = ("LOAD", "CONTACT") if lines[0] == [LEGACY_SCHEMA] else ("LOAD", "CONTACT", "MPC")
     result = {kind: {} for kind in ("SUPPORT", "CUT", *channels)}
     for row in lines[2:-1]:
         if len(row) != 8 or row[0] not in result or row[1] in result[row[0]]:
@@ -471,7 +569,7 @@ def import_result(fea, context):
             + "); native accounting is historical, not current."
         )
     schema = metadata.get("schema", LEGACY_SCHEMA)
-    if schema not in (SCHEMA, LEGACY_SCHEMA):
+    if schema not in (SCHEMA, V2_SCHEMA, LEGACY_SCHEMA):
         raise ValueError("Unsupported native accounting request schema.")
     values = parse_output(
         output.read_text(),
@@ -479,7 +577,7 @@ def import_result(fea, context):
         metadata["end_time"],
         schema=schema,
     )
-    v2 = schema == SCHEMA
+    v2 = schema != LEGACY_SCHEMA
     metadata.update(
         schema=schema,
         movement_source=_movement_source(metadata, fea.inp_file_name),
@@ -488,18 +586,27 @@ def import_result(fea, context):
         units="N and Nmm",
         method=(
             "Native support residual; separate native LOAD/CONTACT/MPC equilibrium-derived cut"
-            if v2 else "Native support residual; native LOAD/CONTACT equilibrium-derived cut (V1)"
+            if v2
+            else "Native support residual; native LOAD/CONTACT equilibrium-derived cut (V1)"
         ),
         frame=(
             "Global Cartesian, original reference-state nodal application positions"
             if v2
             else "Global Cartesian, V1 native reference positions; contact adjustment not qualified"
         ),
-        limitations="One small-displacement static step, Tet4/Tet10, zero-motion RBE, "
+        limitations="One small-displacement static step, Tet4/Tet10, "
+        + (
+            "selected zero-motion RBE supports or ordinary zero prescribed translations "
+            "outside cut bodies; moving internal RBE ports with positive linear two-port "
+            "scalar connectors; "
+            if schema == SCHEMA
+            else "zero-motion RBE supports, "
+        )
         + (
             "acyclic translational MPCs on body-exclusive nodes, optional face-to-face "
             "penalty contact; no per-Tie multipliers, changed reference coordinates, "
-            if v2 else "face-to-face penalty contact; no MPC cut bodies, "
+            if v2
+            else "face-to-face penalty contact; no MPC cut bodies, "
         )
         + "stress/design acceptance or mesh-accuracy guarantee",
     )

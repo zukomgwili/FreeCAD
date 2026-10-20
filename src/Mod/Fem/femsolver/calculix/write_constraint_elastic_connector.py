@@ -9,6 +9,10 @@ from femtools import elastic_connector
 
 def write_connectors(f, writer):
     mesh = writer.mesh_object
+    # Private export metadata binds accounting to the exact native element and
+    # angular auxiliary identities written below. It never changes the mesh,
+    # model constraints, ordinary deck or ordinary result channels.
+    writer.native_accounting_springs = []
     ids = list(mesh.FemMesh.Edges) + list(mesh.FemMesh.Faces) + list(mesh.FemMesh.Volumes)
     next_id = max(ids, default=0) + 1
     next_node = None
@@ -19,10 +23,13 @@ def write_connectors(f, writer):
         orientation = elastic_connector.identifier("EC_ORIENT_", obj)
         nodes = data["nodes"]
         if "bodies" in data:
-            ports = [elastic_connector.rigid_body_node_ids(writer.analysis, mesh, body)
-                     for body in data["bodies"]]
+            ports = [
+                elastic_connector.rigid_body_node_ids(writer.analysis, mesh, body)
+                for body in data["bodies"]
+            ]
             nodes = [port[1 if data["rotational"] else 0] for port in ports]
         output_nodes = nodes
+        angular_bindings = []
         if data["rotational"]:
             # A CalculiX rotational node must not belong to an element. Couple
             # a scalar auxiliary DOF to its selected global rotation projection.
@@ -30,16 +37,21 @@ def write_connectors(f, writer):
             if next_node is None:
                 next_node = max(mesh.FemMesh.Nodes, default=0) + 2 * len(writer.analysis.Group) + 1
             axis = data["rotation"].multVec(
-                (FreeCAD.Vector(1, 0, 0), FreeCAD.Vector(0, 1, 0),
-                 FreeCAD.Vector(0, 0, 1))[data["dof"] - 1]
+                (FreeCAD.Vector(1, 0, 0), FreeCAD.Vector(0, 1, 0), FreeCAD.Vector(0, 0, 1))[
+                    data["dof"] - 1
+                ]
             )
             auxiliary = []
             for node in nodes:
                 auxiliary.append(next_node)
+                angular_bindings.append((next_node, node, tuple(axis)))
                 f.write(f"\n*NODE\n{next_node},0.,0.,0.\n")
                 terms = [f"{next_node},1,1."]
-                terms += [f"{node},{index + 1},{-value:.12e}"
-                          for index, value in enumerate(axis) if abs(value) > 1e-14]
+                terms += [
+                    f"{node},{index + 1},{-value:.12e}"
+                    for index, value in enumerate(axis)
+                    if abs(value) > 1e-14
+                ]
                 f.write(f"*EQUATION\n{len(terms)}\n" + ",".join(terms) + "\n")
                 # SPRING1/2 activate three DOFs on an auxiliary node. Only its
                 # scalar DOF1 has meaning; these are not physical body restraints.
@@ -47,6 +59,16 @@ def write_connectors(f, writer):
                 next_node += 1
             nodes = auxiliary
         kind = "SPRING1" if len(nodes) == 1 else "SPRING2"
+        writer.native_accounting_springs.append(
+            {
+                "name": obj.Name,
+                "element": next_id,
+                "nodes": tuple(nodes),
+                "kind": kind,
+                "bodies": tuple(body.Name for body in data.get("bodies", ())),
+                "angles": tuple(angular_bindings),
+            }
+        )
         f.write(f"\n*ELEMENT, TYPE={kind}, ELSET={elset}\n")
         f.write(",".join(str(value) for value in [next_id] + nodes) + "\n")
         next_id += 1

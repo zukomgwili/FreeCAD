@@ -56,6 +56,15 @@ class SolverCcxTools(SolverCalculiX):
                     "Requires the qualified solver; does not change RF/SOF/SOM/CF or accept a design.",
                 ),
                 _PropHelper(
+                    type="App::PropertyLinkList",
+                    name="NativeAccountingSupports",
+                    group="Native Force Accounting",
+                    value=[],
+                    doc="Physical external constraints to report, separately from moving internal "
+                    "rigid-body connector ports. Empty preserves legacy all-fixed-RBE selection. "
+                    "Selection does not add or change mechanical restraints.",
+                ),
+                _PropHelper(
                     type="App::PropertyFile",
                     name="NativeAccountingSolver",
                     group="Native Force Accounting",

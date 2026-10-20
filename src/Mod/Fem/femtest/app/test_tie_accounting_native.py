@@ -371,7 +371,7 @@ class TestTieAccountingNative(unittest.TestCase):
         )
         self.assertTrue(accounting.Status.startswith("Current"), accounting.Status)
         data = json.loads(accounting.AccountingData)
-        self.assertEqual(data["schema"], "CCX_FORCE_ACCOUNTING_V2")
+        self.assertEqual(data["schema"], force_accounting.SCHEMA)
         model.fea = fea
         model.accounting = accounting
         model.data = data
