@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "phase": "cold",
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +215 (Git)",
+    "Unknown",
+    "2026/10/20 07:22:28",
+    "codex/fix-toroidal-self-cut",
+    "66d2d4cd5405cd8c57ff9e0530329b3b41199aac"
+  ],
+  "source_sha256": "08910ca9f0fefc6cf8ee9f674a7034a14ebda3dffd73dc108a345794593a6323",
+  "seconds": 56.691,
+  "solves": 0,
+  "response_accesses": 0,
+  "remeshes": 0,
+  "source_override": false,
+  "manual_mesh_or_provenance_repair": false,
+  "engineering_method_or_design_accepted": false,
+  "solver_prerequisites_passed": false,
+  "writer_only_missing_boundary_diagnostic_expected": true,
+  "prerequisites": "Static analysis: No mechanical boundary conditions defined.\n",
+  "selective_new_tie_recompute_calls": 0,
+  "source_and_private_input_unchanged": true,
+  "saved_witness": {
+    "path": "/private/tmp/freecad-ro1.VmcpuR/retained-cold/witness.FCStd",
+    "sha256": "3fbdab622663b2877e86c1080df9bcf50b7dfb3252619dc6aeb07d1f7153b23b"
+  },
+  "checkpoints": [
+    {
+      "name": "cold_native_inputs_observed_before_manual_recompute",
+      "seconds": 5.799,
+      "group_count": 4209
+    },
+    {
+      "name": "phase_bytecopy_XML_unique_native_history_bindings_verified",
+      "seconds": 5.927,
+      "selected_faces": 25
+    },
+    {
+      "name": "independent_native_tetra_incidence_oracle_complete",
+      "seconds": 10.005,
+      "selected_faces": 25
+    },
+    {
+      "name": "isolated_ordinary_writer_analysis_verified",
+      "seconds": 10.243,
+      "member_count": 29
+    },
+    {
+      "name": "writer_only_prerequisites_observed_no_supports_or_loads_added",
+      "seconds": 10.251
+    },
+    {
+      "name": "all_48_stock_written_surfaces_match_independent_native_oracle",
+      "seconds": 41.431
+    },
+    {
+      "name": "private_witness_saved_physical_inputs_unchanged_expected_private_group_partition_retained",
+      "seconds": 56.586
+    }
+  ],
+  "actual_C3D4_wire_convention_proof": {
+    "actual_wire_type": "C3D4",
+    "actual_wire_volume_count": 784939,
+    "actual_wire_connectivity_sha256": "f92ac9482460ac6ce65bc0d49b80b4bf44855291def72e0f7f3f3feb8da8bd26",
+    "native_to_wire_node_positions_0based": [
+      1,
+      0,
+      2,
+      3
+    ],
+    "permutation_verified_for_every_actual_wire_volume": true,
+    "CCX_S1_to_S4_node_positions_0based": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        3,
+        1
+      ],
+      [
+        1,
+        3,
+        2
+      ],
+      [
+        2,
+        3,
+        0
+      ]
+    ],
+    "selected_wire_volume_count": 30996
+  },
+  "selected_native_faces": 25,
+  "written_side_count": 48,
+  "tie_card_count": 24,
+  "all_incidence_checks_pass": true,
+  "all_actual_wire_patch_checks_pass": true,
+  "original_constraint_count": 267,
+  "native_mesh": {
+    "nodes": 257444,
+    "volumes": 784939,
+    "group_count": 4209,
+    "owner_cohort_count": 50,
+    "initial_final_exact_match": true
+  },
+  "private_partition": {
+    "transferred_objects": [
+      "CollectorConcreteMaterial",
+      "CollectorTimberMaterial",
+      "CollectorSteelMaterial",
+      "CollectorMesh"
+    ],
+    "transfer_performed": false,
+    "original_before_count": 273,
+    "original_after_count": 269,
+    "private_original_analysis_not_qualified_for_solving": true
+  },
+  "schema": "FreeCAD.ro1.public-safe-retained-writer-summary.v1",
+  "preservation": "Selected summary only: original geometry, numerical IDs, face triangles and constraint property values are deliberately not published.",
+  "private_original_report": "/private/tmp/freecad-ro1.VmcpuR/retained-cold/report.json",
+  "private_original_report_sha256": "a3e61e466d993604557f38b8f2c6fa3f776453a0457fd13b47fc9d1317bfbb28",
+  "original_contact_definitions_verified": 193,
+  "official_CalculiX_face_convention": "https://www.dhondt.de/ccx_2.23.pdf#page=394"
+}

@@ -1,0 +1,252 @@
+{
+  "schema": "FreeCAD.ro1.evidence-index.v1",
+  "issue": "FreeCAD-ro1",
+  "source_commit": "66d2d4cd5405cd8c57ff9e0530329b3b41199aac",
+  "compiled_revision": "49261 +215 (Git)",
+  "scope": "Only software gate evidence, the synthetic two-box reproduction and selected retained writer summaries. No original-project CAD files, UNV meshes, complete engineering decks, coordinates, responses or constraint-property datasets are included.",
+  "original_private_evidence": "/private/tmp/freecad-ro1.VmcpuR",
+  "preservation": "Complete build/CTest/FEM/GUI logs and selected execution receipts are preserved exactly. Retained reports are deliberately summarized, with original private report hash references. No failed evidence is rewritten.",
+  "historical_supervisors": "The two executed build/CTest supervisor sources were mechanically reconstructed by undoing documented private harness edits; hashes exactly match their original receipt before/after hashes. Corrected parser source is separately archived.",
+  "CTest_limit": "Dotted-directory failures remain failures and are tracked in open FreeCAD-8rk. Dot-free raw exit0 is validated by a separate post-hoc audit; original parser-failed execution receipt remains false.",
+  "stale_log": "logs/stale-LastTestsFailed.log is unchanged evidence from earlier failed dotted runs, not a current failure list; the fresh complete detailed log and raw terminal/per-test rows establish the dot-free result.",
+  "files": [
+    {
+      "path": "logs/build.log",
+      "sha256": "701629fe249513823f5beeab1862bd14cf1571e65ba54303aeb8f69c5e7a6b16",
+      "bytes": 6036,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/ctest-detailed.log",
+      "sha256": "f050bbdc9511ca3032a4b9bc3cb7046d298326a9f9cd5b4029959db1a9884195",
+      "bytes": 3600358,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/ctest-dot-free.log",
+      "sha256": "8e07ee64b6b07eccee31b49ddf467255beef3855dc62551ea8bc8ea1509d6dd0",
+      "bytes": 466364,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/ctest-dotted-failed-1.log",
+      "sha256": "44eaa3a8bdf6847e6b06f167e048d02bde2adcb727486514e07a7cd5a15e184e",
+      "bytes": 467327,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/ctest-dotted-failed-2.log",
+      "sha256": "6915bd77204cb0424a04844b5fd056c2521ff07549e8710f42500ddd38f2d041",
+      "bytes": 467327,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/fem-app.log",
+      "sha256": "d4a558bb6634e7c65d5d53e32de9766326b3947f1ad1a3a40005832583ae746a",
+      "bytes": 690671,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/fem-gui.log",
+      "sha256": "ffea0397f778249f7dc93c49a587ffc064828ef7a8926cabb95c779985f7f2f2",
+      "bytes": 3163,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "logs/stale-LastTestsFailed.log",
+      "sha256": "8a674ff7022f06b568bb500bdfe14e7d30ed8aeea64a60e9ad787408b656733d",
+      "bytes": 50,
+      "category": "complete_generic_software_gate_log",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/build.json",
+      "sha256": "f2e299fe768df3d0e50e7849e85bb741ebd695209ff04b27d93fcfd15394d493",
+      "bytes": 15016,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/ctest-dot-free-audit.json",
+      "sha256": "b7e27754cc9b9d22df590cb31867fdfa1b599e1f4a4167f44e2091ba92d270ae",
+      "bytes": 11082,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/ctest-dot-free-original-parser-failure.json",
+      "sha256": "9ade8c519c304dc76594f3b1ed1012ea450f05308ff94ff9394f6d6ab67e7d35",
+      "bytes": 11401,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/ctest-dotted-failed-1.json",
+      "sha256": "f80b925f57ee000d7b62bd2f00ae7c50fc18a3ae3afe6e74d9492fb2e98d72ad",
+      "bytes": 11226,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/ctest-dotted-failed-2.json",
+      "sha256": "c13bb40e26825e34823cd87f2da4e56daab6574a06b124b4ca7edefbc3c98c2b",
+      "bytes": 11230,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/fem-app-identity.json",
+      "sha256": "b7c2f4cd1a341093cae1db02530c81334f1c4b043d60fcbe69ec60a1c8e7d8c6",
+      "bytes": 56447,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/fem-app.json",
+      "sha256": "0ab959385e2862dd91aa723de8c8ee0f43560dd96c467bce91dcab09d35c398e",
+      "bytes": 11547,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/fem-gui-identity.json",
+      "sha256": "d1b14f8f5779f0376162dd7eab7f22ed91fef08315bc566e0b11661a79e35332",
+      "bytes": 7792,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/fem-gui.json",
+      "sha256": "6094af4a114ffe723933fdafaffbe912a44db9a81a1e37877b449c0a299fa4be",
+      "bytes": 12072,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/retained-cold.json",
+      "sha256": "012253c40030d3012b49b5a16624f39330aa51fd9352f4491ba950f1b33db871",
+      "bytes": 10135,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "receipts/retained-create.json",
+      "sha256": "7c6f6a358e89e6c48f1b9af1a5d597de6f9e7a3eaf027a091a972852bbaad06f",
+      "bytes": 9846,
+      "category": "software_execution_or_identity_receipt",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "reproduction/MinimalTieOwnership.py",
+      "sha256": "88777c0a01c6d789cf6e9de39b90716325c88e6231ec7043406bf68a589e598a",
+      "bytes": 5297,
+      "category": "synthetic_two_box_reproduction",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "reproduction/execution.json",
+      "sha256": "2badad4a6edf00d23fb8493dd28d43f0584b3de75b49da892d6dfabc8d7354b6",
+      "bytes": 554,
+      "category": "synthetic_two_box_reproduction",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "reproduction/red.log",
+      "sha256": "79ac20d066116df33286aec856a052d73ffb64f679b8339e065db63b0de1d695",
+      "bytes": 4369,
+      "category": "synthetic_two_box_reproduction",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "reproduction/report.json",
+      "sha256": "6c9eec5369f2a33c59a6ada33382fb1d31711c2867f64bb1b42282d5ab602746",
+      "bytes": 3937,
+      "category": "synthetic_two_box_reproduction",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "reproduction/run_minimal.py",
+      "sha256": "5fe0bb0281d9290b0748d7c57b2fd42ff1f9c43b1b1d9e163c6d47c4a6c7a15d",
+      "bytes": 2382,
+      "category": "synthetic_two_box_reproduction",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "retained-cold-summary.json",
+      "sha256": "01e6ff4ff04ff3a9b63d9c9c441d8ef77a56f08b51154e0401042d060791e568",
+      "bytes": 3832,
+      "category": "selected_project_summary_no_geometry_or_node_ids",
+      "preservation": "selected_summary"
+    },
+    {
+      "path": "retained-create-summary.json",
+      "sha256": "a57c98b471eff40e75af54c9009b9506f3146cc35d096503ba8bb02f28df19c3",
+      "bytes": 3844,
+      "category": "selected_project_summary_no_geometry_or_node_ids",
+      "preservation": "selected_summary"
+    },
+    {
+      "path": "supervisors/RetainedRearTieWitness.py",
+      "sha256": "c81f7c7945419468c1222b82d54fcc7f6ac9b42efcef123cdf3f95a671412a49",
+      "bytes": 37793,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "supervisors/SourceNativeIdentity.py",
+      "sha256": "0a21d29135eff7913cabb2af5a3fe06bf6ee88f828adaf5122c0e3839ebee84b",
+      "bytes": 7277,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "supervisors/audit_ctest.py",
+      "sha256": "f896bc9745d0af94806cd3ed1d7ecd84ddb82ac3cc1822e9af5f48e5ad639548",
+      "bytes": 11356,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "supervisors/run_build_gate.build-executed.py",
+      "sha256": "c0e2ab4e5f14cacb83ecb13b555b1a050443854c59bd66a088ea353b1f438cfd",
+      "bytes": 13260,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "hash_verified_exact_historical_reconstruction"
+    },
+    {
+      "path": "supervisors/run_build_gate.corrected.py",
+      "sha256": "b62e8aa2e1db5a46807fe6f3df49b1aa52e9475d16f2e1ea7f7f2eeb4b7451a4",
+      "bytes": 14138,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "supervisors/run_build_gate.ctest-dot-free-executed.py",
+      "sha256": "22018b2d7ffca9b7c2aa8991900bbe4570321ff2b329a45a1bc393066e9feb97",
+      "bytes": 14103,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "hash_verified_exact_historical_reconstruction"
+    },
+    {
+      "path": "supervisors/run_retained.py",
+      "sha256": "574c918345040fb332f5dc17a50ef63c544fb90505cbb5a5b3f6703548f601ee",
+      "bytes": 11503,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "byte_exact_copy"
+    },
+    {
+      "path": "supervisors/run_source_tests.py",
+      "sha256": "4a5d70eeadc04d6ac6c0638077ca6e47033964e07e4d817ed46e90c8f6ddad3a",
+      "bytes": 10611,
+      "category": "archived_observer_or_supervisor_source",
+      "preservation": "byte_exact_copy"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+test_stock_tie_writer_preserves_two_independent_coincident_faces (MinimalTieOwnership.MinimalTieOwnership.test_stock_tie_writer_preserves_two_independent_coincident_faces) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +213 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-ro1.VmcpuR/red-minimal-3/Compound_Geometry.brep
+  /private/tmp/freecad-ro1.VmcpuR/red-minimal-3/Compound_Mesh.vtk
+  /private/tmp/freecad-ro1.VmcpuR/red-minimal-3/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+FAIL
+
+======================================================================
+FAIL: test_stock_tie_writer_preserves_two_independent_coincident_faces (MinimalTieOwnership.MinimalTieOwnership.test_stock_tie_writer_preserves_two_independent_coincident_faces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-ro1.VmcpuR/MinimalTieOwnership.py", line 98, in test_stock_tie_writer_preserves_two_independent_coincident_faces
+    self.assertEqual(len(surfaces[name]), len(groups[face]), report["sides"])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 32 != 16 : {'TIE_DEPTie': {'facets': [[276, 4], [284, 1], [287, 2], [289, 3], [339, 1], [340, 1], [341, 1], [342, 1], [368, 3], [369, 3], [372, 4], [373, 2], [375, 3], [376, 4], [378, 3], [379, 4], [410, 2], [411, 1], [413, 3], [414, 2], [464, 1], [465, 1], [466, 1], [467, 1], [490, 3], [493, 2], [494, 2], [495, 1], [497, 2], [498, 2], [499, 4], [501, 1]], 'count': 32, 'owners': {'Solid1': 16, 'Solid2': 16}}, 'TIE_INDTie': {'facets': [[276, 4], [284, 1], [287, 2], [289, 3], [339, 1], [340, 1], [341, 1], [342, 1], [368, 3], [369, 3], [372, 4], [373, 2], [375, 3], [376, 4], [378, 3], [379, 4], [410, 2], [411, 1], [413, 3], [414, 2], [464, 1], [465, 1], [466, 1], [467, 1], [490, 3], [493, 2], [494, 2], [495, 1], [497, 2], [498, 2], [499, 4], [501, 1]], 'count': 32, 'owners': {'Solid1': 16, 'Solid2': 16}}}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.321s
+
+FAILED (failures=1)
+
+Get mesh data for constraints, materials and element geometry...
+Tie:
+    Type: Fem::ConstraintTie, Name: Tie
+    ReferenceShape ... Type: Face, Object name: First, Object label: First, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Second, Object label: Second, Element name: Face1
+Getting mesh data time: 0.014 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-ro1.VmcpuR/red-minimal-3/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.

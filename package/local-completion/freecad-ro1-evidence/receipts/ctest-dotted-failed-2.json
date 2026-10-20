@@ -1,0 +1,141 @@
+{
+  "passed": false,
+  "mode": "ctest",
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "ctest",
+    "--test-dir",
+    "build/release",
+    "--output-on-failure",
+    "--parallel",
+    "8",
+    "--timeout",
+    "60"
+  ],
+  "cwd": "/Users/zukomgwili/src/FreeCAD",
+  "timeout_seconds": 600,
+  "timed_out": false,
+  "source_before": {
+    "git_head": "66d2d4cd5405cd8c57ff9e0530329b3b41199aac",
+    "files": {
+      "/private/tmp/freecad-ro1.VmcpuR/run_build_gate.py": "c0e2ab4e5f14cacb83ecb13b555b1a050443854c59bd66a088ea353b1f438cfd",
+      "/Users/zukomgwili/src/FreeCAD/CMakeLists.txt": "f61a9379d94a097eacc74990e94d07407881d02731c8cc077f00ac71382b743e",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/CMakeLists.txt": "61197fd7b9cb98f89e0556f817325571a53e93ccb670502771ebde9cc3cef424",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/ObjectsFem.py": "aee0efa9cfcd5ce0ba3cfa99aaa648ba7486e4c8980998296f62629810cf23e5",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/TestFemApp.py": "a0ce21e514515b37d05e32ec0b4d90090ec4c747dd13654b99be5303a5c26ae4",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/TestFemGui.py": "25cc8a6d15e4944cb2f2457c8af7363de367a7d3083fc83dc515d8be298583eb",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshsetsgetter.py": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshtools.py": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/ownership_context.py": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/calculixutils.py": "f25812afc5b6c6dcaf980de1a0e04c8d22e42358dc4e259df356b0516db6d3d0",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/writer.py": "c3b06417d5156744f36405d75aa9ff32e6b523da4308dbc6430fe15f4d5f80ed",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/writerbase.py": "0a564e0a9fb00aec273abca83cbb1c097a9f1132883c1097b15eef83bcb7ea5d",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_constraint_tie.py": "283fdd393554f682e532deb55ed1d5cf767b14fdd62396ac5c2e5edf91d557db",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_constraint_contact.py": "4761b1b2dd30b39ff0b55ced1670f366cc267fc3aa06ed507b5ba5b7be4da4df",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/ccxtools.py": "195b34aa23aa2c7dab37dcac450a74ddd34944abfb3109d09ef5b0fbc4a67244",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/femutils.py": "f81c4f0a5c87c3ac1af703360c56f066b83bad4974edd44a556671855091a0fa",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/membertools.py": "4c7406d8f089d7fcc22731064e59dfe0a49cd9e8cffa75e6b92a3e53c9658f0c",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_tie_ownership.py": "23312c4e75872875c1e1b9f7b207d459ec97a8075f4608965031805cd2deda69",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_contact_ownership.py": "eb59a980df1bc25a7b2ba22a75f2b975c6dd8235ec22e8e03f97e06dc01c4ce1",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_rigid_region_ownership.py": "ac4fd75cc53f98dc2c1defe17c4a02dcb630f34f8325ede54ee7e7022bebd289"
+    }
+  },
+  "build_before": {
+    "files": {
+      "/Users/zukomgwili/src/FreeCAD/build/release/src/Build/Version.h": "6b76a87f135d3bf93ca05d6d514dda792c518a3cc136edb1b14b7f18fa3f3a4a",
+      "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCADCmd": "5b5f2cdb3818fefdf4dc2876373de9f4b618e3d977c5282d3ea8826bf677ab42",
+      "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCAD": "79da5d7f3059ef98407806d3dafe8b0b36bd4c50c04d80504ddf97e4cc6137a2",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/Fem.so": "1c3fe10c9b73eb1576dae5108a4e8c0fa62dd2371317b60c12bff73dd0947e3d",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/FemGui.so": "8fedc42adc1af198af7ecee9f27b7e40d03850c0cb14f3af98840aa7f370b232",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/ObjectsFem.py": "aee0efa9cfcd5ce0ba3cfa99aaa648ba7486e4c8980998296f62629810cf23e5",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/TestFemApp.py": "a0ce21e514515b37d05e32ec0b4d90090ec4c747dd13654b99be5303a5c26ae4",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/TestFemGui.py": "25cc8a6d15e4944cb2f2457c8af7363de367a7d3083fc83dc515d8be298583eb",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshsetsgetter.py": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshtools.py": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/ownership_context.py": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/calculixutils.py": "f25812afc5b6c6dcaf980de1a0e04c8d22e42358dc4e259df356b0516db6d3d0",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/writer.py": "c3b06417d5156744f36405d75aa9ff32e6b523da4308dbc6430fe15f4d5f80ed",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/writerbase.py": "0a564e0a9fb00aec273abca83cbb1c097a9f1132883c1097b15eef83bcb7ea5d",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/write_constraint_tie.py": "283fdd393554f682e532deb55ed1d5cf767b14fdd62396ac5c2e5edf91d557db",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/write_constraint_contact.py": "4761b1b2dd30b39ff0b55ced1670f366cc267fc3aa06ed507b5ba5b7be4da4df",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py": "195b34aa23aa2c7dab37dcac450a74ddd34944abfb3109d09ef5b0fbc4a67244",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/femutils.py": "f81c4f0a5c87c3ac1af703360c56f066b83bad4974edd44a556671855091a0fa",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/membertools.py": "4c7406d8f089d7fcc22731064e59dfe0a49cd9e8cffa75e6b92a3e53c9658f0c",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_tie_ownership.py": "23312c4e75872875c1e1b9f7b207d459ec97a8075f4608965031805cd2deda69",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_contact_ownership.py": "eb59a980df1bc25a7b2ba22a75f2b975c6dd8235ec22e8e03f97e06dc01c4ce1",
+      "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_rigid_region_ownership.py": "ac4fd75cc53f98dc2c1defe17c4a02dcb630f34f8325ede54ee7e7022bebd289"
+    },
+    "version_header": {
+      "FCVersionMajor": "27",
+      "FCVersionMinor": "1",
+      "FCVersionName": "",
+      "FCVersionPoint": "0",
+      "FCVersionSuffix": "dev",
+      "FCRevision": "49261 +215 (Git)",
+      "FCRevisionDate": "2026/10/20 07:22:28",
+      "FCRepositoryURL": "Unknown",
+      "FCRepositoryHash": "66d2d4cd5405cd8c57ff9e0530329b3b41199aac",
+      "FCRepositoryBranch": "codex/fix-toroidal-self-cut"
+    }
+  },
+  "prior_ctest_logs": {
+    "LastTest.log": {
+      "exists": true,
+      "sha256": "2bb8981f906e5e8956744f7655e7fb3d43998866da1e0e9a20da3f440a637b75",
+      "bytes": 3600674,
+      "mtime_ns": 1792481061075513278,
+      "inode": 236688590
+    },
+    "LastTestsFailed.log": {
+      "exists": true,
+      "sha256": "8a674ff7022f06b568bb500bdfe14e7d30ed8aeea64a60e9ad787408b656733d",
+      "bytes": 50,
+      "mtime_ns": 1792481061074127654,
+      "inode": 236692070
+    },
+    "LastTestsDisabled.log": {
+      "exists": true,
+      "sha256": "43f884c357fdd7a26520a2fa3adc0a387ebed7efc87848213558d66eee38368d",
+      "bytes": 496,
+      "mtime_ns": 1792481061073806571,
+      "inode": 236692069
+    }
+  },
+  "log": "/private/tmp/freecad-ro1.VmcpuR/committed-ctest-r02/run.log",
+  "installation_performed": false,
+  "pid": 45416,
+  "exit_code": 8,
+  "error": "RuntimeError('Gate exited 8')",
+  "process_reaped": true,
+  "owned_group_gone": true,
+  "source_after": {
+    "git_head": "66d2d4cd5405cd8c57ff9e0530329b3b41199aac",
+    "files": {
+      "/private/tmp/freecad-ro1.VmcpuR/run_build_gate.py": "c0e2ab4e5f14cacb83ecb13b555b1a050443854c59bd66a088ea353b1f438cfd",
+      "/Users/zukomgwili/src/FreeCAD/CMakeLists.txt": "f61a9379d94a097eacc74990e94d07407881d02731c8cc077f00ac71382b743e",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/CMakeLists.txt": "61197fd7b9cb98f89e0556f817325571a53e93ccb670502771ebde9cc3cef424",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/ObjectsFem.py": "aee0efa9cfcd5ce0ba3cfa99aaa648ba7486e4c8980998296f62629810cf23e5",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/TestFemApp.py": "a0ce21e514515b37d05e32ec0b4d90090ec4c747dd13654b99be5303a5c26ae4",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/TestFemGui.py": "25cc8a6d15e4944cb2f2457c8af7363de367a7d3083fc83dc515d8be298583eb",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshsetsgetter.py": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshtools.py": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/ownership_context.py": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/calculixutils.py": "f25812afc5b6c6dcaf980de1a0e04c8d22e42358dc4e259df356b0516db6d3d0",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/writer.py": "c3b06417d5156744f36405d75aa9ff32e6b523da4308dbc6430fe15f4d5f80ed",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/writerbase.py": "0a564e0a9fb00aec273abca83cbb1c097a9f1132883c1097b15eef83bcb7ea5d",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_constraint_tie.py": "283fdd393554f682e532deb55ed1d5cf767b14fdd62396ac5c2e5edf91d557db",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_constraint_contact.py": "4761b1b2dd30b39ff0b55ced1670f366cc267fc3aa06ed507b5ba5b7be4da4df",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/ccxtools.py": "195b34aa23aa2c7dab37dcac450a74ddd34944abfb3109d09ef5b0fbc4a67244",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/femutils.py": "f81c4f0a5c87c3ac1af703360c56f066b83bad4974edd44a556671855091a0fa",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/membertools.py": "4c7406d8f089d7fcc22731064e59dfe0a49cd9e8cffa75e6b92a3e53c9658f0c",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_tie_ownership.py": "23312c4e75872875c1e1b9f7b207d459ec97a8075f4608965031805cd2deda69",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_contact_ownership.py": "eb59a980df1bc25a7b2ba22a75f2b975c6dd8235ec22e8e03f97e06dc01c4ce1",
+      "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_rigid_region_ownership.py": "ac4fd75cc53f98dc2c1defe17c4a02dcb630f34f8325ede54ee7e7022bebd289"
+    }
+  },
+  "source_and_supervisor_unchanged": true,
+  "elapsed_seconds": 66.674,
+  "log_sha256": "6915bd77204cb0424a04844b5fd056c2521ff07549e8710f42500ddd38f2d041"
+}
