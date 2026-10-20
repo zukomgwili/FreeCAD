@@ -170,7 +170,14 @@ def main():
     receipt = {
         "installed": False,
         "channel": (
-            "CCX_FORCE_ACCOUNTING_V1" if args.extra_source else "experimental 9zt probe"
+            subprocess.check_output(
+                [str(binary), "--freecad-force-accounting-version"],
+                env=environment,
+                text=True,
+                timeout=10,
+            ).strip()
+            if args.extra_source
+            else "experimental 9zt probe"
         ),
         "baseline": args.baseline,
         "source_sha256": SOURCE_SHA256,

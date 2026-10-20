@@ -26,13 +26,13 @@ endif()
 add_subdirectory(App)
 
 # Optional locally qualified native extension, never a silent replacement of ccx.
-set(FREECAD_NATIVE_CCX_ACCOUNTING "" CACHE FILEPATH "Qualified CalculiX force-accounting V1 executable")
+set(FREECAD_NATIVE_CCX_ACCOUNTING "" CACHE FILEPATH "Qualified CalculiX force-accounting V2 executable")
 if(FREECAD_NATIVE_CCX_ACCOUNTING)
     execute_process(COMMAND "${FREECAD_NATIVE_CCX_ACCOUNTING}" --freecad-force-accounting-version
         OUTPUT_VARIABLE _ccx_accounting_capability OUTPUT_STRIP_TRAILING_WHITESPACE
         RESULT_VARIABLE _ccx_accounting_status TIMEOUT 10)
-    if(NOT _ccx_accounting_status EQUAL 0 OR NOT _ccx_accounting_capability STREQUAL "CCX_FORCE_ACCOUNTING_V1")
-        message(FATAL_ERROR "FREECAD_NATIVE_CCX_ACCOUNTING does not provide the required V1 interface")
+    if(NOT _ccx_accounting_status EQUAL 0 OR NOT _ccx_accounting_capability STREQUAL "CCX_FORCE_ACCOUNTING_V2")
+        message(FATAL_ERROR "FREECAD_NATIVE_CCX_ACCOUNTING does not provide the required V2 interface")
     endif()
     file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/data/NativeSolvers")
     configure_file("${FREECAD_NATIVE_CCX_ACCOUNTING}"
@@ -443,6 +443,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_rigid_body_preflight.py
     femtest/app/test_contact_ownership.py
     femtest/app/test_tie_ownership.py
+    femtest/app/test_tie_accounting_native.py
     femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
     femtest/app/test_solver_mystran.py

@@ -150,6 +150,17 @@ class TestContactObservationGui(unittest.TestCase):
         self.assertEqual(list(result.Contacts), self.contacts)
         self.assertFalse(result.Status.startswith("Available"))
 
+    def test_selected_native_tie_and_contact_preserve_exact_interface_order(self):
+        import ObjectsFem
+
+        tie = ObjectsFem.makeConstraintTie(self.document, "OrdinaryTie")
+        self.analysis.addObject(tie)
+        result = self.create_from_selection([self.source, tie, self.contacts[0]])
+        self.assertEqual(list(result.Contacts), [tie, self.contacts[0]])
+        self.assertEqual(result.AccountingResult, self.source)
+        self.assertEqual(result.Analysis, self.analysis)
+        self.assertFalse(result.Status.startswith("Available"))
+
     def test_context_refresh_and_cold_restore_keep_unavailable_history_explicit(self):
         from PySide import QtWidgets
 

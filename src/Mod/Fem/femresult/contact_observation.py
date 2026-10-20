@@ -8,7 +8,6 @@ original node is absent. Values are reference-state global XYZ in millimetres.
 """
 
 import hashlib
-import json
 import math
 import sys
 from types import SimpleNamespace
@@ -17,9 +16,44 @@ import Fem
 
 from femmesh import meshtools
 from femmesh.ownership_context import _OwnershipContext
+from femtools.femutils import is_of_type
 
 
 SCHEMA = "FreeCAD.CONTACT_SIDE_OBSERVATION_V1"
+_INTERFACE_SCHEMA = "FreeCAD.INTERFACE_SIDE_OBSERVATION_V2"
+
+
+def _constraint_kind(constraint):
+    if constraint.isDerivedFrom("Fem::ConstraintContact"):
+        return "Contact"
+    if is_of_type(constraint, "Fem::ConstraintTie"):
+        if constraint.Adjust or constraint.CyclicSymmetry:
+            raise ValueError(
+                f"{constraint.Name}: ordinary Tie observations require ADJUST=NO "
+                "without cyclic symmetry"
+            )
+        return "Tie"
+    raise ValueError("Select native contacts or ordinary Ties in this analysis")
+
+
+def _references(constraint):
+    """Preserve native slave/master order despite LinkSubList coalescing.
+
+    Native References may store two successive faces on one owner in a single
+    entry. Flatten only that stored order; never sort, deduplicate or merge
+    ownership, and never infer an absent side from coincident geometry.
+    """
+    refs = []
+    for owner, names in constraint.References:
+        if owner is None or owner.Document != constraint.Document or not names:
+            raise ValueError(f"{constraint.Name}: select one independent face per side")
+        for name in names:
+            if not name:
+                raise ValueError(f"{constraint.Name}: select one independent face per side")
+            refs.append((owner, (name,)))
+    if len(refs) != 2:
+        raise ValueError(f"{constraint.Name}: select one independent face per side")
+    return refs
 
 
 def definition(obj):
@@ -37,24 +71,20 @@ def definition(obj):
     contacts = list(obj.Contacts)
     if len(set(contacts)) != len(contacts):
         raise ValueError("Duplicate contact selection")
+    kinds = [_constraint_kind(contact) for contact in contacts]
+    has_tie = "Tie" in kinds
     rows = []
-    for contact in contacts:
-        if not contact.isDerivedFrom("Fem::ConstraintContact") or contact not in analysis.Group:
-            raise ValueError("Select native contacts in this analysis")
-        refs = list(contact.References)
-        if len(refs) != 2 or any(
-            owner is None or owner.Document != doc or len(names) != 1 or not names[0]
-            for owner, names in refs
-        ):
-            raise ValueError(f"{contact.Name}: select one independent face per side")
-        rows.append(
-            {
-                "contact": contact.Name,
-                "references_slave_then_master": [
-                    [owner.Name, list(names)] for owner, names in refs
-                ],
-            }
-        )
+    for contact, kind in zip(contacts, kinds):
+        if contact not in analysis.Group:
+            raise ValueError("Select native contacts or ordinary Ties in this analysis")
+        refs = _references(contact)
+        row = {
+            "contact": contact.Name,
+            "references_slave_then_master": [[owner.Name, list(names)] for owner, names in refs],
+        }
+        if has_tie:
+            row["constraint_kind"] = kind
+        rows.append(row)
     return {
         "analysis": analysis.Name,
         "mesh": mesh.Name,
@@ -75,13 +105,9 @@ def _resolve_point(contact, point_side, slave_vertex=1, master_vertex=1):
     """
     if point_side not in ("Slave", "Master"):
         raise ValueError("Select the existing Slave or Master query vertex")
-    refs = list(contact.References)
-    if len(refs) != 2 or any(
-        owner is None or len(names) != 1 or not names[0] for owner, names in refs
-    ):
-        raise ValueError("Select one independent native contact face per side")
+    refs = _references(contact)
     faces = [meshtools.sub_shape_at_global_placement(owner, names[0]) for owner, names in refs]
-    if any(face.ShapeType != "Face" for face in faces):
+    if any(face is None or face.isNull() or face.ShapeType != "Face" for face in faces):
         raise ValueError(f"{contact.Name}: contact references must resolve to native faces")
     index = 0 if point_side == "Slave" else 1
     ordinal = slave_vertex if index == 0 else master_vertex
@@ -235,7 +261,7 @@ def observe(obj):
         faces, vertex = _resolve_point(
             contact, selected["point_side"], selected["slave_vertex"], selected["master_vertex"]
         )
-        prepared.append((contact, list(contact.References), faces, vertex))
+        prepared.append((contact, _references(contact), faces, vertex))
     field, source = load_source(obj.Analysis, obj.Mesh, obj.AccountingResult)
     native_mesh = obj.Mesh.FemMesh
     tables = SimpleNamespace(
@@ -246,7 +272,11 @@ def observe(obj):
     )
     context = _OwnershipContext(native_mesh, obj.Mesh, tables)
     report = {
-        "schema": SCHEMA,
+        "schema": (
+            _INTERFACE_SCHEMA
+            if any(row.get("constraint_kind") == "Tie" for row in selected["contacts"])
+            else SCHEMA
+        ),
         "units": "mm",
         "frame": "Global Cartesian; original reference geometry (not CDIS)",
         "definition": selected,
@@ -254,7 +284,7 @@ def observe(obj):
         "contacts": [],
         "engineering_acceptance": False,
     }
-    for contact, refs, faces, vertex in prepared:
+    for selected_row, (contact, refs, faces, vertex) in zip(selected["contacts"], prepared):
         row = {
             "contact": contact.Name,
             "point_mm": list(vertex.Point),
@@ -269,6 +299,8 @@ def observe(obj):
             "references_slave_then_master": [[owner.Name, list(names)] for owner, names in refs],
             "reference_frame": _frame(faces[0], vertex.Point),
         }
+        if "constraint_kind" in selected_row:
+            row["constraint_kind"] = selected_row["constraint_kind"]
         slave, slave_nodes = _side(context, obj.Mesh, refs[0], vertex, field)
         master, master_nodes = _side(context, obj.Mesh, refs[1], vertex, field)
         if slave_nodes.intersection(master_nodes):
@@ -301,9 +333,15 @@ def validate_observation(obj, report):
     """Revalidate external bytes and physical inputs on every qualified read."""
     from femresult.contact_observation_source import validate_source
 
-    if report.get("schema") != SCHEMA or report.get("status") != "AVAILABLE":
+    selected = definition(obj)
+    expected_schema = (
+        _INTERFACE_SCHEMA
+        if any(row.get("constraint_kind") == "Tie" for row in selected["contacts"])
+        else SCHEMA
+    )
+    if report.get("schema") != expected_schema or report.get("status") != "AVAILABLE":
         raise ValueError("Observation does not contain all requested available samples")
-    if report.get("definition") != definition(obj):
+    if report.get("definition") != selected:
         raise ValueError("Observation selection changed; refresh required")
     current = validate_source(obj.Analysis, obj.Mesh, obj.AccountingResult)
     if any(report.get("source", {}).get(key) != value for key, value in current.items()):

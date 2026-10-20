@@ -10,7 +10,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <math.h>
-_Static_assert(sizeof(ITG) == sizeof(int), "Force accounting V1 requires a 32-bit integer solver");
+_Static_assert(sizeof(ITG) == sizeof(int), "Force accounting requires a 32-bit integer solver");
 double* fa_nodal_loads = NULL;
 ITG FORTRAN(fa_collect_loads, ())
 {
@@ -34,9 +34,9 @@ typedef struct
 } Body;
 static struct
 {
-    int active, ns, nb;
-    ITG nk, ne, nfaces;
-    double *co, *loads, *contacts;
+    int active, version, ns, nb;
+    ITG nk, ne, nfaces, mpc_capacity;
+    double *co, *original_co, *loads, *contacts;
     ITG *ipkon, *kon;
     char* lakon;
     uint64_t *owners, *node_union, *node_intersection, *contact_owners;
@@ -48,7 +48,7 @@ static struct
 
 static void fail(const char* message)
 {
-    fprintf(stderr, "*ERROR CCX force accounting V1: %s\n", message);
+    fprintf(stderr, "*ERROR CCX force accounting V%d: %s\n", fa.version ? fa.version : 1, message);
     exit(201);
 }
 static void* allocate(size_t count, size_t size)
@@ -133,6 +133,42 @@ static void add_wrench(double* w, const double* position, const double* force)
     w[4] += position[2] * force[0] - position[0] * force[2];
     w[5] += position[0] * force[1] - position[1] * force[0];
 }
+static ITG mpc_term(ITG identifier)
+{
+    if (identifier < 1 || identifier > fa.mpc_capacity) {
+        fail("MPC term index is outside native storage");
+    }
+    return identifier - 1;
+}
+void fa_set_mpc_capacity(ITG capacity)
+{
+    if (!fa.active) {
+        return;
+    }
+    if (capacity < 0) {
+        fail("invalid native MPC storage capacity");
+    }
+    fa.mpc_capacity = capacity;
+}
+void fa_check_contact_domain(ITG ntie, char* tieset, double* tietol, ITG mortar)
+{
+    ITG i;
+    if (!fa.active) {
+        return;
+    }
+    if (fa.version == 1 && ntie && mortar != 1) {
+        fail("face-to-face penalty contact required");
+    }
+    for (i = 0; i < ntie; i++) {
+        if (tieset[243 * (size_t)i + 80] == 'C' && mortar != 1) {
+            fail("face-to-face penalty contact required");
+        }
+        if (fa.version == 2 && tieset[243 * (size_t)i + 80] == 'T' &&
+            tietol[4 * (size_t)i + 1] != -1.) {
+            fail("original-coordinate MPC accounting requires ordinary Tie ADJUST=NO");
+        }
+    }
+}
 static ITG parent(const ITG* nodes, ITG count)
 {
     Face key, *found;
@@ -190,13 +226,15 @@ void fa_prepare(
     ITG* nodeboun,
     ITG nmpc,
     ITG* ipompc,
-    ITG* nodempc
+    ITG* nodempc,
+    ITG mpc_capacity
 )
 {
     const char* path = getenv("CCX_FORCE_ACCOUNTING_REQUEST");
     FILE* input;
     char token[81];
-    ITG i, j, k, n, index;
+    ITG i, j, k, n, index, visited;
+    size_t coordinate;
     uint64_t bit;
     unsigned char* cut;
     static const int face_nodes[4][3] = {{0, 1, 2}, {0, 3, 1}, {1, 3, 2}, {2, 3, 0}};
@@ -211,6 +249,7 @@ void fa_prepare(
     }
     memset(&fa, 0, sizeof(fa));
     fa.active = 1;
+    fa_set_mpc_capacity(mpc_capacity);
     fa.nk = nk;
     fa.ne = ne;
     fa.co = co;
@@ -229,8 +268,27 @@ void fa_prepare(
     if (!input) {
         fail("cannot read request");
     }
-    if (fscanf(input, "%80s", token) != 1 || strcmp(token, "CCX_FORCE_ACCOUNTING_V1")) {
+    if (fscanf(input, "%80s", token) != 1) {
         fail("unsupported request schema");
+    }
+    if (!strcmp(token, "CCX_FORCE_ACCOUNTING_V1")) {
+        fa.version = 1;
+    }
+    else if (!strcmp(token, "CCX_FORCE_ACCOUNTING_V2")) {
+        fa.version = 2;
+    }
+    else {
+        fail("unsupported request schema");
+    }
+    if (fa.version == 2) {
+        fa.original_co = allocate(3 * (size_t)nk, sizeof(double));
+        for (coordinate = 0; coordinate < 3 * (size_t)nk; coordinate++) {
+            if (!isfinite(co[coordinate])) {
+                fail("nonfinite original reference coordinates");
+            }
+            fa.original_co[coordinate] = co[coordinate];
+        }
+        fa.co = fa.original_co;
     }
     for (;;) {
         if (fscanf(input, "%80s", token) != 1) {
@@ -365,12 +423,28 @@ void fa_prepare(
             }
         }
         for (j = 0; j < nmpc; j++) {
-            index = ipompc[j] - 1;
-            while (index >= 0) {
-                if (fa.node_union[nodempc[3 * index] - 1] & bit) {
-                    fail("cut body intersects an MPC");
+            index = mpc_term(ipompc[j]);
+            visited = 0;
+            for (;;) {
+                if (++visited > fa.mpc_capacity) {
+                    fail("cyclic native MPC term list");
                 }
-                index = nodempc[3 * index + 2] - 1;
+                k = nodempc[3 * index] - 1;
+                if (k < 0 || k >= nk) {
+                    fail("MPC node identity is outside native storage");
+                }
+                if (fa.node_union[k] & bit) {
+                    if (fa.version == 1) {
+                        fail("cut body intersects an MPC");
+                    }
+                    if (!(fa.node_intersection[k] & bit)) {
+                        fail("MPC intersects an ambiguously owned shared cut node");
+                    }
+                }
+                if (!nodempc[3 * index + 2]) {
+                    break;
+                }
+                index = mpc_term(nodempc[3 * index + 2]);
             }
         }
         free(cut);
@@ -430,13 +504,21 @@ void fa_pointloads(ITG count, ITG* nodes, ITG* directions, double* values)
 static ITG contact_capacity;
 void fa_begin_results(ITG ne, ITG* ipkon, ITG* kon, char* lakon, double* co)
 {
+    size_t coordinate;
     if (!fa.active) {
         return;
+    }
+    if (fa.version == 2) {
+        for (coordinate = 0; coordinate < 3 * (size_t)fa.nk; coordinate++) {
+            if (co[coordinate] != fa.original_co[coordinate]) {
+                fail("native reference coordinates changed after accounting preparation");
+            }
+        }
     }
     fa.ipkon = ipkon;
     fa.kon = kon;
     fa.lakon = lakon;
-    fa.co = co;
+    fa.co = fa.version == 2 ? fa.original_co : co;
     free(fa.contacts);
     free(fa.contact_owners);
     contact_capacity = ne;
@@ -468,6 +550,141 @@ void FORTRAN(fa_contact, (ITG * element, ITG* count, ITG* nodes, double* fnl, ch
         }
     }
 }
+static ITG* validate_mpcs(
+    ITG nk,
+    ITG mt,
+    ITG* nactdof,
+    ITG nmpc,
+    ITG* ipompc,
+    ITG* nodempc,
+    double* coef
+)
+{
+    unsigned char* terms;
+    ITG *dependent, *incoming, *order;
+    ITG i, j, index, node, dir, first, row, head = 0, tail = 0;
+    uint64_t bit;
+    size_t dof;
+    if (nmpc < 0 || nmpc > (INT_MAX - 1) / 2 || mt < 4) {
+        fail("unsupported native MPC or degree-of-freedom dimensions");
+    }
+    for (node = 0; node < nk; node++) {
+        if (!fa.node_union[node]) {
+            continue;
+        }
+        for (dir = 1; dir <= 3; dir++) {
+            index = nactdof[mt * (size_t)node + dir];
+            if (index < 0 && !(index % 2)) {
+                fail("cut body contains a prescribed degree of freedom at the output state");
+            }
+        }
+    }
+    dependent = allocate(3 * (size_t)nk, sizeof(ITG));
+    incoming = allocate(nmpc, sizeof(ITG));
+    order = allocate(nmpc, sizeof(ITG));
+    terms = allocate(fa.mpc_capacity, sizeof(unsigned char));
+    for (i = 0; i < nmpc; i++) {
+        index = mpc_term(ipompc[i]);
+        node = nodempc[3 * index] - 1;
+        dir = nodempc[3 * index + 1];
+        if (node < 0 || node >= nk || dir < 1 || dir > 3) {
+            fail("invalid native MPC dependent degree of freedom");
+        }
+        dof = 3 * (size_t)node + dir - 1;
+        if (dependent[dof] || nactdof[mt * (size_t)node + dir] != -2 * i - 1) {
+            fail("MPC dependent degrees of freedom are not uniquely active");
+        }
+        if (!isfinite(coef[index]) || coef[index] == 0.) {
+            fail("unsupported MPC dependent coefficient");
+        }
+        dependent[dof] = i + 1;
+    }
+    for (i = 0; i < nmpc; i++) {
+        index = mpc_term(ipompc[i]);
+        first = 1;
+        for (;;) {
+            if (terms[index]) {
+                fail("native MPC term lists overlap or contain a cycle");
+            }
+            terms[index] = 1;
+            node = nodempc[3 * index] - 1;
+            dir = nodempc[3 * index + 1];
+            if (node < 0 || node >= nk || dir < 1 || dir > 3 || !isfinite(coef[index])) {
+                fail("invalid native MPC term or coefficient");
+            }
+            dof = 3 * (size_t)node + dir - 1;
+            if (!first && nactdof[mt * (size_t)node + dir] < 0 &&
+                nactdof[mt * (size_t)node + dir] % 2 && !dependent[dof]) {
+                fail("native MPC dependent degree-of-freedom mapping is inconsistent");
+            }
+            if (!first && coef[index] != 0. && dependent[dof]) {
+                row = dependent[dof] - 1;
+                if (row == i) {
+                    fail("native MPC dependency graph contains a self-reference");
+                }
+                incoming[row]++;
+            }
+            for (j = 0; j < fa.nb; j++) {
+                bit = UINT64_C(1) << j;
+                if (!(fa.node_union[node] & bit)) {
+                    continue;
+                }
+                if (!(fa.node_intersection[node] & bit)) {
+                    fail("MPC intersects an ambiguously owned shared cut node");
+                }
+                if (nactdof[mt * (size_t)node + dir] < 0 &&
+                    !(nactdof[mt * (size_t)node + dir] % 2)) {
+                    fail("cut body contains an MPC-coupled prescribed degree of freedom");
+                }
+            }
+            first = 0;
+            if (!nodempc[3 * index + 2]) {
+                break;
+            }
+            index = mpc_term(nodempc[3 * index + 2]);
+        }
+    }
+    /* A row whose dependent DOF occurs in no other unresolved row can be
+     * eliminated first. This solves C_D^T lambda = r_D, including native
+     * Tie-to-RBE chains left undecascaded by the nonlinear contact path.
+     * Exact zero coefficients do not create graph edges or transfers.
+     */
+    for (i = 0; i < nmpc; i++) {
+        if (!incoming[i]) {
+            order[tail++] = i;
+        }
+    }
+    while (head < tail) {
+        i = order[head++];
+        index = mpc_term(ipompc[i]);
+        while (nodempc[3 * index + 2]) {
+            index = mpc_term(nodempc[3 * index + 2]);
+            node = nodempc[3 * index] - 1;
+            dir = nodempc[3 * index + 1];
+            dof = 3 * (size_t)node + dir - 1;
+            if (coef[index] != 0. && dependent[dof]) {
+                row = dependent[dof] - 1;
+                if (--incoming[row] == 0) {
+                    order[tail++] = row;
+                }
+            }
+        }
+    }
+    if (head != nmpc) {
+        fail("native MPC dependency graph contains a nonzero cycle");
+    }
+    free(terms);
+    free(dependent);
+    free(incoming);
+    return order;
+}
+static void add_mpc_force(double* vector, size_t index, double force)
+{
+    if (!isfinite(force) || !isfinite(vector[index] + force)) {
+        fail("nonfinite native MPC nodal contribution");
+    }
+    vector[index] += force;
+}
 void fa_emit(
     double* fn,
     double* external,
@@ -487,8 +704,8 @@ void fa_emit(
     const char* path = getenv("CCX_FORCE_ACCOUNTING_REQUEST");
     char* output;
     FILE* f;
-    double *residual, force, couple[3], w[6], load[6], contact[6];
-    ITG i, j, k, index, start, node, dir;
+    double *residual, *mpc = NULL, force, couple[3], w[6], load[6], contact[6], transfer[6];
+    ITG *order = NULL, i, j, k, index, start, node, dir, row;
     uint64_t bit;
     if (!fa.active) {
         return;
@@ -496,18 +713,41 @@ void fa_emit(
     if (!external || nk != fa.nk) {
         fail("native load vector or node identity unavailable");
     }
+    if (nk < 1 || mt < 4 || nk > INT_MAX / mt) {
+        fail("native nodal dimensions exceed the 32-bit accounting domain");
+    }
+    if (fa.version == 2) {
+        order = validate_mpcs(nk, mt, nactdof, nmpc, ipompc, nodempc, coef);
+        mpc = allocate((size_t)mt * nk, sizeof(double));
+    }
     residual = allocate((size_t)mt * nk, sizeof(double));
     for (i = 0; i < mt * nk; i++) {
         residual[i] = fn[i] - external[i];
+        if (fa.version == 2 && !isfinite(residual[i])) {
+            fail("nonfinite native physical nodal residual");
+        }
     }
+    /* V2 eliminates an acyclic native MPC graph in validated topological
+     * order; V1 retains the original support-projection order. Accumulate
+     * C^T lambda at its actual nodal locations, separately from the projected
+     * residual used for support reactions. This is the total nodal MPC
+     * contribution, not a per-Tie row force.
+     */
     for (i = 0; i < nmpc; i++) {
-        start = ipompc[i] - 1;
+        row = order ? order[i] : i;
+        start = ipompc[row] - 1;
         node = nodempc[3 * start] - 1;
         dir = nodempc[3 * start + 1];
         if (dir < 1 || dir > 3 || coef[start] == 0.) {
             fail("unsupported MPC degree of freedom or coefficient");
         }
         force = residual[mt * node + dir] / coef[start];
+        if (mpc) {
+            if (!isfinite(force)) {
+                fail("nonfinite native MPC multiplier");
+            }
+            add_mpc_force(mpc, mt * (size_t)node + dir, coef[start] * force);
+        }
         residual[mt * node + dir] = 0.;
         index = nodempc[3 * start + 2] - 1;
         while (index >= 0) {
@@ -517,6 +757,12 @@ void fa_emit(
                 fail("unsupported MPC independent degree of freedom");
             }
             residual[mt * node + dir] -= coef[index] * force;
+            if (mpc) {
+                if (!isfinite(residual[mt * node + dir])) {
+                    fail("nonfinite projected native nodal residual");
+                }
+                add_mpc_force(mpc, mt * (size_t)node + dir, coef[index] * force);
+            }
             index = nodempc[3 * index + 2] - 1;
         }
     }
@@ -526,7 +772,7 @@ void fa_emit(
     if (!f) {
         fail("cannot create output");
     }
-    fprintf(f, "CCX_FORCE_ACCOUNTING_V1\nSTATE %d %d %.17g\n", (int)step, (int)inc, time);
+    fprintf(f, "CCX_FORCE_ACCOUNTING_V%d\nSTATE %d %d %.17g\n", fa.version, (int)step, (int)inc, time);
     for (i = 0; i < fa.ns; i++) {
         Support* s = &fa.supports[i];
         memset(w, 0, sizeof(w));
@@ -554,6 +800,7 @@ void fa_emit(
         bit = UINT64_C(1) << i;
         memcpy(load, fa.points[i], sizeof(load));
         memset(contact, 0, sizeof(contact));
+        memset(transfer, 0, sizeof(transfer));
         for (j = 0; j < b->ne; j++) {
             for (k = 0; k < 6; k++) {
                 load[k] += fa.loads[6 * (b->elements[j] - 1) + k];
@@ -566,12 +813,22 @@ void fa_emit(
                 }
             }
         }
+        if (mpc) {
+            for (j = 0; j < nk; j++) {
+                if (fa.node_intersection[j] & fa.node_union[j] & bit) {
+                    add_wrench(transfer, &fa.co[3 * (size_t)j], &mpc[mt * (size_t)j + 1]);
+                }
+            }
+        }
         for (j = 0; j < 6; j++) {
-            w[j] = -load[j] - contact[j];
+            w[j] = -load[j] - contact[j] - transfer[j];
         }
         write_wrench(f, "CUT", b->name, w);
         write_wrench(f, "LOAD", b->name, load);
         write_wrench(f, "CONTACT", b->name, contact);
+        if (fa.version == 2) {
+            write_wrench(f, "MPC", b->name, transfer);
+        }
     }
     fprintf(f, "END\n");
     if (fclose(f)) {
@@ -579,4 +836,6 @@ void fa_emit(
     }
     free(output);
     free(residual);
+    free(mpc);
+    free(order);
 }

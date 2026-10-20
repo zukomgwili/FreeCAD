@@ -4,9 +4,10 @@
 The opt-in solver uses actual consistent element loads and contact nodal forces.
 Cut wrenches are equilibrium-derived on an explicitly owned free body. They are
 not SOF/SOM, and agreement with equilibrium is not stress/design acceptance.
-V1 supports one small-displacement static step, Tet4/Tet10, fully prescribed
-zero-motion RBE supports and face-to-face penalty contact. The solver rejects
-ambiguous cut interfaces, prescribed/MPC cut bodies and cut-node point loads.
+V2 adds the net native MPC action on each explicitly owned cut body, separately
+from LOAD and CONTACT. It is not a per-Tie multiplier or a projected RF value.
+The solver rejects prescribed body DOFs, shared-node MPC participation and
+cut-node point loads. V1 literal output remains readable, without an MPC channel.
 """
 
 import hashlib
@@ -29,7 +30,8 @@ from femtools.elastic_connector import rigid_body_nodes
 from femtools.native_properties import property_value
 
 
-SCHEMA = "CCX_FORCE_ACCOUNTING_V1"
+SCHEMA = "CCX_FORCE_ACCOUNTING_V2"
+LEGACY_SCHEMA = "CCX_FORCE_ACCOUNTING_V1"
 MOVEMENT_SOURCE_SCHEMA = "FREECAD_MOVEMENT_SOURCE_V1"
 _reports = {}
 _FACE_NODES = {
@@ -67,7 +69,7 @@ def require_capability(binary):
         raise ValueError("Qualified native force-accounting solver is unavailable.") from error
     if result.returncode != 0 or result.stdout.strip() != SCHEMA:
         raise ValueError(
-            "Solver does not implement native force accounting V1; "
+            "Solver does not implement native force accounting V2; "
             "select the qualified bundled solver or disable NativeForceAccounting."
         )
 
@@ -266,7 +268,7 @@ def _connectivity(path):
                 fields = text.upper().replace(" ", "").split(",")
                 kind = next((field[5:] for field in fields if field.startswith("TYPE=")), "")
                 if kind not in ("C3D4", "C3D10"):
-                    raise ValueError("Native force accounting V1 requires only C3D4/C3D10 volumes.")
+                    raise ValueError("Native force accounting requires only C3D4/C3D10 volumes.")
                 count = 4 if kind == "C3D4" else 10
         elif count:
             pending.extend(int(item.strip()) for item in text.split(",") if item.strip())
@@ -294,7 +296,7 @@ def prepare_request(writer):
         return
     if solver.AnalysisType != "static" or solver.GeometricalNonlinearity or solver.SplitInputWriter:
         raise ValueError(
-            "Native force accounting V1 requires an unsplit small-displacement static deck."
+            "Native force accounting requires an unsplit small-displacement static deck."
         )
     elements = _connectivity(writer.file_name)
     lines, expected = [SCHEMA], []
@@ -379,9 +381,14 @@ def prepare_request(writer):
     Path(str(path) + ".json").write_text(json.dumps(metadata, sort_keys=True))
 
 
-def parse_output(text, expected, end_time):
+def parse_output(text, expected, end_time, *, schema=None):
     lines = [line.split() for line in text.splitlines() if line.strip()]
-    if len(lines) < 4 or lines[0] != [SCHEMA] or lines[-1] != ["END"]:
+    if (
+        len(lines) < 4
+        or lines[0] not in ([SCHEMA], [LEGACY_SCHEMA])
+        or (schema is not None and lines[0] != [schema])
+        or lines[-1] != ["END"]
+    ):
         raise ValueError("Missing, incomplete or unsupported native accounting output.")
     state = lines[1]
     if (
@@ -392,7 +399,8 @@ def parse_output(text, expected, end_time):
         or not math.isclose(float(state[3]), end_time, rel_tol=1e-10, abs_tol=1e-12)
     ):
         raise ValueError("Native accounting output is not at the requested final state.")
-    result = {kind: {} for kind in ("SUPPORT", "CUT", "LOAD", "CONTACT")}
+    channels = ("LOAD", "CONTACT", "MPC") if lines[0] == [SCHEMA] else ("LOAD", "CONTACT")
+    result = {kind: {} for kind in ("SUPPORT", "CUT", *channels)}
     for row in lines[2:-1]:
         if len(row) != 8 or row[0] not in result or row[1] in result[row[0]]:
             raise ValueError("Invalid or duplicate native accounting row.")
@@ -404,16 +412,12 @@ def parse_output(text, expected, end_time):
     if actual != set(expected):
         raise ValueError("Native accounting output identities differ from the current request.")
     cuts = set(result["CUT"])
-    if set(result["LOAD"]) != cuts or set(result["CONTACT"]) != cuts:
-        raise ValueError("Native cut load/contact accounting is incomplete.")
+    if any(set(result[kind]) != cuts for kind in channels):
+        raise ValueError("Native cut load/contact/MPC accounting is incomplete.")
     for name in cuts:
-        for cut, load, contact in zip(
-            result["CUT"][name], result["LOAD"][name], result["CONTACT"][name]
-        ):
-            if abs(math.fsum((cut, load, contact))) > 1e-12 * max(
-                1, abs(cut), abs(load), abs(contact)
-            ):
-                raise ValueError("Native cut/load/contact channels are inconsistent.")
+        for terms in zip(result["CUT"][name], *(result[kind][name] for kind in channels)):
+            if abs(math.fsum(terms)) > 1e-12 * max(1, *(abs(value) for value in terms)):
+                raise ValueError("Native cut/load/contact/MPC channels are inconsistent.")
     return result
 
 
@@ -429,6 +433,8 @@ def run_context(fea, binary):
         raise ValueError(
             "Accounting request metadata is unavailable; rewrite the solver input."
         ) from error
+    if metadata.get("schema") != SCHEMA:
+        raise ValueError("Accounting contract changed; rewrite the solver deck and request.")
     if (
         metadata["deck_sha256"] != _sha(fea.inp_file_name)
         or metadata["request_sha256"] != _sha(path)
@@ -464,20 +470,38 @@ def import_result(fea, context):
             + ", ".join(mismatches)
             + "); native accounting is historical, not current."
         )
+    schema = metadata.get("schema", LEGACY_SCHEMA)
+    if schema not in (SCHEMA, LEGACY_SCHEMA):
+        raise ValueError("Unsupported native accounting request schema.")
     values = parse_output(
         output.read_text(),
         {tuple(item) for item in metadata["expected"]},
         metadata["end_time"],
+        schema=schema,
     )
+    v2 = schema == SCHEMA
     metadata.update(
+        schema=schema,
         movement_source=_movement_source(metadata, fea.inp_file_name),
         wrenches=values,
         output_sha256=_sha(output),
         units="N and Nmm",
-        method="Native support residual; native-load/contact equilibrium-derived cut",
-        frame="Global Cartesian, original reference-state nodal application positions",
+        method=(
+            "Native support residual; separate native LOAD/CONTACT/MPC equilibrium-derived cut"
+            if v2 else "Native support residual; native LOAD/CONTACT equilibrium-derived cut (V1)"
+        ),
+        frame=(
+            "Global Cartesian, original reference-state nodal application positions"
+            if v2
+            else "Global Cartesian, V1 native reference positions; contact adjustment not qualified"
+        ),
         limitations="One small-displacement static step, Tet4/Tet10, zero-motion RBE, "
-        "face-to-face penalty contact; no stress/design acceptance or mesh-accuracy guarantee",
+        + (
+            "acyclic translational MPCs on body-exclusive nodes, optional face-to-face "
+            "penalty contact; no per-Tie multipliers, changed reference coordinates, "
+            if v2 else "face-to-face penalty contact; no MPC cut bodies, "
+        )
+        + "stress/design acceptance or mesh-accuracy guarantee",
     )
     obj = make_result(fea.analysis)
     obj.AccountingData = json.dumps(metadata, sort_keys=True)

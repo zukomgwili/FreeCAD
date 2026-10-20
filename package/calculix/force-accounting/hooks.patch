@@ -1,13 +1,15 @@
 --- a/ccx_2.23/src/CalculiX.h
 +++ b/ccx_2.23/src/CalculiX.h
-@@ -70,6 +70,16 @@
+@@ -70,6 +70,18 @@
  #define ITG int
  #define ITGFORMAT "d"
  #endif
 +
 +/* Versioned opt-in native accounting; standard channels are unchanged. */
 +extern double *fa_nodal_loads;
-+void fa_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,ITG*,char*,ITG,ITG*,ITG,ITG*,ITG*);
++void fa_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,ITG*,char*,ITG,ITG*,ITG,ITG*,ITG*,ITG);
++void fa_set_mpc_capacity(ITG);
++void fa_check_contact_domain(ITG,char*,double*,ITG);
 +int fa_active(void);
 +void fa_reset_loads(void);
 +void fa_pointloads(ITG,ITG*,ITG*,double*);
@@ -24,7 +26,7 @@
    // clock_gettime(CLOCK_MONOTONIC, &totalCalculixTimeStart);
  
 +  if(argc==2&&strcmp(argv[1],"--freecad-force-accounting-version")==0){
-+    printf("CCX_FORCE_ACCOUNTING_V1\n");return 0;
++    printf("CCX_FORCE_ACCOUNTING_V2\n");return 0;
 +  }
    if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
    else{
@@ -38,15 +40,13 @@
    fflush(stdout);
  
    NNEW(ipoinp,ITG,2*nentries);
-@@ -1239,6 +1242,11 @@
+@@ -1239,6 +1242,9 @@
      /* nmethod=15: Crack propagation */
      /* nmethod=16: Feasible direction based on sensitivity information */
  
-+    if(getenv("CCX_FORCE_ACCOUNTING_REQUEST")&&ntie&&mortar!=1){
-+      fprintf(stderr,"*ERROR CCX force accounting V1: face-to-face penalty contact required\n");exit(201);
-+    }
 +    fa_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,kon,lakon,
-+               nboun,nodeboun,nmpc,ipompc,nodempc);
++               nboun,nodeboun,nmpc,ipompc,nodempc,memmpc_);
++    fa_check_contact_domain(ntie,tieset,tietol,mortar);
      if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
        {
  	if(iperturb[0]<2){
@@ -61,21 +61,35 @@
      fflush(stdout);
  
      NNEW(ipoinp,ITG,2*nentries);
-@@ -1390,6 +1390,11 @@
+@@ -1390,6 +1390,9 @@
      /* nmethod=13: Green function calculation */
      /* nmethod=14: Robustness w.r.t. to geometric tolerances */
  
-+    if(getenv("CCX_FORCE_ACCOUNTING_REQUEST")&&ntie&&mortar!=1){
-+      fprintf(stderr,"*ERROR CCX force accounting V1: face-to-face penalty contact required\n");exit(201);
-+    }
 +    fa_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,kon,lakon,
-+               *nboun,nodeboun,nmpc,ipompc,nodempc);
++               *nboun,nodeboun,nmpc,ipompc,nodempc,memmpc_);
++    fa_check_contact_domain(ntie,tieset,tietol,mortar);
      if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
        {
  	if(iperturb[0]<2){
 --- a/ccx_2.23/src/linstatic.c
 +++ b/ccx_2.23/src/linstatic.c
-@@ -380,6 +380,10 @@
+@@ -174,6 +174,7 @@
+   /* contact conditions */
+   
++  if(fa_active())memmpc_=mpcinfo[0];
+   if(*mortar>-2){
+ 
+     memmpc_=mpcinfo[0];mpcfree=mpcinfo[1];icascade=mpcinfo[2];
+     maxlenmpc=mpcinfo[3];
+@@ -348,6 +349,7 @@
+   NNEW(fn,double,mt**nk);
+   NNEW(stx,double,6*mi[0]**ne);
+   NNEW(inum,ITG,*nk);
++  if(fa_active())fa_set_mpc_capacity(memmpc_);
+   results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+ 	  elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
+ 	  ielorien,norien,orab,ntmat_,t0,t1act,ithermal,
+@@ -380,6 +382,10 @@
  
    NNEW(ad,double,*neq);
    NNEW(fext,double,*neq);
@@ -86,7 +100,13 @@
  
    if(*nmethod==11){
        
-@@ -976,6 +980,7 @@
+@@ -584,1 +590,2 @@
++      if(fa_active())fa_set_mpc_capacity(memmpc_);
+       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -810,1 +817,2 @@
++    if(fa_active())fa_set_mpc_capacity(memmpc_);
+     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -976,6 +984,7 @@
    (*ttime)+=(*tper);
    
    SFREE(iponoel);
@@ -232,7 +252,22 @@
    
    if(*nmethod==4){
      mass[0]=1;
-@@ -2488,7 +2492,7 @@
+@@ -985,1 +989,2 @@
++    fa_set_mpc_capacity(memmpc_);
+     results(co,nk,kon,ipkon,lakon,ne,vold,stn,inum,stx,
+@@ -1424,1 +1429,2 @@
++      fa_set_mpc_capacity(memmpc_);
+       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2123,1 +2129,2 @@
++      fa_set_mpc_capacity(memmpc_);
+       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2157,1 +2164,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2415,1 +2423,2 @@
++	  fa_set_mpc_capacity(memmpc_);
+ 	  results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2488,7 +2497,7 @@
  	NNEW(ad,double,neq[1]);
  	NNEW(au,double,nzs[1]);
  
@@ -241,7 +276,19 @@
  	  DOUMEMSET(fnext,0,mt**nk,0.);
  	}
  
-@@ -4249,6 +4253,7 @@
+@@ -3162,1 +3171,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -3258,1 +3268,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -3667,1 +3678,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -3816,1 +3828,2 @@
++    fa_set_mpc_capacity(memmpc_);
+     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -4249,6 +4262,7 @@
    (*ttime)+=(*tper);
  
    SFREE(iponoel);

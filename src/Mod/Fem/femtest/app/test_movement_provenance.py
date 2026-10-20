@@ -51,7 +51,7 @@ class TestMovementProvenance(unittest.TestCase):
         deck = Path(self.fea.inp_file_name)
         request = deck.with_suffix(".accounting")
         deck.write_text("*HEADING\nSynthetic subprocess custody fixture\n")
-        request.write_text("CCX_FORCE_ACCOUNTING_V1\nSUPPORT R 1 2\nEND\n")
+        request.write_text(force_accounting.SCHEMA + "\nSUPPORT R 1 2\nEND\n")
         metadata = {
             "schema": force_accounting.SCHEMA,
             "expected": [["SUPPORT", "R"]],
@@ -79,11 +79,11 @@ class TestMovementProvenance(unittest.TestCase):
             "import os, sys\n"
             "from pathlib import Path\n"
             "if sys.argv[1:] == ['--freecad-force-accounting-version']:\n"
-            "    print('CCX_FORCE_ACCOUNTING_V1')\n"
+            f"    print({force_accounting.SCHEMA!r})\n"
             "    sys.exit(0)\n"
             "request = Path(os.environ['CCX_FORCE_ACCOUNTING_REQUEST'])\n"
             "Path(str(request) + '.out').write_text(\n"
-            "    'CCX_FORCE_ACCOUNTING_V1\\nSTATE 1 1 1\\n'\n"
+            f"    '{force_accounting.SCHEMA}\\nSTATE 1 1 1\\n'\n"
             "    'SUPPORT R 0 0 2 4 -6 0\\nEND\\n')\n" + body
         )
         executable.chmod(0o700)

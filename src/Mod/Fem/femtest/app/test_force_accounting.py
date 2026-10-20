@@ -447,6 +447,7 @@ class TestForceAccounting(unittest.TestCase):
         valid = "CCX_FORCE_ACCOUNTING_V1\nSTATE 1 1 1\nSUPPORT R 0 0 2 4 -6 0\nEND\n"
         result = force_accounting.parse_output(valid, {("SUPPORT", "R")}, 1)
         self.assertEqual(result["SUPPORT"]["R"], [0, 0, 2, 4, -6, 0])
+        self.assertNotIn("MPC", result)  # V1 does not claim to provide this term.
         for text in (
             valid.replace(" 2 ", " NaN "),
             valid.replace("END", ""),
@@ -456,6 +457,70 @@ class TestForceAccounting(unittest.TestCase):
         ):
             with self.subTest(text=text), self.assertRaises(ValueError):
                 force_accounting.parse_output(text, {("SUPPORT", "R")}, 1)
+
+    def test_v2_keeps_mpc_transfer_separate_from_load_and_contact(self):
+        from femtools import force_accounting
+
+        # Public wire-contract fixture, not a simulated solver result. Native
+        # analytical qualification separately establishes these physical terms.
+        text = (
+            "CCX_FORCE_ACCOUNTING_V2\nSTATE 1 1 1\n"
+            "CUT Rear 0 0 -100 -500 500 0\n"
+            "LOAD Rear 0 0 -1 -5 5 0\n"
+            "CONTACT Rear 0 0 -2 -10 10 0\n"
+            "MPC Rear 0 0 103 515 -515 0\nEND\n"
+        )
+        values = force_accounting.parse_output(text, {("CUT", "Rear")}, 1)
+        self.assertEqual(values["MPC"]["Rear"], [0, 0, 103, 515, -515, 0])
+        self.assertEqual(values["LOAD"]["Rear"], [0, 0, -1, -5, 5, 0])
+        self.assertEqual(values["CONTACT"]["Rear"], [0, 0, -2, -10, 10, 0])
+        for invalid in (
+            text.replace("MPC Rear 0 0 103 515 -515 0\n", ""),
+            text.replace("MPC Rear", "MPC Wrong"),
+            text.replace("103 515 -515", "102 515 -515"),
+            text.replace("103 515 -515", "103 514 -515"),
+            text.replace("103 515 -515", "NaN 515 -515"),
+            text.replace("V2", "V1"),
+        ):
+            with self.subTest(text=invalid), self.assertRaises(ValueError):
+                force_accounting.parse_output(invalid, {("CUT", "Rear")}, 1)
+
+    def test_v2_request_cannot_import_a_downgraded_v1_output(self):
+        from femtools import force_accounting
+
+        model = self.make_native_model()
+        with tempfile.TemporaryDirectory() as directory:
+            fea, context = self.make_import_context(model, directory)
+            context[1]["schema"] = force_accounting.SCHEMA
+            with self.assertRaisesRegex(ValueError, "unsupported native accounting output"):
+                force_accounting.import_result(fea, context)
+            self.assertFalse(any(
+                isinstance(getattr(obj, "Proxy", None), force_accounting.AccountingResult)
+                for obj in model.analysis.Group
+            ))
+
+    def test_legacy_context_cannot_import_an_unrequested_v2_output(self):
+        from femtools import force_accounting
+
+        model = self.make_native_model()
+        with tempfile.TemporaryDirectory() as directory:
+            fea, context = self.make_import_context(model, directory)
+            self.assertNotIn("schema", context[1])
+            context[2].write_text(context[2].read_text().replace("_V1", "_V2"))
+            with self.assertRaisesRegex(ValueError, "unsupported native accounting output"):
+                force_accounting.import_result(fea, context)
+
+    def test_legacy_import_does_not_claim_mpc_capability(self):
+        from femtools import force_accounting
+
+        model = self.make_native_model()
+        with tempfile.TemporaryDirectory() as directory:
+            fea, context = self.make_import_context(model, directory)
+            data = json.loads(force_accounting.import_result(fea, context).AccountingData)
+            self.assertEqual(data.get("schema"), force_accounting.LEGACY_SCHEMA)
+            self.assertNotIn("MPC", data["method"])
+            self.assertNotIn("acyclic", data["limitations"])
+            self.assertIn("no MPC cut bodies", data["limitations"])
 
     def test_result_restore_and_model_changes_invalidate(self):
         from femtools import force_accounting

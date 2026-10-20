@@ -1,5 +1,5 @@
 {
-  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "schema": "CCX_FORCE_ACCOUNTING_V2",
   "license": "GPL-2.0-only; see COPYING for native extension and CalculiX",
   "purpose": "Opt-in physical support and explicitly owned equilibrium-cut resultants; not structural/design acceptance",
   "upstream": {
@@ -13,34 +13,37 @@
     "build_driver": "package/local-completion/calculix-9zt-probe/build_probe.py --patch package/calculix/force-accounting/hooks.patch --extra-source package/calculix/force-accounting/forceaccounting.c --runtime-prefix <stable dependency prefix>; also supply --source-archive, --recipe and new --workdir"
   },
   "interface": {
-    "capability": "ccx --freecad-force-accounting-version prints exactly CCX_FORCE_ACCOUNTING_V1",
+    "capability": "ccx --freecad-force-accounting-version prints exactly CCX_FORCE_ACCOUNTING_V2",
+    "compatibility": "The V2 executable retains V1 requests and their original MPC-body refusal and V1 output. FreeCAD generates V2 requests and requires a V2 executable; old requests must be rewritten. Literal V1 output remains readable without inventing an MPC channel.",
     "activation": "CCX_FORCE_ACCOUNTING_REQUEST=<request path>, per process only",
-    "output": "<request path>.out; header, final STATE, named SUPPORT/CUT/LOAD/CONTACT six-component rows, END",
+    "output": "<request path>.out; matching version header, final STATE, named SUPPORT/CUT/LOAD/CONTACT/MPC six-component rows, END. V2 requires an MPC row for every requested body, including a literal zero resultant when no MPC acts.",
     "state": "Final converged output state of one static step; importer requires the exact requested end time",
     "support_request": "SUPPORT <name> <reference node> <rotation node>; exact declared native RBE identities, all six prescribed at zero",
     "body_request": "BODY <name> <element count> <cut-node count>, followed by explicit element IDs and complete shared-interface node IDs",
-    "ownership": "Cut-body selection is explicit. Native topology checks reject undeclared shared-node interfaces, body SPCs/MPCs and ambiguous cut-node concentrated loads. A contact side must have one exterior parent volume, including matching midside identities.",
-    "support_semantics": "Native internal nodal force minus actual consistent external element/nodal loads, projected together through native decascaded MPC coefficients. Rotation port is a reference-point couple; native code translates it to the global origin.",
-    "cut_semantics": "Equilibrium-derived force and global-origin moment acting ON the declared AccountingBody across its only shared-node interface: -(native applied body/pressure/concentrated loads + native contact forces on that body). No recovered-stress integration and no reconstructed body loads.",
+    "ownership": "Cut-body selection is explicit. Native topology checks reject undeclared shared-node interfaces, body SPCs, MPC participation on a cut/shared node, and ambiguous cut-node concentrated loads. Every MPC force attributed to a body acts at a node whose incident structural volumes all belong to that body. A contact side must have one exterior parent volume, including matching midside identities.",
+    "support_semantics": "Native internal nodal force minus actual consistent external element/nodal loads, projected together in topological order through the actual acyclic native MPC graph. Fully decascaded coefficients are the diagonal special case. Rotation port is a reference-point couple; native code translates it to the global origin.",
+    "cut_semantics": "Equilibrium-derived force and global-origin moment acting ON the declared AccountingBody across its only shared-node interface: -(LOAD + CONTACT + MPC). No recovered-stress integration and no reconstructed body loads.",
+    "mpc_semantics": "Net native MPC action on AccountingBody, not a per-Tie multiplier or row-attributed force. From unprojected native internal nodal force fn (including contact internal terms) minus actual physical nodal external loads p, solve C_D^T lambda=(fn-p)_D on the unique dependent DOFs of the actual native constraint matrix C. Topological elimination admits an acyclic remaining dependency graph; a fully decascaded graph is the diagonal special case. Accumulate q=C^T lambda on all terms and sum q and x_original cross q on body-exclusive nodes. The remaining projected residual supplies support reactions. Do not subtract CONTACT from fn-p, reuse combined RF, or relocate row forces. Aggregate q is invariant under equivalent row scaling, ordering and decascade substitutions; individual row labels/multipliers are not.",
     "contact_semantics": "Native face-to-face spring nodal force contributions, negated from the internal-force assembly sign and attributed separately to actual master and slave parent volumes. Each side's moment uses its own original nodal application positions. No slave-moment sign flip is used as a master-moment substitute.",
     "load_semantics": "Actual native consistent element RHS before active-DOF filtering; concentrated loads included once when body ownership is unambiguous",
-    "frame": "Global Cartesian, original reference-state nodal positions; FreeCAD writer units N and Nmm",
+    "frame": "Global Cartesian, original reference-state nodal positions; FreeCAD writer units N and Nmm. V2 keeps an immutable coordinate snapshot and rejects any actual native coordinate change after preparation, including contact adjustment. A nonzero Contact.Adjust setting is not itself rejected if no coordinates actually change. V1 retains its legacy behavior and does not qualify adjusted original-coordinate frames.",
     "ordinary_channels": "RF, SOF/SOM and CF remain unchanged. SOF/SOM is still recovered/extrapolated/averaged stress integration; CF moments still use deformed slave positions. The new output is separately named and is not numerically interchangeable with those channels."
   },
   "supported_domain": {
     "solver": "Standalone 32-bit-integer CalculiX 2.23 plus pinned build-8 fixes and this extension",
     "analysis": "One small-displacement mechanical implicit static step, original global coordinates",
     "mesh": "C3D4/C3D10 solids with current native CAD entity ownership metadata for FreeCAD cut selection",
-    "contact": "Triangular face-to-face penalty contact, frictionless or frictional; both master/slave ownership directions",
+    "contact": "Optional triangular face-to-face penalty contact, frictionless, frictional or finite-penalty tied; both master/slave ownership directions. An ordinary MPC Tie alone does not require a dummy penalty Contact.",
     "supports": "Disjoint native RBE regions, all six motions prescribed at zero",
-    "cut_bodies": "Explicit solid unions, no SPC/MPC inside the selected body, complete single declared shared-node cut interface",
+    "cut_bodies": "Explicit solid unions, no body SPC, complete single declared shared-node cut interface; MPC participants must be body-exclusive and off that interface",
+    "mpc": "Homogeneous translational constraints with finite coefficients, unique nonzero non-SPC dependent pivots and an acyclic remaining dependency graph at the actual output state. Exact-zero coefficients create no graph edge. Ordinary native Tie uses ADJUST=NO, original coordinates and no cyclic symmetry. Supports may participate in native RBE dependency chains retained by the contact solver; the output is aggregate MPC action, not per-law attribution.",
     "limits": "At most 64 named supports and 64 free-body requests per run; no multi-step reuse or in-process CalculiXstep reuse",
-    "not_supported": ["NLGEOM", "dynamic/thermal/cyclic/transformed-coordinate analyses", "non-tetrahedral elements", "node-to-face or mortar contact", "partial/free/moving support ports", "split input files", "ambiguous or missing body ownership"]
+    "not_supported": ["NLGEOM", "dynamic/thermal/cyclic/transformed-coordinate analyses", "adjusted ordinary Tie or changed native reference coordinates", "non-tetrahedral elements", "node-to-face or mortar contact", "partial/free/moving support ports", "split input files", "ambiguous or missing body ownership", "nonzero self/cyclic MPC dependencies, repeated dependent DOFs, invalid links or nonfinite coefficients/residuals"]
   },
   "FreeCAD_use": {
     "solver": "Enable NativeForceAccounting on CalculiXCcxTools. Empty NativeAccountingSolver selects the separately bundled qualified executable, not the user's ordinary ccx preference.",
     "cut": "Enable NativeEquilibriumCut on a Section Force object and select AccountingBody solid(s) owning the selected one-sided facets. The reported wrench acts on that explicit body; do not fit signs to targets.",
-    "result": "Separate Native force accounting (N, Nmm) object with readable resultants and JSON provenance: deck/request/binary/output hashes, model fingerprint, frame, load/contact terms and applicability",
+    "result": "Separate Native force accounting (N, Nmm) object with readable resultants and JSON provenance: deck/request/binary/output hashes, model fingerprint, frame, separate LOAD/CONTACT/MPC terms and applicability",
     "staleness": "Model changes invalidate current accounting; cold restoration is explicitly historical until rerun. Failed/partial, nonfinite, wrong-time, wrong-identity and inconsistent outputs are not imported as current.",
     "material_fingerprint": "FreeCAD-4jb fingerprints native Materials.Material contents rather than temporary wrapper addresses in both accounting and mesh diagnostics. Identity/model declarations, qualified exact typed values and quantity units are retained. FreeCAD-3sc uses the additive native Array2D.TypedArray interface to retain nulls and actual Quantity/float/integer/boolean/string cells without legacy Quantity coercion. Genuine native cell edits remain provenance changes. Old requests must be regenerated by the normal writer after fingerprint changes; saved reports remain historical. Ambiguous physical/appearance property names, unsupported native value types, nonfinite populated values and runtimes lacking the qualified typed interface reject explicitly; no material hash bypass is provided.",
     "deployment": "Optional CMake FREECAD_NATIVE_CCX_ACCOUNTING points to the qualified executable. App data/NativeSolvers carries the separate binary and source/contract/license. Standard ccx and global preferences are not replaced."
@@ -49,6 +52,6 @@
     "tolerance": "Declared analytic fixtures compare both force-vector norm and global-origin moment-vector norm to unchanged 1% limits; no zero-error prerequisite",
     "coverage": "GRAV under whole/face RBE, Tet4/Tet10, offset support references; deformable cuts with native GRAV, pressure and point loads, frictional contact, swapped master/slave, rotated/translated global frames; rejection and production import/restore checks",
     "meaning": "Software/output-method qualification only. Equilibrium-derived cuts do not independently validate stresses, constitutive/contact accuracy, mesh convergence, strength or building design. No universal 1% mesh guarantee.",
-    "original_Oomakhi": "Not replayed or accepted. Frozen R42 force error 1.075520426516643%, origin moment error 1.1325582974510988%, original 1% limits and all 96 failed local checks remain unchanged. Any resolution claim requires actual new outputs for that fixture and independent review."
+    "original_Oomakhi": "Not replayed or accepted. Frozen R42 force error 1.075520426516643%, origin moment error 1.1325582974510988%, original 1% limits and all 96 failed local checks remain unchanged. R49's 11.123267892% displacement comparison remains failed against the fixed 5% limit. Source capability work does not waive all 97 paired/194 owner-side displacement samples or overclosure/slip obligations, accept the physical anchorage/whole-house/R30/BIM, or authorize an automatic project solve. Any resolution claim requires actual new outputs for that fixture and independent review."
   }
 }

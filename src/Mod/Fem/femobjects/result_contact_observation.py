@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
-"""Editable contact-side observation result; never an engineering verdict."""
+"""Editable Contact/Tie side observation result; never an engineering verdict."""
 
 import json
 
@@ -30,7 +30,11 @@ class ContactObservationResult(BaseFemPythonObject):
             ("App::PropertyLinkHidden", "Analysis", "Analysis supplying the physical inputs"),
             ("App::PropertyLink", "Mesh", "Original mesh with native CAD ownership"),
             ("App::PropertyLink", "AccountingResult", "Native run with bound displacement output"),
-            ("App::PropertyLinkList", "Contacts", "Independent contact-side references to observe"),
+            (
+                "App::PropertyLinkList",
+                "Contacts",
+                "Independent Contact or ordinary Tie side references to observe",
+            ),
             (
                 "App::PropertyIntegerConstraint",
                 "SlaveVertex",

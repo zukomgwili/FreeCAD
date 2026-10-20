@@ -767,10 +767,11 @@ def makeResultMechanical(doc, name="ResultMechanical"):
 def makeResultContactObservation(
     doc, analysis=None, accounting_result=None, contacts=(), name="ContactSideObservation"
 ):
-    """Create editable, saved owner-specific contact displacement observations.
+    """Create saved owner-specific Contact or ordinary Tie displacement observations.
 
-    The result reports independently owned side vectors, not contact-law CDIS
-    or structural acceptance. Refresh validates the original solver source.
+    The existing contacts argument accepts native Contacts or ordinary Ties.
+    The result reports independently owned side vectors, not contact-law CDIS,
+    per-Tie forces or structural acceptance. Refresh validates the original source.
     """
     from femobjects.result_contact_observation import ContactObservationResult
 

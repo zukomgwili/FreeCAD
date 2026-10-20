@@ -1136,7 +1136,7 @@ class _ResultContactObservation(CommandManager):
         )
         self.tooltip = Qt.QT_TRANSLATE_NOOP(
             "FEM_ResultContactObservation",
-            "Creates a saved contact-side observation from selected native accounting and contacts; "
+            "Creates a saved side observation from selected native accounting, Contacts or Ties; "
             "edit its links and use Refresh to validate the source",
         )
         self.is_active = "with_analysis"
@@ -1157,7 +1157,7 @@ class _ResultContactObservation(CommandManager):
             for obj in selected
             if obj.Document == doc
             and obj in analysis.Group
-            and obj.isDerivedFrom("Fem::ConstraintContact")
+            and (obj.isDerivedFrom("Fem::ConstraintContact") or is_of_type(obj, "Fem::ConstraintTie"))
         ]
         doc.openTransaction("Create contact-side observation")
         try:
