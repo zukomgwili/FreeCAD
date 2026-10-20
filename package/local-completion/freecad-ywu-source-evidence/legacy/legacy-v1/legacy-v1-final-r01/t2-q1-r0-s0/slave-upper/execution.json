@@ -1,0 +1,85 @@
+{
+  "case": "t2-q1-r0-s0/slave-upper",
+  "positive": true,
+  "passed": true,
+  "inputs_before": {
+    "contact.inp": "bd894a304070c9eab7859331e0e8e4a1b8b3e198216823a806b226fb01c79ffb",
+    "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+    "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+  },
+  "protected_before": {
+    "/private/tmp/freecad-ywu-sG46Lsc8/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-ywu-sG46Lsc8/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "4418a41794adfc386143bd94b709794eea0d9991e774ab559e714e2782730ad3"
+  },
+  "command": [
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "-i",
+    "contact"
+  ],
+  "pid": 68399,
+  "process_group": 68399,
+  "returncode": 0,
+  "timed_out": false,
+  "reaped": true,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 0.020573750138282776,
+  "log_sha256": "c69180227f56066149178d46d135c51891ce82c6171326dc5b564207e030e06f",
+  "state": [
+    "STATE",
+    "1",
+    "1",
+    "1"
+  ],
+  "relative_force_moment_errors": {
+    "SUPPORT/Support": [
+      1.532511562239735e-13,
+      1.5715336709822764e-13
+    ],
+    "CUT/Lower": [
+      3.4710014154702894e-13,
+      3.5642880511672267e-13
+    ],
+    "CUT/Upper": [
+      3.733784185985892e-15,
+      3.770007161243902e-15
+    ]
+  },
+  "wire_balance_relative_residuals": {
+    "Lower": 0.0,
+    "Upper": 0.0
+  },
+  "physical_norm_checks": 6,
+  "inputs_after": {
+    "contact.inp": "bd894a304070c9eab7859331e0e8e4a1b8b3e198216823a806b226fb01c79ffb",
+    "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+    "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+  },
+  "protected_after": {
+    "/private/tmp/freecad-ywu-sG46Lsc8/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-ywu-sG46Lsc8/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "4418a41794adfc386143bd94b709794eea0d9991e774ab559e714e2782730ad3"
+  },
+  "inputs_unchanged": true,
+  "protected_unchanged": true,
+  "manifest_unchanged": true,
+  "outputs": {
+    "contact.dat": "07931738dd79bfbb80003250543664f928a41e4c24a2dd23dc09f2dd5f4a25ff",
+    "contact.frd": "25c450159c27ee93fea81fc47293dc45753ce4b6c4c6b279f2ad367ad9ad4952",
+    "contact.accounting.out": "8e788891584936379f2bcc8408e1eb5a9b768d5130149e079ccb193ffc38dbf9",
+    "contact.cvg": "b50220b64bd6e13348bc0f3de21f7b60d01356615f02a5b26bb807f6fcec8e2e",
+    "spooles.out": "38503ac802b2dc726d4adae18355839ab666eaf4183ffb7e726bdf846a9331b4",
+    "contact.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contact.sta": "4ab47f724c0ad1289736843a05bbee326354a6ab8018c080fa63c9ab003deb6a",
+    "solver.log": "c69180227f56066149178d46d135c51891ce82c6171326dc5b564207e030e06f"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "case": "nlgeom",
+  "positive": false,
+  "passed": true,
+  "inputs_before": {
+    "contact.inp": "fda74b17ffffeba0809c0b38147e65cdc132be4c8b2b24ae266f7c53f59b117a",
+    "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+    "oracle.json": "9e745627f1657f2b9f29f1cfe765d95cfdccdc861f443bb78da1cfc3dede3e95"
+  },
+  "protected_before": {
+    "/private/tmp/freecad-ywu-sG46Lsc8/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-ywu-sG46Lsc8/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "4418a41794adfc386143bd94b709794eea0d9991e774ab559e714e2782730ad3"
+  },
+  "command": [
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "-i",
+    "contact"
+  ],
+  "pid": 68447,
+  "process_group": 68447,
+  "returncode": 201,
+  "timed_out": false,
+  "reaped": true,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 0.010415749857202172,
+  "log_sha256": "ad565ec8434ec77ab7a76ffed7ce1eea845e73d1b5207f1af21307d7bf83e44b",
+  "diagnostic": "*ERROR CCX force accounting V1: requires one small-displacement",
+  "complete_accounting_envelope": false,
+  "inputs_after": {
+    "contact.inp": "fda74b17ffffeba0809c0b38147e65cdc132be4c8b2b24ae266f7c53f59b117a",
+    "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+    "oracle.json": "9e745627f1657f2b9f29f1cfe765d95cfdccdc861f443bb78da1cfc3dede3e95"
+  },
+  "protected_after": {
+    "/private/tmp/freecad-ywu-sG46Lsc8/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-ywu-sG46Lsc8/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "4418a41794adfc386143bd94b709794eea0d9991e774ab559e714e2782730ad3"
+  },
+  "inputs_unchanged": true,
+  "protected_unchanged": true,
+  "manifest_unchanged": true,
+  "outputs": {
+    "contact.dat": "4bd4aa4c36f2c99804f4bed8bccbcd295445ff0dd3548383b9dfbe6d716d1aa6",
+    "contact.frd": "5ae61746b7e80aa8f3d1ad50d1cf23238e8600ad5bcccdb2a37872c6b7506068",
+    "contact.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+    "contact.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contact.sta": "20946efba93047e4092386fb9fedd29e43961806698459a19066356660f2e1a9",
+    "solver.log": "ad565ec8434ec77ab7a76ffed7ce1eea845e73d1b5207f1af21307d7bf83e44b"
+  }
+}

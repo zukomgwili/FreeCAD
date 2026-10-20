@@ -1,0 +1,32 @@
+{
+  "schema": "CCX_FORCE_ACCOUNTING_V1",
+  "expected": {
+    "SUPPORT/Support": [
+      11.087930851986581,
+      4.035676789725008,
+      18.594921410708867,
+      -21.634968339942176,
+      -159.1713596584035,
+      47.445814650902335
+    ],
+    "CUT/Lower": [
+      -4.620104315637505,
+      -1.6815804500968752,
+      -8.765096879240964,
+      8.42714765188611,
+      79.89428992603874,
+      -19.769659096340508
+    ],
+    "CUT/Upper": [
+      4.620104315637505,
+      1.6815804500968752,
+      8.765096879240964,
+      -8.42714765188611,
+      -79.89428992603874,
+      19.769659096340508
+    ]
+  },
+  "limit": 0.01,
+  "normalization": "Euclidean force/moment error divided by its finite positive reference norm; no result-derived target and no added floor",
+  "basis": "Three unit cubes, density2, gravity3, pressure4 on unit top area; optional four known0.25 point shear loads. Upper-body cut follows top-cube free-body statics; opposite shared cut is equal/opposite. Transformation uses independently authored rotation matrix plus translation cross force."
+}

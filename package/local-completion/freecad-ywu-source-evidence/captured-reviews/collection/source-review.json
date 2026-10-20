@@ -1,0 +1,42 @@
+{
+  "schema": "FreeCAD-ywu-root-transcribed-agent-review-v1",
+  "scope": "Root transcription of independent agent reports received in this session; not raw agent messages, human review, engineering acceptance or a native execution receipt.",
+  "compiled_implementation_commit": "fc7a359d8d56405b269c956b5709b70a5f9a8fba",
+  "native_source_sha256": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+  "native_hooks_sha256": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+  "registered_test_sha256": "83e8344d68e63dd0ea754681594c858ea646dd18040b0dd62977164eda0cbc76",
+  "reviews": [
+    {
+      "agent": "/root/ywu_final_review/standards",
+      "axis": "Repository standards",
+      "finding": "P3: use shared is_of_type helper and correct import grouping/order",
+      "resolution": "Implemented and independently rechecked; no outstanding actionable findings"
+    },
+    {
+      "agent": "/root/ywu_final_review/spec",
+      "axis": "FreeCAD-ywu specification and user-agreed scope",
+      "outstanding_actionable_findings": 0,
+      "additional_controls_reviewed": "Ground SPRING1 and direct-vertex SPRING2 controls reach intended export guards without solving"
+    },
+    {
+      "agent": "/root/ywu_oracle",
+      "axis": "Native correctness and independent physical oracle",
+      "outstanding_actionable_findings": 0,
+      "scope": "Analytical fixtures and read-only source review; mathematical audit files explicitly post-hoc, not application lifecycle or whole-house acceptance"
+    },
+    {
+      "agent": "/root/ywu_final_review",
+      "axis": "Combined review and final negative controls",
+      "outstanding_actionable_findings": 0,
+      "native_execution_performed_by_reviewer": false
+    }
+  ],
+  "holds": {
+    "Oomakhi_replayed_or_accepted": false,
+    "installation_authorized_or_performed_by_this_review": false,
+    "unchanged_force_and_original_origin_moment_relative_ceiling": 0.01,
+    "R49_displacement_error_percent": 11.123267892,
+    "R51_displacement_error_percent": 5.240441298,
+    "displacement_error_ceiling_percent": 5
+  }
+}

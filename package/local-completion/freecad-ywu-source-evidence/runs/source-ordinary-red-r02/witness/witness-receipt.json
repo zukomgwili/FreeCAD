@@ -1,0 +1,112 @@
+{
+  "Oomakhi_opened_or_solved": false,
+  "accounting_on_document_sha256": "8aeecb7413cac5fdf057b9165ffd28fbcda4d1c182eb854648a4d73dc618f240",
+  "accounting_on_exception": {
+    "message": "Selected native accounting support is not a supported analysis constraint.",
+    "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuOrdinarySupports.py\", line 362, in test_native_fixed_and_partial_support_selection_first_red\n    fea.write_inp_file()\n    ~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py\", line 406, in write_inp_file\n    force_accounting.prepare_request(inp_writer)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/force_accounting.py\", line 339, in prepare_request\n    raise ValueError(\"Selected native accounting support is not a supported analysis constraint.\")\nValueError: Selected native accounting support is not a supported analysis constraint.\n",
+    "type": "ValueError"
+  },
+  "aggregate_support_target": [
+    -12,
+    0,
+    0,
+    -6,
+    -36,
+    24
+  ],
+  "expected_unsupported_selection_red_reproduced": true,
+  "frozen_support_partition_oracle": "/private/tmp/freecad-ywu-sG46Lsc8/oracle-spec-proposal.json",
+  "individual_patch_reaction_targets": "Unspecified; not fitted.",
+  "no_deck_patches_or_mocks": true,
+  "no_external_support_RBE_or_added_stiffness": true,
+  "oracle_sha256": "8c7ecc8e52dba80b223b94b5b19af9dfb19f4b5a0e33b73aceb117e12fe69dd7",
+  "passed": true,
+  "retained_files": {
+    "accounting-on-exception.json": {
+      "bytes": 893,
+      "sha256": "afa02a803c7ace54e83db7d46b9f14cfd4d7dce95941997d58826331165fb89f"
+    },
+    "accounting-on/Mesh.inp": {
+      "bytes": 96601,
+      "sha256": "de14eee9e3eacc971bd4b3cdd9bbc93b41c198f4eaf3a24bfc15c9b6e93210a4"
+    },
+    "mesh-membership.json": {
+      "bytes": 244674,
+      "sha256": "7b0b787fec9a46e29a5cb02b0f56b9b8a00fcdf01aeacae9e750c163326ccbf8"
+    },
+    "mesh/BeamCells_Geometry.brep": {
+      "bytes": 14828,
+      "sha256": "9a606d79256f2b14d4822e0fc6fc0537d14bab5db10edadbd5164acff890d2cf"
+    },
+    "mesh/BeamCells_Mesh.vtk": {
+      "bytes": 107103,
+      "sha256": "67593a04a9b5e9d661f387c7245006e8fda7c718e68d93555e69a25fa10ce5d3"
+    },
+    "mesh/shape2mesh.geo": {
+      "bytes": 2479,
+      "sha256": "e5a7039dcea2218360720ba25a5dccf822c814c255de4301fbcc4878e4811d55"
+    },
+    "native-properties-off.json": {
+      "bytes": 16997,
+      "sha256": "0dfa2184c6ae1733ded1f586dae728718adf4fc4a8099a3c087158be639f914d"
+    },
+    "native-properties-on.json": {
+      "bytes": 17349,
+      "sha256": "9c4438de14cd58003d4fcb4a2e87b4cec20e992e3717e1cadf5df9de2796e237"
+    },
+    "ordinary-supports-accounting-on.FCStd": {
+      "bytes": 584487,
+      "sha256": "8aeecb7413cac5fdf057b9165ffd28fbcda4d1c182eb854648a4d73dc618f240"
+    },
+    "ordinary-supports-stock-off.FCStd": {
+      "bytes": 70498,
+      "sha256": "35d5b174847022894d548c142c8d62e981c52d30773583f2c0e2d317346f1b2c"
+    },
+    "stock-off.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stock-off.stdout": {
+      "bytes": 2148,
+      "sha256": "65171e1c65df413cc67a8f9375688f963c9549ee98235e76c99afd62a903f082"
+    },
+    "stock-off/Mesh.12d": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stock-off/Mesh.cvg": {
+      "bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+    },
+    "stock-off/Mesh.dat": {
+      "bytes": 5220,
+      "sha256": "5a71bbcdba906880bb1f0ca85beede325d9118938067578f5dc4697cd7c6f9bd"
+    },
+    "stock-off/Mesh.frd": {
+      "bytes": 562469,
+      "sha256": "c1c26c6f40eac3490b1ce7cecb3f13dd31ab23ff3f6930bd539a2fee9178c35c"
+    },
+    "stock-off/Mesh.inp": {
+      "bytes": 96597,
+      "sha256": "97b52798f16520dbf927157cea5dfb61166398b06be28d36bb09c1cca6d8d437"
+    },
+    "stock-off/Mesh.sta": {
+      "bytes": 170,
+      "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d"
+    },
+    "stock-off/spooles.out": {
+      "bytes": 19,
+      "sha256": "4988e9c309b4514952b201885288407b453cadd83acfa8648f17421069d94f09"
+    }
+  },
+  "schema": "FreeCAD-ywu-native-ordinary-support-first-red-v1",
+  "stock_imported_result_objects": [
+    "CCX_Results"
+  ],
+  "stock_off_binary": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/ccx",
+  "stock_off_binary_sha256": "b94868f6dd50533d7a8f11d271864a04bbf01f4117046d0c5b35e3cad470aac6",
+  "stock_off_deck": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-red-r02/witness/stock-off/Mesh.inp",
+  "stock_off_deck_sha256": "97b52798f16520dbf927157cea5dfb61166398b06be28d36bb09c1cca6d8d437",
+  "stock_off_document_sha256": "35d5b174847022894d548c142c8d62e981c52d30773583f2c0e2d317346f1b2c",
+  "stock_off_returncode": 0
+}

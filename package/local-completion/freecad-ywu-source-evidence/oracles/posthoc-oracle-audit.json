@@ -1,0 +1,195 @@
+{
+  "schema": "FreeCAD-ywu-posthoc-independent-fixture-oracle-audit-v1",
+  "scope": "Read-only post-hoc examination of the captured ordinary stock-off deck, DAT, imported physical displacement vectors, mesh membership and predeclared oracle; no production implementation, harness or test reads; no native, application, build or solver invocation.",
+  "result": "PASS_FIXTURE_CONSISTENCY_ONLY",
+  "native_accounting_method_qualified": false,
+  "engineering_or_Oomakhi_acceptance": false,
+  "predeclared_oracle_modified": false,
+  "captured_inputs_modified": false,
+  "inputs": [
+    {
+      "path": "/private/tmp/freecad-ywu-sG46Lsc8/oracle.json",
+      "sha256": "c31fe65e7b8e1d5d742a380e746a7da97dedffdebc80749f59dd3e3d9bbe38ad",
+      "bytes": 1352
+    },
+    {
+      "path": "/private/tmp/freecad-ywu-sG46Lsc8/installed-red-r01/witness/stock-off/Mesh.inp",
+      "sha256": "3ecf0e8da9279b89bd0d923661bb13b7db95da46e83188fd18ced171db562eac",
+      "bytes": 68096
+    },
+    {
+      "path": "/private/tmp/freecad-ywu-sG46Lsc8/installed-red-r01/witness/stock-off/Mesh.dat",
+      "sha256": "3943a930529f1b7b9e7321140b701b0cc7630361cf4cabb299a54bfe3ab82f20",
+      "bytes": 5513
+    },
+    {
+      "path": "/private/tmp/freecad-ywu-sG46Lsc8/installed-red-r01/witness/stock-imported-results.json",
+      "sha256": "dbbae0357434d510d6ac51bd841449351f0af02c461191803a9158b09ac0de0b",
+      "bytes": 90771
+    },
+    {
+      "path": "/private/tmp/freecad-ywu-sG46Lsc8/installed-red-r01/witness/mesh-membership.json",
+      "sha256": "696635e62b376ad1a3fea64ae95536ebaaf165765a923748cfcef270e0a6f3a3",
+      "bytes": 149454
+    }
+  ],
+  "conventions": {
+    "length": "mm",
+    "force": "N",
+    "moment": "N*mm",
+    "moment_origin": [0, 0, 0],
+    "moment_positions": "original undeformed Mesh.inp coordinates",
+    "wrench_order": "Fx,Fy,Fz,Mx,My,Mz",
+    "force_target_derived_from": "declared face totals and original face positions, before examining response",
+    "support_action": "external support acting on the solid system",
+    "cut_action": "action of the excluded side on the specified retained owner"
+  },
+  "deformable_mesh": {
+    "physical_nodes": 1028,
+    "C3D10_elements": 474,
+    "connected_components_without_spring_links": [
+      {"physical_nodes": 514, "bounds": [[0, 10], [1, 3], [2, 4]]},
+      {"physical_nodes": 514, "bounds": [[20, 30], [1, 3], [2, 4]]}
+    ],
+    "shared_cut_nodes_A_Solid1_Solid2": 41,
+    "shared_cut_nodes_B_Solid3_Solid4": 41,
+    "shared_nodes_between_beams": 0,
+    "mesh_to_deck_coordinate_max_difference_mm": 4.451550239537028e-12,
+    "mesh_to_deck_connectivity": "All 474 elements have the same identities and node memberships. The deck consistently permutes the captured mesh C3D10 ordering by zero-based indices [1,0,2,3,4,6,5,8,7,9], preserving corner/edge associations; raw ordered-list equality is therefore not an appropriate custody check."
+  },
+  "actual_CLOAD_resultants": {
+    "AxialLoad_Face18_x30": [12, 0, 0, 0, 36, -24],
+    "TorquePositiveZ_both_y3_faces": [0, 0, 2.9999999999999805, 8.99999999999994, -74.9999999999995, 0],
+    "TorqueNegativeZ_both_y1_faces": [0, 0, -2.9999999999999805, -2.9999999999999805, 74.99999999999952, 0],
+    "total_from_all_237_nodal_load_records": [12, 0, 5.065392549852277e-16, 5.99999999999996, 36.00000000000001, -24],
+    "predeclared_total": [12, 0, 0, 6, 36, -24],
+    "split_torque_face_totals": {
+      "Face15_x20_to25_y3": [0, 0, 1.49999999999999, 4.49999999999997, -33.75000000000053, 0],
+      "Face20_x25_to30_y3": [0, 0, 1.4999999999999898, 4.499999999999971, -41.24999999999897, 0],
+      "Face14_x20_to25_y1": [0, 0, -1.4999999999999898, -1.4999999999999898, 33.74999999999902, 0],
+      "Face19_x25_to30_y1": [0, 0, -1.49999999999999, -1.49999999999999, 41.25000000000048, 0]
+    },
+    "assessment": "Actual nodal loads reproduce the declared load wrench to floating-point/printed-coordinate precision. Each half-length side face carries half the declared total. No observed response was used to change a load, sign or denominator."
+  },
+  "physical_support_and_moving_ports": {
+    "external_support": {
+      "face_bounds": [[0, 0], [1, 3], [2, 4]],
+      "face_nodes": 41,
+      "reference_node": 1033,
+      "rotation_node": 1034,
+      "reference_position": [0, 2, 3],
+      "boundary": "All three translations of reference and all three rotations at rotation node are zero.",
+      "imported_physical_face_displacements": "All zero."
+    },
+    "moving_A": {
+      "face_bounds": [[10, 10], [1, 3], [2, 4]],
+      "face_nodes": 41,
+      "reference_node": 1035,
+      "rotation_node": 1036,
+      "reference_position": [10, 2, 3],
+      "DAT_U_mm": [0.001476703, -0.000005802856, 0.000001060669],
+      "DAT_rotation_rad": [0.003328911, -0.0000002057444, 0.00000001007091],
+      "least_squares_fit_to_all_41_imported_physical_face_nodes_U_then_rotation": [0.0014767031707317074, -0.000005803129268292644, 0.000001061398780487793, 0.0033289100285714287, -0.00000020485714285712506, 0.000000010000000000008762],
+      "max_fit_displacement_residual_mm": 4.456445993261324e-9
+    },
+    "moving_B": {
+      "face_bounds": [[20, 20], [1, 3], [2, 4]],
+      "face_nodes": 41,
+      "reference_node": 1037,
+      "rotation_node": 1038,
+      "reference_position": [20, 2, 3],
+      "DAT_U_mm": [0.0114767, -0.000005802856, 0.000001060669],
+      "DAT_rotation_rad": [0.004328911, -0.0000002057444, 0.00000001007092],
+      "least_squares_fit_to_all_41_imported_physical_face_nodes_U_then_rotation": [0.01147670731707317, -0.000005803519512195184, 0.000001061301219512182, 0.00432891, -0.00000021000000000006628, 0.000000015714285714241953],
+      "max_fit_displacement_residual_mm": 5.088850174236881e-8
+    },
+    "physical_face_membership": "All three deck RBE node sets exactly match the corresponding captured selected_face_nodes sets.",
+    "moving_reference_or_rotation_nodes_directly_grounded": false,
+    "assessment": "Both actual finite receiving faces translate X and rotate X. Motion is independently visible in DAT reference outputs and in a six-parameter small-rotation rigid fit to physical imported face nodes, not merely inferred from dummy-node labels."
+  },
+  "connector_deck_identity": {
+    "translation": {
+      "element_ids": [995, 996, 997],
+      "end_nodes": [1035, 1037],
+      "directions": [1, 2, 3],
+      "orientation": "global identity",
+      "positive_stiffness_each_N_per_mm": 1200
+    },
+    "rotation": {
+      "element_ids": [998, 999, 1000],
+      "scalar_auxiliary_end_pairs": [[1063, 1064], [1065, 1066], [1067, 1068]],
+      "positive_stiffness_each_N_mm_per_rad": 6000,
+      "equations": "Auxiliary U1 equals the corresponding moving RBE rotation-node U1, U2 or U3 with unit coefficient. Auxiliary U2/U3 are fixed; this does not fix the connected physical rotation."
+    },
+    "constitutive_motion_diagnostics_from_printed_DAT": {
+      "TX_k_times_U_B_minus_U_A_N": 11.9999964,
+      "RX_k_times_theta_B_minus_theta_A_N_mm": 6,
+      "physical_action_on_A": "positive X force and positive X couple",
+      "physical_action_on_B": "opposite action",
+      "status": "Independent scalar constitutive cross-check only, not a native accounting result."
+    },
+    "separated_reference_transverse_action_caveat": {
+      "geometry": "rA-rB=(-10,0,0) mm",
+      "action_convention": "fA=k*(uB-uA); fB=-fA",
+      "net_spatial_couple_formula": "(rA-rB) cross fA = (0,10*Tz,-10*Ty) N*mm",
+      "Ty_N_from_printed_DAT": 0,
+      "Tz_N_from_printed_DAT": 0,
+      "DAT_Uy_each_endpoint_mm": -0.000005802856,
+      "DAT_Uz_each_endpoint_mm": 0.000001060669,
+      "DAT_transverse_displacement_rounding_increment_mm": 1e-12,
+      "each_transverse_scalar_force_upper_bound_N_assuming_round_to_nearest": 1.2e-9,
+      "net_couple_norm_upper_bound_N_mm_assuming_round_to_nearest": 1.697056274847714e-8,
+      "frozen_declared_moment_scale_N_mm": 43.68065933568311,
+      "net_couple_norm_upper_bound_divided_by_frozen_scale": 3.885143449429056e-10,
+      "exact_zero_beyond_DAT_precision_claimed": false,
+      "coarser_imported_face_fit_diagnostic_only": {
+        "k_times_fitted_delta_Uy_N": -4.682926830482174e-7,
+        "k_times_fitted_delta_Uz_N": -1.1707317073333994e-7,
+        "apparent_spatial_couple_N_mm": [0, -1.1707317073333994e-6, 4.682926830482174e-6],
+        "apparent_couple_norm_divided_by_frozen_scale": 1.1050772957921747e-7,
+        "interpretation": "Not an actual native scalar force result. Fitting coarser rounded imported displacements introduces differences smaller than the observed physical-face fit residuals; use the explicit original-node DAT values for the tighter stated precision bound."
+      },
+      "qualification_caveat": "Opposite transverse SPRING2 forces at separated reference points generally create a nonzero spatial couple and cannot be presumed an objective internal connector wrench pair. This original axial/torsion witness has equal transverse endpoint displacements at DAT precision, with the quantified tiny bound; it does not qualify appreciably loaded noncentral transverse connectors. No fitted correction, sign change, new reference position or changed acceptance scale was applied."
+    }
+  },
+  "section_ownership_and_oracle": {
+    "SECTIONFACECUTARIGHT": {
+      "plane_x_mm": 5,
+      "owner": "Solid2, retained A right part x5..10",
+      "deck_facets": 16,
+      "face_nodes": 41,
+      "area_mm2": 4,
+      "all_outward_normals": [-1, 0, 0],
+      "all_owner_element_centroid_x_mm": 5.234375,
+      "expected_action_on_retained_owner": [-12, 0, 0, -6, -36, 24]
+    },
+    "SECTIONFACECUTBLEFT": {
+      "plane_x_mm": 25,
+      "owner": "Solid3, retained B left part x20..25",
+      "deck_facets": 16,
+      "face_nodes": 41,
+      "area_mm2": 4,
+      "all_outward_normals": [1, 0, 0],
+      "all_owner_element_centroid_x_mm": 24.765625,
+      "expected_action_on_retained_owner": [12, 0, 0, 3, 36, -24],
+      "relation_to_predeclared_right_owner_oracle": "Opposite owner, hence the literal negative of the oracle's B-cut action on retained right. This sign follows the observed geometric owner identity, not a fit to section result values."
+    }
+  },
+  "ordinary_output_diagnostics_not_native_accounting_qualification": {
+    "CutARight": {
+      "ordinary_SOF_SOM_wrench": [-12.029, -0.00285836, 0.001412416, -6.029103, -36.12176, 24.05378],
+      "relative_force_error": 0.002431227885998616,
+      "relative_global_origin_moment_error": 0.003119288962496355
+    },
+    "CutBLeft": {
+      "ordinary_SOF_SOM_wrench": [11.99493, -0.01082509, -0.00950946, 3.035055, 36.23351, -24.2793],
+      "relative_force_error": 0.0012728939659724299,
+      "relative_global_origin_moment_error": 0.008432874807872633
+    },
+    "meaning": "These ordinary stress-integrated section diagnostics happen to lie within the unchanged 1% ceilings for this small witness. This does not qualify accounting-ON, body/contact/connector accounting, a complete substitute for the requested method, or another fixture.",
+    "raw_RF_warning": "Ordinary connector endpoint RF is not an isolated physical connector action: translation RF at A/B is approximately -12/+12 N, opposite the on-body connector action convention; rotation-node RF is approximately 0 and 0.09375 N*mm rather than the physical +/-6 N*mm connector pair. Do not promote these RF values into a qualified accounting wrench."
+  },
+  "additional_identity_caveat": "The imported result lists 1028 physical nodes plus extra NodeNumbers 1029..1036; these extra IDs cannot be equated with original stock-deck RBE IDs 1033..1038. In particular imported node1033 is not the DAT's fixed external reference displacement and original IDs1037/1038 are absent from the imported list. Auxiliary renumbering is inferred, but no auxiliary mapping is qualified here. Physical nodes1..1028 retain the membership needed for the independent whole-face motion fits; DAT explicitly names the original RBE reference/rotation identities.",
+  "contradictions": [],
+  "conclusion": "The stock-off capture faithfully realizes the predeclared separated two-beam axial-plus-torsion witness, with actual face loads, original-origin wrench, cut owners and two truly moving receiving faces. This audit does not examine or repair accounting-on output and does not establish completion of FreeCAD-ywu."
+}

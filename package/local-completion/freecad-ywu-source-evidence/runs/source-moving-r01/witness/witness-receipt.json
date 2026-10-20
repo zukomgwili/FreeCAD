@@ -1,0 +1,114 @@
+{
+  "Oomakhi_opened_or_solved": false,
+  "actual_binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "actual_binary_sha256": "86a1bef5c9a3a58849e77c7babdf6fd0d8647309575d208542a39274edc1a053",
+  "checks": [],
+  "deck": "/private/tmp/freecad-ywu-sG46Lsc8/source-moving-r01/witness/native/Mesh.inp",
+  "deck_sha256_before_solve": "b992443e15669c25df3df72b5c1cf34e306db650bc6edfa980bb4406bd940c06",
+  "explicit_solver_override": null,
+  "force_error_limit": 0.01,
+  "frozen_independent_oracle": "/private/tmp/freecad-ywu-sG46Lsc8/oracle.json",
+  "frozen_independent_oracle_sha256": "c31fe65e7b8e1d5d742a380e746a7da97dedffdebc80749f59dd3e3d9bbe38ad",
+  "geometric_cells_for_conforming_cuts": 4,
+  "limits": "Analytical software fixture only; no engineering acceptance",
+  "moment_error_limit": 0.01,
+  "moment_origin": [
+    0,
+    0,
+    0
+  ],
+  "no_deck_patches_or_mocks": true,
+  "only_public_native_interfaces": true,
+  "original_deck_rbe_reference_rotation_ids": {
+    "ExternalSupport": [
+      1032,
+      1033
+    ],
+    "MovingPortA": [
+      1034,
+      1035
+    ],
+    "MovingPortB": [
+      1036,
+      1037
+    ]
+  },
+  "passed": false,
+  "physical_beams": 2,
+  "request_sha256_before_solve": "9be5dc3cdc9783cede253b2fcae3616d8506c7ad09255cd1371bc2830b283316",
+  "retained_files": {
+    "mesh-membership.json": {
+      "bytes": 149033,
+      "sha256": "73aac88bc29bc3874e929da27445e13d079da167f361150a4a2f52cee29e1968"
+    },
+    "mesh/BeamCells_Geometry.brep": {
+      "bytes": 8606,
+      "sha256": "9c6d230e7e7f50b515b13d00151631067d8ba316745d6e2aaa0ffd4737c80e14"
+    },
+    "mesh/BeamCells_Mesh.vtk": {
+      "bytes": 67577,
+      "sha256": "8d5a82774603536580fdc2d0d0e6a374f009eed53405ceecfbae440c939e1e51"
+    },
+    "mesh/shape2mesh.geo": {
+      "bytes": 2465,
+      "sha256": "ed9a02b33535637c81b49ef2da13860070b2640fa9254295d5ef103ecad31a03"
+    },
+    "moving-face-ports-before-solve.FCStd": {
+      "bytes": 49670,
+      "sha256": "0a6aed65729132254ba68de1d96e69ac17a7f760ece5aec6a829ba1aedf5e359"
+    },
+    "native-properties.json": {
+      "bytes": 18744,
+      "sha256": "1508efe500e995fd84d1ec4aa37893b11546d61e45f400194deca8797d835ea2"
+    },
+    "native.stderr": {
+      "bytes": 79,
+      "sha256": "8c32813bb37c0fcbb6cf496a95f33e49ccdc97eec76081aedb32a54d833c690a"
+    },
+    "native.stdout": {
+      "bytes": 1974,
+      "sha256": "b4089c484965bd71ca3f135f4548cdafea854eea09f4914ff046a5724596974c"
+    },
+    "native/Mesh.12d": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native/Mesh.accounting": {
+      "bytes": 2002,
+      "sha256": "9be5dc3cdc9783cede253b2fcae3616d8506c7ad09255cd1371bc2830b283316"
+    },
+    "native/Mesh.accounting.json": {
+      "bytes": 436,
+      "sha256": "c699f781f786d71c857ff73ab050456702968e155662c1a75a8958880d7f9817"
+    },
+    "native/Mesh.cvg": {
+      "bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+    },
+    "native/Mesh.dat": {
+      "bytes": 42,
+      "sha256": "4bd4aa4c36f2c99804f4bed8bccbcd295445ff0dd3548383b9dfbe6d716d1aa6"
+    },
+    "native/Mesh.frd": {
+      "bytes": 7,
+      "sha256": "9e83105298735afe856cb4b176f390fe6f28e26fcafc2a5ad533b82b3de6a340"
+    },
+    "native/Mesh.inp": {
+      "bytes": 68030,
+      "sha256": "b992443e15669c25df3df72b5c1cf34e306db650bc6edfa980bb4406bd940c06"
+    },
+    "native/Mesh.sta": {
+      "bytes": 98,
+      "sha256": "20946efba93047e4092386fb9fedd29e43961806698459a19066356660f2e1a9"
+    }
+  },
+  "schema": "FreeCAD-ywu-native-v3-moving-face-ports-v1",
+  "solver_returncode": 201,
+  "witness_error": {
+    "message": "201 != 0",
+    "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuMovingPortGreen.py\", line 273, in test_native_v3_moving_face_ports_are_not_fixed_supports\n    self.assertEqual(code, 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 907, in assertEqual\n    assertion_func(first, second, msg=msg)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 900, in _baseAssertEqual\n    raise self.failureException(msg)\nAssertionError: 201 != 0\n",
+    "type": "AssertionError"
+  },
+  "zero_force_scale": 12,
+  "zero_moment_scale": 43.68065933568311
+}

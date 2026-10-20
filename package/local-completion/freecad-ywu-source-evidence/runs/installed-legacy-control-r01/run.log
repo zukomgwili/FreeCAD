@@ -1,0 +1,73 @@
+test_legacy_fully_fixed_point_rbes_preserve_support_behavior (YwuLegacyFixedPorts.LegacyFixedPorts.test_legacy_fully_fixed_point_rbes_preserve_support_behavior) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +218 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-ywu-sG46Lsc8/installed-legacy-control-r01/witness/mesh/Beam_Geometry.brep
+  /private/tmp/freecad-ywu-sG46Lsc8/installed-legacy-control-r01/witness/mesh/Beam_Mesh.vtk
+  /private/tmp/freecad-ywu-sG46Lsc8/installed-legacy-control-r01/witness/mesh/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 27
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 28
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 29
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 30
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 31
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 32
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 33
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 34
+AddGroupElements: num elements: 1 sizeof: 8
+Unexpected error when writing CalculiX input file: A rigid port requires at least three non-collinear solid-mesh nodes.
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Legacy synthetic material'}]
+ERROR
+
+======================================================================
+ERROR: test_legacy_fully_fixed_point_rbes_preserve_support_behavior (YwuLegacyFixedPorts.LegacyFixedPorts.test_legacy_fully_fixed_point_rbes_preserve_support_behavior)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-ywu-sG46Lsc8/YwuLegacyFixedPorts.py", line 109, in test_legacy_fully_fixed_point_rbes_preserve_support_behavior
+    fea.write_inp_file()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py", line 406, in write_inp_file
+    force_accounting.prepare_request(inp_writer)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py", line 320, in prepare_request
+    nodes = rigid_body_nodes(body, mesh)
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py", line 79, in rigid_body_nodes
+    raise ValueError("A rigid port requires at least three non-collinear solid-mesh nodes.")
+ValueError: A rigid port requires at least three non-collinear solid-mesh nodes.
+
+----------------------------------------------------------------------
+Ran 1 test in 2.042s
+
+FAILED (errors=1)
+
+Get mesh data for constraints, materials and element geometry...
+FixedPoint1:
+    Type: Fem::ConstraintRigidBody, Name: FixedPoint1
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex2
+FixedPoint2:
+    Type: Fem::ConstraintRigidBody, Name: FixedPoint2
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex4
+FixedPoint3:
+    Type: Fem::ConstraintRigidBody, Name: FixedPoint3
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Beam, Object label: Beam, Element name: Face2
+Getting mesh data time: 0.011 seconds.
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex2
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-ywu-sG46Lsc8/installed-legacy-control-r01/witness/native/MeshGmsh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+    ReferenceShape ... Type: Vertex, Object name: Beam, Object label: Beam, Element name: Vertex2

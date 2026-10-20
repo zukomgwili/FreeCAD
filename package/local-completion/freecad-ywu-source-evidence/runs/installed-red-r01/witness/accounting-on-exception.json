@@ -1,0 +1,5 @@
+{
+  "message": "Native force accounting requires only C3D4/C3D10 volumes.",
+  "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuMovingPortWitness.py\", line 335, in test_native_moving_face_ports_are_not_fixed_supports\n    fea.write_inp_file()\n    ~~~~~~~~~~~~~~~~~~^^\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py\", line 406, in write_inp_file\n    force_accounting.prepare_request(inp_writer)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py\", line 301, in prepare_request\n    elements = _connectivity(writer.file_name)\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py\", line 271, in _connectivity\n    raise ValueError(\"Native force accounting requires only C3D4/C3D10 volumes.\")\nValueError: Native force accounting requires only C3D4/C3D10 volumes.\n",
+  "type": "ValueError"
+}

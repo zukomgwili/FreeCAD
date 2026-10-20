@@ -1,0 +1,144 @@
+{
+  "Oomakhi_opened_or_solved": false,
+  "accounting_on_document_sha256": "ff98d0ac4a0bb2ccdc4a3e5c09ba2508181ff9c24b8e47312d6f7c68f0fac756",
+  "accounting_on_exception": {
+    "message": "Native force accounting requires only C3D4/C3D10 volumes.",
+    "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuMovingPortWitness.py\", line 335, in test_native_moving_face_ports_are_not_fixed_supports\n    fea.write_inp_file()\n    ~~~~~~~~~~~~~~~~~~^^\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py\", line 406, in write_inp_file\n    force_accounting.prepare_request(inp_writer)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py\", line 301, in prepare_request\n    elements = _connectivity(writer.file_name)\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py\", line 271, in _connectivity\n    raise ValueError(\"Native force accounting requires only C3D4/C3D10 volumes.\")\nValueError: Native force accounting requires only C3D4/C3D10 volumes.\n",
+    "type": "ValueError"
+  },
+  "cut_a_right_expected_wrench": [
+    -12,
+    0,
+    0,
+    -6,
+    -36,
+    24
+  ],
+  "cut_b_left_expected_wrench": [
+    12,
+    0,
+    0,
+    3,
+    36,
+    -24
+  ],
+  "expected_first_red": "stock native accounting rejects moving RBE modes",
+  "external_support_wrench_original_global_origin": [
+    -12,
+    0,
+    0,
+    -6,
+    -36,
+    24
+  ],
+  "geometric_cells_for_conforming_cuts": 4,
+  "limits": "Analytical software fixture only; no engineering acceptance",
+  "no_deck_patches_or_mocks": true,
+  "only_public_native_interfaces": true,
+  "passed": false,
+  "physical_beams": 2,
+  "red_reproduced": false,
+  "retained_files": {
+    "accounting-on-exception.json": {
+      "bytes": 1031,
+      "sha256": "1f1b976109a8025405930582d63f1798ebbab2adb607beacdcde8e8ed82c8791"
+    },
+    "accounting-on/Mesh.inp": {
+      "bytes": 68100,
+      "sha256": "71860789e3c9a733995775c0d933a17e2561b0f986b87c12c66b021a72cb35b9"
+    },
+    "mesh-membership.json": {
+      "bytes": 149454,
+      "sha256": "696635e62b376ad1a3fea64ae95536ebaaf165765a923748cfcef270e0a6f3a3"
+    },
+    "mesh/BeamCells_Geometry.brep": {
+      "bytes": 8606,
+      "sha256": "9c6d230e7e7f50b515b13d00151631067d8ba316745d6e2aaa0ffd4737c80e14"
+    },
+    "mesh/BeamCells_Mesh.vtk": {
+      "bytes": 67856,
+      "sha256": "395c85e8941d338bd0733344a4b554135d6636d6ed844a67d74e0a2aff8a3259"
+    },
+    "mesh/shape2mesh.geo": {
+      "bytes": 2465,
+      "sha256": "54db5888a4265d3c27643f42fd691efa61e4a0bde4606ba3c5962347ffe04e88"
+    },
+    "moving-face-ports-accounting-on.FCStd": {
+      "bytes": 393945,
+      "sha256": "ff98d0ac4a0bb2ccdc4a3e5c09ba2508181ff9c24b8e47312d6f7c68f0fac756"
+    },
+    "moving-face-ports-stock-off.FCStd": {
+      "bytes": 49640,
+      "sha256": "342d1c6959125ace9ca16147af06cc4c760b9aaefa30ae264a03f6fe9f7d3fb0"
+    },
+    "native-properties-off.json": {
+      "bytes": 18572,
+      "sha256": "13700668b088681d6b93d56b6490220432b4d3ababb29fab2645ecb65eae66c4"
+    },
+    "native-properties-on.json": {
+      "bytes": 18924,
+      "sha256": "81d401bdc60ab2128c8f02e7a956637c561c8be623e6271abeb4f482e7fc2592"
+    },
+    "stock-imported-results.json": {
+      "bytes": 90771,
+      "sha256": "dbbae0357434d510d6ac51bd841449351f0af02c461191803a9158b09ac0de0b"
+    },
+    "stock-off.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stock-off.stdout": {
+      "bytes": 2147,
+      "sha256": "d5a3b4da8a079d315bf06ba964a5c0e103b37b83dabfb9d533ec4b267454a445"
+    },
+    "stock-off/Mesh.12d": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stock-off/Mesh.cvg": {
+      "bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+    },
+    "stock-off/Mesh.dat": {
+      "bytes": 5513,
+      "sha256": "3943a930529f1b7b9e7321140b701b0cc7630361cf4cabb299a54bfe3ab82f20"
+    },
+    "stock-off/Mesh.frd": {
+      "bytes": 374702,
+      "sha256": "acde50322c8258cd661be0cbb81026d753800b66826e752b8c508b9bba811a98"
+    },
+    "stock-off/Mesh.inp": {
+      "bytes": 68096,
+      "sha256": "3ecf0e8da9279b89bd0d923661bb13b7db95da46e83188fd18ced171db562eac"
+    },
+    "stock-off/Mesh.sta": {
+      "bytes": 170,
+      "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d"
+    },
+    "stock-off/spooles.out": {
+      "bytes": 19,
+      "sha256": "4988e9c309b4514952b201885288407b453cadd83acfa8648f17421069d94f09"
+    }
+  },
+  "stock_off_binary": "",
+  "stock_off_deck": "/private/tmp/freecad-ywu-sG46Lsc8/installed-red-r01/witness/stock-off/Mesh.inp",
+  "stock_off_deck_sha256": "3ecf0e8da9279b89bd0d923661bb13b7db95da46e83188fd18ced171db562eac",
+  "stock_off_document_sha256": "342d1c6959125ace9ca16147af06cc4c760b9aaefa30ae264a03f6fe9f7d3fb0",
+  "stock_off_returncode": 0,
+  "stock_result_objects": [
+    "CCX_Results"
+  ],
+  "whole_applied_wrench_original_global_origin": [
+    12,
+    0,
+    0,
+    6,
+    36,
+    -24
+  ],
+  "witness_error": {
+    "message": "False is not true : Native force accounting requires only C3D4/C3D10 volumes.",
+    "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuMovingPortWitness.py\", line 335, in test_native_moving_face_ports_are_not_fixed_supports\n    fea.write_inp_file()\n    ~~~~~~~~~~~~~~~~~~^^\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py\", line 406, in write_inp_file\n    force_accounting.prepare_request(inp_writer)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py\", line 301, in prepare_request\n    elements = _connectivity(writer.file_name)\n  File \"/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py\", line 271, in _connectivity\n    raise ValueError(\"Native force accounting requires only C3D4/C3D10 volumes.\")\nValueError: Native force accounting requires only C3D4/C3D10 volumes.\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuMovingPortWitness.py\", line 348, in test_native_moving_face_ports_are_not_fixed_supports\n    self.assertTrue(receipt[\"red_reproduced\"], str(error))\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 744, in assertTrue\n    raise self.failureException(msg)\nAssertionError: False is not true : Native force accounting requires only C3D4/C3D10 volumes.\n",
+    "type": "AssertionError"
+  }
+}

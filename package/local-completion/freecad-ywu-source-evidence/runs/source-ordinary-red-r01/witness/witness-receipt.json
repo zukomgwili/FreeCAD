@@ -1,0 +1,37 @@
+{
+  "Oomakhi_opened_or_solved": false,
+  "aggregate_support_target": [
+    -12,
+    0,
+    0,
+    -6,
+    -36,
+    24
+  ],
+  "frozen_support_partition_oracle": "/private/tmp/freecad-ywu-sG46Lsc8/oracle-spec-proposal.json",
+  "individual_patch_reaction_targets": "Unspecified; not fitted.",
+  "no_deck_patches_or_mocks": true,
+  "no_external_support_RBE_or_added_stiffness": true,
+  "oracle_sha256": "8c7ecc8e52dba80b223b94b5b19af9dfb19f4b5a0e33b73aceb117e12fe69dd7",
+  "passed": false,
+  "retained_files": {
+    "mesh/BeamCells_Geometry.brep": {
+      "bytes": 14828,
+      "sha256": "9a606d79256f2b14d4822e0fc6fc0537d14bab5db10edadbd5164acff890d2cf"
+    },
+    "mesh/BeamCells_Mesh.vtk": {
+      "bytes": 107556,
+      "sha256": "c0bed9a2e23186138fac7c797497e23ff89fee6a17abaa6f6a379a422c9d9315"
+    },
+    "mesh/shape2mesh.geo": {
+      "bytes": 2479,
+      "sha256": "eb706a7698a14b3e571c5e17e5a18a7d2af024ba0287b189dae90fc05ed929c2"
+    }
+  },
+  "schema": "FreeCAD-ywu-native-ordinary-support-first-red-v1",
+  "witness_error": {
+    "message": "Items in the second set but not the first:\n'Solid3'\n'Solid6'\n'Solid2'\n'Solid5'\n'Solid4'",
+    "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuOrdinarySupports.py\", line 291, in test_native_fixed_and_partial_support_selection_first_red\n    model = make_fixture(self, doc, output)\n  File \"/private/tmp/freecad-ywu-sG46Lsc8/YwuOrdinarySupports.py\", line 249, in make_fixture\n    testcase.assertEqual(visited, set(names))\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 907, in assertEqual\n    assertion_func(first, second, msg=msg)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 1167, in assertSetEqual\n    self.fail(self._formatMessage(msg, standardMsg))\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 732, in fail\n    raise self.failureException(msg)\nAssertionError: Items in the second set but not the first:\n'Solid3'\n'Solid6'\n'Solid2'\n'Solid5'\n'Solid4'\n",
+    "type": "AssertionError"
+  }
+}

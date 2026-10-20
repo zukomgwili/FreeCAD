@@ -1,0 +1,13 @@
+{
+  "schema": "FreeCAD-ywu-root-transcribed-collector-review-v1",
+  "scope": "Root transcription of independent read-only collector review, not raw agent messages, human review or an execution receipt",
+  "reviewer": "/root/ywu_final_review",
+  "reviewed_collector_sha256": "f341119a099def3afbfe85e662d0bb87591d62a42fcec49d14d958e6542bf7e3",
+  "axes": ["privacy exclusions", "actual receipt schemas", "source and native binding", "new-only writes", "index integrity", "historical and engineering hold truthfulness"],
+  "finding": "Initial collector did not bind copied legacy V2 native output to its recorded SHA or copied deck/request to existing custody hashes",
+  "observed_evidence_change": false,
+  "resolution": "Collector now requires V2 before/after custody equality, exact current input hashes and positive native output SHA equality before acceptance; independently rechecked",
+  "outstanding_actionable_findings": 0,
+  "collector_or_native_execution_by_reviewer": false,
+  "engineering_or_design_acceptance": false
+}

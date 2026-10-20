@@ -1,0 +1,129 @@
+{
+  "schema": "FreeCAD-ywu-independent-ordinary-support-posthoc-audit-v1",
+  "result": "PASS_PREDECLARED_ORDINARY_AND_PARTIAL_SUPPORT_NUMERICAL_WITNESS_ONLY",
+  "scope": "Read-only independent examination of captured source-ordinary-green-r01 deck, physical mesh, FRD, DAT, native request/output and frozen ordinary oracle; no production implementation or harness reads and no native, application, build or solver execution.",
+  "ordinary_fixed_and_genuine_partial_support_wrench_check_passed": true,
+  "application_lifecycle_or_cold_reopen_qualified_by_this_audit": false,
+  "whole_FreeCAD_ywu_complete": false,
+  "engineering_or_Oomakhi_acceptance": false,
+  "predeclared_oracle_or_captured_inputs_modified": false,
+  "inputs": [
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/ordinary-oracle.json", "sha256": "c8fa248d41273d3d829222c9f57cdcbc6cdf384f7077b34010eab94fd48a77c7", "bytes": 9447},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native/Mesh.inp", "sha256": "2e69c407fe9552d2045bc7774ac10fea13f5f0b7f6b48f48ac2d981544e33e48", "bytes": 97319},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native/Mesh.dat", "sha256": "2a87ce10c7ea188dbc74506cc583c3e01f1714eba7557fe19646def224971a7b", "bytes": 5220},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native/Mesh.frd", "sha256": "49cbce54557e5fc5d12c9a40888a4cb2d488016620ad6431bfe313df243a70bb", "bytes": 565220},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/mesh-membership.json", "sha256": "bd193287a83a50b1ef41579d04d90e2510fbba151ad5d33e35635a3f7b12ddd7", "bytes": 246072},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native/Mesh.accounting", "sha256": "5176d9bd6bef739011f0f8d11b784f7a38ed87ac45204554ee5b3781d12697d0", "bytes": 3541},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native/Mesh.accounting.out", "sha256": "7c312df9f56adb8778a9b86b8c5d4419c06de1d987f7eed54a528ea30000ab64", "bytes": 940},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native/Mesh.accounting.json", "sha256": "cb5931b924a727e4d6f6dad5acaf8952e310c75738db2a72a2f2ebfa70097bb3", "bytes": 465},
+    {"path": "/private/tmp/freecad-ywu-sG46Lsc8/source-ordinary-green-r01/witness/native-accounting-data.json", "sha256": "07527b776c98dcbf79feae85057355849b81b87320bf1a1cc4c9870d0d3e5fb5", "bytes": 3358}
+  ],
+  "fixed_oracle_and_frames": {
+    "wrench_order": "Fx,Fy,Fz,Mx,My,Mz",
+    "units": "N and N*mm",
+    "moment_origin": [0, 0, 0],
+    "moment_application_positions": "Original undeformed Mesh.inp coordinates only",
+    "applied_load_W": [12, 0, 0, 6, 36, -24],
+    "aggregate_physical_external_support": [-12, 0, 0, -6, -36, 24],
+    "CutARight_expected": [-12, 0, 0, -6, -36, 24],
+    "CutBLeft_expected": [12, 0, 0, 6, 36, -24],
+    "MPC_expected": "Opposite of corresponding CUT; LOAD and CONTACT zero on both retained bodies.",
+    "force_and_moment_relative_error_ceiling": 0.01,
+    "zero_channel_balance_scales": {"force_N": 12, "moment_N_mm": "sqrt(1908)"},
+    "per_support_patch_wrench_targets": "None. Observed split is stiffness-dependent; only aggregate support is compared to statics.",
+    "fitted_signs_or_scales_or_corrections": false,
+    "ordinary_RF_as_native_accounting_substitute": false
+  },
+  "actual_ordinary_boundary_DOFs": {
+    "FixedPatch": {"physical_nodes": 23, "original_bounds": [[0, 0], [1, 1.75], [2, 4]], "prescribed_physical_DOFs": [1, 2, 3], "prescribed_values": [0, 0, 0], "native_SPC_SUPPORT_terms": 69, "finite_boundary_facets": 8, "area_mm2": 1.5},
+    "PartialAxialPatch": {"physical_nodes": 23, "original_bounds": [[0, 0], [2.25, 3], [2, 4]], "prescribed_physical_DOFs": [1], "prescribed_values": [0], "native_SPC_SUPPORT_terms": 23, "finite_boundary_facets": 8, "area_mm2": 1.5, "Uy_and_Uz": "Not prescribed in the stock deck or native request."},
+    "middle_gap": {"open_y_interval": [1.75, 2.25], "width_mm": 0.5, "area_mm2": 1, "boundary_facets": 8},
+    "fixed_partial_node_intersection": 0,
+    "expanded_stock_physical_boundary_terms": 92,
+    "stock_boundary_terms_exactly_match_geometric_patch_and_DOF_declaration": true,
+    "native_SPC_SUPPORT_terms_exactly_match_expanded_stock_physical_terms": true,
+    "duplicate_physical_node_DOF_targets_required": false,
+    "physical_boundary_terms_on_either_moving_receiving_region": 0,
+    "scalar_rotation_auxiliary_orthogonal_restraint_terms": 12,
+    "helper_terms_in_physical_SPC_SUPPORT_selection": false,
+    "replacement_external_support_RBE_present": false,
+    "physical_response_check": {"fixed_patch_max_abs_FRD_displacement_mm": 0, "partial_patch_max_abs_Ux_mm": 0, "partial_patch_max_abs_free_Uy_mm": 0.000462927, "partial_patch_max_abs_free_Uz_mm": 0.000710906},
+    "assessment": "The ordinary fixed patch is finite and removes rigid modes. The disjoint partial patch is genuinely Ux-only and active: its free transverse motions are demonstrably nonzero, rather than silently grounded."
+  },
+  "actual_continuum_geometry": {
+    "physical_nodes": 1537,
+    "C3D10_elements": 766,
+    "eight_native_cells": [
+      {"solid": "Solid1", "elements": 92, "bounds": [[0, 5], [1, 1.75], [2, 4]]},
+      {"solid": "Solid2", "elements": 80, "bounds": [[0, 5], [1.75, 2.25], [2, 4]]},
+      {"solid": "Solid3", "elements": 92, "bounds": [[0, 5], [2.25, 3], [2, 4]]},
+      {"solid": "Solid4", "elements": 92, "bounds": [[5, 10], [1, 1.75], [2, 4]]},
+      {"solid": "Solid5", "elements": 82, "bounds": [[5, 10], [1.75, 2.25], [2, 4]]},
+      {"solid": "Solid6", "elements": 92, "bounds": [[5, 10], [2.25, 3], [2, 4]]},
+      {"solid": "Solid7", "elements": 118, "bounds": [[20, 25], [1, 3], [2, 4]]},
+      {"solid": "Solid8", "elements": 118, "bounds": [[25, 30], [1, 3], [2, 4]]}
+    ],
+    "connected_components_from_actual_volume_element_node_graph_without_springs": [
+      {"nodes": 1024, "bounds": [[0, 10], [1, 3], [2, 4]]},
+      {"nodes": 513, "bounds": [[20, 30], [1, 3], [2, 4]]}
+    ],
+    "sum_original_corner_tetrahedron_volumes_mm3": 79.99999999999996,
+    "assessment": "The eight selectable geometric cells form exactly two connected deformable material continua, not eight disconnected bodies and not a merged connection between the separated beams."
+  },
+  "finite_A_receiving_union_and_cuts": {
+    "moving_A": {"three_coplanar_x10_patch_areas_mm2": [1.5, 1, 1.5], "facets": 24, "deduplicated_physical_nodes": 59, "total_area_mm2": 4, "centroid": [10, 2, 3], "actual_RBE_nodes_exactly_equal_end_surface_union": true},
+    "CutARight": {"retained_owner": "Exact union Solid4+Solid5+Solid6", "volume_elements": 266, "volume_node_bounds": [[5, 10], [1, 3], [2, 4]], "cut_facets": 24, "cut_nodes": 59, "area_mm2": 4, "centroid": [5, 2, 3], "all_outward_normals": [-1, 0, 0], "cut_node_bounds": [[5, 5], [1, 3], [2, 4]], "native_request_cut_nodes_exactly_equal_deck_section_surface_union": true, "internal_y_seams_in_cut": false},
+    "CutBLeft": {"retained_owner": "Exact Solid7", "volume_elements": 118, "volume_node_bounds": [[20, 25], [1, 3], [2, 4]], "cut_facets": 16, "cut_nodes": 41, "area_mm2": 4, "centroid": [25, 2, 3], "all_outward_normals": [1, 0, 0], "cut_node_bounds": [[25, 25], [1, 3], [2, 4]], "native_request_cut_nodes_exactly_equal_deck_section_surface": true}
+  },
+  "actual_end_only_loads": {"CLOAD_records": 51, "nonzero_records": 38, "distinct_nonzero_loaded_nodes": 34, "all_nonzero_loaded_node_bounds": [[30, 30], [1, 3], [2, 4]], "nonzero_loaded_nodes_exclusive_to_Solid8": true, "actual_original_origin_wrench": [12, 0, 0, 6, 36, -24], "cut_or_receiver_point_load_ambiguity_present": false},
+  "physical_node_motion_fits": {
+    "method": "Rigid small-rotation six-parameter fit using actual physical-node FRD DISP values and original node coordinates, not auxiliary FRD numbering.",
+    "moving_A": {"nodes": 59, "fit_translation_mm_then_rotation_rad": [0.00149225, -0.00009407933898305084, -0.00009732241525423726, 0.003643959478143914, 0.00003247999999999998, -0.000007199999999999986], "max_displacement_fit_residual_mm": 4.686942199367411e-9},
+    "moving_B": {"nodes": 41, "fit_translation_mm_then_rotation_rad": [0.011492246341463414, -0.00009407963414634141, -0.00009732032926829261, 0.00464396, 0.000032465714285714304, -0.000007194285714285837], "max_displacement_fit_residual_mm": 4.9198606272282674e-8},
+    "assessment": "Both finite receiving regions genuinely translate X and rotate X. Observed other motions are allowed stiffness-dependent response and are not fitted into the oracle."
+  },
+  "DAT_constitutive_and_transverse_couple_check": {
+    "A_reference_node1546_translation_mm": [0.00149225, -0.00009407698, -0.00009732268],
+    "B_reference_node1548_translation_mm": [0.01149225, -0.00009407698, -0.00009732268],
+    "A_rotation_node1547_radians": [0.003643959, 0.00003248109, -0.000007199287],
+    "B_rotation_node1549_radians": [0.004643959, 0.00003248109, -0.000007199287],
+    "translation_1200_times_B_minus_A_N": [12, 0, 0],
+    "rotation_6000_times_B_minus_A_N_mm": [5.999999999999997, 0, 0],
+    "separated_reference_net_transverse_couple_formula": "(rA-rB) cross fA=(0,10*Tz,-10*Ty)",
+    "printed_DAT_transverse_couple": [0, 0, 0],
+    "DAT_Uy_Uz_printing_increment_mm": 1e-11,
+    "each_transverse_scalar_force_bound_N_assuming_round_to_nearest": 1.2e-8,
+    "spatial_couple_norm_bound_N_mm_assuming_round_to_nearest": 1.697056274847714e-7,
+    "spatial_couple_bound_divided_by_frozen_moment_scale": 3.885143449429057e-9,
+    "exact_zero_beyond_printed_DAT_precision_claimed": false,
+    "general_noncentral_transverse_connector_domain_qualified": false
+  },
+  "actual_native_outputs": {
+    "SUPPORT_FixedPatch": [-5.962167681948571, 6.669994417896064e-13, -9.197365091750953e-13, -6.0000000000022125, -17.25037332659298, 8.620053676423778],
+    "SUPPORT_PartialAxialPatch": [-6.0378323180547335, 0, 0, 0, -18.74962667340891, 15.379946323598247],
+    "aggregate_SUPPORT": [-12.000000000003304, 6.669994417896064e-13, -9.197365091750953e-13, -6.0000000000022125, -36.00000000000189, 24.000000000022027],
+    "CUT_CutARight": [-12.000000000003572, 1.1542780620210635e-12, -7.590317263606039e-13, -6.000000000003346, -36.0000000000039, 24.000000000025665],
+    "MPC_CutARight": [12.000000000003572, -1.1542780620210635e-12, 7.590317263606039e-13, 6.000000000003346, 36.0000000000039, -24.000000000025665],
+    "CUT_CutBLeft": [12.000000000001739, -1.0201978151158642e-12, 7.437939153476236e-13, 6.000000000003056, 35.9999999999912, -24.000000000031193],
+    "MPC_CutBLeft": [-12.000000000001739, 1.0201978151158642e-12, -7.437939153476236e-13, -6.000000000003056, -35.9999999999912, 24.000000000031193],
+    "LOAD_and_CONTACT_each_requested_body": [0, 0, 0, 0, 0, 0],
+    "per_patch_interpretation": "Partial support has a genuinely nonzero observed Fx and zero unprescribed Fy/Fz, without fitting either patch's wrench split. Partial Mx is zero because only x-directed physical support forces are selected; its global-origin My/Mz are retained rather than discarded."
+  },
+  "independent_unchanged_ceiling_comparisons": {
+    "aggregate_SUPPORT_relative_force_moment_errors": [2.9115879893572214e-13, 5.086506495244349e-13],
+    "CutARight_and_its_MPC_relative_force_moment_errors": [3.191730070912678e-13, 5.992190806670496e-13],
+    "CutBLeft_and_its_MPC_relative_force_moment_errors": [1.7908601886304717e-13, 7.452546032603034e-13],
+    "LOAD_and_CONTACT_relative_errors_each_body": [0, 0],
+    "all_below_unchanged_1_percent_ceiling": true,
+    "LOAD_plus_CONTACT_plus_MPC_plus_CUT_each_body": [0, 0, 0, 0, 0, 0],
+    "aggregate_SUPPORT_plus_independently_summed_actual_LOAD": [-3.304023721284466e-12, 6.669994417896064e-13, -9.197365091750953e-13, -2.212452443473012e-12, -1.8900436771218665e-12, 2.2026824808563106e-11]
+  },
+  "captured_binding_checks": {"manifest_actual_deck_hash": true, "manifest_actual_request_hash": true, "data_actual_output_hash": true, "movement_source_actual_FRD_hash": true, "data_wrenches_exact_native_output": true, "current_on_disk_solver_binary_independently_hashed": false, "source_or_model_digest_recomputed": false},
+  "remaining_qualifications": [
+    "This numerical audit does not infer Current/Stale, load-results, save/cold-reopen, rerun or edit-provenance semantics from wrench agreement. Those application lifecycle duties require separate execution evidence.",
+    "Captured native-accounting-data.json still describes 'zero-motion RBE' in limitations despite actual moving ports. That metadata discrepancy is retained, not repaired or silently interpreted as updated documentation.",
+    "A successful ordinary/partial support fixture does not qualify all unsupported constraint combinations, overlapping/ambiguous ownership or nonzero imposed-motion cases; negative controls and preserved fixed-port/Tie/contact regressions remain separate duties.",
+    "This audit does not establish native artifact reproducibility, full application build, installed verification or whole FreeCAD-ywu completion.",
+    "Earlier longitudinal-sideface-load refusal and all earlier frozen oracles/captures remain unchanged. No Oomakhi model was read, changed or solved and no engineering acceptance is implied."
+  ]
+}

@@ -1,0 +1,89 @@
+test_source_build_and_native_contract (SourceYwuIdentity.SourceYwuIdentity.test_source_build_and_native_contract) ... ok
+test_unselected_fixed_boundary_cannot_share_selected_rbe_receiving_dofs (YwuSupportOverlap.SupportOverlap.test_unselected_fixed_boundary_cannot_share_selected_rbe_receiving_dofs) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +219 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+UnselectedFixedDuplicate:
+    Type: Fem::ConstraintFixed, Name: UnselectedFixedDuplicate
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+ExternalSupport:
+    Type: Fem::ConstraintRigidBody, Name: ExternalSupport
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+MovingPortA:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortA
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+MovingPortB:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortB
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+CutARight:
+    Type: Fem::ConstraintSectionPrint, Name: CutARight
+    ReferenceShape ... Type: Face, Object name: CutARightOrientation, Object label: CutARightOrientation, Element name: Face2
+CutBLeft:
+    Type: Fem::ConstraintSectionPrint, Name: CutBLeft
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face13
+AxialLoad:
+    Type: Fem::ConstraintForce, Name: AxialLoad
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face18
+TorquePositiveZ:
+    Type: Fem::ConstraintForce, Name: TorquePositiveZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge35
+TorqueNegativeZ:
+    Type: Fem::ConstraintForce, Name: TorqueNegativeZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge33
+Getting mesh data time: 0.047 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-ywu-sG46Lsc8/source-rbe-ordinary-overlap-red-r01/export/Mesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Elemen[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'WitnessMaterialSolid', 'mat_obj_name': 'WitnessMaterial', 'ccx_mat_name': 'Ywu synthetic linear material'}]
+FAIL
+
+======================================================================
+FAIL: test_unselected_fixed_boundary_cannot_share_selected_rbe_receiving_dofs (YwuSupportOverlap.SupportOverlap.test_unselected_fixed_boundary_cannot_share_selected_rbe_receiving_dofs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-ywu-sG46Lsc8/YwuSupportOverlap.py", line 32, in test_unselected_fixed_boundary_cannot_share_selected_rbe_receiving_dofs
+    with self.assertRaisesRegex(ValueError, "overlap") as caught:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.995s
+
+FAILED (failures=1)
+t name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+Writing time CalculiX input file: 0.211 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12

@@ -1,0 +1,32 @@
+test_source_build_and_native_contract (SourceYwuIdentity.SourceYwuIdentity.test_source_build_and_native_contract) ... ok
+test_saved_support_roles_and_literal_history_restore (YwuColdRestore.ColdRestore.test_saved_support_roles_and_literal_history_restore) ... FAIL
+
+======================================================================
+FAIL: test_saved_support_roles_and_literal_history_restore (YwuColdRestore.ColdRestore.test_saved_support_roles_and_literal_history_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py", line 35, in test_saved_support_roles_and_literal_history_restore
+    self.assertEqual(plain(doc.getObject(name).References), references)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [[{'object': 'CutARightOrientation', 'documen[42 chars]2']]] != [[{'document': 'YwuMovingPortGreen', 'object'[33 chars]2']]]
+
+First differing element 0:
+[{'object': 'CutARightOrientation', 'documen[41 chars]e2']]
+[{'document': 'YwuMovingPortGreen', 'object'[32 chars]e2']]
+
+- [[{'document': 'moving_face_ports_native_v3', 'object': 'CutARightOrientation'},
+?                 ^     ^^^^^^^   ^^ --------
+
++ [[{'document': 'YwuMovingPortGreen', 'object': 'CutARightOrientation'},
+?                 ^^^^     ^   ^^^^
+
+    ['Face2']]]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.238s
+
+FAILED (failures=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +219 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
