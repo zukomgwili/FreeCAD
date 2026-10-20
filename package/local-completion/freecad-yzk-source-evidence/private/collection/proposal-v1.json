@@ -1,0 +1,349 @@
+{
+  "schema": "FreeCAD-yzk-source-collection-proposal-v1",
+  "stage": "Proposal and source-code preparation only; NOT an executable approved publication manifest",
+  "publication_authorized": false,
+  "collector_or_native_execution_performed": false,
+  "task_root": "/private/tmp/freecad-yzk-Sd0mDG",
+  "future_new_only_destination": "package/local-completion/freecad-yzk-source-evidence",
+  "future_new_only_summary": "package/local-completion/freecad-yzk-validation.json",
+  "interface": {
+    "approved_plan": "--plan ABSOLUTE_JSON --plan-sha256 EXACT64",
+    "check_only": "--check-only validates every byte/privacy/semantic fence before writes; must report writes0",
+    "publication": "Only root executes a separately reviewed frozen collector against the exact approved plan; no replacement/overwrite",
+    "required_explicit_entry_fields": [
+      "scope",
+      "path",
+      "destination",
+      "sha256",
+      "kind",
+      "classification"
+    ],
+    "allowed_scopes": [
+      "private task root",
+      "repository"
+    ],
+    "allowed_kinds": [
+      "source",
+      "receipt",
+      "text",
+      "generic-fixture"
+    ],
+    "history": "A failed/historical receipt is never repaired, inferred as PASS, or labelled as the final committed runtime"
+  },
+  "packet_encoding": {
+    "default_max_decoded_bytes": 33554432,
+    "deterministic_gzip": {
+      "mtime": 0,
+      "compression_level": 9,
+      "threshold_bytes": 65536,
+      "FCStd_compression_permitted": true
+    },
+    "every_file_fences": [
+      "original SHA256/bytes/path",
+      "stored SHA256/bytes/encoding",
+      "decoded SHA256/bytes",
+      "all originals rehashed before and after publication",
+      "exact index/file coverage"
+    ],
+    "large_exceptions_only": [
+      {
+        "path": "qa-v2/coupled-capacity-at-limit-r01/witness/coupled-native-current.FCStd",
+        "bytes": 53698921,
+        "sha256": "d5d7ffbc9616f0ddf1bbf2b194d67543a413a84105afc89237e5d3f598b632de",
+        "hard_ceiling_bytes": 67108864,
+        "scope": "Explicit primary generic cold fixture only"
+      },
+      {
+        "path": "qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.frd",
+        "bytes": 53666757,
+        "sha256": "7d55d137dc99492843a48a0c9124e18d86b4cf059e439f61baa5fc345c61c123",
+        "hard_ceiling_bytes": 67108864,
+        "scope": "Explicit primary generic original solver result only"
+      }
+    ],
+    "secondary_full_fixture": "Retain selected receipts and input/output hashes; no duplicate huge FCStd/FRD payload unless root separately requires cold proof."
+  },
+  "privacy": {
+    "exclude": [
+      "all private-*.json inventory bodies",
+      "user.cfg/system.cfg and profile/caches",
+      "environment dumps/secrets",
+      "runtime executables/shared libraries/objects/archive payloads",
+      "native vendor trees",
+      "any engineering/Oomakhi model or solve input/output"
+    ],
+    "inventory_bearing_receipts": "Only explicit top-level omissions with original path/SHA/size, exact omitted-field declaration, and honestly labelled derived excerpt; never presented as a new independent audit",
+    "generic_fixture_approval": "Each CAD/mesh/native result requires explicit root declaration: generic software QA; not a retained engineering model"
+  },
+  "required_final_role_inputs": [
+    "final implementation commit and clean build receipt (actual compiled header/revision, never assumed)",
+    "final full public FEM discovery identity and complete execution; exact actual unique IDs/counts/no skips",
+    "final GUI and registered native-method execution with actual unique non-skipped IDs",
+    "final public after-benchmark dictionary/value identity plus measured timing, no fitted threshold",
+    "final legacy V1 outer manifest/execution + complete54 case receipts,288 checks",
+    "final legacy V2 outer manifest/execution + complete10 case receipts,144 checks",
+    "final serial CTest complete actual catalogue/fresh LastTest/Disabled/raw log; preserved stale-failure classification",
+    "portable full132 proof and any associated public one-below/cold evidence, scoped to its own runtime",
+    "root-approved explicit generic fixture file manifest, all6 primary cold files and exact native input/output custody",
+    "final source/code review and static quality receipts"
+  ],
+  "final_semantic_checks": {
+    "compiled_native": {
+      "candidate_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+      "C_sha256": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4",
+      "hooks_sha256": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7",
+      "current_contract_sha256": "8086e668ed9383a324fbfff7cbe8621d919c46da844924d507252a24f85a77eb",
+      "contract_is_observed_metadata_not_compiled_source": true
+    },
+    "primary_graph": {
+      "bays": 132,
+      "ports": 264,
+      "bodies": 264,
+      "springs": 792,
+      "angles": 792,
+      "ordinary_named_supports": 1,
+      "total_declarations": 2113,
+      "receiving_regions": "exact independently owned finite faces, not merged rigid rail or grounded branches",
+      "full_primary_checks": 3566
+    },
+    "unchanged_limits": {
+      "force_and_original_origin_moment": 0.01,
+      "scalar_response": 0.05,
+      "local_generalized_force_and_couple": 0.01
+    },
+    "runtime_identity": "Primary physical run remains +222/a878 dirty with exact production/native file pins. Final committed source gates are separately identified; no historical-runtime rebinding.",
+    "cold": "Literal saved accounting/movement must remain historical Stale after open/recompute, without solve/save/provenance repair.",
+    "legacy": "Use unchanged generic generator and frozen V1/V2 reference physics; exact native201 refusals, all subprocesses reaped/group gone, all input/log/output hashes bound.",
+    "installation": "No installation performed or claimed; protected installed application and user profiles remain unchanged according to scoped receipts.",
+    "engineering_holds": {
+      "Oomakhi_opened_altered_meshed_solved": false,
+      "engineering_or_BIM_accepted": false,
+      "R49_11_123267892_percent_remains_FAIL_against_5_percent": true,
+      "R51_5_240441298_percent_remains_FAIL_against_5_percent": true
+    }
+  },
+  "initial_known_receipt_roles": [
+    {
+      "role": "installed_export_timeout",
+      "scope": "private",
+      "path": "repro/physical-red-1/execution.json",
+      "sha256": "79405fb2dc90d5ce871e1bfc0bf6c1829ad8830b130669e51483574c6dbbd960",
+      "classification": "Installed stock export timed out before request/solver; NOT a native-capacity RED."
+    },
+    {
+      "role": "installed_native_capacity_RED",
+      "scope": "private",
+      "path": "repro-v2/physical-red-2/execution.json",
+      "sha256": "275442847e7e4bcd5755865f9b75858aa476390a214ad3bbf0833808fc1ed8cc",
+      "classification": "Actual unchanged stock65-port/384-scalar native capacity RED: solver201 after stock export; test process1. Not engineering acceptance."
+    },
+    {
+      "role": "nonphysical_parser_control",
+      "scope": "private",
+      "path": "repro-v2/parser-red-1/execution.json",
+      "sha256": "53260487d9724a9b4f92c0d3f3c15cce290cd74fce912905be2481878e6c68f3",
+      "classification": "NONPHYSICAL parser-only native201 refusal; not a finite-element solve or coupled-graph qualification."
+    },
+    {
+      "role": "benchmark_setup_failure",
+      "scope": "private",
+      "path": "port-benchmark-before/execution.json",
+      "sha256": "06c3caf5eee764ac841591aefb5855ac919c47074bfb574f1016ca0c733a534f",
+      "classification": "Harness setup failure: missing YZK_OUTPUT; no timed benchmark result."
+    },
+    {
+      "role": "baseline_public_benchmark",
+      "scope": "private",
+      "path": "port-benchmark-before-r02/port-benchmark.json",
+      "sha256": "e58909f9d8d5c4a1f4d10266f7bb2b7f5c0eef68d1147caf549a9f389560b60a",
+      "classification": "Installed public12-call measurement; exact returned values/nativeIDs; no solve or new physical qualification."
+    },
+    {
+      "role": "early_preflight_RED",
+      "scope": "private",
+      "path": "preflight-red-1/execution.json",
+      "sha256": "5f99165a5c235e067fc7b2f17d03e344f9406c53c3088de2f0c582c0be25adca",
+      "classification": "New public preflight test RED: unfinished model reached mesh work instead of early capacity refusal; no physical solve."
+    },
+    {
+      "role": "early_preflight_GREEN",
+      "scope": "private",
+      "path": "preflight-green-1/execution.json",
+      "sha256": "34ab39a215c7a8392bf7f3c32eec5c91e701a5dcd651a301d301d508e52226ad",
+      "classification": "Public early-preflight test GREEN; no coupled physical qualification."
+    },
+    {
+      "role": "port_context_interface_RED",
+      "scope": "private",
+      "path": "qa/port-context-red-r01/execution.json",
+      "sha256": "43c40c92489520f443cfa4eb3303df5fbe877090f40f743070a703ffb075d0b7",
+      "classification": "New approved public operation-context interface RED: ImportError; not a physical/native failure."
+    },
+    {
+      "role": "capacity_custody_RED",
+      "scope": "private",
+      "path": "qa/capacity-custody-red-r01/execution.json",
+      "sha256": "1d8eb3b8e39754aa0889a1d760d9b1ad4c4f36af73520297fceda8d9d34c0610",
+      "classification": "Public re-export/capacity-custody behavior RED; no qualified native physics."
+    },
+    {
+      "role": "applied_capacity_echo_RED",
+      "scope": "private",
+      "path": "qa/capacity-echo-red-r01/execution.json",
+      "sha256": "723673110d17808c401cc2a09e9a433f64f8ec8380316349afbae0579363c400",
+      "classification": "Public applied-capacity echo refusal RED for missing/wrong/duplicate echo; no qualified native physics."
+    },
+    {
+      "role": "stock_export_capacity_metadata_RED",
+      "scope": "private",
+      "path": "qa-v2/capacity-export-red-r01/execution.json",
+      "sha256": "bef5a3a2c96843a9d365a75d233adb30709019a06f4a3b36fad2d70e078f68b7",
+      "classification": "Public normal-writer capacity metadata RED: missing capacity field; no native physical solve."
+    },
+    {
+      "role": "source_build_before_custody_RED",
+      "scope": "private",
+      "path": "source-capacity-custody-red-r01/execution.json",
+      "sha256": "6d84f1f9fe223e4facda261d56a83b9fb7c3e89765e0b00d769e4600661bfeae",
+      "classification": "Successful intermediate source build preparing a separate runtime RED; the build itself is NOT a RED."
+    },
+    {
+      "role": "source_build_before_echo_RED",
+      "scope": "private",
+      "path": "source-capacity-echo-red-r01/execution.json",
+      "sha256": "f3dedd19e96213031474ff3e655861d69e96845ea54acd9ce0f45208204e15ad",
+      "classification": "Successful intermediate source build preparing a separate runtime RED; the build itself is NOT a RED."
+    },
+    {
+      "role": "source_build_before_export_RED",
+      "scope": "private",
+      "path": "source-capacity-export-red-r01/execution.json",
+      "sha256": "6b477ac9ad7dee03056ab5e1ae84bae3722b153cfc46eaf4497b9a1eb16d2095",
+      "classification": "Successful intermediate source build preparing a separate runtime RED; the build itself is NOT a RED."
+    },
+    {
+      "role": "source_preflight_build",
+      "scope": "private",
+      "path": "source-preflight-unit-r01/execution.json",
+      "sha256": "734f1f06d9435d41cc60e99c53ecf8719e8fda0ed191ea88c64343f2a0a2f77e",
+      "classification": "Successful intermediate source build; not standalone native or engineering qualification."
+    },
+    {
+      "role": "source_copy_fence_failure",
+      "scope": "private",
+      "path": "qa/source-capacity-custody-green-r01/execution.json",
+      "sha256": "3e3592488e2e718d24b6de6ffbd0d022e600636a3502df4a5bfc012867723582",
+      "classification": "Build process exited0 but source/build copy-parity supervisor failed; not an accepted build gate."
+    },
+    {
+      "role": "configure_copy_fence_failure",
+      "scope": "private",
+      "path": "qa-v2/configure-capacity-r01/execution.json",
+      "sha256": "450d9b5060bc129dac67b439ba832baa4f3677bddcd81397afc0131996a3908e",
+      "classification": "CMake configure exited0 but copied-source parity failed; not an accepted configure gate."
+    },
+    {
+      "role": "unit_compiler_setup_failure",
+      "scope": "private",
+      "path": "native-capacity-unit-r01/summary.json",
+      "sha256": "82af3cccc206d30f17913421f660f6970d69a00bdcb44743ab71a93609cdcc8c",
+      "classification": "Artificial C-unit compiler setup failure: missing stdio.h; no unit-case or physical qualification."
+    },
+    {
+      "role": "artificial_capacity_units",
+      "scope": "private",
+      "path": "native-capacity-unit-r02/summary.json",
+      "sha256": "978370d11a3d5b1782dfe6080322dfd822e61420b1c4d37e92fd3c65a9718585",
+      "classification": "46 artificial native-C/capacity-CLI cases, including sanitizers; explicitly NOT finite-element/engineering qualification."
+    },
+    {
+      "role": "native_compile_receipt",
+      "scope": "private",
+      "path": "native-capacity-r01/native/build-receipt.json",
+      "sha256": "b899e0035c706fa6d272eee73f2515afd8c89747cea44875f0e0b541fd69a89e",
+      "classification": "Original actual native build receipt: compiled C/hooks/candidate; no installed or physical-duty acceptance."
+    },
+    {
+      "role": "historical_native_attestation",
+      "scope": "private",
+      "path": "qa/native-capacity-r01-attestation.json",
+      "sha256": "82608491961909ec23217c0ace11f6836d5ef1b8ab1d8c078fed1472d95c095a",
+      "classification": "Derived custody attestation of existing compilation; no new native compilation and no contract-compilation claim."
+    },
+    {
+      "role": "current_contract_native_attestation",
+      "scope": "private",
+      "path": "qa/native-capacity-r01-attestation-v2.json",
+      "sha256": "e8727c950d2ca2d55712de4a0b3ddb37c5d7544bfccc5ccbf91ca6afe2b1b9a9",
+      "classification": "Derived existing6c compilation attestation plus observed current contract; no new native compilation and no contract-compilation claim."
+    },
+    {
+      "role": "intermediate_source_build",
+      "scope": "private",
+      "path": "qa-v2/source-formatted-r01/execution.json",
+      "sha256": "b629ce2a3eb7471b4ed4ca8cfcf70d0120d6957ce28aa8578012eedf046ac970",
+      "classification": "Source+222/a878 dirty working-tree build bound by exact file hashes; distinct from future committed final build."
+    },
+    {
+      "role": "source_suite_discovery",
+      "scope": "private",
+      "path": "qa-v2/fem-review-discovery-r01/execution.json",
+      "sha256": "aded6c356b763fd1206163a9a00c6b2722ac57eb210415b3d92a6f74474d41c3",
+      "classification": "Suite identity/discovery only; not selected feature-test execution."
+    },
+    {
+      "role": "intermediate_full_FEM_gate",
+      "scope": "private",
+      "path": "qa-v2/fem-review-green-r01/execution.json",
+      "sha256": "f0b1c9d7439f9fc02abe5dc35922046eadc53b00cd0f271c6bcba1d143c19123",
+      "classification": "Actual intermediate full public FEM gate; preserve its own runtime/source identity, not relabelled as a future final commit."
+    },
+    {
+      "role": "one_bay_physical_tracer",
+      "scope": "private",
+      "path": "qa-v2/coupled-tracer-r01/witness/witness-receipt.json",
+      "sha256": "2701163213cdd482c1959a6ff4f0d564c2b7d1f8bb4ec5aaca810cdd441554e0",
+      "classification": "Actual normal writer/native/import/save1-bay coupled physical tracer; unchanged independent oracles/limits."
+    },
+    {
+      "role": "primary_132_physical",
+      "scope": "private",
+      "path": "qa-v2/coupled-capacity-at-limit-r01/witness/witness-receipt.json",
+      "sha256": "fb0cbec8e16675cf7489fa00ee06fed0d6792db4ef1ba8ca274bab80bd2ee5b5",
+      "classification": "Actual normal writer/native/import/save132-bay coupled primary fixture:3566 checks, exact2113 graph. Source+222/a878 dirty identity retained."
+    },
+    {
+      "role": "primary_132_budget",
+      "scope": "private",
+      "path": "qa-v2/coupled-capacity-at-limit-r01/witness/exact-budget-proof.json",
+      "sha256": "fc533844cc6e73c4926a4954fec3fb070ddabca24c9cbee307b3faf13f69df5b",
+      "classification": "Actual owned-child applied2113 capacity proof for the same frozen complete physical graph."
+    },
+    {
+      "role": "failed_cold_preparation_transcription",
+      "scope": "private",
+      "path": "qa/cold-preparation-failure-transcription.json",
+      "sha256": "ff568b29ee4b13c6820373b15742f2c0aed0273cd9e56d04d99465e861445e09",
+      "classification": "LATER ROOT TRANSCRIPTION of uncaptured CLI preparation error; not original captured log/execution; no application/native execution."
+    },
+    {
+      "role": "primary_132_cold",
+      "scope": "private",
+      "path": "qa-v2/coupled-capacity-cold-r02/execution.json",
+      "sha256": "135d917f506711361e123bf0d81c4330292ac7dab730137b286665656248d122",
+      "classification": "Actual separate cold-reopen gate of saved primary fixture: literal historical data retained Stale; no solve/save/repair."
+    },
+    {
+      "role": "primary_132_one_below_refusal",
+      "scope": "private",
+      "path": "qa-v2/coupled-capacity-refusal-r01/execution.json",
+      "sha256": "c579b279ed21f178195fc85d3f7a0238026ae032181eb2d3962c121274aae609",
+      "classification": "Actual public2112-budget early refusal for required2113 complete graph; no discarded physics/model truncation."
+    }
+  ],
+  "codec_draft": {
+    "path": "collection/evidence_packet.py",
+    "sha256": "7042cf407fe4f707af8f1f992f49643afa35b2610183a239f9916859c8eebd58",
+    "execution_performed": false
+  }
+}

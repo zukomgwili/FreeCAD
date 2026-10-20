@@ -1,0 +1,455 @@
+{
+  "acceptance": {
+    "five_percent_differential_response_unchanged": 0.05,
+    "maximum_relative_errors": {
+      "body_support_wrench_1percent": 5.782930465532169e-13,
+      "local_force_couple_1percent": 4.999999999218593e-7,
+      "response_5percent": 4.999999999102944e-7
+    },
+    "named_checks_independently_recomputed": 3566,
+    "one_percent_local_generalized_force_couple_unchanged": 0.01,
+    "one_percent_wrench_and_original_origin_moment_unchanged": 0.01,
+    "original_FRD_finite_face_kinematics_max_relative_error": 0.000004966875106249411,
+    "positive_host_generalized_load_work_N_mm": 2.8688933844000015,
+    "reference_basis": "Frozen applied axial force and X-torque statics at undeformed original-global-origin coordinates; DAT identities and positive scalar laws; no fitted signs/scales/stiffness or stress-derived references"
+  },
+  "auditor_disclosure": {
+    "role": "Completed primary physical-evidence review, not the portable-source independent review",
+    "portable_proposal_authored_by_this_reviewer": true,
+    "prior_contributions": [
+      "Portable fixture/audit/test proposal",
+      "Earlier native capacity and Python integration/QA reviews"
+    ],
+    "primary_native_run_executed_by_this_reviewer": false,
+    "independent_claim_scope": "Fresh filesystem/hash/native-text/JSON arithmetic audit of completed primary evidence; not organizational independence or independent portable implementation authorship"
+  },
+  "evidence_sha256_and_bytes": {
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting": {
+      "bytes": 5478496,
+      "sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66"
+    },
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": {
+      "bytes": 55230,
+      "sha256": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4"
+    },
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": {
+      "bytes": 11627,
+      "sha256": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkCapacityAtLimit.py": {
+      "bytes": 1733,
+      "sha256": "96f8c4f88a9441b01a891f530ea0f07e0a9728db5f9c3f4b998bdb3ede5e7648"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkCapacityRefusal.py": {
+      "bytes": 3322,
+      "sha256": "dfd50eb47e48e815d95571c9c7cd196f15ad88751a04fc42e4338f4b3408f54d"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkColdRestore.py": {
+      "bytes": 4667,
+      "sha256": "0035e285f3f7e2c2689965624108a8a5abdd5c8af55c87f8e74e42fcacada1a6"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkCoupledFixture.py": {
+      "bytes": 21975,
+      "sha256": "453ff090880d8e79366d372669db430c4aa17ba6f16a8588c08f572deccc1bbd"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkCoupledWitness.py": {
+      "bytes": 18365,
+      "sha256": "30d2fe5d999543fcf2b9edf75a8252154947c9dcbb19e2a99a061378ebe32d2c"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkNativeAudit.py": {
+      "bytes": 34727,
+      "sha256": "c3316bd8f59ad27538818d5d85c58218cdcf48c66db3f6f7f89a82cf43fa087b"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/execution.json": {
+      "bytes": 29029,
+      "sha256": "a12387d4bb6f2bff67c4f82312e8d403f23031dfb783913e196883b8da808ab9"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/CalculiX/ccx_2.23/src/ccx_2.23_conda": {
+      "bytes": 5478496,
+      "sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/build-receipt.json": {
+      "bytes": 825,
+      "sha256": "b899e0035c706fa6d272eee73f2515afd8c89747cea44875f0e0b541fd69a89e"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/build.log": {
+      "bytes": 1172697,
+      "sha256": "1534760e588602722ca14b6bc9472af4dac48c13a33ac30ca0312e98f74d179c"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/functional-tests.log": {
+      "bytes": 22,
+      "sha256": "6a713b172e46519217bc0adb5de6e9d1fe2eb3c0edc55171196d8834115ecaf2"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/run.log": {
+      "bytes": 951,
+      "sha256": "54ca894ed95bd97af8b6838a3061a7c33ec577929009b24bae4401c35bdaf0f4"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/oracle/acceptance-amendment-v1.json": {
+      "bytes": 2158,
+      "sha256": "2e4014ec78adaff7bc9daf4acfbb0ea2a63c15d1f2ac7d66c63afc13798b2584"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/oracle/fixture-spec.json": {
+      "bytes": 11129,
+      "sha256": "ab19711657222245daadade4037d2d1cf2ce6f0deef49a05e5465fe77a36a822"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/oracle/physical-oracle.json": {
+      "bytes": 5448,
+      "sha256": "68f6663e3ff526356236473c11934069c38c5b2a50e264a7641e3382cc6cb3ac"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/execution.json": {
+      "bytes": 345433,
+      "sha256": "04bf44ea6f1e607638affb0c00450d34b3c7d936931c32bce1752440571cfe64"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/identity.json": {
+      "bytes": 36692,
+      "sha256": "e10f0c503f7ab2e0fccf2432fc165b4103a97873bbc5efab2111e10a84289004"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/manifest.json": {
+      "bytes": 198265,
+      "sha256": "b8e2429890c3b12ab7ac130e873e9550f9e74787f9db5c4485ece529a5674070"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/private-critical-after.json": {
+      "bytes": 4124,
+      "sha256": "b2c0be9b39a378103e26c9874da4ad7d49fd6eb381afdfdee4a4f0d5335661ca"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/private-critical-before.json": {
+      "bytes": 4124,
+      "sha256": "b2c0be9b39a378103e26c9874da4ad7d49fd6eb381afdfdee4a4f0d5335661ca"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/private-custody-after.json": {
+      "bytes": 4565134,
+      "sha256": "673ffad39f5add2832fd03a2924793535d50ef77cee49e63ea4078ae523e2c03"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/private-custody-before.json": {
+      "bytes": 4565134,
+      "sha256": "673ffad39f5add2832fd03a2924793535d50ef77cee49e63ea4078ae523e2c03"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/run.log": {
+      "bytes": 526194,
+      "sha256": "e7069b28aec33aa8f01510249396e87360f006bdd38a38dbd7ecf3271864c33f"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/cold-case.json": {
+      "bytes": 2571975,
+      "sha256": "c96aa1364399cdb1e0cfa1cbc5732ded769b1c379ce04f5bdae76a4c06e7a061"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/coupled-before-export.FCStd": {
+      "bytes": 6071386,
+      "sha256": "e11c3c593f0f6690294de42cd1e1fd5f2db2e90e12612d138a32f85dcca82f75"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/coupled-native-current.FCStd": {
+      "bytes": 53698921,
+      "sha256": "d5d7ffbc9616f0ddf1bbf2b194d67543a413a84105afc89237e5d3f598b632de"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/exact-budget-proof.json": {
+      "bytes": 457,
+      "sha256": "fc533844cc6e73c4926a4954fec3fb070ddabca24c9cbee307b3faf13f69df5b"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/export-properties.json": {
+      "bytes": 2103842,
+      "sha256": "5bc72c25895ea5fb71f207aae1f084d0e7dc039b7332be7b32bebd22959c9df0"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/geometry-contract.json": {
+      "bytes": 252141,
+      "sha256": "c40c0f3b93e8bde2aeaaa483569ddb1f786b93a528cde5b5cbf1e4954fcc9093"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/independent-export-audit.json": {
+      "bytes": 1803705,
+      "sha256": "00693887a2cbd470b41463a145d301e5c58e689daae60d724014f19b4eb11806"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/mesh-membership.json": {
+      "bytes": 24756438,
+      "sha256": "59ec32c259fb45bf0d276ff00425eff71b37c6740668a131da005d195ebb36fc"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/mesh/CoupledCells_Geometry.brep": {
+      "bytes": 974264,
+      "sha256": "460e4ddf0e9e214066f9005cb40f9231c463fa304194f616ac8a1a00b1af0a99"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/mesh/CoupledCells_Mesh.vtk": {
+      "bytes": 12632874,
+      "sha256": "14049c61105b20df3650e3eb87276b168d16d5016a47fa19da86ff428c04415b"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/mesh/shape2mesh.geo": {
+      "bytes": 2517,
+      "sha256": "6d2325f58749504a900f4f5c18a053663113514261691ab22acfc3ca1d62d54e"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/motion-from-original-dat.json": {
+      "bytes": 100824,
+      "sha256": "2ee624d3ebc5327208183b2f1bb2bfc2e3ea8a00bd3b4406e6a072d041a82b2e"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native-accounting-data.json": {
+      "bytes": 136186,
+      "sha256": "97070f554929b21c6cf68e38e8097212bb6e085a1bce81a98180f82e1866fbdd"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native-properties.json": {
+      "bytes": 2103842,
+      "sha256": "5bc72c25895ea5fb71f207aae1f084d0e7dc039b7332be7b32bebd22959c9df0"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native.stdout": {
+      "bytes": 2298,
+      "sha256": "c6d6da9c09783b844d87130e640bc7c9b2e39c46d26d5caac4a79b0362f55571"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.12d": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.accounting": {
+      "bytes": 503022,
+      "sha256": "b99ca1a81f7d9c362cbc0421cc2f72e3d445d29031d1f5a37e4d06b6b97cb1c1"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.accounting.json": {
+      "bytes": 53879,
+      "sha256": "670ee4b52a1f90b82b47ed6ddb24a34b56eb3221ce99950f6ef23c8b13cc999d"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.accounting.out": {
+      "bytes": 65387,
+      "sha256": "d0bc63e9f0495fdec8cfb48d45a7f739e84a825158ba77bc6215af281c445220"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.cvg": {
+      "bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.dat": {
+      "bytes": 665361,
+      "sha256": "38e6212b880eb821ee520f14743c1f0bd2274d8db3c1a6ab63d774de56013126"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.frd": {
+      "bytes": 53666757,
+      "sha256": "7d55d137dc99492843a48a0c9124e18d86b4cf059e439f61baa5fc345c61c123"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.inp": {
+      "bytes": 12187011,
+      "sha256": "9a34559da1dae98452c623a6dc68b346affa41e6ed32e8f0f878ccbbfd9d7072"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/Mesh.sta": {
+      "bytes": 170,
+      "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/native/spooles.out": {
+      "bytes": 19,
+      "sha256": "4988e9c309b4514952b201885288407b453cadd83acfa8648f17421069d94f09"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/physical-face-motion-proof.json": {
+      "bytes": 41265,
+      "sha256": "69eb6c1c9c015a047d1e48ff3faae60f059913dfdeaf3c9b7e8db16c98a86e3b"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/witness-receipt.json": {
+      "bytes": 1342745,
+      "sha256": "fb0cbec8e16675cf7489fa00ee06fed0d6792db4ef1ba8ca274bab80bd2ee5b5"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/cold-receipt.json": {
+      "bytes": 715,
+      "sha256": "204f17e87358952ecd85553f566a5fd482bf9b38a8766004b0a803ca4d8c6d2f"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/execution.json": {
+      "bytes": 348090,
+      "sha256": "135d917f506711361e123bf0d81c4330292ac7dab730137b286665656248d122"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/identity.json": {
+      "bytes": 36657,
+      "sha256": "34e7f0d5694ad9bcd2bf7d4430b14b32c07c2f63e65027ce1b18e753078a5a8a"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/manifest.json": {
+      "bytes": 199767,
+      "sha256": "8f4efc9d6eb34eee8a21cd880c396c24cdf26f569cd8df00369f7094ba5040be"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/private-critical-after.json": {
+      "bytes": 4124,
+      "sha256": "b2c0be9b39a378103e26c9874da4ad7d49fd6eb381afdfdee4a4f0d5335661ca"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/private-critical-before.json": {
+      "bytes": 4124,
+      "sha256": "b2c0be9b39a378103e26c9874da4ad7d49fd6eb381afdfdee4a4f0d5335661ca"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/private-custody-after.json": {
+      "bytes": 4565134,
+      "sha256": "673ffad39f5add2832fd03a2924793535d50ef77cee49e63ea4078ae523e2c03"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/private-custody-before.json": {
+      "bytes": 4565134,
+      "sha256": "673ffad39f5add2832fd03a2924793535d50ef77cee49e63ea4078ae523e2c03"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/run.log": {
+      "bytes": 987,
+      "sha256": "8c0b01011f071e87e8e3db6ada9630e7126216529e9f31a70db5a307a529c5ee"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/capacity-refusal-proof.json": {
+      "bytes": 1145,
+      "sha256": "d190aeba1e1e68d83855c2748e797efba1871218e10e157d8ae53dd98f78dc49"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/execution.json": {
+      "bytes": 346047,
+      "sha256": "c579b279ed21f178195fc85d3f7a0238026ae032181eb2d3962c121274aae609"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/identity.json": {
+      "bytes": 36676,
+      "sha256": "fcf578eb41813105b34c2749d739a79076d73cddbc969ffd68a6c9eedc605491"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/manifest.json": {
+      "bytes": 198558,
+      "sha256": "37ebe3e5e4a7acb2409a4835ae1cad85f844ff7ab89d3180791de4dd2c3d148b"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/private-critical-after.json": {
+      "bytes": 4124,
+      "sha256": "b2c0be9b39a378103e26c9874da4ad7d49fd6eb381afdfdee4a4f0d5335661ca"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/private-critical-before.json": {
+      "bytes": 4124,
+      "sha256": "b2c0be9b39a378103e26c9874da4ad7d49fd6eb381afdfdee4a4f0d5335661ca"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/private-custody-after.json": {
+      "bytes": 4565134,
+      "sha256": "673ffad39f5add2832fd03a2924793535d50ef77cee49e63ea4078ae523e2c03"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/private-custody-before.json": {
+      "bytes": 4565134,
+      "sha256": "673ffad39f5add2832fd03a2924793535d50ef77cee49e63ea4078ae523e2c03"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-refusal-r01/run.log": {
+      "bytes": 1000,
+      "sha256": "848e967edbff6d871a3129f4434ed303b7c19d9d2d8b021535554281dfcd7881"
+    },
+    "/private/tmp/freecad-yzk-Sd0mDG/qa/native-capacity-r01-attestation.json": {
+      "bytes": 32241,
+      "sha256": "82608491961909ec23217c0ace11f6836d5ef1b8ab1d8c078fed1472d95c095a"
+    }
+  },
+  "findings": [],
+  "frozen_original_oracles": {
+    "acceptance-amendment-v1.json": "2e4014ec78adaff7bc9daf4acfbb0ea2a63c15d1f2ac7d66c63afc13798b2584",
+    "fixture-spec.json": "ab19711657222245daadade4037d2d1cf2ce6f0deef49a05e5465fe77a36a822",
+    "physical-oracle.json": "68f6663e3ff526356236473c11934069c38c5b2a50e264a7641e3382cc6cb3ac"
+  },
+  "graph": {
+    "ANGLE": 792,
+    "BODY": 264,
+    "SPRING": 792,
+    "branches": 132,
+    "cell_CAD_geometry_not_reconstructed_by_this_audit": true,
+    "moving_ports": 264,
+    "ordinary_supports": 1,
+    "physical_nodes": 145401,
+    "physical_nodes_elements_ownership_and_port_cut_support_disjointness_rechecked": true,
+    "physical_solids": 397,
+    "physical_volume_elements": 74591,
+    "raw_request_deck_exact_count_owner_and_incidence_rechecked": true,
+    "runtime_native_CAD_membership_proof_hash_bound": true,
+    "total_declarations": 2113,
+    "supplemental_raw_provenance_crosslinks_passed": true,
+    "all_branch_scalar_endpoint_and_angular_once_only_incidence_recomputed": true,
+    "all_port_cut_support_and_load_faces_disjoint_recomputed": true,
+    "all_397_cells_connected_by_tetra_facets_recomputed": true,
+    "interior_tetra_facets_recomputed": 123915,
+    "refusal_export_directory_exists_and_is_empty": true,
+    "original_native_build_receipt_C_hooks_candidate_crossmatch": true
+  },
+  "lifecycle": {
+    "cold_remains_Stale_literal_preserved_no_save_solve_or_repair": true,
+    "cold_source_manifest_sha256": "c96aa1364399cdb1e0cfa1cbc5732ded769b1c379ce04f5bdae76a4c06e7a061",
+    "refusal_selected_properties_only_not_full_inmemory_shape_digest": true,
+    "refusal_source_FCStd_sha256": "e11c3c593f0f6690294de42cd1e1fd5f2db2e90e12612d138a32f85dcca82f75",
+    "saved_document_sha256": "d5d7ffbc9616f0ddf1bbf2b194d67543a413a84105afc89237e5d3f598b632de",
+    "saved_literal_Current_and_BOUND_verified_in_FCStd_XML": true,
+    "separate_cold_process_normal_two_tests_no_skip": true,
+    "stock_2112_refusal_before_mesh_export_or_solve": true
+  },
+  "passed": true,
+  "primary_generation": {
+    "compiled_C_sha256": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4",
+    "compiled_commit": "a878b8ae8e0536a70b016b80b4b92ff7c8f75dff",
+    "compiled_hooks_sha256": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7",
+    "compiled_revision": "49261 +222 (Git)",
+    "contract_compilation_claimed": false,
+    "later_header_observed_only": {
+      "commit": "cf23c61504c9a25699899a87b68571b86de37438",
+      "revision": "49261 +223 (Git)"
+    },
+    "native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "source_state": "Historical dirty generation, qualified by manifest per-file before/after pins; not relabeled as later clean commit"
+  },
+  "runs": {
+    "coupled-capacity-at-limit-r01": {
+      "all_recorded_input_pins_equal_before_after": true,
+      "elapsed_seconds": 1211.4089757909533,
+      "execution_sha256": "04bf44ea6f1e607638affb0c00450d34b3c7d936931c32bce1752440571cfe64",
+      "historical_per_file_input_count": 1061,
+      "identity_sha256": "e10f0c503f7ab2e0fccf2432fc165b4103a97873bbc5efab2111e10a84289004",
+      "log_sha256": "e7069b28aec33aa8f01510249396e87360f006bdd38a38dbd7ecf3271864c33f",
+      "manifest_sha256": "b8e2429890c3b12ab7ac130e873e9550f9e74787f9db5c4485ece529a5674070",
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +222 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 16:13:52",
+        "codex/fix-toroidal-self-cut",
+        "a878b8ae8e0536a70b016b80b4b92ff7c8f75dff"
+      ],
+      "unittest_count": 2,
+      "unittest_seconds": 1210.269
+    },
+    "coupled-capacity-cold-r02": {
+      "all_recorded_input_pins_equal_before_after": true,
+      "elapsed_seconds": 10.118649916956201,
+      "execution_sha256": "135d917f506711361e123bf0d81c4330292ac7dab730137b286665656248d122",
+      "historical_per_file_input_count": 1069,
+      "identity_sha256": "34e7f0d5694ad9bcd2bf7d4430b14b32c07c2f63e65027ce1b18e753078a5a8a",
+      "log_sha256": "8c0b01011f071e87e8e3db6ada9630e7126216529e9f31a70db5a307a529c5ee",
+      "manifest_sha256": "8f4efc9d6eb34eee8a21cd880c396c24cdf26f569cd8df00369f7094ba5040be",
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +222 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 16:13:52",
+        "codex/fix-toroidal-self-cut",
+        "a878b8ae8e0536a70b016b80b4b92ff7c8f75dff"
+      ],
+      "unittest_count": 2,
+      "unittest_seconds": 9.063
+    },
+    "coupled-capacity-refusal-r01": {
+      "all_recorded_input_pins_equal_before_after": true,
+      "elapsed_seconds": 7.824244749965146,
+      "execution_sha256": "c579b279ed21f178195fc85d3f7a0238026ae032181eb2d3962c121274aae609",
+      "historical_per_file_input_count": 1063,
+      "identity_sha256": "fcf578eb41813105b34c2749d739a79076d73cddbc969ffd68a6c9eedc605491",
+      "log_sha256": "848e967edbff6d871a3129f4434ed303b7c19d9d2d8b021535554281dfcd7881",
+      "manifest_sha256": "37ebe3e5e4a7acb2409a4835ae1cad85f844ff7ab89d3180791de4dd2c3d148b",
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +222 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 16:13:52",
+        "codex/fix-toroidal-self-cut",
+        "a878b8ae8e0536a70b016b80b4b92ff7c8f75dff"
+      ],
+      "unittest_count": 2,
+      "unittest_seconds": 7.245
+    }
+  },
+  "schema": "FreeCAD-yzk-primary-physical-independent-evidence-audit-v1",
+  "scope": {
+    "actual_primary_evidence_only": true,
+    "engineering_or_BIM_accepted": false,
+    "engineering_project_accessed_or_solved": false,
+    "native_app_mesher_compiler_or_build_launched": false,
+    "offset_or_transverse_connector_general_qualification_claimed": false,
+    "pending_portable_run_accepted": false,
+    "source_or_QA_inputs_modified": false
+  },
+  "final_evidence_rehash": {
+    "all_evidence_rehashed_unchanged": true,
+    "file_count": 73,
+    "new_output_absent": true
+  },
+  "evidence_inventory_bodies_published": false,
+  "audit_generated_utc": "2026-10-20 18:56:00 UTC"
+}

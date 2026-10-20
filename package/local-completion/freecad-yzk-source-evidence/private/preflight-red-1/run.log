@@ -1,0 +1,38 @@
+test_exact_installed_application_and_bundled_native_solver (InstalledIdentity.InstalledIdentity.test_exact_installed_application_and_bundled_native_solver) ... ok
+test_stock_export_refuses_complete_port_count_before_mesh_work (YzkNewPublicTest.TestForceAccounting.test_stock_export_refuses_complete_port_count_before_mesh_work)
+Capacity is checked even before an unfinished model has a mesh. ... Base.FreeCADError: FEM: no mesh object found in analysis.
+ The prerequisite check will fail.
+No finite element mesh object was given to the writer class. In rare cases this might not be an error.
+ERROR
+
+======================================================================
+ERROR: test_stock_export_refuses_complete_port_count_before_mesh_work (YzkNewPublicTest.TestForceAccounting.test_stock_export_refuses_complete_port_count_before_mesh_work)
+Capacity is checked even before an unfinished model has a mesh.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_force_accounting.py", line 599, in test_stock_export_refuses_complete_port_count_before_mesh_work
+    fea.write_inp_file()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py", line 388, in write_inp_file
+    meshdatagetter.get_mesh_sets()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py", line 246, in get_mesh_sets
+    self.get_constraints_fixed_nodes()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py", line 281, in get_constraints_fixed_nodes
+    femobj["Nodes"] = meshtools.get_femnodes_by_femobj_with_references(self.femmesh, femobj)
+                                                                       ^^^^^^^^^^^^
+AttributeError: 'MeshSetsGetter' object has no attribute 'femmesh'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.493s
+
+FAILED (errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +221 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed

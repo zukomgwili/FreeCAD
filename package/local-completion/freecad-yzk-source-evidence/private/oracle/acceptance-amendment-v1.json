@@ -1,0 +1,34 @@
+{
+  "schema": "FreeCAD-yzk-local-generalized-force-acceptance-amendment-v1",
+  "declared_before_fixture_or_native_execution": true,
+  "role": "Resolve an independent pre-execution review ambiguity; not a response-fitted acceptance adjustment.",
+  "unchanged_frozen_fixture_spec_sha256": "ab19711657222245daadade4037d2d1cf2ce6f0deef49a05e5465fe77a36a822",
+  "unchanged_frozen_physical_oracle_sha256": "68f6663e3ff526356236473c11934069c38c5b2a50e264a7641e3382cc6cb3ac",
+  "local_scalar_force_and_couple_checks": {
+    "translational_vector_reference_N": [12, 0, 0],
+    "rotational_vector_reference_N_mm": [6, 0, 0],
+    "actual_translational_vector": "1200 times (native PortB RefNode U minus PortA RefNode U), in declared global axes",
+    "actual_rotational_vector": "6000 times (native PortB RotNode values minus PortA RotNode values), in declared global axes",
+    "nonzero_vector_metric": "Euclidean norm(actual-reference)/Euclidean norm(reference)",
+    "force_relative_error_ceiling": 0.01,
+    "local_couple_relative_error_ceiling": 0.01,
+    "explicit_X_torque_metric": "abs(6000*delta_rx-6)/6 <=0.01, independently of original-origin lever-arm moments",
+    "zero_transverse_generalized_force_scale_N": 12,
+    "zero_other_generalized_couple_scale_N_mm": 6,
+    "zero_component_relative_error_ceiling": 0.01
+  },
+  "unchanged_response_checks": {
+    "translation_difference_reference_mm": [0.01, 0, 0],
+    "rotation_difference_reference_rad": [0.001, 0, 0],
+    "relative_error_ceiling": 0.05,
+    "zero_translation_scale_mm": 0.01,
+    "zero_rotation_scale_rad": 0.001
+  },
+  "unchanged_global_and_body_wrench_checks": {
+    "force_relative_error_ceiling": 0.01,
+    "original_global_origin_moment_relative_error_ceiling": 0.01
+  },
+  "interpretation": "The response5% check is retained as requested. A separate stricter1% local generalized force/couple consistency check is deliberate and must pass too; it prevents large spatial origin moments from masking a wrong local torque. No original5% engineering response acceptance or1% force/moment ceiling is relaxed.",
+  "Oomakhi_accessed_or_solved": false,
+  "engineering_or_BIM_accepted": false
+}

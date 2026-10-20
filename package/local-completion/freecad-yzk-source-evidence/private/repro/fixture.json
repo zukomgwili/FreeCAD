@@ -1,0 +1,21 @@
+{
+  "schema": "FreeCAD-yzk-65-moving-port-capacity-tracer-v1",
+  "separate_generic_fixture_not_original_ywu_or_Oomakhi": true,
+  "ordinary_fixed_external_support": "anchor x=0 face; NativeAccountingSupports=[ExternalFixedSupport]",
+  "anchor_bounds_mm": [[0,10],[1,3],[2,4]],
+  "hub_free_RBE_face": "anchor x=10,y1..3,z2..4,reference=[10,2,3]",
+  "arm_count": 64,
+  "arm_i_bounds_mm": "zero-based i0..63: x=[20,30] for i0, else[20,22]; y=[1+4i,3+4i]; z=[2,4]",
+  "arm_i_free_RBE_face": "x=20, reference=[20,2+4i,3]; all six motions Free",
+  "native_PORT_count": 65,
+  "physical_solid_count": 65,
+  "physical_volume_mm3": 584,
+  "scalar_springs": "each arm to hub, global XYZ translation1200N/mm and rotation6000Nmm/rad;384 total, all positive",
+  "load": "12N +X uniformly on i0 x=30 finite end face",
+  "known_global_applied_wrench_N_Nmm": [12,0,0,0,36,-24],
+  "known_aggregate_support_wrench_N_Nmm": [-12,0,0,0,-36,24],
+  "gravity": "none; additional satellites unloaded",
+  "initial_scope": "one stock-export/bundled-solver capacity tracer; no cuts/contact/whole-project or engineering acceptance",
+  "stock_request_and_deck_must_not_be_patched": true,
+  "success_expectation": "normal stock native solve succeeds and returns Current; actual refusal is retained as RED, not treated as a passing capability test"
+}

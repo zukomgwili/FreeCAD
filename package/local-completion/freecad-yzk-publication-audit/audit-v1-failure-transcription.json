@@ -1,0 +1,19 @@
+{
+  "schema": "FreeCAD-yzk-independent-publication-audit-history-v1",
+  "transcription_not_original_raw_terminal_capture": true,
+  "original_observation": "Agent tool exec session37297, exit1; initial auditor had already traversed all908 payloads before application-role semantics.",
+  "executed_code": {
+    "path": "/private/tmp/freecad-yzk-Sd0mDG/publication-independent-r01/audit_packet.py",
+    "sha256": "385ed2cd965065629cc5bee1aa4adb95a3f8d9d74678b0342302fd466a3a9d24"
+  },
+  "command": [
+    "python3", "-B", "/private/tmp/freecad-yzk-Sd0mDG/publication-independent-r01/audit_packet.py",
+    "--index-sha256", "34955877635599c83b2213de9a0c97d5ba028ca8fbe3840eb9de3168defe4566",
+    "--summary-sha256", "dbe58b84d047dff45cab813f6aa1fc3f694a951eb840b4f55a36e995febab58b"
+  ],
+  "returncode": 1,
+  "failure": "RuntimeError: Final run count/discovery/native-attestation differs",
+  "traceback_transcribed": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-yzk-Sd0mDG/publication-independent-r01/audit_packet.py\", line 433, in <module>\n    main()\n  File \"/private/tmp/freecad-yzk-Sd0mDG/publication-independent-r01/audit_packet.py\", line 423, in main\n    result = audit(args.index_sha256, args.summary_sha256)\n  File \"/private/tmp/freecad-yzk-Sd0mDG/publication-independent-r01/audit_packet.py\", line 281, in audit\n    need(spec['expected_count'] == count and manifest['expected_count'] == count\n         and manifest['discovery_only'] is False and manifest['unit_only'] is False,\n         'Final run count/discovery/native-attestation differs')\n  File \"/private/tmp/freecad-yzk-Sd0mDG/publication-independent-r01/audit_packet.py\", line 62, in need\n    raise RuntimeError(message)\nRuntimeError: Final run count/discovery/native-attestation differs\n",
+  "classification": "Audit-harness-only overly strict benchmark assumption; not a packet, product, native, physical or test failure. No product/QA/publication bytes changed and no audit PASS receipt was written.",
+  "resolution": "Distinct v2 permits unit_only:true/native_build_receipt:null only for the explicitly no-solve diagnostic benchmark. Six other final app/physical/cold roles remain unit_only:false and native-attested. Executed v1 bytes remain unchanged."
+}

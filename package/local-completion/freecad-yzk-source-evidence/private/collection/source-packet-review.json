@@ -1,0 +1,96 @@
+{
+  "schema": "FreeCAD-yzk-source-packet-code-review-v1",
+  "review_date": "2026-10-20",
+  "passed": true,
+  "passed_scope": "Read-only source-code and receipt-schema review of the four exact private evidence helpers listed below; not actual final software qualification or publication.",
+  "reviewer": {
+    "identity": "/root/5ar_evidence/source_packet_review",
+    "delegating_agent": "/root/5ar_evidence",
+    "role": "Separate review subagent",
+    "authored_reviewed_helpers": false,
+    "authored_this_review_receipt": true,
+    "independence_disclosure": "The reviewer did not author or modify the reviewed evidence helpers. This is a separate agent review within the same task, with shared repository access and inherited task context; it is not an independent engineering audit or independently executed runtime qualification."
+  },
+  "reviewed_files": [
+    {
+      "name": "evidence_packet.py",
+      "path": "/private/tmp/freecad-yzk-Sd0mDG/collection/evidence_packet.py",
+      "sha256": "7042cf407fe4f707af8f1f992f49643afa35b2610183a239f9916859c8eebd58",
+      "lines": 264
+    },
+    {
+      "name": "prepare_plan.py",
+      "path": "/private/tmp/freecad-yzk-Sd0mDG/collection/prepare_plan.py",
+      "sha256": "d72b1ea0aa015778d461f567ee523542bb072e4ebebcc89e7af7143e19104129",
+      "lines": 280
+    },
+    {
+      "name": "collect_source.py",
+      "path": "/private/tmp/freecad-yzk-Sd0mDG/collection/collect_source.py",
+      "sha256": "51b7069c96821e06ac6bd1b50330bfde32e905abeb7ac1ce6e4de8c61005ffd4",
+      "lines": 734
+    },
+    {
+      "name": "verify_publication.py",
+      "path": "/private/tmp/freecad-yzk-Sd0mDG/collection/verify_publication.py",
+      "sha256": "67012a7b367755e3de0331be7d1471a3aeef13e53474a3ba6924f6e851071794",
+      "lines": 149
+    }
+  ],
+  "review_method": {
+    "full_initial_sources_read": true,
+    "amendments_compared_with_preserved_draft_v1_sources": true,
+    "final_hashes_and_line_counts_rechecked": true,
+    "selected_actual_private_receipt_schemas_inspected": true,
+    "unchanged_legacy_driver_and_generator_source_invariants_compared": true,
+    "portable_test_receipt_field_and_timing_key_source_inspected": true,
+    "helpers_imported_or_executed": false,
+    "native_or_application_execution_performed": false,
+    "build_solver_test_or_installation_execution_performed": false,
+    "product_source_edits_performed": false,
+    "write_scope": "Only this new private review receipt was authored."
+  },
+  "review_coverage": {
+    "schema": "Role-specific historical and portable physical receipt schemas, final app/build identity fields, copied-portable selection custody, V1/V2 legacy receipt layouts, and complete actual CTest catalogue parsing were compared with the inspected source and available private receipts. Final role labels and test counts remain explicit root-approved config inputs rather than inferred from directory names.",
+    "privacy": "The codec uses an explicit file plan, source-root and symlink checks, excluded profile/cache/vendor/runtime paths, secret and raw-inventory rejection, and explicit top-level JSON excerpt omissions. The only larger-than-default decoded payload exceptions are the two exact approved primary generic artifacts; compression preserves decoded bytes. The portable copy path retains only the eleven named generic proof files and keeps original path/hash custody.",
+    "custody": "The reviewed code binds original, stored and decoded byte hashes and sizes, deterministic gzip encoding, exact file coverage, config/plan/index/summary crosslinks, selected runtime and source references, process completion, source/build copy parity, and scoped protected-state receipts. Private originals must remain available for the immediate publication verification.",
+    "scope": "The original primary physical execution remains identified as +222/a878 dirty source with its original file pins; it is not rebound to the final committed runtime. The separate final source roles and portable witness require their own completed receipts. Source-only publication does not claim installation, full dependency-filesystem immutability, Oomakhi access or solve, or engineering/BIM acceptance. The original R49 and R51 failures remain failures against the unchanged 5 percent scalar limit."
+  },
+  "resolved_findings": [
+    {
+      "origin": "This reviewer",
+      "finding": "The initial collector unconditionally read Oomakhi_accessed_or_solved from physical receipts, but the permanent portable test emits engineering_project_accessed_or_solved. A successful portable receipt would therefore have raised KeyError.",
+      "verified_resolution": "The amended collector chooses the correct project-access field for each role, requires it to be false, and validates the exact historical or portable physical receipt and audit schemas."
+    },
+    {
+      "origin": "Root review, subsequently checked by this reviewer",
+      "finding": "Exact equality of the independently parsed actual whole applied wrench to its reference could impose a zero-error condition stricter than the frozen 1 percent acceptance limit.",
+      "verified_resolution": "The reference remains exact, while finite actual force and original-origin moment vectors are tested separately using math.dist and math.hypot at the unchanged 1 percent limit. All 266 unique physical load checks retain their 1 percent norm checks and nonzero reference norms."
+    },
+    {
+      "origin": "This reviewer and delegating agent",
+      "finding": "The initial clean-source assertion checked tracked diffs only, physical acceptance completeness checked cardinality without unique names, and legacy V2 membership/helper invariants were delegated to the reviewed outer driver rather than repeated in the collector.",
+      "verified_resolution": "The amended collector also rejects untracked product files and checks the selected CMake paths, requires 3566 unique physical check names with 3302 one-percent and 264 five-percent limits, compares the portable name-to-limit mapping with the frozen primary, and repeats canonical V1 54-case and exact V2 10-case/helper-pin invariants. The five added legacy helper hashes match the inspected bytes."
+    }
+  ],
+  "additional_verified_detail": {
+    "portable_timing_key": "stock_write_inp_file_seconds",
+    "emitting_source": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_moving_port_capacity_native.py",
+    "emitting_line": 188,
+    "interpretation": "Diagnostic duration of the whole accepted stock writer call only; no fitted threshold, SLA, or cross-fixture speedup claim."
+  },
+  "outstanding_findings": [],
+  "outstanding_finding_count": 0,
+  "privacy_assertions": {
+    "raw_profile_inventory_bodies_published": false,
+    "secret_or_environment_dictionaries_included": false,
+    "runtime_binary_or_vendor_tree_payloads_included": false
+  },
+  "qualification_status_disclosure": {
+    "final_qualification_pass_claimed": false,
+    "publication_pass_claimed": false,
+    "installation_performed_or_claimed": false,
+    "portable_run_status_at_review_instruction": "Reported by the delegating agent as still running; the reviewer did not inspect process state or execute the qualification.",
+    "remaining_authority": "Root must separately review the exact final config and generated file plan, execute all required final gates, invoke check-only collection, authorize new-only publication, and perform the immediate read-only publication verification. This code-review receipt does not substitute for those completed results."
+  }
+}

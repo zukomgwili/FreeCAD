@@ -1,0 +1,85 @@
+{
+  "case": "t1-q0-r0-s0/slave-upper",
+  "positive": true,
+  "passed": true,
+  "inputs_before": {
+    "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+    "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+    "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+  },
+  "protected_before": {
+    "/private/tmp/freecad-yzk-Sd0mDG/native-qa/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-yzk-Sd0mDG/native-qa/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/CalculiX/ccx_2.23/src/ccx_2.23_conda": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "8086e668ed9383a324fbfff7cbe8621d919c46da844924d507252a24f85a77eb"
+  },
+  "command": [
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/CalculiX/ccx_2.23/src/ccx_2.23_conda",
+    "-i",
+    "contact"
+  ],
+  "pid": 38613,
+  "process_group": 38613,
+  "returncode": 0,
+  "timed_out": false,
+  "reaped": true,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 0.02068979199975729,
+  "log_sha256": "4f284b3dc86608e5f384fc9c857baf56f8b1d02b49dfbae688dc4f69fb0bdd14",
+  "state": [
+    "STATE",
+    "1",
+    "1",
+    "1"
+  ],
+  "relative_force_moment_errors": {
+    "SUPPORT/Support": [
+      7.250765644461022e-13,
+      6.81826759127674e-13
+    ],
+    "CUT/Lower": [
+      1.5926815422062646e-12,
+      1.4975222631198816e-12
+    ],
+    "CUT/Upper": [
+      1.2434497875801752e-15,
+      1.2389837288802774e-15
+    ]
+  },
+  "wire_balance_relative_residuals": {
+    "Lower": 1.5860328923200596e-17,
+    "Upper": 0.0
+  },
+  "physical_norm_checks": 6,
+  "inputs_after": {
+    "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+    "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+    "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+  },
+  "protected_after": {
+    "/private/tmp/freecad-yzk-Sd0mDG/native-qa/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-yzk-Sd0mDG/native-qa/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/CalculiX/ccx_2.23/src/ccx_2.23_conda": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "8086e668ed9383a324fbfff7cbe8621d919c46da844924d507252a24f85a77eb"
+  },
+  "inputs_unchanged": true,
+  "protected_unchanged": true,
+  "manifest_unchanged": true,
+  "outputs": {
+    "contact.dat": "e1be74a1e611fdaa35c684aaf71fa7b07fa06f0a30495485f0cbdf6fbcb83edf",
+    "contact.frd": "e32b2a804aca3515bd2347cfb4b8c811c0d56ebf9956fc27345c98c7b3a307b5",
+    "contact.accounting.out": "9a674550b41cd7621c7e8f3df9a8ef254b4e5ed292b08880ab86dbc9e27ebd35",
+    "contact.cvg": "337036cc9f8cadaaf225dbfb951d24f72d3cae4dece9d93cd2e2ac11f6856ba4",
+    "spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contact.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contact.sta": "4ab47f724c0ad1289736843a05bbee326354a6ab8018c080fa63c9ab003deb6a",
+    "solver.log": "4f284b3dc86608e5f384fc9c857baf56f8b1d02b49dfbae688dc4f69fb0bdd14"
+  }
+}

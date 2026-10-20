@@ -1,0 +1,87 @@
+test_exact_source_build_and_selected_public_suite (SourceBuildIdentity.SourceBuildIdentity.test_exact_source_build_and_selected_public_suite) ... ok
+test_capability_probe_is_private_even_when_the_solver_is_unsupported (femtest.app.test_force_accounting.TestForceAccounting.test_capability_probe_is_private_even_when_the_solver_is_unsupported)
+Replace only the child boundary; never create probe jobs in the project. ... 
+  test_capability_probe_is_private_even_when_the_solver_is_unsupported (femtest.app.test_force_accounting.TestForceAccounting.test_capability_probe_is_private_even_when_the_solver_is_unsupported) (returncode=0)
+Replace only the child boundary; never create probe jobs in the project. ... ERROR
+  test_capability_probe_is_private_even_when_the_solver_is_unsupported (femtest.app.test_force_accounting.TestForceAccounting.test_capability_probe_is_private_even_when_the_solver_is_unsupported) (returncode=201)
+Replace only the child boundary; never create probe jobs in the project. ... ERROR
+
+======================================================================
+ERROR: test_capability_probe_is_private_even_when_the_solver_is_unsupported (femtest.app.test_force_accounting.TestForceAccounting.test_capability_probe_is_private_even_when_the_solver_is_unsupported) (returncode=0)
+Replace only the child boundary; never create probe jobs in the project.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_force_accounting.py", line 532, in test_capability_probe_is_private_even_when_the_solver_is_unsupported
+    force_accounting.require_capability(binary)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/force_accounting.py", line 79, in require_capability
+    result = subprocess.run(
+        [str(binary), "--freecad-force-accounting-version"],
+    ...<5 lines>...
+        env=environment,
+    )
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_force_accounting.py", line 517, in query
+    probe = Path(kwargs["cwd"])
+                 ~~~~~~^^^^^^^
+KeyError: 'cwd'
+
+======================================================================
+ERROR: test_capability_probe_is_private_even_when_the_solver_is_unsupported (femtest.app.test_force_accounting.TestForceAccounting.test_capability_probe_is_private_even_when_the_solver_is_unsupported) (returncode=201)
+Replace only the child boundary; never create probe jobs in the project.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_force_accounting.py", line 530, in test_capability_probe_is_private_even_when_the_solver_is_unsupported
+    force_accounting.require_capability(binary)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/force_accounting.py", line 79, in require_capability
+    result = subprocess.run(
+        [str(binary), "--freecad-force-accounting-version"],
+    ...<5 lines>...
+        env=environment,
+    )
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/mock.py", line 1169, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/mock.py", line 1173, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/mock.py", line 1240, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_force_accounting.py", line 517, in query
+    probe = Path(kwargs["cwd"])
+                 ~~~~~~^^^^^^^
+KeyError: 'cwd'
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.115s
+
+FAILED (errors=2)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +222 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 

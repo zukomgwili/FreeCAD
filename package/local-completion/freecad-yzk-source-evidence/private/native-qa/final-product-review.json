@@ -1,0 +1,121 @@
+{
+  "schema": "FreeCAD-yzk-hash-bound-product-source-review-v1",
+  "reviewed_at_utc": "2026-10-20 18:47:27 UTC",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "meaning": "No outstanding actionable source-review findings in exactly the listed bytes; not a build, test, solver, installation or engineering acceptance receipt.",
+  "baseline": "a878b8ae8e0536a70b016b80b4b92ff7c8f75dff",
+  "comparison": "Working tree against baseline, including full contents of five untracked new files; not an empty baseline...HEAD comparison.",
+  "commits_above_baseline_at_review": [],
+  "subsequent_committed_binding": {
+    "commit": "cf23c61504c9a25699899a87b68571b86de37438",
+    "binding_check": "After root committed the reviewed bytes, read-only git rev-parse confirmed HEAD and git diff --exit-code against this commit was empty for package/calculix/force-accounting and src/Mod/Fem. Git status --short was empty. No source was changed by this reviewer.",
+    "reviewed_file_hashes_still_apply": true
+  },
+  "tracked_diff_command": "git diff --binary a878b8ae8e0536a70b016b80b4b92ff7c8f75dff -- package/calculix/force-accounting/contract.json package/calculix/force-accounting/forceaccounting.c package/calculix/force-accounting/hooks.patch src/Mod/Fem",
+  "tracked_diff_sha256": "cd7ae456496f6b9c6770a6e449aefcea4b51d487a5e660fca2ef9b37c9992dcd",
+  "reviewed_files": {
+    "package/calculix/force-accounting/contract.json": "8086e668ed9383a324fbfff7cbe8621d919c46da844924d507252a24f85a77eb",
+    "package/calculix/force-accounting/forceaccounting.c": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4",
+    "package/calculix/force-accounting/hooks.patch": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7",
+    "src/Mod/Fem/CMakeLists.txt": "a3d09a9950615621851be9ca074f7e2f87da9ef26f798c33ad64ba54da01ed58",
+    "src/Mod/Fem/femsolver/calculix/write_constraint_elastic_connector.py": "c16bc3e605d3f9ebd37d2547451097d3700d13fca80aa42f691a335454c3e06e",
+    "src/Mod/Fem/femsolver/calculix/write_constraint_rigidbody.py": "c3deed017dffe92658b0f6c8b25a017feca37e5b14a3976a782910aad5c8af95",
+    "src/Mod/Fem/femsolver/calculix/writer.py": "4b3433a85627271e399008a6c1a64d6718d6f56e25dc4f609debbf3e284c13af",
+    "src/Mod/Fem/femtest/app/test_elastic_connector.py": "27dd57fa08df8fab56b569afee623b4ab2017e4289daf23e752306fe9401d624",
+    "src/Mod/Fem/femtest/app/test_force_accounting.py": "94808308704e48ac28966565072d1954bdc9452ceb60782834ca57094e989f4f",
+    "src/Mod/Fem/femtest/app/test_movement_provenance.py": "7675fd7d89ac88149a500b3e4f2d1b65f7ea269d9abb20b1585f8f85bd87820a",
+    "src/Mod/Fem/femtools/ccxtools.py": "ec81c8abba0516485158665403694cdd5a02f4397b0e982ff0d0d4076726a653",
+    "src/Mod/Fem/femtools/elastic_connector.py": "4bbfbe5b66c30f8f92a155f7bf099e67732b5136c5745b07d1db9e5f16fe8343",
+    "src/Mod/Fem/femtools/force_accounting.py": "9ca17134f3e7373416891d9740261fe406158e8084023f76be4a8b9e745052f3",
+    "src/Mod/Fem/femtest/app/coupled_port_audit.py": "5b476c23571fcb6bb357f25aedcdc9908716b79fda9c222038a712f3d09fa3fc",
+    "src/Mod/Fem/femtest/app/coupled_port_fixture.py": "e370c5366a7ee4d775d2a4d9bc5da9c4fcacfd6543d39b7ab88cb02f27b7e5ec",
+    "src/Mod/Fem/femtest/app/test_moving_port_capacity_native.py": "89cdcea9fc1e4390e33d8465e024c07803f250cc3707297d50e268cb5cf7095a",
+    "src/Mod/Fem/femtest/data/calculix/coupled_port_capacity_fixture.json": "9142f5aa4d149aa1f0d518a592a78638f9489fb3e245af67ea4fd463e5b8ae22",
+    "src/Mod/Fem/femtest/data/calculix/coupled_port_capacity_oracle.json": "42fa6289fd9e1f80efa56db27c02c06a5454ed9880f7ca61bfd80992dfb251b8"
+  },
+  "skill_and_delegation": {
+    "skill": "code-review",
+    "skill_read_completely_by_reviewer": true,
+    "standards_sources": [
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "AI_POLICY.md",
+      ".pre-commit-config.yaml",
+      "src/Mod/Fem/coding_conventions.md"
+    ],
+    "spec_source": "FreeCAD-yzk beads description and user-approved native analytical interfaces, plus frozen shipped fixture/oracle/amendment and root's explicit final-review scope",
+    "missing_issue_tracker_setup_not_run": "The user explicitly supplied the bd tracker and repository workflow; no replacement tracker or setup was authorized.",
+    "final_axes_performed_directly": true,
+    "parallel_final_child_review_unavailable": "All four concurrent agent slots were occupied during this final review. This limitation was reported to root.",
+    "earlier_parallel_standards_review": "The earlier five-file cache slice and private same-full-writer regression were separately reviewed read-only by cache_standards_review."
+  },
+  "independence_disclosure": {
+    "independent_from_authorship_for": "Root/other-agent Python admission/run custody, fixture/auditor/portable test, contract and CMake changes, except the cache-lifetime test proposal disclosed below.",
+    "prior_author_work_by_this_reviewer": [
+      "The native capacity changes in forceaccounting.c and hooks.patch were implemented by this agent under root's agreed design; their final unchanged hashes were rechecked here, so this part is author self-review, not an independent native audit.",
+      "This agent proposed the same-full-writer cache-lifetime regression later integrated by root; an earlier child reviewer independently checked that private proposal."
+    ],
+    "separate_native_independent_review": "Root reported a separate read-only native source/harness review by 5ar_native_probe. This receipt does not impersonate or replace that separate reviewer."
+  },
+  "standards": {
+    "outstanding_findings": [],
+    "resolved_findings": [
+      {
+        "priority": "P3",
+        "issue": "New combined/sorted import rules were not followed in the cache test, force-accounting context import and new portable modules.",
+        "resolution": "Final new imports are separated/grouped/sorted according to FEM conventions. Existing untouched legacy imports were not requested to be churned."
+      },
+      {
+        "priority": "P3",
+        "issue": "New portable report lookup inspected nested Proxy.Type directly.",
+        "resolution": "The lookup now uses femtools.femutils.is_of_type."
+      }
+    ],
+    "baseline_smells": "No additional actionable smell finding after the export-lifetime fix; independent audit/oracle arithmetic is intentionally not centralized through target force helpers."
+  },
+  "spec": {
+    "outstanding_findings": [],
+    "resolved_findings": [
+      {
+        "priority": "P2",
+        "issue": "A full writer retained its verified port snapshot after success or validation error, allowing later direct helpers on that writer to reuse stale mesh/regions/IDs.",
+        "resolution": "Export-level try/finally clears the writer context. Request preparation uses a separate fresh local context. The public same-concrete-writer regression covers completed/rejected exports, changed overlap, remesh IDs and reordered bodies."
+      },
+      {
+        "priority": "P2",
+        "issue": "The capability-version probe inherited the caller cwd; ordinary pre-capability CalculiX can interpret an unknown option as a job and create or truncate outputs before refusing.",
+        "resolution": "require_capability now uses its own TemporaryDirectory and DEVNULL stdin, including unsupported return-code paths. The child-boundary test checks private cwd and simulated artifact cleanup without launching an unsupported native solve."
+      },
+      {
+        "priority": "P2",
+        "issue": "The first private-cwd fix left successful shutil.which relative results unnormalized, breaking relative executable/PATH references after cwd changed.",
+        "resolution": "Both lookup branches are normalized by str(Path(executable or binary).resolve()) before changing cwd. The executable-bit adapter test includes a relative explicit path and a relative custom PATH entry."
+      }
+    ],
+    "reviewed_invariants": [
+      "V3 uses one strict configurable shared declaration budget with checked vectors, points and multiword ownership; unchanged V1/V2 supported limits and configuration-ignore behavior remain explicit.",
+      "Complete suppression-aware support/body/port/angle/spring counts are admitted before mesh-set work, rebound to exact request/binary/policy before launch and matched to the owned child's applied-capacity stdout receipt before Current import.",
+      "Standalone calls receive fresh snapshots, cached regions return independent mutable sets and native node allocation retains sparse-ID/analysis-order semantics.",
+      "The dedicated shipped 132-bay graph retains all 264 moving finite faces, 264 paired bodies, 792 scalar springs, 792 angles and one ordinary Fixed physical support in one finite-backbone graph.",
+      "Audit logic independently checks original mesh ownership, exact declaration/incidence/constraint identities, complete physical loads, free RBE modes and original DAT identities; output checks retain frozen 1% wrench, 1% local force/couple and 5% response limits.",
+      "The new full stock API timing is diagnostic only and excludes fixture creation/refusal. It does not add a performance acceptance threshold or SLA.",
+      "The contract distinguishes retained source qualification from the pending portable execution, in-process reopen from separate-process cold gates, and software evidence from engineering/Oomakhi acceptance."
+    ]
+  },
+  "reviewer_execution": {
+    "product_source_edited": false,
+    "private_review_receipt_written": true,
+    "native_app_solver_build_or_portable_test_executed": false,
+    "checks_executed_for_this_final_review": [
+      "Read-only git status/rev-parse/diff and exact file hashes",
+      "Read-only source/contract/frozen JSON inspection",
+      "git diff --check passed"
+    ],
+    "runtime_results_claimed_by_this_receipt": false,
+    "remaining_gate_owner": "Root alone owns fresh green/build/regression, clean committed build and long portable source execution."
+  },
+  "engineering_project_accessed_or_solved": false,
+  "engineering_or_BIM_accepted": false,
+  "application_installed_by_reviewer": false
+}

@@ -1,0 +1,58 @@
+test_exact_source_build_and_selected_public_suite (SourceBuildIdentity.SourceBuildIdentity.test_exact_source_build_and_selected_public_suite) ... ok
+test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) ... 
+  test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) (label='missing') ... FAIL
+  test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) (label='wrong') ... FAIL
+  test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) (label='duplicate') ... FAIL
+
+======================================================================
+FAIL: test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) (label='missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_movement_provenance.py", line 161, in test_capacity_echo_must_match_owned_child_before_current_import
+    with self.assertRaisesRegex(ValueError, "applied.*capacity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) (label='wrong')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_movement_provenance.py", line 161, in test_capacity_echo_must_match_owned_child_before_current_import
+    with self.assertRaisesRegex(ValueError, "applied.*capacity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) (label='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_movement_provenance.py", line 161, in test_capacity_echo_must_match_owned_child_before_current_import
+    with self.assertRaisesRegex(ValueError, "applied.*capacity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.810s
+
+FAILED (failures=3)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +222 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 

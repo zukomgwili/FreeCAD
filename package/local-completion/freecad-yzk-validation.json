@@ -1,0 +1,533 @@
+{
+  "evidence": {
+    "approved_plan_sha256": "d18b130f205c3ff38b45289db653b92424fbc9e2cff9b70719e5543cfe96c132",
+    "directory": "package/local-completion/freecad-yzk-source-evidence",
+    "index_sha256": "34955877635599c83b2213de9a0c97d5ba028ca8fbe3840eb9de3168defe4566",
+    "indexed_files": 908
+  },
+  "history": "Exact failed/setup/timed-out/intermediate receipts retain their explicit individual classifications; no historical runtime rebinding.",
+  "implementation_commit": "cf23c61504c9a25699899a87b68571b86de37438",
+  "native": {
+    "candidate_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "contract_observed_not_compiled": true,
+    "sources_sha256": {
+      "contract.json": "8086e668ed9383a324fbfff7cbe8621d919c46da844924d507252a24f85a77eb",
+      "forceaccounting.c": "8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4",
+      "hooks.patch": "e500c46cc9cd26fc4e63508a51375bd09ebdc0973638375df14cffd036c9bfa7"
+    }
+  },
+  "passed": true,
+  "qualification": {
+    "applications": {
+      "benchmark": {
+        "critical_ids": [
+          "YzkPortBenchmark.PublicPortResolutionBenchmark.test_twelve_real_scalar_connectors_resolve_without_changing_the_model"
+        ],
+        "elapsed_seconds": 5.672540999948978,
+        "identity_tests": 1,
+        "module": "YzkPortBenchmark",
+        "receipt": {
+          "bytes": 320412,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/port-benchmark-after-r01/execution.json",
+          "sha256": "42a5b676b4ac1ebfb58102bb216e59ed349aad8e1e2d47845617f8bd62e0ac8e"
+        },
+        "registered_tests": 1,
+        "role": "benchmark",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      },
+      "fem": {
+        "critical_ids": [
+          "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_mixed_native_interfaces_keep_independent_nonzero_original_displacements",
+          "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_mixed_tie_contact_bodies_preserve_paired_physical_cut_equilibrium",
+          "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_nonconformal_tie_uses_native_master_surface_without_an_original_query_node",
+          "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_tie_edits_fail_closed_and_saved_native_observation_remains_historical",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_invalid_physical_support_selections_fail_at_stock_export_without_solving",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_longitudinal_side_load_on_shared_cut_is_refused_without_current_accounting",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_moving_finite_rbe_ports_keep_elastic_transfer_separate_from_physical_support",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_ordinary_fixed_and_partial_supports_preserve_aggregate_physical_equilibrium",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_unselected_ordinary_boundary_cannot_overlap_a_selected_fixed_rbe"
+        ],
+        "elapsed_seconds": 58.0830743748229,
+        "identity_tests": 1,
+        "module": "TestFemApp",
+        "receipt": {
+          "bytes": 349559,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/fem-final-r01/execution.json",
+          "sha256": "3617410ceae1ef242f442f930d0a8de9dc6a57ae2b8e41928283723bb632cad2"
+        },
+        "registered_tests": 405,
+        "role": "fem",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      },
+      "gui": {
+        "critical_ids": [],
+        "elapsed_seconds": 5.906689000083134,
+        "identity_tests": 1,
+        "module": "TestFemGui",
+        "receipt": {
+          "bytes": 349554,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/gui-final-r01/execution.json",
+          "sha256": "d54eb3a446a77588103bd865c1c4a536c48d18c9a6f609fe9b77d3eb62cc9bb2"
+        },
+        "registered_tests": 8,
+        "role": "gui",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      },
+      "native_moving": {
+        "critical_ids": [
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_invalid_physical_support_selections_fail_at_stock_export_without_solving",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_longitudinal_side_load_on_shared_cut_is_refused_without_current_accounting",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_moving_finite_rbe_ports_keep_elastic_transfer_separate_from_physical_support",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_ordinary_fixed_and_partial_supports_preserve_aggregate_physical_equilibrium",
+          "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_unselected_ordinary_boundary_cannot_overlap_a_selected_fixed_rbe"
+        ],
+        "elapsed_seconds": 6.7901354159694165,
+        "identity_tests": 1,
+        "module": "femtest.app.test_moving_port_accounting_native",
+        "receipt": {
+          "bytes": 349310,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/native-moving-final-r01/execution.json",
+          "sha256": "659947dde67c44a5c5435de5a529dedc4117e1fa16dd46db626d2b63b93b10ad"
+        },
+        "registered_tests": 5,
+        "role": "native_moving",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      },
+      "portable": {
+        "critical_ids": [
+          "femtest.app.test_moving_port_capacity_native.TestMovingPortCapacityNative.test_complete_132_bay_graph_obeys_the_native_declaration_budget"
+        ],
+        "elapsed_seconds": 1221.6687353330199,
+        "identity_tests": 1,
+        "module": "femtest.app.test_moving_port_capacity_native",
+        "receipt": {
+          "bytes": 349051,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/portable-capacity-final-r01/execution.json",
+          "sha256": "09be6964c94688bd4b8344d18d2973ab904b0c46b093177dabc2d0f10d9160af"
+        },
+        "registered_tests": 1,
+        "role": "portable",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      },
+      "portable_cold": {
+        "critical_ids": [
+          "YzkPortableColdRestore.PortableColdRestore.test_saved_full_graph_remains_literal_historical_data"
+        ],
+        "elapsed_seconds": 8.705873583210632,
+        "identity_tests": 1,
+        "module": "YzkPortableColdRestore",
+        "receipt": {
+          "bytes": 352403,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/portable-capacity-cold-final-r01/execution.json",
+          "sha256": "40fb07f99578709a9c5db398ba5132a6619f62a40ae16b8e1327fc7b66e56bb0"
+        },
+        "registered_tests": 1,
+        "role": "portable_cold",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      },
+      "tracer_cold": {
+        "critical_ids": [
+          "YzkColdRestore.CoupledColdRestore.test_saved_full_graph_remains_literal_historical_data"
+        ],
+        "elapsed_seconds": 3.1809317918960005,
+        "identity_tests": 1,
+        "module": "YzkColdRestore",
+        "receipt": {
+          "bytes": 351548,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/coupled-tracer-cold-final-r01/execution.json",
+          "sha256": "f9dabd275b1e1d60e05192ecf2d66a723b539a199a7735b897ceb1a7a706a243"
+        },
+        "registered_tests": 1,
+        "role": "tracer_cold",
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +223 (Git)",
+          "Unknown",
+          "2026/10/20 18:48:06",
+          "codex/fix-toroidal-self-cut",
+          "cf23c61504c9a25699899a87b68571b86de37438"
+        ],
+        "skipped": 0
+      }
+    },
+    "artificial_component_cases": {
+      "cases": 46,
+      "finite_element_or_engineering_qualification": false,
+      "includes_sanitizers": true
+    },
+    "build": {
+      "elapsed_seconds": 15.942488082917407,
+      "receipt": {
+        "bytes": 367607,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/source-committed-r01/execution.json",
+        "sha256": "7af0a5562f1177d7296e5934a39ae59c2e37969b12352e6fe64ed6a61bee78ae"
+      },
+      "version_header": {
+        "FCRepositoryBranch": "codex/fix-toroidal-self-cut",
+        "FCRepositoryHash": "cf23c61504c9a25699899a87b68571b86de37438",
+        "FCRepositoryURL": "Unknown",
+        "FCRevision": "49261 +223 (Git)",
+        "FCRevisionDate": "2026/10/20 18:48:06",
+        "FCVersionMajor": "27",
+        "FCVersionMinor": "1",
+        "FCVersionName": "",
+        "FCVersionPoint": "0",
+        "FCVersionSuffix": "dev"
+      }
+    },
+    "ctest": {
+      "actual_complete_catalogue": {
+        "catalogue": 2274,
+        "complete_catalogue_verified": true,
+        "disabled": 8,
+        "disabled_rows": [
+          {
+            "catalogue": 2274,
+            "line": "84/2274 Test   #84: BackupPolicyTest.TimestampWithInvalidFormatStringThrows .........................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 84,
+            "status": "disabled",
+            "test_number": 84
+          },
+          {
+            "catalogue": 2274,
+            "line": "85/2274 Test   #85: BackupPolicyTest.TimestampWithAbsurdlyLongFormatStringThrows ....................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 85,
+            "status": "disabled",
+            "test_number": 85
+          },
+          {
+            "catalogue": 2274,
+            "line": "130/2274 Test  #130: DocumentObserverTest.hasSubObject ...............................................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 130,
+            "status": "disabled",
+            "test_number": 130
+          },
+          {
+            "catalogue": 2274,
+            "line": "131/2274 Test  #131: DocumentObserverTest.hasSubElement ..............................................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 131,
+            "status": "disabled",
+            "test_number": 131
+          },
+          {
+            "catalogue": 2274,
+            "line": "132/2274 Test  #132: DocumentObserverTest.normalize ..................................................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 132,
+            "status": "disabled",
+            "test_number": 132
+          },
+          {
+            "catalogue": 2274,
+            "line": "133/2274 Test  #133: DocumentObserverTest.normalized .................................................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 133,
+            "status": "disabled",
+            "test_number": 133
+          },
+          {
+            "catalogue": 2274,
+            "line": "189/2274 Test  #189: ExpressionParserTest.expressionsParseAsPyObjectWrapper ..........................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 189,
+            "status": "disabled",
+            "test_number": 189
+          },
+          {
+            "catalogue": 2274,
+            "line": "660/2274 Test  #660: CrashReporterTests.DeliberateSegfaultRoundTrip ..................................................***Not Run (Disabled)   0.00 sec",
+            "ordinal": 660,
+            "status": "disabled",
+            "test_number": 660
+          }
+        ],
+        "enabled": 2266,
+        "executed_passing": 2264,
+        "failed": 0,
+        "real_seconds": 299.45,
+        "skipped": 2,
+        "skipped_rows": [
+          {
+            "catalogue": 2274,
+            "line": "68/2274 Test   #68: BackupPolicyTest.StandardWithZeroFilesDeletesExisting ...........................................***Skipped   0.10 sec",
+            "ordinal": 68,
+            "status": "skipped",
+            "test_number": 68
+          },
+          {
+            "catalogue": 2274,
+            "line": "78/2274 Test   #78: BackupPolicyTest.TimestampWithZeroFilesDeletesExisting ..........................................***Skipped   0.10 sec",
+            "ordinal": 78,
+            "status": "skipped",
+            "test_number": 78
+          }
+        ]
+      },
+      "default_timeout_seconds": 60,
+      "existing_test_TIMEOUT_properties_overridden": false,
+      "parallel": 1,
+      "receipt": {
+        "bytes": 407546,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/native-qa/ctest-final-r01/execution.json",
+        "sha256": "e6f89a2582fc52a520a58dd19a74e9cf9f1c3af90b7dbde29638420d35ecc9af"
+      }
+    },
+    "legacy": {
+      "V1": {
+        "FreeCAD_writer_or_capacity_graph_coverage": false,
+        "expected_refusals": 6,
+        "physical_norm_checks": 288,
+        "positive_cases": 48,
+        "receipt": {
+          "bytes": 31719,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/native-qa/legacy-v1-final-r01/execution.json",
+          "sha256": "938e53e886a1f170c1d53ec3de4fa83e850f5ed75ac6ef386b2ea891e6255281"
+        }
+      },
+      "V2": {
+        "FreeCAD_writer_or_capacity_graph_coverage": false,
+        "expected_refusals": 2,
+        "physical_norm_checks": 144,
+        "positive_cases": 8,
+        "receipt": {
+          "bytes": 7945,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/native-qa/legacy-v2-final-r01/execution.json",
+          "sha256": "bfea9c885ceb6e6fd49aee914ed7e350f31367570804c437bc6887e9f00885fe"
+        }
+      }
+    },
+    "native_compilation": {
+      "new_compilation_claimed_by_derived_attestation": false,
+      "observed_contract_attestation": {
+        "bytes": 32244,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/qa/native-capacity-r01-attestation-v2.json",
+        "sha256": "e8727c950d2ca2d55712de4a0b3ddb37c5d7544bfccc5ccbf91ca6afe2b1b9a9"
+      },
+      "receipt": {
+        "bytes": 825,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/native-capacity-r01/native/build-receipt.json",
+        "sha256": "b899e0035c706fa6d272eee73f2515afd8c89747cea44875f0e0b541fd69a89e"
+      }
+    },
+    "portable_132": {
+      "budget": 2113,
+      "cold_manifest_sha256": "8a2706ffde6b1d0a1ace9bae155ad5c62aeb73cf28a24037a5bef79ad1893d7f",
+      "counts": {
+        "angles": 792,
+        "bodies": 264,
+        "ports": 264,
+        "springs": 792,
+        "supports": 1
+      },
+      "max_relative_error": 4.999999999218593e-07,
+      "original_witness_directory": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/portable-capacity-final-r01/freecad_user_temp/freecad-moving-port-capacity-native-xqtprwkw/witness",
+      "physical_checks": 3566,
+      "receipt": {
+        "bytes": 1344591,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/portable-retained-r01/witness-receipt.json",
+        "sha256": "23cd65eda8d5dc0494ff6bbf12619bdebf1cc0c11c0000523ae75d57c6729f96"
+      },
+      "saved_document_sha256": "6f4d63ed2930e8f0c80f852cae961871f36646dec69f20b0fa1c18f79bb99a02",
+      "separate_process_cold_claimed_by_this_physical_receipt": false,
+      "stock_write_inp_file_seconds": 1121.8453718749806,
+      "whole_writer_timing_diagnostic_only_no_threshold_or_cross_fixture_speedup_claim": true
+    },
+    "portable_cold": {
+      "manifest_sha256": "8a2706ffde6b1d0a1ace9bae155ad5c62aeb73cf28a24037a5bef79ad1893d7f",
+      "no_solve_save_or_repair": true,
+      "receipt": {
+        "bytes": 691,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/portable-capacity-cold-final-r01/cold-receipt.json",
+        "sha256": "f26dc87052549c51c653f65c3fd66c1c1fee7a144db91aafa6d1c7cf5293088e"
+      },
+      "status": "Stale after restore; rerun to establish current native accounting"
+    },
+    "primary_132": {
+      "budget": 2113,
+      "cold_manifest_sha256": "c96aa1364399cdb1e0cfa1cbc5732ded769b1c379ce04f5bdae76a4c06e7a061",
+      "counts": {
+        "angles": 792,
+        "bodies": 264,
+        "ports": 264,
+        "springs": 792,
+        "supports": 1
+      },
+      "generation": {
+        "dirty_source_file_pins_retained_in_original_receipts": true,
+        "rebound_to_final_committed_source": false,
+        "receipt": {
+          "bytes": 345433,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/execution.json",
+          "sha256": "04bf44ea6f1e607638affb0c00450d34b3c7d936931c32bce1752440571cfe64"
+        },
+        "runtime": [
+          "27",
+          "1",
+          "0",
+          "49261 +222 (Git)",
+          "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+          "2026/10/20 16:13:52",
+          "codex/fix-toroidal-self-cut",
+          "a878b8ae8e0536a70b016b80b4b92ff7c8f75dff"
+        ]
+      },
+      "independent_evidence_review": {
+        "auditor_disclosure": {
+          "independent_claim_scope": "Fresh filesystem/hash/native-text/JSON arithmetic audit of completed primary evidence; not organizational independence or independent portable implementation authorship",
+          "portable_proposal_authored_by_this_reviewer": true,
+          "primary_native_run_executed_by_this_reviewer": false,
+          "prior_contributions": [
+            "Portable fixture/audit/test proposal",
+            "Earlier native capacity and Python integration/QA reviews"
+          ],
+          "role": "Completed primary physical-evidence review, not the portable-source independent review"
+        },
+        "receipt": {
+          "bytes": 22850,
+          "path": "/private/tmp/freecad-yzk-Sd0mDG/native-qa/primary-physical-independent-audit.json",
+          "sha256": "95cb3163064e28b982663f8b568dc2cd21d3ca1c2b974d35fd65d94e454531c8"
+        }
+      },
+      "max_relative_error": 4.999999999218593e-07,
+      "original_witness_directory": "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness",
+      "physical_checks": 3566,
+      "receipt": {
+        "bytes": 1342745,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/witness-receipt.json",
+        "sha256": "fb0cbec8e16675cf7489fa00ee06fed0d6792db4ef1ba8ca274bab80bd2ee5b5"
+      },
+      "runtime_scope": "Original +222/a878 dirty file-pinned source execution; NOT relabelled final commit",
+      "saved_document_sha256": "d5d7ffbc9616f0ddf1bbf2b194d67543a413a84105afc89237e5d3f598b632de",
+      "separate_process_cold_claimed_by_this_physical_receipt": false,
+      "stock_write_inp_file_seconds": null,
+      "whole_writer_timing_diagnostic_only_no_threshold_or_cross_fixture_speedup_claim": true
+    },
+    "primary_cold": {
+      "manifest_sha256": "c96aa1364399cdb1e0cfa1cbc5732ded769b1c379ce04f5bdae76a4c06e7a061",
+      "no_solve_save_or_repair": true,
+      "receipt": {
+        "bytes": 715,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-cold-r02/cold-receipt.json",
+        "sha256": "204f17e87358952ecd85553f566a5fd482bf9b38a8766004b0a803ca4d8c6d2f"
+      },
+      "status": "Stale after restore; rerun to establish current native accounting"
+    },
+    "primary_one_below": {
+      "budget": 2112,
+      "passed": true,
+      "required": 2113
+    },
+    "public_benchmark": {
+      "after_receipt": {
+        "bytes": 25890,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/qa-v3/port-benchmark-after-r01/port-benchmark.json",
+        "sha256": "d0624e6713d34e7a62eb22617bd46601948eeefe7399039b191952c2e8d875c7"
+      },
+      "after_seconds": 2.8188610810320824,
+      "before_receipt": {
+        "bytes": 25931,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/port-benchmark-before-r02/port-benchmark.json",
+        "sha256": "e58909f9d8d5c4a1f4d10266f7bb2b7f5c0eef68d1147caf549a9f389560b60a"
+      },
+      "before_seconds": 6.470199877163395,
+      "exact_returned_values_and_native_IDs_unchanged": true,
+      "timing_is_diagnostic_only_not_a_fitted_threshold_or_SLA": true
+    },
+    "quality": {
+      "independence_disclosure": {
+        "independent_from_authorship_for": "Root/other-agent Python admission/run custody, fixture/auditor/portable test, contract and CMake changes, except the cache-lifetime test proposal disclosed below.",
+        "prior_author_work_by_this_reviewer": [
+          "The native capacity changes in forceaccounting.c and hooks.patch were implemented by this agent under root's agreed design; their final unchanged hashes were rechecked here, so this part is author self-review, not an independent native audit.",
+          "This agent proposed the same-full-writer cache-lifetime regression later integrated by root; an earlier child reviewer independently checked that private proposal."
+        ],
+        "separate_native_independent_review": "Root reported a separate read-only native source/harness review by 5ar_native_probe. This receipt does not impersonate or replace that separate reviewer."
+      },
+      "review_receipt": {
+        "bytes": 10123,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/native-qa/final-product-review.json",
+        "sha256": "fd68e9473c6f20a830d26e7827b1130d8ddba0f9390d8dd280e0b9ec0f3b087b"
+      },
+      "static_receipt": {
+        "bytes": 10878,
+        "path": "/private/tmp/freecad-yzk-Sd0mDG/native-qa/static-final-r03/execution.json",
+        "sha256": "2d8715ad651b425340d232f595b738fb12504e117863cfc275170162f51f2be2"
+      }
+    }
+  },
+  "revision": "49261 +223 (Git)",
+  "schema": "FreeCAD-yzk-source-validation-v1",
+  "scope": {
+    "Oomakhi_accessed_or_solved": false,
+    "R49_11_123267892_percent_remains_FAIL_against_5_percent": true,
+    "R51_5_240441298_percent_remains_FAIL_against_5_percent": true,
+    "engineering_or_BIM_accepted": false,
+    "entire_dependency_environment_filesystem_unchanged_claimed": false,
+    "force_original_origin_moment_limit": 0.01,
+    "installation_performed": false,
+    "original_side_loaded_fixture_inputs_rewritten": false,
+    "protected_application_and_user_profiles_unchanged_according_to_scoped_receipts": true,
+    "scalar_response_limit": 0.05,
+    "selected_critical_dependency_pins_unchanged_according_to_scoped_receipts": true,
+    "separate_predeclared_generic_coupled_fixture": true,
+    "source_only": true
+  }
+}

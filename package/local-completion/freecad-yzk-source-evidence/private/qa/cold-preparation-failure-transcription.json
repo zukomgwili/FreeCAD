@@ -1,0 +1,12 @@
+{
+  "schema": "FreeCAD-yzk-root-transcribed-preparation-failure-v1",
+  "record_kind": "Later root transcription of tool result; not an original captured log or execution receipt",
+  "label": "coupled-capacity-cold-r01",
+  "command": ["pixi", "run", "--frozen", "python", "-B", "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/run_source.py", "prepare", "coupled-capacity-cold-r01", "--module", "YzkColdRestore", "--expected-count", "2", "--expected-id", "YzkColdRestore.CoupledColdRestore.test_saved_full_graph_remains_literal_historical_data", "--native-receipt", "/private/tmp/freecad-yzk-Sd0mDG/qa/native-capacity-r01-attestation.json", "--native-receipt-sha", "82608491961909ec23217c0ace11f6836d5ef1b8ab1d8c078fed1472d95c095a", "--cold-manifest", "/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-capacity-at-limit-r01/witness/cold-case.json", "--cold-manifest-sha", "fda3"],
+  "returncode": 1,
+  "observed_error": "AssertionError at run_source.py line95: assert args.cold_manifest_sha and sha(args.cold_manifest) == args.cold_manifest_sha",
+  "cause": "Root supplied an incorrect abbreviated manifest hash argument. Preparation refused before creating its run directory or launching an application.",
+  "FreeCAD_or_solver_executed": false,
+  "test_execution_or_native_failure_claimed": false,
+  "corrected_fresh_attempt": "qa-v2/coupled-capacity-cold-r02"
+}

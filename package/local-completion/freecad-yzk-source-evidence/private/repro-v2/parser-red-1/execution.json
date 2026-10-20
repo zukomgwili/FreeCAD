@@ -1,0 +1,30 @@
+{
+  "schema": "FreeCAD-yzk-NONPHYSICAL-parser-capacity-only-v1",
+  "physical_graph_qualified": false,
+  "parser_probe_only": true,
+  "passed": false,
+  "manifest_sha256": "7c2b3a694e235a99e0e5fc6bac210cf9e693ba0bb8d95db52f398106cd65cd14",
+  "native_binary": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "native_binary_sha256": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+  "command": [
+    "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+    "-i",
+    "Mesh"
+  ],
+  "pid": 3829,
+  "process_group": 3829,
+  "returncode": 201,
+  "timed_out": false,
+  "reaped": true,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 0.07029504189267755,
+  "log_sha256": "d182eb3d52d84fed00f29434b970a999742f427b9690b2323da02aa91d69a364",
+  "exact_native_diagnostic": "\n************************************************************\n\nCalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt\nCalculiX comes with ABSOLUTELY NO WARRANTY. This is free\nsoftware, and you are welcome to redistribute it under\ncertain conditions, see gpl.htm\n\n************************************************************\n\nYou are using an executable made on Tue Oct 20 15:53:41 2026\n*ERROR CCX force accounting V3: too many native RBE port declarations\n Decascading the MPC's\n\n Determining the structure of the matrix:\n Using up to 2 cpu(s) for setting up the structure of the matrix.\n number of equations\n 2721\n number of nonzero lower triangular matrix elements\n 86172\n\n\n  The numbers below are estimated upper bounds\n\n  number of:\n\n   nodes:         1195\n   elements:          998\n   one-dimensional elements:            0\n   two-dimensional elements:            0\n   integration points per element:            4\n   degrees of freedom per node:            3\n   layers per element:            1\n\n   distributed facial loads:            0\n   distributed volumetric loads:            0\n   concentrated loads:           51\n   single point constraints:          387\n   multiple point constraints:          376\n   terms in all multiple point constraints:         2227\n   tie constraints:            0\n   dependent nodes tied by cyclic constraints:            0\n   dependent nodes in pre-tension constraints:            0\n\n   sets:           33\n   terms in all sets:         3647\n\n   materials:            7\n   constants per material and temperature:            4\n   temperature points per material:            2\n   plastic data points per material:            0\n\n   orientations:            3\n   amplitudes:           15\n   data points in all amplitudes:           15\n   print requests:           38\n   transformations:            0\n   property cards:            0\n\n\n STEP            1\n\n Static analysis was selected\n\n",
+  "inputs_unchanged": true,
+  "copied_deck_unchanged": true,
+  "parser_request_unchanged": true,
+  "app_and_profiles_unchanged": true,
+  "capacity_refusal_observed": true,
+  "native_acceptance_success": false
+}

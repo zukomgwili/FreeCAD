@@ -1,0 +1,54 @@
+{
+  "passed": false,
+  "scope": "New public one-test regression against installed old product",
+  "not_source_build_or_physical_solver_qualification": true,
+  "inputs_before": {
+    "/private/tmp/freecad-yzk-Sd0mDG/repro/run_repro.py": "c7193b29e24dfaccc99ab4a3ef6806109d3dc108f223f882c8bf9feedb883f1c",
+    "/private/tmp/freecad-yzk-Sd0mDG/repro/InstalledIdentity.py": "13a396f61ba66e1885b111ab73a27186e4dc96d8a9004b86a7db02f26fbe21a1",
+    "/private/tmp/freecad-yzk-Sd0mDG/repro/PortCapacityWitness.py": "16be8acafdfc0bf81beb1a5896d619921f5a5e0bbdb63a137a195e4dedd86a22",
+    "/private/tmp/freecad-yzk-Sd0mDG/repro/fixture.json": "ea44faba259494b772db6357996c7e543c99bdf5df366b4b17092eaebf90e7b9",
+    "/private/tmp/freecad-yzk-Sd0mDG/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation.json": "6fd7a810750596b6b4bcbcc9b2fe4203267c7c8463a1d69ed19033a16c0a7862",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/installed-endload/identity.json": "bb64a250a70f94effc73732fa597bd92051025a62b408fb4115cecf48864d87e",
+    "/Users/zukomgwili/src/FreeCAD/pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "/Users/zukomgwili/src/FreeCAD/pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/qt6/plugins/platforms/libqcocoa.dylib": "b5929d48bec6a97ce61f6792a866daf5c3ea6badb9d58d98bc0eeaf75ed3e704",
+    "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/ccx": "b94868f6dd50533d7a8f11d271864a04bbf01f4117046d0c5b35e3cad470aac6",
+    "/private/tmp/freecad-yzk-Sd0mDG/run_early_red.py": "b9134e142436f21a73e0751a71bf6557291b2b5f335c91f0deb6dea61b31cd91",
+    "/private/tmp/freecad-yzk-Sd0mDG/YzkPreflightRed.py": "9696cede88d4cecd896c0b37ea58e8bb05045b60349077fa9222cdfa93ca78a3",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_force_accounting.py": "9ef3e0dee35b94fb7fe56eab17976649f8d367aa5cdbaa75a34f75484bca269f"
+  },
+  "command": [
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "-u",
+    "/private/tmp/freecad-yzk-Sd0mDG/preflight-red-1/user.cfg",
+    "-s",
+    "/private/tmp/freecad-yzk-Sd0mDG/preflight-red-1/system.cfg",
+    "-P",
+    "/private/tmp/freecad-yzk-Sd0mDG/repro",
+    "-P",
+    "/private/tmp/freecad-yzk-Sd0mDG",
+    "-t",
+    "InstalledIdentity",
+    "-t",
+    "YzkPreflightRed"
+  ],
+  "pid": 6101,
+  "process_group": 6101,
+  "returncode": 1,
+  "timed_out": false,
+  "reaped": true,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 1.458232207922265,
+  "log_sha256": "bc4726438b4ccc7f93fab53192ec06d3c59335ff90f9108409cb44d11fd8e8df",
+  "app_and_profiles_unchanged": true,
+  "inputs_unchanged": true,
+  "identity_passed": true,
+  "unittest_counts": [
+    [
+      "2",
+      "0.493"
+    ]
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "schema": "FreeCAD-yzk-source-collection-config-proposal-v1",
+  "proposal_only": true,
+  "publication_authorized": false,
+  "proposal_scope": "NOT executable by prepare_plan.py; root must confirm all final actual receipts and create a new config with the approved final-config schema. Future roles/counts below are planned declarations, not PASS claims.",
+  "source_commit": "cf23c61504c9a25699899a87b68571b86de37438",
+  "revision": "49261 +223 (Git)",
+  "build_directory": "qa-v3/source-committed-r01",
+  "applications": {
+    "fem": {
+      "directory": "qa-v3/fem-final-r01",
+      "module": "TestFemApp",
+      "expected_count": 406,
+      "critical_ids": [
+        "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_mixed_native_interfaces_keep_independent_nonzero_original_displacements",
+        "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_mixed_tie_contact_bodies_preserve_paired_physical_cut_equilibrium",
+        "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_nonconformal_tie_uses_native_master_surface_without_an_original_query_node",
+        "femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_tie_edits_fail_closed_and_saved_native_observation_remains_historical",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_invalid_physical_support_selections_fail_at_stock_export_without_solving",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_longitudinal_side_load_on_shared_cut_is_refused_without_current_accounting",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_moving_finite_rbe_ports_keep_elastic_transfer_separate_from_physical_support",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_ordinary_fixed_and_partial_supports_preserve_aggregate_physical_equilibrium",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_unselected_ordinary_boundary_cannot_overlap_a_selected_fixed_rbe"
+      ]
+    },
+    "gui": {
+      "directory": "qa-v3/gui-final-r01",
+      "module": "TestFemGui",
+      "expected_count": 9,
+      "critical_ids": []
+    },
+    "native_moving": {
+      "directory": "qa-v3/native-moving-final-r01",
+      "module": "femtest.app.test_moving_port_accounting_native",
+      "expected_count": 6,
+      "critical_ids": [
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_invalid_physical_support_selections_fail_at_stock_export_without_solving",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_longitudinal_side_load_on_shared_cut_is_refused_without_current_accounting",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_moving_finite_rbe_ports_keep_elastic_transfer_separate_from_physical_support",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_ordinary_fixed_and_partial_supports_preserve_aggregate_physical_equilibrium",
+        "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_unselected_ordinary_boundary_cannot_overlap_a_selected_fixed_rbe"
+      ]
+    },
+    "portable": {
+      "directory": "qa-v3/portable-capacity-final-r01",
+      "module": "femtest.app.test_moving_port_capacity_native",
+      "expected_count": 2,
+      "critical_ids": [
+        "femtest.app.test_moving_port_capacity_native.TestMovingPortCapacityNative.test_complete_132_bay_graph_obeys_the_native_declaration_budget"
+      ]
+    },
+    "portable_cold": {
+      "directory": "qa-v3/portable-capacity-cold-final-r01",
+      "module": "YzkPortableColdRestore",
+      "expected_count": 2,
+      "critical_ids": [
+        "YzkPortableColdRestore.PortableColdRestore.test_saved_full_graph_remains_literal_historical_data"
+      ]
+    },
+    "benchmark": {
+      "directory": "qa-v3/port-benchmark-after-r01",
+      "module": "YzkPortBenchmark",
+      "expected_count": 2,
+      "critical_ids": [
+        "YzkPortBenchmark.PublicPortResolutionBenchmark.test_twelve_real_scalar_connectors_resolve_without_changing_the_model"
+      ]
+    }
+  },
+  "portable_retained": {
+    "directory": "portable-retained-r01",
+    "copy_custody": "portable-retained-r01/copy-custody.json"
+  },
+  "portable_cold_receipt": "qa-v3/portable-capacity-cold-final-r01/cold-receipt.json",
+  "benchmark_report": "qa-v3/port-benchmark-after-r01/port-benchmark.json",
+  "legacy": {
+    "V1": "native-qa/legacy-v1-final-r01",
+    "V2": "native-qa/legacy-v2-final-r01"
+  },
+  "ctest_directory": "native-qa/ctest-final-r01",
+  "ctest_retained_logs": [
+    "native-qa/ctest-final-r01/LastTest.log",
+    "native-qa/ctest-final-r01/LastTestsDisabled.log"
+  ],
+  "static_directory": "native-qa/static-final-r03",
+  "review_receipt": "native-qa/final-product-review.json",
+  "receipt_omissions": {},
+  "history": [
+    {
+      "directory": "qa/capacity-custody-green-r01",
+      "classification": "Intermediate public capacity-custody behavior GREEN; source+222 historical, not final committed qualification."
+    },
+    {
+      "directory": "qa-v2/coupled-tracer-r01",
+      "classification": "Actual one-bay physical tracer outer gate; separate preliminary proof, not132-bay/final-runtime rebinding."
+    },
+    {
+      "directory": "qa-v2/fem-capacity-discovery-r01",
+      "classification": "Identity/discovery-only intermediate source run; no selected behavior tests executed."
+    },
+    {
+      "directory": "qa-v2/source-capacity-green-r01",
+      "classification": "Successful intermediate +222 source build; not final committed build."
+    },
+    {
+      "directory": "qa-v2/source-review-fixes-r01",
+      "classification": "Successful intermediate +222 source build after review corrections; not final committed build."
+    },
+    {
+      "directory": "qa-v3/source-portable-r01",
+      "classification": "Successful intermediate +222/a878 dirty source build before capability-probe fixes; not final committed build."
+    },
+    {
+      "directory": "qa-v3/fem-final-review-r01",
+      "classification": "Actual intermediate404 registered FEM tests+identity; passed405 total before additional probe-safety method, not final405+identity gate."
+    },
+    {
+      "directory": "qa-v3/source-probe-red-r01",
+      "classification": "Successful intermediate build preparing a separate capability-version-probe RED; build itself is NOT a RED."
+    },
+    {
+      "directory": "qa-v3/capability-probe-red-r01",
+      "classification": "Actual public child-boundary capability-version-probe safety RED; private-cwd assertion failure, not physical FE qualification."
+    },
+    {
+      "directory": "qa-v3/source-probe-green-r01",
+      "classification": "Successful intermediate build after first probe-safety correction; not final committed build."
+    },
+    {
+      "directory": "qa-v3/capability-probe-green-r01",
+      "classification": "Actual public capability probe private-cwd adapter GREEN; no unsupported native solve launched, not physical FE qualification."
+    },
+    {
+      "directory": "qa-v3/source-probe-relative-red-r01",
+      "classification": "Successful intermediate build preparing a separate relative-executable probe RED; build itself is NOT a RED."
+    },
+    {
+      "directory": "qa-v3/capability-relative-red-r01",
+      "classification": "Actual public executable-adapter RED for relative explicit/PATH references after cwd isolation; not physical FE qualification."
+    },
+    {
+      "directory": "qa-v3/source-probe-relative-green-r01",
+      "classification": "Successful intermediate build after executable-path normalization; not final committed build."
+    },
+    {
+      "directory": "qa-v3/capability-relative-green-r01",
+      "classification": "Actual public relative explicit/PATH executable-adapter GREEN; no unsupported native solve, not physical FE qualification."
+    },
+    {
+      "directory": "qa-v3/fem-final-discovery-r01",
+      "classification": "Actual final committed405-method FEM suite identity/discovery only; not the separate406-total behavior gate."
+    }
+  ],
+  "additional_files": [
+    {
+      "scope": "private",
+      "path": "SourceYwuIdentity.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkCapacityAtLimit.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkCapacityRefusal.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkColdRestore.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkCoupledFixture.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkCoupledWitness.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkNativeAudit.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkPortBenchmark.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkPortableColdRestore.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "YzkPreflightRed.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "process_control.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "run_builds.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "run_early_red.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "run_source.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "run_source_yzk.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa/SourceBuildIdentity.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa/YzkBuildSupport.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa/audit_existing_native_build.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa/audit_existing_native_build_v2.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa/run_builds.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa/run_source.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa-v2/SourceBuildIdentity.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa-v2/YzkBuildSupport.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa-v2/run_source.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa-v3/SourceBuildIdentity.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa-v3/YzkBuildSupport.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "qa-v3/run_source.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/CacheLifetimeRegression.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/CapacityRefusalProposal.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/PortableColdProposal.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/process_control.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_capacity_unit.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_capacity_unit_v2.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_ctest.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_ctest_v3.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_legacy.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_legacy_v1.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_legacy_v3.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/run_static.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro/InstalledIdentity.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro/PortCapacityWitness.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro/run_repro.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/InstalledIdentity.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/PortCapacityWitness.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/parser_probe.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/run_repro.py",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "NativeCapacityMaskUnit.c",
+      "kind": "source",
+      "classification": "Exact private QA supervisor/helper/component source; actual run bindings determine execution provenance, not filenames."
+    },
+    {
+      "scope": "private",
+      "path": "collection/source-packet-review.json",
+      "kind": "receipt",
+      "classification": "Separate hash-bound collection source-code review; no final runtime or publication PASS claimed."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/QA-controls-review.json",
+      "kind": "receipt",
+      "classification": "Separate read-only operational QA controls review; retain authorship and scope disclosures."
+    },
+    {
+      "scope": "private",
+      "path": "qa/cold-preparation-failure-transcription.json",
+      "kind": "receipt",
+      "classification": "LATER ROOT TRANSCRIPTION of uncaptured preparation-only CLI error, no application or solver execution; not an original captured log."
+    },
+    {
+      "scope": "private",
+      "path": "repro/fixture.json",
+      "kind": "generic-fixture",
+      "classification": "Original declared generic65-port reproduction fixture, not an engineering model."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/parser-red-1/solver.log",
+      "kind": "text",
+      "classification": "NONPHYSICAL parser-only native201 control raw log; not a finite-element qualification."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/parser-red-1/Mesh.inp",
+      "kind": "generic-fixture",
+      "classification": "NONPHYSICAL parser-only input, not a finite-element engineering model."
+    },
+    {
+      "scope": "private",
+      "path": "repro-v2/parser-red-1/original-stock-request.accounting",
+      "kind": "generic-fixture",
+      "classification": "Original public stock request retained for NONPHYSICAL parser201 control; no result repair."
+    },
+    {
+      "scope": "repository",
+      "path": "package/local-completion/freecad-ywu-source-evidence/helpers/current/run_full_build.py",
+      "kind": "source",
+      "classification": "Previously published exact complete CTest parser source, SHA3c246d1a...; new gate uses only its read-only catalogue parsing function."
+    },
+    {
+      "scope": "repository",
+      "path": "package/local-completion/calculix-9zt-probe/build_probe.py",
+      "kind": "source",
+      "classification": "Existing reviewed native extension build recipe; actual new native compilation receipt remains separate."
+    },
+    {
+      "scope": "repository",
+      "path": "package/local-completion/calculix-9zt-probe/recipe-pins.json",
+      "kind": "source",
+      "classification": "Exact native recipe provenance pins; no vendor tree payload."
+    },
+    {
+      "scope": "repository",
+      "path": "package/local-completion/calculix-9zt-probe/pixi.lock",
+      "kind": "source",
+      "classification": "Exact native compiler/dependency manifest; no environment state or credentials."
+    },
+    {
+      "scope": "repository",
+      "path": "package/local-completion/calculix-9zt-probe/pixi.toml",
+      "kind": "source",
+      "classification": "Existing native build dependency declaration, not a runtime environment payload."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r01/execution.json",
+      "kind": "receipt",
+      "classification": "Earlier static gate before later source changes. Not relabelled as final source quality."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r01/check-0.log",
+      "kind": "text",
+      "classification": "Earlier static gate before later source changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r01/check-1.log",
+      "kind": "text",
+      "classification": "Earlier static gate before later source changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r01/check-2.log",
+      "kind": "text",
+      "classification": "Earlier static gate before later source changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r01/check-3.log",
+      "kind": "text",
+      "classification": "Earlier static gate before later source changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r01/check-4.log",
+      "kind": "text",
+      "classification": "Earlier static gate before later source changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r02/execution.json",
+      "kind": "receipt",
+      "classification": "Intermediate static gate before final probe-safety changes. Not relabelled as final source quality."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r02/check-0.log",
+      "kind": "text",
+      "classification": "Intermediate static gate before final probe-safety changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r02/check-1.log",
+      "kind": "text",
+      "classification": "Intermediate static gate before final probe-safety changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r02/check-2.log",
+      "kind": "text",
+      "classification": "Intermediate static gate before final probe-safety changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r02/check-3.log",
+      "kind": "text",
+      "classification": "Intermediate static gate before final probe-safety changes. Exact historical raw command log."
+    },
+    {
+      "scope": "private",
+      "path": "native-qa/static-final-r02/check-4.log",
+      "kind": "text",
+      "classification": "Intermediate static gate before final probe-safety changes. Exact historical raw command log."
+    }
+  ],
+  "pending_actual_confirmations": [
+    "FEM final406 total is running, not yet qualified.",
+    "GUI final9 total must match actual final discovery/manifest;9 is the unchanged planned expectation, not a receipt.",
+    "Dedicated moving-native6, same public12-call benchmark2, legacy V1/V2 complete corpora and serial CTest remain pending.",
+    "CTest retained log list must exactly match final supervisor fresh_for_this_run classifications; never include a stale LastTestsFailed.log as current failure evidence.",
+    "Final metadata presently scanned has no raw inventory/secret dictionaries requiring omissions. Every actual selected future receipt is checked by the codec before any publication; no sanitizing or rewriting originals."
+  ],
+  "actual_completed_at_proposal": {
+    "clean_committed_build": {
+      "receipt": "qa-v3/source-committed-r01/execution.json",
+      "passed": true
+    },
+    "portable": {
+      "receipt": "qa-v3/portable-capacity-final-r01/execution.json",
+      "sha256": "09be6964c94688bd4b8344d18d2973ab904b0c46b093177dabc2d0f10d9160af",
+      "passed": true,
+      "physical_checks": 3566,
+      "total_tests": 2,
+      "stock_write_inp_file_seconds": 1121.8453718749806,
+      "diagnostic_not_SLA": true
+    },
+    "portable_selection": {
+      "receipt": "portable-retained-r01/copy-custody.json",
+      "sha256": "7720cb84a93bd01f830b9e77c9d18588108aef9d6750385b428a92babef7cfee",
+      "passed": true,
+      "selected_files": 11
+    },
+    "portable_cold": {
+      "receipt": "qa-v3/portable-capacity-cold-final-r01/execution.json",
+      "passed": true,
+      "total_tests": 2,
+      "log_sha256": "639fce030836fda6eeaa0d9f60499b71a76af321991719ced716a817a7ab89fc"
+    }
+  },
+  "holds": {
+    "source_only": true,
+    "installation_performed": false,
+    "engineering_or_BIM_accepted": false,
+    "Oomakhi_accessed_or_solved": false,
+    "original_R49_R51_five_percent_failures_unchanged": true,
+    "remaining_export_performance_bead": "FreeCAD-882; profiling follow-up only, no new performance SLA or product work authorized by this packet"
+  }
+}

@@ -1,0 +1,203 @@
+--- /private/tmp/freecad-yzk-Sd0mDG/qa-v2/YzkBuildSupport.py	2026-10-20 18:58:25
++++ /private/tmp/freecad-yzk-Sd0mDG/qa-v3/YzkBuildSupport.py	2026-10-20 19:38:05
+@@ -27,7 +27,11 @@
+ from process_control import assert_serial, run_bounded
+ 
+ 
+-FEM_CMAKE_COPY_LIST_SHA = '992bd5fe07b6539d1931e142d4173a210677d4a1e9f76a55a31ed7de7273d193'
++FEM_CMAKE_COPY_LIST_SHA = 'a3d09a9950615621851be9ca074f7e2f87da9ef26f798c33ad64ba54da01ed58'
++FEM_CAPACITY_JSON = {
++    'femtest/data/calculix/coupled_port_capacity_fixture.json': '9142f5aa4d149aa1f0d518a592a78638f9489fb3e245af67ea4fd463e5b8ae22',
++    'femtest/data/calculix/coupled_port_capacity_oracle.json': '42fa6289fd9e1f80efa56db27c02c06a5454ed9880f7ca61bfd80992dfb251b8',
++}
+ UNLISTED_FEM_PYTHON = {
+     'femtest/function_tests/__init__.py',
+     'femtest/function_tests/test_support_utils.py',
+@@ -91,6 +95,7 @@
+     paths = [Path(__file__), CONTROL, REPO / 'CMakeLists.txt', REPO / 'src/Mod/Fem/CMakeLists.txt',
+              REPO / 'pixi.toml', REPO / 'pixi.lock']
+     paths += sorted((REPO / 'src/Mod/Fem').rglob('*.py'))
++    paths += [REPO / 'src/Mod/Fem' / name for name in FEM_CAPACITY_JSON]
+     paths += [REPO / 'package/calculix/force-accounting' / name
+               for name in ('forceaccounting.c', 'hooks.patch', 'contract.json', 'COPYING')]
+     paths += list(extra)
+@@ -130,17 +135,38 @@
+     return {'passed': not missing and not mismatched, 'missing': missing, 'mismatched': mismatched}
+ 
+ 
++def fem_capacity_json_copy_plan():
++    """Both approved metadata-only assets must be listed and copied verbatim."""
++    cmake = REPO / 'src/Mod/Fem/CMakeLists.txt'
++    assert sha(cmake) == FEM_CMAKE_COPY_LIST_SHA, 'Review a changed CMake copy list before using this private gate'
++    listed = set(re.findall(r'^\s+([A-Za-z0-9_/.-]+\.json)\s*$', cmake.read_text(), re.M))
++    assert set(FEM_CAPACITY_JSON) <= listed, 'A required capacity JSON asset is absent from CMake'
++    for name, expected in FEM_CAPACITY_JSON.items():
++        assert sha(REPO / 'src/Mod/Fem' / name) == expected, 'Approved capacity JSON asset changed: ' + name
++    return {'cmake': str(cmake), 'cmake_sha256': FEM_CMAKE_COPY_LIST_SHA,
++            'scope': 'Two approved capacity JSON assets, additional to the checked Python copy-list',
++            'required': sorted(FEM_CAPACITY_JSON), 'approved_source_sha256': FEM_CAPACITY_JSON}
++
++
++def fem_capacity_json_copy_parity(plan):
++    return fem_python_copy_parity(plan)
++
++
+ def build_snapshot():
+     paths = [BUILD / 'src/Build/Version.h', BUILD / 'bin/FreeCADCmd', BUILD / 'bin/FreeCAD',
+              BUILD / 'lib/libFreeCADApp.dylib', BUILD / 'Mod/Fem/Fem.so', BUILD / 'Mod/Fem/FemGui.so',
+              BUILD / 'data/NativeSolvers/ccx-force-accounting', BUILD / 'CMakeCache.txt']
+     plan = fem_python_copy_plan()
++    data_plan = fem_capacity_json_copy_plan()
+     paths += [BUILD / 'Mod/Fem' / name for name in plan['required']]
++    paths += [BUILD / 'Mod/Fem' / name for name in data_plan['required']]
+     header = BUILD / 'src/Build/Version.h'
+     macros = dict(re.findall(r'^#define\s+(\w+)\s+"([^"]*)"', header.read_text(), re.M)) if header.is_file() else {}
+     return {'files': {str(path): sha(path) for path in paths if path.is_file()},
+             'version_header': macros, 'fem_python_copy_plan': plan,
+-            'fem_python_copy_parity': fem_python_copy_parity(plan)}
++            'fem_python_copy_parity': fem_python_copy_parity(plan),
++            'fem_capacity_json_copy_plan': data_plan,
++            'fem_capacity_json_copy_parity': fem_capacity_json_copy_parity(data_plan)}
+ 
+ 
+ def main():
+@@ -212,10 +238,12 @@
+             report['candidate'] = {'path': str(candidate), 'sha256': sha(candidate)} if candidate.is_file() else None
+         if args.mode in ('build', 'configure') and report.get('returncode') == 0:
+             report['Fem_python_source_build_parity'] = report['build_after']['fem_python_copy_parity']['passed']
++            report['Fem_capacity_json_source_build_parity'] = report['build_after']['fem_capacity_json_copy_parity']['passed']
+         report['passed'] = bool(report.get('returncode') == 0 and not report.get('timed_out') and
+             report.get('child_reaped') and report.get('process_group_gone') and
+             report['source_and_supervisor_unchanged'] and report['app_and_profiles_unchanged'] and
+-            report['selected_critical_dependencies_unchanged'] and report.get('Fem_python_source_build_parity', True))
++            report['selected_critical_dependencies_unchanged'] and report.get('Fem_python_source_build_parity', True) and
++            report.get('Fem_capacity_json_source_build_parity', True))
+         report['exit_code'] = report.get('returncode')
+         for kind in ('custody', 'critical'):
+             for when in ('before', 'after'):
+--- /private/tmp/freecad-yzk-Sd0mDG/qa-v2/run_source.py	2026-10-20 18:58:25
++++ /private/tmp/freecad-yzk-Sd0mDG/qa-v3/run_source.py	2026-10-20 19:38:05
+@@ -33,7 +33,7 @@
+     paths = [Path(__file__), QA / 'SourceBuildIdentity.py']
+     paths += sorted(TASK.glob('Yzk*.py')) + sorted((TASK / 'oracle').glob('*.json'))
+     paths += [Path(path) for path in build_snapshot()['files']]
+-    # Every copied FEM Python module is pinned, including all loaded test files.
++    # Every copied FEM Python module and both approved capacity JSON assets are pinned.
+     paths += [path for path in (BUILD / 'Mod/Fem').rglob('*.py') if path.is_file()]
+     paths += list(extra)
+     return source_snapshot(paths)
+@@ -44,7 +44,10 @@
+     assert re.fullmatch(r'[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*', args.module)
+     assert 1 <= args.timeout <= 3600
+     extra, ids = list(args.input_file or []), args.expected_id or []
+-    if not discovery_only and args.module.split('.')[0] in ('YzkCoupledWitness', 'YzkColdRestore'):
++    physical_modules = ('YzkCoupledWitness', 'YzkCapacityAtLimit', 'YzkCapacityRefusal',
++                        'YzkColdRestore', 'femtest.app.test_moving_port_capacity_native')
++    if not discovery_only and any(args.module == name or args.module.startswith(name + '.')
++                                  for name in physical_modules):
+         assert not args.unit_only, 'Physical/cold witnesses require the actual compiled native attestation'
+     if args.discovery:
+         assert args.discovery_sha and sha(args.discovery) == args.discovery_sha
+@@ -108,14 +111,17 @@
+     state, dependencies, built = custody(), critical(), build_snapshot()
+     assert built['version_header'] and candidate.is_file()
+     assert built['fem_python_copy_parity']['passed'], built['fem_python_copy_parity']
++    assert built['fem_capacity_json_copy_parity']['passed'], built['fem_capacity_json_copy_parity']
+     contract = json.loads((REPO / 'package/calculix/force-accounting/contract.json').read_text())
+-    manifest = {'schema': 'FreeCAD-yzk-source-run-manifest-v2', 'module': args.module,
++    manifest = {'schema': 'FreeCAD-yzk-source-run-manifest-v3', 'module': args.module,
+                 'expected_count': 1 if discovery_only else args.expected_count,
+                 'expected_ids': ids, 'discovery_only': discovery_only, 'unit_only': args.unit_only,
+                 'gui': args.gui, 'case': args.case, 'timeout_seconds': args.timeout,
+                 'inputs': before, 'version_header': built['version_header'],
+                 'fem_python_copy_plan': built['fem_python_copy_plan'],
+                 'fem_python_copy_parity': built['fem_python_copy_parity'],
++                'fem_capacity_json_copy_plan': built['fem_capacity_json_copy_plan'],
++                'fem_capacity_json_copy_parity': built['fem_capacity_json_copy_parity'],
+                 'candidate': {'path': str(candidate), 'sha256': sha(candidate), 'schema': contract['schema'], 'override': False},
+                 'native_source_observed_sha256': native_source, 'native_build_receipt': native_receipt,
+                 'cold_manifest': cold,
+--- /private/tmp/freecad-yzk-Sd0mDG/qa-v2/SourceBuildIdentity.py	2026-10-20 18:58:25
++++ /private/tmp/freecad-yzk-Sd0mDG/qa-v3/SourceBuildIdentity.py	2026-10-20 19:38:05
+@@ -17,7 +17,8 @@
+ BUILD = REPO / 'build/release'
+ sys.path.insert(0, str(TASK))
+ sys.path.insert(0, str(QA))
+-from YzkBuildSupport import sha, write, fem_python_copy_plan, fem_python_copy_parity
++from YzkBuildSupport import (sha, write, fem_python_copy_plan, fem_python_copy_parity,
++                             fem_capacity_json_copy_plan, fem_capacity_json_copy_parity)
+ 
+ 
+ def flatten(suite):
+@@ -37,11 +38,14 @@
+                   'native_capacity_qualification_claimed': False}
+         doc = None
+         try:
+-            self.assertEqual(manifest['schema'], 'FreeCAD-yzk-source-run-manifest-v2')
++            self.assertEqual(manifest['schema'], 'FreeCAD-yzk-source-run-manifest-v3')
+             self.assertEqual(sha(manifest_path), os.environ['YZK_QA_MANIFEST_SHA'])
+             self.assertEqual(fem_python_copy_plan(), manifest['fem_python_copy_plan'])
+             self.assertEqual(fem_python_copy_parity(manifest['fem_python_copy_plan']),
+                              {'passed': True, 'missing': [], 'mismatched': []})
++            self.assertEqual(fem_capacity_json_copy_plan(), manifest['fem_capacity_json_copy_plan'])
++            self.assertEqual(fem_capacity_json_copy_parity(manifest['fem_capacity_json_copy_plan']),
++                             {'passed': True, 'missing': [], 'mismatched': []})
+             for path, expected in manifest['inputs']['files'].items():
+                 self.assertEqual(sha(path), expected, path)
+             header = manifest['version_header']
+--- /private/tmp/freecad-yzk-Sd0mDG/native-qa/run_legacy.py	2026-10-20 19:17:50
++++ /private/tmp/freecad-yzk-Sd0mDG/native-qa/run_legacy_v3.py	2026-10-20 19:38:13
+@@ -33,7 +33,7 @@
+ V1 = BASE / 'run_legacy_v1.py'
+ V2 = REPO / 'package/local-completion/freecad-5ar-qa/qualify_native_v2_analytic.py'
+ CONTROL = BASE / 'process_control.py'
+-SUPPORT = TASK / 'qa-v2/YzkBuildSupport.py'
++SUPPORT = TASK / 'qa-v3/YzkBuildSupport.py'
+ GENERATOR = REPO / 'package/local-completion/FreeCAD9ztContactWitness.py'
+ PINS = {
+     V1: 'c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2',
+@@ -41,7 +41,7 @@
+     CONTROL: '5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d',
+     TASK / 'process_control.py': '5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d',
+     V2.with_name('process_control.py'): '5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d',
+-    SUPPORT: 'bb435e25d9e10a9c810daceddd50393eb56915c0ff8279f9183680710b416b73',
++    SUPPORT: '7295417ac65b60a10834b1c21d45cec2e14237822d03b9e09405496434d74828',
+     GENERATOR: '2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62',
+     CANDIDATE: CANDIDATE_SHA,
+     REPO / 'package/calculix/force-accounting/forceaccounting.c': '8c51e06abecf4c2b1537b1e6f4ef4606ea8481a4a180d465cbff00d63329f2a4',
+@@ -106,6 +106,7 @@
+     source = support.source_snapshot(paths)
+     built = support.build_snapshot()
+     require(built['fem_python_copy_parity']['passed'], 'Source/build Python parity failed')
++    require(built['fem_capacity_json_copy_parity']['passed'], 'Source/build capacity JSON parity failed')
+     require(sha(BUILD / 'data/NativeSolvers/ccx-force-accounting') == CANDIDATE_SHA,
+             'Current source-build bundled candidate differs')
+     return {'source': source, 'build': built,
+--- /private/tmp/freecad-yzk-Sd0mDG/native-qa/run_ctest.py	2026-10-20 19:26:41
++++ /private/tmp/freecad-yzk-Sd0mDG/native-qa/run_ctest_v3.py	2026-10-20 19:38:13
+@@ -29,7 +29,7 @@
+ PREFIX = REPO / '.pixi/envs/default'
+ TEMPORARY = BUILD / 'Testing/Temporary'
+ CONTROL = BASE / 'process_control.py'
+-SUPPORT = TASK / 'qa-v2/YzkBuildSupport.py'
++SUPPORT = TASK / 'qa-v3/YzkBuildSupport.py'
+ PRIOR = Path('/private/tmp/freecad-ywu-sG46Lsc8/run_full_build.py')
+ NATIVE_RECEIPT = TASK / 'native-capacity-r01/native/build-receipt.json'
+ CANDIDATE = TASK / 'native-capacity-r01/native/CalculiX/ccx_2.23/src/ccx_2.23_conda'
+@@ -37,7 +37,7 @@
+ PINS = {
+     CONTROL: '5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d',
+     TASK / 'process_control.py': '5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d',
+-    SUPPORT: 'bb435e25d9e10a9c810daceddd50393eb56915c0ff8279f9183680710b416b73',
++    SUPPORT: '7295417ac65b60a10834b1c21d45cec2e14237822d03b9e09405496434d74828',
+     PRIOR: '3c246d1ae4ab86e2e866dd6c9e5ceb88add87d4eb7af3526c2e94714eba64ab3',
+     CANDIDATE: CANDIDATE_SHA,
+     PREFIX / 'bin/ctest': '6a11388967f89618542e8005575db5c0b94a50b9d31b2360dce2aa9a490beb76',
+@@ -99,6 +99,7 @@
+     source = support.source_snapshot(paths)
+     built = support.build_snapshot()
+     require(built['fem_python_copy_parity']['passed'], 'Source/build Python parity failed')
++    require(built['fem_capacity_json_copy_parity']['passed'], 'Source/build capacity JSON parity failed')
+     for name in ('src/Build/Version.h', 'bin/FreeCADCmd', 'bin/FreeCAD',
+                  'lib/libFreeCADApp.dylib', 'Mod/Fem/Fem.so', 'Mod/Fem/FemGui.so',
+                  'data/NativeSolvers/ccx-force-accounting', 'CMakeCache.txt'):

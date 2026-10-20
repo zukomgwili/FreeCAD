@@ -1,0 +1,83 @@
+{
+  "schema": "FreeCAD-yzk-private-QA-controls-source-review-v1",
+  "reviewed_at_utc": "2026-10-20 18:59:14 UTC",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "meaning": "Static control/privacy/custody review of the exact helper bytes below; not an execution result, permission to overlap native processes, or engineering acceptance.",
+  "reviewed_files": {
+    "qa-v3/revision.diff": "88a2dd44e6ee241ba61a3a293c53538290a539646ce96798d4ddd83b6575d6e0",
+    "qa-v3/run_source.py": "fe68467984616a9bc64e7d8f0544c5d861607b56688aabd57fda772d6e500b03",
+    "qa-v3/SourceBuildIdentity.py": "9eba9e6a6042df32ccdcde578c04dcaf66ca07f6fa206739bd5e5511b346b38d",
+    "qa-v3/YzkBuildSupport.py": "7295417ac65b60a10834b1c21d45cec2e14237822d03b9e09405496434d74828",
+    "native-qa/run_legacy_v3.py": "dbef24e205273bffb00c8333000473382938cc5627000c899f71a4089af66f0b",
+    "native-qa/run_ctest_v3.py": "9e7f39265d453d5fe88baa7abde72a0d09ada0d149cf8db8b847138f8943cefc",
+    "collection/copy_portable.py": "9700221b43c5229839a0bf4224bf7817d634bd97f960e049d22d202988aaf4a8",
+    "collection/copy_portable_v2.py": "b8c09d6688d2fc3899461bd41af0ca641d733c5fac69307a502ed2f27bd89427"
+  },
+  "process_supervisor_pins_observed": {
+    "native-qa/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d"
+  },
+  "review_scope": [
+    "Read the complete cumulative QA3 delta and the complete three resulting QA3 helpers.",
+    "Read the complete resulting legacy_v3 and CTest_v3 outer controls; inner corpus drivers/catalogue parser retain their explicit previously reviewed fixed pins and are not claimed as newly authored or executed here.",
+    "Read the complete initial portable-copy helper, then the complete v2 delta. The initial helper is preserved but is not the approved copy implementation.",
+    "Checked final file hashes read-only. No helper, product, application, compiler, solver, native corpus, CTest, build or portable copy was executed by this reviewer."
+  ],
+  "outstanding_findings": [],
+  "resolved_findings": [
+    {
+      "priority": "P2",
+      "file": "collection/copy_portable.py",
+      "issue": "The initial helper captured whichever proof bytes existed at copy time without comparing the ten selected non-receipt payloads to the successful witness retained_files hashes and sizes.",
+      "resolution": "New unexecuted copy_portable_v2 captures/validates the witness receipt bytes once and requires those same bytes in its payload set. All other ten selected payloads must match the witness retained_files SHA256 and byte count before any destination is created. Exact new-only copies and original-source checks remain."
+    },
+    {
+      "priority": "P2",
+      "file": "collection/copy_portable.py",
+      "issue": "The initial helper's authorization/new-only checks used assertions without an unconditional optimized-interpreter refusal.",
+      "resolution": "New copy_portable_v2 raises RuntimeError unconditionally when sys.flags.optimize is nonzero, before argument parsing or file operations. The preserved original helper was not changed or executed."
+    }
+  ],
+  "approved_copy_implementation": {
+    "path": "collection/copy_portable_v2.py",
+    "sha256": "b8c09d6688d2fc3899461bd41af0ca641d733c5fac69307a502ed2f27bd89427",
+    "execution_not_performed_by_reviewer": true,
+    "required_outer_result": "Root must supply the exact completed execution SHA. The helper requires outer PASS, exit zero, owned process cleanup, input/application/profile/dependency fences, exact +223/cf23 runtime and the expected non-unit-only two-test portable module.",
+    "required_witness_result": "Successful unchanged-input witness, all 3566 declared checks passing and literal in-process historical reopen; separate-process cold acceptance is explicitly not inferred.",
+    "new_only_destination": "portable-retained-r01 under the same task, created only after validation; existing destinations are refused and every copied target uses exclusive creation.",
+    "source_path_safety": "The fixed selected source files must be regular and their task-relative ancestors must not be symlinks.",
+    "selected_files": [
+      "witness-receipt.json",
+      "independent-export-audit.json",
+      "physical-face-motion-proof.json",
+      "motion-from-original-dat.json",
+      "cold-case.json",
+      "geometry-contract.json",
+      "export-properties.json",
+      "native-properties.json",
+      "native-accounting-data.json",
+      "native.stdout",
+      "native.stderr"
+    ],
+    "excluded_payloads": "No FCStd/FRD/DAT/mesh, profile, cache, environment inventory, application/runtime/vendor binary or engineering-model payload is selected. The helper makes no new separate-process cold or engineering acceptance claim."
+  },
+  "QA3_control_conclusions": [
+    "The exact reviewed CMake a3d09a9950615621851be9ca074f7e2f87da9ef26f798c33ad64ba54da01ed58 and both approved frozen JSON hashes are checked in source snapshots, build-copy parity and in-process identity checks.",
+    "The additional physical/cold/portable module names cannot use the unit-only preparation path in the intended unoptimized invocation; discovery remains explicitly identity-only, not feature qualification.",
+    "Runtime identity checks the actual executable, loaded FreeCAD application library, Fem/FemGui origin, source/build Python parity, selected IDs/counts/no skips and the default bundled native candidate. Source/manifest and private application/profile/dependency inventories are fenced before and after.",
+    "Root source runs retain the exact bounded process helper with own-session cleanup. Legacy corpus runs retain direct inner-driver supervision of the actual native child groups, an alarm deadline that defers while owned cleanup is active, complete case/count/limit checks and post-run serial guards.",
+    "CTest uses its fixed serial command, bounded outer helper, current executable/catalogue input pins, complete pinned outcome parser and fresh run-owned LastTest/disabled/failure log checks. It neither builds nor installs.",
+    "Raw application/profile and critical dependency inventory bodies remain private; only their bound hash metadata is suitable for later sanitized evidence collection."
+  ],
+  "limitations": [
+    "This review approves the intended unoptimized root-controlled QA3 invocation. Optimized QA3 source/build invocation is not qualified; its existing assertion-based checks were not rewritten during the active pinned run. Native legacy/CTest and copy_v2 use unconditional require/raise checks for optimized mode.",
+    "The long portable product test was still active when this source review was requested. This receipt does not claim that test completed or authorize copying before the helper observes the completed outer PASS.",
+    "Collection/publication of any artifacts beyond the explicit eleven proof-copy files requires the separate collector/plan review."
+  ],
+  "pinned_product_or_QA3_files_changed_by_reviewer": false,
+  "new_private_review_receipt_only": true,
+  "engineering_project_accessed_or_solved": false,
+  "engineering_or_BIM_accepted": false,
+  "installation_performed": false
+}

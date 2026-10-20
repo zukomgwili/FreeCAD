@@ -1,0 +1,136 @@
+test_exact_source_build_and_selected_public_suite (SourceBuildIdentity.SourceBuildIdentity.test_exact_source_build_and_selected_public_suite) ... ok
+test_independent_head_ports_keep_the_complete_coupled_physical_graph (YzkCoupledWitness.CoupledFiniteFaceWitness.test_independent_head_ports_keep_the_complete_coupled_physical_graph) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +222 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 
+  ElementDimension: 3
+  /private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/mesh/CoupledCells_Geometry.brep
+  /private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/mesh/CoupledCells_Mesh.vtk
+  /private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/mesh/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 99
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 100
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 101
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 102
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 103
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 104
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 105
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 106
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 107
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 108
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 109
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 110
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 111
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 112
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 113
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 114
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 115
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 116
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 117
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 118
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 119
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 120
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 121
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 122
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex25' Type: 'Node' id: 123
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex26' Type: 'Node' id: 124
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex27' Type: 'Node' id: 125
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex28' Type: 'Node' id: 126
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'WitnessMaterialSolid', 'mat_obj_name': 'WitnessMaterial', 'ccx_mat_name': 'Yzk synthetic linear finite-backbone material'}]
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.852s
+
+OK
+
+Get mesh data for constraints, materials and element geometry...
+BackboneFixed:
+    Type: Fem::ConstraintFixed, Name: BackboneFixed
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face1
+PortA_00_00:
+    Type: Fem::ConstraintRigidBody, Name: PortA_00_00
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face8
+PortB_00_00:
+    Type: Fem::ConstraintRigidBody, Name: PortB_00_00
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face13
+CutLeft_00_00:
+    Type: Fem::ConstraintSectionPrint, Name: CutLeft_00_00
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face14
+CutRight_00_00:
+    Type: Fem::ConstraintSectionPrint, Name: CutRight_00_00
+    ReferenceShape ... Type: Face, Object name: OppositeCutOrientation, Object label: OppositeCutOrientation, Element name: Face14
+Axial_00_00:
+    Type: Fem::ConstraintForce, Name: Axial_00_00
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face19
+TorquePositive_00_00:
+    Type: Fem::ConstraintForce, Name: TorquePositive_00_00
+    ReferenceShape ... Type: Edge, Object name: CoupledCells, Object label: CoupledCells, Element name: Edge39
+TorqueNegative_00_00:
+    Type: Fem::ConstraintForce, Name: TorqueNegative_00_00
+    ReferenceShape ... Type: Edge, Object name: CoupledCells, Object label: CoupledCells, Element name: Edge37
+Getting mesh data time: 0.042 seconds.
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face8
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face13
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face8
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face13
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/native/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.007 seconds.
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face8
+    ReferenceShape ... Type: Face, Object name: CoupledCells, Object label: CoupledCells, Element name: Face13
+
+CalculiX solver run...
+CalculiX finished without error.
+Read ccx results from frd file: /private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/native/Mesh.frd
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/native/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-yzk-Sd0mDG/qa-v2/coupled-tracer-r01/witness/native/Mesh.dat
