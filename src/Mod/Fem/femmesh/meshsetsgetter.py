@@ -498,34 +498,47 @@ class MeshSetsGetter:
                 femobj["ChargeDensityElements"] = result
 
     def get_constraints_contact_faces(self):
-        if not self.member.cons_contact:
-            return
+        for femobj, result in self._get_owned_interface_faces(self.member.cons_contact, "Contact"):
+            femobj["ContactSlaveFaces"] = result[:-1]
+            femobj["ContactMasterFaces"] = result[-1:]
+
+    def _get_owned_interface_faces(self, rows, kind):
+        """Validate one complete Contact or Tie batch before publishing any sets."""
+        if not rows:
+            return []
         context = None
-        owned_faces = self.femmesh.VolumeCount and any(
-            getattr(owner.getSubObject(name), "ShapeType", None) == "Face"
-            for row in self.member.cons_contact
+        shapes = (
+            owner.getSubObject(name)
+            for row in rows
             for owner, names in row["Object"].References
             if owner is not None
             for name in names
+        )
+        owned_faces = self.femmesh.VolumeCount and any(
+            shape is not None and hasattr(shape, "isNull") and not shape.isNull()
+            and getattr(shape, "ShapeType", None) == "Face"
+            for shape in shapes
         )
         if owned_faces and any(
             getattr(self.mesh_object, name, None)
             for name in ("ElementGroupNames", "ElementGroupReferences", "ElementGroupGeometry")
         ):
-            context = ownership_context._OwnershipContext(self.femmesh, self.mesh_object, self)
+            context = ownership_context._OwnershipContext(
+                self.femmesh, self.mesh_object, self, kind
+            )
         references = [
             (
                 row["Object"],
                 tuple((owner, tuple(names)) for owner, names in row["Object"].References),
             )
-            for row in self.member.cons_contact
+            for row in rows
         ]
         pending = []
-        for femobj in self.member.cons_contact:
+        for femobj in rows:
             obj = femobj["Object"]
             print_obj_info(obj)
             result = [
-                meshtools.get_contact_elements(self, obj, pair, context)
+                meshtools._get_owned_interface_elements(self, obj, pair, context, kind)
                 for pair in meshtools.pair_obj_reference(obj.References)
             ]
             pending.append((femobj, result))
@@ -535,10 +548,8 @@ class MeshSetsGetter:
             tuple((owner, tuple(names)) for owner, names in obj.References) != saved
             for obj, saved in references
         ):
-            raise ValueError("Contact references changed during mesh gathering; retry the writer.")
-        for femobj, result in pending:
-            femobj["ContactSlaveFaces"] = result[:-1]
-            femobj["ContactMasterFaces"] = result[-1:]
+            raise ValueError(f"{kind} references changed during mesh gathering; retry the writer.")
+        return pending
 
     # information in the regard of element faces constraints
     # forum post: https://forum.freecad.org/viewtopic.php?f=18&t=42783&p=370286#p366723
@@ -548,10 +559,7 @@ class MeshSetsGetter:
     #                from one side of the geometric face are needed
 
     def get_constraints_tie_faces(self):
-        for femobj in self.member.cons_tie:
-            obj = femobj["Object"]
-            result = self._get_elements(obj)
-
+        for femobj, result in self._get_owned_interface_faces(self.member.cons_tie, "Tie"):
             femobj["TieSlaveFaces"] = result[:-1]
             femobj["TieMasterFaces"] = result[-1:]
 

@@ -63,6 +63,8 @@ from femtest.app.test_contact_observation_native import TestContactObservationNa
 from femtest.app.test_movement_provenance import TestMovementProvenance as FemTest39
 from femtest.app.test_mesh_vtk_identity import TestMeshVTKIdentity as FemTest40
 from femtest.app.test_owned_probe import TestOwnedProbe as FemTest41
+from femtest.app.test_tie_ownership import TestTieOwnership as FemTest42
+from femtest.app.test_tie_ownership import TestTieShellCompatibility as FemTest43
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26
@@ -108,3 +110,5 @@ False if FemTest38.__name__ else True
 False if FemTest39.__name__ else True
 False if FemTest40.__name__ else True
 False if FemTest41.__name__ else True
+False if FemTest42.__name__ else True
+False if FemTest43.__name__ else True

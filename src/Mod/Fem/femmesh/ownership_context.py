@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-"""Short-lived, exact ownership validation for one Contact gathering batch.
+"""Short-lived, exact ownership validation for one interface gathering batch.
 
 Native meshes are mutable without a document-property revision.  Keep this
 context local to one synchronous batch, and validate again before publishing its
@@ -10,11 +10,12 @@ empty groups and unresolvable group members.
 
 
 class _OwnershipContext:
-    def __init__(self, femmesh, mesh_object, getter):
+    def __init__(self, femmesh, mesh_object, getter, kind="Contact"):
         from femmesh import meshtools
 
         self.femmesh = femmesh
         self.mesh_object = mesh_object
+        self._kind = kind
         self.part, self._names, self._references, self._signature = self._provenance()
         if not self.part:
             raise ValueError("Missing mesh geometry owner; regenerate the mesh.")
@@ -118,7 +119,7 @@ class _OwnershipContext:
             )
 
     def validate_unchanged(self):
-        """Reject changes before any of this batch's Contact sets are published."""
+        """Reject changes before any of this batch's interface sets are published."""
         from femmesh import meshtools
 
         if (
@@ -128,7 +129,7 @@ class _OwnershipContext:
             self._signature,
         ) != self._provenance() or not meshtools.mesh_geometry_matches(self.mesh_object, self.part):
             raise ValueError(
-                "Mesh geometry owner or group provenance changed during Contact batch."
+                f"Mesh geometry owner or group provenance changed during {self._kind} batch."
             )
         self._validate_mesh(self.femmesh)
         own_mesh = self.mesh_object.FemMesh

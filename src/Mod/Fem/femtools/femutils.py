@@ -337,7 +337,15 @@ def get_refshape_type(fem_doc_object):
 
     if hasattr(fem_doc_object, "References") and fem_doc_object.References:
         first_ref_obj = fem_doc_object.References[0]
-        first_ref_shape = get_element(first_ref_obj[0], first_ref_obj[1][0])
+        if is_derived_from(fem_doc_object, "Fem::ConstraintTie"):
+            owner, names = first_ref_obj
+            first_ref_shape = owner.getSubObject(names[0]) if owner is not None and names else None
+            if (first_ref_shape is None or not hasattr(first_ref_shape, "isNull")
+                    or first_ref_shape.isNull() or not hasattr(first_ref_shape, "ShapeType")):
+                raise ValueError(
+                    f"{fem_doc_object.Name}: unresolved Tie region; select a current face.")
+        else:
+            first_ref_shape = get_element(first_ref_obj[0], first_ref_obj[1][0])
         st = first_ref_shape.ShapeType
         FreeCAD.Console.PrintLog(
             f"References: {st} in {fem_doc_object.Name}, {fem_doc_object.Label}\n"

@@ -442,6 +442,7 @@ SET(FemTestsApp_SRCS
     femtest/app/test_mesh_quality.py
     femtest/app/test_rigid_body_preflight.py
     femtest/app/test_contact_ownership.py
+    femtest/app/test_tie_ownership.py
     femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
     femtest/app/test_solver_mystran.py
