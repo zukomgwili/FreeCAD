@@ -1,12 +1,13 @@
 --- a/ccx_2.23/src/CalculiX.h
 +++ b/ccx_2.23/src/CalculiX.h
-@@ -70,6 +70,20 @@
+@@ -70,6 +70,21 @@
  #define ITG int
  #define ITGFORMAT "d"
  #endif
 +
 +/* Versioned opt-in native accounting; standard channels are unchanged. */
 +extern double *fa_nodal_loads;
++int fa_capacity_query(void);
 +void fa_capture_mpcs(ITG,ITG,ITG*,ITG*,double*,char*,ITG);
 +void FORTRAN(fa_check_spring,(ITG*,ITG*,ITG*,ITG*,ITG*,ITG*,double*));
 +void fa_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,ITG*,char*,ITG,ITG*,ITG*,double*,ITG*,char*,ITG,ITG*,ITG*,ITG);
@@ -23,12 +24,15 @@
                           ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
 --- a/ccx_2.23/src/ccx_2.23.c
 +++ b/ccx_2.23/src/ccx_2.23.c
-@@ -114,6 +114,9 @@
+@@ -114,6 +114,12 @@
  
    // clock_gettime(CLOCK_MONOTONIC, &totalCalculixTimeStart);
  
 +  if(argc==2&&strcmp(argv[1],"--freecad-force-accounting-version")==0){
 +    printf("CCX_FORCE_ACCOUNTING_V3\n");return 0;
++  }
++  if(argc==2&&strcmp(argv[1],"--freecad-force-accounting-capacity")==0){
++    return fa_capacity_query();
 +  }
    if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
    else{

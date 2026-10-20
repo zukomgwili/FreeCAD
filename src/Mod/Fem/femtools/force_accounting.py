@@ -17,10 +17,12 @@ import hashlib
 import json
 import math
 import os
-from pathlib import Path
+import re
+import shutil
 import stat
 import subprocess
 import tempfile
+from pathlib import Path
 from types import SimpleNamespace
 
 import FreeCAD
@@ -28,15 +30,27 @@ import FreeCAD
 from femmesh import meshtools
 from femmesh import quality
 from femobjects.base_fempythonobject import BaseFemPythonObject
+from femtools.elastic_connector import PortResolutionContext
 from femtools.elastic_connector import rigid_body_node_ids
 from femtools.elastic_connector import rigid_body_nodes
 from femtools.native_properties import property_value
-
 
 SCHEMA = "CCX_FORCE_ACCOUNTING_V3"
 V2_SCHEMA = "CCX_FORCE_ACCOUNTING_V2"
 LEGACY_SCHEMA = "CCX_FORCE_ACCOUNTING_V1"
 MOVEMENT_SOURCE_SCHEMA = "FREECAD_MOVEMENT_SOURCE_V1"
+CAPACITY_SCHEMA = "CCX_FORCE_ACCOUNTING_CAPACITY_V1"
+CAPACITY_ENV = "CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS"
+_APPLIED_CAPACITY = "CCX_FORCE_ACCOUNTING_CAPACITY_APPLIED_V1 "
+_DECLARATIONS = ("supports", "bodies", "ports", "angles", "springs")
+_LEGACY_CAPACITY = {
+    "schema": "CCX_FORCE_ACCOUNTING_LEGACY_V3_CAPACITY",
+    "request_schema": SCHEMA,
+    "allocation": "fixed",
+    "counting_policy": "legacy-independent-limits-v1",
+    "total_records": None,
+    "limits": dict(zip(_DECLARATIONS, (64, 64, 64, 384, 384))),
+}
 _reports = {}
 _FACE_NODES = {
     4: ((0, 1, 2), (0, 3, 1), (1, 3, 2), (2, 3, 0)),
@@ -60,15 +74,24 @@ def solver_binary(solver):
     )
 
 
-def require_capability(binary):
+def require_capability(binary, *, environment=None):
+    probe_environment = os.environ if environment is None else environment
+    executable = shutil.which(str(binary), path=probe_environment.get("PATH", os.defpath))
+    executable = str(Path(executable or binary).resolve())
     try:
-        result = subprocess.run(
-            [str(binary), "--freecad-force-accounting-version"],
-            capture_output=True,
-            text=True,
-            timeout=10,
-            check=False,
-        )
+        # Unsupported executables can interpret an unknown option as a job
+        # filename and create/truncate output before reporting the failure.
+        with tempfile.TemporaryDirectory(prefix="freecad-accounting-version-") as directory:
+            result = subprocess.run(
+                [executable, "--freecad-force-accounting-version"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+                stdin=subprocess.DEVNULL,
+                cwd=directory,
+                env=environment,
+            )
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ValueError("Qualified native force-accounting solver is unavailable.") from error
     if result.returncode != 0 or result.stdout.strip() != SCHEMA:
@@ -78,9 +101,234 @@ def require_capability(binary):
         )
 
 
+def _capacity(binary, environment):
+    require_capability(binary, environment=environment)
+    try:
+        # An older V3 treats this option as a job filename. Its incidental
+        # outputs and missing-input diagnostic must never touch the project.
+        with tempfile.TemporaryDirectory(prefix="freecad-accounting-capacity-") as directory:
+            result = subprocess.run(
+                [str(Path(binary).resolve()), "--freecad-force-accounting-capacity"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+                stdin=subprocess.DEVNULL,
+                cwd=directory,
+                env=environment,
+            )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise ValueError(
+            "Native accounting capacity query failed; check the selected solver."
+        ) from error
+    # Recognize this exact old main/readinput behavior, not arbitrary query
+    # errors, malformed JSON or a new executable's invalid-budget diagnostic.
+    legacy = (
+        r"(?m)^\s*\*ERROR in readinput: cannot open file "
+        r"--freecad-force-accounting-capacity\.inp\s*$"
+    )
+    if result.returncode == 201 and re.search(legacy, result.stdout) and not result.stderr.strip():
+        return json.loads(json.dumps(_LEGACY_CAPACITY))
+    try:
+        capacity = json.loads(result.stdout)
+        if (
+            result.returncode != 0
+            or not isinstance(capacity, dict)
+            or set(capacity)
+            != {
+                "schema",
+                "request_schema",
+                "allocation",
+                "counting_policy",
+                "total_records",
+                "limits",
+            }
+            or capacity["schema"] != CAPACITY_SCHEMA
+            or capacity["request_schema"] != SCHEMA
+            or capacity["allocation"] != "dynamic"
+            or capacity["counting_policy"] != "top-level-declarations-v1"
+            or not isinstance(capacity["limits"], dict)
+            or set(capacity["limits"]) != set(_DECLARATIONS)
+            or any(
+                type(value) is not int or not 1 <= value <= 2147483647
+                for value in (capacity["total_records"], *capacity["limits"].values())
+            )
+            or any(value != capacity["total_records"] for value in capacity["limits"].values())
+        ):
+            raise ValueError("Unsupported capacity contract")
+    except (ValueError, TypeError, KeyError) as error:
+        diagnostic = (result.stderr.strip() or result.stdout.strip())[:500]
+        raise ValueError(
+            "Native accounting capacity is unavailable or invalid; check "
+            + CAPACITY_ENV
+            + " and the selected solver. "
+            + diagnostic
+        ) from error
+    return capacity
+
+
+def _selected_supports(solver, rigid, ordinary):
+    selected = list(getattr(solver, "NativeAccountingSupports", ())) or list(rigid)
+    if len(selected) != len(set(selected)):
+        raise ValueError("Native accounting support selection contains duplicates.")
+    if any(body not in rigid and body not in ordinary for body in selected):
+        raise ValueError(
+            "Selected native accounting support is not a supported analysis constraint."
+        )
+    return selected
+
+
+def _declaration_plan(analysis, solver):
+    from femtools.membertools import get_member
+
+    ports = get_member(analysis, "Fem::ConstraintRigidBody")
+    ordinary = get_member(analysis, "Fem::ConstraintFixed") + get_member(
+        analysis, "Fem::ConstraintDisplacement"
+    )
+    supports = _selected_supports(solver, ports, ordinary)
+    cuts = [
+        obj
+        for obj in get_member(analysis, "Fem::ConstraintSectionPrint")
+        if getattr(obj, "NativeEquilibriumCut", False)
+    ]
+    springs = get_member(analysis, "Fem::ConstraintElasticConnector")
+    angles = [
+        f"{obj.Name}/end{end}"
+        for obj in springs
+        if getattr(obj, "Kind", "Translational") == "Rotational"
+        for end in range(1, 3 if obj.Mode == "Two points" else 2)
+    ]
+    # This is the complete active graph, not a support/cut-selected subset of
+    # ports. Capacity admission does not waive geometric or physical checks.
+    objects = {
+        "supports": [obj.Name for obj in supports],
+        "bodies": [obj.Name for obj in cuts],
+        "ports": [obj.Name for obj in ports],
+        "angles": angles,
+        "springs": [obj.Name for obj in springs],
+    }
+    return {"required": {key: len(objects[key]) for key in _DECLARATIONS}, "objects": objects}
+
+
+def _admit_capacity(plan, supported):
+    required = plan["required"]
+    total = sum(required.values())
+    exceeded = [key for key in _DECLARATIONS if required[key] > supported["limits"][key]]
+    if exceeded or (supported["total_records"] is not None and total > supported["total_records"]):
+        counts = "; ".join(
+            f"{key} required {required[key]}; supported {supported['limits'][key]}"
+            for key in _DECLARATIONS
+        )
+        names = [name for key in (exceeded or _DECLARATIONS) for name in plan["objects"][key]]
+        examples = ", ".join(names[:5]) + (f" (+{len(names) - 5} more)" if len(names) > 5 else "")
+        total_supported = supported["total_records"]
+        if total_supported is None:
+            total_supported = "independent limits"
+        raise ValueError(
+            f"Native accounting declaration capacity exceeded: {counts}; total required {total}; "
+            f"supported {total_supported}. "
+            f"Objects: {examples}. Use a qualified scalable solver or increase {CAPACITY_ENV} "
+            "for that solver; do not remove, ground, group or split physical ports to fit output."
+        )
+    return total
+
+
+def capacity_preflight(analysis, solver, *, binary=None, environment=None):
+    """Report/admit declaration counts before mesh work, not physical validity.
+
+    Query the selected executable's effective resource policy. The report is
+    run provenance, not a claim that every admitted size/physical model has
+    been qualified or that its mesh/member allocations will fit memory.
+    """
+    if not enabled(solver):
+        return None
+    binary = binary or solver_binary(solver)
+    binary = shutil.which(str(binary)) or str(binary)
+    environment = dict(os.environ) if environment is None else environment
+    plan = _declaration_plan(analysis, solver)
+    try:
+        before = _sha(binary)
+    except OSError as error:
+        raise ValueError("Qualified native force-accounting solver is unavailable.") from error
+    supported = _capacity(binary, environment)
+    if _sha(binary) != before:
+        raise ValueError("Native accounting solver changed during capacity preflight.")
+    total = _admit_capacity(plan, supported)
+    return {
+        **plan,
+        "total": total,
+        "supported": supported,
+        "binary": str(Path(binary).resolve()),
+        "binary_sha256": before,
+    }
+
+
 def _sha(path):
     with Path(path).open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def _request_declarations(text):
+    """Count the complete literal request, including variable-length children.
+
+    This checks export completeness, not the native solver's physics domain.
+    Child node/element lists are never counted as top-level declarations.
+    """
+    tokens = iter(text.split())
+    counts = dict.fromkeys(_DECLARATIONS, 0)
+    identities = {key: [] for key in _DECLARATIONS}
+    seen = {key: set() for key in _DECLARATIONS}
+    categories = {
+        "SUPPORT": "supports",
+        "SPC_SUPPORT": "supports",
+        "BODY": "bodies",
+        "PORT": "ports",
+        "ANGLE": "angles",
+        "SPRING": "springs",
+    }
+
+    def positive():
+        value = int(next(tokens))
+        if not 1 <= value <= 2147483647:
+            raise ValueError("Invalid request count or identity")
+        return value
+
+    try:
+        if next(tokens) != SCHEMA:
+            raise ValueError("Not a V3 request")
+        while (kind := next(tokens)) != "END":
+            category = categories[kind]
+            identity = next(tokens)
+            if identity in seen[category]:
+                raise ValueError("Duplicate request identity")
+            seen[category].add(identity)
+            identities[category].append(identity)
+            counts[category] += 1
+            if kind == "BODY":
+                width = positive() + positive()
+            elif kind == "SPC_SUPPORT":
+                width = 2 * positive()
+            else:
+                width = {"SUPPORT": 2, "PORT": 2, "ANGLE": 4, "SPRING": 2}[kind]
+            for _ in range(width):
+                next(tokens)
+        if next(tokens, None) is not None:
+            raise ValueError("Trailing request data")
+    except (StopIteration, ValueError, KeyError) as error:
+        raise ValueError("Invalid accounting declarations; rewrite the solver input.") from error
+    return {"required": counts, "objects": identities}
+
+
+def _verify_request_capacity(text, capacity):
+    literal = _request_declarations(text)
+    if literal["required"] != capacity["required"] or any(
+        set(literal["objects"][key]) != set(capacity["objects"][key])
+        for key in ("supports", "bodies", "ports")
+    ):
+        raise ValueError(
+            "Accounting declaration graph differs from capacity preflight; rewrite the input."
+        )
+    _admit_capacity(literal, capacity["supported"])
 
 
 class _RunMetadata(dict):
@@ -144,7 +392,18 @@ def _capture_movement(path):
         return {"reason": str(error)}
 
 
-def finish_run(context, returncode):
+def _expected_applied_capacity(metadata):
+    capacity = metadata.get("capacity", metadata.get("legacy_capacity_policy"))
+    if capacity is None or capacity["supported"]["schema"] != CAPACITY_SCHEMA:
+        return None
+    return {
+        "budget": capacity["supported"]["total_records"],
+        "counts": capacity["required"],
+        "total": capacity["total"],
+    }
+
+
+def finish_run(context, returncode, stdout=None):
     """Record an actual completed child process before importing its accounting.
 
     This is in-process custody, not an attestation for arbitrary external files.
@@ -152,11 +411,49 @@ def finish_run(context, returncode):
     Legacy accounting contexts remain supported without displacement provenance.
     """
     if context is not None:
+        metadata = context[1]
         state = getattr(context[1], "movement_run", None)
         if state is not None and not state["finished"]:
             state.update(finished=True, returncode=returncode)
             if returncode == 0:
                 state["completed_file"] = _capture_movement(Path(state["path"]))
+        capacity_run = getattr(metadata, "capacity_run", None)
+        if capacity_run is not None and not capacity_run["finished"]:
+            capacity_run["finished"] = True
+            if returncode == 0:
+                if isinstance(stdout, bytes):
+                    stdout = stdout.decode(errors="replace")
+                echoes = [
+                    line.removeprefix(_APPLIED_CAPACITY)
+                    for line in (stdout or "").splitlines()
+                    if line.startswith(_APPLIED_CAPACITY)
+                ]
+                try:
+                    if len(echoes) != 1:
+                        raise ValueError("Expected one applied policy")
+                    receipt = json.loads(echoes[0])
+                    if (
+                        not isinstance(receipt, dict)
+                        or set(receipt) != {"budget", "counts", "total"}
+                        or not isinstance(receipt["counts"], dict)
+                        or set(receipt["counts"]) != set(_DECLARATIONS)
+                        or any(
+                            type(value) is not int or value < 0
+                            for value in (
+                                receipt["budget"],
+                                receipt["total"],
+                                *receipt["counts"].values(),
+                            )
+                        )
+                        or receipt != _expected_applied_capacity(metadata)
+                    ):
+                        raise ValueError("Applied policy differs")
+                except (ValueError, TypeError, KeyError) as error:
+                    raise ValueError(
+                        "Native applied declaration capacity does not match this solver run."
+                    ) from error
+                capacity_run["receipt"] = receipt
+                metadata["capacity_applied"] = receipt
 
 
 def _movement_source(metadata, deck):
@@ -339,17 +636,14 @@ def prepare_request(writer):
     fixed_rows = {row["Object"]: row for row in writer.member.cons_fixed}
     displacement_rows = {row["Object"]: row for row in writer.member.cons_displacement}
     ordinary_rows = {**fixed_rows, **displacement_rows}
-    selected = list(getattr(solver, "NativeAccountingSupports", ())) or list(rigid_rows)
-    if len(selected) != len(set(selected)):
-        raise ValueError("Native accounting support selection contains duplicates.")
-    if any(body not in rigid_rows and body not in ordinary_rows for body in selected):
-        raise ValueError(
-            "Selected native accounting support is not a supported analysis constraint."
-        )
+    selected = _selected_supports(solver, rigid_rows, ordinary_rows)
+    # The stock writer has completed and released its context before this
+    # phase. A fresh request-local context cannot escape into a later export.
+    port_context = PortResolutionContext(mesh, analysis)
     for row in writer.member.cons_rigidbody:
         body = row["Object"]
-        ref, rot = rigid_body_node_ids(analysis, mesh, body)
-        nodes = rigid_body_nodes(body, mesh)
+        ref, rot = rigid_body_node_ids(analysis, mesh, body, port_context)
+        nodes = rigid_body_nodes(body, mesh, port_context)
         if support_regions.intersection(nodes):
             raise ValueError(
                 "Native accounting requires disjoint RBE regions, not duplicate ports."
@@ -388,7 +682,8 @@ def prepare_request(writer):
         terms = [(node, direction) for node in row["Nodes"] for direction in directions]
         if any(node in selected_rigid_regions for node, direction in terms):
             raise ValueError(
-                "Ordinary physical supports must not overlap a selected external RBE receiving region."
+                "Ordinary physical supports must not overlap a selected external "
+                "RBE receiving region."
             )
         terms_by_support[obj] = terms
         for term in terms:
@@ -464,8 +759,20 @@ def prepare_request(writer):
     if not expected:
         raise ValueError("No physical support or NativeEquilibriumCut was selected for accounting.")
     lines.append("END")
+    capacity = capacity_preflight(analysis, solver)
+    previous_capacity = getattr(writer, "native_accounting_capacity", None)
+    if previous_capacity is not None and capacity != previous_capacity:
+        raise ValueError(
+            "Accounting capacity or graph changed during export; rewrite the solver input."
+        )
+    if {spring["name"] for spring in springs} != set(capacity["objects"]["springs"]):
+        raise ValueError(
+            "Accounting scalar connector graph is incomplete; rewrite the solver input."
+        )
+    text = "\n".join(lines) + "\n"
+    _verify_request_capacity(text, capacity)
     path = Path(writer.file_name).with_suffix(".accounting")
-    path.write_text("\n".join(lines) + "\n")
+    path.write_text(text)
     metadata = {
         "schema": SCHEMA,
         "expected": expected,
@@ -475,6 +782,7 @@ def prepare_request(writer):
         "analysis": analysis.Name,
         "mesh": mesh.Name,
         "end_time": solver.TimePeriod.getValueAs("s").Value,
+        "capacity": capacity,
     }
     Path(str(path) + ".json").write_text(json.dumps(metadata, sort_keys=True))
 
@@ -523,7 +831,8 @@ def run_context(fea, binary):
     """Validate current provenance and return a per-process environment/context."""
     if not enabled(fea.solver):
         return None
-    require_capability(binary)
+    environment = dict(os.environ)
+    require_capability(binary, environment=environment)
     path = Path(fea.inp_file_name).with_suffix(".accounting")
     try:
         metadata = json.loads(Path(str(path) + ".json").read_text())
@@ -539,21 +848,53 @@ def run_context(fea, binary):
         or metadata["model_digest"] != _model_digest(fea.analysis, fea.mesh)
     ):
         raise ValueError("Accounting inputs changed; rewrite the solver deck and request.")
+    if "capacity" in metadata:
+        current_capacity = capacity_preflight(
+            fea.analysis, fea.solver, binary=binary, environment=environment
+        )
+        if current_capacity != metadata["capacity"]:
+            raise ValueError("Accounting capacity or graph changed; rewrite the solver input.")
+        _verify_request_capacity(path.read_text(), current_capacity)
+        if current_capacity["supported"]["schema"] == CAPACITY_SCHEMA:
+            # Query and solve use one effective policy, independent of later
+            # changes to the parent process environment.
+            environment[CAPACITY_ENV] = str(current_capacity["supported"]["total_records"])
+    else:
+        # Earlier V3 exports have no policy receipt. Keep their original small
+        # independent limits; never infer scalable admission for an old request.
+        literal = _request_declarations(path.read_text())
+        _admit_capacity(literal, _LEGACY_CAPACITY)
+        supported = _capacity(binary, environment)
+        total = _admit_capacity(literal, supported)
+        metadata["legacy_capacity_policy"] = {
+            **literal,
+            "supported": supported,
+            "total": total,
+            "scope": "Run resource admission only; legacy export has no capacity receipt",
+        }
+        if supported["schema"] == CAPACITY_SCHEMA:
+            environment[CAPACITY_ENV] = str(supported["total_records"])
     output = Path(str(path) + ".out")
     if output.exists():
         output.unlink()  # exact generated output, never an input or a project document
-    environment = dict(os.environ)
     environment.pop("CCX_9ZT_DIAGNOSTIC", None)
     environment["CCX_FORCE_ACCOUNTING_REQUEST"] = str(path.resolve())
     metadata = _RunMetadata(metadata)
     metadata["binary_sha256"] = _sha(binary)
     metadata["binary"] = str(Path(binary).resolve())
     metadata.movement_run = _prepare_movement_run(fea.inp_file_name)
+    if _expected_applied_capacity(metadata) is not None:
+        metadata.capacity_run = {"finished": False, "receipt": None}
     return environment, metadata, output
 
 
 def import_result(fea, context):
     environment, metadata, output = context
+    applied = _expected_applied_capacity(metadata)
+    if applied is not None:
+        state = getattr(metadata, "capacity_run", None)
+        if state is None or not state["finished"] or state["receipt"] != applied:
+            raise ValueError("No completed child owns the applied declaration capacity.")
     request = Path(fea.inp_file_name).with_suffix(".accounting")
     current = {
         "model_digest": _model_digest(fea.analysis, fea.mesh),

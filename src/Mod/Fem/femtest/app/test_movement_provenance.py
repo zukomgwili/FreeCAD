@@ -68,26 +68,157 @@ class TestMovementProvenance(unittest.TestCase):
         FreeCAD.closeDocument(self.doc.Name)
         self.scratch.cleanup()
 
-    def engine(self, body=""):
+    def engine(self, body="", *, capacity=False, capacity_echo=None):
         """Use a real child process at the solver executable boundary."""
         executable = self.root / "synthetic-solver"
         python = shutil.which("python3") or shutil.which("python")
         if python is None:
             self.skipTest("Subprocess fixture needs a Python interpreter")
+        capacity_code = ""
+        if capacity:
+            capacity_code = (
+                "budget = int(os.environ.get('CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS', '65536'))\n"
+                "if sys.argv[1:] == ['--freecad-force-accounting-capacity']:\n"
+                "    print(json.dumps({'schema': 'CCX_FORCE_ACCOUNTING_CAPACITY_V1',\n"
+                f"        'request_schema': {force_accounting.SCHEMA!r}, 'allocation': 'dynamic',\n"
+                "        'counting_policy': 'top-level-declarations-v1', 'total_records': budget,\n"
+                "        'limits': dict.fromkeys("
+                "('supports','bodies','ports','angles','springs'), budget)}))\n"
+                "    sys.exit(0)\n"
+            )
+            capacity_code += (
+                "print('CCX_FORCE_ACCOUNTING_CAPACITY_APPLIED_V1 ' + "
+                "json.dumps({'budget': budget,\n"
+                "    'counts': {'supports':1,'bodies':0,'ports':1,"
+                "'angles':0,'springs':0}, 'total':2}))\n"
+                if capacity_echo is None
+                else f"sys.stdout.write({capacity_echo!r})\n"
+            )
+        else:
+            capacity_code = (
+                "if sys.argv[1:] == ['--freecad-force-accounting-capacity']:\n"
+                "    print('*ERROR in readinput: cannot open file "
+                "--freecad-force-accounting-capacity.inp')\n"
+                "    sys.exit(201)\n"
+            )
         executable.write_text(
             f"#!{python}\n"
-            "import os, sys\n"
+            "import os, sys, json\n"
             "from pathlib import Path\n"
             "if sys.argv[1:] == ['--freecad-force-accounting-version']:\n"
             f"    print({force_accounting.SCHEMA!r})\n"
             "    sys.exit(0)\n"
-            "request = Path(os.environ['CCX_FORCE_ACCOUNTING_REQUEST'])\n"
+            + capacity_code
+            + "request = Path(os.environ['CCX_FORCE_ACCOUNTING_REQUEST'])\n"
             "Path(str(request) + '.out').write_text(\n"
             f"    '{force_accounting.SCHEMA}\\nSTATE 1 1 1\\n'\n"
             "    'SUPPORT R 0 0 2 4 -6 0\\nEND\\n')\n" + body
         )
         executable.chmod(0o700)
         self.fea.ccx_binary = str(executable)
+
+    def capacity_request(self):
+        """Literal subprocess-boundary request, not a structural solver fixture."""
+        self.fea.solver.NativeAccountingSolver = self.fea.ccx_binary
+        if self.doc.getObject("R") is None:
+            support = ObjectsFem.makeConstraintRigidBody(self.doc, "R")
+            support.References = [(self.doc.getObject("Geometry"), ["Face1"])]
+            self.fea.analysis.addObject(support)
+        request = Path(self.fea.inp_file_name).with_suffix(".accounting")
+        request.write_text(force_accounting.SCHEMA + "\nPORT R 1 2\nSUPPORT R 1 2\nEND\n")
+        metadata_path = Path(str(request) + ".json")
+        metadata = json.loads(metadata_path.read_text())
+        metadata["request_sha256"] = hashlib.sha256(request.read_bytes()).hexdigest()
+        metadata["model_digest"] = force_accounting._model_digest(self.fea.analysis, self.fea.mesh)
+        with mock.patch.dict(os.environ, {"CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS": "2"}):
+            metadata["capacity"] = force_accounting.capacity_preflight(
+                self.fea.analysis, self.fea.solver, binary=self.fea.ccx_binary
+            )
+        self.assertEqual(metadata["capacity"]["total"], 2)
+        metadata_path.write_text(json.dumps(metadata))
+        return request
+
+    def test_changed_capacity_requires_reexport_before_launch_or_output_quarantine(self):
+        """A real child query changes; prior output must survive the refusal."""
+        launched = self.root / "was-launched"
+        self.engine(
+            "request.with_name('was-launched').write_text('entered solver')\n", capacity=True
+        )
+        request = self.capacity_request()
+        old_frd = b"Retained previous FRD\n"
+        self.frd.write_bytes(old_frd)
+        old_output = request.with_name(request.name + ".out")
+        old_output.write_bytes(b"Retained previous accounting\n")
+        with mock.patch.dict(os.environ, {"CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS": "3"}):
+            with self.assertRaisesRegex(ValueError, "capacity.*changed.*rewrite"):
+                self.fea.start_ccx()
+        self.assertFalse(launched.exists())
+        self.assertEqual(self.frd.read_bytes(), old_frd)
+        self.assertEqual(old_output.read_bytes(), b"Retained previous accounting\n")
+        self.assertFalse(any(hasattr(obj, "AccountingData") for obj in self.fea.analysis.Group))
+
+    def test_capacity_echo_must_match_owned_child_before_current_import(self):
+        marker = "CCX_FORCE_ACCOUNTING_CAPACITY_APPLIED_V1 "
+        valid = (
+            marker
+            + json.dumps(
+                {
+                    "budget": 2,
+                    "counts": {"supports": 1, "bodies": 0, "ports": 1, "angles": 0, "springs": 0},
+                    "total": 2,
+                }
+            )
+            + "\n"
+        )
+        wrong = valid.replace('"ports": 1', '"ports": 0')
+        malformed = (
+            marker
+            + json.dumps(
+                {
+                    "budget": 2,
+                    "counts": ["supports", "bodies", "ports", "angles", "springs"],
+                    "total": 2,
+                }
+            )
+            + "\n"
+        )
+        for label, echo in (
+            ("missing", ""),
+            ("wrong", wrong),
+            ("duplicate", valid + valid),
+            ("malformed", malformed),
+        ):
+            with self.subTest(label=label):
+                self.engine(
+                    "request.with_suffix('.frd').write_bytes(b'fresh unit FRD\\n')\n",
+                    capacity=True,
+                    capacity_echo=echo,
+                )
+                self.capacity_request()
+                with mock.patch.dict(os.environ, {"CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS": "2"}):
+                    with self.assertRaisesRegex(ValueError, "applied.*capacity"):
+                        self.fea.start_ccx()
+                self.assertFalse(
+                    any(hasattr(obj, "AccountingData") for obj in self.fea.analysis.Group)
+                )
+
+    def test_legacy_export_still_refuses_current_budget_before_quarantine(self):
+        self.engine(capacity=True)
+        request = Path(self.fea.inp_file_name).with_suffix(".accounting")
+        request.write_text(force_accounting.SCHEMA + "\nPORT R 1 2\nSUPPORT R 1 2\nEND\n")
+        metadata_path = Path(str(request) + ".json")
+        metadata = json.loads(metadata_path.read_text())
+        metadata["request_sha256"] = hashlib.sha256(request.read_bytes()).hexdigest()
+        self.assertNotIn("capacity", metadata)
+        metadata_path.write_text(json.dumps(metadata))
+        self.frd.write_bytes(b"Retained old FRD\n")
+        output = Path(str(request) + ".out")
+        output.write_bytes(b"Retained old accounting\n")
+        with mock.patch.dict(os.environ, {"CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS": "1"}):
+            with self.assertRaisesRegex(ValueError, "capacity exceeded.*total required 2"):
+                self.fea.start_ccx()
+        self.assertEqual(self.frd.read_bytes(), b"Retained old FRD\n")
+        self.assertEqual(output.read_bytes(), b"Retained old accounting\n")
 
     def accounting(self):
         return next(obj for obj in self.fea.analysis.Group if hasattr(obj, "AccountingData"))

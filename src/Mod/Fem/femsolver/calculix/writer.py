@@ -129,8 +129,21 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
     # ********************************************************************************************
     # write calculix input
     def write_solver_input(self):
+        # A writer may be used again after model edits. Never carry verified
+        # port regions, mesh coordinates or allocated IDs into another export.
+        self.port_resolution_context = (
+            elastic_connector.PortResolutionContext(self.mesh_object, self.analysis)
+            if self.mesh_object
+            else None
+        )
+        try:
+            return self._write_solver_input()
+        finally:
+            self.port_resolution_context = None
+
+    def _write_solver_input(self):
         errors = elastic_connector.validation_errors(
-            self.analysis, self.solver_obj, self.mesh_object
+            self.analysis, self.solver_obj, self.mesh_object, self.port_resolution_context
         )
         if errors:
             raise ValueError("\n".join(errors))

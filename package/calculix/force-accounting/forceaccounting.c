@@ -18,7 +18,10 @@ ITG FORTRAN(fa_collect_loads, ())
 }
 
 #define FA_MAX 64
-#define FA_CONNECTOR_MAX (6 * FA_MAX)
+#define FA_DEFAULT_DECLARATIONS 65536
+#define FA_BUDGET_ENV "CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS"
+/* Upstream 2.23 stores/addresses labels using native 20*nmpc+1 strides. */
+#define FA_MAX_MPC_ROWS ((INT_MAX - 1) / 20)
 typedef struct
 {
     ITG key[3], element;
@@ -58,20 +61,22 @@ typedef struct
 static struct
 {
     int active, version, ns, nss, nb, np, na, nsp;
-    ITG nk, ne, nfaces, mpc_capacity;
+    ITG nk, ne, nfaces, mpc_capacity, budget, declarations;
+    size_t owner_words, supports_capacity, spc_capacity, ports_capacity;
+    size_t angles_capacity, springs_capacity, bodies_capacity;
     double *co, *original_co, *loads, *contacts;
     ITG *ipkon, *kon;
     char* lakon;
     uint64_t *owners, *node_union, *node_intersection, *contact_owners;
     Face* faces;
     unsigned char* structural_nodes;
-    Support supports[FA_MAX];
-    SPCSupport spc_supports[FA_MAX];
-    Port ports[FA_MAX];
-    Angle angles[FA_CONNECTOR_MAX];
-    Spring springs[FA_CONNECTOR_MAX];
-    Body bodies[FA_MAX];
-    double points[FA_MAX][6];
+    Support* supports;
+    SPCSupport* spc_supports;
+    Port* ports;
+    Angle* angles;
+    Spring* springs;
+    Body* bodies;
+    double* points;
 } fa;
 /* The main driver decascades before fa_prepare. V3 keeps the original
  * equations separately so a declared angular auxiliary is proved against
@@ -93,11 +98,120 @@ static void fail(const char* message)
 }
 static void* allocate(size_t count, size_t size)
 {
+    if (size && count > SIZE_MAX / size) {
+        fail("allocation size overflow");
+    }
     void* p = calloc(count ? count : 1, size);
     if (!p) {
         fail("allocation failed");
     }
     return p;
+}
+static size_t product(size_t left, size_t right)
+{
+    if (right && left > SIZE_MAX / right) {
+        fail("allocation dimension overflow");
+    }
+    return left * right;
+}
+static ITG declaration_budget(void)
+{
+    const char* text = getenv(FA_BUDGET_ENV);
+    const char* cursor;
+    unsigned long value = 0;
+    if (!text) {
+        return FA_DEFAULT_DECLARATIONS;
+    }
+    if (*text < '1' || *text > '9') {
+        fail("CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS requires a canonical integer in 1..2147483647");
+    }
+    for (cursor = text; *cursor; cursor++) {
+        if (*cursor < '0' || *cursor > '9' ||
+            value > ((unsigned long)INT_MAX - (unsigned long)(*cursor - '0')) / 10) {
+            fail("CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS requires a canonical integer in 1..2147483647");
+        }
+        value = 10 * value + (unsigned long)(*cursor - '0');
+    }
+    return (ITG)value;
+}
+int fa_capacity_query(void)
+{
+    ITG budget;
+    fa.version = 3;
+    budget = declaration_budget();
+    printf("{\"schema\":\"CCX_FORCE_ACCOUNTING_CAPACITY_V1\","
+           "\"request_schema\":\"CCX_FORCE_ACCOUNTING_V3\",\"allocation\":\"dynamic\","
+           "\"counting_policy\":\"top-level-declarations-v1\",\"total_records\":%d,"
+           "\"limits\":{\"supports\":%d,\"bodies\":%d,\"ports\":%d,\"angles\":%d,\"springs\":%d}}\n",
+           budget, budget, budget, budget, budget, budget);
+    return 0;
+}
+static void admit_declaration(const char* category, long long required)
+{
+    if (fa.version != 3) {
+        return;
+    }
+    if (fa.declarations >= fa.budget) {
+        fprintf(stderr, "*ERROR CCX force accounting V3: declaration capacity exceeded: "
+                "%s required %lld; total required %lld; configured total %d\n",
+                category, required, (long long)fa.declarations + 1, fa.budget);
+        exit(201);
+    }
+    fa.declarations++;
+}
+static void* reserve_storage(void* data, size_t* capacity, size_t size, ITG count)
+{
+    size_t required = (size_t)count + 1, grown, bytes, previous;
+    void* replacement;
+    if (required > *capacity) {
+        grown = *capacity ? product(*capacity, 2) : 8;
+        if (grown < required) {
+            grown = required;
+        }
+        if (grown > (size_t)(fa.version == 3 ? fa.budget : FA_MAX)) {
+            grown = (size_t)(fa.version == 3 ? fa.budget : FA_MAX);
+        }
+        if (grown < required) {
+            fail("declaration storage capacity differs from admission");
+        }
+        bytes = product(grown, size);
+        previous = product(*capacity, size);
+        replacement = realloc(data, bytes);
+        if (!replacement) {
+            fail("declaration allocation failed");
+        }
+        memset((char*)replacement + previous, 0, bytes - previous);
+        data = replacement;
+        *capacity = grown;
+    }
+    return data;
+}
+/* Every row contains the same number of words. A body index chooses its word
+ * and bit explicitly, so body 64 cannot alias body 0 or invoke a wide shift.
+ * Legacy requests retain exactly one word and their original 64-body limit.
+ */
+static uint64_t* owner_row(uint64_t* matrix, size_t row)
+{
+    return matrix + product(row, fa.owner_words);
+}
+static int owner_has(uint64_t* matrix, size_t row, ITG body)
+{
+    return (owner_row(matrix, row)[(size_t)body / 64] & (UINT64_C(1) << (body % 64))) != 0;
+}
+static int owner_any(uint64_t* matrix, size_t row)
+{
+    size_t word;
+    uint64_t* entry = owner_row(matrix, row);
+    for (word = 0; word < fa.owner_words; word++) {
+        if (entry[word]) {
+            return 1;
+        }
+    }
+    return 0;
+}
+static void owner_add(uint64_t* matrix, size_t row, ITG body)
+{
+    owner_row(matrix, row)[(size_t)body / 64] |= UINT64_C(1) << (body % 64);
 }
 void fa_capture_mpcs(
     ITG nk,
@@ -121,7 +235,9 @@ void fa_capture_mpcs(
     }
     fclose(input);
     fa.version = 3;
-    if (original_mpcs.captured || nk < 1 || nmpc < 0 || capacity < 0) {
+    (void)declaration_budget();
+    if (original_mpcs.captured || nk < 1 || nmpc < 0 || nmpc > FA_MAX_MPC_ROWS || capacity < 0 ||
+        nmpc > capacity || capacity > INT_MAX / 3) {
         fail("invalid or repeated original MPC capture");
     }
     original_mpcs.captured = 1;
@@ -129,16 +245,16 @@ void fa_capture_mpcs(
     original_mpcs.nmpc = nmpc;
     original_mpcs.capacity = capacity;
     original_mpcs.ipompc = allocate(nmpc, sizeof(ITG));
-    original_mpcs.nodempc = allocate(3 * (size_t)capacity, sizeof(ITG));
+    original_mpcs.nodempc = allocate(product(3, (size_t)capacity), sizeof(ITG));
     original_mpcs.coef = allocate(capacity, sizeof(double));
-    original_mpcs.labels = allocate(20 * (size_t)nmpc, sizeof(char));
+    original_mpcs.labels = allocate(product(20, (size_t)nmpc), sizeof(char));
     if (nmpc > 0) {
-        memcpy(original_mpcs.ipompc, ipompc, (size_t)nmpc * sizeof(ITG));
-        memcpy(original_mpcs.labels, labels, 20 * (size_t)nmpc);
+        memcpy(original_mpcs.ipompc, ipompc, product((size_t)nmpc, sizeof(ITG)));
+        memcpy(original_mpcs.labels, labels, product(20, (size_t)nmpc));
     }
     if (capacity > 0) {
-        memcpy(original_mpcs.nodempc, nodempc, 3 * (size_t)capacity * sizeof(ITG));
-        memcpy(original_mpcs.coef, coef, (size_t)capacity * sizeof(double));
+        memcpy(original_mpcs.nodempc, nodempc, product(product(3, (size_t)capacity), sizeof(ITG)));
+        memcpy(original_mpcs.coef, coef, product((size_t)capacity, sizeof(double)));
     }
 }
 static ITG read_identifier(FILE* input)
@@ -196,7 +312,7 @@ static void sort3(ITG* a)
 }
 static ITG node_count(ITG element)
 {
-    char* label = &fa.lakon[8 * element];
+    char* label = &fa.lakon[8 * (size_t)element];
     if (strcmp1(label, "C3D4    ") == 0) {
         return 4;
     }
@@ -227,7 +343,10 @@ void fa_set_mpc_capacity(ITG capacity)
     if (!fa.active) {
         return;
     }
-    if (capacity < 0) {
+    /* Term links are 1-based; this bound also keeps every 3*index+2 access
+     * representable in native ITG arithmetic after mpc_term validation.
+     */
+    if (capacity < 0 || capacity > INT_MAX / 3) {
         fail("invalid native MPC storage capacity");
     }
     fa.mpc_capacity = capacity;
@@ -281,7 +400,7 @@ static ITG parent(const ITG* nodes, ITG count)
     for (i = 0; i < count; i++) {
         matched = 0;
         for (j = 0; j < nope; j++) {
-            if (fa.kon[fa.ipkon[index] + j] == nodes[i]) {
+            if (fa.kon[(size_t)fa.ipkon[index] + j] == nodes[i]) {
                 matched = 1;
             }
         }
@@ -503,7 +622,7 @@ static void validate_composition(void)
     for (i = 0; i < fa.nsp; i++) {
         Spring* spring = &fa.springs[i];
         if (spring->element > fa.ne || fa.ipkon[spring->element - 1] < 0 ||
-            strcmp1(&fa.lakon[8 * (spring->element - 1)], "ESPRNG21") != 0) {
+            strcmp1(&fa.lakon[8 * (size_t)(spring->element - 1)], "ESPRNG21") != 0) {
             fail("declared connector must be an active native SPRING2");
         }
         for (j = 0; j < i; j++) {
@@ -513,7 +632,7 @@ static void validate_composition(void)
         }
         for (j = 0; j < 2; j++) {
             if (spring->nodes[j] > fa.nk || fa.structural_nodes[spring->nodes[j] - 1] ||
-                fa.kon[fa.ipkon[spring->element - 1] + j] != spring->nodes[j]) {
+                fa.kon[(size_t)fa.ipkon[spring->element - 1] + j] != spring->nodes[j]) {
                 fail("native connector endpoint identity or detached ownership differs");
             }
         }
@@ -602,7 +721,7 @@ static void validate_spc_supports(
             node = support->nodes[term];
             direction = support->directions[term];
             if (node > fa.nk || direction < 1 || direction > 3 ||
-                !fa.structural_nodes[node - 1] || fa.node_union[node - 1] ||
+                !fa.structural_nodes[node - 1] || owner_any(fa.node_union, node - 1) ||
                 port_reference(node) >= 0 || port_rotation(node) >= 0 || angle_node(node) >= 0) {
                 fail("SPC support requires a structural translation outside every cut body and helper port");
             }
@@ -679,8 +798,7 @@ void fa_prepare(
     FILE* input;
     char token[81];
     ITG i, j, k, n, index, visited;
-    size_t coordinate;
-    uint64_t bit;
+    size_t coordinate, word;
     unsigned char* cut;
     static const int face_nodes[4][3] = {{0, 1, 2}, {0, 3, 1}, {1, 3, 2}, {2, 3, 0}};
     if (!path) {
@@ -692,6 +810,16 @@ void fa_prepare(
     if (nmethod != 1 || iperturb[1] != 0 || thermal > 1 || ntrans || mcs || step != 1) {
         fail("requires one small-displacement mechanical static step in global coordinates");
     }
+    /* The largest mesh/result strides below are 3*nk and 12*ne. This also
+     * bounds 4*ne faces, 8*element labels and 6*element load/contact offsets.
+     * Connectivity offsets are promoted before adding local node indices.
+     */
+    if (nk < 1 || nk > INT_MAX / 3 || ne < 0 || ne > INT_MAX / 12) {
+        fail("native mesh dimensions exceed the 32-bit accounting domain");
+    }
+    if (nmpc < 0 || nmpc > FA_MAX_MPC_ROWS || nmpc > mpc_capacity) {
+        fail("native MPC row count exceeds supported native storage");
+    }
     memset(&fa, 0, sizeof(fa));
     fa.active = 1;
     fa_set_mpc_capacity(mpc_capacity);
@@ -701,12 +829,6 @@ void fa_prepare(
     fa.ipkon = ipkon;
     fa.kon = kon;
     fa.lakon = lakon;
-    fa.owners = allocate(ne, sizeof(uint64_t));
-    fa.node_union = allocate(nk, sizeof(uint64_t));
-    fa.node_intersection = allocate(nk, sizeof(uint64_t));
-    for (i = 0; i < nk; i++) {
-        fa.node_intersection[i] = UINT64_MAX;
-    }
     fa.faces = allocate(4 * (size_t)ne, sizeof(Face));
     fa.loads = allocate(6 * (size_t)ne, sizeof(double));
     input = fopen(path, "r");
@@ -724,6 +846,7 @@ void fa_prepare(
     }
     else if (!strcmp(token, "CCX_FORCE_ACCOUNTING_V3")) {
         fa.version = 3;
+        fa.budget = declaration_budget();
         fa.structural_nodes = allocate(nk, sizeof(unsigned char));
     }
     else {
@@ -748,9 +871,11 @@ void fa_prepare(
         }
         if (!strcmp(token, "SUPPORT")) {
             Support* s;
-            if (fa.ns == FA_MAX || (fa.version == 3 && fa.ns + fa.nss == FA_MAX)) {
+            if (fa.version != 3 && fa.ns == FA_MAX) {
                 fail("too many support requests");
             }
+            admit_declaration("supports", (long long)fa.ns + fa.nss + 1);
+            fa.supports = reserve_storage(fa.supports, &fa.supports_capacity, sizeof(Support), fa.ns);
             s = &fa.supports[fa.ns++];
             if (fscanf(input, "%80s", s->name) != 1) {
                 fail("invalid support name");
@@ -763,9 +888,8 @@ void fa_prepare(
         }
         else if (fa.version == 3 && !strcmp(token, "SPC_SUPPORT")) {
             SPCSupport* support;
-            if (fa.ns + fa.nss == FA_MAX) {
-                fail("too many support requests");
-            }
+            admit_declaration("supports", (long long)fa.ns + fa.nss + 1);
+            fa.spc_supports = reserve_storage(fa.spc_supports, &fa.spc_capacity, sizeof(SPCSupport), fa.nss);
             support = &fa.spc_supports[fa.nss++];
             if (fscanf(input, "%80s", support->name) != 1) {
                 fail("invalid SPC support name");
@@ -783,9 +907,8 @@ void fa_prepare(
         }
         else if (fa.version == 3 && !strcmp(token, "PORT")) {
             Port* port;
-            if (fa.np == FA_MAX) {
-                fail("too many native RBE port declarations");
-            }
+            admit_declaration("ports", (long long)fa.np + 1);
+            fa.ports = reserve_storage(fa.ports, &fa.ports_capacity, sizeof(Port), fa.np);
             port = &fa.ports[fa.np++];
             if (fscanf(input, "%80s", port->name) != 1) {
                 fail("invalid native RBE port name");
@@ -795,9 +918,8 @@ void fa_prepare(
         }
         else if (fa.version == 3 && !strcmp(token, "ANGLE")) {
             Angle* angle;
-            if (fa.na == FA_CONNECTOR_MAX) {
-                fail("too many angular auxiliary declarations");
-            }
+            admit_declaration("angles", (long long)fa.na + 1);
+            fa.angles = reserve_storage(fa.angles, &fa.angles_capacity, sizeof(Angle), fa.na);
             angle = &fa.angles[fa.na++];
             angle->node = read_identifier(input);
             angle->rot = read_identifier(input);
@@ -807,9 +929,8 @@ void fa_prepare(
         }
         else if (fa.version == 3 && !strcmp(token, "SPRING")) {
             Spring* spring;
-            if (fa.nsp == FA_CONNECTOR_MAX) {
-                fail("too many native connector declarations");
-            }
+            admit_declaration("springs", (long long)fa.nsp + 1);
+            fa.springs = reserve_storage(fa.springs, &fa.springs_capacity, sizeof(Spring), fa.nsp);
             spring = &fa.springs[fa.nsp++];
             spring->element = read_identifier(input);
             spring->nodes[0] = read_identifier(input);
@@ -817,10 +938,12 @@ void fa_prepare(
         }
         else if (!strcmp(token, "BODY")) {
             Body* b;
-            if (fa.nb == FA_MAX) {
+            if (fa.version != 3 && fa.nb == FA_MAX) {
                 fail("too many body requests");
             }
-            b = &fa.bodies[fa.nb];
+            admit_declaration("bodies", (long long)fa.nb + 1);
+            fa.bodies = reserve_storage(fa.bodies, &fa.bodies_capacity, sizeof(Body), fa.nb);
+            b = &fa.bodies[fa.nb++];
             if (fscanf(input, "%80s", b->name) != 1) {
                 fail("invalid body name");
             }
@@ -831,17 +954,12 @@ void fa_prepare(
             }
             b->elements = allocate(b->ne, sizeof(ITG));
             b->cut = allocate(b->nn, sizeof(ITG));
-            bit = UINT64_C(1) << fa.nb++;
             for (j = 0; j < b->ne; j++) {
                 n = read_identifier(input);
                 if (n > ne || !node_count(n - 1) || ipkon[n - 1] < 0) {
                     fail("body must own active tetrahedra");
                 }
-                if (fa.owners[n - 1] & bit) {
-                    fail("duplicate body element");
-                }
                 b->elements[j] = n;
-                fa.owners[n - 1] |= bit;
             }
             for (j = 0; j < b->nn; j++) {
                 n = read_identifier(input);
@@ -861,6 +979,29 @@ void fa_prepare(
     fclose(input);
     if (!fa.nb && !fa.ns && !fa.nss) {
         fail("empty request");
+    }
+    /* The final body count determines every ownership row's width. No matrix
+     * is grown/repacked while callbacks or concurrent native force paths run.
+     */
+    fa.owner_words = fa.nb ? ((size_t)fa.nb + 63) / 64 : 1;
+    fa.owners = allocate(product((size_t)ne, fa.owner_words), sizeof(uint64_t));
+    fa.node_union = allocate(product((size_t)nk, fa.owner_words), sizeof(uint64_t));
+    fa.node_intersection = allocate(product((size_t)nk, fa.owner_words), sizeof(uint64_t));
+    fa.points = allocate(product(6, (size_t)fa.nb), sizeof(double));
+    for (i = 0; i < nk; i++) {
+        for (word = 0; word < fa.owner_words; word++) {
+            owner_row(fa.node_intersection, i)[word] = UINT64_MAX;
+        }
+    }
+    for (i = 0; i < fa.nb; i++) {
+        Body* body = &fa.bodies[i];
+        for (j = 0; j < body->ne; j++) {
+            k = body->elements[j] - 1;
+            if (owner_has(fa.owners, k, i)) {
+                fail("duplicate body element");
+            }
+            owner_add(fa.owners, k, i);
+        }
     }
     for (i = 0; i < fa.ns; i++) {
         for (j = 0; j < i; j++) {
@@ -884,10 +1025,10 @@ void fa_prepare(
         }
         n = node_count(i);
         if (!n) {
-            if (strcmp1(&lakon[8 * i], "ESPRNGC") == 0) {
+            if (strcmp1(&lakon[8 * (size_t)i], "ESPRNGC") == 0) {
                 continue;
             }
-            if (fa.version == 3 && strcmp1(&lakon[8 * i], "ESPRNG21") == 0) {
+            if (fa.version == 3 && strcmp1(&lakon[8 * (size_t)i], "ESPRNG21") == 0) {
                 for (j = 0; j < fa.nsp; j++) {
                     if (fa.springs[j].element == i + 1) {
                         fa.springs[j].used = 1;
@@ -902,21 +1043,23 @@ void fa_prepare(
             fail("only C3D4/C3D10 volumes and face-to-face penalty contact are supported");
         }
         for (j = 0; j < n; j++) {
-            k = kon[ipkon[i] + j] - 1;
+            k = kon[(size_t)ipkon[i] + j] - 1;
             if (fa.version == 3) {
                 if (k < 0 || k >= nk) {
                     fail("native structural node identity is outside storage");
                 }
                 fa.structural_nodes[k] = 1;
             }
-            fa.node_union[k] |= fa.owners[i];
-            fa.node_intersection[k] &= fa.owners[i];
+            for (word = 0; word < fa.owner_words; word++) {
+                owner_row(fa.node_union, k)[word] |= owner_row(fa.owners, i)[word];
+                owner_row(fa.node_intersection, k)[word] &= owner_row(fa.owners, i)[word];
+            }
         }
         for (j = 0; j < 4; j++) {
             Face* f = &fa.faces[fa.nfaces++];
             f->element = i;
             for (k = 0; k < 3; k++) {
-                f->key[k] = kon[ipkon[i] + face_nodes[j][k]];
+                f->key[k] = kon[(size_t)ipkon[i] + face_nodes[j][k]];
             }
             sort3(f->key);
         }
@@ -928,22 +1071,21 @@ void fa_prepare(
     }
     for (i = 0; i < fa.nb; i++) {
         Body* b = &fa.bodies[i];
-        bit = UINT64_C(1) << i;
         cut = allocate(nk, sizeof(unsigned char));
         for (j = 0; j < b->nn; j++) {
             k = b->cut[j] - 1;
-            if (cut[k] || !(fa.node_union[k] & bit) || (fa.node_intersection[k] & bit)) {
+            if (cut[k] || !owner_has(fa.node_union, k, i) || owner_has(fa.node_intersection, k, i)) {
                 fail("cut nodes must uniquely identify the shared deformable interface");
             }
             cut[k] = 1;
         }
         for (j = 0; j < nk; j++) {
-            if ((fa.node_union[j] & bit) && !(fa.node_intersection[j] & bit) && !cut[j]) {
+            if (owner_has(fa.node_union, j, i) && !owner_has(fa.node_intersection, j, i) && !cut[j]) {
                 fail("body has an undeclared shared-node interface");
             }
         }
         for (j = 0; j < nboun; j++) {
-            if (fa.node_union[nodeboun[j] - 1] & bit) {
+            if (owner_has(fa.node_union, nodeboun[j] - 1, i)) {
                 fail("cut body contains a prescribed degree of freedom");
             }
         }
@@ -958,11 +1100,11 @@ void fa_prepare(
                 if (k < 0 || k >= nk) {
                     fail("MPC node identity is outside native storage");
                 }
-                if (fa.node_union[k] & bit) {
+                if (owner_has(fa.node_union, k, i)) {
                     if (fa.version == 1) {
                         fail("cut body intersects an MPC");
                     }
-                    if (!(fa.node_intersection[k] & bit)) {
+                    if (!owner_has(fa.node_intersection, k, i)) {
                         fail("MPC intersects an ambiguously owned shared cut node");
                     }
                 }
@@ -974,6 +1116,12 @@ void fa_prepare(
         }
         free(cut);
     }
+    if (fa.version == 3) {
+        printf("CCX_FORCE_ACCOUNTING_CAPACITY_APPLIED_V1 {\"budget\":%d,"
+               "\"counts\":{\"supports\":%d,\"bodies\":%d,\"ports\":%d,\"angles\":%d,\"springs\":%d},"
+               "\"total\":%d}\n", fa.budget, fa.ns + fa.nss, fa.nb, fa.np, fa.na, fa.nsp, fa.declarations);
+        fflush(stdout);
+    }
 }
 int fa_active(void)
 {
@@ -983,7 +1131,7 @@ void fa_reset_loads(void)
 {
     if (fa.active) {
         memset(fa.loads, 0, 6 * (size_t)fa.ne * sizeof(double));
-        memset(fa.points, 0, sizeof(fa.points));
+        memset(fa.points, 0, product(product(6, (size_t)fa.nb), sizeof(double)));
     }
 }
 void FORTRAN(fa_elementload, (ITG * element, ITG* count, ITG* nodes, double* ff))
@@ -1003,18 +1151,19 @@ void fa_pointloads(ITG count, ITG* nodes, ITG* directions, double* values)
 {
     ITG i, j, node;
     double f[3];
-    uint64_t bit;
     if (!fa.active) {
         return;
     }
     for (i = 0; i < count; i++) {
-        node = nodes[2 * i] - 1;
+        node = nodes[2 * (size_t)i] - 1;
+        if (node < 0 || node >= fa.nk) {
+            fail("concentrated load node is outside native storage");
+        }
         for (j = 0; j < fa.nb; j++) {
-            bit = UINT64_C(1) << j;
-            if (!(fa.node_union[node] & bit) || values[i] == 0.) {
+            if (!owner_has(fa.node_union, node, j) || values[i] == 0.) {
                 continue;
             }
-            if (!(fa.node_intersection[node] & bit)) {
+            if (!owner_has(fa.node_intersection, node, j)) {
                 fail("point load on cut has ambiguous body ownership");
             }
             if (directions[i] < 1 || directions[i] > 3) {
@@ -1022,7 +1171,7 @@ void fa_pointloads(ITG count, ITG* nodes, ITG* directions, double* values)
             }
             memset(f, 0, sizeof(f));
             f[directions[i] - 1] = values[i];
-            add_wrench(fa.points[j], &fa.co[3 * node], f);
+            add_wrench(&fa.points[6 * (size_t)j], &fa.co[3 * node], f);
         }
     }
 }
@@ -1032,6 +1181,9 @@ void fa_begin_results(ITG ne, ITG* ipkon, ITG* kon, char* lakon, double* co)
     size_t coordinate;
     if (!fa.active) {
         return;
+    }
+    if (ne < 0 || ne > INT_MAX / 12) {
+        fail("native result dimensions exceed the 32-bit accounting domain");
     }
     if (fa.version >= 2) {
         for (coordinate = 0; coordinate < 3 * (size_t)fa.nk; coordinate++) {
@@ -1048,7 +1200,7 @@ void fa_begin_results(ITG ne, ITG* ipkon, ITG* kon, char* lakon, double* co)
     free(fa.contact_owners);
     contact_capacity = ne;
     fa.contacts = allocate(12 * (size_t)ne, sizeof(double));
-    fa.contact_owners = allocate(2 * (size_t)ne, sizeof(uint64_t));
+    fa.contact_owners = allocate(product(2 * (size_t)ne, fa.owner_words), sizeof(uint64_t));
 }
 void FORTRAN(fa_contact, (ITG * element, ITG* count, ITG* nodes, double* fnl, char* label))
 {
@@ -1066,7 +1218,8 @@ void FORTRAN(fa_contact, (ITG * element, ITG* count, ITG* nodes, double* fnl, ch
     }
     for (side = 0; side < 2; side++) {
         owner = parent(&nodes[side ? master : 0], side ? *count - master : master);
-        fa.contact_owners[2 * e + side] = fa.owners[owner];
+        memcpy(owner_row(fa.contact_owners, 2 * (size_t)e + side), owner_row(fa.owners, owner),
+               fa.owner_words * sizeof(uint64_t));
         for (j = side ? master : 0; j < (side ? *count : master); j++) {
             force[0] = -fnl[3 * j];
             force[1] = -fnl[3 * j + 1];
@@ -1088,13 +1241,12 @@ static ITG* validate_mpcs(
     unsigned char* terms;
     ITG *dependent, *incoming, *order;
     ITG i, j, index, node, dir, first, row, head = 0, tail = 0;
-    uint64_t bit;
     size_t dof;
-    if (nmpc < 0 || nmpc > (INT_MAX - 1) / 2 || mt < 4) {
+    if (nmpc < 0 || nmpc > FA_MAX_MPC_ROWS || nmpc > fa.mpc_capacity || mt < 4) {
         fail("unsupported native MPC or degree-of-freedom dimensions");
     }
     for (node = 0; node < nk; node++) {
-        if (!fa.node_union[node]) {
+        if (!owner_any(fa.node_union, node)) {
             continue;
         }
         for (dir = 1; dir <= 3; dir++) {
@@ -1150,11 +1302,10 @@ static ITG* validate_mpcs(
                 incoming[row]++;
             }
             for (j = 0; j < fa.nb; j++) {
-                bit = UINT64_C(1) << j;
-                if (!(fa.node_union[node] & bit)) {
+                if (!owner_has(fa.node_union, node, j)) {
                     continue;
                 }
-                if (!(fa.node_intersection[node] & bit)) {
+                if (!owner_has(fa.node_intersection, node, j)) {
                     fail("MPC intersects an ambiguously owned shared cut node");
                 }
                 if (nactdof[mt * (size_t)node + dir] < 0 &&
@@ -1231,7 +1382,6 @@ void fa_emit(
     FILE* f;
     double *residual, *mpc = NULL, force, couple[3], w[6], load[6], contact[6], transfer[6], nodal[3];
     ITG *order = NULL, i, j, k, index, start, node, dir, row;
-    uint64_t bit;
     if (!fa.active) {
         return;
     }
@@ -1240,6 +1390,9 @@ void fa_emit(
     }
     if (nk < 1 || mt < 4 || nk > INT_MAX / mt) {
         fail("native nodal dimensions exceed the 32-bit accounting domain");
+    }
+    if (nmpc < 0 || nmpc > FA_MAX_MPC_ROWS || nmpc > fa.mpc_capacity) {
+        fail("native MPC row count exceeds supported output-state storage");
     }
     if (fa.version >= 2) {
         order = validate_mpcs(nk, mt, nactdof, nmpc, ipompc, nodempc, coef);
@@ -1275,7 +1428,7 @@ void fa_emit(
      */
     for (i = 0; i < nmpc; i++) {
         row = order ? order[i] : i;
-        start = ipompc[row] - 1;
+        start = mpc_term(ipompc[row]);
         node = nodempc[3 * start] - 1;
         dir = nodempc[3 * start + 1];
         if (dir < 1 || dir > 3 || coef[start] == 0.) {
@@ -1289,8 +1442,9 @@ void fa_emit(
             add_mpc_force(mpc, mt * (size_t)node + dir, coef[start] * force);
         }
         residual[mt * node + dir] = 0.;
-        index = nodempc[3 * start + 2] - 1;
-        while (index >= 0) {
+        index = nodempc[3 * start + 2];
+        while (index) {
+            index = mpc_term(index);
             node = nodempc[3 * index] - 1;
             dir = nodempc[3 * index + 1];
             if (dir < 1 || dir > 3) {
@@ -1303,7 +1457,7 @@ void fa_emit(
                 }
                 add_mpc_force(mpc, mt * (size_t)node + dir, coef[index] * force);
             }
-            index = nodempc[3 * index + 2] - 1;
+            index = nodempc[3 * index + 2];
         }
     }
     output = allocate(strlen(path) + 5, 1);
@@ -1355,8 +1509,7 @@ void fa_emit(
     }
     for (i = 0; i < fa.nb; i++) {
         Body* b = &fa.bodies[i];
-        bit = UINT64_C(1) << i;
-        memcpy(load, fa.points[i], sizeof(load));
+        memcpy(load, &fa.points[6 * (size_t)i], sizeof(load));
         memset(contact, 0, sizeof(contact));
         memset(transfer, 0, sizeof(transfer));
         for (j = 0; j < b->ne; j++) {
@@ -1365,7 +1518,7 @@ void fa_emit(
             }
         }
         for (j = 0; j < 2 * contact_capacity; j++) {
-            if (fa.contact_owners[j] & bit) {
+            if (owner_has(fa.contact_owners, j, i)) {
                 for (k = 0; k < 6; k++) {
                     contact[k] += fa.contacts[6 * j + k];
                 }
@@ -1373,7 +1526,7 @@ void fa_emit(
         }
         if (mpc) {
             for (j = 0; j < nk; j++) {
-                if (fa.node_intersection[j] & fa.node_union[j] & bit) {
+                if (owner_has(fa.node_intersection, j, i) && owner_has(fa.node_union, j, i)) {
                     add_wrench(transfer, &fa.co[3 * (size_t)j], &mpc[mt * (size_t)j + 1]);
                 }
             }

@@ -68,7 +68,10 @@ def write_meshdata_constraint(f, femobj, rb_obj, ccxwriter):
 def write_constraint(f, femobj, rb_obj, ccxwriter):
 
     ref_node_idx, rot_node_idx = rigid_body_node_ids(
-        ccxwriter.analysis, ccxwriter.mesh_object, rb_obj
+        ccxwriter.analysis,
+        ccxwriter.mesh_object,
+        rb_obj,
+        getattr(ccxwriter, "port_resolution_context", None),
     )
 
     f.write("*NODE\n")

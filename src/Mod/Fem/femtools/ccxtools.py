@@ -263,6 +263,15 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             message += "Working directory not set\n"
         if not os.path.isdir(self.working_dir):
             message += f"Working directory '{self.working_dir}' doesn't exist."
+        if self.analysis and self.solver:
+            from femtools import force_accounting
+
+            try:
+                self.native_accounting_capacity = force_accounting.capacity_preflight(
+                    self.analysis, self.solver
+                )
+            except ValueError as error:
+                return message + str(error) + "\n"
         from femtools.checksanalysis import check_member_for_solver_calculix
 
         message += check_member_for_solver_calculix(
@@ -360,6 +369,13 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         self.set_inp_file_name()
 
     def write_inp_file(self):
+        from femtools import force_accounting
+
+        # Count the complete active graph before any mesh-set resolution,
+        # connector validation or deck writing can incur expensive work.
+        self.native_accounting_capacity = force_accounting.capacity_preflight(
+            self.analysis, self.solver
+        )
 
         # get mesh set data
         # TODO use separate method for getting the mesh set data
@@ -400,6 +416,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
                 self.working_dir,
                 meshdatagetter.mat_geo_sets,
             )
+            inp_writer.native_accounting_capacity = self.native_accounting_capacity
             self.inp_file_name = inp_writer.write_solver_input()
             from femtools import force_accounting
 
@@ -522,7 +539,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             cwd=f.path(),
         )
         self.ccx_stdout, self.ccx_stderr = p.communicate()
-        force_accounting.finish_run(context, p.returncode)
+        force_accounting.finish_run(context, p.returncode, self.ccx_stdout)
         self.ccx_stdout = self.ccx_stdout.decode()
         self.ccx_stderr = self.ccx_stderr.decode()
         if p.returncode == 0 and context:
@@ -532,7 +549,6 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
     def get_ccx_version(self):
         self.setup_ccx()
         import re
-        from platform import system
 
         ccx_stdout = None
         ccx_stderr = None
@@ -629,9 +645,9 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
                 FreeCAD.Console.PrintLog("Writing CalculiX input file completed.\n")
                 ret_code = self.ccx_run()
                 if ret_code is None:
-                    error_message = "CalculiX has not been run. The CalculiX binary search returned: {}.\n".format(
-                        self.ccx_binary_present
-                    )
+                    error_message = (
+                        "CalculiX has not been run. " "The CalculiX binary search returned: {}.\n"
+                    ).format(self.ccx_binary_present)
                     FreeCAD.Console.PrintError(error_message)
                     if FreeCAD.GuiUp:
                         QtGui.QMessageBox.critical(None, "Error", error_message)

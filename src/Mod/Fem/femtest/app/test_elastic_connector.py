@@ -36,8 +36,16 @@ class TestRigidPortConnector(unittest.TestCase):
             box = self.doc.addObject("Part::Feature", "Region")
             box.Shape = Part.makeBox(1, 1, 1, App.Vector(offset, 0, 0))
             boxes.append(box)
-            coords = ((0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1),
-                      (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0))
+            coords = (
+                (0, 0, 1),
+                (1, 0, 1),
+                (1, 1, 1),
+                (0, 1, 1),
+                (0, 0, 0),
+                (1, 0, 0),
+                (1, 1, 0),
+                (0, 1, 0),
+            )
             for node, (x, y, z) in enumerate(coords, start):
                 data.addNode(x + offset, y, z, node)
             data.addVolume(list(range(start, start + 8)))
@@ -47,8 +55,11 @@ class TestRigidPortConnector(unittest.TestCase):
         mesh.Shape, mesh.FemMesh = geometry, data
         analysis.addObject(mesh)
         material = ObjectsFem.makeMaterialSolid(self.doc)
-        material.Material = {"Name": "Rigid-region test", "YoungsModulus": "1000 MPa",
-                             "PoissonRatio": "0"}
+        material.Material = {
+            "Name": "Rigid-region test",
+            "YoungsModulus": "1000 MPa",
+            "PoissonRatio": "0",
+        }
         analysis.addObject(material)
         bodies = []
         direction = App.Rotation(App.Vector(0, 0, 1), angle).multVec(
@@ -74,11 +85,16 @@ class TestRigidPortConnector(unittest.TestCase):
                 if index == 0:
                     component = max(range(3), key=lambda i: abs(direction[i]))
                     global_axis = "XYZ"[component]
-                    setattr(body, ("RotationalMode" if rotational else "TranslationalMode")
-                            + global_axis, "Load")
-                    setattr(body, ("Moment" if rotational else "Force") + global_axis,
-                            f"{10 * sign * direction[component]:g} "
-                            + ("N*mm" if rotational else "N"))
+                    setattr(
+                        body,
+                        ("RotationalMode" if rotational else "TranslationalMode") + global_axis,
+                        "Load",
+                    )
+                    setattr(
+                        body,
+                        ("Moment" if rotational else "Force") + global_axis,
+                        f"{10 * sign * direction[component]:g} " + ("N*mm" if rotational else "N"),
+                    )
             analysis.addObject(body)
             bodies.append(body)
         obj = ObjectsFem.makeConstraintElasticConnector(self.doc)
@@ -98,6 +114,7 @@ class TestRigidPortConnector(unittest.TestCase):
 
     def test_explicit_ports_native_units_and_sparse_node_allocation(self):
         from femtools.elastic_connector import resolve_connector, rigid_body_node_ids
+
         analysis, _, obj, mesh, bodies, _ = self.model()
         result = resolve_connector(obj, mesh, analysis)
         self.assertTrue(result["rotational"])
@@ -109,8 +126,165 @@ class TestRigidPortConnector(unittest.TestCase):
                 min(rigid_body_node_ids(analysis, mesh, body)), max(mesh.FemMesh.Nodes)
             )
 
+    def test_shared_port_resolution_preserves_independent_mutable_regions(self):
+        from femtools.elastic_connector import PortResolutionContext
+        from femtools.elastic_connector import resolve_connector
+
+        analysis, _, obj, mesh, bodies, _ = self.model()
+        context = PortResolutionContext(mesh, analysis)
+        first = resolve_connector(obj, mesh, analysis, context=context)
+        self.assertEqual(first["bodies"], bodies)
+        self.assertEqual(first["regions"], [set(range(1, 9)), set(range(21, 29))])
+        for region in first["regions"]:
+            self.assertIsInstance(region, set)
+        first["regions"][0].clear()
+        second = resolve_connector(obj, mesh, analysis, context=context)
+        self.assertEqual(second["regions"], [set(range(1, 9)), set(range(21, 29))])
+        self.assertEqual(second["nodes"], [])
+
+    def test_stock_reexports_resolve_changed_regions_mesh_and_native_ids(self):
+        from femtools.ccxtools import FemToolsCcx
+        from femtools.elastic_connector import identifier
+
+        analysis, solver, obj, mesh, bodies, _ = self.model()
+        solver.SplitInputWriter = False
+
+        def nodes(text, name):
+            match = re.search(
+                r"\*NSET,\s*NSET=" + re.escape(name) + r"\s*\n([^*]+)", text, re.IGNORECASE
+            )
+            self.assertIsNotNone(match, name)
+            return {int(value) for value in re.split(r"[,\s]+", match[1]) if value}
+
+        with tempfile.TemporaryDirectory() as directory:
+            fea = FemToolsCcx(analysis=analysis, solver=solver)
+            fea.setup_working_dir(directory)
+
+            def export():
+                fea.update_objects()
+                fea.write_inp_file()
+                return Path(fea.inp_file_name).read_text()
+
+            before = export()
+            self.assertEqual(nodes(before, bodies[0].Name), set(range(1, 9)))
+            self.assertEqual(nodes(before, bodies[1].Name), set(range(21, 29)))
+            self.assertEqual(nodes(before, bodies[0].Name + "_RefNode"), {35})
+            self.assertEqual(nodes(before, bodies[1].Name + "_RotNode"), {38})
+
+            original = bodies[1].References
+            bodies[1].References = bodies[0].References
+            self.doc.recompute()
+            with self.assertRaisesRegex(ValueError, "overlap"):
+                export()
+            bodies[1].References = original
+
+            # A new physical mesh and changed analysis order must allocate from
+            # the new sparse IDs, not from an earlier export's port resolution.
+            data = Fem.FemMesh()
+            for node, point in mesh.FemMesh.Nodes.items():
+                data.addNode(point.x, point.y, point.z, node + 100)
+            data.addVolume(list(range(101, 109)))
+            data.addVolume(list(range(121, 129)))
+            mesh.FemMesh = data
+            region = bodies[0].References[0][0]
+            face = next(
+                index
+                for index, shape in enumerate(region.Shape.Faces, 1)
+                if abs(shape.CenterOfMass.x) < 1e-12
+            )
+            bodies[0].References = [(region, [f"Face{face}"])]
+            group = list(analysis.Group)
+            first, second = group.index(bodies[0]), group.index(bodies[1])
+            group[first], group[second] = group[second], group[first]
+            analysis.Group = group
+            self.doc.recompute()
+            after = export()
+            self.assertEqual(nodes(after, bodies[0].Name), {101, 104, 105, 108})
+            self.assertEqual(nodes(after, bodies[1].Name), set(range(121, 129)))
+            self.assertEqual(nodes(after, bodies[0].Name + "_RefNode"), {137})
+            self.assertEqual(nodes(after, bodies[1].Name + "_RotNode"), {136})
+            self.assertEqual(nodes(after, identifier("EC_END1_", obj)), {138})
+            self.assertEqual(nodes(after, identifier("EC_END2_", obj)), {136})
+
+    def test_direct_writes_after_completed_and_failed_full_exports_are_fresh(self):
+        from femmesh.meshsetsgetter import MeshSetsGetter
+        from femsolver.calculix.calculixutils import define_masks
+        from femsolver.calculix.write_constraint_elastic_connector import write_connectors
+        from femsolver.calculix.write_constraint_rigidbody import write_constraint
+        from femsolver.calculix.writer import FemInputWriterCcx
+        from femtools.membertools import AnalysisMember
+
+        def node_set(text, name):
+            match = re.search(
+                r"\*NSET,\s*NSET=" + re.escape(name) + r"\s*\n([^*]+)", text, re.IGNORECASE
+            )
+            self.assertIsNotNone(match, name)
+            return {int(value) for value in re.split(r"[,\s]+", match[1]) if value}
+
+        for failed_export in (False, True):
+            with self.subTest(failed_export=failed_export):
+                analysis, solver, connector, mesh, bodies, _ = self.model()
+                solver.SplitInputWriter = False
+                solver.NativeForceAccounting = False
+                getter = MeshSetsGetter(analysis, solver, mesh, AnalysisMember(analysis))
+                for name, mask in define_masks(solver).items():
+                    setattr(getter, "mask_" + name, mask)
+                getter.get_mesh_sets()
+                original = bodies[1].References
+                with tempfile.TemporaryDirectory() as directory:
+                    writer = FemInputWriterCcx(
+                        analysis, solver, mesh, getter.member, directory, getter.mat_geo_sets
+                    )
+                    if failed_export:
+                        bodies[1].References = bodies[0].References
+                        self.doc.recompute()
+                        with self.assertRaisesRegex(ValueError, "overlap"):
+                            writer.write_solver_input()
+                    else:
+                        filename = writer.write_solver_input()
+                        self.assertEqual(
+                            node_set(Path(filename).read_text(), bodies[0].Name + "_RefNode"), {35}
+                        )
+                        bodies[1].References = bodies[0].References
+                        self.doc.recompute()
+                        with self.assertRaisesRegex(ValueError, "overlap"):
+                            write_connectors(io.StringIO(), writer)
+
+                    # Reuse the exact concrete writer after its success/error,
+                    # but with a new mesh and a different native allocation.
+                    bodies[1].References = original
+                    shifted = Fem.FemMesh()
+                    for node, point in mesh.FemMesh.Nodes.items():
+                        shifted.addNode(point.x, point.y, point.z, node + 100)
+                    shifted.addVolume(list(range(101, 109)))
+                    shifted.addVolume(list(range(121, 129)))
+                    mesh.FemMesh = shifted
+                    group = list(analysis.Group)
+                    first, second = group.index(bodies[0]), group.index(bodies[1])
+                    group[first], group[second] = group[second], group[first]
+                    analysis.Group = group
+                    self.doc.recompute()
+                    stream = io.StringIO()
+                    write_connectors(stream, writer)
+                    self.assertEqual(
+                        node_set(stream.getvalue(), "EC_END1_" + connector.Name), {138}
+                    )
+                    self.assertEqual(
+                        node_set(stream.getvalue(), "EC_END2_" + connector.Name), {136}
+                    )
+                    for body in bodies:
+                        row = next(
+                            item for item in getter.member.cons_rigidbody if item["Object"] == body
+                        )
+                        stream = io.StringIO()
+                        write_constraint(stream, row, body, writer)
+                        ref, rot = (137, 138) if body == bodies[0] else (135, 136)
+                        self.assertEqual(node_set(stream.getvalue(), body.Name + "_RefNode"), {ref})
+                        self.assertEqual(node_set(stream.getvalue(), body.Name + "_RotNode"), {rot})
+
     def test_ports_fail_closed_for_implicit_or_invalid_coupling(self):
         from femtools.elastic_connector import resolve_connector, validation_errors
+
         analysis, solver, obj, mesh, bodies, _ = self.model()
         obj.Attachment = "Vertices"
         with self.assertRaisesRegex(ValueError, "explicit Rigid Body"):
@@ -122,8 +296,9 @@ class TestRigidPortConnector(unittest.TestCase):
         obj.RigidBody2 = bodies[1]
         old = bodies[1].References
         bodies[1].References = bodies[0].References
-        self.assertTrue(any("overlap" in error
-                            for error in validation_errors(analysis, solver, mesh)))
+        self.assertTrue(
+            any("overlap" in error for error in validation_errors(analysis, solver, mesh))
+        )
         bodies[1].References = old
         obj.RotationalStiffness = App.Units.Quantity("0 N*mm/rad")
         with self.assertRaisesRegex(ValueError, "positive"):
@@ -132,6 +307,7 @@ class TestRigidPortConnector(unittest.TestCase):
     def test_native_body_links_and_axes_survive_save_and_regenerated_export(self):
         from femtools.elastic_connector import resolve_connector
         from femsolver.calculix.write_constraint_elastic_connector import write_connectors
+
         analysis, _, obj, mesh, bodies, _ = self.model(angle=45)
         frame = self.doc.addObject("App::Part", "Frame")
         frame.Placement.Rotation = App.Rotation(App.Vector(0, 0, 1), 30)
@@ -151,8 +327,9 @@ class TestRigidPortConnector(unittest.TestCase):
             )
             stream = io.StringIO()
             writer = SimpleNamespace(
-                analysis=analysis, mesh_object=mesh,
-                member=SimpleNamespace(cons_elasticconnector=[{"Object": obj}])
+                analysis=analysis,
+                mesh_object=mesh,
+                member=SimpleNamespace(cons_elasticconnector=[{"Object": obj}]),
             )
             write_connectors(stream, writer)
             before = stream.getvalue()
@@ -178,6 +355,7 @@ class TestRigidPortConnector(unittest.TestCase):
 
     def test_explicit_occurrence_region_and_regenerated_mesh(self):
         from femtools.elastic_connector import resolve_connector
+
         analysis, _, obj, mesh, bodies, _ = self.model()
         region = bodies[1].References[0][0]
         link = self.doc.addObject("App::Link", "RegionOccurrence")
@@ -215,12 +393,12 @@ class TestRigidPortConnector(unittest.TestCase):
             # selected physical occurrence, not an obsolete numeric node list.
             selected = resolve_connector(obj, mesh, analysis)["regions"][1]
             self.assertEqual(len(selected), 8)
-            self.assertEqual({round(mesh.FemMesh.Nodes[node].x, 9) for node in selected},
-                             {24, 25})
+            self.assertEqual({round(mesh.FemMesh.Nodes[node].x, 9) for node in selected}, {24, 25})
 
     @unittest.skipUnless(shutil.which("ccx"), "Requires real CalculiX")
     def test_other_local_rotational_axes(self):
         from femtools.elastic_connector import identifier
+
         helper = TestElasticConnectorCalculiX()
         for axis in ("Y", "Z"):
             for ground in (True, False):
@@ -237,6 +415,7 @@ class TestRigidPortConnector(unittest.TestCase):
     @unittest.skipUnless(shutil.which("ccx"), "Requires real CalculiX")
     def test_exact_rigid_ports_signed_ground_pair_and_rotated_axes(self):
         from femtools.elastic_connector import identifier
+
         helper = TestElasticConnectorCalculiX()
         for ground in (True, False):
             for angle in (0, 90, 45):
@@ -253,12 +432,14 @@ class TestRigidPortConnector(unittest.TestCase):
                             name = identifier(f"EC_END{end}_", obj)
                             action = helper.values(data, "forces", name)
                             for actual, axis in zip(action, direction):
-                                self.assertAlmostEqual(actual, factor * 2000 * delta * axis,
-                                                       delta=1e-6)
+                                self.assertAlmostEqual(
+                                    actual, factor * 2000 * delta * axis, delta=1e-6
+                                )
 
     @unittest.skipUnless(shutil.which("ccx"), "Requires real CalculiX")
     def test_exact_rigid_port_force_and_moment_response(self):
         from femtools.elastic_connector import identifier
+
         helper = TestElasticConnectorCalculiX()
         for rotational in (False, True):
             for ground in (False, True):
@@ -318,6 +499,7 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_resolves_native_vertices_and_converts_units(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, _ = self.configured()
         data = resolve_connector(obj, mesh)
         self.assertEqual(data["nodes"], [1, 2])
@@ -326,6 +508,7 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_invalid_or_ambiguous_inputs_rejected(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, points = self.configured()
         for stiffness in ("0 N/mm", "-1 N/mm"):
             obj.Stiffness = stiffness
@@ -346,6 +529,7 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_changed_reference_regenerates_nodes(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, points = self.configured()
         self.assertEqual(resolve_connector(obj, mesh)["nodes"], [1, 2])
         obj.End1, obj.End2 = obj.End2, obj.End1
@@ -353,6 +537,7 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_remeshing_re_resolves_geometry_instead_of_retaining_node_ids(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, _ = self.configured()
         data = Fem.FemMesh()
         data.addNode(0, 0, 0, 77)
@@ -362,12 +547,14 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_endpoints_in_placed_parent_resolve_in_global_mesh_coordinates(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, points = self.configured()
         parent = self.doc.addObject("App::Part", "PlacedAssembly")
         for point in points:
             parent.addObject(point)
-        parent.Placement = App.Placement(App.Vector(10, 20, 30),
-                                         App.Rotation(App.Vector(0, 0, 1), 90))
+        parent.Placement = App.Placement(
+            App.Vector(10, 20, 30), App.Rotation(App.Vector(0, 0, 1), 90)
+        )
         obj.OrientationReference = parent
         data = Fem.FemMesh()
         data.addNode(10, 20, 30, 77)
@@ -376,12 +563,14 @@ class TestElasticConnector(unittest.TestCase):
         self.doc.recompute()
         result = resolve_connector(obj, mesh)
         self.assertEqual(result["nodes"], [77, 42])
-        self.assertLess((result["rotation"].multVec(App.Vector(1, 0, 0))
-                         - App.Vector(0, 1, 0)).Length, 1e-12)
+        self.assertLess(
+            (result["rotation"].multVec(App.Vector(1, 0, 0)) - App.Vector(0, 1, 0)).Length, 1e-12
+        )
 
     def test_long_export_names_are_bounded_and_element_ids_do_not_overlap(self):
         from femtools.elastic_connector import identifier
         from femsolver.calculix.write_constraint_elastic_connector import write_connectors
+
         first = identifier("EC_", SimpleNamespace(Name="A" * 100 + "X"))
         second = identifier("EC_", SimpleNamespace(Name="A" * 100 + "Y"))
         self.assertLessEqual(len(first), 80)
@@ -390,8 +579,10 @@ class TestElasticConnector(unittest.TestCase):
         other = self.connector()
         other.Mode, other.End1, other.End2 = obj.Mode, obj.End1, obj.End2
         other.Stiffness = "300 N/mm"
-        writer = SimpleNamespace(mesh_object=mesh, member=SimpleNamespace(
-            cons_elasticconnector=[{"Object": obj}, {"Object": other}]))
+        writer = SimpleNamespace(
+            mesh_object=mesh,
+            member=SimpleNamespace(cons_elasticconnector=[{"Object": obj}, {"Object": other}]),
+        )
         stream = io.StringIO()
         write_connectors(stream, writer)
         ids = re.findall(r"TYPE=SPRING2[^\n]*\n(\d+),", stream.getvalue())
@@ -400,6 +591,7 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_wrong_region_missing_endpoint_and_ground_extra_endpoint_fail(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, points = self.configured()
         obj.Mode = "Ground"
         with self.assertRaisesRegex(ValueError, "empty End2"):
@@ -415,6 +607,7 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_nonfinite_stiffness_and_nonplaced_orientation_reference_fail(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, _ = self.configured()
         obj.OrientationReference = self.doc.addObject("App::FeaturePython", "NotPlaced")
         with self.assertRaisesRegex(ValueError, "placed"):
@@ -433,6 +626,7 @@ class TestElasticConnector(unittest.TestCase):
         from femsolver.mystran.writer import FemInputWriterMystran as Mystran
         from femsolver.z88.writer import FemInputWriterZ88 as Z88
         from femtools.elastic_connector import connectors
+
         analysis = ObjectsFem.makeAnalysis(self.doc)
         obj = self.connector()
         analysis.addObject(obj)
@@ -445,13 +639,17 @@ class TestElasticConnector(unittest.TestCase):
 
     def test_unsupported_analysis_and_legacy_foundation_are_rejected(self):
         from femtools.elastic_connector import validation_errors
+
         obj, mesh, _ = self.configured()
         analysis = ObjectsFem.makeAnalysis(self.doc)
         solver = ObjectsFem.makeSolverCalculiXCcxTools(self.doc)
         analysis.addObject(obj)
         self.assertEqual(validation_errors(analysis, solver, mesh), [])
-        for prop, value in (("AnalysisType", "frequency"), ("ModelSpace", "plane stress"),
-                            ("GeometricalNonlinearity", True)):
+        for prop, value in (
+            ("AnalysisType", "frequency"),
+            ("ModelSpace", "plane stress"),
+            ("GeometricalNonlinearity", True),
+        ):
             original = getattr(solver, prop)
             setattr(solver, prop, value)
             self.assertTrue(validation_errors(analysis, solver, mesh))
@@ -465,23 +663,27 @@ class TestElasticConnector(unittest.TestCase):
         self.assertEqual(validation_errors(analysis, solver, mesh), [])
         foundation = ObjectsFem.makeConstraintSpring(self.doc)
         analysis.addObject(foundation)
-        self.assertTrue(any("Elmer foundation" in error
-                            for error in validation_errors(analysis, solver, mesh)))
+        self.assertTrue(
+            any("Elmer foundation" in error for error in validation_errors(analysis, solver, mesh))
+        )
 
     def test_generated_node_set_collision_is_rejected(self):
         from femtools.elastic_connector import identifier
         from femtools.elastic_connector import validation_errors
+
         obj, mesh, _ = self.configured()
         analysis = ObjectsFem.makeAnalysis(self.doc)
         analysis.addObject(obj)
         solver = ObjectsFem.makeSolverCalculiXCcxTools(self.doc)
         conflict = ObjectsFem.makeConstraintFixed(self.doc, identifier("EC_END1_", obj))
         analysis.addObject(conflict)
-        self.assertTrue(any("collides" in error
-                            for error in validation_errors(analysis, solver, mesh)))
+        self.assertTrue(
+            any("collides" in error for error in validation_errors(analysis, solver, mesh))
+        )
 
     def test_save_reopen_preserves_endpoints_and_local_frame(self):
         from femtools.elastic_connector import resolve_connector
+
         obj, mesh, _ = self.configured()
         parent = self.doc.addObject("App::Part", "Parent")
         source = self.doc.addObject("Part::Feature", "SourceFrame")
@@ -500,14 +702,17 @@ class TestElasticConnector(unittest.TestCase):
             obj, mesh = self.doc.getObject(obj_name), self.doc.getObject(mesh_name)
             data = resolve_connector(obj, mesh)
             self.assertEqual(data["nodes"], [1, 2])
-            self.assertLess((data["rotation"].multVec(App.Vector(1, 0, 0))
-                             - App.Vector(0, 1, 0)).Length, 1e-12)
+            self.assertLess(
+                (data["rotation"].multVec(App.Vector(1, 0, 0)) - App.Vector(0, 1, 0)).Length, 1e-12
+            )
 
     def test_stock_export_includes_spring_element_orientation_and_decimal_stiffness(self):
         from femsolver.calculix.write_constraint_elastic_connector import write_connectors
+
         obj, mesh, _ = self.configured()
-        writer = SimpleNamespace(mesh_object=mesh, member=SimpleNamespace(
-            cons_elasticconnector=[{"Object": obj}]))
+        writer = SimpleNamespace(
+            mesh_object=mesh, member=SimpleNamespace(cons_elasticconnector=[{"Object": obj}])
+        )
         stream = io.StringIO()
         write_connectors(stream, writer)
         text = stream.getvalue()
@@ -530,12 +735,26 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
         block = doc.addObject("Part::Feature", "Block")
         block.Shape = Part.makeBox(1, 1, 1)
         material = ObjectsFem.makeMaterialSolid(doc)
-        material.Material = {"Name": "Synthetic patch", "YoungsModulus": "1000 MPa",
-                             "PoissonRatio": "0"}
+        material.Material = {
+            "Name": "Synthetic patch",
+            "YoungsModulus": "1000 MPa",
+            "PoissonRatio": "0",
+        }
         analysis.addObject(material)
         data = Fem.FemMesh()
-        for index, point in enumerate(((0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1),
-                                       (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)), 1):
+        for index, point in enumerate(
+            (
+                (0, 0, 1),
+                (1, 0, 1),
+                (1, 1, 1),
+                (0, 1, 1),
+                (0, 0, 0),
+                (1, 0, 0),
+                (1, 1, 0),
+                (0, 1, 0),
+            ),
+            1,
+        ):
             data.addNode(*point, index)
         data.addVolume(list(range(1, 9)))
         points = []
@@ -583,6 +802,7 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
 
     def solve(self, doc, analysis, solver):
         from femtools.ccxtools import FemToolsCcx
+
         prefs = App.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/General")
         overwrite = prefs.GetBool("OverwriteSolverWorkingDirectory", True)
         try:
@@ -606,13 +826,15 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
             prefs.SetBool("OverwriteSolverWorkingDirectory", overwrite)
 
     def values(self, data, title, name):
-        match = re.search(title + rf"[^\n]*for set {name.upper()}[^\n]*\n\s*\n([^\n]+)",
-                          data, re.IGNORECASE)
+        match = re.search(
+            title + rf"[^\n]*for set {name.upper()}[^\n]*\n\s*\n([^\n]+)", data, re.IGNORECASE
+        )
         self.assertIsNotNone(match, data)
         return [float(value) for value in match.group(1).split()[1:]]
 
     def test_exact_springs_ground_pair_and_rotated_direction(self):
         from femtools.elastic_connector import identifier
+
         for ground in (True, False):
             for angle in (0, 90):
                 for prescribed in (True, False):
@@ -633,8 +855,9 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
                                     name = identifier(f"EC_END{end}_", obj)
                                     action = self.values(data, "forces", name)
                                     for actual, axis in zip(action, direction):
-                                        self.assertAlmostEqual(actual, sign * force * axis,
-                                                               delta=1e-6)
+                                        self.assertAlmostEqual(
+                                            actual, sign * force * axis, delta=1e-6
+                                        )
                             elif not ground:
                                 action = self.values(data, "forces", identifier("EC_END2_", obj))
                                 for actual, axis in zip(action, direction):
@@ -644,24 +867,30 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
 
     def test_changed_native_reference_regenerates_actual_spring_and_actions(self):
         from femtools.elastic_connector import identifier
+
         doc, analysis, solver, obj, _ = self.model(False, 0, True)
         try:
             before = self.solve(doc, analysis, solver)
             name = identifier("EC_END1_", obj)
             self.assertAlmostEqual(self.values(before, "forces", name)[0], 300, places=6)
             block = doc.getObject("Block")
-            vertex = next(f"Vertex{index}" for index, shape in enumerate(block.Shape.Vertexes, 1)
-                          if shape.Point.Length < 1e-10)
+            vertex = next(
+                f"Vertex{index}"
+                for index, shape in enumerate(block.Shape.Vertexes, 1)
+                if shape.Point.Length < 1e-10
+            )
             obj.End2 = (block, [vertex])
             after = self.solve(doc, analysis, solver)
             self.assertAlmostEqual(self.values(after, "forces", name)[0], 200, places=6)
-            self.assertAlmostEqual(self.values(after, "forces", identifier("EC_END2_", obj))[0],
-                                   -200, places=6)
+            self.assertAlmostEqual(
+                self.values(after, "forces", identifier("EC_END2_", obj))[0], -200, places=6
+            )
         finally:
             App.closeDocument(doc.Name)
 
     def test_negative_actions_and_other_local_axes(self):
         from femtools.elastic_connector import identifier
+
         for ground in (True, False):
             for axis in ("Y", "Z"):
                 doc, analysis, solver, obj, direction = self.model(ground, 0, True, axis, -1)
@@ -677,6 +906,7 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
 
     def test_split_input_ground_force_case(self):
         from femtools.elastic_connector import identifier
+
         doc, analysis, solver, obj, direction = self.model(True, 90, False)
         try:
             solver.SplitInputWriter = True
@@ -689,6 +919,7 @@ class TestElasticConnectorCalculiX(unittest.TestCase):
 
     def test_explicit_parallel_connectors_add_without_stiffness_division(self):
         from femtools.elastic_connector import identifier
+
         doc, analysis, solver, obj, _ = self.model(True, 0, False)
         try:
             other = ObjectsFem.makeConstraintElasticConnector(doc)

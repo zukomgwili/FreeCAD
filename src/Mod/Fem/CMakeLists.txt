@@ -445,6 +445,9 @@ SET(FemTestsApp_SRCS
     femtest/app/test_tie_ownership.py
     femtest/app/test_tie_accounting_native.py
     femtest/app/test_moving_port_accounting_native.py
+    femtest/app/coupled_port_fixture.py
+    femtest/app/coupled_port_audit.py
+    femtest/app/test_moving_port_capacity_native.py
     femtest/app/test_material_orthotropic.py
     femtest/app/test_solver_elmer.py
     femtest/app/test_solver_mystran.py
@@ -458,6 +461,8 @@ SET(FemTestsFiles_SRCS
 
 SET(FemTestsCcx_SRCS
     femtest/data/calculix/__init__.py
+    femtest/data/calculix/coupled_port_capacity_fixture.json
+    femtest/data/calculix/coupled_port_capacity_oracle.json
     femtest/data/calculix/box_frequency.inp
     femtest/data/calculix/box_frequency.dat
     femtest/data/calculix/box_frequency.frd

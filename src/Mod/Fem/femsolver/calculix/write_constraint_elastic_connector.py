@@ -9,6 +9,11 @@ from femtools import elastic_connector
 
 def write_connectors(f, writer):
     mesh = writer.mesh_object
+    # The full writer owns one fresh context for this export. Direct callers
+    # receive a local context on every call, even when reusing a writer object.
+    context = getattr(writer, "port_resolution_context", None)
+    if context is None:
+        context = elastic_connector.PortResolutionContext(mesh, getattr(writer, "analysis", None))
     # Private export metadata binds accounting to the exact native element and
     # angular auxiliary identities written below. It never changes the mesh,
     # model constraints, ordinary deck or ordinary result channels.
@@ -18,13 +23,15 @@ def write_connectors(f, writer):
     next_node = None
     for item in writer.member.cons_elasticconnector:
         obj = item["Object"]
-        data = elastic_connector.resolve_connector(obj, mesh, getattr(writer, "analysis", None))
+        data = elastic_connector.resolve_connector(
+            obj, mesh, getattr(writer, "analysis", None), context
+        )
         elset = elastic_connector.identifier("EC_", obj)
         orientation = elastic_connector.identifier("EC_ORIENT_", obj)
         nodes = data["nodes"]
         if "bodies" in data:
             ports = [
-                elastic_connector.rigid_body_node_ids(writer.analysis, mesh, body)
+                elastic_connector.rigid_body_node_ids(writer.analysis, mesh, body, context)
                 for body in data["bodies"]
             ]
             nodes = [port[1 if data["rotational"] else 0] for port in ports]
@@ -35,7 +42,7 @@ def write_connectors(f, writer):
             # a scalar auxiliary DOF to its selected global rotation projection.
             # This is an algebraic port, not a translational spring/lever model.
             if next_node is None:
-                next_node = max(mesh.FemMesh.Nodes, default=0) + 2 * len(writer.analysis.Group) + 1
+                next_node = context.max_node_id + 2 * len(context.analysis_group) + 1
             axis = data["rotation"].multVec(
                 (FreeCAD.Vector(1, 0, 0), FreeCAD.Vector(0, 1, 0), FreeCAD.Vector(0, 0, 1))[
                     data["dof"] - 1
