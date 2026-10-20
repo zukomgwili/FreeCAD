@@ -1,0 +1,82 @@
+{
+  "schema": "FreeCAD-yzk-installation-collection-controls-review-v1",
+  "passed": true,
+  "reviewer": "/root/ywu_final_review",
+  "review_type": "Read-only Standards, Spec, privacy and custody source review; no helper import or execution",
+  "reviewed_files": {
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/audit_installation_v2.py": "03ff882e40884e6701cfad1fa34cac7bfcab5297333c83d430c8ded372d27169",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/collect_installation_v2.py": "fa02f68749641873d011bc58f60daaf922d1b5ce679c6b64425b4d717439d7a2",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/evidence_packet.py": "e1dffc23ecb44e2bf5f6617d59bd735915656705857877ae180733392c7d2c22",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/prepare_plan.py": "1b4f96bbd91d06443cda960843b4cd65f84dccbfb281a18a3fd7952512f8bec9",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/verify_publication.py": "c839613d3ce47948146f52692d10c7e1977ed955c7fbabbdcb273a7a76f04cb3",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/copy_installed_selection_v3.py": "af6e9f66b90f04a50cc66a3f3376dc03f95516933cb44d64698b1ccd6d317399",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/audit_installation.py": "cda901b37a831f9aa8c2f7bdc8d53a56990e79f450d8b86fd11626545c197fed",
+    "/private/tmp/freecad-yzk-install-gTbYLA/collection/collect_installation.py": "4754134f4dde647e385509ff1ccaedcdad292ca429cf79a0f80d6b832cde31b5"
+  },
+  "standards": {
+    "outstanding_findings": [],
+    "assessment": "No blocking documented-standard or maintainability violation identified in this operational source review. New-only explicit outputs, immutable-input maps, literal configuration parsing, separated file encoding and semantic admission, and unoptimized action guards remain coherent. No lint or test execution is claimed."
+  },
+  "spec": {
+    "outstanding_findings": [],
+    "assessment": "All six fast app gates, installed132 and separate installed cold are required before final audit. Stage origins use recorded sealed-image lookups and are never rebound to the absent stage path. Current766/+224/native6c identity and exact405/8/5-plus-identity counts remain required. Legacy qualification is explicitly inherited source+223/cf23 evidence for the identical native bytes, not a fresh installed legacy run. The packet is intentionally not a full geometry replay archive."
+  },
+  "privacy_and_custody": {
+    "outstanding_findings": [],
+    "assessment": "Explicit SHA-approved input plans and new-only publication remain required. Raw app/profile inventories, credentials, configuration files, runtime/vendor bytes, cache trees and saved FCStd/FRD are excluded from payloads. The16-file generic capsule explicitly includes Mesh.inp geometry. Every allowed file remains at most32MiB; original, decoded and stored hashes and sizes are retained with deterministic gzip and exact membership checks."
+  },
+  "outstanding_findings": [],
+  "resolved_findings": [
+    {
+      "priority": 2,
+      "original_file": "/private/tmp/freecad-yzk-install-gTbYLA/collection/audit_installation.py",
+      "original_lines": "164-165,392-410,476-481",
+      "finding": "Hash-only references were checked once but omitted from the final fixed-input fence; live protected trees and16critical metadata pins were checked only at entry.",
+      "resolution": "V2 ref() records fixed expected hashes and rejects conflicting expectations. Final fences recheck all referenced originals, all three live protected profile trees,16 full critical filesystem/hash stamps and11 namespace files, as well as APP/BACKUP and captured/publication bytes.",
+      "status": "Closed by full-original and complete frozen-v2-delta read"
+    },
+    {
+      "priority": 2,
+      "original_file": "/private/tmp/freecad-yzk-install-gTbYLA/collection/audit_installation.py",
+      "original_lines": "444-449",
+      "finding": "The inherited summary was labelled specifically source+223/cf23 without directly pinning its own source identity, schema or exact bytes.",
+      "resolution": "V2 pins exact source summarydbe58b84d047dff45cab813f6aa1fc3f694a951eb840b4f55a36e995febab58b, its source-validation schema, implementation commitcf23c61504c9a25699899a87b68571b86de37438 and revision49261+223. Native6c and C/hooks/observed-contract pins still gate transfer; no legacy rerun is claimed.",
+      "status": "Closed by frozen-v2 delta and prior-source schema recheck"
+    }
+  ],
+  "final_delta_checks": [
+    "Literal fixture9142f5aa4d149aa1f0d518a592a78638f9489fb3e245af67ea4fd463e5b8ae22 and oracle42fa6289fd9e1f80efa56db27c02c06a5454ed9880f7ca61bfd80992dfb251b8 are required both in the witness and current JSON originals.",
+    "All3566 unique checks retain finite three-vector actual/reference arithmetic and positive declared scales, with3302 checks at1percent and264 at5percent. Relative errors are independently recomputed from recorded vectors; this is not a new solver or independently reimplemented physical oracle.",
+    "The actual installed16-file selection, original/copy equality, imported2113-declaration provenance and owned-child capacity echo remain cross-bound to the successful installed execution, manifest, identity, witness and separate literal cold receipt.",
+    "New audit/collector-v2 sources are explicitly archived. Original v1 audit/collector and superseded copy proposals remain preserved and honestly labelled unexecuted drafts. Collector-v2 changes only its Audit import.",
+    "The collector recomputes the saved final audit before check-only or publication, requires exact plan membership, and does not turn missing or incomplete capacity/cold receipts into PASS. The immediate verifier reads exact stored/decoded/original bytes and plan/index/summary hashes without invoking the collector.",
+    "Signature status stays derived from successful reviewed stage/swap strict checks plus unchanged sealed APP bytes, not from a new codesign process.16 selected dependency pins are not an entire-prefix guarantee."
+  ],
+  "parallel_spec_review": {
+    "reviewer": "/root/ywu_final_review/installed_fast_gates",
+    "transcribed_from_child_message_not_child_written_receipt": true,
+    "original_axis_findings": [],
+    "final_v2_delta_findings": [],
+    "assessment": "Child independently confirms custody end-fence closure, exact frozen fixture/source identity, honest draft labels, unchanged pending-gate/privacy/acceptance/historical-stage requirements and the collector import-only delta.",
+    "delegation_limit": "One child slot was available; main reviewed Standards and controls while the child reviewed Spec/privacy/custody."
+  },
+  "independence_disclosure": {
+    "this_reviewer_authored_collection_helpers": false,
+    "prior_native_C_hooks_and_cache_lifetime_test_authorship": true,
+    "prior_product_QA_deployment_and_publication_reviews": true,
+    "claim": "Independent source/control review of these collection helpers, not organizational independence or independent physics implementation authorship"
+  },
+  "limits": {
+    "helpers_imported_or_executed": false,
+    "native_app_query_codesign_build_test_stage_install_or_collector_executed": false,
+    "active_installed_capacity_directory_read_or_changed": false,
+    "actual_installed_capacity_or_separate_cold_PASS_claimed": false,
+    "actual_final_audit_plan_collection_or_publication_PASS_claimed": false,
+    "engineering_or_BIM_accepted": false,
+    "Oomakhi_accessed_or_solved": false,
+    "R49_R51_failures_or_original_acceptance_limits_relaxed": false,
+    "FreeCAD_882_closure_claimed": false,
+    "whole_dependency_environment_unchanged_claimed": false,
+    "only_write": "/private/tmp/freecad-yzk-install-gTbYLA/collection/collection-controls-review-r01.json"
+  }
+}

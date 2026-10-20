@@ -1,0 +1,36 @@
+FreeCAD Local Release built from 7667033a14654a9b229bf59b94cb3012ce989170.
+20 October 2026, version 27.1.0dev49261+224 (Git).
+
+Includes FreeCAD-yzk and FreeCAD-529: scalable native V3 declaration storage,
+multiword body ownership and operation-local port resolution. The complete
+active physical graph is checked before expensive stock export. V3 uses the
+shared CCX_FORCE_ACCOUNTING_MAX_DECLARATIONS budget, default 65536; this is
+a resource policy, not a memory, performance or engineering guarantee.
+The qualified analytical graph has 132 coupled two-port bays joined by one
+finite backbone, 264 moving finite-face ports and 2113 total declarations.
+Original 1% wrench/original-
+origin-moment and local generalized-force/couple limits, and 5% differential-
+response limits, are unchanged. V1/V2 domains are preserved.
+
+Includes earlier ywu/y44, 5ar, ro1, 927, 89o, 3sc, 4jb, 9zt and recent fixes.
+Internal moving ports are not external supports. Saved NativeAccountingSupports
+semantics, stock ownership/domain guards and historical cold provenance remain.
+Cold accounting is Stale until a fresh normal export and native solve; no saved
+path, status, hash or fingerprint is repaired. FreeCAD-882 separately tracks
+remaining large-export performance; no pipeline timing guarantee is made.
+
+The native solver and source/contract/license are in data/NativeSolvers.
+This host-local app still requires the existing dependency environment:
+/Users/zukomgwili/src/FreeCAD/.pixi/envs/default
+It is not self-contained or notarized. Existing native launchers, patched Qt,
+dependency links and canonical Ext/freecad namespace are retained. Preferences
+and material libraries are not migrated. Typed Array2D needs a compatible reader.
+
+Rollback: quit FreeCAD, move this app aside and restore the exact prior app:
+/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-yzk-6cdc1affda.app
+Older rollback backups are not replaced or modified.
+
+Software qualification is not engineering, house, anchorage, R30 or BIM acceptance.
+Oomakhi is not opened, altered, remeshed or solved. R49 11.123267892% and R51
+5.240441298% remain FAIL against 5%; original 1% equilibrium and all physical
+geometry, loads, sample, paired-cut, support/contact/slip/overclosure duties remain.

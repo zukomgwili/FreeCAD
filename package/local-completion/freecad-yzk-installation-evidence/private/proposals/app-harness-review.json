@@ -1,0 +1,76 @@
+{
+  "schema": "FreeCAD-yzk-application-harness-code-review-v1",
+  "review_date": "2026-10-20",
+  "passed": true,
+  "passed_scope": "Source-code review of the exact three final proposal files listed below, including focused re-review of the revised runner; not actual staged or installed application qualification, installation, or evidence publication.",
+  "reviewer": {
+    "identity": "/root/5ar_evidence/source_packet_review",
+    "delegating_agent": "/root/5ar_evidence",
+    "authored_reviewed_helpers": false,
+    "authored_this_review_receipt": true,
+    "independence_disclosure": "Separate review subagent within the same task, sharing repository access and inherited context. The reviewer did not author or modify these harness helpers. This is not an independent engineering audit or an independently executed runtime qualification."
+  },
+  "reviewed_files": [
+    {
+      "name": "run_app_v2.py",
+      "path": "/private/tmp/freecad-yzk-install-gTbYLA/proposals/run_app_v2.py",
+      "intended_adopted_name": "run_app.py",
+      "lines": 274,
+      "sha256": "d7bb1dc4004bc472961e3fcfefcbbb6b9c14e738382d8f3d2b19b274d50a3b36"
+    },
+    {
+      "name": "AppYzkIdentity.py",
+      "path": "/private/tmp/freecad-yzk-install-gTbYLA/proposals/AppYzkIdentity.py",
+      "lines": 299,
+      "sha256": "e4a6b5f645b570b6afde88c09ec5fc63e2362e1ea3556fcc2e1d0fc652b78c1a"
+    },
+    {
+      "name": "YzkPortableColdRestore.py",
+      "path": "/private/tmp/freecad-yzk-install-gTbYLA/proposals/YzkPortableColdRestore.py",
+      "lines": 85,
+      "sha256": "164691a5afeedbee55f47841ed9a064c9addbb37e89d143f36de4d5d927b4c51"
+    }
+  ],
+  "review_method": {
+    "all_three_initial_sources_read_completely": true,
+    "runner_revision_compared_with_preserved_initial_proposal": true,
+    "final_file_hashes_and_line_counts_rechecked": true,
+    "final_sources_AST_parsed_without_execution": true,
+    "original_ywu_harness_sources_compared_read_only": true,
+    "current_public_capacity_preflight_source_inspected_read_only": true,
+    "prior_source_portable_log_and_duration_inspected_read_only": true,
+    "helpers_imported_or_executed": false,
+    "native_or_application_execution_performed": false,
+    "build_test_solver_or_installation_execution_performed": false,
+    "product_or_existing_harness_edits_performed": false,
+    "write_scope": "Only this new private review receipt."
+  },
+  "reviewed_controls": {
+    "configuration": "The reviewed helpers use root-supplied harness_config pins. At inspection, those pins were commit 7667033a14654a9b229bf59b94cb3012ce989170, revision 49261 +224 (Git), and native candidate SHA256 6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66. Root must freeze and hash-bind the adopted helpers and config before first application execution.",
+    "literal_application_identity": "The identity checks application home, command/GUI runtime revision, actual process executable, loaded native module and application-library origins, copied FEM Python modules and capacity JSON, and default bundled solver selection. It rejects source/build import substitution and candidate overrides.",
+    "registered_and_selected_suites": "The identity expects 405 registered TestFemApp methods and 8 TestFemGui methods. The runner requires selected count plus one identity test, unique actual selected method IDs, matching raw test count, no selected skips, and clean unittest status. The expensive 132-bay test remains outside default TestFemApp and requires an explicit dedicated count-two, timeout-1800 invocation.",
+    "process_controls": "The runner uses the existing bounded owned-process-group helper with null stdin, isolated per-run application settings and temporary roots, source/build/harness snapshots, application and scoped user-state preservation checks, selected dependency-pin verification, and a captured post-run serial guard before persisting the final execution receipt.",
+    "capacity_scope": "The identity's empty-analysis public 2113-budget query is explicitly not physical qualification. The dedicated public test remains responsible for all frozen 3566 physical comparisons. The supervisor binds the witness and retained files, literal application solver path and SHA, imported 2113-declaration capacity, and one exact owned-child applied-capacity stdout echo; it does not replace the physical oracle.",
+    "cold_custody": "The cold input preparation binds seven originals: the cold manifest, saved FCStd, and five literal native source files. The cold helper differs from its prior 85-line source by exactly one source-path selection line. It checks the supervisor-bound hashes, frozen public oracle files, literal historical accounting and movement data, references and selected properties, and Stale status after open and recompute without save, solve, or provenance repair.",
+    "engineering_holds": "Only separate generic software fixtures are in scope. No Oomakhi or other engineering-model access, modification or solve was performed by this review, and no engineering or BIM acceptance is claimed. Diagnostic durations are not an SLA or qualification substitute."
+  },
+  "resolved_findings": [
+    {
+      "initial_file": "/private/tmp/freecad-yzk-install-gTbYLA/proposals/run_app.py",
+      "initial_sha256": "8f2d71a7d1631ff6d4de231864b7ed15fc28e4a43c8fe17a6f3c27f88851d280",
+      "initial_lines": 268,
+      "finding": "The initial runner wrote execution.json before its trailing serial guard. If that guard failed, the invocation would exit exceptionally while the saved receipt could still claim PASS.",
+      "verified_resolution": "The revised runner captures the post-run serial guard result or error before writing execution.json, explicitly requires the recorded guard flag for passed, and removes the old after-write guard. The focused diff contains only this control-flow correction."
+    }
+  ],
+  "outstanding_findings": [],
+  "outstanding_finding_count": 0,
+  "scope_disclosures": {
+    "root_adoption_or_execution_performed_by_reviewer": false,
+    "staged_or_installed_qualification_pass_claimed": false,
+    "installation_or_publication_pass_claimed": false,
+    "raw_profile_inventory_bodies_included": false,
+    "secret_or_environment_dictionaries_included": false,
+    "remaining_requirement": "Root alone adopts the exact reviewed proposal bytes, binds the config and supporting controls, executes the authorized serial staged and installed gates, and assesses actual completed receipts. This source review does not substitute for those results."
+  }
+}

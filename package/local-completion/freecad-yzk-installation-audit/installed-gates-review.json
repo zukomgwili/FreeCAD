@@ -1,0 +1,102 @@
+{
+  "schema": "FreeCAD-yzk-installed-final-gates-independent-review-v1",
+  "passed": true,
+  "reviewer": "/root/ywu_final_review",
+  "scope": "Actual completed installed132-bay and separate installed cold receipts, inputs, logs, hashes and recorded-vector arithmetic; no new native execution.",
+  "findings": [],
+  "installed_physical": {
+    "all_fixed_hash_references_end_fenced": 543,
+    "applied_budget": 2113,
+    "cold_manifest_sha256": "75ee739ded1b7e3610cbf3ea5ae7ab749770aeb76f4342c3160aa26baaeab7fb",
+    "elapsed_seconds": 1219.9020520418417,
+    "engineering_acceptance": false,
+    "execution_sha256": "ab8c825054821d8b0478ccaa04a903879e122b9c153e6e630256c7913ea14ebe",
+    "findings": [],
+    "frozen_check_names_and_limits_equal_prior_portable": true,
+    "identity_sha256": "69a612a35b9f2cbfb090cd555e8f07114529d40b92481b1060d708a5a9b6ada9",
+    "log_sha256": "6a6e23a5f95a65c94765a93fa62502ca045c1cbeb3eac97ea7bda73cba6a2115",
+    "manifest_sha256": "6e7ed4e3e8708d23fdef85fafc6833b8c49c2724915615f46377e8b91fff94e7",
+    "maximum_relative_error": 5.000000000837668e-7,
+    "original_native_source_sha256": {
+      "dat": "939a2234dfc5eaad9add91a391fb34767243b29b66c5ad5188d3b9058102458b",
+      "deck": "1e21fe31ee296e10a6d6c7870c0ea4d270aa6b6da5d6185083c8509e75be70d5",
+      "frd": "3c86771ec4001be41d62e434b5bd0548347251c425b49a1312cb253991ad72bd",
+      "native_output": "c90e36e0a0516f0ed813c83c66b684e8f0ae5ed5bf78c70cfcf6358b3c8bbb41",
+      "request": "59ff7b58b047b94b308e5bf5f1209dc329c6e2535b1369a8286685a151b1cdee"
+    },
+    "passed": true,
+    "per_limit_counts": {
+      "five_percent": 264,
+      "one_percent": 3302
+    },
+    "physical_checks_independently_recomputed": 3566,
+    "physical_graph_counts": {
+      "angles": 792,
+      "bodies": 264,
+      "ports": 264,
+      "springs": 792,
+      "supports": 1
+    },
+    "physical_load_checks_recomputed": 266,
+    "retained_original_count": 26,
+    "saved_model_sha256": "a6da6ebfd6ded4cd75af3a4f1addc99c725786fb059c7611ddf83f1602e068ba",
+    "selected_methods": [
+      "femtest.app.test_moving_port_capacity_native.TestMovingPortCapacityNative.test_complete_132_bay_graph_obeys_the_native_declaration_budget"
+    ],
+    "separate_cold_claimed_by_this_audit_part": false,
+    "skipped": 0,
+    "source_identity": {
+      "commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+      "native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+      "revision": "49261 +224 (Git)"
+    },
+    "stock_write_inp_file_seconds_diagnostic_only": 1122.6550142499618,
+    "total_tests": 2,
+    "witness_sha256": "8bf09e2a1a6d95df0020a5bdc6657c0b77ebe7a9be7c6e7f2fab2b06f90d2b69"
+  },
+  "installed_cold": {
+    "passed": true,
+    "reviewer": "/root/ywu_final_review/installed_fast_gates",
+    "transcribed_from_child_message_not_child_written_receipt": true,
+    "total_tests": 2,
+    "selected_methods": 1,
+    "identity_tests": 1,
+    "skipped": 0,
+    "recorded_unittest_seconds": 8.814,
+    "recorded_outer_seconds": 9.68915474996902,
+    "current_frozen_input_hashes_checked": 512,
+    "current_critical_file_stamps_checked": 16,
+    "reference_sets_checked_by_pinned_cold_source": 529,
+    "native_property_objects_checked_by_pinned_cold_source": 1719,
+    "literal_resultants_checked_by_pinned_cold_source": 265,
+    "status": "Stale after restore; rerun to establish current native accounting",
+    "no_solve_save_or_history_repair": true,
+    "sha256": {
+      "execution": "d848dfe322923efc9a25023f92be241905eaa762c6bd76edb5bda478a2a37316",
+      "manifest": "a6c5eb34b6bb66245e449fc5d13e81632412e833868c2e1a46e7506f0d69faae",
+      "identity": "749e33fe26931ae27113abfe9da129df22d9e0ebe5ca92b1beecdf0b23349298",
+      "raw_log": "f5e95d5021c70e436c3d76eede75d6de4650fb253d4ee1468c83d6b4d5fe4c93",
+      "cold_receipt": "e863f967eeaf9c88088fbef5667f583e0b074af42cdf034f00d9dd31b44e95d1",
+      "original_cold_case": "75ee739ded1b7e3610cbf3ea5ae7ab749770aeb76f4342c3160aa26baaeab7fb",
+      "literal_accounting": "5c683dab3c15536d37bc327c30880c5ea40b867e9d418e3efec9ddac3c449f91"
+    },
+    "claim_boundary": "Native reopen/reference/property assertions are receipt-backed results of the pinned cold test. Reviewer did not reopen the model independently."
+  },
+  "independence_disclosure": {
+    "prior_native_C_hooks_and_cache_lifetime_test_authorship": true,
+    "prior_product_QA_deployment_and_publication_reviews": true,
+    "this_reviewer_executed_product_gates": false,
+    "claim": "Fresh independent file/hash/JSON/log and recorded-vector norm audit, not independently reimplemented FE physics or organizational independence."
+  },
+  "limits": {
+    "native_app_query_codesign_build_test_stage_install_or_QA_helper_executed": false,
+    "QA_helpers_imported": false,
+    "repository_or_executed_QA_bytes_changed": false,
+    "engineering_or_BIM_accepted": false,
+    "Oomakhi_accessed_or_solved": false,
+    "R49_R51_failures_or_acceptance_limits_relaxed": false,
+    "FreeCAD_882_closure_claimed": false,
+    "final_publication_PASS_claimed_by_this_gate_receipt": false,
+    "only_write": "/private/tmp/freecad-yzk-install-gTbYLA/collection/installation-final-gates-review-r01.json"
+  }
+}

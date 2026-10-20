@@ -1,0 +1,83 @@
+{
+  "schema": "FreeCAD-yzk-deployment-controls-review-v1",
+  "passed": true,
+  "reviewer": "/root/ywu_final_review",
+  "review_type": "Read-only source, diff and hash review; not execution qualification",
+  "source_identity": {
+    "commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+    "revision": "49261 +224 (Git)",
+    "native_candidate_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "native_schema": "CCX_FORCE_ACCOUNTING_V3"
+  },
+  "reviewed_files": {
+    "/private/tmp/freecad-yzk-install-gTbYLA/stage_install.py": "e3722c04a0231a1be99532dbb89cd937c628564879c2190440d3c5c384ab2f8c",
+    "/private/tmp/freecad-yzk-install-gTbYLA/preservation.py": "30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989",
+    "/private/tmp/freecad-yzk-install-gTbYLA/critical_pins.py": "15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9",
+    "/private/tmp/freecad-yzk-install-gTbYLA/harness_config.py": "5a0b5aeaa2dd12ef1812a7f9e54bf5c7b0d02ad8f8e0573cbb225b6f0a06d3e2",
+    "/private/tmp/freecad-yzk-install-gTbYLA/LOCAL-INSTALL.txt": "973c4931b2b9a99098adfafaeea03a80d96fea42a7edac99921b2981015229fd",
+    "/private/tmp/freecad-yzk-install-gTbYLA/audit_payload_stage.py": "d2dd63a5dd9d9868816777e3af75fa06798f93910c56cf25b7a2ad51117ddaf3",
+    "/private/tmp/freecad-yzk-install-gTbYLA/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/private/tmp/freecad-yzk-install-gTbYLA/run_app.py": "d7bb1dc4004bc472961e3fcfefcbbb6b9c14e738382d8f3d2b19b274d50a3b36",
+    "/private/tmp/freecad-yzk-install-gTbYLA/history/run_app-adopted-v1-unexecuted.py": "8f2d71a7d1631ff6d4de231864b7ed15fc28e4a43c8fe17a6f3c27f88851d280",
+    "/private/tmp/freecad-yzk-install-gTbYLA/AppYzkIdentity.py": "e4a6b5f645b570b6afde88c09ec5fc63e2362e1ea3556fcc2e1d0fc652b78c1a",
+    "/private/tmp/freecad-yzk-install-gTbYLA/YzkPortableColdRestore.py": "164691a5afeedbee55f47841ed9a064c9addbb37e89d143f36de4d5d927b4c51",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9"
+  },
+  "standards": {
+    "outstanding_findings": [],
+    "assessment": "Private operational helpers retain explicit new-only output paths, unoptimized execution guards on new action entrypoints, fixed app/stage/backup targets, frozen helper and configuration provenance, bounded owned-process cleanup, and private inventory handling. No new blocking maintainability or control issue found. This is not a new lint execution."
+  },
+  "spec": {
+    "outstanding_findings": [],
+    "assessment": "The adapter changes configuration and pre-swap catalogue only; original staging, native normalization, signing, exact sealed-image rename, signal handling and exception rollback bodies remain in the immutable helper. Native/source identity is current+224/766 and6c0245. Stage acceptance is405FEM+identity,8GUI+identity and5moving+identity. Full installed132-bay and separate cold qualification remain required after swap and are not falsely claimed by these source reviews."
+  },
+  "resolved_findings": [
+    {
+      "priority": 2,
+      "finding": "New stage admission omitted the old gate-to-critical-baseline SHA binding and did not recheck the current full16-file critical snapshot before swap admission.",
+      "resolution": "accepted() now compares report critical_before_DESTDIR_sha256 with the current captured receipt; check_stage_receipts() calls critical_pins.verify(). Additional manifest_unchanged and manifest-to-identity-to-current-file SHA equality closes provenance links.",
+      "status": "Closed by read-only source recheck before any staging/app action"
+    },
+    {
+      "priority": 3,
+      "finding": "LOCAL-INSTALL called the132 bays independent although they are physically coupled by one finite backbone.",
+      "resolution": "The deployed note now says132 coupled two-port bays joined by one finite backbone.",
+      "status": "Closed by read-only text recheck"
+    }
+  ],
+  "reviewed_controls": [
+    "Immutable original installer SHA is checked before loading; adapter preserves its own file/name while explicitly configuring ROOT, stage, backup, commit, revision, native SHA and yzk source/JSON parity entries.",
+    "Payload/stage/custody audit SHA, commit, revision, complete native set/count/hash, exact sealed inventory, critical receipt, profiles/namespace counts and strict-signature assertions are cross-bound before swap.",
+    "Gate identities and logs are hash-bound; before/after application inventories must equal the same sealed image, and before/after custody receipts must be equal. Source/build/helper input bytes are rechecked.",
+    "The inherited395/ywu installed validator is replaced by a fail-fast rejection to prevent accidental historical acceptance. A separate final installed audit is still required.",
+    "The actual bundle wrapper is selected, not build/source executables; environment import/candidate/dynamic-loader overrides are stripped, profiles are isolated, stdin is null, and exact process_control5199 owns bounded cleanup.",
+    "The final distinct runner revision moves and broadens the post-run serial guard before execution receipt publication. Its failure is folded into passed:false before writing, rather than raising only after a potentially passing receipt. Adopted unexecuted v1 is preserved as history; both revisions were read and compared without execution.",
+    "App identity checks actual native/Python origins, source parity, capacity JSON copies, current revision, registered Tie4/moving5 methods, unique non-skipped selected IDs, and exact configured totals. Every selected method must appear exactly once in the raw unittest log.",
+    "The capacity-policy identity query uses an empty native analysis and is expressly not physical qualification; the expensive installed public test remains a separate explicit gate with the original3566 checks and2113 exact-budget applied-child provenance.",
+    "The cold helper changes only the pinned manifest source to the explicit supervisor environment input. It retains original FCStd plus five native source pins, literal accounting/resultants/movement/reference/property/support checks, Stale status and no solve/save/repair behavior."
+  ],
+  "delegation": {
+    "initial_spec_axis_reviewer": "/root/ywu_final_review/publication_scope_axis",
+    "initial_spec_axis_result": "No additional scope blocker; noted inherited historical installed validator interface, subsequently replaced with fail-fast rejection.",
+    "final_delta_parallel_review_available": false,
+    "limitation": "Follow-up delegation was unavailable because all four concurrency slots were occupied. Main reviewer read the final deltas and app/identity/cold helpers directly along both axes."
+  },
+  "independence_disclosure": {
+    "prior_native_C_hooks_and_cache_lifetime_test_authorship": true,
+    "prior_product_and_QA_helper_reviews": true,
+    "this_reviewer_authored_deployment_adapter_or_app_helpers": false,
+    "claim": "Independent review of deployment operational source and provenance, not organizational independence or independent physics implementation authorship"
+  },
+  "limits": {
+    "native_app_solver_mesher_build_test_stage_install_capture_or_helper_executed": false,
+    "repository_or_executed_QA_bytes_changed": false,
+    "only_write": "/private/tmp/freecad-yzk-install-gTbYLA/proposals/deployment-review.json",
+    "actual_payload_stage_installed_or_cold_PASS_claimed": false,
+    "engineering_or_BIM_accepted": false,
+    "Oomakhi_accessed_or_solved": false,
+    "original_R49_R51_failures_unchanged": true,
+    "FreeCAD_882_still_open": true,
+    "critical_dependency_claim_scope": "16 selected files, not the entire dependency prefix",
+    "profile_inventory_bodies_remain_private": true
+  }
+}

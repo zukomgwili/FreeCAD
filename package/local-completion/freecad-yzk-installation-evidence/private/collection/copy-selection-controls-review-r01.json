@@ -1,0 +1,61 @@
+{
+  "schema": "FreeCAD-yzk-installed-selection-controls-review-v1",
+  "passed": true,
+  "reviewer": "/root/ywu_final_review",
+  "review_type": "Full read-only final source and original-to-final diff review, no helper execution",
+  "reviewed_final": {
+    "path": "/private/tmp/freecad-yzk-install-gTbYLA/collection/copy_installed_selection_v3.py",
+    "sha256": "af6e9f66b90f04a50cc66a3f3376dc03f95516933cb44d64698b1ccd6d317399"
+  },
+  "reviewed_original_unexecuted_draft": {
+    "path": "/private/tmp/freecad-yzk-install-gTbYLA/collection/copy_installed_selection.py",
+    "sha256": "676f02741344922d0f56bcf3752ff3e06dc389f75e7b0b459997c61cfd34b6bd"
+  },
+  "outstanding_findings": [],
+  "resolved_findings": [
+    {
+      "priority": 2,
+      "finding": "Separate hash and JSON-read operations plus later receipt hash recapture could lose exact binding to the caller-approved execution bytes and the qualified witness bytes.",
+      "resolution": "Final v3 captures execution, manifest, identity and witness bytes once, hashes and parses those same bytes, seeds fixed original hashes, copies the identical captured witness bytes, rejects a self-receipt retained-file override, fences all originals before and after copy, and reasserts the exact caller execution SHA after copy.",
+      "status": "Closed by final full-source/diff review"
+    },
+    {
+      "priority": 3,
+      "finding": "The old geometry-not-copied custody label was too broad because the approved native/Mesh.inp deliberately contains generic finite-element geometry.",
+      "resolution": "Final v3 excludes only FCStd/FRD/other large geometry artifacts, explicitly declares generic native input geometry in Mesh.inp is copied, and retains software-QA-only/no-engineering-model-or-acceptance scope.",
+      "status": "Closed by final full-source/diff review"
+    }
+  ],
+  "reviewed_controls": [
+    "One mandatory caller-approved execution SHA; literal installed APP path,7667033a14654a9b229bf59b94cb3012ce989170/+224 identity, V3 native6c0245, module and2-test total must match an already successful owned/reaped non-timeout serial gate.",
+    "Manifest/identity hashes, unchanged source/build/harness maps, application/profiles and selected critical-pin PASS fields remain required. This copier consumes receipt-backed proof; it does not independently execute product qualification.",
+    "Exactly16 constant known generic proof files are selected, each at most32MiB. Every other declared retained artifact is checked and represented only by its original path, size and hash. No broad profile/cache inventory or tree is copied.",
+    "All selected non-self-receipt payloads are compared with immutable retained_files sizes and hashes. The copied witness receipt is the same captured/hash-qualified payload that was parsed.",
+    "Current original bytes and helper SHA are checked before destination creation and after copying. Destination is new-only and not a link; output files are opened exclusively. Path and ancestor-link guards are retained.",
+    "The full3566 unique named checks retain1percent/5percent finite relative-error limits; public-interface/no-mock/no-deck-patch and no engineering-project or BIM-acceptance fields remain required.",
+    "Imported counts and owned-child stdout must agree on2113 declarations:1support,264bodies,264ports,792angles and792springs. Original paths, statuses and fingerprints are neither rebound nor repaired.",
+    "All validation and copying stay file/JSON/hash operations. No native/app/query/sign/build/test/install process is launched by this helper. A copy failure is not silently promoted to a passing custody receipt."
+  ],
+  "prior_completed_gate_audit": {
+    "path": "/private/tmp/freecad-yzk-install-gTbYLA/collection/completed-deployment-gates-audit-r01.json",
+    "sha256": "9b2507a5825844c8d916d17fa7fb7d34d0e0f1413ae5618336ac579494d609c3",
+    "scope": "Separate completed build/deployment/fast-gate actual audit; explicitly not installed132/cold PASS"
+  },
+  "independence_disclosure": {
+    "copy_helper_authored_by_this_reviewer": false,
+    "prior_native_C_hooks_and_cache_lifetime_test_authorship": true,
+    "prior_product_QA_and_deployment_reviews": true,
+    "claim": "Independent source/control review of the copier, not organizational independence or independent physics implementation authorship"
+  },
+  "limits": {
+    "copy_helper_executed_or_copies_performed": false,
+    "native_app_query_codesign_build_test_stage_install_or_QA_helper_executed": false,
+    "actual_installed_capacity_or_separate_cold_PASS_claimed": false,
+    "new_private_review_receipt_only": true,
+    "original_executed_QA_or_repository_bytes_changed": false,
+    "engineering_or_BIM_accepted": false,
+    "Oomakhi_accessed_or_solved": false,
+    "R49_R51_failures_or_original_acceptance_limits_relaxed": false,
+    "entire_dependency_environment_unchanged_claimed": false
+  }
+}
