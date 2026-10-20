@@ -1,0 +1,139 @@
+{
+  "schema": "FreeCAD-882-accounting-provenance-static-coverage-map-v1",
+  "reviewer": "/root/5ar_evidence/profile_plan_review",
+  "scope": "Static source map of only the two named test files; no statement that these tests have been executed or passed in this review, and no claim that listed gaps are absent from other files.",
+  "sources": {
+    "test_force_accounting.py": {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_force_accounting.py",
+      "sha256": "94808308704e48ac28966565072d1954bdc9452ceb60782834ca57094e989f4f",
+      "lines": 732,
+      "fully_read": true
+    },
+    "test_movement_provenance.py": {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_movement_provenance.py",
+      "sha256": "7675fd7d89ac88149a500b3e4f2d1b65f7ea269d9abb20b1585f8f85bd87820a",
+      "lines": 367,
+      "fully_read": true
+    }
+  },
+  "fixture_and_seam_classification": [
+    {
+      "file": "test_force_accounting.py",
+      "line": 26,
+      "helper": "make_native_model",
+      "classification": "Concrete native FreeCAD document, Part box, ObjectsFem analysis/material/mesh and Fem.FemMesh with four sequentially numbered nodes and one tetrahedron. No mesher or CalculiX solve is used."
+    },
+    {
+      "file": "test_force_accounting.py",
+      "line": 60,
+      "helper": "make_import_context",
+      "classification": "SimpleNamespace fea plus literal hand-authored V1 deck/request/output and a synthetic solver identity file that is never executed. Uses private _model_digest to create import metadata; this is import-boundary/model-identity coverage, not public export or solver accuracy qualification."
+    },
+    {
+      "file": "test_movement_provenance.py",
+      "line": 28,
+      "helper": "setUp and engine at line71",
+      "classification": "Concrete native FreeCAD box/one-tetra mesh and FemToolsCcx in test_mode. Input deck/request/metadata are hand-authored. engine creates a real executable Python subprocess fixture for policy queries and synthetic output bytes, not a CalculiX structural solve."
+    }
+  ],
+  "coverage": [
+    {
+      "behavior": "Real model edits invalidate previously acceptable import context",
+      "tests": [{"file":"test_force_accounting.py","line":127,"name":"test_real_model_edits_during_solve_cannot_import_current"}],
+      "assertions": "A control import first succeeds. Each subsequent real change must fail with model_digest mismatch and stale the control result: material dictionary, box shape, replaced native mesh coordinates/connectivity, ElementGroupReferences, gravity, contact stiffness/references, rigid-body ReferenceNode/prescribed mode, section References/AccountingBody and solver nonlinearity.",
+      "boundary": "Native FreeCAD objects; fake import context, no public writer or child solve. The mesh changes replace the FemMesh, not an actual Gmsh remesh."
+    },
+    {
+      "behavior": "Deck/request/solver-byte freshness and exact requested filename",
+      "tests": [
+        {"file":"test_force_accounting.py","line":180,"name":"test_changed_solver_files_during_solve_cannot_import_current"},
+        {"file":"test_movement_provenance.py","line":351,"name":"test_dotted_input_name_runs_exact_requested_deck_not_neighboring_deck"}
+      ],
+      "assertions": "Changed deck, request or binary bytes reject import before output parsing. Dotted basename selects model.v1.inp and binds the resulting source to that exact deck rather than neighboring model.inp.",
+      "boundary": "First is fake import metadata; second uses ordinary start_ccx with real synthetic executable subprocess, not writer-generated graph or native ID proof."
+    },
+    {
+      "behavior": "Public native material wrappers and container content identity",
+      "tests": [
+        {"file":"test_force_accounting.py","line":44,"name":"test_reading_native_material_does_not_change_input_identity"},
+        {"file":"test_force_accounting.py","line":88,"name":"test_retained_native_material_import_and_historical_restore"},
+        {"file":"test_force_accounting.py","line":202,"name":"test_native_material_typed_values_preserve_content_without_addresses"},
+        {"file":"test_force_accounting.py","line":275,"name":"test_empty_native_material_arrays_preserve_dimensions"},
+        {"file":"test_force_accounting.py","line":305,"name":"test_native_array_null_and_authored_zero_fingerprints_are_distinct"},
+        {"file":"test_force_accounting.py","line":337,"name":"test_native_array_nonquantity_columns_preserve_input_sensitivity"},
+        {"file":"test_force_accounting.py","line":368,"name":"test_ambiguous_native_material_properties_are_rejected"}
+      ],
+      "assertions": "Retained wrapper reads must not change identity; changed quantity/float precision, lists, 2D/3D arrays/depth, appearance, description and physical-model membership must change private model digest and input fingerprint. Empty array dimensions, null versus authored zero and nonquantity float columns remain distinguishable; ambiguous physical/appearance properties reject.",
+      "boundary": "Native material and mesh wrappers are concrete. Digest/fingerprint/property_value are private serialization seams, not a public export-cache lifecycle. Wrapper mutations are assigned back through material setters and ShapeMaterial."
+    },
+    {
+      "behavior": "Capability probes stay private and clean up on success or unsupported return",
+      "tests": [
+        {"file":"test_force_accounting.py","line":498,"name":"test_unknown_solver_capability_is_rejected"},
+        {"file":"test_force_accounting.py","line":504,"name":"test_capability_probe_is_private_even_when_the_solver_is_unsupported"}
+      ],
+      "assertions": "The unsupported real executable /usr/bin/false is rejected. The explicit boundary-mock test requires private non-project cwd, DEVNULL stdin, resolved executable path for absolute/relative/PATH references, and deletion of a simulated probe-job marker directory after either return0 or201.",
+      "boundary": "Only subprocess.run is replaced in the cleanup test; CompletedProcess and marker file emulate external executable behavior. It does not test failed writer cleanup."
+    },
+    {
+      "behavior": "Public writer capacity refusal occurs before mesh work and normal export binds effective policy",
+      "tests": [
+        {"file":"test_force_accounting.py","line":555,"name":"test_stock_export_refuses_complete_port_count_before_mesh_work"},
+        {"file":"test_force_accounting.py","line":625,"name":"test_stock_export_records_complete_effective_capacity"},
+        {"file":"test_force_accounting.py","line":698,"name":"test_capacity_query_rejects_malformed_mappings_with_actionable_error"},
+        {"file":"test_force_accounting.py","line":610,"name":"test_cut_request_cannot_silently_fall_back_to_stress_output"}
+      ],
+      "assertions": "The four-port unfinished/no-mesh model must refuse a three-record capacity with an empty export directory. Real whole write_inp_file on the one-tetra model records support1/port1/total2, object identity, binary SHA and request SHA and creates no accounting result. Malformed query mappings reject. An equilibrium cut without NativeForceAccounting refuses instead of stress fallback.",
+      "boundary": "Public FemToolsCcx writer call is real in tests555 and625; only executable version/capacity subprocess.run responses are mocked. Test610 uses a SimpleNamespace writer; test698 directly calls capacity_preflight. No real native solver or full graph/native-ID parity is established."
+    },
+    {
+      "behavior": "Resource-policy freshness and owned-child capacity attestation",
+      "tests": [
+        {"file":"test_movement_provenance.py","line":141,"name":"test_changed_capacity_requires_reexport_before_launch_or_output_quarantine"},
+        {"file":"test_movement_provenance.py","line":160,"name":"test_capacity_echo_must_match_owned_child_before_current_import"},
+        {"file":"test_movement_provenance.py","line":205,"name":"test_legacy_export_still_refuses_current_budget_before_quarantine"}
+      ],
+      "assertions": "Changed budget requires rewrite before solver-entry marker or old FRD/accounting quarantine. Missing/wrong/duplicate/malformed owned-child applied-capacity echoes reject Current import. Legacy metadata without capacity still refuses the current too-small budget without altering old outputs.",
+      "boundary": "Real synthetic executable query/run subprocesses through public start_ccx; environment budgets are patch.dict overrides. The request is hand-authored, not a production export fixture."
+    },
+    {
+      "behavior": "Fresh movement bytes, terminal run context and failure recovery",
+      "tests": [
+        {"file":"test_movement_provenance.py","line":226,"name":"test_success_without_new_frd_preserves_old_without_binding_movement"},
+        {"file":"test_movement_provenance.py","line":239,"name":"test_fresh_frd_binds_exact_bytes_and_requested_state_not_qualified_field"},
+        {"file":"test_movement_provenance.py","line":257,"name":"test_output_replaced_after_child_completion_cannot_bind_movement"},
+        {"file":"test_movement_provenance.py","line":278,"name":"test_failed_child_preserves_previous_frd_without_creating_current_result"},
+        {"file":"test_movement_provenance.py","line":288,"name":"test_failed_launch_preserves_previous_frd_without_restoring_it_as_current"},
+        {"file":"test_movement_provenance.py","line":306,"name":"test_existing_symlink_output_is_refused_without_touching_its_target"},
+        {"file":"test_movement_provenance.py","line":316,"name":"test_unfinished_context_and_legacy_context_cannot_attest_existing_frd"}
+      ],
+      "assertions": "Missing fresh FRD is UNAVAILABLE and old bytes recoverable; exact fresh bytes bind requested state and model/deck/request/binary identities without qualifying displacement. Repeated finish_run cannot rebind replaced bytes. Child error7 and launch OSError preserve recoverable old FRD without Current result; symlink target is untouched; unfinished and legacy run contexts cannot attest movement.",
+      "boundary": "Mostly real synthetic executable children through start_ccx or run_context/finish_run/import_result. Only the -i child Popen is replaced with OSError for launch-failure coverage. This is solver-run/output custody, not export-resolution-context cleanup."
+    },
+    {
+      "behavior": "History and stale-after-restore status",
+      "tests": [
+        {"file":"test_force_accounting.py","line":88,"name":"test_retained_native_material_import_and_historical_restore"},
+        {"file":"test_force_accounting.py","line":392,"name":"test_properties_are_opt_in_and_restore"},
+        {"file":"test_force_accounting.py","line":485,"name":"test_result_restore_and_model_changes_invalidate"},
+        {"file":"test_movement_provenance.py","line":338,"name":"test_save_restore_keeps_exact_source_history_but_never_current_status"}
+      ],
+      "assertions": "Actual FreeCAD FCStd save/reopen retains exact AccountingData/resultants but restores Stale status. Default accounting/cut options remain opt-in. Native model change and explicit restored callback invalidate Current status.",
+      "boundary": "Concrete FreeCAD persistence; imported forces and movement bytes are synthetic boundary fixtures, not native physical accuracy evidence."
+    }
+  ],
+  "honest_gaps_in_these_two_files": [
+    "No test retains and reuses an export/mesh-resolution context across repeated public write_inp_file calls after reference edits, remesh or failure; accounting import/run context is a distinct seam.",
+    "No Placement edit, transformed/linked-part placement or placed-solid owner selection case.",
+    "No Analysis.Group reorder, remove/readd, mesh-group enumeration-order permutation or deterministic declaration-order assertion.",
+    "No sparse/noncontiguous native node or element IDs, renumbering, or preservation of old-to-new native ID allocation across fresh exports.",
+    "No test mutates a cached public list/dict/reference/group container in place and then proves a fresh export reads it; native material wrapper content tests are narrower serialization checks.",
+    "No real Gmsh remesh or native CalculiX solve; changed coordinate/connectivity tests construct replacement FemMesh objects and synthetic subprocesses are not physical qualification.",
+    "No mid-writer exception followed by retry proving export-context cleanup, no stale cross-analysis context reuse, and no public writer parity after a reference edit. Probe and solver-output cleanup tests do not substitute for this.",
+    "No performance bound, fixture equivalence, complete264-port/2113-declaration native-ID graph or physical equilibrium qualification in these two files."
+  ],
+  "reviewer_execution": false,
+  "product_implementation_read": false,
+  "source_or_QA_Python_edits": false,
+  "engineering_acceptance": false
+}

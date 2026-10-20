@@ -1,0 +1,208 @@
+{
+  "schema": "FreeCAD-882-existing-behavior-coverage-map-v1",
+  "scope": "Read-only test-source inventory during the frozen baseline; not an executed result, a product diagnosis, a speedup claim or a new test specification.",
+  "reviewer": "/root/5ar_evidence",
+  "test_sources_fully_read": {
+    "src/Mod/Fem/femtest/app/test_elastic_connector.py": {
+      "lines": 933,
+      "sha256": "27dd57fa08df8fab56b569afee623b4ab2017e4289daf23e752306fe9401d624"
+    },
+    "src/Mod/Fem/femtest/app/test_tie_ownership.py": {
+      "lines": 384,
+      "sha256": "23312c4e75872875c1e1b9f7b207d459ec97a8075f4608965031805cd2deda69"
+    }
+  },
+  "restrictions_observed": {
+    "product_implementation_read": false,
+    "tests_helpers_FreeCAD_or_native_tools_executed_or_imported": false,
+    "fenced_Python_or_product_sources_changed": false,
+    "Oomakhi_accessed_or_solved": false,
+    "engineering_or_BIM_accepted": false
+  },
+  "fixture_classes": {
+    "TestRigidPortConnector": "Real native FreeCAD CAD/ObjectsFem objects with two manually authored eight-node volume regions and sparse physical IDs. No target-module mocks; most tests resolve or export without a solver. Three ccx-gated methods additionally solve tiny prescribed rigid-port cases.",
+    "TestElasticConnector": "Real native FreeCAD vertex references and manually authored small FemMesh objects. Some emitter checks use a SimpleNamespace writer carrier, not a concrete full writer. No target-module mocks.",
+    "TestElasticConnectorCalculiX": "ccx-gated real FemToolsCcx.run through stock writer/import, with an independently checked small finite block plus isolated connector endpoint nodes. Not the finite-backbone132-bay capacity graph.",
+    "TestTieOwnership": "gmsh-gated independently meshed touching CAD boxes, native second-order tetrahedra and owned face/volume group provenance. Stock export only, no CalculiX solve. Two lower-level getter tests use a SimpleNamespace analysis-member carrier with real native meshes.",
+    "TestTieShellCompatibility": "Real native CAD planes and manually authored two Tri3 mesh faces; stock writer, no Gmsh or solver required."
+  },
+  "tests": [
+    {
+      "file": "test_elastic_connector.py", "line": 129,
+      "name": "TestRigidPortConnector.test_shared_port_resolution_preserves_independent_mutable_regions",
+      "seam": "Public PortResolutionContext plus resolve_connector on actual native objects",
+      "behavior": "Returned regions are mutable sets; clearing one returned region does not alter a later resolution using the same explicit context. bodies remain native objects, nodes remains an empty list.",
+      "boundary": "Real small fixture; no mocks, no writer or solve"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 145,
+      "name": "TestRigidPortConnector.test_stock_reexports_resolve_changed_regions_mesh_and_native_ids",
+      "seam": "FemToolsCcx.update_objects/write_inp_file, inspecting actual emitted NSETs",
+      "behavior": "One tool is reused after a valid export, an overlapping-reference failure, a changed receiving face, replacement sparse-ID mesh and Analysis.Group RBE reorder. Expected receiving-node sets and newly allocated reference/rotation/connector IDs are literal assertions.",
+      "boundary": "Concrete stock export and native CAD/mesh, no target mocks or solve"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 209,
+      "name": "TestRigidPortConnector.test_direct_writes_after_completed_and_failed_full_exports_are_fresh",
+      "seam": "Concrete MeshSetsGetter/FemInputWriterCcx.write_solver_input followed by public write_connectors/write_constraint emitters",
+      "behavior": "Reuses the exact writer after either completed or failed full export, then replaces sparse mesh and changes group order; direct connector/RBE NSETs must use current allocation. An overlap is also rejected by a direct write after completed export.",
+      "boundary": "Concrete writer/getter with real native inputs; no mocks or solver. This is not the high-level tool-only seam."
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 115,
+      "name": "TestRigidPortConnector.test_explicit_ports_native_units_and_sparse_node_allocation",
+      "seam": "Public resolve_connector/rigid_body_node_ids",
+      "behavior": "Native bodies and regions are resolved; rotational stiffness has expected units/value; allocated native IDs lie above all sparse physical IDs.",
+      "boundary": "Native objects, direct public resolution, no solver"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 285,
+      "name": "TestRigidPortConnector.test_ports_fail_closed_for_implicit_or_invalid_coupling",
+      "seam": "Public resolve_connector/validation_errors",
+      "behavior": "Rejects implicit rotational coupling, same-body endpoint, overlapping receiving regions and nonpositive rotational stiffness.",
+      "boundary": "Native input edits, no mocks or writer"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 307,
+      "name": "TestRigidPortConnector.test_native_body_links_and_axes_survive_save_and_regenerated_export",
+      "seam": "Native FCStd save/open, public resolve_connector, direct write_connectors",
+      "behavior": "Rigid-body links and rotated local frame survive persistence; changing parent orientation changes emitted equations without changing the physical mesh node count.",
+      "boundary": "Native objects; SimpleNamespace writer carrier; no concrete full writer or solver"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 356,
+      "name": "TestRigidPortConnector.test_explicit_occurrence_region_and_regenerated_mesh",
+      "seam": "Native App::Link/parent placement plus repeated public resolve_connector",
+      "behavior": "Moved occurrence refuses obsolete mesh; replaced coordinate mesh resolves actual moved region. Nested placement and save/open preserve the selected physical occurrence even when persistence compacts IDs.",
+      "boundary": "Native geometry and manually replaced mesh, no full writer or solver"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 530,
+      "name": "TestElasticConnector.test_changed_reference_regenerates_nodes",
+      "seam": "Repeated public resolve_connector",
+      "behavior": "Swapping native endpoint references reverses observed node IDs.",
+      "boundary": "Real vertex objects/two-node mesh, no mocks or writer"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 538,
+      "name": "TestElasticConnector.test_remeshing_re_resolves_geometry_instead_of_retaining_node_ids",
+      "seam": "Public resolve_connector after replacing mesh.FemMesh",
+      "behavior": "Existing geometry resolves replacement sparse IDs77/42, not the original1/2.",
+      "boundary": "Real manually replaced native mesh, no writer or solver"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 548,
+      "name": "TestElasticConnector.test_endpoints_in_placed_parent_resolve_in_global_mesh_coordinates",
+      "seam": "Native parent Placement and public resolve_connector",
+      "behavior": "Translation plus90-degree parent rotation resolves global mesh IDs and local orientation correctly.",
+      "boundary": "Native points/parent/mesh, no writer or solver"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 684,
+      "name": "TestElasticConnector.test_save_reopen_preserves_endpoints_and_local_frame",
+      "seam": "Native FCStd save/open then public resolve_connector",
+      "behavior": "Nested parent and linked orientation frame preserve endpoint IDs and composed90-degree orientation after reopen.",
+      "boundary": "Native persistence, no writer or solver"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 868,
+      "name": "TestElasticConnectorCalculiX.test_changed_native_reference_regenerates_actual_spring_and_actions",
+      "seam": "Real FemToolsCcx.run twice with a changed native endpoint, reading actual DAT",
+      "behavior": "Changing the endpoint regenerates actual scalar spring action from300 to200 and opposite endpoint reaction to-200.",
+      "boundary": "Real stock writer/CalculiX/import; ccx availability gate, no target mocks"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 416,
+      "name": "TestRigidPortConnector.test_exact_rigid_ports_signed_ground_pair_and_rotated_axes",
+      "seam": "Real FemToolsCcx.run and actual DAT forces",
+      "behavior": "Signed prescribed rotations, ground/pair and0/90/45-degree orientations produce independent scalar actions; physical mesh nodes stay unchanged.",
+      "boundary": "Real tiny rigid-volume solve; ccx-gated, not finite-backbone qualification"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 440,
+      "name": "TestRigidPortConnector.test_exact_rigid_port_force_and_moment_response",
+      "seam": "Real FemToolsCcx.run and DAT displacement/reaction",
+      "behavior": "Negative applied force/moment, translational/rotational, ground/pair and rotated axes match independent10/2000 scalar response.",
+      "boundary": "Real tiny native solve; ccx-gated, no target mocks"
+    },
+    {
+      "file": "test_elastic_connector.py", "line": 920,
+      "name": "TestElasticConnectorCalculiX.test_explicit_parallel_connectors_add_without_stiffness_division",
+      "seam": "Real FemToolsCcx.run and DAT displacement",
+      "behavior": "Two positive scalar connectors in parallel produce10/(2000+3000), not a divided stiffness.",
+      "boundary": "Real small endpoint solve, not792-connector graph or native V3 ledger"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 170,
+      "name": "TestTieOwnership.test_stock_writer_preserves_independent_coincident_face_owners",
+      "seam": "FemToolsCcx.write_inp_file and actual emitted surface incidence",
+      "behavior": "Coincident but independently meshed faces retain separate owning volumes; emitted surfaces match independently enumerated complete Tet10 facets, ADJUST=NO and actual native mesh/group metadata remain unchanged.",
+      "boundary": "Real Gmsh/native objects/stock export; no solver or mocks"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 235,
+      "name": "TestTieOwnership.test_invalid_later_tie_does_not_publish_earlier_rows",
+      "seam": "Concrete MeshSetsGetter.get_constraints_tie_faces",
+      "behavior": "A later invalid Tie aborts without replacing either earlier/later sentinel face-list objects, checking all-or-nothing output-row publication.",
+      "boundary": "Real native mesh/getter; SimpleNamespace member carrier, no target mocks. Not full writer exception reuse."
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 289,
+      "name": "TestTieOwnership.test_geometry_reorder_requires_native_remesh_and_preserves_owners",
+      "seam": "Concrete getter refusal, real Gmsh remesh, then stock write_inp_file",
+      "behavior": "Compound child reorder refuses stale geometry provenance; native remesh changes group labels while exported dependent/independent physical owners remain correct and mesh stays unchanged during export.",
+      "boundary": "Real native remesh/export, no solver or mocks"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 301,
+      "name": "TestTieOwnership.test_saved_tie_writes_after_reopen_and_reference_swap",
+      "seam": "Native FCStd save/open and repeated stock export",
+      "behavior": "Saved owner references survive restore; swapping actual Tie references swaps dependent/master owner facets, not stale cached sides. Current native mesh snapshot stays unchanged.",
+      "boundary": "Real native persistence/Gmsh fixture/stock export, no solver or mocks"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 197,
+      "name": "TestTieOwnership.test_unresolved_tie_face_reports_the_tie_region",
+      "seam": "Stock write_inp_file",
+      "behavior": "An unresolved face on either side reports the actual Tie region rather than producing surfaces.",
+      "boundary": "Real native references and Gmsh mesh, no mocks"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 206,
+      "name": "TestTieOwnership.test_shared_volume_patch_reports_ambiguous_tie_ownership",
+      "seam": "Real fused geometry/remesh then stock write_inp_file refusal",
+      "behavior": "Conforming shared material face with multiple owner incidences is rejected as ambiguous Tie ownership.",
+      "boundary": "Real CAD/generalFuse, native mesh incidence and stock export, no mocks"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 249,
+      "name": "TestTieOwnership.test_legacy_fallback_requires_unambiguous_noncoincident_faces",
+      "seam": "Stock export after deliberately clearing three provenance properties",
+      "behavior": "Coincident ownerless regions fail; after a placed CAD body is moved and remeshed, noncoincident fallback emits actual owner facets without mutating mesh.",
+      "boundary": "Real CAD placement/remesh/native groups; deliberate negative metadata fixture, not mocks or data repair"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 273,
+      "name": "TestTieOwnership.test_incomplete_tie_provenance_is_rejected",
+      "seam": "Concrete MeshSetsGetter.get_constraints_tie_faces",
+      "behavior": "Each missing ElementGroupNames/References/Geometry property is rejected; native mesh is regenerated between cases.",
+      "boundary": "Real native fixture with deliberate incomplete metadata, no target mocks"
+    },
+    {
+      "file": "test_tie_ownership.py", "line": 331,
+      "name": "TestTieShellCompatibility.test_shell_tie_keeps_stock_reversed_surface_sides",
+      "seam": "One real FemToolsCcx tool, repeated write_inp_file after reversal-property edits",
+      "behavior": "All four reversed-slave/master combinations retain correct original Tri3 element IDs10/20 and stock surface S1/S2 conventions.",
+      "boundary": "Native CAD/hand-authored shell mesh/stock writer, no Gmsh, solver or mocks"
+    }
+  ],
+  "coverage_limits_not_product_findings": [
+    "No timing or operation-count acceptance for the full132-bay public call appears in these two files. The new frozen baseline is diagnostic; no speedup is inferred here.",
+    "Full stock context-freshness tests use two small rigid regions and one connector. They do not by themselves qualify simultaneous264 moving finite-face ports,264 cuts,792 connectors and V3 force/contact/MPC/physical-support accounting.",
+    "Public mutable-container isolation explicitly covers returned region sets. It does not assert ownership/copy semantics of every other mutable result member, nor should such semantics be invented without a confirmed contract.",
+    "Between-export reference/remesh/group-order changes and success/error cleanup are covered. A physical model mutation while one explicit per-operation context remains live is not specified here; this is not evidence of a bug or permission to broaden that context lifetime.",
+    "Tie geometry-child reorder and native group/provenance changes are covered through remesh; this is not a direct arbitrary permutation test of semantically identical mesh-group iteration order.",
+    "Placed parents/links/orientation edits are covered by resolver and emitter tests, not a complete high-level full132-bay re-export after placement changes.",
+    "Real CalculiX methods have explicit ccx availability gates and Tie ownership methods require gmsh. Source inspection does not prove any method executed or passed in the current run."
+  ]
+}

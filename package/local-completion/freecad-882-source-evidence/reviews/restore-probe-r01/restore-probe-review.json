@@ -1,0 +1,43 @@
+{
+  "schema": "FreeCAD-882-restore-probe-independent-static-review-v1",
+  "reviewer": "/root/5ar_evidence/profile_plan_review",
+  "passed": true,
+  "review_complete": true,
+  "scope": "Static approval of the exact frozen restore-observation proposal only. PASS of this review does not claim that the probe has run or that restored tetrahedron ordering is physically equivalent, nor qualify an export, solve or performance result.",
+  "directory": "/private/tmp/freecad-882-VGfnpo/restore-probe-r01",
+  "sources": {
+    "B882Profile.py": {"sha256":"cf5ad5f75f12b4a862ccd6f1393b9de90d3473bad203474486d6e1e0c2074445","lines":155,"fully_read":true},
+    "run_restore_probe.py": {"sha256":"2f03bee26ba27f5ba7d5c5d330e280dc2fb1e91661d14af49a30ff5ce58a185e","lines":231,"fully_read":true,"full_diff_against_previous_reviewed_v2":true},
+    "AppYzkIdentity.py": {"sha256":"e4a6b5f645b570b6afde88c09ec5fc63e2362e1ea3556fcc2e1d0fc652b78c1a","exact_known_copy":true},
+    "B882Identity.py": {"sha256":"3fcaf3dbfd3b3d5afe8208d4b90c00f6ec4f56eea61162ca3d0ef0a798a8bd23","exact_known_copy":true},
+    "harness_config.py": {"sha256":"6448ebe6eca73e78872cab88d23fe66eeb39e3f5d4c47f1b5ee0246b0672d1e4","exact_known_copy":true},
+    "process_control.py": {"sha256":"5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d","exact_known_copy":true},
+    "critical_pins.py": {"sha256":"15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9","exact_known_copy":true},
+    "preservation.py": {"sha256":"30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989","exact_known_copy":true}
+  },
+  "static_assessments": {
+    "probe_has_no_direct_FemToolsCcx_import": true,
+    "probe_contains_no_writer_solve_save_recompute_or_mesher_call": true,
+    "probe_claims_actual_write_inp_file_calls_zero": true,
+    "identity_helper_scope": "The exact retained identity helper still imports its existing FEM modules and performs its disclosed native identity/capacity-policy queries. Those are not a fixture solve or export; the probe itself does not use the writer.",
+    "same_original_input": "The same original before-export FCStd and six other original fixture/evidence files remain hash-pinned before and after. The new probe only opens the document and reads public FreeCAD object/mesh properties; original files are not saved, edited or rebound.",
+    "bounded_diagnostics": "Phase markers flush. Coordinate/property/container comparisons produce booleans instead of huge unittest dictionary diffs. Counts, key-set differences, node-count histograms, hashes and at most ten node-order samples are recorded. Full restored volume connectivity is written only to a new private JSON artifact.",
+    "no_orientation_inference": "Exact ordering and same-node-set statistics are observations only. Node-count histograms and position maps do not prove tetrahedral type, orientation, topology or physical equivalence. Both probe receipt and supervisor explicitly prohibit an orientation-equivalence or export-qualification claim.",
+    "property_nonmutation": "Selected public properties use comparison-only own-document reference normalization against the historical snapshot; restored references must resolve to existing own-document objects. Unnormalized in-session before/after selected-property hashes must match. No native references or history are rewritten.",
+    "process_and_identity": "The driver retains separate source HEAD6ba8 and installed766/+224/native6c pins, exact literal-app identity, finite120-second diagnostic bound, serial guards, DEVNULL stdin, bounded owned-process-group cleanup, six fresh private profile paths and current app/three user profile/sixteen selected dependency custody.",
+    "produced_evidence_binding": "identity.json, restore-probe.json, run.log and restored-volume-connectivity.json are captured once with literal path/hash/byte descriptors. JSON/log are parsed from captured buffers; log hash must match bounded-process receipt; the connectivity descriptor must match the probe receipt. All four outputs are hash/size-end-fenced and required for supervisor PASS.",
+    "engineering_scope": "Generic software diagnostic only, with no Oomakhi access/solve, engineering/BIM acceptance, changed physical tolerances, performance qualification or closed-bead claim."
+  },
+  "outstanding_findings": [],
+  "reviewer_actions": {
+    "helpers_imported_or_executed": false,
+    "FreeCAD_native_or_tests_executed": false,
+    "product_implementation_read": false,
+    "Python_or_existing_proposal_files_modified": false,
+    "only_authored_file": "/private/tmp/freecad-882-VGfnpo/restore-probe-r01/restore-probe-review.json"
+  },
+  "runtime_result_accepted_or_preclaimed": false,
+  "orientation_equivalence_established": false,
+  "export_or_performance_qualification_established": false,
+  "engineering_acceptance": false
+}

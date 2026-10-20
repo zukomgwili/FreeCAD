@@ -1,0 +1,34 @@
+{
+  "schema": "FreeCAD-882-profiling-collector-binding-amendment-v1",
+  "status": "Unexecuted narrow collector revision; no baseline or publication verdict",
+  "superseded_collector": {"path": "collect_882.py", "sha256": "2a7be4b46d385752760b6bb8996bf57c5d23f5ac6cec86c39b3dfece63f85cff", "execution": "Never executed; preserved unchanged"},
+  "authoritative_collector": "collect_882_v2.py",
+  "unchanged_files": {
+    "retain_fixture.py": "0a0ed1599a3749fb0437ae9977ec7474496260ca4cbe7e836cb5d2c22bec8868",
+    "artifact-selection-proposal.json": "c07f880f11fe75584884e78c36a01023c8511b358c10c5f29c45ece43e419647"
+  },
+  "resolved_concrete_review_findings": [
+    "The replay summary may only claim actual retained model and mesh when all twelve mandatory capsule names, original source paths, SHA256 values and byte counts match hard-coded pins and exact admitted copies. Empty, partial, duplicate or unsafe self-described lists refuse.",
+    "The measured attribution role needs an explicit schema, exact captured baseline execution/profile path+SHA references, exact source/runtime/native identity and exact call/wall/process-CPU values. A bare unrelated passed:true object refuses. Truth and recommendations remain matters for independent human/agent review, not collector inference.",
+    "The restore_probe role must be the exact restore execution output; halt interpretation must bind the actual failed execution; all seven frozen amendment captured-input descriptors must bind exact admitted historical bytes or the known original mesh pin."
+  ],
+  "attribution_report_exact_interface": {
+    "schema": "FreeCAD-882-measured-export-attribution-v1",
+    "passed": "true only in the actual completed independently reviewed report",
+    "baseline_execution": {"path": "actual absolute completed baseline execution.json path", "sha256": "raw captured execution SHA256"},
+    "baseline_profile": {"path": "actual absolute completed export-profile.json path", "sha256": "raw captured profile JSON SHA256"},
+    "source_HEAD": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+    "installed_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+    "installed_revision": "49261 +224 (Git)",
+    "candidate_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "measurements": {
+      "actual_write_inp_file_calls": "actual captured profile value1, not a setup intent flag",
+      "profiled_stock_write_wall_seconds": "exact numeric value from captured profile and execution",
+      "profiled_stock_write_FreeCAD_process_CPU_seconds": "exact numeric value from captured profile and execution"
+    },
+    "additional_report_content_not_inferred_by_collector": "Measured call-count/time attribution, profiler-overhead/CPU/overlapping-cumulative limitations, evidence-supported recommendations and bounded lifetimes/guards/stale-state risks, with independent review. Report measurements and hypotheses separately; no optimization or speedup result is invented."
+  },
+  "scope_unchanged": "Profiling-only exact evidence retention. No implementation-qualified branch, future gates, new solve/build/install authority, changed physics/acceptance, engineering or Oomakhi claim.",
+  "execution_by_author": false,
+  "baseline_or_publication_PASS_claimed": false
+}

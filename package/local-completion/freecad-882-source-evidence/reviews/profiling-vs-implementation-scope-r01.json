@@ -1,0 +1,44 @@
+{
+  "schema": "FreeCAD-882-profiling-vs-implementation-scope-clarification-v1",
+  "reviewer": "/root/ywu_final_review",
+  "basis": {
+    "bead": "FreeCAD-882",
+    "read_command": "bd show FreeCAD-882 --json",
+    "observed_bead_revision": "1189117052556938013",
+    "observed_title": "FEM: profile remaining large coupled accounting export validation cost",
+    "existing_plan": "/private/tmp/freecad-882-VGfnpo/proposals/evidence-acceptance-plan-r01.json"
+  },
+  "assessment": "The bead requires profiling and identifying safe bounded reuse opportunities; optimization implementation is not an unconditional deliverable.",
+  "required_profiling_deliverables": [
+    "Complete and retain an actual whole accepted public export profile on the frozen public132-bay fixture representation, with honest runtime/source/input identities, call counts, wall/process CPU scope and profiling-overhead caveats.",
+    "Attribute the material remaining operation-local CAD/mesh/ownership validation costs using the observed profile. Do not derive a cause by subtracting overlapping log labels or treat the preserved setup halt as reproduction.",
+    "Identify evidence-supported bounded reuse opportunities and their dependencies, lifetime, guard obligations and stale-state risks. If none is justified, report that limitation explicitly rather than inventing a fix or speedup.",
+    "Preserve the full fixture and existing guards, public types/native IDs and source/app custody during profiling. Retain the approved restored-ID amendment and never claim old solve qualification transfers to a new export.",
+    "Keep profile-only, historical physical, future candidate and engineering claims separate, with no Oomakhi solve, changed acceptance limits or installation."
+  ],
+  "conditional_on_product_implementation": [
+    "Before code changes, derive a short red-capable regression or deterministic repeated-work/coverage bound from the observed hot path.",
+    "Require attributable work reduction and a strict same-input baseline/candidate whole-call comparison before claiming an improvement; no arbitrary SLA or leaf-only substitute.",
+    "Require exact native/public output parity and the relevant operation-lifetime, exception/direct-write, edit/remesh/reorder, ownership/rank/domain, capacity and backward-compatibility regression gates.",
+    "Require fresh full132 physical qualification with all3566 original checks, separate cold history and early2112 refusal at unchanged limits before accepting a product candidate. Run appropriate source/build quality gates for the actual changed scope."
+  ],
+  "existing_plan_clarification": {
+    "overbroad_sentence": "The plan's unconditional wording that completion requires a meaningful matched whole-call improvement belongs to prospective optimization acceptance, not to the profiling-only bead.",
+    "fresh_physics_clarification": "Fresh132/cold/refusal gates described in earlier plans and the restored-input amendment are product-candidate acceptance obligations, not a requirement to solve an unchanged profiling-only case.",
+    "bead_notes": "The notes say implementation occurs only if justified and refer to fresh physical gates for a candidate. Those self-recorded plans do not convert the title/description into an unconditional optimization task.",
+    "frozen_existing_plan_or_receipts_changed": false
+  },
+  "not_required_for_profiling_only": [
+    "A product optimization patch or demonstrated speedup.",
+    "A matched candidate timing run when no candidate exists.",
+    "A fresh native solve, full physical regression, application rebuild or installation solely to certify unchanged profiling code."
+  ],
+  "limits": {
+    "completion_verdict": "Deferred until the actual completed profile and evidence-backed cost/opportunity analysis are available.",
+    "permission_expansion": false,
+    "product_implementation_read": false,
+    "native_app_build_test_or_helper_execution": false,
+    "source_or_existing_receipt_edit": false,
+    "reviewer_correction": "This explicitly narrows the reviewer's earlier acceptance-plan wording; it does not relax any engineering acceptance limit or authorize a new action."
+  }
+}

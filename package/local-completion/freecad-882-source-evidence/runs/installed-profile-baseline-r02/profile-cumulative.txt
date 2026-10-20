@@ -1,0 +1,108 @@
+         594367700 function calls (594279483 primitive calls) in 1182.322 seconds
+
+   Ordered by: cumulative time
+   List reduced from 661 to 100 due to restriction <100>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.021    0.021 1182.321 1182.321 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py:371(write_inp_file)
+     1057    0.005    0.000  987.538    0.934 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:45(get_femnodes_by_femobj_with_references)
+     1056    1.557    0.001  987.325    0.935 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:151(get_femnodes_by_owned_references)
+     1056   91.170    0.086  985.768    0.933 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:162(_get_mesh_region_by_owned_references)
+     1327    0.141    0.000  672.349    0.507 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:72(get_mesh_geometry_signature)
+     2654  545.920    0.206  545.920    0.206 {method 'isValid' of 'Part.Shape' objects}
+     1056    2.340    0.002  539.146    0.511 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:115(mesh_geometry_matches)
+        1    0.013    0.013  520.028  520.028 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py:131(write_solver_input)
+        1    0.001    0.001  520.014  520.014 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py:144(_write_solver_input)
+        1    0.032    0.032  511.214  511.214 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:229(validation_errors)
+     3696    0.005    0.000  495.104    0.134 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:114(rigid_body_nodes)
+      528    0.038    0.000  495.098    0.938 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:124(_validated_rigid_body_nodes)
+        1    3.085    3.085  391.448  391.448 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:609(prepare_request)
+        1    0.000    0.000  269.511  269.511 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:221(get_mesh_sets)
+    10860    9.719    0.001  266.008    0.024 {built-in method builtins.any}
+        1    8.761    8.761  261.300  261.300 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/rigid_body.py:35(validation_diagnostics)
+139891488   56.444    0.000  255.008    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:218(<genexpr>)
+     1584    0.169    0.000  248.584    0.157 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:167(resolve_connector)
+        1    0.002    0.002  246.671  246.671 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:309(get_constraints_rigidbody_nodes)
+280229256  198.948    0.000  198.948    0.000 {method 'getElementNodes' of 'Fem.FemMesh' objects}
+      265    3.289    0.012  138.775    0.524 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1024(_get_solid_reference_group_sets)
+     2654   71.348    0.027   71.348    0.027 {method 'exportBrepToString' of 'Part.Shape' objects}
+     2112    0.982    0.000   44.758    0.021 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:222(group_data)
+    12750    3.809    0.000   43.797    0.003 {built-in method builtins.sorted}
+ 20131584   12.182    0.000   39.988    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:223(<genexpr>)
+     3169   38.056    0.012   38.056    0.012 {method 'getIdByElementType' of 'Fem.FemMesh' objects}
+     1327   25.860    0.019   25.860    0.019 {method 'importBrepFromString' of 'Part.Shape' objects}
+     1327   25.595    0.019   25.595    0.019 {method 'copy' of 'Part.Shape' objects}
+ 20130792   23.388    0.000   23.388    0.000 {method 'getGroupElements' of 'Fem.FemMesh' objects}
+     2640    0.003    0.000   12.650    0.005 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:105(rigid_body_node_ids)
+     1585   11.973    0.008   12.586    0.008 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:41(_nodes)
+     1057    0.000    0.000   12.564    0.012 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:36(max_node_id)
+        1    0.002    0.002   11.900   11.900 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:566(get_constraints_sectionprint_faces)
+      264    0.001    0.000   11.772    0.045 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:465(_get_elements)
+      264    0.250    0.001   11.766    0.045 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1945(get_elements)
+      264    0.005    0.000   11.506    0.044 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:2211(get_subelements_by_references)
+        1    0.004    0.004   10.166   10.166 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:403(get_constraints_force_nodeloads)
+       17    0.002    0.000    8.035    0.473 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/writerbase.py:185(write_constraints_propdata)
+      264    1.769    0.007    8.018    0.030 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_rigidbody_step.py:63(write_constraint)
+      264    6.135    0.023    7.184    0.027 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:533(get_bit_pattern_dict)
+      264    0.015    0.000    6.931    0.026 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1220(get_force_obj_edge_nodeload_table)
+      264    6.233    0.024    6.870    0.026 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1351(get_ref_edgenodes_table)
+ 32729454    4.152    0.000    4.152    0.000 {method 'getGroupName' of 'Fem.FemMesh' objects}
+      264    3.360    0.013    3.361    0.013 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:640(get_element_faces_from_binary_search)
+      132    0.012    0.000    3.224    0.024 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1463(get_force_obj_face_nodeload_table)
+      132    0.001    0.000    3.141    0.024 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1551(get_ref_facenodes_table)
+      132    3.138    0.024    3.138    0.024 {method 'getFacesByFace' of 'Fem.FemMesh' objects}
+     1321    0.022    0.000    2.974    0.002 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:418(get_femnodes_by_refshape)
+ 25189350    2.718    0.000    2.718    0.000 {method 'setdefault' of 'dict' objects}
+     1321    2.629    0.002    2.629    0.002 {method 'getNodesByFace' of 'Fem.FemMesh' objects}
+     1330    0.002    0.000    2.497    0.002 /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/__init__.py:185(dumps)
+     1330    0.006    0.000    2.495    0.002 /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/encoder.py:185(encode)
+     1330    2.487    0.002    2.487    0.002 /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/encoder.py:207(iterencode)
+        1    0.000    0.000    2.376    2.376 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:514(_model_digest)
+     1056    0.143    0.000    2.042    0.002 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:364(_owned_nodes_fit_region)
+ 20140323    1.950    0.000    1.950    0.000 {method 'getGroupElementType' of 'Fem.FemMesh' objects}
+ 26742103    1.923    0.000    1.923    0.000 {method 'append' of 'list' objects}
+  69132/1    0.108    0.000    1.275    1.275 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:517(value)
+  1363032    1.160    0.000    1.255    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:263(<genexpr>)
+      265    0.002    0.000    1.132    0.004 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:406(get_femnodes_by_references)
+        1    0.191    0.191    1.094    1.094 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py:93(input_fingerprint)
+        2    0.000    0.000    1.082    0.541 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:43(__init__)
+        2    0.045    0.023    1.082    0.541 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:118(_load_tables)
+        2    0.737    0.369    0.841    0.421 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:495(get_femnodes_ele_table)
+        1    0.132    0.132    0.795    0.795 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:563(_connectivity)
+    16983    0.693    0.000    0.693    0.000 {built-in method builtins.getattr}
+19737112/19737110    0.677    0.000    0.677    0.000 {built-in method builtins.len}
+     1329    0.658    0.000    0.658    0.000 {built-in method _hashlib.openssl_sha256}
+      264    0.635    0.002    0.635    0.002 {method 'getNodesByEdge' of 'Fem.FemMesh' objects}
+     1589    0.618    0.000    0.625    0.000 {built-in method builtins.max}
+        1    0.000    0.000    0.619    0.619 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_mesh.py:36(write_mesh)
+        1    0.619    0.619    0.619    0.619 {method 'writeABAQUS' of 'Fem.FemMesh' objects}
+    76358    0.228    0.000    0.562    0.000 {method 'extend' of 'list' objects}
+        1    0.000    0.000    0.545    0.545 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:624(get_materials_elements)
+        1    0.012    0.012    0.545    0.545 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:1100(get_femelement_sets_from_group_data)
+        1    0.000    0.000    0.535    0.535 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py:117(__init__)
+        1    0.000    0.000    0.535    0.535 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/writerbase.py:42(__init__)
+     2912    0.424    0.000    0.424    0.000 {method 'getGlobalPlacement' of 'App.GeoFeature' objects}
+      264    0.352    0.001    0.383    0.001 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:524(get_copy_of_empty_femelement_table)
+     1585    0.041    0.000    0.371    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:2871(sub_shape_at_global_placement)
+     6073    0.352    0.000    0.352    0.000 {method 'getSubObject' of 'App.DocumentObject' objects}
+   893904    0.226    0.000    0.332    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:586(<genexpr>)
+     1848    0.259    0.000    0.259    0.000 {method 'issubset' of 'set' objects}
+    37092    0.253    0.000    0.253    0.000 {method 'intersection' of 'set' objects}
+        2    0.000    0.000    0.238    0.119 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:236(capacity_preflight)
+        1    0.011    0.011    0.218    0.218 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py:274(get_constraints_fixed_nodes)
+      528    0.041    0.000    0.201    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py:52(_solid_nodes)
+   277423    0.200    0.000    0.200    0.000 {built-in method builtins.repr}
+        2    0.055    0.028    0.195    0.098 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:446(get_femelement_table)
+        2    0.000    0.000    0.188    0.094 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:104(_capacity)
+        4    0.000    0.000    0.185    0.046 /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/subprocess.py:512(run)
+        1    0.000    0.000    0.161    0.161 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/membertools.py:159(__init__)
+       29    0.000    0.000    0.160    0.006 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/membertools.py:294(get_several_member)
+       29    0.002    0.000    0.160    0.006 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/membertools.py:93(get_several_member)
+        2    0.000    0.000    0.146    0.073 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py:77(require_capability)
+        4    0.000    0.000    0.141    0.035 /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/subprocess.py:817(__init__)
+        4    0.001    0.000    0.140    0.035 /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/subprocess.py:1827(_execute_child)
+       47    0.015    0.000    0.136    0.003 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/membertools.py:41(get_member)
+  1916738    0.127    0.000    0.127    0.000 {method 'strip' of 'str' objects}
+      264    0.049    0.000    0.126    0.000 /Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py:2121(get_sectionprint_one_sided_faces)
+
+

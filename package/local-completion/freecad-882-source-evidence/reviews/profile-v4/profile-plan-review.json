@@ -1,0 +1,63 @@
+{
+  "schema": "FreeCAD-882-profile-v4-independent-static-review-v1",
+  "reviewer": "/root/5ar_evidence/profile_plan_review",
+  "passed": true,
+  "review_complete": true,
+  "scope": "Unconditional static approval of the exact frozen private v4 profiling harness. No runtime result, performance improvement, restored element-orientation equivalence, physical solve, build, installation or engineering acceptance is claimed by this review.",
+  "directory": "/private/tmp/freecad-882-VGfnpo/profile-v4",
+  "sources": {
+    "B882Profile.py": {
+      "sha256": "dd1f1457a43807dc5fa7e07aca7bf2aa47d19f14f5d6f278866b6a43b3987831",
+      "lines": 290,
+      "review_method": "Complete frozen v3 module read and complete v3-to-v4 two-line hash-buffer delta read; no other source differences."
+    },
+    "run_export_profile_v2.py": {
+      "sha256": "4ddaeaf378c568fef5d3ba6548b774e415df7bfac7067d4eed9c47ca116611dc",
+      "lines": 251,
+      "review_method": "Complete prior driver reads and all intervening v3 and v4 diffs; v4 adds defining baseline artifact capture, descriptor equality and mandatory eight-artifact end fencing."
+    },
+    "harness_config.py": {"sha256":"72b10e32519399263ce75f67dd2a78302581a7b36f430992374e58382f401dac","lines":18,"fully_read":true,"unchanged_from_v3":true},
+    "AppYzkIdentity.py": {"sha256":"e4a6b5f645b570b6afde88c09ec5fc63e2362e1ea3556fcc2e1d0fc652b78c1a","exact_known_copy":true},
+    "B882Identity.py": {"sha256":"3fcaf3dbfd3b3d5afe8208d4b90c00f6ec4f56eea61162ca3d0ef0a798a8bd23","exact_known_copy":true},
+    "process_control.py": {"sha256":"5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d","exact_known_copy":true},
+    "critical_pins.py": {"sha256":"15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9","exact_known_copy":true},
+    "preservation.py": {"sha256":"30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989","exact_known_copy":true}
+  },
+  "static_assessments": {
+    "whole_call": "The harness invokes the public FemToolsCcx.write_inp_file once, increments its actual harness-call counter immediately before that call, and requires the resulting counter to equal one. Setup/model restore are outside the timed region. Profiling includes instrumentation overhead; it does not replace private phases.",
+    "original_and_restored_mesh_scope": "The exact historical before-export FCStd, original evidence files and separately observed restored connectivity are hash-pinned before and after. Restored coordinates must equal the original snapshot and actual restored element-ID connectivity must equal the pinned observation. The harness does not rewrite element IDs or node ordering, nor claim that an unordered node set establishes orientation equivalence.",
+    "new_baseline_not_inherited_qualification": "Historical deck/request/PORT differences are diagnostic only and may differ from this restored export. Old physical qualification is explicitly not inherited. A later candidate must match this new baseline's actual deck except the single declared written-on timestamp comment, exact request and exact PORT IDs. Fresh full132 physical, cold and refusal qualification remain separately required.",
+    "nonmutation": "Only operational export WorkingDir is routed to a new private directory. Selected physical properties use comparison-only own-document normalization against saved properties, followed by unnormalized in-session before/after hashes. Full physical mesh nodes, volume connectivity and raw group ID/name/type/member/enumeration order are included in before/after hash checks. No solver, mesher, save, recompute, deck edit, model edit or provenance repair is called directly by the harness.",
+    "new_graph_policy": "The actual emitted request is counted against the complete 264PORT/264BODY/792ANGLE/792SPRING/one-support declaration graph. Captured stock request metadata must bind emitted deck/request hashes, required/total2113, supported budget/limits2113 and the default literal-app native6c binary path/hash. This is export-policy/graph evidence, not a native child solve or physical equilibrium proof.",
+    "eight_artifact_custody": "Identity JSON, profile JSON and log are captured once and parsed from those same bytes; captured log hash must match the bounded-process receipt. Profiler binary/text plus native Mesh.inp, Mesh.accounting and Mesh.accounting.json are captured with literal path/hash/byte descriptors. The three defining native baseline descriptors must exactly match the profile receipt. All eight artifacts must remain hash/size-identical at final supervisor fencing for PASS.",
+    "CPU_and_cumulative_limits": "time.process_time covers only this FreeCAD process and profiling overhead, excluding native-child CPU; it is not the cProfile timer. Cumulative times overlap and are not additive phase partitions. Historical unprofiled export time is not paired with profiled wall time; no timing SLA or speedup is established.",
+    "process_identity_and_profiles": "Source HEAD6ba8 remains separate from actual installed766/+224/native6c. The literal-app identity, bounded2400-second diagnostic run, DEVNULL stdin, serial native guards, owned process-group cleanup, six fresh profile paths, current app/three live user profiles/sixteen dependency custody and private raw inventories are retained.",
+    "engineering_limits": "Generic software QA only; no Oomakhi access or solve, no engineering/BIM acceptance, no relaxation of the existing1percent/5percent physical limits or engineering failure holds, and no bead-completion claim."
+  },
+  "resolved_findings": [
+    {
+      "id": "882-new-baseline-defining-artifact-custody",
+      "priority": 2,
+      "status": "closed_in_frozen_v4_code_before_execution",
+      "resolution": "The driver captures the three defining graph files, compares descriptors to the exact profile receipt and requires all eight produced artifacts to pass final hash/size fencing."
+    },
+    {
+      "id": "882-deck-request-parse-hash-buffer-binding",
+      "priority": 2,
+      "status": "closed_in_frozen_v4_code_before_execution",
+      "resolution": "The profile receipt hashes new_deck and new_request buffers used for comparison and request parsing, not separate filesystem rereads. Metadata already hashes its exact captured metadata_bytes buffer."
+    }
+  ],
+  "outstanding_findings": [],
+  "reviewer_actions": {
+    "product_implementation_read": false,
+    "QA_helpers_imported_or_executed": false,
+    "FreeCAD_native_or_tests_executed": false,
+    "Python_sources_or_previous_executed_proposals_modified": false,
+    "only_authored_file": "/private/tmp/freecad-882-VGfnpo/profile-v4/profile-plan-review.json"
+  },
+  "runtime_baseline_executed_or_accepted_by_reviewer": false,
+  "restored_element_orientation_equivalence_established_by_this_review": false,
+  "physical_or_performance_qualification_established": false,
+  "engineering_acceptance": false
+}

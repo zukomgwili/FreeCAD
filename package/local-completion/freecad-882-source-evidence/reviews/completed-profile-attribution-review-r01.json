@@ -1,0 +1,118 @@
+{
+  "schema": "FreeCAD-882-independent-completed-profile-attribution-review-v1",
+  "reviewer": "/root/ywu_final_review",
+  "scope": "Read-only actual-byte, numeric/caller and relevant implementation analysis after root explicitly confirmed baseline completion and lifted the implementation embargo.",
+  "assessment": "The completed profile is internally consistent and supports bounded ownership/provenance reuse as an implementation follow-up. No product fix, measured speedup, fresh physical qualification or installation is claimed.",
+  "run": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02",
+  "captured_evidence_sha256": {
+    "execution.json": "68e693a6568a76a115ca432c6bc46d7684cd3ad2ffd770818cf72103818e928e",
+    "export-profile.json": "b3b58d27d2933728e112d8fd44944bf2bbcd0d03d150b3bb43efd3a3b41df698",
+    "whole-public-write.prof": "f9891864c1f566d05a626597a414702e692b2072bb899065721a5c0e99d5bdec",
+    "profile-cumulative.txt": "8deadadaa7e5f10a9b0865e220cfa194e8c957c111423190cce5b8157fc2799b",
+    "identity.json": "ac38c39aa5b5bfa8fe3028a43a45c55ba682c115509d630618980504a6136a3f",
+    "manifest.json": "04b1598ca90bbb680a813ddc428f4f2d69065f989914c97cd2fd87adec4946df",
+    "run.log": "f82bad7b4e3060cc620557b5893ce60d7a0f1093df0e36bb6ff76fe1c485c80a",
+    "native/Mesh.inp": "4274418dfb10800edc8bafa5f8e0c2a568b2432c34401d74bd3ed41004f0736b",
+    "native/Mesh.accounting": "f21d852c94554ceee8b51286e51d7fabf91239d2c8c7fead2511185b1fd069a4",
+    "native/Mesh.accounting.json": "022291eaeacd20c3cc68f743e3656f585696d8761c1b0d16ddc80d1e9b49828a"
+  },
+  "inspected_current_source_sha256": {
+    "femmesh/meshsetsgetter.py": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4",
+    "femmesh/meshtools.py": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95",
+    "femmesh/ownership_context.py": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae",
+    "femsolver/calculix/writer.py": "4b3433a85627271e399008a6c1a64d6718d6f56e25dc4f609debbf3e284c13af",
+    "femtools/ccxtools.py": "ec81c8abba0516485158665403694cdd5a02f4397b0e982ff0d0d4076726a653",
+    "femtools/elastic_connector.py": "4bbfbe5b66c30f8f92a155f7bf099e67732b5136c5745b07d1db9e5f16fe8343",
+    "femtools/force_accounting.py": "9ca17134f3e7373416891d9740261fe406158e8084023f76be4a8b9e745052f3",
+    "femtools/rigid_body.py": "4f2728dda9afd9038cf996a74764434cde07c90d67e4329de8e88b34f3386d09"
+  },
+  "actual_byte_and_receipt_checks": {
+    "capture_once_parse_and_hash_then_end_fence": true,
+    "exact_eight_produced_output_descriptors_match_current_hashes_sizes_and_paths": true,
+    "child_native_descriptors_match_supervisor_and_sidecar_deck_request_links": true,
+    "identity_manifest_log_and_profile_crosslinks_match": true,
+    "all_661_raw_profile_rows_match_JSON_counts_self_and_cumulative_values_exactly": true,
+    "source_input_maps_before_after_and_manifest_are_equal": true,
+    "all_eight_inspected_current_source_files_match_profile_input_pins": true,
+    "original_FCStd_and_pinned_restored_ordered_connectivity_unchanged": true,
+    "model_and_full_mesh_group_snapshot_hashes_equal_before_after": true,
+    "one_actual_public_write": true,
+    "two_actual_tests_including_identity_no_skips": true,
+    "default_native6c_and_complete2113_capacity_sidecar_binding": true,
+    "all_custody_cleanup_serial_and_eight_output_end_fence_flags_true": true,
+    "guard_errors_empty": true,
+    "private_app_and_dependency_inventory_receipt_hash_pairs_equal": true,
+    "new_full_app_inventory_walk_performed_by_reviewer": false
+  },
+  "measurement": {
+    "whole_public_write_wall_seconds": 1182.4594961670227,
+    "FreeCAD_process_CPU_seconds": 1178.851646,
+    "supervised_seconds": 1193.0469272090122,
+    "public_write_profile_cumulative_seconds": 1182.320990791,
+    "profile_total_self_seconds": 1182.321906083,
+    "total_profile_calls": 594367700,
+    "primitive_profile_calls": 594279483,
+    "profiling_overhead_included_but_not_estimated": true,
+    "historical_unprofiled_timings_are_not_matched_controls": true
+  },
+  "non_overlapping_direct_phase_edges_from_public_write": [
+    {"phase": "writer.write_solver_input", "calls": 1, "cumulative_seconds": 520.027607292},
+    {"phase": "force_accounting.prepare_request", "calls": 1, "cumulative_seconds": 391.447514542},
+    {"phase": "meshsetsgetter.get_mesh_sets", "calls": 1, "cumulative_seconds": 269.511196542}
+  ],
+  "nested_attribution_not_additional_time_partitions": {
+    "owned_region_resolution": {"calls": 1056, "cumulative_seconds": 985.767992413},
+    "geometry_signature": {"calls": 1327, "cumulative_seconds": 672.3486287400001},
+    "Part_Shape_isValid": {"calls": 2654, "self_seconds": 545.920204401},
+    "FemMesh_getElementNodes": {"calls": 280229256, "self_seconds": 198.947714375},
+    "warning": "Owned resolution contains signature and scan costs; signature contains native shape methods; phase edges contain those paths. Do not add these nested cumulative values or present their sum as elapsed export time."
+  },
+  "caller_and_implementation_correspondence": [
+    "The 1056 owned-region resolutions partition into getter RBE gathering 264, standalone RBE validation 264 and validated port-region 528. The additional nonowned fixed constraint call is separate.",
+    "PortResolutionContext caches regions within writer validation/emission, but its _validated_rigid_body_nodes calls meshtools without an ownership context. prepare_request intentionally starts a fresh request-local PortResolutionContext after the writer context has been disposed. Source/control flow supports 264 distinct body validations in each of those two contexts; aggregate pstats alone does not retain grandparent-specific miss counts.",
+    "meshtools.py:210 repeats exact mesh-owner geometry signature, full node/element identity and group comparisons on each uncached owned-region resolution. The generator performs 279780864 native getElementNodes calls =1056*2*132472 all-element entries, while group_data is reconstructed 2112 times =2*1056 over 9531 groups.",
+    "The 1327 signature calls partition exactly into mesh_geometry_matches 1056, _get_solid_reference_group_sets 265, model-digest traversal 5 and quality fingerprint 1. The 265 solid-reference calls comprise 264 request-body selections and one material selection, not 265 extra public exports.",
+    "get_mesh_geometry_signature intentionally copies the positioned shape, validates and exports BRep, then imports/validates/exports canonical BRep. This explains two isValid and two exportBrep calls per signature. The recommendation is not to remove normalization or validation.",
+    "Writer cumulative time includes validation_errors before the internal deck-writing timer begins. Consequently the observed large writer phase is compatible with small internal file-writing log labels; the profile does not support treating file output as the principal remaining bottleneck."
+  ],
+  "recommended_unimplemented_followup": {
+    "bead": "FreeCAD-3q7",
+    "status": "OPEN; filed by root, not implemented or accepted by this review",
+    "scope": "Bounded per-batch ownership snapshots/group indexes plus request-local solid-body provenance reuse.",
+    "first_opportunity": "Amortize exact common geometry/mesh/group-owner validation within one synchronous RBE gathering or validation batch. Retain every per-reference resolution, ownership, membership, finite-node, rank, overlap and supported-domain obligation. Prefer a small private interface at the existing ownership seam over public cache knobs or duplicated caller-specific shortcuts.",
+    "second_opportunity": "Within one request, share exact mesh-geometry provenance and group indexes across the 264 independent AccountingBody selections. Continue resolving and validating every body's current selection and one-sided facet incidence independently.",
+    "existing_precedent_not_a_drop_in_proof": "_OwnershipContext provides detached coordinate/connectivity/group snapshots and entry/end validation for Contact/Tie batches. Its getter dependency, failure publication rules, legacy provenance behavior and domain must be adapted and tested for RBEs/request bodies; existing Contact/Tie success does not prove that extension safe.",
+    "lifetime": "Create fresh state inside each concrete synchronous operation/batch; validate before publishing derived sets and dispose on success or exception. Do not store it on document/analysis objects, reuse it after edits or retain the writer's port context into request preparation.",
+    "not_recommended": "Process-global or persistent caches; document-revision/count/bounding-box-only cache identities; native mesh copies as exact provenance snapshots; skipped guards; cached environment/capacity policy; grouping, grounding, truncating or coarsening the physical fixture.",
+    "performance_claim": "The profile establishes repeated work and a plausible reuse seam, not a proven achievable saving, wall-time target or speedup. Re-profile and compare matched inputs only if an implementation candidate is pursued."
+  },
+  "future_lifecycle_and_regression_gaps": [
+    "Native connectivity, node coordinates and group IDs/names/types/members/order can mutate without a document-property revision. Exercise same-size and same-bounds mutations, empty groups and unresolvable members; reject changes at batch end rather than publishing stale sets.",
+    "Preserve complete positioned CAD geometry and input-link graph checks, unresolved references, current part/provenance identity and external-document rules. Never replace exact native geometry evidence with approximate geometric summaries.",
+    "Keep standalone-RBE diagnostics distinct from stricter solid/noncollinear connector-port restrictions. Do not convert accepted standalone cases or overlap warnings into port errors merely to share a result.",
+    "Preserve legacy/imported meshes without provenance and canonical-versus-legacy fingerprint policies. _get_solid_reference_group_sets currently requires canonical provenance; broadening it to the looser ownership fallback would be a semantic change, not reuse.",
+    "Test the same public exporter/writer across success, exception and subsequent direct writes, reference changes, remeshing with sparse IDs, parent placements and analysis.Group reorder. Preserve mutable public return independence and exact allocated native IDs for each current state.",
+    "Test batch mutation/failure before publication and after partial progress. Structured per-object diagnostics, ordinary-RBE compatibility and fresh request validation must remain intact; current separate-phase context disposal must not be lost.",
+    "If product changes are pursued, add a short deterministic work-count/coverage regression derived from this scan pattern, then strict same-input output/timing comparison and full fresh 132-bay physical/cold/2112-refusal gates at unchanged original limits. These are candidate obligations, not proof that this profiling-only bead needs an optimization."
+  ],
+  "independent_parallel_axis": {
+    "report": "/private/tmp/freecad-882-VGfnpo/planning/profile-numeric-caller-review-r01.json",
+    "sha256": "629b9e5e557c15c238c5d013e7c8cfddab97132f162c70997a52aba90236c47b",
+    "scope": "Separate child used completed profile artifacts only, no implementation read. Main reviewer read the complete report and independently matched all 661 raw stats rows to JSON.",
+    "finding": "No numeric/caller inconsistency; nonadditive timing and aggregate-grandparent limitations are explicitly retained."
+  },
+  "audit_setup_disclosure": "One read-only convenience check initially compared full metadata.capacity, which includes objects, with profile.actual_export_capacity, which deliberately projects required/total/supported/binary/binary_sha256. That invocation exited1 for the overstrict comparator. A focused schema-correct projection check passed unchanged captured bytes and all sidecar/deck/request bindings. No native/product/profile failure or receipt repair occurred.",
+  "limits_and_disclosures": {
+    "product_or_existing_QA_source_changes": false,
+    "native_app_solver_mesher_build_test_or_helper_execution_by_reviewer": false,
+    "profile_reading": "Only stdlib file/JSON/marshal arithmetic was executed; profile data was not imported as a QA module.",
+    "fresh_physics_or_old_qualification_transfer": false,
+    "engineering_or_BIM_acceptance": false,
+    "Oomakhi_accessed": false,
+    "installation": false,
+    "completion_status": "Root owns the final profiling deliverable/publication and bead status; this review is not an upstream/product-fix acceptance.",
+    "prior_authorship": "Reviewer previously authored yzk native capacity C/hooks and a context-lifetime test proposal, and reviewed prior custody helpers. Reviewer did not author this baseline profiling module, its execution or its publisher.",
+    "skill_influence": "Codebase-design was read completely and used to keep proposed reuse within a small private ownership interface with explicit lifetime, rather than expanding public configuration or promising an untested adapter."
+  },
+  "outstanding_attribution_or_custody_findings": []
+}

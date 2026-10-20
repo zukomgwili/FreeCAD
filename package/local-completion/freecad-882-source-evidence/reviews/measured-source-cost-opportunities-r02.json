@@ -1,0 +1,883 @@
+{
+  "schema": "FreeCAD-882-measured-export-attribution-v1",
+  "passed": true,
+  "status": "Completed file-only measured/source analysis for root and independent review; not the final bead or publication verdict",
+  "author": "/root/5ar_evidence",
+  "author_role_disclosure": "This analyst previously prepared QA and the earlier PortResolutionContext work; this is an independent read of the completed baseline and current caller graph, not a claim of complete independence from all historical implementation authorship.",
+  "baseline_execution": {
+    "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/execution.json",
+    "sha256": "68e693a6568a76a115ca432c6bc46d7684cd3ad2ffd770818cf72103818e928e"
+  },
+  "baseline_profile": {
+    "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/export-profile.json",
+    "sha256": "b3b58d27d2933728e112d8fd44944bf2bbcd0d03d150b3bb43efd3a3b41df698"
+  },
+  "source_HEAD": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+  "installed_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+  "installed_revision": "49261 +224 (Git)",
+  "candidate_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+  "measurements": {
+    "actual_write_inp_file_calls": 1,
+    "profiled_stock_write_wall_seconds": 1182.4594961670227,
+    "profiled_stock_write_FreeCAD_process_CPU_seconds": 1178.851646
+  },
+  "analysis_method": {
+    "native_application_build_test_collector_or_product_helper_execution": false,
+    "product_or_executed_QA_edits": false,
+    "scope": "Read completed hash-bound receipts, cumulative text, actual measured operation rows and the targeted source. Read trusted own-generated pstats diagnostic data with Python stdlib pstats, without executing its producer or importing FreeCAD/product modules.",
+    "pstats_blob_sha256": "f9891864c1f566d05a626597a414702e692b2072bb899065721a5c0e99d5bdec",
+    "baseline_and_source_reads_after_actual_baseline_completed": true,
+    "capture_and_fence": "Captured receipt buffers were hashed before parsing; the actual .prof SHA was checked before pstats data parsing; all five analysis inputs and nine source/runtime pairs were rechecked after analysis.",
+    "all_eight_produced_output_hashes_and_sizes_verified": true,
+    "inputs_and_source_runtime_parity_rechecked_after_analysis": true,
+    "no_raw_user_profile_app_or_dependency_inventories_read_or_published": true
+  },
+  "captured_inputs": [
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/execution.json",
+      "sha256": "68e693a6568a76a115ca432c6bc46d7684cd3ad2ffd770818cf72103818e928e",
+      "bytes": 162667
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/export-profile.json",
+      "sha256": "b3b58d27d2933728e112d8fd44944bf2bbcd0d03d150b3bb43efd3a3b41df698",
+      "bytes": 227964
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/profile-cumulative.txt",
+      "sha256": "8deadadaa7e5f10a9b0865e220cfa194e8c957c111423190cce5b8157fc2799b",
+      "bytes": 13964
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/whole-public-write.prof",
+      "sha256": "f9891864c1f566d05a626597a414702e692b2072bb899065721a5c0e99d5bdec",
+      "bytes": 97782
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/manifest.json",
+      "sha256": "04b1598ca90bbb680a813ddc428f4f2d69065f989914c97cd2fd87adec4946df",
+      "bytes": 80635
+    }
+  ],
+  "source_bindings": [
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshtools.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "sha256": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95",
+      "bytes": 132350,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/ownership_context.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/ownership_context.py",
+      "sha256": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae",
+      "bytes": 5566,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshsetsgetter.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+      "sha256": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4",
+      "bytes": 52114,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/elastic_connector.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+      "sha256": "4bbfbe5b66c30f8f92a155f7bf099e67732b5136c5745b07d1db9e5f16fe8343",
+      "bytes": 12781,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/rigid_body.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/rigid_body.py",
+      "sha256": "4f2728dda9afd9038cf996a74764434cde07c90d67e4329de8e88b34f3386d09",
+      "bytes": 4831,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/force_accounting.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py",
+      "sha256": "9ca17134f3e7373416891d9740261fe406158e8084023f76be4a8b9e745052f3",
+      "bytes": 45043,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/ccxtools.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+      "sha256": "ec81c8abba0516485158665403694cdd5a02f4397b0e982ff0d0d4076726a653",
+      "bytes": 37479,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/writer.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py",
+      "sha256": "4b3433a85627271e399008a6c1a64d6718d6f56e25dc4f609debbf3e284c13af",
+      "bytes": 12817,
+      "source_equals_runtime_bytes": true
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_constraint_rigidbody_step.py",
+      "runtime_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_rigidbody_step.py",
+      "sha256": "aad5685e5fe01e92947158f3ef5624627b147ec28e1a25cd89308d7a4915bd5c",
+      "bytes": 3945,
+      "source_equals_runtime_bytes": true
+    }
+  ],
+  "measurement_limits": {
+    "profiled_wall_is_one_actual_whole_public_write": true,
+    "actual_write_call_count": 1,
+    "FreeCAD_process_CPU_excludes_native_child_CPU": true,
+    "profile_overhead_included": true,
+    "cumulative_rows_overlap_and_are_not_additive_partitions": true,
+    "profile_total_seconds": 1182.3219060830022,
+    "profile_total_calls": 594367700,
+    "profile_primitive_calls": 594279483,
+    "historical_unprofiled_1122_6550142499618_seconds_not_a_matched_speedup_denominator": true,
+    "no_runtime_SLA_improvement_or_target_fitted_from_this_measurement": true
+  },
+  "completed_export_custody_scope": {
+    "saved_FCStd_sha256": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452",
+    "restored_ordered_connectivity_raw_sha256": "a10760248706e1f9aee3cfd6661f95700092d1b6a8fc05e4796624d801633132",
+    "restored_ordered_connectivity_canonical_sha256": "23491724b34bf065d49900335b11d6381a0955b8890dddd080bf438b9d7532fc",
+    "model_before_and_after_sha256": "f687caec914fa265624b9fd7616a8bce4e62f9839bbc893d52ed2d3c16adbd02",
+    "mesh_before_and_after_sha256": "1f2c4bfbe2ff5e80199944095da80ee7c4d869123acada6a60c7b59bec8cfb3f",
+    "actual_declarations": {"supports": 1, "bodies": 264, "ports": 264, "angles": 792, "springs": 792, "total": 2113},
+    "historical_ID_request_or_deck_comparisons_are_diagnostic_only": true,
+    "recorded_source_application_three_user_directories_sixteen_dependencies_and_child_cleanup_passed": true,
+    "no_new_solver_mesher_save_recompute_or_physical_model_edit_by_harness": true
+  },
+  "measured_call_path_attribution": [
+    {
+      "observation": "Owned-region resolution repeats for four full traversals of the264RBE graph.",
+      "function": "meshtools._get_mesh_region_by_owned_references",
+      "total_calls": 1056,
+      "cumulative_seconds": 985.7679924130001,
+      "self_seconds": 91.170055644,
+      "caller_decomposition": [
+        {
+          "caller": "MeshSetsGetter.get_constraints_rigidbody_nodes",
+          "calls": 264,
+          "via_owned_wrapper_cumulative_seconds": 246.662409373
+        },
+        {
+          "caller": "rigid_body.validation_diagnostics",
+          "calls": 264,
+          "via_owned_wrapper_cumulative_seconds": 245.89944099800002
+        },
+        {
+          "caller": "elastic_connector._validated_rigid_body_nodes",
+          "calls": 528,
+          "via_owned_wrapper_cumulative_seconds": 494.769501917
+        }
+      ],
+      "interpretation": "528validated-port calls reflect264fresh receiver validations within the writer and264within the fresh request phase; the earlier PortResolutionContext already avoids resolving the same endpoint afresh for each of792scalar connector objects. The separate mesh-set and standalone-RBE paths are outside that cache."
+    },
+    {
+      "observation": "Repeated exact CAD fingerprints dominate native kernel checks.",
+      "function": "meshtools.get_mesh_geometry_signature",
+      "calls": 1327,
+      "cumulative_seconds": 672.3486287400001,
+      "caller_decomposition": [
+        {
+          "caller": "mesh_geometry_matches",
+          "calls": 1056,
+          "cumulative_seconds": 536.8050456130001
+        },
+        {
+          "caller": "_get_solid_reference_group_sets",
+          "calls": 265,
+          "cumulative_seconds": 134.024986877
+        },
+        {
+          "caller": "quality.input_fingerprint",
+          "calls": 1,
+          "cumulative_seconds": 0.509487459
+        },
+        {
+          "caller": "force_accounting._model_digest.value",
+          "calls": 5,
+          "cumulative_seconds": 1.009108791
+        }
+      ],
+      "native_isValid_calls": 2654,
+      "native_isValid_self_seconds": 545.920204401,
+      "interpretation": "Each canonical signature intentionally performs native validation on both the copy and reconstructed BRep. This evidence identifies repetition, not an authority to remove canonicalization, legacy support or exact ownership checks."
+    },
+    {
+      "observation": "Each uncached owned-region lookup rechecks the entire mesh against its geometry owner's mesh.",
+      "source": "meshtools.py:212-229",
+      "native_getElementNodes_calls_from_comparison": 279780864,
+      "native_getElementNodes_self_seconds_from_comparison": 198.56381667000002,
+      "group_data_calls": 2112,
+      "group_data_cumulative_seconds": 44.758079229,
+      "native_getGroupElements_calls_from_group_comparison": 20129472,
+      "interpretation": "The native connectivity calls and group snapshots are whole-mesh guards, not792spring writes. Their cumulative totals overlap the owned-region and fingerprint costs; do not add those figures into a claimed removable-time partition."
+    },
+    {
+      "observation": "The accounting BODY loop repeats a whole geometry/group provenance pass per cut selector.",
+      "function": "meshtools._get_solid_reference_group_sets",
+      "total_calls": 265,
+      "prepare_request_calls": 264,
+      "prepare_request_cumulative_seconds": 138.2422278,
+      "other_material_partition_calls": 1,
+      "interpretation": "The function already accepts a list of selector rows, while prepare_request currently passes one selector per264cut records. This is an independently bounded request-local batching opportunity; measured time is not a guaranteed speedup."
+    },
+    {
+      "observation": "Native ID lookup is a smaller remaining snapshot cost.",
+      "function": "elastic_connector.rigid_body_node_ids",
+      "calls": 2640,
+      "cumulative_seconds": 12.650443273,
+      "unshared_callers": [
+        {
+          "caller": "rigid_body.validation_diagnostics",
+          "calls": 264,
+          "cumulative_seconds": 6.3734391210000005
+        },
+        {
+          "caller": "write_constraint_rigidbody_step.write_constraint",
+          "calls": 264,
+          "cumulative_seconds": 6.2444086190000005
+        }
+      ],
+      "interpretation": "Both callers omit the optional context. Existing writer connector/property paths and request already use their own fresh contexts. Extending only within a valid local batch is secondary to exact ownership validation costs; no isolated ID microbenchmark can stand in for whole-call improvement."
+    }
+  ],
+  "selected_measured_profile_rows": [
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 45,
+      "function": "get_femnodes_by_femobj_with_references",
+      "primitive_calls": 1057,
+      "total_calls": 1057,
+      "self_seconds": 0.005007282,
+      "cumulative_seconds": 987.5378510380001,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/rigid_body.py",
+          "line": 35,
+          "function": "validation_diagnostics",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.0029072620000000003,
+          "cumulative_seconds": 245.89944099800002
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+          "line": 124,
+          "function": "_validated_rigid_body_nodes",
+          "primitive_calls": 528,
+          "total_calls": 528,
+          "self_seconds": 0.0014116430000000002,
+          "cumulative_seconds": 494.769501917
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+          "line": 309,
+          "function": "get_constraints_rigidbody_nodes",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.000615169,
+          "cumulative_seconds": 246.662409373
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+          "line": 274,
+          "function": "get_constraints_fixed_nodes",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.00007320800000000001,
+          "cumulative_seconds": 0.20649875
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 151,
+      "function": "get_femnodes_by_owned_references",
+      "primitive_calls": 1056,
+      "total_calls": 1056,
+      "self_seconds": 1.557489353,
+      "cumulative_seconds": 987.325481766,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 45,
+          "function": "get_femnodes_by_femobj_with_references",
+          "primitive_calls": 1056,
+          "total_calls": 1056,
+          "self_seconds": 1.557489353,
+          "cumulative_seconds": 987.325481766
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 162,
+      "function": "_get_mesh_region_by_owned_references",
+      "primitive_calls": 1056,
+      "total_calls": 1056,
+      "self_seconds": 91.170055644,
+      "cumulative_seconds": 985.7679924130001,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 151,
+          "function": "get_femnodes_by_owned_references",
+          "primitive_calls": 1056,
+          "total_calls": 1056,
+          "self_seconds": 91.170055644,
+          "cumulative_seconds": 985.7679924130001
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 72,
+      "function": "get_mesh_geometry_signature",
+      "primitive_calls": 1327,
+      "total_calls": 1327,
+      "self_seconds": 0.14079069700000002,
+      "cumulative_seconds": 672.3486287400001,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 115,
+          "function": "mesh_geometry_matches",
+          "primitive_calls": 1056,
+          "total_calls": 1056,
+          "self_seconds": 0.11125169300000001,
+          "cumulative_seconds": 536.8050456130001
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 1024,
+          "function": "_get_solid_reference_group_sets",
+          "primitive_calls": 265,
+          "total_calls": 265,
+          "self_seconds": 0.029077169000000003,
+          "cumulative_seconds": 134.024986877
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py",
+          "line": 93,
+          "function": "input_fingerprint",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.000160874,
+          "cumulative_seconds": 0.509487459
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py",
+          "line": 517,
+          "function": "value",
+          "primitive_calls": 5,
+          "total_calls": 5,
+          "self_seconds": 0.00030096100000000003,
+          "cumulative_seconds": 1.009108791
+        }
+      ]
+    },
+    {
+      "filename": "~",
+      "line": 0,
+      "function": "<method 'isValid' of 'Part.Shape' objects>",
+      "primitive_calls": 2654,
+      "total_calls": 2654,
+      "self_seconds": 545.920204401,
+      "cumulative_seconds": 545.920204401,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 72,
+          "function": "get_mesh_geometry_signature",
+          "primitive_calls": 2654,
+          "total_calls": 2654,
+          "self_seconds": 545.920204401,
+          "cumulative_seconds": 545.920204401
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 115,
+      "function": "mesh_geometry_matches",
+      "primitive_calls": 1056,
+      "total_calls": 1056,
+      "self_seconds": 2.339973434,
+      "cumulative_seconds": 539.1456723,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 162,
+          "function": "_get_mesh_region_by_owned_references",
+          "primitive_calls": 1056,
+          "total_calls": 1056,
+          "self_seconds": 2.339973434,
+          "cumulative_seconds": 539.1456723
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py",
+      "line": 131,
+      "function": "write_solver_input",
+      "primitive_calls": 1,
+      "total_calls": 1,
+      "self_seconds": 0.013422000000000002,
+      "cumulative_seconds": 520.0276072920001,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+          "line": 371,
+          "function": "write_inp_file",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.013422000000000002,
+          "cumulative_seconds": 520.0276072920001
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+      "line": 229,
+      "function": "validation_errors",
+      "primitive_calls": 1,
+      "total_calls": 1,
+      "self_seconds": 0.032261437000000004,
+      "cumulative_seconds": 511.21392883400006,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py",
+          "line": 144,
+          "function": "_write_solver_input",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.032261437000000004,
+          "cumulative_seconds": 511.21392883400006
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+      "line": 124,
+      "function": "_validated_rigid_body_nodes",
+      "primitive_calls": 528,
+      "total_calls": 528,
+      "self_seconds": 0.037795478,
+      "cumulative_seconds": 495.098302792,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+          "line": 114,
+          "function": "rigid_body_nodes",
+          "primitive_calls": 528,
+          "total_calls": 528,
+          "self_seconds": 0.037795478,
+          "cumulative_seconds": 495.098302792
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py",
+      "line": 609,
+      "function": "prepare_request",
+      "primitive_calls": 1,
+      "total_calls": 1,
+      "self_seconds": 3.084605496,
+      "cumulative_seconds": 391.447514542,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+          "line": 371,
+          "function": "write_inp_file",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 3.084605496,
+          "cumulative_seconds": 391.447514542
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+      "line": 221,
+      "function": "get_mesh_sets",
+      "primitive_calls": 1,
+      "total_calls": 1,
+      "self_seconds": 0.00010529400000000001,
+      "cumulative_seconds": 269.511196542,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+          "line": 371,
+          "function": "write_inp_file",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.00010529400000000001,
+          "cumulative_seconds": 269.511196542
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/rigid_body.py",
+      "line": 35,
+      "function": "validation_diagnostics",
+      "primitive_calls": 1,
+      "total_calls": 1,
+      "self_seconds": 8.760639721,
+      "cumulative_seconds": 261.299688334,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+          "line": 229,
+          "function": "validation_errors",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 8.760639721,
+          "cumulative_seconds": 261.299688334
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+      "line": 309,
+      "function": "get_constraints_rigidbody_nodes",
+      "primitive_calls": 1,
+      "total_calls": 1,
+      "self_seconds": 0.0018213620000000002,
+      "cumulative_seconds": 246.67142,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+          "line": 221,
+          "function": "get_mesh_sets",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.0018213620000000002,
+          "cumulative_seconds": 246.67142
+        }
+      ]
+    },
+    {
+      "filename": "~",
+      "line": 0,
+      "function": "<method 'getElementNodes' of 'Fem.FemMesh' objects>",
+      "primitive_calls": 280229256,
+      "total_calls": 280229256,
+      "self_seconds": 198.947714375,
+      "cumulative_seconds": 198.947714375,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 218,
+          "function": "<genexpr>",
+          "primitive_calls": 279780864,
+          "total_calls": 279780864,
+          "self_seconds": 198.56381667000002,
+          "cumulative_seconds": 198.56381667000002
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+          "line": 52,
+          "function": "_solid_nodes",
+          "primitive_calls": 148456,
+          "total_calls": 148456,
+          "self_seconds": 0.129044761,
+          "cumulative_seconds": 0.129044761
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 446,
+          "function": "get_femelement_table",
+          "primitive_calls": 148456,
+          "total_calls": 148456,
+          "self_seconds": 0.140076686,
+          "cumulative_seconds": 0.140076686
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 162,
+          "function": "_get_mesh_region_by_owned_references",
+          "primitive_calls": 16896,
+          "total_calls": 16896,
+          "self_seconds": 0.014756602,
+          "cumulative_seconds": 0.014756602
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 1551,
+          "function": "get_ref_facenodes_table",
+          "primitive_calls": 2112,
+          "total_calls": 2112,
+          "self_seconds": 0.001521999,
+          "cumulative_seconds": 0.001521999
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py",
+          "line": 93,
+          "function": "input_fingerprint",
+          "primitive_calls": 132472,
+          "total_calls": 132472,
+          "self_seconds": 0.098497657,
+          "cumulative_seconds": 0.098497657
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 1024,
+      "function": "_get_solid_reference_group_sets",
+      "primitive_calls": 265,
+      "total_calls": 265,
+      "self_seconds": 3.2893698000000002,
+      "cumulative_seconds": 138.7747273,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py",
+          "line": 609,
+          "function": "prepare_request",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 3.2793544860000003,
+          "cumulative_seconds": 138.2422278
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 1100,
+          "function": "get_femelement_sets_from_group_data",
+          "primitive_calls": 1,
+          "total_calls": 1,
+          "self_seconds": 0.010015314,
+          "cumulative_seconds": 0.5324995
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+      "line": 222,
+      "function": "group_data",
+      "primitive_calls": 2112,
+      "total_calls": 2112,
+      "self_seconds": 0.9816549250000001,
+      "cumulative_seconds": 44.758079229,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 162,
+          "function": "_get_mesh_region_by_owned_references",
+          "primitive_calls": 2112,
+          "total_calls": 2112,
+          "self_seconds": 0.9816549250000001,
+          "cumulative_seconds": 44.758079229
+        }
+      ]
+    },
+    {
+      "filename": "~",
+      "line": 0,
+      "function": "<method 'getGroupElements' of 'Fem.FemMesh' objects>",
+      "primitive_calls": 20130792,
+      "total_calls": 20130792,
+      "self_seconds": 23.387672622,
+      "cumulative_seconds": 23.387672622,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 223,
+          "function": "<genexpr>",
+          "primitive_calls": 20129472,
+          "total_calls": 20129472,
+          "self_seconds": 23.378747614,
+          "cumulative_seconds": 23.378747614
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 1024,
+          "function": "_get_solid_reference_group_sets",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.004869419000000001,
+          "cumulative_seconds": 0.004869419000000001
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+          "line": 162,
+          "function": "_get_mesh_region_by_owned_references",
+          "primitive_calls": 1056,
+          "total_calls": 1056,
+          "self_seconds": 0.004055589,
+          "cumulative_seconds": 0.004055589
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+      "line": 105,
+      "function": "rigid_body_node_ids",
+      "primitive_calls": 2640,
+      "total_calls": 2640,
+      "self_seconds": 0.0033354490000000003,
+      "cumulative_seconds": 12.650443273,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/rigid_body.py",
+          "line": 35,
+          "function": "validation_diagnostics",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.0013629780000000001,
+          "cumulative_seconds": 6.3734391210000005
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py",
+          "line": 609,
+          "function": "prepare_request",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.00056495,
+          "cumulative_seconds": 0.030015534000000003
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_elastic_connector.py",
+          "line": 10,
+          "function": "write_connectors",
+          "primitive_calls": 1584,
+          "total_calls": 1584,
+          "self_seconds": 0.000370149,
+          "cumulative_seconds": 0.000527406
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_rigidbody_step.py",
+          "line": 63,
+          "function": "write_constraint",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.0008842810000000001,
+          "cumulative_seconds": 6.2444086190000005
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_rigidbody.py",
+          "line": 68,
+          "function": "write_constraint",
+          "primitive_calls": 264,
+          "total_calls": 264,
+          "self_seconds": 0.000153091,
+          "cumulative_seconds": 0.002052593
+        }
+      ]
+    },
+    {
+      "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+      "line": 41,
+      "function": "_nodes",
+      "primitive_calls": 1585,
+      "total_calls": 1585,
+      "self_seconds": 11.973294378,
+      "cumulative_seconds": 12.585727956000001,
+      "callers": [
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+          "line": 36,
+          "function": "max_node_id",
+          "primitive_calls": 1057,
+          "total_calls": 1057,
+          "self_seconds": 11.952143119,
+          "cumulative_seconds": 12.563440572000001
+        },
+        {
+          "filename": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+          "line": 124,
+          "function": "_validated_rigid_body_nodes",
+          "primitive_calls": 528,
+          "total_calls": 528,
+          "self_seconds": 0.021151259000000002,
+          "cumulative_seconds": 0.022287384
+        }
+      ]
+    }
+  ],
+  "source_supported_opportunities_not_implemented": [
+    {
+      "priority": 1,
+      "name": "Fresh exact ownership snapshot and group-index reuse per synchronous batch",
+      "evidence_locations": [
+        "femmesh/meshtools.py:162-362",
+        "femmesh/ownership_context.py:12-141",
+        "femmesh/meshsetsgetter.py:505-552",
+        "femtools/rigid_body.py:35-115",
+        "femtools/elastic_connector.py:124-164"
+      ],
+      "proposal": "Generalize or compose the existing Contact/Tie exact entry/end-fence ownership pattern for RBE mesh gathering and validation batches. Materialize complete ordered nodes/connectivity/group IDs+names+types+members and validated provenance/group indices once within that batch; cache only fully verified regions. Do not simply bypass the full-mesh guard because two native wrappers refer to the same owner.",
+      "safe_lifetime": "Local to one synchronous gathering/validation batch, fresh for every public/direct operation. End-fence exact source geometry/provenance, mesh and references before publishing results. Dispose unconditionally on success or failure. No global/document cache, document revision shortcut or reuse across edits.",
+      "critical_boundaries": [
+        "Keep generic standalone-RBE compatibility diagnostics separate from stricter connector solid/non-collinear/rank/domain validation; sharing facts must not convert one validation domain into another.",
+        "Preserve exact canonical and supported legacy geometry checks, current placements and ownership/link graph, original group provenance, unresolved/duplicate/empty/wrong-type groups, sparse IDs and raw connectivity/member ordering.",
+        "Native FemMesh mutation may not change document properties; immutable snapshots plus exact end validation are necessary. A copied FemMesh is not equivalent when empty or unresolvable group members can be lost.",
+        "Cache CAD occurrence/subname selection only for the validated owning batch and recheck reference links; do not select coincident owners from coordinates or merge groups by coincident nodes.",
+        "Public mutable region results remain copies; no caller may mutate a verified cached container."
+      ]
+    },
+    {
+      "priority": 2,
+      "name": "Fresh request-local solid-group batching/index reuse",
+      "evidence_locations": [
+        "femtools/force_accounting.py:723-760",
+        "femmesh/meshtools.py:1024-1097"
+      ],
+      "proposal": "Collect the current264accounting-body selectors and resolve their complete CAD entity/provenance group selections within one fresh request batch, retaining each selector's exact one-sided volume/facet ownership check and request row order. Reuse verified mesh geometry/group invariants within this request only; validate all selected rows before final request publication.",
+      "safe_lifetime": "Fresh inside prepare_request. Do not retain or resurrect the writer PortResolutionContext after write_solver_input has cleared it. Existing direct-after-success/error and subsequent-edit behavior requires that boundary.",
+      "critical_boundaries": [
+        "Capacity preflight remains early and the final complete graph/capacity recheck remains intact; no limit changes or record omissions.",
+        "The complete request remains tied to the actual deck's nodes/elements/native IDs and body-owned one-sided facet checks; no stress fitting, relabelling, sign adjustment or owner relaxation.",
+        "No per-body geometry/reference failure can publish a partial new request or validate unrelated stale member tables."
+      ]
+    },
+    {
+      "priority": 3,
+      "name": "Secondary local native-ID snapshot reuse",
+      "evidence_locations": [
+        "femtools/rigid_body.py:75-82",
+        "femsolver/calculix/write_constraint_rigidbody_step.py:63-67",
+        "femtools/elastic_connector.py:16-66,105-112",
+        "femsolver/calculix/writer.py:131-142"
+      ],
+      "proposal": "Where a batch already owns a fresh verified mesh/Analysis.Group snapshot, pass compatible explicit context for ID allocation rather than rematerializing coordinates for each RBE. Keep standalone APIs fresh when no context is supplied.",
+      "safe_lifetime": "Only the existing current validation or writer operation; recreate for every later write or direct call.",
+      "critical_boundaries": [
+        "Preserve max native node ID with sparse nodes and exact Analysis.Group ordering, collision checks, semantic reference/rotation pair and auxiliary spring numbering.",
+        "Do not keep writer.port_resolution_context alive into prepare_request, across a failed write, or on a reused analysis/writer after edits."
+      ]
+    }
+  ],
+  "recommended_follow_up": {
+    "bead": "FreeCAD-3q7",
+    "bead_title": "FEM: amortize exact ownership validation within coupled export batches",
+    "status": "OPEN, unimplemented recommendation; discovered from FreeCAD-882",
+    "scope": "One separately authorized optimization bead: batch exact ownership/provenance validation and request-local solid group resolution for large coupled export, using the measured profile as diagnosis evidence. No product patch is made in882.",
+    "why_nontrivial": "The opportunity crosses different validation domains, native mutable mesh snapshots, RBE/connector/section consumers and failure/publication lifetimes. A global memoizer or extending the cleared writer port cache would hide stale state. A separately reviewed deeper ownership-facts seam is justified.",
+    "not_the_optimization_target": "The measured native writeABAQUS call is0.618764084seconds, far smaller than repeated ownership validation. Existing cheap early/final capacity probes and the final model digest are safety/provenance checks, not work to skip. Preserve them and their direct-after-success/error semantics.",
+    "prospective_acceptance_prose_only": [
+      "Start with a short real public writer case exposing repeated invariant work, plus public mutation/error-cleanup checks; do not treat an internal call-count mock or leaf-only benchmark as regression acceptance.",
+      "Use the existing public behavior coverage maps for reference edits, sparse remesh, placement, Analysis.Group order, mutable returned regions and success/error/direct-write reuse. Add the still-missing batch mutation/provenance cases relevant to the actual seam.",
+      "For any speedup claim, compare the exact same FCStd3128/restored ordered connectivity and new successful baseline's exact groups/properties/deck/request/native PORT IDs, allowing only the predeclared written-on comment difference in comparison, never rewriting evidence. Report profiling overhead and no arbitrary timing SLA.",
+      "A product candidate must pass full fresh132physical checks, separate cold and2112early refusal with all3566checks at unchanged1percent wrench/5percent scalar limits, plus appropriate source/build and backward-compatible writer gates. These are prospective obligations, not results or required solves for the profiling-only bead."
+    ]
+  },
+  "scope_and_holds": {
+    "implementation_performed": false,
+    "candidate_speedup_claimed": false,
+    "new_build_or_physical_qualification_claimed": false,
+    "installation_performed": false,
+    "Oomakhi_accessed_or_solved": false,
+    "engineering_or_BIM_accepted": false,
+    "original_geometry_loads_and_acceptance_limits_rewritten": false,
+    "force_original_origin_moment_limit": 0.01,
+    "scalar_response_limit": 0.05,
+    "R49_scalar_percent": 11.123267892,
+    "R51_scalar_percent": 5.240441298,
+    "R49_and_R51_remain_failed_against_5percent": true,
+    "original_historical_physical_qualification_not_inherited_by_this_profile": true,
+    "external_Pixi_runtime_still_required": true
+  }
+}
+

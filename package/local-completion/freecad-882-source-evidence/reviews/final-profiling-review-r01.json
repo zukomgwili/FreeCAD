@@ -1,0 +1,71 @@
+{
+  "schema": "FreeCAD-882-independent-final-profiling-review-v1",
+  "passed": true,
+  "reviewer": "/root/ywu_final_review",
+  "claim_scope": "Independent review of completed profiling evidence and source-supported bounded-reuse recommendations only. Not an optimization, measured speedup, fresh physics, installation, publication or engineering acceptance.",
+  "attribution_report": {
+    "path": "/private/tmp/freecad-882-VGfnpo/planning/measured-source-cost-opportunities-r02.json",
+    "sha256": "01867f74ab29679a4b6b636ea15efb9b36ebd483f2d0be4ab4f79743f00575b0"
+  },
+  "completed_baseline": {
+    "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02",
+    "execution_sha256": "68e693a6568a76a115ca432c6bc46d7684cd3ad2ffd770818cf72103818e928e",
+    "export_profile_sha256": "b3b58d27d2933728e112d8fd44944bf2bbcd0d03d150b3bb43efd3a3b41df698",
+    "whole_public_write_prof_sha256": "f9891864c1f566d05a626597a414702e692b2072bb899065721a5c0e99d5bdec",
+    "cumulative_text_sha256": "8deadadaa7e5f10a9b0865e220cfa194e8c957c111423190cce5b8157fc2799b",
+    "manifest_sha256": "04b1598ca90bbb680a813ddc428f4f2d69065f989914c97cd2fd87adec4946df",
+    "actual_public_write_calls": 1,
+    "actual_tests_including_identity": 2,
+    "actual_skips": 0,
+    "whole_public_write_wall_seconds": 1182.4594961670227,
+    "FreeCAD_process_CPU_seconds": 1178.851646,
+    "source_HEAD": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+    "actual_installed_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+    "actual_installed_revision": "49261 +224 (Git)",
+    "default_native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66"
+  },
+  "supporting_reviews": [
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/completed-profile-attribution-review-r01.json",
+      "sha256": "a87cb4f6dea6d94d855746d7455eaa7d367b95f8dba6aa9cd8eb318944d1961e",
+      "role": "Main independent actual-byte, source attribution and lifecycle/regression review, including audit-comparator setup disclosure."
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/profile-numeric-caller-review-r01.json",
+      "sha256": "629b9e5e557c15c238c5d013e7c8cfddab97132f162c70997a52aba90236c47b",
+      "role": "Parallel child artifact-only numeric/caller analysis, read completely by the main reviewer."
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/profiling-vs-implementation-scope-r01.json",
+      "sha256": "d8a0b561c21c352789fdd250d2bc0bb5060c5fca4ec95367392312b76449808c",
+      "role": "Explicit correction separating required profiling deliverables from prospective product-candidate gates."
+    },
+    {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/restore-bijection-benchmark-amendment-r01.json",
+      "sha256": "df87c9944d0f48885ec87d69d7bf19a1bfb34abf27ed2b6d4687931b051f4d07",
+      "role": "Exact ordered-cell relabel observation and frozen same-restored-input comparison scope; no historical physics transfer."
+    }
+  ],
+  "actual_cross_review": {
+    "complete_report_read": "Read all 882 lines of preserved author r01, then the complete r01-to-r02 diff and verified the final r02 hash. The sole delta separates raw restored-file SHA a1076024 from canonical ordered-connectivity SHA 23491724; it introduces no new result or scope.",
+    "numeric_binding": "All 661 raw .prof rows match the export JSON exactly. All 19 author-selected rows and every recorded caller edge match raw .prof counts/times exactly; all 5 author analysis references and all 9 explicit source/runtime byte/hash/size pairs also match.",
+    "actual_output_custody": "All 8 defining output descriptors, parsed receipt and log bindings, metadata/deck/request links, source/manifest maps and end fences are consistent. Private inventory equality remains receipt-backed; no full app inventory walk was repeated by this reviewer.",
+    "attribution": "Repeated exact ownership/provenance checks dominate the measured call. The 1056 owned resolutions, 1327 signatures and 279780864 repeated full-comparison node lookups are supported by caller data and relevant source. Nested cumulative timings are not added to direct phase or native leaf timings.",
+    "recommendation": "Bounded per-batch ownership snapshots/group indexes and fresh request-local solid-body provenance reuse are justified for investigation. Contact/Tie entry/end fencing is a precedent, not proof of an RBE-compatible adapter; domain, legacy behavior, exact mutations and failure/publication lifetimes remain prospective regression obligations.",
+    "followup": "FreeCAD-3q7 remains OPEN and unimplemented. No writer context is recommended to survive into request preparation, and no speedup or optimization acceptance is promised.",
+    "scope": "The report correctly completes analysis rather than requiring a product patch. Strict matched-candidate behavior/timing and fresh full 132-bay/cold/2112-refusal gates apply if product changes are pursued; none is relabelled as already executed by this profile."
+  },
+  "limits_and_authorship": {
+    "product_change_or_optimization_implemented": false,
+    "speedup_or_runtime_SLA_claimed": false,
+    "new_build_solve_install_or_engineering_acceptance": false,
+    "Oomakhi_accessed": false,
+    "original_engineering_limits_and_holds_unchanged": true,
+    "future_publication_reviewed_or_PASS_claimed": false,
+    "native_app_query_solver_mesher_build_test_or_helper_execution_by_reviewer": false,
+    "product_source_read_before_completed_baseline": false,
+    "prior_authorship_disclosure": "Reviewer previously authored yzk native capacity C/hooks and a context-lifetime test proposal and reviewed prior custody helpers; reviewer did not author the current profiling harness, execute the baseline or publish its evidence. The attribution author separately discloses earlier PortResolutionContext/QA authorship.",
+    "skill_influence": "Codebase-design guided small private ownership interfaces and explicit operation lifetimes; it did not authorize a new implementation or expand the bead."
+  },
+  "outstanding_findings": []
+}

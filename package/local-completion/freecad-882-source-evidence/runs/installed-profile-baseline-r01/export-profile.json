@@ -1,0 +1,60 @@
+{
+  "CPU_scope": "time.process_time for this FreeCAD process only, including profiling overhead; not native-child CPU or the profiler timer",
+  "Oomakhi_accessed_or_solved": false,
+  "actual_runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +224 (Git)",
+    "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+    "2026/10/20 19:37:03",
+    "codex/fix-toroidal-self-cut",
+    "7667033a14654a9b229bf59b94cb3012ce989170"
+  ],
+  "cumulative_profile_times_overlap_and_are_not_additive_partitions": true,
+  "document_load_seconds": 4.627151417080313,
+  "engineering_or_BIM_accepted": false,
+  "error": {
+    "message": "",
+    "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-882-VGfnpo/proposals/B882Profile.py\", line 157, in test_original_installed132_graph_whole_stock_export_profile\n    self.assertEqual(mesh_before['volume_connectivity'], expected_mesh['volume_connectivity'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 907, in assertEqual\n    assertion_func(first, second, msg=msg)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 1202, in assertDictEqual\n    diff = ('\\n' + '\\n'.join(difflib.ndiff(\n                   ~~~~~~~~~^^^^^^^^^^^^^^^\n                   pprint.pformat(d1).splitlines(),\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                   pprint.pformat(d2).splitlines())))\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/difflib.py\", line 860, in compare\n    for tag, alo, ahi, blo, bhi in cruncher.get_opcodes():\n                                   ~~~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/difflib.py\", line 525, in get_opcodes\n    for ai, bj, size in self.get_matching_blocks():\n                        ~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/difflib.py\", line 454, in get_matching_blocks\n    i, j, k = x = self.find_longest_match(alo, ahi, blo, bhi)\n                  ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/difflib.py\", line 385, in find_longest_match\n    k = newj2len[j] = j2lenget(j-1, 0) + 1\n                      ~~~~~~~~^^^^^^^^\nKeyboardInterrupt\n",
+    "type": "KeyboardInterrupt"
+  },
+  "inputs_after": {
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/coupled-before-export.FCStd": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/export-properties.json": "19c7f44abc3de40655830db8da189c4798644d59ad16a318547471161fbdbfac",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/geometry-contract.json": "d0285f0c99c239f792f6eca63be1eb34b813ab1d08839a19fb0301aef8091911",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/mesh-membership.json": "8f4f4d2bb4e88a225acbab5b04bda802127cc2bd42af9aad9efcb14e8da2ea44",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/native/Mesh.accounting": "59ff7b58b047b94b308e5bf5f1209dc329c6e2535b1369a8286685a151b1cdee",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/native/Mesh.inp": "1e21fe31ee296e10a6d6c7870c0ea4d270aa6b6da5d6185083c8509e75be70d5",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/witness-receipt.json": "8bf09e2a1a6d95df0020a5bdc6657c0b77ebe7a9be7c6e7f2fab2b06f90d2b69"
+  },
+  "inputs_before": {
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/coupled-before-export.FCStd": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/export-properties.json": "19c7f44abc3de40655830db8da189c4798644d59ad16a318547471161fbdbfac",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/geometry-contract.json": "d0285f0c99c239f792f6eca63be1eb34b813ab1d08839a19fb0301aef8091911",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/mesh-membership.json": "8f4f4d2bb4e88a225acbab5b04bda802127cc2bd42af9aad9efcb14e8da2ea44",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/native/Mesh.accounting": "59ff7b58b047b94b308e5bf5f1209dc329c6e2535b1369a8286685a151b1cdee",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/native/Mesh.inp": "1e21fe31ee296e10a6d6c7870c0ea4d270aa6b6da5d6185083c8509e75be70d5",
+    "/private/tmp/freecad-yzk-install-gTbYLA/installed-capacity/freecad_user_temp/freecad-moving-port-capacity-native-zoc2wkam/witness/witness-receipt.json": "8bf09e2a1a6d95df0020a5bdc6657c0b77ebe7a9be7c6e7f2fab2b06f90d2b69"
+  },
+  "no_solver_mesher_save_recompute_or_physical_model_edit_by_harness": true,
+  "no_timing_SLA_asserted": true,
+  "only_allowed_deck_comparison_normalization": "The one exact **   written on    --> timestamp comment; comparison only, never output modification",
+  "only_export_operational_WorkingDir_is_routed_to_new_output": true,
+  "original_fixture_and_native_evidence_unchanged": true,
+  "original_unprofiled_measurement_is_not_paired_with_profiled_wall_time": true,
+  "original_unprofiled_stock_write_seconds": 1122.6550142499618,
+  "originals_are_hash_only_and_never_overwritten": true,
+  "passed": false,
+  "phase": "before-document-open",
+  "physical_fixture": "Exact installed132-bay mesh/model, not the different source223 mesh",
+  "schema": "FreeCAD-882-whole-public-export-profile-v1",
+  "scope": "Export-only performance/custody; not a new physical solve or engineering acceptance",
+  "session_document_name_mapping": {
+    "comparison_only_no_native_references_or_history_rebound": true,
+    "opened_session": "coupled_before_export",
+    "saved_session": "MovingPortCapacityNative"
+  },
+  "single_whole_public_write_inp_file_call": true,
+  "source_HEAD": "6ba8b0000640e40eda16df2af98ad5e6578cdad9"
+}

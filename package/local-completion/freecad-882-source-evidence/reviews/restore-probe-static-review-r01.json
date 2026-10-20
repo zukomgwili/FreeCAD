@@ -1,0 +1,39 @@
+{
+  "schema": "FreeCAD-882-restore-probe-static-review-v1",
+  "task": "FreeCAD-882",
+  "reviewer": "/root/ywu_final_review",
+  "assessment": "No outstanding actionable safety, custody, scope or correctness finding for the observation-only probe.",
+  "review_basis": "Read the entire 155-line B882Profile module and the entire run_restore_probe supervisor delta from the independently reviewed 234-line export-profile v2. Verified all eight current module hashes without import or execution.",
+  "reviewed_files_sha256": {
+    "restore-probe-r01/B882Profile.py": "cf5ad5f75f12b4a862ccd6f1393b9de90d3473bad203474486d6e1e0c2074445",
+    "restore-probe-r01/run_restore_probe.py": "2f03bee26ba27f5ba7d5c5d330e280dc2fb1e91661d14af49a30ff5ce58a185e",
+    "restore-probe-r01/AppYzkIdentity.py": "e4a6b5f645b570b6afde88c09ec5fc63e2362e1ea3556fcc2e1d0fc652b78c1a",
+    "restore-probe-r01/B882Identity.py": "3fcaf3dbfd3b3d5afe8208d4b90c00f6ec4f56eea61162ca3d0ef0a798a8bd23",
+    "restore-probe-r01/critical_pins.py": "15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9",
+    "restore-probe-r01/harness_config.py": "6448ebe6eca73e78872cab88d23fe66eeb39e3f5d4c47f1b5ee0246b0672d1e4",
+    "restore-probe-r01/preservation.py": "30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989",
+    "restore-probe-r01/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d"
+  },
+  "checked_controls": [
+    "No public writer, solver, mesher, save, recompute or profiler is invoked by the new probe. Existing identity-only native capability/policy queries remain expressly distinct from a physical solve.",
+    "Pinned original input bytes remain read-only; only a new labelled run and private observation files are created. No historical membership, native files or failed-attempt receipt is rewritten or rebound.",
+    "Only public node coordinates, volume IDs and getElementNodes sequences are observed. The first-ten difference report, node-count histograms and same-node-set counts explicitly do not prove type or orientation equivalence.",
+    "PASS means observations completed with stable selected native properties and original-byte custody. Differences from historical properties, node coordinates or ordered connectivity are recorded as observations, not silently normalized into a physical acceptance.",
+    "The restored ordered-connectivity JSON is a new private observation, hash/size linked from the probe receipt and independently captured by the supervisor.",
+    "Boolean-only comparisons and bounded samples avoid the earlier giant unittest dictionary-diff formatting path. Explicit phase updates and actual_write_inp_file_calls=0 clarify progress and scope.",
+    "The supervisor retains exact literal app identity, source/runtime separation, private profiles, null stdin, 120-second operational supervision, owned process-group cleanup, serial guards, input/manifest fences, full app/protected-directory custody and16 selected dependency pins.",
+    "All four diagnostic outputs are captured once; parsed receipt bytes and bounded log hash are bound, then all four files are end-fenced before supervisor PASS."
+  ],
+  "scope_limits": {
+    "actual_probe_execution_reviewed_here": false,
+    "runtime_result_or_representation_equivalence_claimed": false,
+    "physical_or_engineering_acceptance_claimed": false,
+    "performance_reproduction_or_optimization_claimed": false,
+    "native_app_query_solver_mesher_build_test_or_helper_execution_by_reviewer": false,
+    "product_implementation_read": false,
+    "Oomakhi_accessed": false,
+    "privacy": "Raw app/protected-directory inventories, per-element observations and detailed paths remain private; this review grants no publication permission.",
+    "authorship_disclosure": "Reviewer previously authored the yzk native capacity C/hooks and a context-lifetime test proposal, and reviewed prior custody helpers; reviewer did not author or execute this probe."
+  },
+  "outstanding_findings": []
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "FreeCAD-882-independent-restore-bijection-and-benchmark-amendment-v1",
+  "task": "FreeCAD-882",
+  "reviewer": "/root/ywu_final_review",
+  "assessment": "Exact ordered-cell tuple bijection independently verified from captured files. Amend the not-yet-executed export benchmark to compare the same frozen cold-restored representation, without inheriting historical physical qualification.",
+  "audit_method": {
+    "file_only": true,
+    "captured_once_for_parse_and_hash": true,
+    "all_captured_files_rehashed_at_end": true,
+    "helper_import_or_execution": false,
+    "native_or_application_execution": false,
+    "product_implementation_read": false,
+    "per_element_node_sorting": false,
+    "comparison": "Counter(tuple(original_ordered_node_sequence)) equals Counter(tuple(restored_ordered_node_sequence)); every tuple is unique in both maps, so the tuple relation induces a bijection of element IDs.",
+    "coordinate_limit": "Original saved coordinate data was independently canonical-hashed. Equality with restored coordinates is backed by the captured native probe receipt and matching canonical hashes; this audit did not perform a new native coordinate observation."
+  },
+  "captured_inputs": {
+    "original_mesh_membership": {
+      "bytes": 24650174,
+      "sha256": "8f4f4d2bb4e88a225acbab5b04bda802127cc2bd42af9aad9efcb14e8da2ea44"
+    },
+    "restore-observation-r01/restored-volume-connectivity.json": {
+      "bytes": 5394782,
+      "sha256": "a10760248706e1f9aee3cfd6661f95700092d1b6a8fc05e4796624d801633132"
+    },
+    "restore-observation-r01/restore-probe.json": {
+      "bytes": 12744,
+      "sha256": "110f6da352734cd288ab8b75d1c80133b4a6de86686d4b6cd8390ab60393ae6a"
+    },
+    "restore-observation-r01/execution.json": {
+      "bytes": 161279,
+      "sha256": "7f1b3dca1b91591e4bb1f93734bb2bcafc4a30130f5faab508c7f0a89b58d27a"
+    },
+    "restore-observation-r01/identity.json": {
+      "bytes": 67065,
+      "sha256": "509dd15883f5e7078e296039274e3ed7c669dfbedf28d52e75b497ceac4e73b5"
+    },
+    "restore-observation-r01/manifest.json": {
+      "bytes": 80551,
+      "sha256": "894187a478fd84fb5e3c1228ae1c235e3ec7ce8d8818df057708ef83d5bd7bed"
+    },
+    "restore-observation-r01/run.log": {
+      "bytes": 1581,
+      "sha256": "88da852ea51c0b706f620f4ea31b066eab33548c84139e799fe8133b8025f08c"
+    }
+  },
+  "independent_arithmetic": {
+    "original_cells": 74228,
+    "restored_cells": 74228,
+    "unique_ordered_tuples_original": 74228,
+    "unique_ordered_tuples_restored": 74228,
+    "all_cells_have_ten_nodes": true,
+    "missing_ordered_tuples": 0,
+    "extra_ordered_tuples": 0,
+    "original_only_element_IDs": 2648,
+    "restored_only_element_IDs": 2648,
+    "shared_element_IDs": 71580,
+    "shared_IDs_with_same_ordered_cell": 0,
+    "shared_IDs_with_different_ordered_cell": 71580,
+    "cell_bijection_pairs_retaining_same_ID": 0,
+    "example_original_element_60893_maps_to_restored_element": 58245,
+    "original_node_count": 144951,
+    "restored_ordered_connectivity_canonical_sha256": "23491724b34bf065d49900335b11d6381a0955b8890dddd080bf438b9d7532fc"
+  },
+  "receipt_crosslinks_and_scope": {
+    "exact_four_produced_diagnostics_match_captured_bytes_sizes_and_links": true,
+    "bounded_log_hash_identity_hash_probe_hash_and_manifest_links_match": true,
+    "actual_installed_runtime": "7667033a14654a9b229bf59b94cb3012ce989170 / 49261 +224 (Git)",
+    "source_HEAD_separately_recorded": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+    "default_bundled_native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "probe_and_supervisor_passed": true,
+    "actual_tests_including_identity": 2,
+    "actual_skips": 0,
+    "unittest_seconds": 8.458,
+    "supervised_seconds_not_export_time": 9.425597165944055,
+    "post_input_manifest_custody_16_dependency_serial_and_cleanup_flags_passed": true,
+    "zero_public_write_calls": true,
+    "orientation_or_physical_qualification_claimed": false,
+    "selected_properties_equal_except_own_document_name_receipt_backed": true,
+    "raw_private_inventory_bodies_included": false
+  },
+  "benchmark_scope_amendment": {
+    "reason": "The untouched saved FCStd restores the same unique ordered cell tuples under different public element IDs. A historical live-session ordered ID-to-cell map is therefore not an appropriate identical-representation timing gate for the cold-restored benchmark.",
+    "immutable_FCStd_sha256": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452",
+    "required_restored_ordered_connectivity_sha256": "23491724b34bf065d49900335b11d6381a0955b8890dddd080bf438b9d7532fc",
+    "historical_live_session_raw_deck_and_request": "Retain unchanged and compare diagnostically. Do not edit or fabricate them to fit restored IDs, and do not make their raw equality the new benchmark's qualification gate.",
+    "strict_new_baseline_candidate_contract": "Both must open the same original FCStd and pass the exact frozen restored ordered-connectivity hash. Freeze and match the successful new baseline's exact node/group snapshot, selected physical properties, declaration graph, native PORT IDs and request bytes; decks may differ only in the one predeclared written-on timestamp comment. No sorting, relabelling or semantic normalization of candidate output is permitted.",
+    "if_restored_hash_or_strict_new_pair_differs": "Stop that matched comparison and report the mismatch; do not regenerate or relax the input representation to obtain a speedup claim.",
+    "historical_physical_qualification_transfer": false,
+    "mandatory_fresh_qualification": "Full fresh 132-bay analytical physical export/solve/import checks, separate cold verification and 2112 budget refusal remain required with all 3566 original checks and unchanged numerical tolerances, loads, graph, grouping, grounding, ownership guards and declaration budget.",
+    "no_arbitrary_runtime_SLA": true,
+    "no_new_build_or_install_authority": true,
+    "engineering_holds_unchanged": true,
+    "Oomakhi_accessed_or_solved": false
+  },
+  "limitations": [
+    "This is an input-representation and evidence audit, not a target-implementation diagnosis or a timing result.",
+    "The ordered-cell bijection does not independently prove native group/result associations, contact/support ownership, export semantics, solver equilibrium or engineering acceptance.",
+    "No new export has yet established strict new-baseline output parity; that remains a required future observation.",
+    "Reviewer previously authored yzk native capacity C/hooks and a context-lifetime test proposal, but not this restore probe or its execution receipts."
+  ],
+  "outstanding_audit_findings": []
+}

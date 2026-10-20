@@ -1,0 +1,97 @@
+{
+  "actual_installed_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+  "actual_installed_revision": "49261 +224 (Git)",
+  "default_native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+  "implementation_follow_up": {
+    "id": "FreeCAD-3q7",
+    "implemented_or_accepted": false,
+    "status": "open",
+    "title": "FEM: amortize exact ownership validation within coupled export batches"
+  },
+  "independent_final_review": {
+    "path": "/private/tmp/freecad-882-VGfnpo/planning/final-profiling-review-r01.json",
+    "sha256": "fa1149dbc4de8a6d05e46183f20bcf39a3cc8e0cdbb472dad724d78a2a1e6d56"
+  },
+  "measured_source_HEAD": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+  "measurements": {
+    "actual_write_inp_file_calls": 1,
+    "profiled_stock_write_FreeCAD_process_CPU_seconds": 1178.851646,
+    "profiled_stock_write_wall_seconds": 1182.4594961670227
+  },
+  "observation": "Repeated owned-reference geometry/mesh/group validation is the dominant profiled work. Cumulative descendants overlap, instrumentation overhead is included, and no achievable speedup is inferred.",
+  "passed": true,
+  "quality_gates": {
+    "actual_profile_tests_including_identity": 2,
+    "completed_whole_public_write_calls": 1,
+    "product_functional_suites_or_build_rerun": false,
+    "reason": "No product source or application change; this is profiling/evidence only, not a product candidate.",
+    "root_fixture_check_only": {
+      "input_files": 12,
+      "passed": true,
+      "writes": 0
+    },
+    "root_fixture_retention": {
+      "input_files": 12,
+      "passed": true,
+      "writes": 13
+    },
+    "skips": 0
+  },
+  "replay": "Exact synthetic saved fixture and historical/restored mesh bytes are retained. Frozen historical helper paths remain literal; replay needs a new explicit configuration and matching external FreeCAD/Pixi/native runtime.",
+  "roles": {
+    "attribution_opportunity_report": {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/measured-source-cost-opportunities-r02.json",
+      "sha256": "01867f74ab29679a4b6b636ea15efb9b36ebd483f2d0be4ab4f79743f00575b0"
+    },
+    "baseline_execution": {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/execution.json",
+      "sha256": "68e693a6568a76a115ca432c6bc46d7684cd3ad2ffd770818cf72103818e928e"
+    },
+    "baseline_profile": {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02/export-profile.json",
+      "sha256": "b3b58d27d2933728e112d8fd44944bf2bbcd0d03d150b3bb43efd3a3b41df698"
+    },
+    "fixture_retention_custody": {
+      "path": "/private/tmp/freecad-882-VGfnpo/retained-synthetic-fixture-r01/retention-custody.json",
+      "sha256": "ae9250a010242fcdb4ea9fddb2f2348796004a691ee25f548ed57e1071a6f389"
+    },
+    "restore_bijection_amendment": {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/restore-bijection-benchmark-amendment-r01.json",
+      "sha256": "df87c9944d0f48885ec87d69d7bf19a1bfb34abf27ed2b6d4687931b051f4d07"
+    },
+    "restore_execution": {
+      "path": "/private/tmp/freecad-882-VGfnpo/restore-observation-r01/execution.json",
+      "sha256": "7f1b3dca1b91591e4bb1f93734bb2bcafc4a30130f5faab508c7f0a89b58d27a"
+    },
+    "restore_probe": {
+      "path": "/private/tmp/freecad-882-VGfnpo/restore-observation-r01/restore-probe.json",
+      "sha256": "110f6da352734cd288ab8b75d1c80133b4a6de86686d4b6cd8390ab60393ae6a"
+    },
+    "scope_clarification": {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/profiling-vs-implementation-scope-r01.json",
+      "sha256": "d8a0b561c21c352789fdd250d2bc0bb5060c5fca4ec95367392312b76449808c"
+    },
+    "setup_failure_classification": {
+      "path": "/private/tmp/freecad-882-VGfnpo/planning/baseline-setup-halt-review-r01.json",
+      "sha256": "2796413d19e097fcf4c15d9f15b3c94b17228715ef6f9377b20bea2e3613712c"
+    },
+    "setup_failure_execution": {
+      "path": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r01/execution.json",
+      "sha256": "6e65e5711b5184a447f6b97c1883c79d2e31e5eacd6472ce9a62fc05c2d94c62"
+    }
+  },
+  "root_review": "Root read the frozen profiling harness, actual completed receipts/caller data, relevant byte-matched implementation, full attribution and independent reviews. This PASS is the profiling deliverable only; publication still requires its own exact-byte audit.",
+  "schema": "FreeCAD-882-completed-profile-review-v1",
+  "scope": {
+    "Oomakhi_accessed_or_solved": false,
+    "candidate_speedup_claimed": false,
+    "engineering_or_BIM_accepted": false,
+    "force_original_origin_moment_limit": 0.01,
+    "implementation_performed": false,
+    "installation_performed": false,
+    "new_build_or_physical_qualification_claimed": false,
+    "profiling_only": true,
+    "scalar_response_limit": 0.05
+  },
+  "skill_influence": "Measured before implementation inspection. Design review keeps recommended reuse behind a small private interface with explicit batch lifetime; it does not extend public configuration or retain writer state across request preparation."
+}

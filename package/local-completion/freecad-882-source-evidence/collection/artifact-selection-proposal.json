@@ -1,0 +1,92 @@
+{
+  "schema": "FreeCAD-882-profiling-only-retention-proposal-v1",
+  "status": "Unexecuted proposal, not an approved publication plan or completed profile verdict",
+  "root_approved": false,
+  "scope": "Retain a compact exact-byte profiling-only packet. No candidate, implementation, speedup, fresh build, physical acceptance or installation is required or claimed by this collector.",
+  "immutable_source_and_runtime": {
+    "source_HEAD": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+    "installed_application": "/Applications/FreeCAD-27.1.0.app",
+    "compiled_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+    "compiled_revision": "49261 +224 (Git)",
+    "native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66"
+  },
+  "root_execution_order": [
+    "Root fully reads and independently reviews the frozen retention and collector source; no child agent executes them.",
+    "After the actual baseline and attribution review finish, root checks the explicit twelve-input retention copier with --check-only, then may use --retain to create a new exact synthetic capsule.",
+    "Root supplies an explicit completed profiling review and a separately approved exact path/SHA/size/kind/classification plan. Pending or missing final roles cause refusal; no PASS or source hash is inferred from a label.",
+    "Root invokes the collector with the exact approved plan SHA and --check-only first. Only a separate approved invocation without --check-only may create the new packet.",
+    "An independent read-only publication audit checks exact index coverage, stored/decoded/original hashes and sizes, literal provenance, privacy and the final summary. Collection success itself does not close the bead."
+  ],
+  "history_exact_files_relative_to_task": {
+    "installed-profile-baseline-r01": {
+      "classification": "Failed QA setup comparison/halt before any public export. The elapsed296.5946281251963seconds is not export timing or a FreeCAD-882 product RED.",
+      "files": ["execution.json", "manifest.json", "identity.json", "export-profile.json", "run.log"],
+      "execution_sha256": "6e65e5711b5184a447f6b97c1883c79d2e31e5eacd6472ce9a62fc05c2d94c62",
+      "setup_sample": "Hash/size reference only. The full process sample was not semantically reviewed and is not admitted for publication. Preserve existing stale phase/intent fields with the independent interpretation, never repair them."
+    },
+    "restore-observation-r01": {
+      "classification": "Completed read-only representation observation: two tests including identity, zero public writes, not an orientation, export or physical qualification.",
+      "files": ["execution.json", "manifest.json", "identity.json", "restore-probe.json", "run.log", "restored-volume-connectivity.json"],
+      "execution_sha256": "7f1b3dca1b91591e4bb1f93734bb2bcafc4a30130f5faab508c7f0a89b58d27a",
+      "restored_connectivity_raw_sha256": "a10760248706e1f9aee3cfd6661f95700092d1b6a8fc05e4796624d801633132",
+      "restored_connectivity_canonical_sha256": "23491724b34bf065d49900335b11d6381a0955b8890dddd080bf438b9d7532fc"
+    },
+    "planning": {
+      "files": ["baseline-setup-halt-review-r01.json", "restore-bijection-benchmark-amendment-r01.json", "profiling-vs-implementation-scope-r01.json", "existing-elastic-tie-behavior-coverage.json", "accounting-provenance-coverage-map.json", "profile-v4-static-review-r01.json"],
+      "bijection_amendment_sha256": "df87c9944d0f48885ec87d69d7bf19a1bfb34abf27ed2b6d4687931b051f4d07",
+      "scope_clarification_sha256": "d8a0b561c21c352789fdd250d2bc0bb5060c5fca4ec95367392312b76449808c",
+      "classification": "File-only audits, behavioral test maps and static controls. The later scope clarification narrows earlier prospective improvement/physics obligations without rewriting any frozen plan."
+    }
+  },
+  "exact_run_QA_source_sets_relative_to_task": {
+    "proposals": ["AppYzkIdentity.py", "B882Identity.py", "B882Profile.py", "critical_pins.py", "harness_config.py", "preservation.py", "process_control.py", "run_export_profile.py", "run_export_profile_v2.py"],
+    "restore-probe-r01": ["AppYzkIdentity.py", "B882Identity.py", "B882Profile.py", "critical_pins.py", "harness_config.py", "preservation.py", "process_control.py", "run_restore_probe.py"],
+    "profile-v4": ["AppYzkIdentity.py", "B882Identity.py", "B882Profile.py", "critical_pins.py", "harness_config.py", "preservation.py", "process_control.py", "run_export_profile_v2.py"],
+    "classification": "Versioned exact frozen run inputs. Same basenames in different folders are not aliases. The original superseded run_export_profile.py was source-pinned but not the executed r01 driver. Other unexecuted v3/draft Python is omitted unless root separately admits it with that explicit classification."
+  },
+  "narrow_generic_fixture_retention": {
+    "copier": "retain_fixture.py",
+    "destination_relative_to_task": "retained-synthetic-fixture-r01",
+    "source_traversal": "No recursion; twelve hard-pinned existing files only, each at most32MiB. No general profile namespace exception.",
+    "actual_geometry_payloads": [
+      {"file": "coupled-before-export.FCStd", "sha256": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452", "bytes": 6045688},
+      {"file": "mesh-membership.json", "sha256": "8f4f4d2bb4e88a225acbab5b04bda802127cc2bd42af9aad9efcb14e8da2ea44", "bytes": 24650174},
+      {"file": "restored-volume-connectivity.json", "sha256": "a10760248706e1f9aee3cfd6661f95700092d1b6a8fc05e4796624d801633132", "bytes": 5394782}
+    ],
+    "remaining_nine_files": ["geometry-contract.json", "export-properties.json", "historical-witness-receipt.json", "historical-native/Mesh.inp", "historical-native/Mesh.accounting", "historical-native/Mesh.accounting.json", "restore-probe.json", "coupled_port_capacity_fixture.json", "coupled_port_capacity_oracle.json"],
+    "interpretation": "Historical live-session mesh/native IDs and the cold-restored ordered map remain distinct exact artifacts. The cell-tuple bijection is not group/ownership/native/equilibrium qualification. Historical physical results are not transferred to the restored export."
+  },
+  "completed_baseline_admission_not_a_PASS_claim": {
+    "proposed_run_relative_to_task": "installed-profile-baseline-r02",
+    "state": "Actual completion and exact hashes must be supplied later by root; never inspect or qualify partial results.",
+    "required_exact_files": ["execution.json", "manifest.json", "identity.json", "export-profile.json", "run.log", "whole-public-write.prof", "profile-cumulative.txt", "native/Mesh.inp", "native/Mesh.accounting", "native/Mesh.accounting.json"],
+    "crosslinks": "The eight produced-output descriptors must match captured execution hashes/sizes; retain the exact current manifest and all run-pinned QA sources. The single-call counter must be1 and all source/application/three-user-directory/sixteen-dependency/cleanup fences must pass.",
+    "timing_limits": "The same single whole public write has profiled wall time and FreeCAD-process-only CPU time. cProfile overhead is included; child native CPU is excluded. Cumulative rows overlap and may not be summed into a partition. Historical unprofiled1122.6550142499618seconds is context, not a matched speedup denominator.",
+    "raw_baseline_inputs": "Retain actual raw deck, request and sidecar without timestamp stripping, node sorting, relabelling or path rebinding. Historical raw differences are diagnostic only."
+  },
+  "completed_review_interface_for_root": {
+    "schema": "FreeCAD-882-completed-profile-review-v1",
+    "required_passed": "true only after root reviews the actual completed profile and attribution report",
+    "scope_fields": {"profiling_only": true, "installation_performed": false, "implementation_performed": false, "candidate_speedup_claimed": false, "new_build_or_physical_qualification_claimed": false, "Oomakhi_accessed_or_solved": false, "engineering_or_BIM_accepted": false, "force_original_origin_moment_limit": 0.01, "scalar_response_limit": 0.05},
+    "required_role_path_SHA_refs": ["setup_failure_execution", "setup_failure_classification", "restore_execution", "restore_probe", "restore_bijection_amendment", "fixture_retention_custody", "baseline_execution", "baseline_profile", "attribution_opportunity_report", "scope_clarification"],
+    "attribution_report_requirement": "Root provides an actual completed JSON report with passed:true, source/runtime/native pins and measured call-count/time attribution. Identify opportunities with explicit lifetimes, mutation/error-cleanup guards, stale-cache risks and behavioral-test coverage gaps; separate measured evidence from any hypothesis. Collector does not run pstats or infer a product fix."
+  },
+  "publication_contract": {
+    "plan_schema": "FreeCAD-882-approved-evidence-plan-v1",
+    "plan_file_fields": ["path", "destination", "sha256", "bytes", "kind", "classification"],
+    "payload_kinds": ["text", "json", "source", "synthetic-fixture", "profile-binary"],
+    "plan_approval": "root_approved:true plus caller-provided exact plan SHA, explicit unique file list and qualification_receipt path/SHA. This proposal is not accepted as that plan.",
+    "source_bytes": "Only explicit known task/repository/app-FEM-source roots; no recursive source discovery. The own-generated .prof is retained as bound diagnostic data and never imported or unmarshaled. The exact FCStd3128 is the only binary fixture exception.",
+    "storage": "Exact unchanged bytes; deterministic gzip at64KiB with original/stored/decoded SHA and byte counts. No excerpts or content normalization.",
+    "new_only_outputs": ["package/local-completion/freecad-882-source-evidence", "package/local-completion/freecad-882-validation.json"],
+    "exact_code_bytes": ["retain_fixture.py", "collect_882.py", "artifact-selection-proposal.json", "the final independent collector review and root-approved plan"],
+    "privacy_exclusions": "Raw private app/user-directory/dependency-stat inventories, user.cfg/system.cfg, environments, caches, vendor/runtime trees, executable/libraries, FRD/DAT result files and the unreviewed process sample are excluded. Already-safe receipt booleans, inventory digests and literal path strings may remain."
+  },
+  "replay_and_holds": {
+    "replay": "Actual generic saved fixture and ordered mesh data are retained, not hash-only. An explicit fresh configuration and matching external FreeCAD/Pixi/native environment are still required. Historical paths/statuses/fingerprints stay literal and are not automatically executable from the packet.",
+    "engineering_holds": "No Oomakhi access or engineering/BIM acceptance. Original1% wrench and5% scalar ceilings remain unchanged; R49 11.123267892% and R51 5.240441298% remain failures against5%.",
+    "prospective_optimization_obligations_prose_only": "A separately authorized product optimization would need a red-capable behavioral regression, a strict same-restored-fixture before/after comparison with attributable reduction, lifecycle/edit/remesh/reorder/error-path safeguards, full fresh132-bay physical/cold/refusal checks with all3566 unchanged comparisons, and appropriate build/tests. This profiling-only collector implements none of those future branches and claims none of their results."
+  },
+  "executed_by_proposal_author": false,
+  "future_baseline_or_publication_PASS_claimed": false
+}

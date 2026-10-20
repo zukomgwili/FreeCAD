@@ -1,0 +1,57 @@
+{
+  "schema": "FreeCAD-882-baseline-setup-halt-review-v1",
+  "task": "FreeCAD-882",
+  "reviewer": "/root/ywu_final_review",
+  "classification": "Preserved QA setup comparison halt, not a reproduction of FreeCAD-882 and not a physical or native-product failure.",
+  "evidence_sha256": {
+    "installed-profile-baseline-r01/execution.json": "6e65e5711b5184a447f6b97c1883c79d2e31e5eacd6472ce9a62fc05c2d94c62",
+    "installed-profile-baseline-r01/export-profile.json": "0817d04b5757b0072657a2b824a863009e40b9f7b098966476fe63faac6a71b2",
+    "installed-profile-baseline-r01/run.log": "f36ba99857337cca158eff0dfb007f368c598ba688c4ed434fd2078753de7f34",
+    "installed-profile-baseline-r01/setup-sample-r01.txt": "8d8dc817a9ea2bc5919508293ad14b6119851cd6db890b6d22fbeb10187efe5c",
+    "installed-profile-baseline-r01/private-critical-before.json": "228234965592941e5ec66ac12907673664ff4e79b3497962d9942fd631214e0b",
+    "installed-profile-baseline-r01/private-critical-after.json": "228234965592941e5ec66ac12907673664ff4e79b3497962d9942fd631214e0b"
+  },
+  "actual_observations": {
+    "elapsed_supervised_seconds_not_export_time": 296.5946281251963,
+    "returncode": 1,
+    "timed_out": false,
+    "identity_passed": true,
+    "failure_site": "B882Profile.py:157, assertEqual of the cold-restored and historical volume_connectivity dictionaries.",
+    "failure_stack": "unittest.assertDictEqual constructing pprint/difflib.ndiff output, interrupted by KeyboardInterrupt.",
+    "sample_scope": "Read sample process/date metadata and initial call-graph section only; full sample file was hashed but not semantically reviewed.",
+    "sample_corroboration": "Actual literal installed FreeCADCmd process, Python unicode_join and dictionary/diff-related work; not an export hot-spot attribution.",
+    "prior_exact_node_coordinate_comparison_completed": true,
+    "ordered_connectivity_dictionary_equality_failed": true,
+    "specific_node_sequences_or_orientation_equivalence_established": false,
+    "public_write_started": false,
+    "profiler_output_produced": false,
+    "physical_solver_or_mesher_run_by_harness": false,
+    "source_and_supervisor_unchanged": true,
+    "app_and_three_protected_user_directories_unchanged_per_execution_receipt": true,
+    "sixteen_selected_dependency_records_unchanged": true,
+    "owned_child_reaped_and_process_group_gone": true,
+    "missing_profiler_artifact_acceptance_guards_correctly_refused_PASS": true
+  },
+  "receipt_interpretation": {
+    "phase_before_document_open_is_not_literal_progress_evidence": "The phase field was not updated during restoration. The recorded load time and traceback prove document open completed; interpret the actual stack, not the stale phase label.",
+    "single_whole_public_write_flag_is_not_an_execution_count_for_this_failed_attempt": "The harness initialized the intended scope flag before restoration. The failing comparison precedes the only call site, so this attempt executed zero public writes.",
+    "no_historical_receipt_or_executed_QA_bytes_should_be_repaired": true
+  },
+  "recommended_benchmark_scope_amendment": [
+    "Use a new labelled read-only cold-restore probe to record original and restored ordered connectivity hashes, exact node/element ID sets, node coordinates, topology cardinality and only a bounded first-ten difference sample. Avoid unittest giant-object diff formatting.",
+    "Do not call differing node sequences orientation-equivalent merely because sorted node sets agree. Preserve the original historical ordered membership evidence and report any observed restore difference separately.",
+    "If the restored representation is stable, freeze its exact ordered snapshot as the matched input representation for baseline and candidate, while retaining the exact original FCStd byte pin. Do not substitute a regenerated mesh or a different live fixture for the timing pair.",
+    "Keep exact historical request bytes and native PORT IDs, and timestamp-comment-only historical deck comparison unchanged. A public API-order difference need not determine output equality; let the unchanged stock export demonstrate or fail those checks.",
+    "If historical deck/request equality also fails, report it explicitly and do not inherit prior physical qualification from sorted topology or a plausible orientation argument.",
+    "Keep the full fresh132 physical qualification, negative2112 budget refusal, native import and separate cold verification required with the existing 3566 checks and unchanged tolerances, graph, supports, limits and engineering holds.",
+    "Make future progress phase and actual public-call count explicit so a setup failure cannot be mistaken for a timed export. No runtime SLA is introduced."
+  ],
+  "review_limits": {
+    "native_app_query_solver_mesher_build_test_or_helper_execution_by_reviewer": false,
+    "product_implementation_read": false,
+    "large_original_geometry_or_full_app_inventory_walk": false,
+    "engineering_or_Oomakhi_acceptance": false,
+    "actual_restore_probe_result_reviewed": false,
+    "actual_baseline_or_optimization_result_claimed": false
+  }
+}

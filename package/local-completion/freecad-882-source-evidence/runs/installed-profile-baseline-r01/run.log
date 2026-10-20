@@ -1,0 +1,51 @@
+test_application_only_native_identity_and_registered_suites (AppYzkIdentity.AppNativeIdentity.test_application_only_native_identity_and_registered_suites) ... ok
+test_original_installed132_graph_whole_stock_export_profile (B882Profile.WholePublicExportProfile.test_original_installed132_graph_whole_stock_export_profile) ... Traceback (most recent call last):
+  File "<string>", line 58, in <module>
+  File "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Test/TestApp.py", line 104, in RunConfiguredTextTest
+    return r.run(suite)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/runner.py", line 240, in run
+    test(result)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py", line 707, in __call__
+    return self.run(*args, **kwds)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py", line 651, in run
+    self._callTestMethod(testMethod)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py", line 606, in _callTestMethod
+    if method() is not None:
+  File "/private/tmp/freecad-882-VGfnpo/proposals/B882Profile.py", line 157, in test_original_installed132_graph_whole_stock_export_profile
+    self.assertEqual(mesh_before['volume_connectivity'], expected_mesh['volume_connectivity'])
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py", line 907, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/Users/zukomgw<class 'KeyboardInterrupt'>: 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +224 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 

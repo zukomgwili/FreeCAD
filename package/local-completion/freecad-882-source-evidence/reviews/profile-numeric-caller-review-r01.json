@@ -1,0 +1,126 @@
+{
+  "schema": "FreeCAD-882-independent-numeric-caller-review-v1",
+  "reviewer": "/root/ywu_final_review/profile_callers",
+  "scope": "Read-only stdlib JSON and pstats arithmetic on three completed profile artifacts only; no product implementation read, helper import, native/app/query/mesher/build/test/collector execution, source change or physical qualification.",
+  "input_sha256": {
+    "export-profile.json": "b3b58d27d2933728e112d8fd44944bf2bbcd0d03d150b3bb43efd3a3b41df698",
+    "whole-public-write.prof": "f9891864c1f566d05a626597a414702e692b2072bb899065721a5c0e99d5bdec",
+    "profile-cumulative.txt": "8deadadaa7e5f10a9b0865e220cfa194e8c957c111423190cce5b8157fc2799b"
+  },
+  "input_directory": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r02",
+  "measurement": {
+    "actual_public_write_calls": 1,
+    "wall_seconds": 1182.4594961670227,
+    "FreeCAD_process_CPU_seconds": 1178.851646,
+    "pstats_total_self_seconds": 1182.3219060830022,
+    "public_write_cumulative_seconds": 1182.320990791,
+    "total_calls": 594367700,
+    "primitive_calls": 594279483,
+    "profiling_overhead_included_not_estimated": true,
+    "not_paired_with_historical_unprofiled_run": true
+  },
+  "non_overlapping_public_entry_direct_phase_edges": [
+    {"callee": "calculix.writer.write_solver_input", "calls": 1, "cumulative_seconds": 520.027607292, "public_entry_cumulative_percent": 43.98362300445072},
+    {"callee": "force_accounting.prepare_request", "calls": 1, "cumulative_seconds": 391.447514542, "public_entry_cumulative_percent": 33.10839590863667},
+    {"callee": "meshsetsgetter.get_mesh_sets", "calls": 1, "cumulative_seconds": 269.511196542, "public_entry_cumulative_percent": 22.795095294864957}
+  ],
+  "phase_accounting": {
+    "all_public_entry_direct_children_cumulative_seconds": 1182.3003029590002,
+    "public_entry_self_seconds": 0.020687832,
+    "sum_equals_public_entry_cumulative_with_float_roundoff": true,
+    "nested_validation_resolution_signature_and_native_leaf_rows_must_not_be_added_to_phase_edges": true
+  },
+  "leading_self_rows_non_overlapping": [
+    {"function": "Part.Shape.isValid", "calls": 2654, "self_seconds": 545.920204401, "profile_total_self_percent": 46.173567586988014},
+    {"function": "Fem.FemMesh.getElementNodes", "calls": 280229256, "self_seconds": 198.947714375, "profile_total_self_percent": 16.826865285284946},
+    {"function": "meshtools._get_mesh_region_by_owned_references", "calls": 1056, "self_seconds": 91.170055644, "profile_total_self_percent": 7.711102634141638},
+    {"function": "Part.Shape.exportBrepToString", "calls": 2654, "self_seconds": 71.348026131, "profile_total_self_percent": 6.034568569178754},
+    {"function": "meshtools.py:218 generator", "calls": 139891488, "self_seconds": 56.443715104, "profile_total_self_percent": 4.773971861097996},
+    {"function": "Fem.FemMesh.getIdByElementType", "calls": 3169, "self_seconds": 38.055854593, "profile_total_self_percent": 3.218738855907519}
+  ],
+  "owned_reference_entry_callers": [
+    {"caller": "elastic_connector._validated_rigid_body_nodes", "calls": 528, "callee_cumulative_seconds": 494.769501917},
+    {"caller": "meshsetsgetter.get_constraints_rigidbody_nodes", "calls": 264, "callee_cumulative_seconds": 246.662409373},
+    {"caller": "rigid_body.validation_diagnostics", "calls": 264, "callee_cumulative_seconds": 245.899440998},
+    {"caller": "meshsetsgetter.get_constraints_fixed_nodes", "calls": 1, "callee_cumulative_seconds": 0.20649875}
+  ],
+  "owned_reference_partition": {
+    "get_femnodes_by_femobj_with_references_total_calls": 1057,
+    "owned_reference_calls": 1056,
+    "owned_calls_per_264_bodies_arithmetic": 4,
+    "owned_region_cumulative_seconds": 985.767992413,
+    "owned_region_public_entry_cumulative_percent": 83.37566533040224,
+    "interpretation": "Owned-reference work dominates cumulatively across several sibling phases; its 985.768 seconds includes the signatures, scans and group reconstruction below, not an additional time partition."
+  },
+  "signature_callers_exact_partition": [
+    {"caller": "meshtools.mesh_geometry_matches", "calls": 1056, "callee_cumulative_seconds": 536.805045613},
+    {"caller": "meshtools._get_solid_reference_group_sets", "calls": 265, "callee_cumulative_seconds": 134.024986877},
+    {"caller": "force_accounting.py:517 value", "calls": 5, "callee_cumulative_seconds": 1.009108791},
+    {"caller": "quality.input_fingerprint", "calls": 1, "callee_cumulative_seconds": 0.509487459}
+  ],
+  "signature_attribution": {
+    "signature_calls": 1327,
+    "signature_cumulative_seconds": 672.3486287400001,
+    "native_leaf_direct_children": [
+      {"function": "Part.Shape.isValid", "calls": 2654, "self_seconds": 545.920204401},
+      {"function": "Part.Shape.exportBrepToString", "calls": 2654, "self_seconds": 71.348026131},
+      {"function": "Part.Shape.importBrepFromString", "calls": 1327, "self_seconds": 25.860109154},
+      {"function": "Part.Shape.copy", "calls": 1327, "self_seconds": 25.594769818}
+    ],
+    "native_leaf_direct_children_self_sum_seconds": 668.723109504,
+    "native_leaf_callers_all_exclusively_get_mesh_geometry_signature": true,
+    "two_validations_and_two_Brep_exports_per_signature_arithmetic": true,
+    "solid_reference_group_callers": [
+      {"caller": "force_accounting.prepare_request", "calls": 264, "callee_cumulative_seconds": 138.2422278},
+      {"caller": "meshtools.get_femelement_sets_from_group_data", "calls": 1, "callee_cumulative_seconds": 0.5324995}
+    ]
+  },
+  "getElementNodes_callers_complete": [
+    {"caller": "meshtools.py:218 generator", "calls": 279780864, "self_seconds": 198.563816670},
+    {"caller": "elastic_connector._solid_nodes", "calls": 148456, "self_seconds": 0.129044761},
+    {"caller": "meshtools.get_femelement_table", "calls": 148456, "self_seconds": 0.140076686},
+    {"caller": "quality.input_fingerprint", "calls": 132472, "self_seconds": 0.098497657},
+    {"caller": "meshtools._get_mesh_region_by_owned_references", "calls": 16896, "self_seconds": 0.014756602},
+    {"caller": "meshtools.get_ref_facenodes_table", "calls": 2112, "self_seconds": 0.001521999}
+  ],
+  "repeated_scan_count_evidence": {
+    "owned_region_to_any_calls": 1056,
+    "owned_region_to_any_cumulative_seconds": 264.629053969,
+    "generator218_calls": 139891488,
+    "generator218_cumulative_seconds": 255.007531774,
+    "generator218_self_seconds": 56.443715104,
+    "generator218_getElementNodes_seconds": 198.563816670,
+    "generator_resumptions_per_owned_resolution_arithmetic": 132473,
+    "getElementNodes_calls_from_generator_per_owned_resolution_arithmetic": 264944,
+    "count_identity": "279780864 = 1056 * 2 * 132472; 139891488 = 1056 * (132472 + 1). These exact ratios are consistent with repeated complete traversal; mapping 132472 to concrete mesh-entry semantics requires product-source interpretation.",
+    "group_data_calls": 2112,
+    "group_data_cumulative_seconds": 44.758079229,
+    "group_data_calls_per_owned_resolution": 2,
+    "generator223_calls": 20131584,
+    "generator223_getGroupElements_calls": 20129472,
+    "group_data_per_call_count_identity": "20131584 / 2112 = 9532 generator resumptions; 20129472 / 2112 = 9531 getGroupElements calls.",
+    "getIdByElementType_calls_directly_from_owned_region": 3168,
+    "getIdByElementType_calls_per_owned_resolution": 3
+  },
+  "connector_resolution_context_evidence": {
+    "rigid_body_nodes_total_calls": 3696,
+    "validated_rigid_body_nodes_calls": 528,
+    "validated_rigid_body_nodes_cumulative_seconds": 495.098302792,
+    "rigid_body_nodes_callers": [
+      {"caller": "elastic_connector.resolve_connector", "calls": 3168, "callee_cumulative_seconds": 248.395437936},
+      {"caller": "force_accounting.prepare_request", "calls": 264, "callee_cumulative_seconds": 246.708208747},
+      {"caller": "elastic_connector.validation_errors", "calls": 264, "callee_cumulative_seconds": 0.000387747}
+    ],
+    "resolve_connector_callers": [
+      {"caller": "elastic_connector.validation_errors", "calls": 792, "callee_cumulative_seconds": 248.508688573},
+      {"caller": "write_constraint_elastic_connector.write_connectors", "calls": 792, "callee_cumulative_seconds": 0.075323366}
+    ],
+    "limit": "Aggregate pstats binds all 528 validated calls directly to rigid_body_nodes, but does not preserve grandparent-specific miss counts. Two costly resolution contexts are evident; exact 264 cache misses in writer validation and 264 in request preparation requires source/control-flow corroboration, not this aggregate graph alone."
+  },
+  "conclusions": [
+    "The repeated owned-region/signature/element-scan/group reconstruction path is the measured hot work. Existing cheap second connector-emission calls must not be mistaken for the full export cost.",
+    "The profile supports investigating bounded reuse of repeated immutable-export inputs, but does not alone prove safe cache identity, invalidation, rank/domain/ownership guard preservation or an achievable speedup.",
+    "This single profiled export is not a new physical solve, an equilibrium acceptance, a candidate comparison or evidence of profiling overhead magnitude."
+  ],
+  "no_outstanding_numeric_or_caller_consistency_findings": true
+}

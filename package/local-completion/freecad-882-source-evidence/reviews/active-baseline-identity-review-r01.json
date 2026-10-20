@@ -1,0 +1,94 @@
+{
+  "schema": "FreeCAD-882-active-baseline-identity-review-v1",
+  "task": "FreeCAD-882",
+  "reviewer": "/root/ywu_final_review",
+  "run": "/private/tmp/freecad-882-VGfnpo/installed-profile-baseline-r01",
+  "phase": "Identity and manifest audit while the initial export profile remains active; not a completed-run review.",
+  "assessment": "No mismatch found in the actual small pre-run/identity receipts and their selected crosslinks.",
+  "observed_receipts": {
+    "identity.json": {
+      "bytes": 67035,
+      "sha256": "61af1e4eafea4c6315ebd5efe59c172b4b7037b46e0924ae24e534cfc71928c4"
+    },
+    "manifest.json": {
+      "bytes": 80601,
+      "sha256": "68cb4bf45205eaa1f51d5e6f3d8593850933a3c98a9b994562d844700e471786"
+    },
+    "private-critical-before.json": {
+      "bytes": 5684,
+      "sha256": "228234965592941e5ec66ac12907673664ff4e79b3497962d9942fd631214e0b"
+    }
+  },
+  "source_runtime_separation": {
+    "source_HEAD_recorded_in_manifest": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+    "actual_identity_runtime_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+    "actual_identity_runtime_revision": "49261 +224 (Git)",
+    "actual_application": "/Applications/FreeCAD-27.1.0.app",
+    "actual_process_executable": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd",
+    "source_or_build_import_override": false,
+    "manifest_hash_equals_identity_manifest_link": true,
+    "version_header_hash_equals_manifest_input": true,
+    "separate_current_git_query_performed_by_reviewer": false
+  },
+  "selected_suite": {
+    "name": "B882Profile",
+    "count": 1,
+    "id": "B882Profile.WholePublicExportProfile.test_original_installed132_graph_whole_stock_export_profile",
+    "origin": "/private/tmp/freecad-882-VGfnpo/proposals/B882Profile.py",
+    "sha256": "c9fbf53000a8f1f16fd7ad8ed79ba1a98bd4991efc31188381ad5a5c27f71bf3",
+    "manifest_expected_total_including_identity": 2,
+    "identity_passed": true,
+    "whole_selected_test_completed_claimed": false,
+    "TestFemApp_registration_count_observed_not_executed": 405
+  },
+  "manifest_input_map": {
+    "entries": 510,
+    "all_29_copied_module_source_hash_links_match": true,
+    "all_146_loaded_FEM_source_hash_links_match": true,
+    "all_2_capacity_JSON_source_hash_links_match": true,
+    "all_observed_FEM_origins_are_under_literal_installed_FEM": true,
+    "reviewed_v2_driver_sha256": "8411ce52c7590eca73a4dedd2018760372aa84def5e1f7ee11a9a8b9aaced839",
+    "all_8_reviewed_current_harness_helper_pins_match_manifest": true,
+    "large_original_inputs_rehashed_by_reviewer": false,
+    "exact_original_fixture_pin_crosslinks": {
+      "coupled-before-export.FCStd": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452",
+      "mesh-membership.json": "8f4f4d2bb4e88a225acbab5b04bda802127cc2bd42af9aad9efcb14e8da2ea44",
+      "geometry-contract.json": "d0285f0c99c239f792f6eca63be1eb34b813ab1d08839a19fb0301aef8091911",
+      "export-properties.json": "19c7f44abc3de40655830db8da189c4798644d59ad16a318547471161fbdbfac",
+      "native/Mesh.inp": "1e21fe31ee296e10a6d6c7870c0ea4d270aa6b6da5d6185083c8509e75be70d5",
+      "native/Mesh.accounting": "59ff7b58b047b94b308e5bf5f1209dc329c6e2535b1369a8286685a151b1cdee",
+      "witness-receipt.json": "8bf09e2a1a6d95df0020a5bdc6657c0b77ebe7a9be7c6e7f2fab2b06f90d2b69"
+    }
+  },
+  "native_policy_identity": {
+    "candidate_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+    "sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "capability": "CCX_FORCE_ACCOUNTING_V3",
+    "override": false,
+    "observed_capacity_schema": "CCX_FORCE_ACCOUNTING_CAPACITY_V1",
+    "observed_total_budget": 2113,
+    "all_five_category_limits": 2113,
+    "query_required_records": 0,
+    "query_is_physical_qualification": false
+  },
+  "pre_run_dependency_crosslink": {
+    "previous_receipt": "/private/tmp/freecad-yzk-install-gTbYLA/critical-before-DESTDIR.json",
+    "previous_receipt_sha256": "2edee775de131371db74eab32c772b1c1a66aa18716270fb1f7cde693262334a",
+    "selected_dependency_count": 16,
+    "namespace_leaf_count": 11,
+    "all_16_key_sets_full_stat_records_and_hashes_equal_previous_receipt": true,
+    "current_files_or_app_inventory_walked_by_reviewer": false,
+    "raw_private_inventory_body_included_in_this_report": false
+  },
+  "limits": {
+    "export_profile_execution_PASS_claimed": false,
+    "timings_or_profiler_rows_reviewed": false,
+    "post_run_custody_or_cleanup_PASS_claimed": false,
+    "physical_equilibrium_or_engineering_acceptance_claimed": false,
+    "native_app_query_mesher_build_test_install_or_helper_execution_by_reviewer": false,
+    "product_implementation_read_for_this_task": false,
+    "Oomakhi_accessed": false,
+    "reviewer_writes": "Only this new private JSON review; no fenced Python, existing receipt or product changes."
+  },
+  "outstanding_findings": []
+}

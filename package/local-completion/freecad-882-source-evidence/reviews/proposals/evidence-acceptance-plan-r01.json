@@ -1,0 +1,118 @@
+{
+  "schema": "FreeCAD-882-prebaseline-evidence-acceptance-plan-v1",
+  "bead": "FreeCAD-882",
+  "role": "Independent historical evidence and regression-acceptance planning before fresh profiling; no implementation diagnosis",
+  "source_and_runtime_identity": {
+    "current_repository_HEAD_read_only_metadata": "6ba8b0000640e40eda16df2af98ad5e6578cdad9",
+    "current_installed_application": "/Applications/FreeCAD-27.1.0.app",
+    "actual_prior_installed_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+    "actual_prior_installed_revision": "49261 +224 (Git)",
+    "native_candidate_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "distinction": "Repository HEAD is not the installed compiled commit. A fresh baseline must record both honestly; no origin, __file__, status, path or runtime rebinding."
+  },
+  "historical_whole_API_measurements": [
+    {
+      "role": "Original clean source portable qualification, not a new882 baseline",
+      "compiled_commit": "cf23c61504c9a25699899a87b68571b86de37438",
+      "compiled_revision": "49261 +223 (Git)",
+      "witness_path": "/private/tmp/freecad-yzk-Sd0mDG/portable-retained-r01/witness-receipt.json",
+      "witness_sha256": "23cd65eda8d5dc0494ff6bbf12619bdebf1cc0c11c0000523ae75d57c6729f96",
+      "execution_sha256": "09be6964c94688bd4b8344d18d2973ab904b0c46b093177dabc2d0f10d9160af",
+      "identity_sha256": "ba506bc20ec95504c6cf2921cca11e9c1eaed737941f49591cb226b192ee3ddf",
+      "raw_log_sha256": "c4fcf715a86b9b89ed134f63a843c35c7a8876b45f9f4a0f63159ae82841dd42",
+      "whole_accepted_write_inp_file_seconds": 1121.8453718749806,
+      "raw_log_partial_labels_seconds": {"Getting mesh data time": 254.23, "Writing time CalculiX input file": 8.623},
+      "before_export_FCStd_sha256": "8445e573ad733a3a2008b0b2771afb313548746e2e74bfdddfcbf3390c2e59a1",
+      "mesh_membership_sha256": "e6d24b17518c1e07cdcb0a426e3c80f1ffad9aa27a229ba023415cdd2212c5ec",
+      "deck_sha256": "7bd1a0085d2f2eccd413c57a243e032f3ff5feb0aaf81f7a22cd69ee92de0508",
+      "request_sha256": "d33a2633be2b9c2ca5ac33e23aa6fc3855be307543140a8de4dff3b880e9c99f"
+    },
+    {
+      "role": "Completed literal installed132 qualification, not a new882 baseline",
+      "compiled_commit": "7667033a14654a9b229bf59b94cb3012ce989170",
+      "compiled_revision": "49261 +224 (Git)",
+      "witness_path": "/private/tmp/freecad-yzk-install-gTbYLA/installed-retained-r01/witness-receipt.json",
+      "witness_sha256": "8bf09e2a1a6d95df0020a5bdc6657c0b77ebe7a9be7c6e7f2fab2b06f90d2b69",
+      "execution_sha256": "ab8c825054821d8b0478ccaa04a903879e122b9c153e6e630256c7913ea14ebe",
+      "identity_sha256": "69a612a35b9f2cbfb090cd555e8f07114529d40b92481b1060d708a5a9b6ada9",
+      "raw_log_sha256": "6a6e23a5f95a65c94765a93fa62502ca045c1cbeb3eac97ea7bda73cba6a2115",
+      "whole_accepted_write_inp_file_seconds": 1122.6550142499618,
+      "raw_log_partial_labels_seconds": {"Getting mesh data time": 255.682, "Writing time CalculiX input file": 8.593},
+      "before_export_FCStd_sha256": "3128ea4b56421f21d26256088ca9f4ae5f0f985ac19024b7fa8c9dcf8fa23452",
+      "mesh_membership_sha256": "8f4f4d2bb4e88a225acbab5b04bda802127cc2bd42af9aad9efcb14e8da2ea44",
+      "deck_sha256": "1e21fe31ee296e10a6d6c7870c0ea4d270aa6b6da5d6185083c8509e75be70d5",
+      "request_sha256": "59ff7b58b047b94b308e5bf5f1209dc329c6e2535b1369a8286685a151b1cdee"
+    }
+  ],
+  "historical_measurement_scope_and_caveats": {
+    "exact_scope": "One accepted FemToolsCcx.write_inp_file() API call, including mesh sets, writer, request and capacity checks. Fixture construction and an earlier2112 refusal are excluded. The test places perf_counter immediately around the accepted call.",
+    "test_source_path": "src/Mod/Fem/femtest/app/test_moving_port_capacity_native.py",
+    "timing_lines": "185-193",
+    "historical_meshes_are_not_identical": true,
+    "common_geometry_contract_sha256": "d0285f0c99c239f792f6eca63be1eb34b813ab1d08839a19fb0301aef8091911",
+    "common_export_and_native_properties_sha256": "19c7f44abc3de40655830db8da189c4798644d59ad16a318547471161fbdbfac",
+    "do_not_claim": "These two different-runtime/different-mesh runs are not paired samples or an estimate of timing noise. The two log labels are not a proven exclusive full phase partition; subtracting them is not a diagnosis of remaining cause."
+  },
+  "published_baseline_roots": {
+    "source_index": {"path": "package/local-completion/freecad-yzk-source-evidence/index.json", "sha256": "34955877635599c83b2213de9a0c97d5ba028ca8fbe3840eb9de3168defe4566"},
+    "source_summary": {"path": "package/local-completion/freecad-yzk-validation.json", "sha256": "dbe58b84d047dff45cab813f6aa1fc3f694a951eb840b4f55a36e995febab58b"},
+    "installed_index": {"path": "package/local-completion/freecad-yzk-installation-evidence/index.json", "sha256": "c40d1bfe73f39b1dc4262164b9664ff6443c01a3713c9a3b44dcc658be6f3232"},
+    "installed_summary": {"path": "package/local-completion/freecad-yzk-installation.json", "sha256": "9b3817c4671cfa15d6c89064afdb83e09aef2e70e22d7678ef9e9704aa20007d"}
+  },
+  "frozen_fixture_oracle_and_regression_source_sha256": {
+    "src/Mod/Fem/femtest/data/calculix/coupled_port_capacity_fixture.json": "9142f5aa4d149aa1f0d518a592a78638f9489fb3e245af67ea4fd463e5b8ae22",
+    "src/Mod/Fem/femtest/data/calculix/coupled_port_capacity_oracle.json": "42fa6289fd9e1f80efa56db27c02c06a5454ed9880f7ca61bfd80992dfb251b8",
+    "src/Mod/Fem/femtest/app/coupled_port_fixture.py": "e370c5366a7ee4d775d2a4d9bc5da9c4fcacfd6543d39b7ab88cb02f27b7e5ec",
+    "src/Mod/Fem/femtest/app/coupled_port_audit.py": "5b476c23571fcb6bb357f25aedcdc9908716b79fda9c222038a712f3d09fa3fc",
+    "src/Mod/Fem/femtest/app/test_moving_port_capacity_native.py": "89cdcea9fc1e4390e33d8465e024c07803f250cc3707297d50e268cb5cf7095a",
+    "src/Mod/Fem/femtest/app/test_elastic_connector.py": "27dd57fa08df8fab56b569afee623b4ab2017e4289daf23e752306fe9401d624"
+  },
+  "prior_leaf_benchmark_not_whole_export_acceptance": {
+    "before_receipt_sha256": "e58909f9d8d5c4a1f4d10266f7bb2b7f5c0eef68d1147caf549a9f389560b60a",
+    "after_receipt_sha256": "d0624e6713d34e7a62eb22617bd46601948eeefe7399039b191952c2e8d875c7",
+    "twelve_identical_public_calls_before_seconds": 6.470199877163395,
+    "twelve_identical_public_calls_after_seconds": 2.8188610810320824,
+    "exact_returned_dictionary_sha256": "779b4dcf8f375c34b1b547430aca9af93c0aabbd748efb280a042788799786ed",
+    "original_native_ID_outputs": {"Hub": [18497,18498], "ArmPort01": [18499,18500], "ArmPort02": [18501,18502]},
+    "scope": "A separate immutable small saved-model public resolver diagnostic; not132-bay export performance or a universal SLA."
+  },
+  "fresh_baseline_and_performance_acceptance": [
+    "Before any product implementation read or change, root reproduces/profiles exactly one accepted stock write at the real public API, budget2113 and bundled native6c, with no discarded warmup or validation moved outside the timed API.",
+    "Freeze the exact saved pre-export FCStd, mesh coordinates/connectivity/ownership/native-ID membership, object references/order/properties, fixture/oracle hashes and all harness/runtime identities. Prefer the same frozen saved input for baseline and candidate; a fresh candidate mesh is separate full-qualification evidence, not a matched performance sample.",
+    "Use a fresh document/session and isolated output/profile per leg. Record necessary restore/recompute/snapshot preparation and keep it identical. Never precompute a new validation/cache context outside the timed call just to improve its reported duration.",
+    "Capture wall and CPU time plus profiler call counts, exclusive time and cumulative time with their semantics. Do not sum overlapping cumulative calls. Attribute dominant cost from the observed baseline rather than naming an unmeasured cause.",
+    "After the baseline identifies the load-bearing repeated work, predeclare a deterministic operation-count or coverage bound for the actual hot path before changing code. It must preserve each current-state validation obligation, not simply suppress calls. A smaller real public-seam regression may tighten feedback only if it still reproduces the same repeated-work pattern.",
+    "Compare baseline/candidate with the same profiling mode, input and runtime/dependency settings; disclose profiler overhead and any unprofiled control. A single matched pair is scoped evidence, not a statistical or hardware guarantee. If improvement is near observed run-to-run uncertainty, repeat matched serial measurements before claiming a performance result.",
+    "Completion requires attributable reduction in the profiled excess work and a meaningful matched whole accepted-call improvement, alongside exact behavior gates. No arbitrary wall-time ceiling, post-hoc relaxed SLA, leaf-only speedup, shifted preparation cost, smaller graph or mesh coarsening can stand in for that evidence. If substantial cost remains unexplained, report it explicitly rather than claiming the pipeline is solved."
+  ],
+  "behavior_and_physical_acceptance": [
+    "Unchanged matched inputs preserve public returned types/values, defensive mutable-container independence, native IDs and every selected owner/node/element set. Raw deck/request hashes are retained; any differing session/path headers are explained explicitly without repairing provenance or normalizing away physical differences.",
+    "The same concrete public exporter/writer must be exercised across success, exception and subsequent direct writes. Between exports mutate a reference to an overlapping/invalid region, restore it, replace/remesh with sparse shifted IDs, alter a finite face/placement and reorder analysis.Group. Invalid data must fail closed and later valid data must resolve current owners and IDs, not a cached earlier result.",
+    "Retain existing regressions test_shared_port_resolution_preserves_independent_mutable_regions, test_stock_reexports_resolve_changed_regions_mesh_and_native_ids, test_direct_writes_after_completed_and_failed_full_exports_are_fresh, test_ports_fail_closed_for_implicit_or_invalid_coupling, test_remeshing_re_resolves_geometry_instead_of_retaining_node_ids and test_endpoints_in_placed_parent_resolve_in_global_mesh_coordinates. Add focused proof for any newly reused expensive validation, without mocking its physical answer.",
+    "Retain every ownership, finite-face rank, overlap, analysis-membership and supported-domain guard. Legitimate once-per-operation reuse is allowed only for the same current graph; no process-global, persistent object or cross-export stale cache is accepted. Failure paths must dispose of operation-scoped state too.",
+    "The132 bays remain coupled by one finite elastic backbone. Exactly264 moving ports,264 bodies,792 actual scalar springs,792 angular endpoints and one ordinary support produce2113 declarations. No graph filtering, truncation, grouping, grounding, changed constraints/material/stiffness, substituted external RBE or changed mesh may manufacture speed.",
+    "Keep exact2113 positive and2112 negative capacity behavior, with the latter failing before expensive mesh export/solve and leaving its output directory untouched. Re-read current per-process capacity policy rather than reusing an older budget result.",
+    "Preserve all3566 named physical checks:3302 at1percent,264 differential-response checks at5percent, including separate local6Nmm torque and original-origin moments. Full graph/incidence/load/once-only duties and real free finite-face motion remain required. No signs, scales, zero denominators, sample locations or limits may be fitted to new output.",
+    "After normal untouched export/native solve/import/save, retain separate-process literal cold restore with Stale accounting, original source hash bindings and saved reference/native-property/resultant values. No status/path/hash/fingerprint repair or old output reuse is accepted. Existing negative moving-support/Tie/contact/legacy qualifications remain separate required regression scope, not replaced by this performance case."
+  ],
+  "harness_and_custody_acceptance": [
+    "Root alone launches the actual literal app wrapper or later explicitly identified source build, with null stdin, bounded serial owned-process cleanup and exact child reaped/group gone/no-timeout receipts. No source/build import override or __file__ origin substitution is allowed.",
+    "Pin original/actual app images, the three protected user-profile trees,16 selected critical dependency files, candidate/source/harness/fixture inputs and their before/after hashes. Selected dependency pins are not a claim about the entire environment.",
+    "New-only private outputs and separate provenance distinguish setup failures, profile-only exports, native physical qualification and cold restore. No setup error or timeout is called a product failure; no profile-only export is called a solved physical or installed acceptance result."
+  ],
+  "limits_and_disclosures": {
+    "product_implementation_read_or_theory_claimed": false,
+    "fresh_baseline_executed_by_this_reviewer": false,
+    "native_app_mesher_build_test_query_sign_install_or_QA_helper_execution_by_this_reviewer": false,
+    "only_reads": "Bead, historical QA JSON/log/index artifacts, frozen fixture/oracles/test sources and read-only Git HEAD metadata; forbidden implementation modules were not opened.",
+    "only_write": "/private/tmp/freecad-882-VGfnpo/proposals/evidence-acceptance-plan-r01.json",
+    "parallel_review_limitation": "A parallel acceptance-planning review was attempted but all agent slots were occupied; this plan is the main reviewer's direct evidence analysis.",
+    "prior_native_C_hooks_and_cache_lifetime_test_authorship": true,
+    "prior_deployment_and_publication_reviews": true,
+    "installation_authorization_claimed": false,
+    "Oomakhi_accessed_or_solved": false,
+    "engineering_or_BIM_accepted": false,
+    "R49_11_123267892_percent_and_R51_5_240441298_percent_remain_FAIL_against5percent": true,
+    "original_one_percent_force_origin_moment_and_five_percent_response_limits_unchanged": true
+  }
+}

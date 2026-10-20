@@ -1,0 +1,58 @@
+{
+  "schema": "FreeCAD-882-independent-profile-v4-static-review-v1",
+  "task": "FreeCAD-882",
+  "reviewer": "/root/ywu_final_review",
+  "assessment": "No outstanding actionable static correctness, custody, control, API/schema or scope finding in the frozen v4 profiling harness.",
+  "review_basis": {
+    "prior_review": "Complete original profile module and supervisor v1, complete v2 hardening delta, complete restore probe and its supervisor delta were previously independently read.",
+    "current_review": "Read complete 290-line profile v3 and its supervisor/config deltas, then the entire frozen v3-to-v4 delta for both changed files. Independently verified all eight current module hashes.",
+    "approved_amendment": "The independently verified ordered-cell relabel benchmark amendment remains fixed; no additional performance or physics exception is introduced.",
+    "amendment_receipt_sha256": "df87c9944d0f48885ec87d69d7bf19a1bfb34abf27ed2b6d4687931b051f4d07"
+  },
+  "reviewed_files_sha256": {
+    "profile-v4/B882Profile.py": "dd1f1457a43807dc5fa7e07aca7bf2aa47d19f14f5d6f278866b6a43b3987831",
+    "profile-v4/run_export_profile_v2.py": "4ddaeaf378c568fef5d3ba6548b774e415df7bfac7067d4eed9c47ca116611dc",
+    "profile-v4/harness_config.py": "72b10e32519399263ce75f67dd2a78302581a7b36f430992374e58382f401dac",
+    "profile-v4/AppYzkIdentity.py": "e4a6b5f645b570b6afde88c09ec5fc63e2362e1ea3556fcc2e1d0fc652b78c1a",
+    "profile-v4/B882Identity.py": "3fcaf3dbfd3b3d5afe8208d4b90c00f6ec4f56eea61162ca3d0ef0a798a8bd23",
+    "profile-v4/critical_pins.py": "15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9",
+    "profile-v4/preservation.py": "30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989",
+    "profile-v4/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d"
+  },
+  "resolved_before_execution": {
+    "preserved_v3_profile_sha256": "9baf6e6e10104e4398655561bab783b6f5a78d92ec9c0092f39c10ff9e4c1753",
+    "preserved_v3_supervisor_sha256": "a527644e5820fd9b7bc6ac0072110ada033250837bb4d3c751edf6f8abf54c19",
+    "finding": "v3 separately re-read deck/request descriptor hashes and omitted their three defining native files from supervisor end fences.",
+    "resolution": "v4 hashes the exact deck/request buffers parsed or compared by the child. The supervisor captures all three native files, requires full path/hash/size descriptor equality with the child receipt and end-fences all eight mandatory outputs before PASS. Metadata was already parsed and hashed from one captured buffer."
+  },
+  "API_and_schema_evidence": {
+    "group_type_API": "Existing src/Mod/Fem/femtest/app/test_mesh.py uses getGroupElementType(group) at line569 and expects the string 'Edge' at line704. Raw group name/type/member snapshots also exist in the native ownership QA. No target implementation was inspected.",
+    "historical_metadata": "Original installed witness native/Mesh.accounting.json",
+    "historical_metadata_sha256": "1c8184bfd75aa57b1184b0fb0453a7ad2a5ed5991ac55a87ba504cd106667305",
+    "historical_metadata_bytes": 53887,
+    "historical_metadata_retained_file_pin_matches": true,
+    "capacity_schema_checked": "Actual metadata schema CCX_FORCE_ACCOUNTING_V3 and capacity keys binary,binary_sha256,objects,required,supported,total match the harness assumptions. Required counts are supports1,bodies264,ports264,angles792,springs792; total and each supported ceiling are2113; binary is the literal installed default6c."
+  },
+  "checked_current_contract": [
+    "Exact original FCStd and raw/canonical restored-connectivity pins are retained. No historical files or model properties are rewritten or rebound.",
+    "Original coordinates and restored ordered connectivity are checked with short boolean failures. Mesh snapshots retain raw group IDs, names, types, membership and order before/after the public export.",
+    "Historical deck/request/PORT comparisons are explicitly diagnostic only; no old physical qualification is inherited. Strict future new-baseline/candidate deck-except-timestamp, request and native-ID parity remains required.",
+    "Exactly one public write is counted and profiled with wall/process CPU timing, explicit progress phases and nonadditive profile-overhead scope. No arbitrary timing SLA is introduced.",
+    "Actual written sidecar capacity is bound to captured deck/request hashes, exact complete declaration counts,2113 configured ceilings and default bundled native6c.",
+    "Supervisor requires exactly identity.json, export-profile.json, run.log, whole-public-write.prof, profile-cumulative.txt, native/Mesh.inp, native/Mesh.accounting and native/Mesh.accounting.json. Parsed receipt/log buffers are captured once, log is bound to run_bounded, native descriptors are bound to child buffers, and all eight hashes/sizes are end-fenced.",
+    "Literal app identity, source/runtime separation, isolated directories, null stdin, root-owned bounded cleanup, serial checks, source/manifest custody, protected app/user directories and16 dependency pins remain unchanged."
+  ],
+  "scope_limits": {
+    "actual_v4_execution_or_PASS_reviewed": false,
+    "export_performance_reproduction_or_improvement_claimed": false,
+    "new_physical_solve_or_engineering_qualification_claimed": false,
+    "fresh_full132_physics_cold_and_refusal_checks_still_required": true,
+    "native_app_query_solver_mesher_build_test_or_helper_execution_by_reviewer": false,
+    "product_implementation_read_for_this_task": false,
+    "product_or_existing_QA_files_edited_by_reviewer": false,
+    "Oomakhi_accessed": false,
+    "privacy": "All raw custody inventories and detailed profiles remain private. This review does not authorize publication, installation or new engineering claims.",
+    "authorship_disclosure": "Reviewer previously authored yzk native capacity C/hooks and a context-lifetime test proposal, and reviewed prior custody helpers. Reviewer did not author this profiling harness or its execution evidence."
+  },
+  "outstanding_findings": []
+}
