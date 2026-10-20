@@ -1,0 +1,939 @@
+{
+  "accounting_data_literal": "{\"analysis\": \"Analysis\", \"binary\": \"/private/tmp/freecad-ywu-install-QnEflFoR/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting\", \"binary_sha256\": \"2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b\", \"deck_sha256\": \"5b3c4bf854261fcc7046816c047ff51d0ea5fa5b3905619d53bbfb571c280c10\", \"end_time\": 1.0, \"expected\": [[\"SUPPORT\", \"ExternalSupport\"], [\"CUT\", \"CutARight\"], [\"CUT\", \"CutBLeft\"]], \"frame\": \"Global Cartesian, original reference-state nodal application positions\", \"limitations\": \"One small-displacement static step, Tet4/Tet10, selected zero-motion RBE supports or ordinary zero prescribed translations outside cut bodies; moving internal RBE ports with positive linear two-port scalar connectors; acyclic translational MPCs on body-exclusive nodes, optional face-to-face penalty contact; no per-Tie multipliers, changed reference coordinates, stress/design acceptance or mesh-accuracy guarantee\", \"mesh\": \"Mesh\", \"method\": \"Native support residual; separate native LOAD/CONTACT/MPC equilibrium-derived cut\", \"model_digest\": \"e907a2c380864e5e1bb399ae71ed5e62901e1c0188d8a9a07a365459e739693d\", \"movement_source\": {\"binary\": \"/private/tmp/freecad-ywu-install-QnEflFoR/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting\", \"binary_sha256\": \"2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b\", \"deck\": \"/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.inp\", \"deck_sha256\": \"5b3c4bf854261fcc7046816c047ff51d0ea5fa5b3905619d53bbfb571c280c10\", \"domain\": \"Fresh run-owned FRD bytes, not qualified displacement or design acceptance\", \"model_digest\": \"e907a2c380864e5e1bb399ae71ed5e62901e1c0188d8a9a07a365459e739693d\", \"path\": \"/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.frd\", \"request\": \"/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.accounting\", \"request_sha256\": \"85092d73798f6836d4a054b52dce4c73b9a9754e6be459490ade64f1dcb617db\", \"requested_end_time\": 1.0, \"schema\": \"FREECAD_MOVEMENT_SOURCE_V1\", \"sha256\": \"eb1c836e25a1d00d69e131a5e5a3b8139635ff57698b3de077fb8351bb829d6e\", \"status\": \"BOUND\", \"time_basis\": \"Requested final static time; field reader must verify actual FRD state\"}, \"output_sha256\": \"e8969d530903aa3bcfea0a3d2fcdead84eb088857aa2ae5cafc162d7014687f3\", \"request_sha256\": \"85092d73798f6836d4a054b52dce4c73b9a9754e6be459490ade64f1dcb617db\", \"schema\": \"CCX_FORCE_ACCOUNTING_V3\", \"units\": \"N and Nmm\", \"wrenches\": {\"CONTACT\": {\"CutARight\": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], \"CutBLeft\": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, \"CUT\": {\"CutARight\": [-12.00000000000436, -6.418476861114186e-14, -5.434125371905907e-12, -6.000000000011658, -35.99999999991926, 24.00000000000717], \"CutBLeft\": [12.000000000003539, 1.3639089857520048e-13, 5.4723725551042435e-12, 6.000000000011614, 35.99999999986157, -24.000000000003578]}, \"LOAD\": {\"CutARight\": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], \"CutBLeft\": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, \"MPC\": {\"CutARight\": [12.00000000000436, 6.418476861114186e-14, 5.434125371905907e-12, 6.000000000011658, 35.99999999991926, -24.00000000000717], \"CutBLeft\": [-12.000000000003539, -1.3639089857520048e-13, -5.4723725551042435e-12, -6.000000000011614, -35.99999999986157, 24.000000000003578]}, \"SUPPORT\": {\"ExternalSupport\": [-12.00000000000454, -1.0541567618815861e-13, -5.4202614618859e-12, -6.000000000011901, -35.9999999999205, 24.00000000000723]}}}",
+  "analysis_name": "Analysis",
+  "binary": "/private/tmp/freecad-ywu-install-QnEflFoR/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+  "document": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/moving-face-ports-native-v3.FCStd",
+  "document_sha256": "19e4c0c3e821666380f058f22b71f9b00b40d0ec50a466580f45b516e4f0cb6d",
+  "explicit_supports": [
+    "ExternalSupport"
+  ],
+  "mesh_name": "Mesh",
+  "movement_source_literal": {
+    "binary": "/private/tmp/freecad-ywu-install-QnEflFoR/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+    "deck": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.inp",
+    "deck_sha256": "5b3c4bf854261fcc7046816c047ff51d0ea5fa5b3905619d53bbfb571c280c10",
+    "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+    "model_digest": "e907a2c380864e5e1bb399ae71ed5e62901e1c0188d8a9a07a365459e739693d",
+    "path": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.frd",
+    "request": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.accounting",
+    "request_sha256": "85092d73798f6836d4a054b52dce4c73b9a9754e6be459490ade64f1dcb617db",
+    "requested_end_time": 1.0,
+    "schema": "FREECAD_MOVEMENT_SOURCE_V1",
+    "sha256": "eb1c836e25a1d00d69e131a5e5a3b8139635ff57698b3de077fb8351bb829d6e",
+    "status": "BOUND",
+    "time_basis": "Requested final static time; field reader must verify actual FRD state"
+  },
+  "no_cold_restore_performed_yet": true,
+  "no_history_or_provenance_repair": true,
+  "report_name": "NativeForceAccounting",
+  "resultants_literal": [
+    "SUPPORT ExternalSupport: F(N)=[-12.00000000000454, -1.0541567618815861e-13, -5.4202614618859e-12]; M_origin(Nmm)=[-6.000000000011901, -35.9999999999205, 24.00000000000723]",
+    "CUT CutARight: F(N)=[-12.00000000000436, -6.418476861114186e-14, -5.434125371905907e-12]; M_origin(Nmm)=[-6.000000000011658, -35.99999999991926, 24.00000000000717]",
+    "CUT CutBLeft: F(N)=[12.000000000003539, 1.3639089857520048e-13, 5.4723725551042435e-12]; M_origin(Nmm)=[6.000000000011614, 35.99999999986157, -24.000000000003578]"
+  ],
+  "saved_native_properties": {
+    "AxialLoad": {
+      "properties": {
+        "Direction": {
+          "type": "App::PropertyLinkSub",
+          "value": [
+            {
+              "document": "YwuMovingPortGreen",
+              "object": "AxialLoadDirection"
+            },
+            [
+              "Edge1"
+            ]
+          ]
+        },
+        "Force": {
+          "type": "App::PropertyForce",
+          "value": "12000.0 mm*kg/s^2"
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Face18"
+              ]
+            ]
+          ]
+        },
+        "Reversed": {
+          "type": "App::PropertyBool",
+          "value": false
+        }
+      },
+      "type": "Fem::ConstraintForce"
+    },
+    "ConnectorRX": {
+      "properties": {
+        "Attachment": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rigid body ports"
+        },
+        "Axis": {
+          "type": "App::PropertyEnumeration",
+          "value": "X"
+        },
+        "Kind": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rotational"
+        },
+        "Mode": {
+          "type": "App::PropertyEnumeration",
+          "value": "Two points"
+        },
+        "Orientation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RigidBody1": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortA"
+          }
+        },
+        "RigidBody2": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortB"
+          }
+        },
+        "RotationalStiffness": {
+          "type": "App::PropertyQuantity",
+          "value": "104719.75511965978 mm^2*kg/(s^2*deg)"
+        },
+        "Stiffness": {
+          "type": "App::PropertyStiffness",
+          "value": "0.0 kg/s^2"
+        }
+      },
+      "type": "Fem::FeaturePython"
+    },
+    "ConnectorRY": {
+      "properties": {
+        "Attachment": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rigid body ports"
+        },
+        "Axis": {
+          "type": "App::PropertyEnumeration",
+          "value": "Y"
+        },
+        "Kind": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rotational"
+        },
+        "Mode": {
+          "type": "App::PropertyEnumeration",
+          "value": "Two points"
+        },
+        "Orientation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RigidBody1": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortA"
+          }
+        },
+        "RigidBody2": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortB"
+          }
+        },
+        "RotationalStiffness": {
+          "type": "App::PropertyQuantity",
+          "value": "104719.75511965978 mm^2*kg/(s^2*deg)"
+        },
+        "Stiffness": {
+          "type": "App::PropertyStiffness",
+          "value": "0.0 kg/s^2"
+        }
+      },
+      "type": "Fem::FeaturePython"
+    },
+    "ConnectorRZ": {
+      "properties": {
+        "Attachment": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rigid body ports"
+        },
+        "Axis": {
+          "type": "App::PropertyEnumeration",
+          "value": "Z"
+        },
+        "Kind": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rotational"
+        },
+        "Mode": {
+          "type": "App::PropertyEnumeration",
+          "value": "Two points"
+        },
+        "Orientation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RigidBody1": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortA"
+          }
+        },
+        "RigidBody2": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortB"
+          }
+        },
+        "RotationalStiffness": {
+          "type": "App::PropertyQuantity",
+          "value": "104719.75511965978 mm^2*kg/(s^2*deg)"
+        },
+        "Stiffness": {
+          "type": "App::PropertyStiffness",
+          "value": "0.0 kg/s^2"
+        }
+      },
+      "type": "Fem::FeaturePython"
+    },
+    "ConnectorTX": {
+      "properties": {
+        "Attachment": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rigid body ports"
+        },
+        "Axis": {
+          "type": "App::PropertyEnumeration",
+          "value": "X"
+        },
+        "Kind": {
+          "type": "App::PropertyEnumeration",
+          "value": "Translational"
+        },
+        "Mode": {
+          "type": "App::PropertyEnumeration",
+          "value": "Two points"
+        },
+        "Orientation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RigidBody1": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortA"
+          }
+        },
+        "RigidBody2": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortB"
+          }
+        },
+        "RotationalStiffness": {
+          "type": "App::PropertyQuantity",
+          "value": "0.0 mm^2*kg/(s^2*deg)"
+        },
+        "Stiffness": {
+          "type": "App::PropertyStiffness",
+          "value": "1200000.0 kg/s^2"
+        }
+      },
+      "type": "Fem::FeaturePython"
+    },
+    "ConnectorTY": {
+      "properties": {
+        "Attachment": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rigid body ports"
+        },
+        "Axis": {
+          "type": "App::PropertyEnumeration",
+          "value": "Y"
+        },
+        "Kind": {
+          "type": "App::PropertyEnumeration",
+          "value": "Translational"
+        },
+        "Mode": {
+          "type": "App::PropertyEnumeration",
+          "value": "Two points"
+        },
+        "Orientation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RigidBody1": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortA"
+          }
+        },
+        "RigidBody2": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortB"
+          }
+        },
+        "RotationalStiffness": {
+          "type": "App::PropertyQuantity",
+          "value": "0.0 mm^2*kg/(s^2*deg)"
+        },
+        "Stiffness": {
+          "type": "App::PropertyStiffness",
+          "value": "1200000.0 kg/s^2"
+        }
+      },
+      "type": "Fem::FeaturePython"
+    },
+    "ConnectorTZ": {
+      "properties": {
+        "Attachment": {
+          "type": "App::PropertyEnumeration",
+          "value": "Rigid body ports"
+        },
+        "Axis": {
+          "type": "App::PropertyEnumeration",
+          "value": "Z"
+        },
+        "Kind": {
+          "type": "App::PropertyEnumeration",
+          "value": "Translational"
+        },
+        "Mode": {
+          "type": "App::PropertyEnumeration",
+          "value": "Two points"
+        },
+        "Orientation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RigidBody1": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortA"
+          }
+        },
+        "RigidBody2": {
+          "type": "App::PropertyLinkGlobal",
+          "value": {
+            "document": "YwuMovingPortGreen",
+            "object": "MovingPortB"
+          }
+        },
+        "RotationalStiffness": {
+          "type": "App::PropertyQuantity",
+          "value": "0.0 mm^2*kg/(s^2*deg)"
+        },
+        "Stiffness": {
+          "type": "App::PropertyStiffness",
+          "value": "1200000.0 kg/s^2"
+        }
+      },
+      "type": "Fem::FeaturePython"
+    },
+    "CutARight": {
+      "properties": {
+        "AccountingBody": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Solid2"
+              ]
+            ]
+          ]
+        },
+        "NativeEquilibriumCut": {
+          "type": "App::PropertyBool",
+          "value": true
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "CutARightOrientation"
+              },
+              [
+                "Face2"
+              ]
+            ]
+          ]
+        }
+      },
+      "type": "Fem::ConstraintPython"
+    },
+    "CutBLeft": {
+      "properties": {
+        "AccountingBody": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Solid3"
+              ]
+            ]
+          ]
+        },
+        "NativeEquilibriumCut": {
+          "type": "App::PropertyBool",
+          "value": true
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Face13"
+              ]
+            ]
+          ]
+        }
+      },
+      "type": "Fem::ConstraintPython"
+    },
+    "ExternalSupport": {
+      "properties": {
+        "Displacement": {
+          "type": "App::PropertyPosition",
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ForceX": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "ForceY": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "ForceZ": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "MomentX": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "MomentY": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "MomentZ": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "ReferenceNode": {
+          "type": "App::PropertyPosition",
+          "value": [
+            0.0,
+            2.0,
+            3.0
+          ]
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Face1"
+              ]
+            ]
+          ]
+        },
+        "Rotation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RotationalModeX": {
+          "type": "App::PropertyEnumeration",
+          "value": "Constraint"
+        },
+        "RotationalModeY": {
+          "type": "App::PropertyEnumeration",
+          "value": "Constraint"
+        },
+        "RotationalModeZ": {
+          "type": "App::PropertyEnumeration",
+          "value": "Constraint"
+        },
+        "TranslationalModeX": {
+          "type": "App::PropertyEnumeration",
+          "value": "Constraint"
+        },
+        "TranslationalModeY": {
+          "type": "App::PropertyEnumeration",
+          "value": "Constraint"
+        },
+        "TranslationalModeZ": {
+          "type": "App::PropertyEnumeration",
+          "value": "Constraint"
+        }
+      },
+      "type": "Fem::ConstraintRigidBody"
+    },
+    "MovingPortA": {
+      "properties": {
+        "Displacement": {
+          "type": "App::PropertyPosition",
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ForceX": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "ForceY": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "ForceZ": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "MomentX": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "MomentY": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "MomentZ": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "ReferenceNode": {
+          "type": "App::PropertyPosition",
+          "value": [
+            10.0,
+            2.0,
+            3.0
+          ]
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Face7"
+              ]
+            ]
+          ]
+        },
+        "Rotation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RotationalModeX": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "RotationalModeY": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "RotationalModeZ": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "TranslationalModeX": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "TranslationalModeY": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "TranslationalModeZ": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        }
+      },
+      "type": "Fem::ConstraintRigidBody"
+    },
+    "MovingPortB": {
+      "properties": {
+        "Displacement": {
+          "type": "App::PropertyPosition",
+          "value": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "ForceX": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "ForceY": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "ForceZ": {
+          "type": "App::PropertyForce",
+          "value": "0.0 mm*kg/s^2"
+        },
+        "MomentX": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "MomentY": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "MomentZ": {
+          "type": "App::PropertyMoment",
+          "value": "0.0 mm^2*kg/s^2"
+        },
+        "ReferenceNode": {
+          "type": "App::PropertyPosition",
+          "value": [
+            20.0,
+            2.0,
+            3.0
+          ]
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Face12"
+              ]
+            ]
+          ]
+        },
+        "Rotation": {
+          "type": "App::PropertyRotation",
+          "value": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "RotationalModeX": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "RotationalModeY": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "RotationalModeZ": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "TranslationalModeX": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "TranslationalModeY": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        },
+        "TranslationalModeZ": {
+          "type": "App::PropertyEnumeration",
+          "value": "Free"
+        }
+      },
+      "type": "Fem::ConstraintRigidBody"
+    },
+    "SolverCcxTools": {
+      "properties": {
+        "NativeAccountingSolver": {
+          "type": "App::PropertyFile",
+          "value": ""
+        },
+        "NativeAccountingSupports": {
+          "type": "App::PropertyLinkList",
+          "value": [
+            {
+              "document": "YwuMovingPortGreen",
+              "object": "ExternalSupport"
+            }
+          ]
+        },
+        "NativeForceAccounting": {
+          "type": "App::PropertyBool",
+          "value": true
+        }
+      },
+      "type": "Fem::FemSolverObjectPython"
+    },
+    "TorqueNegativeZ": {
+      "properties": {
+        "Direction": {
+          "type": "App::PropertyLinkSub",
+          "value": [
+            {
+              "document": "YwuMovingPortGreen",
+              "object": "TorqueNegativeZDirection"
+            },
+            [
+              "Edge1"
+            ]
+          ]
+        },
+        "Force": {
+          "type": "App::PropertyForce",
+          "value": "3000.0 mm*kg/s^2"
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Edge33"
+              ]
+            ]
+          ]
+        },
+        "Reversed": {
+          "type": "App::PropertyBool",
+          "value": false
+        }
+      },
+      "type": "Fem::ConstraintForce"
+    },
+    "TorquePositiveZ": {
+      "properties": {
+        "Direction": {
+          "type": "App::PropertyLinkSub",
+          "value": [
+            {
+              "document": "YwuMovingPortGreen",
+              "object": "TorquePositiveZDirection"
+            },
+            [
+              "Edge1"
+            ]
+          ]
+        },
+        "Force": {
+          "type": "App::PropertyForce",
+          "value": "3000.0 mm*kg/s^2"
+        },
+        "References": {
+          "type": "App::PropertyLinkSubList",
+          "value": [
+            [
+              {
+                "document": "YwuMovingPortGreen",
+                "object": "BeamCells"
+              },
+              [
+                "Edge35"
+              ]
+            ]
+          ]
+        },
+        "Reversed": {
+          "type": "App::PropertyBool",
+          "value": false
+        }
+      },
+      "type": "Fem::ConstraintForce"
+    },
+    "WitnessMaterial": {
+      "properties": {
+        "Material": {
+          "type": "App::PropertyMap",
+          "value": {
+            "Density": "1 kg/m^3",
+            "Name": "Ywu synthetic linear material",
+            "PoissonRatio": "0.3",
+            "YoungsModulus": "20000 MPa"
+          }
+        },
+        "References": {
+          "type": "App::PropertyLinkSubListGlobal",
+          "value": []
+        }
+      },
+      "type": "App::MaterialObjectPython"
+    }
+  },
+  "saved_references": {
+    "CutARight": [
+      [
+        {
+          "document": "YwuMovingPortGreen",
+          "object": "CutARightOrientation"
+        },
+        [
+          "Face2"
+        ]
+      ]
+    ],
+    "CutBLeft": [
+      [
+        {
+          "document": "YwuMovingPortGreen",
+          "object": "BeamCells"
+        },
+        [
+          "Face13"
+        ]
+      ]
+    ],
+    "ExternalSupport": [
+      [
+        {
+          "document": "YwuMovingPortGreen",
+          "object": "BeamCells"
+        },
+        [
+          "Face1"
+        ]
+      ]
+    ],
+    "MovingPortA": [
+      [
+        {
+          "document": "YwuMovingPortGreen",
+          "object": "BeamCells"
+        },
+        [
+          "Face7"
+        ]
+      ]
+    ],
+    "MovingPortB": [
+      [
+        {
+          "document": "YwuMovingPortGreen",
+          "object": "BeamCells"
+        },
+        [
+          "Face12"
+        ]
+      ]
+    ]
+  },
+  "saved_status_literal": "Current native accounting; not design acceptance",
+  "schema": "FreeCAD-ywu-native-cold-case-v1",
+  "solver_name": "SolverCcxTools",
+  "source_files": {
+    "dat": {
+      "path": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.dat",
+      "sha256": "d9afd1ff018761750927bf4a1a05ac19ba5f140803dd8b8a0c33bc0f31adc473"
+    },
+    "deck": {
+      "path": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.inp",
+      "sha256": "5b3c4bf854261fcc7046816c047ff51d0ea5fa5b3905619d53bbfb571c280c10"
+    },
+    "frd": {
+      "path": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.frd",
+      "sha256": "eb1c836e25a1d00d69e131a5e5a3b8139635ff57698b3de077fb8351bb829d6e"
+    },
+    "native_output": {
+      "path": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.accounting.out",
+      "sha256": "e8969d530903aa3bcfea0a3d2fcdead84eb088857aa2ae5cafc162d7014687f3"
+    },
+    "request": {
+      "path": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-endload/witness/native/Mesh.accounting",
+      "sha256": "85092d73798f6836d4a054b52dce4c73b9a9754e6be459490ade64f1dcb617db"
+    }
+  }
+}

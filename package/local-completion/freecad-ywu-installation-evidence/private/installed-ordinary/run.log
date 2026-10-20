@@ -1,0 +1,213 @@
+test_application_only_native_identity_and_registered_suites (AppYwuIdentity.AppNativeIdentity.test_application_only_native_identity_and_registered_suites) ... ok
+test_native_fixed_partial_supports_and_moving_face_ports (YwuOrdinaryGreen.OrdinaryGreenWitness.test_native_fixed_partial_supports_and_moving_face_ports) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +221 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 
+  ElementDimension: 3
+  /private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness/mesh/BeamCells_Geometry.brep
+  /private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness/mesh/BeamCells_Mesh.vtk
+  /private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness/mesh/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 150
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 151
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 152
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 153
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 154
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 155
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 156
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 157
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 158
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 159
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 160
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 161
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 162
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 163
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 164
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 165
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 166
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 167
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 168
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 169
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 170
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 171
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 172
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 173
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex25' Type: 'Node' id: 174
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex26' Type: 'Node' id: 175
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex27' Type: 'Node' id: 176
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex28' Type: 'Node' id: 177
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex29' Type: 'Node' id: 178
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex30' Type: 'Node' id: 179
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex31' Type: 'Node' id: 180
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex32' Type: 'Node' id: 181
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex33' Type: 'Node' id: 182
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex34' Type: 'Node' id: 183
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex35' Type: 'Node' id: 184
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex36' Type: 'Node' id: 185
+AddGroupElements: num elements: 1 sizeof: 8
+
+Get mesh data for constraints, materials and element geometry...
+FixedPatch:
+    Type: Fem::ConstraintFixed, Name: FixedPatch
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+PartialAxialPatch:
+    Type: Fem::ConstraintDisplacement, Name: PartialAxialPatch
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+MovingPortA:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortA
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+MovingPortB:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortB
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+CutARight:
+    Type: Fem::ConstraintSectionPrint, Name: CutARight
+    ReferenceShape ... Type: Face, Object name: CutARightOrientation, Object label: CutARightOrientation, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: CutARightOrientation, Object label: CutARightOrientation, Element name: Face8
+    ReferenceShape ... Type: Face, Object name: CutARightOrientation, Object label: CutARightOrientation, Element name: Face13
+CutBLeft:
+    Type: Fem::ConstraintSectionPrint, Name: CutBLeft
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face31
+AxialLoad:
+    Type: Fem::ConstraintForce, Name: AxialLoad
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face36
+TorquePositiveZ:
+    Type: Fem::ConstraintForce, Name: TorquePositiveZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge61
+TorqueNegativeZ:
+    Type: Fem::ConstraintForce, Name: TorqueNegativeZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge59
+Getting mesh data time: 0.056 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness/native/Mesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+Writing time Calc[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'WitnessMaterialSolid', 'mat_obj_name': 'WitnessMaterial', 'ccx_mat_name': 'Ywu synthetic linear material'}]
+YWU_ORDINARY_SUPPORTS_GREEN=/private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.401s
+
+OK
+uliX input file: 0.37 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face17
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face22
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face26
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face30
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness/native/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-ywu-install-QnEflFoR/installed-ordinary/witness/native/Mesh.dat

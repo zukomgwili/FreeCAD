@@ -1,0 +1,120 @@
+{
+  "schema": "FreeCAD-ywu-independent-ordinary-and-partial-support-statics-v1",
+  "declared_before_native_execution": true,
+  "case_role": "Separate ordinary-support composition benchmark with one finite ordinary Fixed patch and one disjoint finite normal-only Displacement patch; no per-patch force or moment target.",
+  "related_endload_oracle": "/private/tmp/freecad-ywu-sG46Lsc8/endload-oracle.json",
+  "related_endload_oracle_sha256": "d1e436011bbd452ec39453a1c61b7466b6ec7a1bef657d7c8bc1da819114660b",
+  "previous_oracles_or_captures_modified": false,
+  "units": {"length": "mm", "force": "N", "moment": "N*mm"},
+  "wrench_order": "Fx,Fy,Fz,Mx,My,Mz",
+  "moment_origin": [0, 0, 0],
+  "moment_positions": "original undeformed physical native deck coordinates",
+  "physical_geometry": {
+    "beam_A_bounds": [[0, 10], [1, 3], [2, 4]],
+    "beam_B_bounds": [[20, 30], [1, 3], [2, 4]],
+    "A_conforming_partitions": {"x_planes": [5], "y_planes": [1.75, 2.25], "geometric_cells": 6},
+    "B_conforming_partitions": {"x_planes": [25], "geometric_cells": 2},
+    "partition_semantics": "Geometry partitions are selectable cells within two conformingly meshed material continua. No added Tie, contact, connector, interface release or extra stiffness is introduced at internal x/y seams.",
+    "material": {"E_N_per_mm2": 20000, "poisson_ratio": 0.3}
+  },
+  "physical_external_boundaries": {
+    "ordinary_fixed_patch": {
+      "geometry": "A x=0,y1..1.75,z2..4",
+      "area_mm2": 1.5,
+      "native_type": "ordinary Fixed on finite solid face",
+      "prescribed_physical_nodal_dofs": [1, 2, 3],
+      "prescribed_values": [0, 0, 0],
+      "no_RBE_external_support": true
+    },
+    "genuine_partial_displacement_patch": {
+      "geometry": "A x=0,y2.25..3,z2..4",
+      "area_mm2": 1.5,
+      "native_type": "ordinary Displacement on finite solid face",
+      "prescribed_physical_nodal_dofs": [1],
+      "prescribed_values": [0],
+      "physical_dofs_2_and_3": "free, not implicitly zero",
+      "no_RBE_external_support": true
+    },
+    "unrestrained_middle_patch": {
+      "geometry": "A x=0,y1.75..2.25,z2..4",
+      "area_mm2": 1,
+      "meaning": "No direct boundary conditions on the open middle-patch interior. Its border nodes may belong to their adjacent restrained patch boundaries, as ordinary finite-patch geometry requires."
+    },
+    "physical_support_group_for_oracle": "The literal union of these two disjoint ordinary physical constraint patches; exclude moving RBE references/rotation nodes and scalar-rotation auxiliary orthogonal DOF restraints."
+  },
+  "stability_assessment": {
+    "ordinary_fixed_patch_removes_all_rigid_modes": true,
+    "proof": "For a rigid displacement u(r)=a+theta cross r, zero displacement on a finite two-dimensional patch implies theta cross v=0 for two independent in-plane separation vectors v. Therefore theta=0 and then a=0. The finite ordinary Fixed patch alone removes all six rigid motions of A; the second Ux-only patch is not needed to cure a mechanism and is a genuine distinct physical boundary.",
+    "positive_elastic_material": "E=20000>0 and nu=0.3 lies in the stable isotropic range.",
+    "B_connection": "Six strictly positive independent translational/rotational scalar connectors restrain all relative rigid motions of B's finite receiving face to A's. With connected conforming A and B continua this supplies a stable loaded small-displacement model.",
+    "physical_change_from_previous_full_face_fixed_case": "This deliberately declared support distribution is different from a whole-face fixed RBE. Local deformation, per-patch reactions and stiffness-dependent response may change; no previous response target is copied."
+  },
+  "moving_receiving_regions_and_connectors": {
+    "moving_A": {
+      "geometry": "One native RBE over the union of all three coplanar A x=10 patches, y1..1.75,1.75..2.25,2.25..3 and z2..4",
+      "patch_areas_mm2": [1.5, 1, 1.5],
+      "total_area_mm2": 4,
+      "reference": [10, 2, 3],
+      "kinematics": "All six motions free; union deduplicates shared physical edge nodes."
+    },
+    "moving_B": {"geometry": "B x=20 full finite face y1..3,z2..4", "area_mm2": 4, "reference": [20, 2, 3], "kinematics": "All six motions free."},
+    "translation_X_Y_Z_stiffness_each_N_per_mm": 1200,
+    "rotation_X_Y_Z_stiffness_each_N_mm_per_rad": 6000,
+    "motion_duty": "Demonstrate actual finite-face X translation and X rotation at both moving receivers. Exact displacement magnitudes, transverse/bending response and per-patch tractions are stiffness-dependent, not statics oracle targets."
+  },
+  "end_only_loads_unchanged_from_endload_benchmark": [
+    {"geometry": "B x=30 full face", "total_force": [12, 0, 0], "original_centroid": [30, 2, 3], "global_origin_moment": [0, 36, -24]},
+    {"geometry": "B x=30,y=3,z2..4 finite end edge", "total_force": [0, 0, 3], "original_centroid": [30, 3, 3], "global_origin_moment": [9, -90, 0]},
+    {"geometry": "B x=30,y=1,z2..4 finite end edge", "total_force": [0, 0, -3], "original_centroid": [30, 1, 3], "global_origin_moment": [-3, 90, 0]}
+  ],
+  "independently_known_wrenches": {
+    "whole_applied_LOAD": [12, 0, 0, 6, 36, -24],
+    "aggregate_ordinary_physical_SUPPORT": [-12, 0, 0, -6, -36, 24],
+    "connector_action_on_A": [12, 0, 0, 6, 36, -24],
+    "connector_action_on_B": [-12, 0, 0, -6, -36, 24],
+    "cut_A_x5_action_on_retained_right_union_three_cells": [-12, 0, 0, -6, -36, 24],
+    "cut_B_x25_action_on_retained_left": [12, 0, 0, 6, 36, -24],
+    "per_patch_wrench_oracles": "None. Fx sharing and individual moments/tractions are stiffness-dependent. Only the aggregate physical ordinary-support wrench is prescribed by statics."
+  },
+  "retained_body_channel_ledgers": {
+    "A_right_union_all_three_x5_to10_cells": {
+      "LOAD": [0, 0, 0, 0, 0, 0],
+      "SUPPORT": [0, 0, 0, 0, 0, 0],
+      "CONTACT": [0, 0, 0, 0, 0, 0],
+      "MPC_connector_action": [12, 0, 0, 6, 36, -24],
+      "CUT_excluded_left_action": [-12, 0, 0, -6, -36, 24],
+      "equilibrium_sum": [0, 0, 0, 0, 0, 0]
+    },
+    "B_left_x20_to25": {
+      "LOAD": [0, 0, 0, 0, 0, 0],
+      "SUPPORT": [0, 0, 0, 0, 0, 0],
+      "CONTACT": [0, 0, 0, 0, 0, 0],
+      "MPC_connector_action": [-12, 0, 0, -6, -36, 24],
+      "CUT_excluded_right_action": [12, 0, 0, 6, 36, -24],
+      "equilibrium_sum": [0, 0, 0, 0, 0, 0]
+    }
+  },
+  "actual_deck_and_geometry_preconditions": [
+    "Resolve the two physical ordinary constraints to finite x0 patch node sets in the stated y ranges. Their node sets and constrained node/DOF pairs must be disjoint across the 0.5 mm middle gap.",
+    "Ordinary Fixed prescribes physical translations1/2/3 only. Partial Displacement prescribes Ux only; Uy/Uz must actually be free. Do not add physical rotational SPCs to solid nodes or create a replacement external RBE.",
+    "No directly prescribed physical node/DOF may belong to either moving receiving region, either x5/x25 cut, or a connector reference/rotation node. Do not count scalar-rotation auxiliary orthogonal DOF restraints as physical external supports.",
+    "The A moving RBE union must cover exactly the three x10 end patches, total area4 mm2, centroid(10,2,3), with shared edge nodes deduplicated and no accidental interior-y face selection.",
+    "The retained A-right accounting body is the union of all three x5..10 cells; its cut is only the union of their coplanar x5 faces, total area4 mm2 and outward normal-X. Deduplicate shared cut nodes; do not double-count elements, facets or include internal-y seams as cuts.",
+    "The retained B-left body remains x20..25 with x25 cut area4 mm2 and outward normal+X.",
+    "All cell interfaces must be conformingly meshed with shared physical nodes, yielding exactly two deformable connected beam components before connector links, not six/eight mechanically disconnected cell bodies and not a mesh merge between the separated beams.",
+    "All nonzero actual CLOAD entries must lie on B's external x30 end face/edges and belong only to its right-side owner. No cut-boundary applied point load or overlapping ownership may be introduced.",
+    "Explicitly bind native physical-support outputs to both ordinary constraints and compare their summed original-origin wrench against the aggregate target. Do not require or fit each patch to a chosen force/moment split."
+  ],
+  "fixed_acceptance_and_limitations": {
+    "force_and_original_origin_moment_relative_error_limit": 0.01,
+    "nonzero_reference_metric": "norm(actual-reference)/norm(reference), force and moment separately",
+    "zero_channel_or_balance_scales": {"force_N": 12, "moment_N_mm": "sqrt(1908)"},
+    "zero_channel_or_balance_metric": "norm(actual)/predeclared_applied_load_scale, with unchanged 1% ceiling",
+    "fitted_signs_or_denominators_or_reaction_corrections": false,
+    "raw_RF_as_accounting_substitute": false,
+    "separated_reference_transverse_couple": "Preserve and assess any (rA-rB) cross fA=(0,10*Tz,-10*Ty). Do not silently force cancellation or fit a correction; this case does not qualify generally loaded noncentral transverse scalar connectors.",
+    "application_lifecycle_or_cold_reopen_acceptance": "Not established by this statics declaration.",
+    "original_longitudinal_sideface_case": "Unchanged historical case; this new case must not replace or claim passing its cut-node point-load refusal.",
+    "whole_FreeCAD_ywu_or_engineering_or_Oomakhi_acceptance": false
+  }
+}

@@ -1,0 +1,750 @@
+{
+  "schema": "FreeCAD-ywu.LEGACY_V1_PREDECLARED.1",
+  "directory": "/private/tmp/freecad-ywu-install-QnEflFoR/stage-v1",
+  "binary": "/private/tmp/freecad-ywu-install-QnEflFoR/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+  "protected": {
+    "/private/tmp/freecad-ywu-install-QnEflFoR/run_legacy_v1.py": "c623c6d9d8e73227e01257f58b2f3333d51775b2b15c3238988aef0216ac35c2",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+    "/private/tmp/freecad-ywu-install-QnEflFoR/process_control.py": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+    "/private/tmp/freecad-ywu-install-QnEflFoR/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "4418a41794adfc386143bd94b709794eea0d9991e774ab559e714e2782730ad3"
+  },
+  "cases": [
+    {
+      "case": "t1-q0-r0-s0/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": false,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t1-q0-r0-s0/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": false,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "813fc183fd47171ddff16c7692f29a5610de285e83c54165e676728cb506a9d5",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t1-q0-r0-s1/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": false,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "491592e910ac7a35d4f23f58220ebf72668ce11ae5dbdd0b4ae6506e88be0ebf",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t1-q0-r0-s1/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": false,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "5765155741a05f063190f5912777401fc47f8e3bb641769d52b57e9455c099f9",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t1-q0-r1-s0/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": true,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "e0b989e49f9d3ba9dd63a5218233a579565431ccf13498c8a5faf055b75bf68e",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t1-q0-r1-s0/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": true,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "f6d7233d437692f00e2a195d4dfe8bc92887e3f9445ae45a82a05b9390364ea4",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t1-q0-r1-s1/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": true,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "4744526b62525e71fd3a2b178d48bfd29ef1a0bb85cc6ab2d870d0914b71c501",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t1-q0-r1-s1/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": false,
+      "transformed": true,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "7c2183c46b61eef846d13d5b91af9be83e0b2bfe3110c1db1f9ad69669df0da2",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t1-q1-r0-s0/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": false,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "bd894a304070c9eab7859331e0e8e4a1b8b3e198216823a806b226fb01c79ffb",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t1-q1-r0-s0/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": false,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "dd77a1721fd96d59f4a506fe1052def18556fe4a2835442c70a2b670eab378ee",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t1-q1-r0-s1/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": false,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "717e88a47e0c202642fc04d7a5ab2984397a05fb2db7af90189e2e02588c5704",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t1-q1-r0-s1/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": false,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "f7576cd18eb7b81bc07d55c5945a3b0edeb0e3fccdebf43832ba376b75c375df",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t1-q1-r1-s0/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": true,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "a2a4b583836d2df0176ccdbf34587ac7feafa72a62ac1be1a9665205c1bf7b42",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t1-q1-r1-s0/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": true,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "8377c0cf697fd21479255f97413e758813a6ded98a50643211b4b20501966597",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t1-q1-r1-s1/slave-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": true,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "85bd2d6546c7af811399460d9dca2e92610650ff03698e270cb16fe2626d37f1",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t1-q1-r1-s1/master-upper",
+      "positive": true,
+      "threads": 1,
+      "quadratic": true,
+      "transformed": true,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "7972f3d3c903c2bc39d3ff6116bcdc3953724a5997e358fa76136a3be0e66440",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t2-q0-r0-s0/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": false,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t2-q0-r0-s0/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": false,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "813fc183fd47171ddff16c7692f29a5610de285e83c54165e676728cb506a9d5",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t2-q0-r0-s1/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": false,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "491592e910ac7a35d4f23f58220ebf72668ce11ae5dbdd0b4ae6506e88be0ebf",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t2-q0-r0-s1/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": false,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "5765155741a05f063190f5912777401fc47f8e3bb641769d52b57e9455c099f9",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t2-q0-r1-s0/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": true,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "e0b989e49f9d3ba9dd63a5218233a579565431ccf13498c8a5faf055b75bf68e",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t2-q0-r1-s0/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": true,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "f6d7233d437692f00e2a195d4dfe8bc92887e3f9445ae45a82a05b9390364ea4",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t2-q0-r1-s1/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": true,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "4744526b62525e71fd3a2b178d48bfd29ef1a0bb85cc6ab2d870d0914b71c501",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t2-q0-r1-s1/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": false,
+      "transformed": true,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "7c2183c46b61eef846d13d5b91af9be83e0b2bfe3110c1db1f9ad69669df0da2",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t2-q1-r0-s0/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": false,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "bd894a304070c9eab7859331e0e8e4a1b8b3e198216823a806b226fb01c79ffb",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t2-q1-r0-s0/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": false,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "dd77a1721fd96d59f4a506fe1052def18556fe4a2835442c70a2b670eab378ee",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t2-q1-r0-s1/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": false,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "717e88a47e0c202642fc04d7a5ab2984397a05fb2db7af90189e2e02588c5704",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t2-q1-r0-s1/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": false,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "f7576cd18eb7b81bc07d55c5945a3b0edeb0e3fccdebf43832ba376b75c375df",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t2-q1-r1-s0/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": true,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "a2a4b583836d2df0176ccdbf34587ac7feafa72a62ac1be1a9665205c1bf7b42",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t2-q1-r1-s0/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": true,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "8377c0cf697fd21479255f97413e758813a6ded98a50643211b4b20501966597",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t2-q1-r1-s1/slave-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": true,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "85bd2d6546c7af811399460d9dca2e92610650ff03698e270cb16fe2626d37f1",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t2-q1-r1-s1/master-upper",
+      "positive": true,
+      "threads": 2,
+      "quadratic": true,
+      "transformed": true,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "7972f3d3c903c2bc39d3ff6116bcdc3953724a5997e358fa76136a3be0e66440",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t4-q0-r0-s0/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": false,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t4-q0-r0-s0/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": false,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "813fc183fd47171ddff16c7692f29a5610de285e83c54165e676728cb506a9d5",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t4-q0-r0-s1/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": false,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "491592e910ac7a35d4f23f58220ebf72668ce11ae5dbdd0b4ae6506e88be0ebf",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t4-q0-r0-s1/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": false,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "5765155741a05f063190f5912777401fc47f8e3bb641769d52b57e9455c099f9",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t4-q0-r1-s0/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": true,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "e0b989e49f9d3ba9dd63a5218233a579565431ccf13498c8a5faf055b75bf68e",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t4-q0-r1-s0/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": true,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "f6d7233d437692f00e2a195d4dfe8bc92887e3f9445ae45a82a05b9390364ea4",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t4-q0-r1-s1/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": true,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "4744526b62525e71fd3a2b178d48bfd29ef1a0bb85cc6ab2d870d0914b71c501",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t4-q0-r1-s1/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": false,
+      "transformed": true,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "7c2183c46b61eef846d13d5b91af9be83e0b2bfe3110c1db1f9ad69669df0da2",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t4-q1-r0-s0/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": false,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "bd894a304070c9eab7859331e0e8e4a1b8b3e198216823a806b226fb01c79ffb",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t4-q1-r0-s0/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": false,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "dd77a1721fd96d59f4a506fe1052def18556fe4a2835442c70a2b670eab378ee",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "2a0b0908f77637e98693601228da798470842f162de0ab814d7cae7ff9268b18"
+      }
+    },
+    {
+      "case": "t4-q1-r0-s1/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": false,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "717e88a47e0c202642fc04d7a5ab2984397a05fb2db7af90189e2e02588c5704",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t4-q1-r0-s1/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": false,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "f7576cd18eb7b81bc07d55c5945a3b0edeb0e3fccdebf43832ba376b75c375df",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "dd3f57f01011d8568ad5dce361740aa7ad73d251d8fbbcc805421b57c8e03422"
+      }
+    },
+    {
+      "case": "t4-q1-r1-s0/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": true,
+      "shear": false,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "a2a4b583836d2df0176ccdbf34587ac7feafa72a62ac1be1a9665205c1bf7b42",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t4-q1-r1-s0/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": true,
+      "shear": false,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "8377c0cf697fd21479255f97413e758813a6ded98a50643211b4b20501966597",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b038efb374e1d72a1b66b2169284deabfc1e0ce9714a3915b21ff39153317328"
+      }
+    },
+    {
+      "case": "t4-q1-r1-s1/slave-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": true,
+      "shear": true,
+      "reverse": false,
+      "inputs": {
+        "contact.inp": "85bd2d6546c7af811399460d9dca2e92610650ff03698e270cb16fe2626d37f1",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "t4-q1-r1-s1/master-upper",
+      "positive": true,
+      "threads": 4,
+      "quadratic": true,
+      "transformed": true,
+      "shear": true,
+      "reverse": true,
+      "inputs": {
+        "contact.inp": "7972f3d3c903c2bc39d3ff6116bcdc3953724a5997e358fa76136a3be0e66440",
+        "contact.accounting": "89c1be86678f874868b5b324acbbfc3efa13fac82d7ef212c006f35a15eaa9ea",
+        "oracle.json": "b94db1d330112e69bcb2f85de73f690ac766a1673c613767a7452ab759be0d8a"
+      }
+    },
+    {
+      "case": "nlgeom",
+      "positive": false,
+      "threads": 2,
+      "inputs": {
+        "contact.inp": "fda74b17ffffeba0809c0b38147e65cdc132be4c8b2b24ae266f7c53f59b117a",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "9e745627f1657f2b9f29f1cfe765d95cfdccdc861f443bb78da1cfc3dede3e95"
+      }
+    },
+    {
+      "case": "missing-cut-node",
+      "positive": false,
+      "threads": 2,
+      "inputs": {
+        "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+        "contact.accounting": "905b6d02107140749ca36ebab019b6e7d4a0df6f14f187f85b87a8643ca8a2cf",
+        "oracle.json": "6610333d4a2cd392e56bf87da3b7dc8503dc8628473a0b7456c6dafbe09dda13"
+      }
+    },
+    {
+      "case": "duplicate-support",
+      "positive": false,
+      "threads": 2,
+      "inputs": {
+        "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+        "contact.accounting": "fe085673dc1f248f498e688c1af29b97a6bead6106cf6ecdb3d1bdcc0b22818b",
+        "oracle.json": "ece7995748561c11376170705370ff539fbec2e463acfc2e75f3cd31d324d04d"
+      }
+    },
+    {
+      "case": "oversized-integer",
+      "positive": false,
+      "threads": 2,
+      "inputs": {
+        "contact.inp": "ff8157374639e62e4798bfd105a568c8bbb67470fb0c311d82452b1096332dc1",
+        "contact.accounting": "acfd673fec74ff16b0f6af9aafa2a9b74b9df718096ca97ea4a853b51a09dcd4",
+        "oracle.json": "5c2d6aa1afb1747ec878ee4da2adc8013572ab1fc58d83842f8a9dfb84a542f5"
+      }
+    },
+    {
+      "case": "cut-point-load",
+      "positive": false,
+      "threads": 2,
+      "inputs": {
+        "contact.inp": "0df763748d92c3f71c513b274e458a12549346c583cc9e2bbfa72e79348ca2ef",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "6519a03bdfac0be680a0377f1cee647e9aa440cd6f0dae9eaeb5c42f16920085"
+      }
+    },
+    {
+      "case": "cut-mpc",
+      "positive": false,
+      "threads": 2,
+      "inputs": {
+        "contact.inp": "121e036de2c523cad56e60c3fb86c9465aa71b82dd573e9f9cfe8738ad8625da",
+        "contact.accounting": "0ebf95117e4a433c48c9f445863bd90969a9b1f640795925055df0cbceffc796",
+        "oracle.json": "6a7665327fe67fc8af8b4172858338176d3cc4848595be6f893b4002f34b6345"
+      }
+    }
+  ],
+  "original_project_replayed": false,
+  "design_accepted": false
+}

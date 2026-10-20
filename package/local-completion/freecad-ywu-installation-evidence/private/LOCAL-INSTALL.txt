@@ -1,0 +1,46 @@
+FreeCAD Local Release built from 6cdc1affda07ac4e3b45a98097b7ae11039c80c6.
+20 October 2026, version 27.1.0dev49261+221 (Git).
+
+Includes FreeCAD-ywu and FreeCAD-y44: qualified native V3 accounting for
+moving finite-face RBE ports and scalar translational/rotational connectors,
+separate from explicitly selected physical external supports. The saved solver
+NativeAccountingSupports LinkList selects same-analysis supported zero
+Fixed/Displacement supports and/or fully fixed RBE supports. Empty preserves
+the earlier all-fixed-RBE selection; it does not silently select ordinary
+boundaries or make internal moving ports fixed supports.
+
+V3 keeps separate physical SUPPORT, CUT, LOAD, CONTACT and aggregate MPC
+channels, original native coordinate identities and global-origin moments.
+Unsupported, overlapping, nonzero/improper physical boundaries, shared-cut
+point loads, changed reference coordinates and unqualified domains fail closed.
+Aggregate MPC is not per-Tie force or CF. Standard RF/SOF/SOM, CF, stock ccx
+and ordinary solver preferences are unchanged. Old V1/V2 requests remain
+backward compatibility fixtures, not V3 writer requests. A fresh normal writer
+and native solve establish Current accounting; cold reports stay Stale and
+retain literal historical data. No path, hash, status or fingerprint is repaired.
+Output-only FRD/DAT import does not invalidate a fresh native report; physical
+support, connector and model edits do invalidate it.
+
+Includes prior FreeCAD-5ar native Tie/contact body accounting, paired cuts,
+ordinary Tie ADJUST=NO ownership and saved Contact/Tie/mixed observations;
+Contact-only observation payloads remain V1 and Tie/mixed remain V2.
+Includes prior ro1/927/89o/3sc/4jb/9zt and recent fixes. Typed Array2D cards
+require this or newer compatible readers. FCStd material UUID links still
+require their saved material library. Array3D remains separate.
+
+The separately bundled V3 executable and matching source/contract/license are
+in Contents/Resources/data/NativeSolvers. This host-local app still requires:
+/Users/zukomgwili/src/FreeCAD/.pixi/envs/default
+It is not self-contained or notarized. Existing native launchers, external
+patched Qt Cocoa plugin, dependency links, and canonical Ext/freecad namespace
+are retained. User preferences and material libraries are not migrated.
+
+Rollback: quit FreeCAD, move this application aside, and restore the exact backup:
+/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-ywu-b6b9e216c4.app
+The earlier before-5ar rollback backup is not replaced or modified.
+
+Software/output qualification is not engineering acceptance. Oomakhi was not
+opened, altered, remeshed or solved. R49 11.123267892% and R51 5.240441298%
+remain FAIL against the unchanged 5% limit. Original geometry, loads, sampling,
+97 pairs/194 vectors, paired cuts, 1% force/original-origin-moment limits,
+contact state, slip/overclosure and independent engineering duties remain.

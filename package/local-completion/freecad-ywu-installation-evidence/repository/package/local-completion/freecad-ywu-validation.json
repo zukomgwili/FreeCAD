@@ -1,0 +1,924 @@
+{
+  "captured_review_json": [
+    {
+      "path": "collection/source-review.json",
+      "sha256": "49d11d40c514f8849b17a6ddc9230447ff1d6d361c3416b634c7fa8eb14c3e5d"
+    },
+    {
+      "path": "collection/collector-review.json",
+      "sha256": "08f1d94922c1094b08ff710df67d8a629fe0691a077cb0618b9035ae3d0ff96b"
+    }
+  ],
+  "compiled_commit": "fc7a359d8d56405b269c956b5709b70a5f9a8fba",
+  "compiled_revision": "49261 +220 (Git)",
+  "created_utc": "2026-10-20T15:37:45.926781+00:00",
+  "evidence": {
+    "directory": "package/local-completion/freecad-ywu-source-evidence",
+    "index_bytes": 524704,
+    "index_sha256": "eb8a78b36d8fbfdf5ecf66974d9d73535912f3b35415c1e20d697e47adf5ba5e",
+    "indexed_files": 631
+  },
+  "final_labels": {
+    "build": "clean-source-build-r01",
+    "cold-endload": "endload-cold-final-r01",
+    "cold-ordinary": "ordinary-cold-final-r01",
+    "ctest": "ctest-final-r01",
+    "endload": "endload-final-r01",
+    "fem": "full-fem-app-final-r01",
+    "gui": "full-fem-gui-final-r01",
+    "legacy-v1": "legacy-v1-final-r01",
+    "legacy-v2": "legacy-v2-r01",
+    "native": "source-registered-native-final-r01",
+    "ordinary": "ordinary-final-r01"
+  },
+  "frozen_oracle_and_audit_sha256": {
+    "endload-oracle.json": "d1e436011bbd452ec39453a1c61b7466b6ec7a1bef657d7c8bc1da819114660b",
+    "endload-posthoc-audit.json": "32b2cac268fa34726f4d03a35c412f836c539931b1e5ab389566590137963957",
+    "oracle-spec-proposal.json": "8c7ecc8e52dba80b223b94b5b19af9dfb19f4b5a0e33b73aceb117e12fe69dd7",
+    "oracle.json": "c31fe65e7b8e1d5d742a380e746a7da97dedffdebc80749f59dd3e3d9bbe38ad",
+    "ordinary-oracle.json": "c8fa248d41273d3d829222c9f57cdcbc6cdf384f7077b34010eab94fd48a77c7",
+    "ordinary-posthoc-audit.json": "f4c34debfa277203eeb0f6cadb41e694d13d97cc759613552b96765fe1a845d8",
+    "posthoc-oracle-audit.json": "b49ed0c7bdcd9e410b68351599d30014b1c16ca17a890ee023400e220d11d390"
+  },
+  "historical_attempts": [
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "installed-red-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +218 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 09:48:38",
+        "codex/fix-toroidal-self-cut",
+        "b6b9e216c4ee2ca1bbc73db70076a6c99b2b1ab5"
+      ],
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "installed-legacy-control-r01",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "native-v3-r01",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "native-v3-r02",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "configure-v3-r01",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "configure-v3-r02",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "configure-v3-r03",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-build-v3-r01",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-lifecycle-build-r02",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-support-build-r03",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-registered-build-r04",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-overlap-build-r05",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-negative-observer-build-r06",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-review-build-r07",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-moving-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-endload-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-endload-diagnostic-r02",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-endload-r03",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "606b948e6c9f8be94f0d82fe72c161b70182b638f9450ce0aa133a1c14ba917b",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-endload-cold-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuOrdinarySupports.py",
+          "recorded_sha256": "f9e2ca6bae41df53d19b037be415cd63dcd644abe271c5997ec8bfc5b9d69c77",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "606b948e6c9f8be94f0d82fe72c161b70182b638f9450ce0aa133a1c14ba917b",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-endload-cold-r02",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py",
+          "recorded_sha256": "03f64142e86db2e604f854f443858c17d1a970a2da4679ae711af175cd8f5818",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuOrdinarySupports.py",
+          "recorded_sha256": "f9e2ca6bae41df53d19b037be415cd63dcd644abe271c5997ec8bfc5b9d69c77",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "158e4b77d97185a049bdd941f2e5bb294fdbbf7b0f0ebf7f7c11701f9604e021",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-endload-cold-r03",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-ordinary-cold-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "ctest-r01",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-ordinary-red-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py",
+          "recorded_sha256": "26156506584c6aa30818270933bda41089b43c4431aeb82f4d47d55d8e0280cb",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "158e4b77d97185a049bdd941f2e5bb294fdbbf7b0f0ebf7f7c11701f9604e021",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-ordinary-red-r02",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py",
+          "recorded_sha256": "03f64142e86db2e604f854f443858c17d1a970a2da4679ae711af175cd8f5818",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "158e4b77d97185a049bdd941f2e5bb294fdbbf7b0f0ebf7f7c11701f9604e021",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-ordinary-green-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py",
+          "recorded_sha256": "03f64142e86db2e604f854f443858c17d1a970a2da4679ae711af175cd8f5818",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "158e4b77d97185a049bdd941f2e5bb294fdbbf7b0f0ebf7f7c11701f9604e021",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-rbe-ordinary-overlap-red-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "d53d572b3f664ee94d7e5496f9fe86d6e1d9183f78e87e29947ec86cd304cdaa",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py",
+          "recorded_sha256": "03f64142e86db2e604f854f443858c17d1a970a2da4679ae711af175cd8f5818",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "fffd8a93fa2aefed41e8f1e570a0b88da80e50f7481a31ab34007ab6d4eb6dac",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-rbe-ordinary-overlap-green-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "f74e8774ee3054bd2699fb7c6e06ad87204c361cc5c40d0c7e93535b0d7322a5",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/YwuColdRestore.py",
+          "recorded_sha256": "34fd25b92c5aa8288783982a7f60ff68f1376f409f67f316f641aebbc6f44a94",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "cba8904beeeb635814217df093c88ac57d9f7d859afefe43b3b0adf6eac9ea39",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": false,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-registered-native-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": [
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/SourceYwuIdentity.py",
+          "recorded_sha256": "f74e8774ee3054bd2699fb7c6e06ad87204c361cc5c40d0c7e93535b0d7322a5",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        },
+        {
+          "recorded_path": "/private/tmp/freecad-ywu-sG46Lsc8/run_source.py",
+          "recorded_sha256": "cba8904beeeb635814217df093c88ac57d9f7d859afefe43b3b0adf6eac9ea39",
+          "status": "Exact earlier helper bytes not retained; current snapshot is not represented as this execution."
+        }
+      ]
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-registered-native-r02",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "full-fem-app-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "full-fem-gui-r01",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-unsupported-controls-build-r08",
+      "runtime_as_recorded": null,
+      "source_identity_scope": "Literal earlier identity; a runtime commit alone is not asserted to prove a clean source tree.",
+      "unavailable_exact_executed_helper_bytes": []
+    },
+    {
+      "error_as_recorded": null,
+      "execution_passed_as_recorded": true,
+      "interpretation": "Historical attempt; setup failure versus product RED is not inferred or repaired by this collector.",
+      "label": "source-registered-native-r03",
+      "runtime_as_recorded": [
+        "27",
+        "1",
+        "0",
+        "49261 +219 (Git)",
+        "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+        "2026/10/20 10:34:05",
+        "codex/fix-toroidal-self-cut",
+        "f7059d8020ce87c8510f6f9fb595a4ff7474ecbb"
+      ],
+      "source_identity_scope": "Earlier +219 compiled header accompanied investigative working-tree edits; not the final clean implementation.",
+      "unavailable_exact_executed_helper_bytes": []
+    }
+  ],
+  "holds": {
+    "Oomakhi_opened_altered_or_solved": false,
+    "custody_scope": "Protected application/profile inventories in selected app-gate receipts and pinned dependency manifest files; not a whole-environment inventory.",
+    "dependency_manifest_files_modified": false,
+    "engineering_or_BIM_design_accepted": false,
+    "installation_performed": false,
+    "installed_application_changed": false,
+    "ordinary_support_patch_reaction_magnitudes_fitted": false,
+    "original_R49_displacement_percent_ceiling": 5,
+    "original_side_loaded_fixture_inputs_rewritten": false,
+    "original_side_loaded_witness_repaired_or_claimed_passing": false,
+    "posthoc_audits_claimed_predeclared": false,
+    "protected_user_FreeCAD_profiles_unchanged_during_final_gates": true,
+    "separate_predeclared_end_loading_and_support_cases": true,
+    "unchanged_force_and_original_origin_moment_relative_ceiling": 0.01,
+    "whole_dependency_environment_inventoried_or_unchanged_claimed": false
+  },
+  "issue": "FreeCAD-ywu",
+  "native_binary_sha256": "2d59adb06736801f730de077a5f3dbfcfba8c0a430636e5814e5582606b5c89b",
+  "native_hooks_sha256": "28bcdb6d042b45db26c817dbb39bc04bb298c0f9a0d717fc9c1a639d0bba15ea",
+  "native_source_sha256": "fb35ca4fe0ccd6f1ed1e88439c20926092a06ca32f5c21eb6c9739e52fd0dc5a",
+  "passed": true,
+  "protected_dependency_manifest_sha256": {
+    "pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b"
+  },
+  "qualification": {
+    "build": {
+      "passed": true,
+      "seconds": 15.977
+    },
+    "cold-endload": {
+      "executed_including_identity": 2,
+      "manifest": "/private/tmp/freecad-ywu-sG46Lsc8/endload-final-r01/witness/cold-case.json",
+      "manifest_sha256": "b15a4e25978eecbf739fbe086fab1fd73462a69bd25792866bad8571c633ac5b",
+      "passed": true,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 1.481,
+      "skipped": 0,
+      "status": "Stale after restore; rerun to establish current native accounting"
+    },
+    "cold-ordinary": {
+      "executed_including_identity": 2,
+      "manifest": "/private/tmp/freecad-ywu-sG46Lsc8/ordinary-final-r01/witness/cold-case.json",
+      "manifest_sha256": "bb07df4456c987cd588a45ca5b8f7ce2c9afb4b1e586556327ae68da770f4b36",
+      "passed": true,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 1.532,
+      "skipped": 0,
+      "status": "Stale after restore; rerun to establish current native accounting"
+    },
+    "ctest": {
+      "catalogue": 2274,
+      "complete_catalogue_verified": true,
+      "disabled": 8,
+      "disabled_rows": [
+        {
+          "catalogue": 2274,
+          "line": "2260/2274 Test   #84: BackupPolicyTest.TimestampWithInvalidFormatStringThrows .........................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2260,
+          "status": "disabled",
+          "test_number": 84
+        },
+        {
+          "catalogue": 2274,
+          "line": "2261/2274 Test   #85: BackupPolicyTest.TimestampWithAbsurdlyLongFormatStringThrows ....................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2261,
+          "status": "disabled",
+          "test_number": 85
+        },
+        {
+          "catalogue": 2274,
+          "line": "2262/2274 Test  #130: DocumentObserverTest.hasSubObject ...............................................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2262,
+          "status": "disabled",
+          "test_number": 130
+        },
+        {
+          "catalogue": 2274,
+          "line": "2263/2274 Test  #131: DocumentObserverTest.hasSubElement ..............................................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2263,
+          "status": "disabled",
+          "test_number": 131
+        },
+        {
+          "catalogue": 2274,
+          "line": "2264/2274 Test  #132: DocumentObserverTest.normalize ..................................................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2264,
+          "status": "disabled",
+          "test_number": 132
+        },
+        {
+          "catalogue": 2274,
+          "line": "2265/2274 Test  #133: DocumentObserverTest.normalized .................................................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2265,
+          "status": "disabled",
+          "test_number": 133
+        },
+        {
+          "catalogue": 2274,
+          "line": "2266/2274 Test  #189: ExpressionParserTest.expressionsParseAsPyObjectWrapper ..........................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2266,
+          "status": "disabled",
+          "test_number": 189
+        },
+        {
+          "catalogue": 2274,
+          "line": "2267/2274 Test  #660: CrashReporterTests.DeliberateSegfaultRoundTrip ..................................................***Not Run (Disabled)   0.00 sec",
+          "ordinal": 2267,
+          "status": "disabled",
+          "test_number": 660
+        }
+      ],
+      "enabled": 2266,
+      "executed_passing": 2264,
+      "failed": 0,
+      "real_seconds": 74.23,
+      "skipped": 2,
+      "skipped_rows": [
+        {
+          "catalogue": 2274,
+          "line": "2273/2274 Test   #68: BackupPolicyTest.StandardWithZeroFilesDeletesExisting ...........................................***Skipped   0.11 sec",
+          "ordinal": 2273,
+          "status": "skipped",
+          "test_number": 68
+        },
+        {
+          "catalogue": 2274,
+          "line": "2274/2274 Test   #78: BackupPolicyTest.TimestampWithZeroFilesDeletesExisting ..........................................***Skipped   0.11 sec",
+          "ordinal": 2274,
+          "status": "skipped",
+          "test_number": 78
+        }
+      ]
+    },
+    "endload": {
+      "checks": 24,
+      "executed_including_identity": 2,
+      "maximum_normalized_error": 5.00000000069889e-07,
+      "passed": true,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 3.42,
+      "skipped": 0
+    },
+    "fem": {
+      "executed_including_identity": 396,
+      "native_methods_executed_without_skips": 5,
+      "passed": true,
+      "public_tests": 395,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 60.417,
+      "skipped": 0
+    },
+    "gui": {
+      "executed_including_identity": 9,
+      "passed": true,
+      "public_tests": 8,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 4.885,
+      "skipped": 0
+    },
+    "legacy-v1": {
+      "explicit_refusals": 6,
+      "force_moment_checks": 288,
+      "passed": true,
+      "positive_cases": 48
+    },
+    "legacy-v2": {
+      "explicit_refusals": 2,
+      "force_moment_checks": 144,
+      "passed": true,
+      "positive_cases": 8
+    },
+    "native": {
+      "executed_including_identity": 6,
+      "native_methods_executed_without_skips": 5,
+      "passed": true,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 15.056,
+      "skipped": 0
+    },
+    "native_method_ids": [
+      "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_moving_finite_rbe_ports_keep_elastic_transfer_separate_from_physical_support",
+      "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_ordinary_fixed_and_partial_supports_preserve_aggregate_physical_equilibrium",
+      "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_invalid_physical_support_selections_fail_at_stock_export_without_solving",
+      "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_longitudinal_side_load_on_shared_cut_is_refused_without_current_accounting",
+      "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_unselected_ordinary_boundary_cannot_overlap_a_selected_fixed_rbe"
+    ],
+    "ordinary": {
+      "checks": 26,
+      "executed_including_identity": 2,
+      "maximum_normalized_error": 1.9999999982071395e-07,
+      "passed": true,
+      "runtime": [
+        "27",
+        "1",
+        "0",
+        "49261 +220 (Git)",
+        "Unknown",
+        "2026/10/20 15:22:22",
+        "codex/fix-toroidal-self-cut",
+        "fc7a359d8d56405b269c956b5709b70a5f9a8fba"
+      ],
+      "seconds": 3.119,
+      "skipped": 0
+    }
+  },
+  "schema": "FreeCAD-ywu-source-validation-v1",
+  "scope": "Source-only capability qualification, not installation, Oomakhi replay or engineering/design acceptance."
+}

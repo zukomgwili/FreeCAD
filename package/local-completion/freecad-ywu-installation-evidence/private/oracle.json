@@ -1,0 +1,30 @@
+{
+  "schema": "FreeCAD-ywu-independent-statics-v1",
+  "declared_before_native_execution": true,
+  "units": {"length": "mm", "force": "N", "moment": "N*mm"},
+  "moment_origin": [0, 0, 0],
+  "reference_coordinates_only": true,
+  "beam_A_bounds": [[0, 10], [1, 3], [2, 4]],
+  "beam_B_bounds": [[20, 30], [1, 3], [2, 4]],
+  "moving_RBE_reference_A": [10, 2, 3],
+  "moving_RBE_reference_B": [20, 2, 3],
+  "external_support_face": "A x=0",
+  "uniform_face_force_totals": [
+    {"face": "B x=30", "force": [12, 0, 0]},
+    {"face": "B y=3", "force": [0, 0, 3]},
+    {"face": "B y=1", "force": [0, 0, -3]}
+  ],
+  "wrenches_force_then_global_origin_moment": {
+    "applied_load": [12, 0, 0, 6, 36, -24],
+    "aggregate_external_support": [-12, 0, 0, -6, -36, 24],
+    "connector_on_A": [12, 0, 0, 6, 36, -24],
+    "connector_on_B": [-12, 0, 0, -6, -36, 24],
+    "A_cut_x5_action_on_retained_right": [-12, 0, 0, -6, -36, 24],
+    "B_cut_x25_action_on_retained_right": [-12, 0, 0, -3, -36, 24]
+  },
+  "force_and_moment_relative_error_limit": 0.01,
+  "zero_residual_load_scales": {"force": 12, "moment": "sqrt(1908)"},
+  "nonzero_reference_error_norm": "norm(actual-reference)/norm(reference)",
+  "motion_duty": "Both receiving RBE faces translate X and rotate X; exact solid response is stiffness-dependent.",
+  "not_a_design_acceptance_or_Oomakhi_solve": true
+}

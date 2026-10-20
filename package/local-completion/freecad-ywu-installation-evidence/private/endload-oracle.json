@@ -1,0 +1,113 @@
+{
+  "schema": "FreeCAD-ywu-independent-end-edge-load-statics-v1",
+  "declared_before_native_execution": true,
+  "case_role": "Separate positive benchmark with end-only loading; not a revision, repair or claimed pass of the original longitudinal-sideface-load witness.",
+  "original_oracle_path": "/private/tmp/freecad-ywu-sG46Lsc8/oracle.json",
+  "original_oracle_sha256": "c31fe65e7b8e1d5d742a380e746a7da97dedffdebc80749f59dd3e3d9bbe38ad",
+  "original_inputs_and_audit_modified": false,
+  "units": {"length": "mm", "force": "N", "moment": "N*mm"},
+  "moment_origin": [0, 0, 0],
+  "moment_positions": "original undeformed geometry and native deck coordinates",
+  "wrench_order": "Fx,Fy,Fz,Mx,My,Mz",
+  "unchanged_physical_geometry": {
+    "beam_A_bounds": [[0, 10], [1, 3], [2, 4]],
+    "beam_B_bounds": [[20, 30], [1, 3], [2, 4]],
+    "A_continuum_partition": "x=5, two conformingly meshed cells with no added interface constraint",
+    "B_continuum_partition": "x=25, two conformingly meshed cells with no added interface constraint",
+    "physical_external_support_face": "A x=0, finite face",
+    "moving_receiving_face_A": "A x=10, finite face y1..3,z2..4",
+    "moving_receiving_face_B": "B x=20, finite face y1..3,z2..4",
+    "moving_reference_A": [10, 2, 3],
+    "moving_reference_B": [20, 2, 3],
+    "material": {"E_N_per_mm2": 20000, "poisson_ratio": 0.3},
+    "scalar_connectors": {
+      "translation_X_Y_Z_stiffness_each_N_per_mm": 1200,
+      "rotation_X_Y_Z_stiffness_each_N_mm_per_rad": 6000,
+      "attachment": "the two native moving RBE receiving-face ports",
+      "all_six_stiffnesses_positive": true
+    }
+  },
+  "new_loading_distribution": {
+    "longitudinal_B_sideface_loads": "absent in this separate benchmark",
+    "loads": [
+      {
+        "native_load_type": "uniform total force on the existing finite end face",
+        "geometry": "B x=30 face, y1..3,z2..4",
+        "original_centroid": [30, 2, 3],
+        "total_force": [12, 0, 0],
+        "global_origin_moment": [0, 36, -24]
+      },
+      {
+        "native_load_type": "uniform total line force on an existing finite external end edge",
+        "geometry": "B end vertical edge x=30,y=3,z2..4",
+        "original_centroid": [30, 3, 3],
+        "edge_length_mm": 2,
+        "total_force": [0, 0, 3],
+        "global_origin_moment": [9, -90, 0]
+      },
+      {
+        "native_load_type": "uniform total line force on the opposite existing finite external end edge",
+        "geometry": "B end vertical edge x=30,y=1,z2..4",
+        "original_centroid": [30, 1, 3],
+        "edge_length_mm": 2,
+        "total_force": [0, 0, -3],
+        "global_origin_moment": [-3, 90, 0]
+      }
+    ],
+    "whole_applied_wrench": [12, 0, 0, 6, 36, -24],
+    "physical_assessment": "The two opposite finite end-edge forces apply a pure X torque of 6 N*mm, not a receiving-region substitute. All original RBE receiving faces, reference positions, stiffnesses, constraints and solid geometry remain unchanged. No load RBE, artificial fixed port, point support or added stiffness is required.",
+    "cut_ownership_precondition": "Stock exported nonzero CLOAD entries from these loads must all lie at x=30 on B-right ownership. No applied point load may lie on cut x=25, cut x=5, either moving receiving face or another body's nodes. Verify this from the actual ordinary deck before interpreting native accounting results."
+  },
+  "independently_known_wrenches": {
+    "external_applied_LOAD": [12, 0, 0, 6, 36, -24],
+    "aggregate_physical_external_SUPPORT": [-12, 0, 0, -6, -36, 24],
+    "connector_action_on_A": [12, 0, 0, 6, 36, -24],
+    "connector_action_on_B": [-12, 0, 0, -6, -36, 24],
+    "CutARight_action_on_retained_A_x5_to10": [-12, 0, 0, -6, -36, 24],
+    "CutBLeft_action_on_retained_B_x20_to25": [12, 0, 0, 6, 36, -24],
+    "opposite_cut_owner_convention": "Take the literal negative of the corresponding retained-owner action, based on owner geometry rather than fitting observed signs."
+  },
+  "body_channel_ledgers": {
+    "whole_A": {
+      "LOAD": [0, 0, 0, 0, 0, 0],
+      "SUPPORT": [-12, 0, 0, -6, -36, 24],
+      "MPC_connector_action": [12, 0, 0, 6, 36, -24],
+      "equilibrium_sum": [0, 0, 0, 0, 0, 0]
+    },
+    "whole_B": {
+      "LOAD": [12, 0, 0, 6, 36, -24],
+      "SUPPORT": [0, 0, 0, 0, 0, 0],
+      "MPC_connector_action": [-12, 0, 0, -6, -36, 24],
+      "equilibrium_sum": [0, 0, 0, 0, 0, 0]
+    },
+    "retained_A_right_x5_to10": {
+      "LOAD": [0, 0, 0, 0, 0, 0],
+      "SUPPORT": [0, 0, 0, 0, 0, 0],
+      "MPC_connector_action": [12, 0, 0, 6, 36, -24],
+      "CUT_excluded_left_action": [-12, 0, 0, -6, -36, 24],
+      "equilibrium_sum": [0, 0, 0, 0, 0, 0]
+    },
+    "retained_B_left_x20_to25": {
+      "LOAD": [0, 0, 0, 0, 0, 0],
+      "SUPPORT": [0, 0, 0, 0, 0, 0],
+      "MPC_connector_action": [-12, 0, 0, -6, -36, 24],
+      "CUT_excluded_right_action": [12, 0, 0, 6, 36, -24],
+      "equilibrium_sum": [0, 0, 0, 0, 0, 0]
+    }
+  },
+  "fixed_acceptance": {
+    "nonzero_reference_force_and_moment_relative_error_limit": 0.01,
+    "nonzero_reference_error_definition": "norm(actual-reference)/norm(reference), force and original-global-origin moment assessed separately",
+    "zero_channel_or_balance_reference_scales": {"force_N": 12, "moment_N_mm": "sqrt(1908)"},
+    "zero_channel_or_balance_error_definition": "norm(actual)/declared_applied_load_scale, assessed separately for force and moment with unchanged 1% ceiling",
+    "fitted_signs_denominators_or_corrections_permitted": false,
+    "raw_RF_substitute_permitted": false
+  },
+  "response_and_domain_caveats": [
+    "Both original finite receiving faces must genuinely translate X and rotate X; exact solid displacements and rotations remain stiffness- and load-distribution-dependent. No response target is copied from the original run.",
+    "Separated-reference transverse scalar forces can create a nonzero spatial couple: (rA-rB) cross fA=(0,10*Tz,-10*Ty). The intended load is axial plus torsion. Actual transverse actions and any resulting couple must be assessed against the predeclared scales, not silently discarded or fitted into reactions. No general noncentral transverse-connector qualification is claimed.",
+    "The new B-cut torsion target is 6 N*mm because all torque is now applied beyond x25. The original longitudinal-sideface-load witness retains its historical 3 N*mm B-cut target and cut-node point-load refusal. This separate benchmark must not overwrite or be described as passing that original case.",
+    "Finite line loads on external end edges are ordinary prescribed loading regions; they do not replace finite receiving/support patches with concentrated receiving vertices.",
+    "This pre-execution statics declaration does not claim native method completion, installed-app acceptance, engineering acceptance or any Oomakhi solve."
+  ]
+}
