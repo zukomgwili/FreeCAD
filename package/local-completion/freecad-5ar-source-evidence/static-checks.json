@@ -1,0 +1,36 @@
+{
+  "scope": "FreeCAD-5ar source quality gates, implementation commit 8e79820eb3b73d01a11c31c1bab84ef5735f81a7",
+  "checks": [
+    {
+      "command": "/opt/anaconda3/bin/flake8 --ignore=E266,W503 --max-line-length=100 src/Mod/Fem/femtest/app/test_tie_accounting_native.py src/Mod/Fem/femresult/contact_observation.py src/Mod/Fem/femtools/force_accounting.py src/Mod/Fem/femtest/app/test_force_accounting.py src/Mod/Fem/femtest/app/test_movement_provenance.py src/Mod/Fem/femobjects/result_contact_observation.py src/Mod/Fem/femtest/gui/test_contact_observation.py",
+      "version": "flake8 7.0.0; pycodestyle 2.11.1; pyflakes 3.2.0; Python 3.12.4",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": "/opt/anaconda3/bin/black --check --line-length 100 src/Mod/Fem/femtest/app/test_tie_accounting_native.py",
+      "version": "black 24.4.2",
+      "exit_code": 0,
+      "scope": "new test module only; no automatic formatting of existing FEM implementation",
+      "output": "1 file would be left unchanged."
+    },
+    {
+      "command": "pixi run --frozen python -B -m json.tool package/calculix/force-accounting/contract.json",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --cached --check -- . ':!package/local-completion/freecad-5ar-qa/evidence' ':!package/local-completion/freecad-5ar-source-evidence/logs' ':!package/local-completion/freecad-5ar-source-evidence/portable' ':!package/local-completion/freecad-5ar-source-evidence/cold' ':!package/local-completion/freecad-5ar-source-evidence/supervisors' ':!package/local-completion/freecad-5ar-source-evidence/receipts/Version.h'",
+      "exit_code": 0,
+      "scope": "Authored code/docs/indexes. Raw native logs/FRD, generated Version.h and byte-identical historical snapshots retain intentional padding/blank lines. The unscoped staged check reports those bytes; they are not stripped or relabelled as whitespace-clean source.",
+      "output": ""
+    }
+  ],
+  "rails_pre_push_skill": {
+    "status": "not_applicable",
+    "evidence": "No Gemfile, Rails application, Rails bin wrappers or repository-level JS application exists. The only detected package.json is vendored Coin documentation tooling, outside this change.",
+    "checks": ["bundler-audit", "pending migrations", "Zeitwerk", "RuboCop", "Brakeman", "importmap audit", "ERB lint", "JS application lint", "RSpec"],
+    "applicable_replacements": ["native FEM application tests", "native FEM GUI tests", "Release build", "complete CTest catalogue", "native CalculiX analytical and refusal checks"]
+  },
+  "installation_performed": false,
+  "engineering_acceptance": false
+}

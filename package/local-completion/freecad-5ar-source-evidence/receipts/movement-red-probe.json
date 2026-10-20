@@ -1,0 +1,170 @@
+{
+  "passed": false,
+  "scope": "ordinary Tie observation capability with current native movement source",
+  "Oomakhi_opened_or_solved": false,
+  "required_cut_body_force_capability_satisfied": false,
+  "native_body_requests_disabled_only_for_this_movement_control": true,
+  "checkpoints": [
+    {
+      "name": "native-identity-confirmed"
+    },
+    {
+      "name": "cold-native-fixture-opened-cut-request-disabled",
+      "nodes": 1743,
+      "volumes": 784,
+      "retained_AccountingBody": [
+        [
+          "ThreeBodies",
+          [
+            "Solid2"
+          ]
+        ]
+      ],
+      "actual_tie": "RearOrdinaryTie",
+      "actual_contact": "SidepadContact"
+    },
+    {
+      "name": "stock-support-only-writer-complete"
+    },
+    {
+      "name": "genuine-current-native-movement-source-established"
+    },
+    {
+      "name": "actual-tie-observation-refreshed",
+      "status": "Unavailable: Select native contacts in this analysis"
+    }
+  ],
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +216 (Git)",
+    "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+    "2026/10/20 07:44:51",
+    "codex/fix-toroidal-self-cut",
+    "c0f818b1da6d48ebcb7f62b6b73c1da39a7c6c8d"
+  ],
+  "modules": {
+    "ObjectsFem": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/ObjectsFem.py",
+      "sha256": "aee0efa9cfcd5ce0ba3cfa99aaa648ba7486e4c8980998296f62629810cf23e5"
+    },
+    "femmesh.meshsetsgetter": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshsetsgetter.py",
+      "sha256": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4"
+    },
+    "femmesh.meshtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshtools.py",
+      "sha256": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95"
+    },
+    "femtools.ccxtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py",
+      "sha256": "195b34aa23aa2c7dab37dcac450a74ddd34944abfb3109d09ef5b0fbc4a67244"
+    },
+    "femtools.force_accounting": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/force_accounting.py",
+      "sha256": "9e355c5412df674eb065dc2c2fdb062054e270db7bb5aa952bb3a7ce9a5ef257"
+    },
+    "femobjects.result_contact_observation": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/result_contact_observation.py",
+      "sha256": "1135a6eea603542de11750376522012e3643a76f64db95334f2e5f1e417ec2e9"
+    },
+    "femresult.contact_observation": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femresult/contact_observation.py",
+      "sha256": "972d22bb0cf2453fb6a25f0053594606014c8373b56bafc42435f5f9307dfa5c"
+    }
+  },
+  "native_images": [
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/Fem.so",
+      "sha256": "1c3fe10c9b73eb1576dae5108a4e8c0fa62dd2371317b60c12bff73dd0947e3d"
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part/Part.so",
+      "sha256": "682e7be651f11b573f34842394ea4359915e560ba9951fada2f127f562885d14"
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/lib/libFreeCADApp.dylib",
+      "sha256": "c8b2938353cc58700240e2b36792ccfa7670ae82ce6e6b857605320113a4cb64"
+    }
+  ],
+  "executable": {
+    "path": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCADCmd",
+    "sha256": "5b5f2cdb3818fefdf4dc2876373de9f4b618e3d977c5282d3ea8826bf677ab42"
+  },
+  "original_input": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/force-green-1/analytical-tie.FCStd",
+    "sha256": "85a145e1121428bfa3d55ad2d8f3bc23abeb7901aff401117ebc1ba2cd25ead1"
+  },
+  "stock_deck": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/movement-red-3/Mesh.inp",
+    "sha256": "c33a0cf04305b3ae0f744646a282280378e2b1e584b0c48795434cf264b85da5"
+  },
+  "stock_request": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/movement-red-3/Mesh.accounting",
+    "sha256": "c81f1b5611e7e1e06475bea87db794836275b2ec88ad515e83c2fd6a7c85711d"
+  },
+  "actual_solver": {
+    "path": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d"
+  },
+  "accounting_status": "Current native accounting; not design acceptance",
+  "current_accounting": {
+    "analysis": "Analysis",
+    "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+    "deck_sha256": "c33a0cf04305b3ae0f744646a282280378e2b1e584b0c48795434cf264b85da5",
+    "end_time": 1.0,
+    "expected": [
+      [
+        "SUPPORT",
+        "BaseSupport"
+      ]
+    ],
+    "frame": "Global Cartesian, original reference-state nodal application positions",
+    "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, acyclic translational MPCs on body-exclusive nodes, optional face-to-face penalty contact; no per-Tie multipliers, changed reference coordinates, stress/design acceptance or mesh-accuracy guarantee",
+    "mesh": "Mesh",
+    "method": "Native support residual; separate native LOAD/CONTACT/MPC equilibrium-derived cut",
+    "model_digest": "211ece511fa11307ecbcc0d983f812a858276cd70b4b16c986841975c7b4c34b",
+    "movement_source": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "deck": "/private/tmp/freecad-5ar-wYCAxF/movement-red-3/Mesh.inp",
+      "deck_sha256": "c33a0cf04305b3ae0f744646a282280378e2b1e584b0c48795434cf264b85da5",
+      "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+      "model_digest": "211ece511fa11307ecbcc0d983f812a858276cd70b4b16c986841975c7b4c34b",
+      "path": "/private/tmp/freecad-5ar-wYCAxF/movement-red-3/Mesh.frd",
+      "request": "/private/tmp/freecad-5ar-wYCAxF/movement-red-3/Mesh.accounting",
+      "request_sha256": "c81f1b5611e7e1e06475bea87db794836275b2ec88ad515e83c2fd6a7c85711d",
+      "requested_end_time": 1.0,
+      "schema": "FREECAD_MOVEMENT_SOURCE_V1",
+      "sha256": "8660a38b2d56d567f48549e1f4df445afe14d3d60ac7ad3d38588760379deffa",
+      "status": "BOUND",
+      "time_basis": "Requested final static time; field reader must verify actual FRD state"
+    },
+    "output_sha256": "7fe2e5c37e3847d8471b75f6109f1e2862bbee417a6f6f5f16a1b0a97e5afb17",
+    "request_sha256": "c81f1b5611e7e1e06475bea87db794836275b2ec88ad515e83c2fd6a7c85711d",
+    "schema": "CCX_FORCE_ACCOUNTING_V2",
+    "units": "N and Nmm",
+    "wrenches": {
+      "CONTACT": {},
+      "CUT": {},
+      "LOAD": {},
+      "MPC": {},
+      "SUPPORT": {
+        "BaseSupport": [
+          100.00000000090623,
+          8.099076964640517e-14,
+          100.30989013999942,
+          501.5494506891865,
+          997.6758239588133,
+          -500.0000000039747
+        ]
+      }
+    }
+  },
+  "tie_observation_status": "Unavailable: Select native contacts in this analysis",
+  "error": "ValueError('Unavailable: Select native contacts in this analysis')",
+  "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-5ar-wYCAxF/NativeTieMovementProbe.py\", line 190, in test_actual_ordinary_tie_is_available_to_native_side_observation\n    data = result.Proxy.getObservations(result)\n  File \"/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/result_contact_observation.py\", line 121, in getObservations\n    raise ValueError(obj.Status)\nValueError: Unavailable: Select native contacts in this analysis\n",
+  "original_input_unchanged": true
+}

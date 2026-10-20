@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "scope": "small analytical native Tie force capability only",
+  "Oomakhi_opened_or_solved": false,
+  "target_force_relative_limit": 0.01,
+  "target_origin_moment_relative_limit": 0.01,
+  "checkpoints": [
+    {
+      "name": "native-identity-confirmed"
+    },
+    {
+      "name": "native-four-body-fixture-authored-without-extra-support"
+    },
+    {
+      "name": "native-gmsh-complete",
+      "nodes": 1743,
+      "volumes": 784
+    },
+    {
+      "name": "before-stock-writer"
+    },
+    {
+      "name": "stock-writer-complete"
+    },
+    {
+      "name": "stock-runner-complete",
+      "exit_code": 0
+    },
+    {
+      "name": "physical-force-and-origin-moment-passed"
+    }
+  ],
+  "modules": {
+    "ObjectsFem": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/ObjectsFem.py",
+      "sha256": "aee0efa9cfcd5ce0ba3cfa99aaa648ba7486e4c8980998296f62629810cf23e5"
+    },
+    "femmesh.meshsetsgetter": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshsetsgetter.py",
+      "sha256": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4"
+    },
+    "femmesh.meshtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshtools.py",
+      "sha256": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95"
+    },
+    "femmesh.ownership_context": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/ownership_context.py",
+      "sha256": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae"
+    },
+    "femmesh.gmshtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/gmshtools.py",
+      "sha256": "7cd00c2cf3d487220906145818b18523368be2e51c5a789106d8305ee2c6027a"
+    },
+    "femsolver.calculix.write_constraint_tie": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/write_constraint_tie.py",
+      "sha256": "283fdd393554f682e532deb55ed1d5cf767b14fdd62396ac5c2e5edf91d557db"
+    },
+    "femtools.ccxtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py",
+      "sha256": "195b34aa23aa2c7dab37dcac450a74ddd34944abfb3109d09ef5b0fbc4a67244"
+    },
+    "femtools.force_accounting": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/force_accounting.py",
+      "sha256": "9e355c5412df674eb065dc2c2fdb062054e270db7bb5aa952bb3a7ce9a5ef257"
+    }
+  },
+  "app_module_file": null,
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +216 (Git)",
+    "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+    "2026/10/20 07:44:51",
+    "codex/fix-toroidal-self-cut",
+    "c0f818b1da6d48ebcb7f62b6b73c1da39a7c6c8d"
+  ],
+  "executable": {
+    "path": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCADCmd",
+    "sha256": "5b5f2cdb3818fefdf4dc2876373de9f4b618e3d977c5282d3ea8826bf677ab42"
+  },
+  "native_images": [
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/Fem.so",
+      "sha256": "1c3fe10c9b73eb1576dae5108a4e8c0fa62dd2371317b60c12bff73dd0947e3d"
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part/Part.so",
+      "sha256": "682e7be651f11b573f34842394ea4359915e560ba9951fada2f127f562885d14"
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/lib/libFreeCADApp.dylib",
+      "sha256": "c8b2938353cc58700240e2b36792ccfa7670ae82ce6e6b857605320113a4cb64"
+    }
+  ],
+  "native_references": {
+    "support": "Solid1",
+    "tie_slave": "Face11",
+    "tie_master": "Face6",
+    "rear_body": "Solid2",
+    "cut": "Face12",
+    "pressure": "Face17"
+  },
+  "saved_model": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/force-green-2/analytical-tie.FCStd",
+    "sha256": "9dc55d1fca14bbfbed49ff34acc9d56e6d95022b758c9a06dac27bfa97a6314e"
+  },
+  "stock_deck": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/force-green-2/Mesh.inp",
+    "sha256": "def5782ac66a274284b097cb70b2fc41ba453f2354121bb4d438525e0b6840e1"
+  },
+  "actual_solver": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "actual_solver_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+  "analytic_weight_each_N": 0.07747253500000001,
+  "analytic_checks": [
+    {
+      "kind": "SUPPORT",
+      "name": "BaseSupport",
+      "expected": [
+        100.0,
+        0.0,
+        100.30989014,
+        501.5494507,
+        997.67582395,
+        -500.0
+      ],
+      "actual": [
+        99.99999999883681,
+        6.619704784327496e-14,
+        100.30989013999914,
+        501.5494507201766,
+        997.6758239593762,
+        -499.99999994167575
+      ],
+      "force_relative_error": 8.212241224877894e-12,
+      "origin_moment_relative_error": 5.1021379641150656e-11
+    },
+    {
+      "kind": "CUT",
+      "name": "RearCut",
+      "expected": [
+        0.0,
+        0.0,
+        -100.077472535,
+        -500.387362675,
+        500.387362675,
+        0.0
+      ],
+      "actual": [
+        7.683411240577698e-09,
+        -3.7678627579085244e-14,
+        -100.07747253499933,
+        -500.3873626749951,
+        500.3873628167089,
+        -4.689979959948687e-08
+      ],
+      "force_relative_error": 7.677463344223952e-11,
+      "origin_moment_relative_error": 2.109337098314872e-10
+    },
+    {
+      "kind": "LOAD",
+      "name": "RearCut",
+      "expected": [
+        0.0,
+        0.0,
+        -0.07747253500000001,
+        -0.38736267500000005,
+        0.38736267500000005,
+        0.0
+      ],
+      "actual": [
+        0.0,
+        0.0,
+        -0.07747253500000062,
+        -0.3873626750000034,
+        0.38736267500000365,
+        0.0
+      ],
+      "force_relative_error": 6.106226635438361e-16,
+      "origin_moment_relative_error": 4.910462595695867e-15
+    },
+    {
+      "kind": "CONTACT",
+      "name": "RearCut",
+      "expected": [
+        -100.0,
+        0.0,
+        -0.07747253500000001,
+        -0.38736267500000005,
+        -1498.837911975,
+        500.0
+      ],
+      "actual": [
+        -100.00000000652017,
+        -2.7685752995720847e-14,
+        -0.0774725349998415,
+        -0.3873626886282522,
+        -1498.8379121197916,
+        500.00000001840453
+      ],
+      "force_relative_error": 6.520165562296369e-11,
+      "origin_moment_relative_error": 9.277725262783308e-11
+    },
+    {
+      "kind": "MPC",
+      "name": "RearCut",
+      "expected": [
+        100.0,
+        0.0,
+        100.232417605,
+        501.162088025,
+        998.063186625,
+        -500.0
+      ],
+      "actual": [
+        99.99999999883676,
+        6.536438057480609e-14,
+        100.23241760499917,
+        501.1620880386233,
+        998.0631866280826,
+        -499.99999997150474
+      ],
+      "force_relative_error": 8.21582427678089e-12,
+      "origin_moment_relative_error": 2.593450569994564e-11
+    }
+  ]
+}

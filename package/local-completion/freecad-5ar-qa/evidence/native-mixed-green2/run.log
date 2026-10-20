@@ -1,0 +1,112 @@
+test_ordinary_tie_participating_body_produces_physical_cut (NativeTieForceProbe.NativeTieForceProbe.test_ordinary_tie_participating_body_produces_physical_cut) ... FIVEAR_CHECKPOINT={"name": "native-identity-confirmed"}
+FIVEAR_CHECKPOINT={"name": "native-four-body-fixture-authored-without-extra-support"}
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +216 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-5ar-wYCAxF/force-green-2/ThreeBodies_Geometry.brep
+  /private/tmp/freecad-5ar-wYCAxF/force-green-2/ThreeBodies_Mesh.vtk
+  /private/tmp/freecad-5ar-wYCAxF/force-green-2/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 99
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 100
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 101
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 102
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 103
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 104
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 105
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 106
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 107
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 108
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 109
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 110
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 111
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 112
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 113
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 114
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 115
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 116
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 117
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 118
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 119
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 120
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 121
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 122
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex25' Type: 'Node' id: 123
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex26' Type: 'Node' id: 124
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex27' Type: 'Node' id: 125
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex28' Type: 'Node' id: 126
+AddGroupElements: num elements: 1 sizeof: 8
+FIVEAR_CHECKPOINT={"name": "native-gmsh-complete", "nodes": 1743, "volumes": 784}
+FIVEAR_CHECKPOINT={"name": "before-stock-writer"}
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+FIVEAR_CHECKPOINT={"name": "stock-writer-complete"}
+FIVEAR_CHECKPOINT={"name": "stock-runner-complete", "exit_code": 0}
+FIVEAR_CHECKPOINT={"name": "physical-force-and-origin-moment-passed"}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.219s
+
+OK
+
+Get mesh data for constraints, materials and element geometry...
+BaseSupport:
+    Type: Fem::ConstraintRigidBody, Name: BaseSupport
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+SidepadContact:
+    Type: Fem::ConstraintContact, Name: SidepadContact
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face8
+RearOrdinaryTie:
+    Type: Fem::ConstraintTie, Name: RearOrdinaryTie
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face6
+RearCut:
+    Type: Fem::ConstraintSectionPrint, Name: RearCut
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face12
+SidePressure:
+    Type: Fem::ConstraintPressure, Name: SidePressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face19
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face17
+Getting mesh data time: 0.213 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-5ar-wYCAxF/force-green-2/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver run...
+CalculiX finished without error.

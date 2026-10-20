@@ -1,0 +1,52 @@
+(qt.qpa.fonts) Populating font family aliases took 73 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +216 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_built_native_and_copied_source_identity (SourceNativeIdentity.SourceNativeIdentity.test_built_native_and_copied_source_identity) ... import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 
+import TestObjectOpen 
+ok
+test_selected_native_tie_and_contact_preserve_exact_interface_order (femtest.gui.test_contact_observation.TestContactObservationGui.test_selected_native_tie_and_contact_preserve_exact_interface_order) ... FAIL
+
+======================================================================
+FAIL: test_selected_native_tie_and_contact_preserve_exact_interface_order (femtest.gui.test_contact_observation.TestContactObservationGui.test_selected_native_tie_and_contact_preserve_exact_interface_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/gui/test_contact_observation.py", line 159, in test_selected_native_tie_and_contact_preserve_exact_interface_order
+    self.assertEqual(list(result.Contacts), [tie, self.contacts[0]])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [<Fem::ConstraintContact object>] != [<Fem::ConstraintPython object>, <Fem::ConstraintContact object>]
+
+First differing element 0:
+<Fem::ConstraintContact object>
+<Fem::ConstraintPython object>
+
+Second list contains 1 additional elements.
+First extra element 1:
+<Fem::ConstraintContact object>
+
+- [<Fem::ConstraintContact object>]
++ [<Fem::ConstraintPython object>, <Fem::ConstraintContact object>]
+
+----------------------------------------------------------------------
+Ran 2 tests in 7.680s
+
+FAILED (failures=1)
+System exit

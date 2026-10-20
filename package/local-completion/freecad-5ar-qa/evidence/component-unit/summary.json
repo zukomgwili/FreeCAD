@@ -1,0 +1,567 @@
+{
+  "all_passed": true,
+  "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+  "build": {
+    "command": [
+      "/usr/bin/clang",
+      "-std=c11",
+      "-O0",
+      "-Wall",
+      "-Wextra",
+      "-DARCH=Linux",
+      "-DFREECAD_FORCE_ACCOUNTING_SOURCE=\"/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c\"",
+      "-I/private/tmp/freecad-5ar-wYCAxF/native-build-4/CalculiX/ccx_2.23/src",
+      "/private/tmp/freecad-5ar-wYCAxF/NativeMpcComponentUnit.c",
+      "/private/tmp/freecad-5ar-wYCAxF/native-build-4/CalculiX/ccx_2.23/src/strcmp1.o",
+      "-lm",
+      "-o",
+      "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit"
+    ],
+    "elapsed_seconds": 0.18554754182696342,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passed": true,
+    "pid": 86078,
+    "process_group": 86078,
+    "process_group_gone": true,
+    "protected_after": {
+      "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+      "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+      "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+      "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+      "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+    },
+    "protected_before": {
+      "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+      "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+      "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+      "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+      "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+    },
+    "reaped": true,
+    "returncode": 0,
+    "timed_out": false
+  },
+  "cases": [
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "chain-wrong-order",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "chain-wrong-order",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/chain-wrong-order/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "chain-wrong-order",
+        "expected_support_x": 12,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          12,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          1,
+          0
+        ]
+      },
+      "elapsed_seconds": 0.2871109168045223,
+      "expected_rejection": null,
+      "log_sha256": "5208f96f865ed349b0e78af082f1140ec3d1c4a131ddedf53535f0bd48452531",
+      "native_component_output_sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "passed": true,
+      "pid": 86082,
+      "process_group": 86082,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "chain-forward",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "chain-forward",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/chain-forward/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "chain-forward",
+        "expected_support_x": 12,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          12,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          0,
+          1
+        ]
+      },
+      "elapsed_seconds": 0.005284749902784824,
+      "expected_rejection": null,
+      "log_sha256": "5ca8badfcaabb480ed04a74fbf7ee5eef039abb0c86c6adb1c5d7954b2e80377",
+      "native_component_output_sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "passed": true,
+      "pid": 86084,
+      "process_group": 86084,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "chain-scaled",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "chain-scaled",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/chain-scaled/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "chain-scaled",
+        "expected_support_x": 12,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          12,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          1,
+          0
+        ]
+      },
+      "elapsed_seconds": 0.005194915924221277,
+      "expected_rejection": null,
+      "log_sha256": "8b0d06f256dfb044edfed63a0d1bbbfe4960071d42fea228464ba503502af282",
+      "native_component_output_sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "passed": true,
+      "pid": 86086,
+      "process_group": 86086,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "chain-dependent-external",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "chain-dependent-external",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/chain-dependent-external/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "chain-dependent-external",
+        "expected_support_x": 12,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          12,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          1,
+          0
+        ]
+      },
+      "elapsed_seconds": 0.005096290959045291,
+      "expected_rejection": null,
+      "log_sha256": "12406f4737a61730ca7cab3abbc08e1135c12fdf72d855765d1924123836d9cf",
+      "native_component_output_sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "passed": true,
+      "pid": 86088,
+      "process_group": 86088,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "zero-edge-not-cycle",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "zero-edge-not-cycle",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/zero-edge-not-cycle/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "zero-edge-not-cycle",
+        "expected_support_x": 12,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          12,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          1,
+          0
+        ]
+      },
+      "elapsed_seconds": 0.005146999843418598,
+      "expected_rejection": null,
+      "log_sha256": "3be5639f5681f55f52b50966623c401e9c6e546602b7ea126a6686264b681455",
+      "native_component_output_sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "passed": true,
+      "pid": 86090,
+      "process_group": 86090,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "branch-permuted",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "branch-permuted",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/branch-permuted/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "branch-permuted",
+        "expected_support_x": 11,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          11,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          2,
+          1,
+          0
+        ]
+      },
+      "elapsed_seconds": 0.005080332979559898,
+      "expected_rejection": null,
+      "log_sha256": "26a3ff122f7977266cff4f651fc61fd833d300e898370358c96fb2db816d4191",
+      "native_component_output_sha256": "a88357b5630c7b2d3f094c7e5b338bf4c695ff986d09b00ebcd59451edea2354",
+      "passed": true,
+      "pid": 86092,
+      "process_group": 86092,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "branch-scaled",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "branch-scaled",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/branch-scaled/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "branch-scaled",
+        "expected_support_x": 11,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          11,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          1,
+          0,
+          2
+        ]
+      },
+      "elapsed_seconds": 0.0047305419575423,
+      "expected_rejection": null,
+      "log_sha256": "2a0c415556e028a25cf4522e0dda5c54d7962a51cf448f52275633ac90fc5324",
+      "native_component_output_sha256": "a88357b5630c7b2d3f094c7e5b338bf4c695ff986d09b00ebcd59451edea2354",
+      "passed": true,
+      "pid": 86094,
+      "process_group": 86094,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "duplicate-edge",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "duplicate-edge",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/duplicate-edge/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "component_result": {
+        "case": "duplicate-edge",
+        "expected_support_x": 11,
+        "passed": true,
+        "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNIT_NOT_PHYSICAL_QUALIFICATION",
+        "support": [
+          11,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "validate_mpcs_order": [
+          2,
+          1,
+          0
+        ]
+      },
+      "elapsed_seconds": 0.005213625030592084,
+      "expected_rejection": null,
+      "log_sha256": "a152487c8caeb026ee77b1b4dc782e5b27d8ed590ac8c1db76145ed72dbfc5e4",
+      "native_component_output_sha256": "a88357b5630c7b2d3f094c7e5b338bf4c695ff986d09b00ebcd59451edea2354",
+      "passed": true,
+      "pid": 86096,
+      "process_group": 86096,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "reject-cycle",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "reject-cycle",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/reject-cycle/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "elapsed_seconds": 0.005165417212992907,
+      "expected_rejection": "native MPC dependency graph contains a nonzero cycle",
+      "log_sha256": "a05c772cb8bc364aa706a527356e95b6867a824bd32c891d854f5482aded3240",
+      "native_component_output_sha256": null,
+      "passed": true,
+      "pid": 86098,
+      "process_group": 86098,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "reject-self",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "reject-self",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/reject-self/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "elapsed_seconds": 0.004976958967745304,
+      "expected_rejection": "native MPC dependency graph contains a self-reference",
+      "log_sha256": "4c446012b0560f4c92f41c5b3bb43824331bfdfbe24483bd3e76319a47306053",
+      "native_component_output_sha256": null,
+      "passed": true,
+      "pid": 86100,
+      "process_group": 86100,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "reject-repeated-pivot",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "reject-repeated-pivot",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/reject-repeated-pivot/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "elapsed_seconds": 0.004910084186121821,
+      "expected_rejection": "MPC dependent degrees of freedom are not uniquely active",
+      "log_sha256": "edf144788bb2b273f10d266334208397d06fe050534704ee30ed9a21edc1a464",
+      "native_component_output_sha256": null,
+      "passed": true,
+      "pid": 86102,
+      "process_group": 86102,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "reject-linked-list-cycle",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "reject-linked-list-cycle",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/reject-linked-list-cycle/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "elapsed_seconds": 0.00506916712038219,
+      "expected_rejection": "native MPC term lists overlap or contain a cycle",
+      "log_sha256": "eff4a88bee66cec0f816577f18570b4c64c119229d26766629165abaf415bf40",
+      "native_component_output_sha256": null,
+      "passed": true,
+      "pid": 86104,
+      "process_group": 86104,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "timed_out": false
+    },
+    {
+      "binary_sha256": "327724cf4bdc8a1085c11fe8df0e57b51b903e5e6b6ce308d0a05e2f768e7daa",
+      "case": "reject-nonfinite-pivot",
+      "command": [
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/NativeMpcComponentUnit",
+        "reject-nonfinite-pivot",
+        "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/reject-nonfinite-pivot/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST"
+      ],
+      "elapsed_seconds": 0.005092041101306677,
+      "expected_rejection": "unsupported MPC dependent coefficient",
+      "log_sha256": "d426967214bfa7dbe19b6d65c265f7d6049a17358e05f7f6aad25e4e49ad692f",
+      "native_component_output_sha256": null,
+      "passed": true,
+      "pid": 86106,
+      "process_group": 86106,
+      "process_group_gone": true,
+      "protected_after": {
+        "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+        "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+        "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+        "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+        "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+      },
+      "protected_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "timed_out": false
+    }
+  ],
+  "physical_software_qualification_or_engineering_acceptance": false,
+  "protected_before": {
+    "header": "4958e6cff73f48e3e0a2a57eb5ca86e667192dc2abc3ee780bc2e6ffdb50f7ce",
+    "production": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+    "strcmp1_object": "37cd6dc390bb79f0b89b3c503970c53ba6b9184073479f27a1cdf902418271b1",
+    "supervisor": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+    "unit": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+  },
+  "real_mixed_contact_integration_covered": false,
+  "scope": "ARTIFICIAL_NATIVE_C_COMPONENT_UNITS_NOT_SOLVER_OR_PHYSICAL_QUALIFICATION"
+}

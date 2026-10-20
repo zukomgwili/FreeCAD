@@ -1,0 +1,60 @@
+test_actual_ordinary_tie_is_available_to_native_side_observation (NativeTieMovementProbe.NativeTieMovementProbe.test_actual_ordinary_tie_is_available_to_native_side_observation) ... FIVEAR_CHECKPOINT={"name": "native-identity-confirmed"}
+FIVEAR_CHECKPOINT={"name": "cold-native-fixture-opened-cut-request-disabled", "nodes": 1743, "volumes": 784, "retained_AccountingBody": [["ThreeBodies", ["Solid2"]]], "actual_tie": "RearOrdinaryTie", "actual_contact": "SidepadContact"}
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+FIVEAR_CHECKPOINT={"name": "stock-support-only-writer-complete"}
+FIVEAR_CHECKPOINT={"name": "genuine-current-native-movement-source-established"}
+FIVEAR_CHECKPOINT={"name": "actual-tie-observation-refreshed", "status": "Unavailable: Select native contacts in this analysis"}
+FIVEAR_CAPABILITY_FAILURE=ValueError('Unavailable: Select native contacts in this analysis')
+ERROR
+
+======================================================================
+ERROR: test_actual_ordinary_tie_is_available_to_native_side_observation (NativeTieMovementProbe.NativeTieMovementProbe.test_actual_ordinary_tie_is_available_to_native_side_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-5ar-wYCAxF/NativeTieMovementProbe.py", line 190, in test_actual_ordinary_tie_is_available_to_native_side_observation
+    data = result.Proxy.getObservations(result)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/result_contact_observation.py", line 121, in getObservations
+    raise ValueError(obj.Status)
+ValueError: Unavailable: Select native contacts in this analysis
+
+----------------------------------------------------------------------
+Ran 1 test in 0.838s
+
+FAILED (errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +216 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+BaseSupport:
+    Type: Fem::ConstraintRigidBody, Name: BaseSupport
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+SidepadContact:
+    Type: Fem::ConstraintContact, Name: SidepadContact
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face8
+RearOrdinaryTie:
+    Type: Fem::ConstraintTie, Name: RearOrdinaryTie
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face6
+RearCut:
+    Type: Fem::ConstraintSectionPrint, Name: RearCut
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face12
+SidePressure:
+    Type: Fem::ConstraintPressure, Name: SidePressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face19
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face17
+Getting mesh data time: 0.213 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-5ar-wYCAxF/movement-red-3/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver run...
+CalculiX finished without error.

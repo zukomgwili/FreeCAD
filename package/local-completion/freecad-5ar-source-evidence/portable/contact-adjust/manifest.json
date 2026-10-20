@@ -1,0 +1,56 @@
+{
+  "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+  "contract": "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json",
+  "contract_sha256": "33991f2d092074eca9d695654495ce6a3d3756c51d5007857e6d40a9dfa56cdf",
+  "deck": "/private/tmp/freecad-5ar-wYCAxF/portable-contact-adjust-final-serial/contact.inp",
+  "deck_sha256": "bb38a600d9bd2bfe9b169a196743ee5f9956cf021e4964f67fab65631b22cfb9",
+  "declared_output_frame": "Global Cartesian, original reference-state nodal positions; FreeCAD writer units N and Nmm. V2 keeps an immutable coordinate snapshot and rejects any actual native coordinate change after preparation, including contact adjustment. A nonzero Contact.Adjust setting is not itself rejected if no coordinates actually change. V1 retains its legacy behavior and does not qualify adjusted original-coordinate frames.",
+  "desired_outcome": "Nonzero solver exit with an explicit original-reference-coordinate-change refusal",
+  "engineering_or_BIM_accepted": false,
+  "expected_adjusted_z": 1.0,
+  "expected_coordinate_adjustment_nodes": [
+    9,
+    10,
+    11,
+    12
+  ],
+  "generator": "/Users/zukomgwili/src/FreeCAD/package/local-completion/FreeCAD9ztContactWitness.py",
+  "generator_sha256": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+  "native_invocations": 0,
+  "original_coordinates": "/private/tmp/freecad-5ar-wYCAxF/portable-contact-adjust-final-serial/original-deck-coordinates.json",
+  "original_coordinates_sha256": "6b4faeeb6144f12c44e1d4e6c91c67e13ce699836fdd96bdc4c13267457335ed",
+  "process_control": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-5ar-qa/process_control.py",
+  "process_control_sha256": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+  "real_penalty_contact_adjust": 0.1,
+  "request": "/private/tmp/freecad-5ar-wYCAxF/portable-contact-adjust-final-serial/contact.accounting",
+  "request_sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+  "schema": "FREECAD_5AR_ACTUAL_CONTACT_ADJUSTMENT_CONTROL_V1",
+  "script": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-5ar-qa/probe_actual_contact_adjustment.py",
+  "script_sha256": "050e842f8239014a85be1bb32f1128d86fa778ee3ac695c8baf24379d8726938",
+  "supervisor": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-5ar-qa/qualify_native_v2_analytic.py",
+  "supervisor_sha256": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90",
+  "translated_nodes": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "translation": [
+    0,
+    0,
+    0.05
+  ],
+  "unchanged_support_ports": [
+    21,
+    22
+  ]
+}

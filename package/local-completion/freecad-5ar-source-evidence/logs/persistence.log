@@ -1,0 +1,179 @@
+test_built_native_and_copied_source_identity (SourceNativeIdentity.SourceNativeIdentity.test_built_native_and_copied_source_identity) ... ok
+test_tie_edits_fail_closed_and_saved_native_observation_remains_historical (femtest.app.test_tie_accounting_native.TestTieAccountingNative.test_tie_edits_fail_closed_and_saved_native_observation_remains_historical) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +216 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 
+  ElementDimension: 3
+  /private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/FourBodies_Geometry.brep
+  /private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/FourBodies_Mesh.vtk
+  /private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 99
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 100
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 101
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 102
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 103
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 104
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 105
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 106
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 107
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 108
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 109
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 110
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 111
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 112
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 113
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 114
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 115
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 116
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 117
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 118
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 119
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 120
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 121
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 122
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex25' Type: 'Node' id: 123
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex26' Type: 'Node' id: 124
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex27' Type: 'Node' id: 125
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex28' Type: 'Node' id: 126
+AddGroupElements: num elements: 1 sizeof: 8
+
+Get mesh data for constraints, materials and element geometry...
+BaseSupport:
+    Type: Fem::ConstraintRigidBody, Name: BaseSupport
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face5
+SidepadContact:
+    Type: Fem::ConstraintContact, Name: SidepadContact
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face8
+RearOrdinaryTie:
+    Type: Fem::ConstraintTie, Name: RearOrdinaryTie
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face6
+RearCut:
+    Type: Fem::ConstraintSectionPrint, Name: RearCut
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face12
+FrontCut:
+    Type: Fem::ConstraintSectionPrint, Name: FrontCut
+    ReferenceShape ... Type: Face, Object name: FrontCutOrientation, Object label: FrontCutOrientation, Element name: Face12
+TopPressure:
+    Type: Fem::ConstraintPressure, Name: TopPressure
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face17
+SidePressure:
+    Type: Fem::ConstraintPressure, Name: SidePressure
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face19
+Getting mesh data time: 0.1 seconds.
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face5
+
+CalculiX solver run...
+CalculiX finished without error.
+Read ccx results from frd file: /private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/Mesh.frd
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face8
+Read ccx results from frd file: /private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/Mesh.frd
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face8
+
+Get mesh data for constraints, materials and element geometry...
+BaseSupport:
+    Type: Fem::ConstraintRigidBody, Name: BaseSupport
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face5
+SidepadContact:
+    Type: Fem::ConstraintContact, Name: SidepadContact
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face8
+RearOrdinaryTie:
+    Type: Fem::ConstraintTie, Name: RearOrdinaryTie
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face6
+RearCut:
+    Type: Fem::ConstraintSectionPrint, Name: RearC[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.536s
+
+OK
+ut
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face12
+FrontCut:
+    Type: Fem::ConstraintSectionPrint, Name: FrontCut
+    ReferenceShape ... Type: Face, Object name: FrontCutOrientation, Object label: FrontCutOrientation, Element name: Face12
+TopPressure:
+    Type: Fem::ConstraintPressure, Name: TopPressure
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face17
+SidePressure:
+    Type: Fem::ConstraintPressure, Name: SidePressure
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face19
+Getting mesh data time: 0.099 seconds.
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face5
+
+CalculiX solver run...
+CalculiX finished without error.
+Read ccx results from frd file: /private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/Mesh.frd
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: FourBodies, Object label: FourBodies, Element name: Face8
+TIE_ACCOUNTING_COLD_CASE=/private/tmp/freecad-5ar-wYCAxF/native-tie-persistence-first/freecad_user_temp/freecad-tie-accounting-native-8mpdvwnk/tie-cold-case.json

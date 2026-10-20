@@ -1,0 +1,108 @@
+{
+  "passed": false,
+  "scope": "small analytical native Tie force capability only",
+  "Oomakhi_opened_or_solved": false,
+  "target_force_relative_limit": 0.01,
+  "target_origin_moment_relative_limit": 0.01,
+  "checkpoints": [
+    {
+      "name": "native-identity-confirmed"
+    },
+    {
+      "name": "native-three-body-fixture-authored"
+    },
+    {
+      "name": "native-gmsh-complete",
+      "nodes": 1290,
+      "volumes": 588
+    },
+    {
+      "name": "before-stock-writer"
+    },
+    {
+      "name": "stock-writer-complete"
+    }
+  ],
+  "modules": {
+    "ObjectsFem": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/ObjectsFem.py",
+      "sha256": "aee0efa9cfcd5ce0ba3cfa99aaa648ba7486e4c8980998296f62629810cf23e5"
+    },
+    "femmesh.meshsetsgetter": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshsetsgetter.py",
+      "sha256": "071365905703dd61f3a9772823a9e733164a609e434fdfc37d4aa6f7a6f6e5a4"
+    },
+    "femmesh.meshtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/meshtools.py",
+      "sha256": "5805f9d424a6a9595171d353dfc44d4bbf047257d09ad654ae81178f68fecb95"
+    },
+    "femmesh.ownership_context": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/ownership_context.py",
+      "sha256": "2fe96c3d796d8dd4d42d296aaf1e58fc7973922d2e201ff454d23bc280199aae"
+    },
+    "femmesh.gmshtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femmesh/gmshtools.py",
+      "sha256": "7cd00c2cf3d487220906145818b18523368be2e51c5a789106d8305ee2c6027a"
+    },
+    "femsolver.calculix.write_constraint_tie": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/write_constraint_tie.py",
+      "sha256": "283fdd393554f682e532deb55ed1d5cf767b14fdd62396ac5c2e5edf91d557db"
+    },
+    "femtools.ccxtools": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py",
+      "sha256": "195b34aa23aa2c7dab37dcac450a74ddd34944abfb3109d09ef5b0fbc4a67244"
+    },
+    "femtools.force_accounting": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/force_accounting.py",
+      "sha256": "1f70995650486f07b886229e4ee0a684d08e084471680335b658a39c4e34a708"
+    }
+  },
+  "app_module_file": null,
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +215 (Git)",
+    "Unknown",
+    "2026/10/20 07:22:28",
+    "codex/fix-toroidal-self-cut",
+    "66d2d4cd5405cd8c57ff9e0530329b3b41199aac"
+  ],
+  "executable": {
+    "path": "/Users/zukomgwili/src/FreeCAD/build/release/bin/FreeCADCmd",
+    "sha256": "5b5f2cdb3818fefdf4dc2876373de9f4b618e3d977c5282d3ea8826bf677ab42"
+  },
+  "native_images": [
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/Fem.so",
+      "sha256": "1c3fe10c9b73eb1576dae5108a4e8c0fa62dd2371317b60c12bff73dd0947e3d"
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part/Part.so",
+      "sha256": "682e7be651f11b573f34842394ea4359915e560ba9951fada2f127f562885d14"
+    },
+    {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/lib/libFreeCADApp.dylib",
+      "sha256": "c8b2938353cc58700240e2b36792ccfa7670ae82ce6e6b857605320113a4cb64"
+    }
+  ],
+  "native_references": {
+    "support": "Solid1",
+    "tie_slave": "Face11",
+    "tie_master": "Face6",
+    "rear_body": "Solid2",
+    "cut": "Face12",
+    "pressure": "Face17"
+  },
+  "saved_model": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/force-red-3/analytical-tie.FCStd",
+    "sha256": "4b50fa48521a1cbc7ce592fc7ff1264350379898bed3b7518bfe172eb7edb8af"
+  },
+  "stock_deck": {
+    "path": "/private/tmp/freecad-5ar-wYCAxF/force-red-3/Mesh.inp",
+    "sha256": "ac94fbeff46fa26efc31a54467e7d92e67e57d173e596c7886129623eeeac565"
+  },
+  "actual_solver": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "error": "AssertionError('201 != 0')",
+  "traceback": "Traceback (most recent call last):\n  File \"/private/tmp/freecad-5ar-wYCAxF/NativeTieForceProbe.py\", line 226, in test_ordinary_tie_participating_body_produces_physical_cut\n    self.assertEqual(code, 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 907, in assertEqual\n    assertion_func(first, second, msg=msg)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/unittest/case.py\", line 900, in _baseAssertEqual\n    raise self.failureException(msg)\nAssertionError: 201 != 0\n"
+}

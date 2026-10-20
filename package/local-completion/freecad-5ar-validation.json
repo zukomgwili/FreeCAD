@@ -1,0 +1,151 @@
+{
+  "schema": "FreeCAD.5ar.source-qualification.v1",
+  "issue": "FreeCAD-5ar",
+  "created_utc": "2026-10-20 09:43:14 UTC",
+  "scope": "Source/output capability qualification only; not an installation, Oomakhi replay, engineering method adoption, upstream contribution or design acceptance.",
+  "implementation_commit": "8e79820eb3b73d01a11c31c1bab84ef5735f81a7",
+  "compiled_revision": "49261 +217 (Git)",
+  "branch": "codex/fix-toroidal-self-cut",
+  "documentation": "freecad-5ar.md",
+  "reproduced_before_corresponding_implementation_read": true,
+  "reproductions": {
+    "force": "freecad-5ar-qa/evidence/native-force-red6/probe.json",
+    "movement": "freecad-5ar-source-evidence/receipts/movement-red-probe.json",
+    "GUI": "freecad-5ar-source-evidence/logs/gui-red.log",
+    "GUI_exact_historical_harness": ["freecad-ro1-evidence/supervisors/run_source_tests.py", "freecad-ro1-evidence/supervisors/SourceNativeIdentity.py"],
+    "setup_failures_not_counted_as_reproductions": "freecad-5ar-qa/index.json",
+    "coordinate_contract_red": "freecad-5ar-qa/evidence/contact-adjust/red-candidate3/execution.json"
+  },
+  "implementation": {
+    "accounting_schema": "CCX_FORCE_ACCOUNTING_V2",
+    "ordinary_contact_observation_schema": "FreeCAD.CONTACT_SIDE_OBSERVATION_V1",
+    "Tie_or_mixed_observation_schema": "FreeCAD.INTERFACE_SIDE_OBSERVATION_V2",
+    "force_source_sha256": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+    "hooks_sha256": "c8088592a0e366bfb7b7dbc8227efc5f0ff950d9f4bb2200ca1bb1bc684ac92d",
+    "native_binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+    "native_build": "freecad-5ar-source-evidence/receipts/native-solver-build.json",
+    "per_Tie_multiplier_or_CF_output_claimed": false,
+    "physical_LOAD_CONTACT_MPC_separated": true,
+    "paired_cut_and_original_origin_moments_retained": true,
+    "units": "N, Nmm; original-frame global displacement in mm",
+    "legacy": "Literal force V1 remains V1, without invented MPC; new requests and new qualified movement sources require V2. Contact-only observation wire shape remains V1. Cold data stays historical until legitimate revalidation or a normal rerun; no status/hash repair."
+  },
+  "native_analytical": {
+    "passed": true,
+    "positive_cases": 8,
+    "force_and_original_origin_moment_checks": 144,
+    "expected_domain_refusals": 2,
+    "limit": 0.01,
+    "normalization": "Euclidean vector error separately for force/moment, divided by max(reference norm, 1 N or 1 Nmm)",
+    "maximum_normalized_error": 1.4277135179137764e-14,
+    "receipt": "freecad-5ar-source-evidence/portable/analytic/summary.json",
+    "public_writer_coverage": false
+  },
+  "legacy_native": {
+    "passed": true,
+    "V1_positive_cases": 48,
+    "expected_refusals": 6,
+    "receipt": "freecad-5ar-source-evidence/receipts/legacy-v1.json"
+  },
+  "artificial_components": {
+    "passed": true,
+    "positive_cases": 8,
+    "expected_refusals": 5,
+    "receipt": "freecad-5ar-source-evidence/portable/component/summary.json",
+    "scope": "Actual native C scheduler/projection algebra with manufactured residuals, not physical solver or engineering qualification"
+  },
+  "coordinate_guard": {
+    "passed": true,
+    "expected_refusal_exit_code": 201,
+    "receipt": "freecad-5ar-source-evidence/portable/contact-adjust/execution.json"
+  },
+  "build": {
+    "passed": true,
+    "seconds": 239.622,
+    "receipt": "freecad-5ar-source-evidence/receipts/build.json"
+  },
+  "FEM": {
+    "passed": true,
+    "actual_cases": 390,
+    "identity_cases": 1,
+    "skipped": 0,
+    "seconds": 46.984,
+    "new_native_methods_executed_without_skips": 4,
+    "receipt": "freecad-5ar-source-evidence/receipts/fem-app.json"
+  },
+  "GUI": {
+    "passed": true,
+    "actual_cases": 8,
+    "identity_cases": 1,
+    "skipped": 0,
+    "seconds": 4.142,
+    "receipt": "freecad-5ar-source-evidence/receipts/fem-gui.json"
+  },
+  "separate_cold_process": {
+    "passed": true,
+    "actual_cases": 1,
+    "literal_data_preserved": true,
+    "observation_Historical_and_accounting_Stale": true,
+    "recompute_does_not_promote": true,
+    "explicit_refresh_did_not_promote_accounting": true,
+    "explicit_refresh_observation_status": "Unavailable: Native movement source is stale after a physical model change.",
+    "no_writer_solve_save_or_status_hash_repair": true,
+    "receipt": "freecad-5ar-source-evidence/receipts/cold-probe.json"
+  },
+  "CTest": {
+    "passed": true,
+    "catalogue": 2274,
+    "executed_passing": 2264,
+    "skipped": 2,
+    "disabled": 8,
+    "failed": 0,
+    "seconds": 70.3,
+    "complete_catalogue_verified": true,
+    "dot_free_temporary_root_explicitly_reported": true,
+    "unrelated_FreeCAD_8rk_fixed": false,
+    "receipt": "freecad-5ar-source-evidence/receipts/ctest.json"
+  },
+  "quality_checks": "freecad-5ar-source-evidence/static-checks.json",
+  "frozen_fixture_evidence": {
+    "base": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/",
+    "access": "Read-only frozen notes/JSON; no FreeCAD model access or execution",
+    "sha256": {
+      "native-contact-observation-continuation-r46/sampling-method-adoption.json": "24946347f9e170aa6272ee43f603956d9ee5acb9e66034cd254b249bf8c6a23c",
+      "native-contact-observation-continuation-r46/source-evidence/freecad-927-sampling-amendment-r02.json": "e38cd7a25a0299b786c26e1ed2b8df947d61631855876a312ae7a1127e13cf88",
+      "native-contact-observation-continuation-r46/source-evidence/freecad-927-sampling-r02-review.json": "7c4877ff3f8c108275948320bf80038e775c34d8bbb5044d5b507138d6ce1d2a",
+      "native-contact-observation-continuation-r46/method-applicability-review.json": "d32d5cd2f7c26180012cfa731c8868f44a4e00a84bf3f817b875012a55422b0d",
+      "native-rear-enforcement-sensitivity-r49/cases/COMB_OPEN_UP_YPLUS/frozen-selections.json": "37c875a8b5605fc9d2786a53b00c52e039e61da427ea6625e6a7197f964b8ca2",
+      "native-rear-enforcement-sensitivity-r49/actual-result-review.json": "755bbba9965940e60af20f5af51150011481d4a9d54cbb585519d901c658e45f",
+      "rear-connection-idealization-review-r50/native-law-applicability.json": "055d724b33dd19d61b2a0cb08b036035420c57e1b0066597293a4d7a43b8a06a",
+      "rear-connection-idealization-review-r50/decision-proposal.json": "3db8c2a024b8c0fbe4df94179c48a49757488ca9e752e8b7210b6351c4310a2f",
+      "rear-connection-idealization-review-r50/independent-decision-review.json": "6fa0333af00d848cdfc6d89cb83fbb383b7f4976e15c909429436ca7b0af6157",
+      "rear-connection-idealization-review-r50/review-scope.json": "6a24cc7f65c40598724a3e3f6dbfcf053c30bdf88342b742ee17ee3ed913c7a4"
+    }
+  },
+  "independent_agent_review": {
+    "native_C_hooks_contract_force_parser": "No actionable correctness/safety findings; topological wording correction applied.",
+    "movement_GUI_native_regressions": "No actionable regression; public typed selection, original ownership, V1 compatibility and stale/history guards retained.",
+    "frozen_fixture_applicability": "Existing adopted amended-r02 selector batches remain representable without reselecting samples: 72 Slave/1, 24 Master/1, one Slave/5. Not an actual fixture pass.",
+    "documentation_corrections_applied": ["All 193 contact-state duties and 96 initially gapped engagement-only pockets retained", "48 raw original-ID pairs and 8 separate support controls explicit", "No invented floor for the separate finite-positive-reference 5% displacement comparison"],
+    "not_human_upstream_or_engineering_review": true
+  },
+  "evidence": {
+    "historical_index": "freecad-5ar-qa/index.json",
+    "historical_index_sha256": "228507549dad74d33a6502586c97f74675dd9f82ecbdfa777dc0ca5b63e8c29c",
+    "final_source_index": "freecad-5ar-source-evidence/index.json",
+    "final_source_index_sha256": "e17b7ced3f921d15bc8246a61b32c7d499ee62f72b3c9823f31b53ad9083f873",
+    "absolute_historical_paths_not_reassigned": true,
+    "all_completed_native_children_reaped_and_owned_groups_gone": true,
+    "source_build_solver_harness_fences_unchanged_during_final_gates": true
+  },
+  "engineering_holds": {
+    "Oomakhi_model_opened_altered_or_solved": false,
+    "installation_performed": false,
+    "original_R49_percent": 11.123267892,
+    "unchanged_displacement_limit_percent": 5,
+    "R49_status": "failed",
+    "retained": "All 97 pairs/194 owner vectors, original XYZ/slave frames, 48 raw pairs, 8 support controls, overclosure/slip, 193-contact engagement/transfer/area/state duties, 96 initially gapped engagement-only pockets, required support and both cut force/moment checks. No per-Tie CF substitution.",
+    "automatic_engineering_run_authorized": false,
+    "physical_anchorage_whole_house_R30_BIM_accepted": false
+  }
+}

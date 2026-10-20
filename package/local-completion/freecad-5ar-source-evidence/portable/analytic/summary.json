@@ -1,0 +1,3664 @@
+{
+  "all_selected_passed": true,
+  "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+  "engineering_or_BIM_accepted": false,
+  "legacy_V1_regression_covered": false,
+  "manifest_sha256": "c2e1d11df4058067a457b6e36f45611738baf578c377a6676385d5245c926b63",
+  "mixed_contact_MPC_same_body_covered": false,
+  "reports": [
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "tie-tet4",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            3.885780586188048e-15,
+            -6.661338147750939e-16,
+            -10.000000000000014
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.4747590201784215e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000046,
+            -1.687538997430238e-14
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.5130770867148218e-15
+        },
+        {
+          "actual": [
+            -0.0,
+            -0.0,
+            10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            35.00000000000004,
+            -25.000000000000032,
+            -0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -6.0000000000000115
+          ],
+          "denominator": 6.0,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -6
+          ],
+          "relative_error": 1.924386576016938e-15
+        },
+        {
+          "actual": [
+            -21.000000000000043,
+            15.000000000000032,
+            0.0
+          ],
+          "denominator": 25.80697580112788,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -21,
+            15,
+            0
+          ],
+          "relative_error": 2.0649728814671294e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000032,
+            0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            -3.885780586188048e-15,
+            6.661338147750939e-16,
+            16.000000000000025
+          ],
+          "denominator": 16.0,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            16
+          ],
+          "relative_error": 1.5737221685342545e-15
+        },
+        {
+          "actual": [
+            56.000000000000085,
+            -40.00000000000008,
+            1.687538997430238e-14
+          ],
+          "denominator": 68.81860213634101,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            56,
+            -40,
+            0
+          ],
+          "relative_error": 1.698559836827914e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -3.885780586188048e-15,
+            6.661338147750939e-16,
+            22.00000000000004
+          ],
+          "denominator": 22.0,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            22
+          ],
+          "relative_error": 1.7853731567794098e-15
+        },
+        {
+          "actual": [
+            77.00000000000014,
+            -55.0000000000001,
+            1.532107773982716e-14
+          ],
+          "denominator": 94.62557793746889,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            77,
+            -55,
+            0
+          ],
+          "relative_error": 1.8403150918365766e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "27a76fca3a1da49387691ef33a4736fc6ea48a27f77ec21cce2bd1ca1f77c3c2",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "27a76fca3a1da49387691ef33a4736fc6ea48a27f77ec21cce2bd1ca1f77c3c2",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.02508204197511077,
+      "log_sha256": "0dc3575942f587cf673d2a2c554cd9c28d5eaf3b64bf59c1764e1d02a4789d42",
+      "native_output_sha256": "d65d8bacf0b5899ceedf521beb14a23bb50a585e897ac4e86674bf785bdbc246",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          3.885780586188048e-15,
+          -6.661338147750939e-16,
+          -10.000000000000014,
+          -35.00000000000004,
+          25.000000000000046,
+          -1.687538997430238e-14
+        ],
+        "CUT/Upper": [
+          -0.0,
+          -0.0,
+          10.000000000000012,
+          35.00000000000004,
+          -25.000000000000032,
+          -0.0
+        ],
+        "LOAD/Lower": [
+          0.0,
+          0.0,
+          -6.0000000000000115,
+          -21.000000000000043,
+          15.000000000000032,
+          0.0
+        ],
+        "LOAD/Upper": [
+          0.0,
+          0.0,
+          -10.000000000000012,
+          -35.00000000000004,
+          25.000000000000032,
+          0.0
+        ],
+        "MPC/Lower": [
+          -3.885780586188048e-15,
+          6.661338147750939e-16,
+          16.000000000000025,
+          56.000000000000085,
+          -40.00000000000008,
+          1.687538997430238e-14
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          -3.885780586188048e-15,
+          6.661338147750939e-16,
+          22.00000000000004,
+          77.00000000000014,
+          -55.0000000000001,
+          1.532107773982716e-14
+        ]
+      },
+      "passed": true,
+      "pid": 493,
+      "process_group": 493,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "0dc3575942f587cf673d2a2c554cd9c28d5eaf3b64bf59c1764e1d02a4789d42",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "tie-tet10",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -5.551115123125783e-16,
+            -3.6463887465032485e-15,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.297000528546715e-15
+        },
+        {
+          "actual": [
+            -35.000000000000036,
+            25.000000000000018,
+            -7.105427357601002e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 9.381433384331935e-16
+        },
+        {
+          "actual": [
+            -8.88178419700123e-16,
+            1.3322676295501831e-15,
+            10.000000000000037
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 3.733784185985892e-15
+        },
+        {
+          "actual": [
+            35.00000000000013,
+            -25.0000000000001,
+            6.377614485902269e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 3.770007161243902e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -6.0000000000000515
+          ],
+          "denominator": 6.0,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -6
+          ],
+          "relative_error": 8.585724723767877e-15
+        },
+        {
+          "actual": [
+            -21.000000000000185,
+            15.000000000000131,
+            0.0
+          ],
+          "denominator": 25.80697580112788,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -21,
+            15,
+            0
+          ],
+          "relative_error": 8.785779483249773e-15
+        },
+        {
+          "actual": [
+            8.88178419700123e-16,
+            -1.3322676295501831e-15,
+            -10.000000000000037
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 3.733784185985892e-15
+        },
+        {
+          "actual": [
+            -35.00000000000013,
+            25.0000000000001,
+            -6.377614485902269e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 3.770007161243902e-15
+        },
+        {
+          "actual": [
+            5.551115123125783e-16,
+            3.6463887465032485e-15,
+            16.000000000000064
+          ],
+          "denominator": 16.0,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            16
+          ],
+          "relative_error": 4.003445406941031e-15
+        },
+        {
+          "actual": [
+            56.00000000000022,
+            -40.00000000000015,
+            7.105427357601002e-15
+          ],
+          "denominator": 68.81860213634101,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            56,
+            -40,
+            0
+          ],
+          "relative_error": 3.867347456809417e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            4.908491328310619e-16,
+            3.532178848355474e-15,
+            22.00000000000011
+          ],
+          "denominator": 22.0,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            22
+          ],
+          "relative_error": 5.008720184880179e-15
+        },
+        {
+          "actual": [
+            77.00000000000041,
+            -55.00000000000027,
+            7.834701549570595e-15
+          ],
+          "denominator": 94.62557793746889,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            77,
+            -55,
+            0
+          ],
+          "relative_error": 5.207374255815656e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "4a764219eb6ed35f6acbb45dc339d97ff664e0d11b37194a53c6b943c5fdbf1d",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "4a764219eb6ed35f6acbb45dc339d97ff664e0d11b37194a53c6b943c5fdbf1d",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.024241458158940077,
+      "log_sha256": "cbf1bdb0c3c0486240eaf4a7951de5c7191b1dfff15aa733c890c70f7a00113b",
+      "native_output_sha256": "1470e1004dc09e9dc78d130072a2dbc55ad1bc431ce0b24d84086d47cb5400d6",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          -5.551115123125783e-16,
+          -3.6463887465032485e-15,
+          -10.000000000000012,
+          -35.000000000000036,
+          25.000000000000018,
+          -7.105427357601002e-15
+        ],
+        "CUT/Upper": [
+          -8.88178419700123e-16,
+          1.3322676295501831e-15,
+          10.000000000000037,
+          35.00000000000013,
+          -25.0000000000001,
+          6.377614485902269e-15
+        ],
+        "LOAD/Lower": [
+          0.0,
+          0.0,
+          -6.0000000000000515,
+          -21.000000000000185,
+          15.000000000000131,
+          0.0
+        ],
+        "LOAD/Upper": [
+          8.88178419700123e-16,
+          -1.3322676295501831e-15,
+          -10.000000000000037,
+          -35.00000000000013,
+          25.0000000000001,
+          -6.377614485902269e-15
+        ],
+        "MPC/Lower": [
+          5.551115123125783e-16,
+          3.6463887465032485e-15,
+          16.000000000000064,
+          56.00000000000022,
+          -40.00000000000015,
+          7.105427357601002e-15
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          4.908491328310619e-16,
+          3.532178848355474e-15,
+          22.00000000000011,
+          77.00000000000041,
+          -55.00000000000027,
+          7.834701549570595e-15
+        ]
+      },
+      "passed": true,
+      "pid": 497,
+      "process_group": 497,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "cbf1bdb0c3c0486240eaf4a7951de5c7191b1dfff15aa733c890c70f7a00113b",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "equation-unit-tet4",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            3.885780586188048e-15,
+            -6.661338147750939e-16,
+            -10.000000000000014
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.4747590201784215e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000046,
+            -1.687538997430238e-14
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.5130770867148218e-15
+        },
+        {
+          "actual": [
+            -0.0,
+            -0.0,
+            10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            35.00000000000004,
+            -25.000000000000032,
+            -0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -6.0000000000000115
+          ],
+          "denominator": 6.0,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -6
+          ],
+          "relative_error": 1.924386576016938e-15
+        },
+        {
+          "actual": [
+            -21.000000000000043,
+            15.000000000000032,
+            0.0
+          ],
+          "denominator": 25.80697580112788,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -21,
+            15,
+            0
+          ],
+          "relative_error": 2.0649728814671294e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000032,
+            0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            -3.885780586188048e-15,
+            6.661338147750939e-16,
+            16.000000000000025
+          ],
+          "denominator": 16.0,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            16
+          ],
+          "relative_error": 1.5737221685342545e-15
+        },
+        {
+          "actual": [
+            56.000000000000085,
+            -40.00000000000008,
+            1.687538997430238e-14
+          ],
+          "denominator": 68.81860213634101,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            56,
+            -40,
+            0
+          ],
+          "relative_error": 1.698559836827914e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -3.9968028886505635e-15,
+            6.661338147750939e-16,
+            22.000000000000036
+          ],
+          "denominator": 22.0,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            22
+          ],
+          "relative_error": 1.6253388813481857e-15
+        },
+        {
+          "actual": [
+            77.00000000000014,
+            -55.00000000000011,
+            1.6209256159527285e-14
+          ],
+          "denominator": 94.62557793746889,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            77,
+            -55,
+            0
+          ],
+          "relative_error": 1.8850473840650233e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "d0f286cc20469ed0d69db84ae6cd332e989b08b0ad8ead2d946dd0f2b6f585a5",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "d0f286cc20469ed0d69db84ae6cd332e989b08b0ad8ead2d946dd0f2b6f585a5",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.012137625133618712,
+      "log_sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "native_output_sha256": "f246d1bf17b24adb628686904a4c9eebf7e970d04db784c889ef4de808880dbc",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          3.885780586188048e-15,
+          -6.661338147750939e-16,
+          -10.000000000000014,
+          -35.00000000000004,
+          25.000000000000046,
+          -1.687538997430238e-14
+        ],
+        "CUT/Upper": [
+          -0.0,
+          -0.0,
+          10.000000000000012,
+          35.00000000000004,
+          -25.000000000000032,
+          -0.0
+        ],
+        "LOAD/Lower": [
+          0.0,
+          0.0,
+          -6.0000000000000115,
+          -21.000000000000043,
+          15.000000000000032,
+          0.0
+        ],
+        "LOAD/Upper": [
+          0.0,
+          0.0,
+          -10.000000000000012,
+          -35.00000000000004,
+          25.000000000000032,
+          0.0
+        ],
+        "MPC/Lower": [
+          -3.885780586188048e-15,
+          6.661338147750939e-16,
+          16.000000000000025,
+          56.000000000000085,
+          -40.00000000000008,
+          1.687538997430238e-14
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          -3.9968028886505635e-15,
+          6.661338147750939e-16,
+          22.000000000000036,
+          77.00000000000014,
+          -55.00000000000011,
+          1.6209256159527285e-14
+        ]
+      },
+      "passed": true,
+      "pid": 499,
+      "process_group": 499,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "equation-negative-scale-reverse-tet4",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            3.885780586188048e-15,
+            -6.661338147750939e-16,
+            -10.000000000000014
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.4747590201784215e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000046,
+            -1.687538997430238e-14
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.5130770867148218e-15
+        },
+        {
+          "actual": [
+            -0.0,
+            -0.0,
+            10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            35.00000000000004,
+            -25.000000000000032,
+            -0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -6.0000000000000115
+          ],
+          "denominator": 6.0,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -6
+          ],
+          "relative_error": 1.924386576016938e-15
+        },
+        {
+          "actual": [
+            -21.000000000000043,
+            15.000000000000032,
+            0.0
+          ],
+          "denominator": 25.80697580112788,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -21,
+            15,
+            0
+          ],
+          "relative_error": 2.0649728814671294e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000032,
+            0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            -3.885780586188048e-15,
+            6.661338147750939e-16,
+            16.000000000000025
+          ],
+          "denominator": 16.0,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            16
+          ],
+          "relative_error": 1.5737221685342545e-15
+        },
+        {
+          "actual": [
+            56.000000000000085,
+            -40.00000000000008,
+            1.687538997430238e-14
+          ],
+          "denominator": 68.81860213634101,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            56,
+            -40,
+            0
+          ],
+          "relative_error": 1.698559836827914e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -3.802513859341161e-15,
+            6.38378239159465e-16,
+            22.00000000000004
+          ],
+          "denominator": 22.0,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            22
+          ],
+          "relative_error": 1.78498174107764e-15
+        },
+        {
+          "actual": [
+            77.00000000000011,
+            -55.000000000000114,
+            1.765254609153999e-14
+          ],
+          "denominator": 94.62557793746889,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            77,
+            -55,
+            0
+          ],
+          "relative_error": 1.7093015228387914e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "17a6bbb1d7153065717d4c24f0af4a3bad969c35cac337d95fe1d61a9997dd4b",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "17a6bbb1d7153065717d4c24f0af4a3bad969c35cac337d95fe1d61a9997dd4b",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.012222666991874576,
+      "log_sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "native_output_sha256": "415055cdd34d2ed92143cf77a8f9729a196160a7331cc73c445901d52d4a1b76",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          3.885780586188048e-15,
+          -6.661338147750939e-16,
+          -10.000000000000014,
+          -35.00000000000004,
+          25.000000000000046,
+          -1.687538997430238e-14
+        ],
+        "CUT/Upper": [
+          -0.0,
+          -0.0,
+          10.000000000000012,
+          35.00000000000004,
+          -25.000000000000032,
+          -0.0
+        ],
+        "LOAD/Lower": [
+          0.0,
+          0.0,
+          -6.0000000000000115,
+          -21.000000000000043,
+          15.000000000000032,
+          0.0
+        ],
+        "LOAD/Upper": [
+          0.0,
+          0.0,
+          -10.000000000000012,
+          -35.00000000000004,
+          25.000000000000032,
+          0.0
+        ],
+        "MPC/Lower": [
+          -3.885780586188048e-15,
+          6.661338147750939e-16,
+          16.000000000000025,
+          56.000000000000085,
+          -40.00000000000008,
+          1.687538997430238e-14
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          -3.802513859341161e-15,
+          6.38378239159465e-16,
+          22.00000000000004,
+          77.00000000000011,
+          -55.000000000000114,
+          1.765254609153999e-14
+        ]
+      },
+      "passed": true,
+      "pid": 501,
+      "process_group": 501,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "equation-quarter-scale-tet10",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -5.551115123125783e-16,
+            -3.6463887465032485e-15,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.297000528546715e-15
+        },
+        {
+          "actual": [
+            -35.000000000000036,
+            25.000000000000018,
+            -7.105427357601002e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 9.381433384331935e-16
+        },
+        {
+          "actual": [
+            -8.88178419700123e-16,
+            1.3322676295501831e-15,
+            10.000000000000037
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 3.733784185985892e-15
+        },
+        {
+          "actual": [
+            35.00000000000013,
+            -25.0000000000001,
+            6.377614485902269e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 3.770007161243902e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -6.0000000000000515
+          ],
+          "denominator": 6.0,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -6
+          ],
+          "relative_error": 8.585724723767877e-15
+        },
+        {
+          "actual": [
+            -21.000000000000185,
+            15.000000000000131,
+            0.0
+          ],
+          "denominator": 25.80697580112788,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -21,
+            15,
+            0
+          ],
+          "relative_error": 8.785779483249773e-15
+        },
+        {
+          "actual": [
+            8.88178419700123e-16,
+            -1.3322676295501831e-15,
+            -10.000000000000037
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 3.733784185985892e-15
+        },
+        {
+          "actual": [
+            -35.00000000000013,
+            25.0000000000001,
+            -6.377614485902269e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 3.770007161243902e-15
+        },
+        {
+          "actual": [
+            5.551115123125783e-16,
+            3.6463887465032485e-15,
+            16.000000000000064
+          ],
+          "denominator": 16.0,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            16
+          ],
+          "relative_error": 4.003445406941031e-15
+        },
+        {
+          "actual": [
+            56.00000000000022,
+            -40.00000000000015,
+            7.105427357601002e-15
+          ],
+          "denominator": 68.81860213634101,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            56,
+            -40,
+            0
+          ],
+          "relative_error": 3.867347456809417e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            5.828670879282072e-16,
+            3.608224830031759e-15,
+            22.000000000000114
+          ],
+          "denominator": 22.0,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            22
+          ],
+          "relative_error": 5.170253460946409e-15
+        },
+        {
+          "actual": [
+            77.0000000000004,
+            -55.000000000000284,
+            6.8833827526759706e-15
+          ],
+          "denominator": 94.62557793746889,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            77,
+            -55,
+            0
+          ],
+          "relative_error": 5.168095506597656e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "9bc07ebafd9055772ad44bd9858627f1c62192a0c38e8584c0dbc3b32fac0305",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "9bc07ebafd9055772ad44bd9858627f1c62192a0c38e8584c0dbc3b32fac0305",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.012047416996210814,
+      "log_sha256": "687f6ea757ecba40d4e8da786d0abe7513cb0f93a23549e4c1834bb72e22fa55",
+      "native_output_sha256": "fbd57aac65de6ee6591b18533983118c852ef3dde655b690088195454c570883",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          -5.551115123125783e-16,
+          -3.6463887465032485e-15,
+          -10.000000000000012,
+          -35.000000000000036,
+          25.000000000000018,
+          -7.105427357601002e-15
+        ],
+        "CUT/Upper": [
+          -8.88178419700123e-16,
+          1.3322676295501831e-15,
+          10.000000000000037,
+          35.00000000000013,
+          -25.0000000000001,
+          6.377614485902269e-15
+        ],
+        "LOAD/Lower": [
+          0.0,
+          0.0,
+          -6.0000000000000515,
+          -21.000000000000185,
+          15.000000000000131,
+          0.0
+        ],
+        "LOAD/Upper": [
+          8.88178419700123e-16,
+          -1.3322676295501831e-15,
+          -10.000000000000037,
+          -35.00000000000013,
+          25.0000000000001,
+          -6.377614485902269e-15
+        ],
+        "MPC/Lower": [
+          5.551115123125783e-16,
+          3.6463887465032485e-15,
+          16.000000000000064,
+          56.00000000000022,
+          -40.00000000000015,
+          7.105427357601002e-15
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          5.828670879282072e-16,
+          3.608224830031759e-15,
+          22.000000000000114,
+          77.0000000000004,
+          -55.000000000000284,
+          6.8833827526759706e-15
+        ]
+      },
+      "passed": true,
+      "pid": 503,
+      "process_group": 503,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "687f6ea757ecba40d4e8da786d0abe7513cb0f93a23549e4c1834bb72e22fa55",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "equation-chain-reverse-tet4",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            3.774758283725532e-15,
+            -6.661338147750939e-16,
+            -10.000000000000014
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.4718727054209558e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000046,
+            -1.687538997430238e-14
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.5130770867148218e-15
+        },
+        {
+          "actual": [
+            -0.0,
+            -0.0,
+            10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            35.00000000000004,
+            -25.000000000000032,
+            -0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -6.0000000000000115
+          ],
+          "denominator": 6.0,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -6
+          ],
+          "relative_error": 1.924386576016938e-15
+        },
+        {
+          "actual": [
+            -21.000000000000043,
+            15.000000000000032,
+            0.0
+          ],
+          "denominator": 25.80697580112788,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -21,
+            15,
+            0
+          ],
+          "relative_error": 2.0649728814671294e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000032,
+            0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            -3.774758283725532e-15,
+            6.661338147750939e-16,
+            16.000000000000025
+          ],
+          "denominator": 16.0,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            16
+          ],
+          "relative_error": 1.5726662820134754e-15
+        },
+        {
+          "actual": [
+            56.000000000000085,
+            -40.00000000000008,
+            1.687538997430238e-14
+          ],
+          "denominator": 68.81860213634101,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            56,
+            -40,
+            0
+          ],
+          "relative_error": 1.698559836827914e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -3.774758283725532e-15,
+            7.216449660063518e-16,
+            22.000000000000036
+          ],
+          "denominator": 22.0,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            22
+          ],
+          "relative_error": 1.6242907033756596e-15
+        },
+        {
+          "actual": [
+            77.00000000000013,
+            -55.00000000000012,
+            1.5709655798445965e-14
+          ],
+          "denominator": 94.62557793746889,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            77,
+            -55,
+            0
+          ],
+          "relative_error": 1.86653709408094e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "d379372f849e409021f4eca06dd7e2d5edaa30de2fda60a40ddb1ca5b643a90a",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "d379372f849e409021f4eca06dd7e2d5edaa30de2fda60a40ddb1ca5b643a90a",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.012293583014979959,
+      "log_sha256": "833ee1806b342455ec40b5af92b96e14c9244bd82861457c82ede2f1f68575b0",
+      "native_output_sha256": "207bdeb1c2ed69fc8d36103633dd9c21c77fabcdc0cb7ef4abbf2f1b6bba77c0",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          3.774758283725532e-15,
+          -6.661338147750939e-16,
+          -10.000000000000014,
+          -35.00000000000004,
+          25.000000000000046,
+          -1.687538997430238e-14
+        ],
+        "CUT/Upper": [
+          -0.0,
+          -0.0,
+          10.000000000000012,
+          35.00000000000004,
+          -25.000000000000032,
+          -0.0
+        ],
+        "LOAD/Lower": [
+          0.0,
+          0.0,
+          -6.0000000000000115,
+          -21.000000000000043,
+          15.000000000000032,
+          0.0
+        ],
+        "LOAD/Upper": [
+          0.0,
+          0.0,
+          -10.000000000000012,
+          -35.00000000000004,
+          25.000000000000032,
+          0.0
+        ],
+        "MPC/Lower": [
+          -3.774758283725532e-15,
+          6.661338147750939e-16,
+          16.000000000000025,
+          56.000000000000085,
+          -40.00000000000008,
+          1.687538997430238e-14
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          -3.774758283725532e-15,
+          7.216449660063518e-16,
+          22.000000000000036,
+          77.00000000000013,
+          -55.00000000000012,
+          1.5709655798445965e-14
+        ]
+      },
+      "passed": true,
+      "pid": 505,
+      "process_group": 505,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "833ee1806b342455ec40b5af92b96e14c9244bd82861457c82ede2f1f68575b0",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "tie-dependent-point-tet4",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            3.9968028886505635e-15,
+            -8.881784197001252e-16,
+            -10.000000000000014
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.478890415049491e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000046,
+            -1.4210854715202004e-14
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.4982086249347478e-15
+        },
+        {
+          "actual": [
+            -0.0,
+            -0.0,
+            10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            35.00000000000004,
+            -25.000000000000032,
+            -0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            1.0,
+            -2.0,
+            -3.0000000000000115
+          ],
+          "denominator": 3.7416573867739413,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            1,
+            -2,
+            -3
+          ],
+          "relative_error": 3.0858836773553096e-15
+        },
+        {
+          "actual": [
+            -10.00000000000004,
+            10.000000000000032,
+            -7.0
+          ],
+          "denominator": 15.7797338380595,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -10,
+            10,
+            -7
+          ],
+          "relative_error": 3.287797451606093e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            -10.000000000000012
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.2434497875801752e-15
+        },
+        {
+          "actual": [
+            -35.00000000000004,
+            25.000000000000032,
+            0.0
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 1.2389837288802774e-15
+        },
+        {
+          "actual": [
+            -1.000000000000004,
+            2.000000000000001,
+            13.000000000000027
+          ],
+          "denominator": 13.19090595827292,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            -1,
+            2,
+            13
+          ],
+          "relative_error": 2.0436868151642488e-15
+        },
+        {
+          "actual": [
+            45.000000000000085,
+            -35.00000000000008,
+            7.000000000000014
+          ],
+          "denominator": 57.436921923097515,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            45,
+            -35,
+            7
+          ],
+          "relative_error": 2.02896794598176e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -1.000000000000004,
+            2.000000000000001,
+            19.000000000000036
+          ],
+          "denominator": 19.131126469708992,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            -1,
+            2,
+            19
+          ],
+          "relative_error": 1.8693243735726266e-15
+        },
+        {
+          "actual": [
+            66.00000000000013,
+            -50.00000000000009,
+            7.000000000000017
+          ],
+          "denominator": 83.09632964216891,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            66,
+            -50,
+            7
+          ],
+          "relative_error": 1.9094231841601475e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "a37838b058c5f4cbdbb0a83011ddf902d0ca4d678e70ed4bfbc88dce9cb8914f",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "a37838b058c5f4cbdbb0a83011ddf902d0ca4d678e70ed4bfbc88dce9cb8914f",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.011390291154384613,
+      "log_sha256": "06f5d5418784766f42bf2d99546037cfe0cf6e26fea5740dc9dbf3f72c936ded",
+      "native_output_sha256": "a1046ad2905caf7fe61680cc442f2770ad36f592a61a3430c81ebc0381680751",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          3.9968028886505635e-15,
+          -8.881784197001252e-16,
+          -10.000000000000014,
+          -35.00000000000004,
+          25.000000000000046,
+          -1.4210854715202004e-14
+        ],
+        "CUT/Upper": [
+          -0.0,
+          -0.0,
+          10.000000000000012,
+          35.00000000000004,
+          -25.000000000000032,
+          -0.0
+        ],
+        "LOAD/Lower": [
+          1.0,
+          -2.0,
+          -3.0000000000000115,
+          -10.00000000000004,
+          10.000000000000032,
+          -7.0
+        ],
+        "LOAD/Upper": [
+          0.0,
+          0.0,
+          -10.000000000000012,
+          -35.00000000000004,
+          25.000000000000032,
+          0.0
+        ],
+        "MPC/Lower": [
+          -1.000000000000004,
+          2.000000000000001,
+          13.000000000000027,
+          45.000000000000085,
+          -35.00000000000008,
+          7.000000000000014
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          -1.000000000000004,
+          2.000000000000001,
+          19.000000000000036,
+          66.00000000000013,
+          -50.00000000000009,
+          7.000000000000017
+        ]
+      },
+      "passed": true,
+      "pid": 507,
+      "process_group": 507,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "06f5d5418784766f42bf2d99546037cfe0cf6e26fea5740dc9dbf3f72c936ded",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "equation-chain-dependent-point-tet10",
+      "checks": [
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "CONTACT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -3.3306690738754696e-16,
+            -3.552713678800501e-15,
+            -10.00000000000001
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 1.123960312467298e-15
+        },
+        {
+          "actual": [
+            -35.00000000000003,
+            25.000000000000025,
+            -7.105427357601002e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 8.934438727886827e-16
+        },
+        {
+          "actual": [
+            -8.88178419700123e-16,
+            1.3322676295501831e-15,
+            10.000000000000037
+          ],
+          "denominator": 10.0,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            10
+          ],
+          "relative_error": 3.733784185985892e-15
+        },
+        {
+          "actual": [
+            35.00000000000013,
+            -25.0000000000001,
+            6.377614485902269e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "CUT/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            35,
+            -25,
+            0
+          ],
+          "relative_error": 3.770007161243902e-15
+        },
+        {
+          "actual": [
+            1.0,
+            -2.0,
+            -3.000000000000052
+          ],
+          "denominator": 3.7416573867739413,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            1,
+            -2,
+            -3
+          ],
+          "relative_error": 1.3886476548098894e-14
+        },
+        {
+          "actual": [
+            -10.000000000000183,
+            10.000000000000131,
+            -7.0
+          ],
+          "denominator": 15.7797338380595,
+          "identity": "LOAD/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -10,
+            10,
+            -7
+          ],
+          "relative_error": 1.4277135179137764e-14
+        },
+        {
+          "actual": [
+            8.88178419700123e-16,
+            -1.3322676295501831e-15,
+            -10.000000000000037
+          ],
+          "denominator": 10.0,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            -10
+          ],
+          "relative_error": 3.733784185985892e-15
+        },
+        {
+          "actual": [
+            -35.00000000000013,
+            25.0000000000001,
+            -6.377614485902269e-15
+          ],
+          "denominator": 43.01162633521314,
+          "identity": "LOAD/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            -35,
+            25,
+            0
+          ],
+          "relative_error": 3.770007161243902e-15
+        },
+        {
+          "actual": [
+            -0.9999999999999997,
+            2.0000000000000036,
+            13.000000000000062
+          ],
+          "denominator": 13.19090595827292,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            -1,
+            2,
+            13
+          ],
+          "relative_error": 4.721040665298089e-15
+        },
+        {
+          "actual": [
+            45.00000000000021,
+            -35.000000000000156,
+            7.000000000000007
+          ],
+          "denominator": 57.436921923097515,
+          "identity": "MPC/Lower",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            45,
+            -35,
+            7
+          ],
+          "relative_error": 4.603879337325147e-15
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "denominator": 1.0,
+          "identity": "MPC/Upper",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            0,
+            0,
+            0
+          ],
+          "relative_error": 0.0
+        },
+        {
+          "actual": [
+            -0.9999999999999996,
+            2.0000000000000036,
+            19.000000000000114
+          ],
+          "denominator": 19.131126469708992,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "force",
+          "passed": true,
+          "reference": [
+            -1,
+            2,
+            19
+          ],
+          "relative_error": 5.945452424992062e-15
+        },
+        {
+          "actual": [
+            66.0000000000004,
+            -50.00000000000027,
+            7.000000000000008
+          ],
+          "denominator": 83.09632964216891,
+          "identity": "SUPPORT/Support",
+          "limit": 0.01,
+          "meaning": "original_origin_moment",
+          "passed": true,
+          "reference": [
+            66,
+            -50,
+            7
+          ],
+          "relative_error": 5.787634528495985e-15
+        }
+      ],
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "736a60c47d4e2f7011d0ff0dc48e9beb38b4a5eef10fa6beaa2e2f8d597a806f",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "736a60c47d4e2f7011d0ff0dc48e9beb38b4a5eef10fa6beaa2e2f8d597a806f",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.02243466698564589,
+      "log_sha256": "f96f17ee3546cc68c738388bdd7343d009e8ca8dfecf0993eb715c7f43afc87c",
+      "native_output_sha256": "c7a5127f569edd8a70409c5b7115b2c3a242b6a6b53dc4666d859d5336c43311",
+      "observed_wrenches": {
+        "CONTACT/Lower": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CONTACT/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "CUT/Lower": [
+          -3.3306690738754696e-16,
+          -3.552713678800501e-15,
+          -10.00000000000001,
+          -35.00000000000003,
+          25.000000000000025,
+          -7.105427357601002e-15
+        ],
+        "CUT/Upper": [
+          -8.88178419700123e-16,
+          1.3322676295501831e-15,
+          10.000000000000037,
+          35.00000000000013,
+          -25.0000000000001,
+          6.377614485902269e-15
+        ],
+        "LOAD/Lower": [
+          1.0,
+          -2.0,
+          -3.000000000000052,
+          -10.000000000000183,
+          10.000000000000131,
+          -7.0
+        ],
+        "LOAD/Upper": [
+          8.88178419700123e-16,
+          -1.3322676295501831e-15,
+          -10.000000000000037,
+          -35.00000000000013,
+          25.0000000000001,
+          -6.377614485902269e-15
+        ],
+        "MPC/Lower": [
+          -0.9999999999999997,
+          2.0000000000000036,
+          13.000000000000062,
+          45.00000000000021,
+          -35.000000000000156,
+          7.000000000000007
+        ],
+        "MPC/Upper": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "SUPPORT/Support": [
+          -0.9999999999999996,
+          2.0000000000000036,
+          19.000000000000114,
+          66.0000000000004,
+          -50.00000000000027,
+          7.000000000000008
+        ]
+      },
+      "passed": true,
+      "pid": 509,
+      "process_group": 509,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 0,
+      "solver_log_sha256": "f96f17ee3546cc68c738388bdd7343d009e8ca8dfecf0993eb715c7f43afc87c",
+      "state": [
+        "STATE",
+        "1",
+        "1",
+        "1"
+      ],
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "reject-shared-cut-mpc-tet4",
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "34ecd5111d050cc489718ea21bbfd70813cc490ce4590f3559ccb530c1cf269e",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "34ecd5111d050cc489718ea21bbfd70813cc490ce4590f3559ccb530c1cf269e",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.012191792018711567,
+      "expected_domain_refusal": "shared-cut-mpc",
+      "log_sha256": "c02d1ae6cab83fe1ca57ab1922c1489c58c1f98906516532e1a29d14ab7054f5",
+      "native_output_sha256": null,
+      "passed": true,
+      "pid": 511,
+      "process_group": 511,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "solver_log_sha256": "c02d1ae6cab83fe1ca57ab1922c1489c58c1f98906516532e1a29d14ab7054f5",
+      "timed_out": false
+    },
+    {
+      "candidate": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "candidate_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "case": "reject-body-spc-tet4",
+      "child_reaped": true,
+      "command": [
+        "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+        "-i",
+        "contact"
+      ],
+      "custody_after": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "2fa2e4451e7fb5a611e68bce3c8ff7bdcf5cc240def211cda22fcae56586bae6",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "custody_before": {
+        "candidate": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+        "deck": "2fa2e4451e7fb5a611e68bce3c8ff7bdcf5cc240def211cda22fcae56586bae6",
+        "generator": "2f82057efb43764c20bee8ba2b3b364c7c81cd90a192dd76b14f037bde63ba62",
+        "process_control": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+        "request": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+        "script": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90"
+      },
+      "elapsed_seconds": 0.012364791007712483,
+      "expected_domain_refusal": "body-spc",
+      "log_sha256": "60f10a2d388fb893de68a38fa418ad7c94d05982e3bac7239561b26979f1f97b",
+      "native_output_sha256": null,
+      "passed": true,
+      "pid": 513,
+      "process_group": 513,
+      "process_group_gone": true,
+      "protected_inputs_unchanged": true,
+      "reaped": true,
+      "returncode": 201,
+      "solver_log_sha256": "60f10a2d388fb893de68a38fa418ad7c94d05982e3bac7239561b26979f1f97b",
+      "timed_out": false
+    }
+  ],
+  "schema": "FREECAD_5AR_INDEPENDENT_NATIVE_ANALYTIC_RESULT_V1",
+  "selected_cases": [
+    "tie-tet4",
+    "tie-tet10",
+    "equation-unit-tet4",
+    "equation-negative-scale-reverse-tet4",
+    "equation-quarter-scale-tet10",
+    "equation-chain-reverse-tet4",
+    "tie-dependent-point-tet4",
+    "equation-chain-dependent-point-tet10",
+    "reject-shared-cut-mpc-tet4",
+    "reject-body-spc-tet4"
+  ]
+}

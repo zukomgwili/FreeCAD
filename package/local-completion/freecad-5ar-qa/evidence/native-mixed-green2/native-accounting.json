@@ -1,0 +1,94 @@
+{
+  "analysis": "Analysis",
+  "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+  "deck_sha256": "def5782ac66a274284b097cb70b2fc41ba453f2354121bb4d438525e0b6840e1",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "BaseSupport"
+    ],
+    [
+      "CUT",
+      "RearCut"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, zero-motion RBE, acyclic translational MPCs on body-exclusive nodes, optional face-to-face penalty contact; no per-Tie multipliers, changed reference coordinates, stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; separate native LOAD/CONTACT/MPC equilibrium-derived cut",
+  "model_digest": "cdd15c0c6aeffeddc5b6162a394b3c8b23204dee041619f3acf4e00be8919e25",
+  "movement_source": {
+    "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+    "deck": "/private/tmp/freecad-5ar-wYCAxF/force-green-2/Mesh.inp",
+    "deck_sha256": "def5782ac66a274284b097cb70b2fc41ba453f2354121bb4d438525e0b6840e1",
+    "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+    "model_digest": "cdd15c0c6aeffeddc5b6162a394b3c8b23204dee041619f3acf4e00be8919e25",
+    "path": "/private/tmp/freecad-5ar-wYCAxF/force-green-2/Mesh.frd",
+    "request": "/private/tmp/freecad-5ar-wYCAxF/force-green-2/Mesh.accounting",
+    "request_sha256": "df6f256dbf477aad024e4b8db5bd1ea631e9a3d838e427b6a5293329702cfe5d",
+    "requested_end_time": 1.0,
+    "schema": "FREECAD_MOVEMENT_SOURCE_V1",
+    "sha256": "6921d08c02bfbc13866805d43d601a3a100489395a5de4a1b0fa7e6e0ffe720e",
+    "status": "BOUND",
+    "time_basis": "Requested final static time; field reader must verify actual FRD state"
+  },
+  "output_sha256": "44b62b476d83f1423beff92adc4cd536982e78ef4c6e2d7c847c3b0d3d249b68",
+  "request_sha256": "df6f256dbf477aad024e4b8db5bd1ea631e9a3d838e427b6a5293329702cfe5d",
+  "schema": "CCX_FORCE_ACCOUNTING_V2",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "RearCut": [
+        -100.00000000652017,
+        -2.7685752995720847e-14,
+        -0.0774725349998415,
+        -0.3873626886282522,
+        -1498.8379121197916,
+        500.00000001840453
+      ]
+    },
+    "CUT": {
+      "RearCut": [
+        7.683411240577698e-09,
+        -3.7678627579085244e-14,
+        -100.07747253499933,
+        -500.3873626749951,
+        500.3873628167089,
+        -4.689979959948687e-08
+      ]
+    },
+    "LOAD": {
+      "RearCut": [
+        0.0,
+        0.0,
+        -0.07747253500000062,
+        -0.3873626750000034,
+        0.38736267500000365,
+        0.0
+      ]
+    },
+    "MPC": {
+      "RearCut": [
+        99.99999999883676,
+        6.536438057480609e-14,
+        100.23241760499917,
+        501.1620880386233,
+        998.0631866280826,
+        -499.99999997150474
+      ]
+    },
+    "SUPPORT": {
+      "BaseSupport": [
+        99.99999999883681,
+        6.619704784327496e-14,
+        100.30989013999914,
+        501.5494507201766,
+        997.6758239593762,
+        -499.99999994167575
+      ]
+    }
+  }
+}

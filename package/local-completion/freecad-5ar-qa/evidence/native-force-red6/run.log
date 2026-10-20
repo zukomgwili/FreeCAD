@@ -1,0 +1,201 @@
+test_ordinary_tie_participating_body_produces_physical_cut (NativeTieForceProbe.NativeTieForceProbe.test_ordinary_tie_participating_body_produces_physical_cut) ... FIVEAR_CHECKPOINT={"name": "native-identity-confirmed"}
+FIVEAR_CHECKPOINT={"name": "native-three-body-fixture-authored"}
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +215 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-5ar-wYCAxF/force-red-6/ThreeBodies_Geometry.brep
+  /private/tmp/freecad-5ar-wYCAxF/force-red-6/ThreeBodies_Mesh.vtk
+  /private/tmp/freecad-5ar-wYCAxF/force-red-6/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 99
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 100
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 101
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 102
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 103
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 104
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 105
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 106
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 107
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 108
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 109
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 110
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 111
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 112
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 113
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 114
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 115
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 116
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 117
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 118
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 119
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 120
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 121
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 122
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex25' Type: 'Node' id: 123
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex26' Type: 'Node' id: 124
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex27' Type: 'Node' id: 125
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex28' Type: 'Node' id: 126
+AddGroupElements: num elements: 1 sizeof: 8
+FIVEAR_CHECKPOINT={"name": "native-gmsh-complete", "nodes": 1743, "volumes": 784}
+FIVEAR_CHECKPOINT={"name": "before-stock-writer"}
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+FIVEAR_CHECKPOINT={"name": "stock-writer-complete"}
+CalculiX failed with exit code 201
+FIVEAR_CAPABILITY_FAILURE=AssertionError('201 != 0')
+FAIL
+
+======================================================================
+FAIL: test_ordinary_tie_participating_body_produces_physical_cut (NativeTieForceProbe.NativeTieForceProbe.test_ordinary_tie_participating_body_produces_physical_cut)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-5ar-wYCAxF/NativeTieForceProbe.py", line 248, in test_ordinary_tie_participating_body_produces_physical_cut
+    self.assertEqual(code, 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^
+AssertionError: 201 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.900s
+
+FAILED (failures=1)
+
+Get mesh data for constraints, materials and element geometry...
+FrontLateralGuide:
+    Type: Fem::ConstraintDisplacement, Name: FrontLateralGuide
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face17
+BaseSupport:
+    Type: Fem::ConstraintRigidBody, Name: BaseSupport
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+SidepadContact:
+    Type: Fem::ConstraintContact, Name: SidepadContact
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face18
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face8
+RearOrdinaryTie:
+    Type: Fem::ConstraintTie, Name: RearOrdinaryTie
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face6
+RearCut:
+    Type: Fem::ConstraintSectionPrint, Name: RearCut
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face12
+SidePressure:
+    Type: Fem::ConstraintPressure, Name: SidePressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face19
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face17
+Getting mesh data time: 0.221 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-5ar-wYCAxF/force-red-6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver run...
+--------start of stderr-------
+*ERROR CCX force accounting V1: cut body intersects an MPC
+--------end of stderr---------
+--------start of stdout-------
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Mon Oct 19 00:20:13 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:         2204
+   elements:         1588
+   one-dimensional elements:            0
+   two-dimensional elements:            0
+   integration points per element:            4
+   degrees of freedom per node:            3
+   layers per element:            1
+
+   distributed facial loads:           56
+   distributed volumetric loads:            1
+   concentrated loads:            0
+   single point constraints:         1503
+   multiple point constraints:         1360
+   terms in all multiple point constraints:         8155
+   tie constraints:            2
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           13
+   terms in all sets:         6502
+
+   materials:            2
+   constants per material and temperature:            4
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:            0
+   amplitudes:           10
+   data points in all amplitudes:           10
+   print requests:           11
+   transformations:            0
+   property cards:            0
+
+ *INFO reading *SURFACE BEHAVIOR: the tension
+       value at large clearances
+       (only relevant for node-to-surface contact)
+       must be strictly positive
+       the following default will be used:   2.8571428571428572     
+       the user is advised to analyze the results
+       carefully
+
+ STEP            1
+
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 1 in direction 1
+
+
+--------end of stdout---------
+--------start problems---------
+
+--------end problems---------

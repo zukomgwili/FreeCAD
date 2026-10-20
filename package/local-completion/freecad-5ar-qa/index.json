@@ -1,0 +1,909 @@
+{
+  "schema": "FREECAD_5AR_QUALIFICATION_ARCHIVE_V1",
+  "status": "Historical executed evidence plus unexecuted-at-promotion portable drivers; not the final validation report",
+  "originating_bead": "FreeCAD-5ar",
+  "production_commit_at_promotion": "8e79820eb3b73d01a11c31c1bab84ef5735f81a7",
+  "archive_scope": "Source/output capability qualification only. No Oomakhi document was opened or solved by these drivers; no engineering, R30 or BIM adoption is implied.",
+  "path_basis": "All artifact paths in files are relative to this index directory. Historical JSON retains its original absolute paths and SHA256 pins verbatim.",
+  "source_origins": {
+    "evidence/native-analytic/": "/private/tmp/freecad-5ar-wYCAxF/analytic-v2-fourth/",
+    "evidence/component-unit/": "/private/tmp/freecad-5ar-wYCAxF/mpc-component-unit-01/",
+    "evidence/contact-adjust/red-candidate3/": "/private/tmp/freecad-5ar-wYCAxF/contact-adjust-red-1/",
+    "evidence/contact-adjust/green-candidate4/": "/private/tmp/freecad-5ar-wYCAxF/contact-adjust-green-1/",
+    "evidence/native-force-red3/": "/private/tmp/freecad-5ar-wYCAxF/force-red-3/",
+    "evidence/native-force-red6/": "/private/tmp/freecad-5ar-wYCAxF/force-red-6/",
+    "evidence/native-mixed-green2/": "/private/tmp/freecad-5ar-wYCAxF/force-green-2/",
+    "evidence/setup-failures/force-red-1/": "/private/tmp/freecad-5ar-wYCAxF/force-red-1/",
+    "evidence/setup-failures/force-red-2/": "/private/tmp/freecad-5ar-wYCAxF/force-red-2/",
+    "evidence/setup-failures/force-red-4/": "/private/tmp/freecad-5ar-wYCAxF/force-red-4/",
+    "evidence/setup-failures/force-red-5/": "/private/tmp/freecad-5ar-wYCAxF/force-red-5/"
+  },
+  "exact_executed_scripts": [
+    {
+      "archive": "evidence/executed-scripts/qualify_native_v2_analytic.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/qualify_native_v2_analytic.py",
+      "sha256": "d7a5a2b6fcd2260b14e2b9c4f3b3ee86fc71474be59a2e5a6ca3d8d6ade017ba"
+    },
+    {
+      "archive": "evidence/executed-scripts/NativeMpcComponentUnit.c",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/NativeMpcComponentUnit.c",
+      "sha256": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921"
+    },
+    {
+      "archive": "evidence/executed-scripts/run_mpc_component_unit.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/run_mpc_component_unit.py",
+      "sha256": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5"
+    },
+    {
+      "archive": "evidence/executed-scripts/probe_actual_contact_adjustment.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/probe_actual_contact_adjustment.py",
+      "sha256": "15816c0b134d7b563e90746a5322c776c631eef28835f60bb06d51c84ca84c7c"
+    },
+    {
+      "archive": "evidence/executed-scripts/NativeTieForceProbe.tie-only-red.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/NativeTieForceProbe.py during force-red-3",
+      "sha256": "8efd2961c01463428a2444ee1421b6a4dc6bfab9c213e9271f71835cc430e788"
+    },
+    {
+      "archive": "evidence/executed-scripts/NativeTieForceProbe.red6-mixed-guided.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/NativeTieForceProbe.py during force-red-6",
+      "sha256": "b88209a814c8d3f04ae4cb7ce00e342e54f4ec24fd5a2ebf6eb292bbfec7b955"
+    },
+    {
+      "archive": "evidence/executed-scripts/NativeTieForceProbe.mixed-green2.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/NativeTieForceProbe.py during force-green-2",
+      "sha256": "8a9ba8a011c0c1dc91d3becf2bfc590d98f256bd413ae178ef9fa5ecb86f91e4"
+    },
+    {
+      "archive": "evidence/executed-scripts/run_native_tie_probe.py",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/run_native_tie_probe.py",
+      "sha256": "a5c0293a60b7ea42fad7015bce3d9849eb8c5428e78f1f52c393b769256886f0"
+    }
+  ],
+  "historical_sources": [
+    {
+      "archive": "evidence/historical-sources/baseline-v1-contract.json",
+      "original": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/source/contract.json",
+      "sha256": "c59557b7dcd4fbbf5c8dbf6d93a3aefeba2b8347f88df2f9ca52f1f139919d11",
+      "meaning": "Unchanged installed V1 contract, byte-identical to the source subject at original refusals; copied read-only, no app installation performed."
+    },
+    {
+      "archive": "evidence/historical-sources/baseline-v1-forceaccounting.c",
+      "original": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/source/forceaccounting.c",
+      "sha256": "df2074b14f6ab9a548f067c085d37bcad21f5db290abf291cd1ff6e75b17edbd"
+    },
+    {
+      "archive": "evidence/historical-sources/candidate3-forceaccounting.c",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/native-build-3/CalculiX/ccx_2.23/src/forceaccounting.c",
+      "sha256": "a04897989c2ee14f496fbdea87b4261f2a63f56157f2d51403b3d37f525d5b32",
+      "meaning": "Historical implementation with the demonstrated coordinate-contract bug; evidence only, not a production build source."
+    },
+    {
+      "archive": "evidence/historical-sources/candidate4-forceaccounting.c",
+      "original": "/private/tmp/freecad-5ar-wYCAxF/native-build-4/CalculiX/ccx_2.23/src/forceaccounting.c",
+      "sha256": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d"
+    },
+    {
+      "archive": "evidence/historical-sources/executed-hooks.patch",
+      "original": "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch",
+      "sha256": "c8088592a0e366bfb7b7dbc8227efc5f0ff950d9f4bb2200ca1bb1bc684ac92d"
+    }
+  ],
+  "classifications": [
+    {
+      "path": "evidence/native-force-red3",
+      "classification": "REAL_NATIVE_DOMAIN_REFUSAL",
+      "meaning": "Original V1 solver rejected ordinary Tie without a penalty Contact: face-to-face penalty contact required. This is an established applicability boundary, not a crash or claimed regression."
+    },
+    {
+      "path": "evidence/native-force-red6",
+      "classification": "REAL_NATIVE_DOMAIN_REFUSAL",
+      "meaning": "Original V1 solver rejected the required MPC-touched rear cut body: cut body intersects an MPC. Required body was retained; no request/deck repair."
+    },
+    {
+      "path": "evidence/setup-failures/force-red-1",
+      "classification": "HARNESS_SETUP_FAILURE_NOT_A_REPRODUCTION",
+      "meaning": "Initial native identity assertion failed before fixture construction/writer/solver."
+    },
+    {
+      "path": "evidence/setup-failures/force-red-2",
+      "classification": "HARNESS_SETUP_FAILURE_NOT_A_REPRODUCTION",
+      "meaning": "Incorrect FreeCAD.so image-presence assertion failed before fixture construction/writer/solver."
+    },
+    {
+      "path": "evidence/setup-failures/force-red-4",
+      "classification": "HARNESS_SETUP_FAILURE_NOT_A_REPRODUCTION",
+      "meaning": "Fixture face lookup returned two candidates before writer/solver; not a source ownership failure."
+    },
+    {
+      "path": "evidence/setup-failures/force-red-5",
+      "classification": "HARNESS_SETUP_FAILURE_NOT_A_REPRODUCTION",
+      "meaning": "Fixture face lookup remained ambiguous before writer/solver; not counted as a defect reproduction."
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3",
+      "classification": "REAL_COORDINATE_CONTRACT_RED",
+      "meaning": "Candidate3 returned0 and completed V2 output while actual native reference coordinates of nodes9..12 moved by0.05. Raw tiny generic FRD plus original coordinates are retained to verify this independently. This is not an engineering-response comparison.",
+      "candidate_binary_sha256": "157edd5d17db5a7a6c2edfbb8dd6af0d5f7fe74bd948ee2eee4d93edf81d94bd",
+      "returncode": 0
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4",
+      "classification": "EXPECTED_FAIL_CLOSED_GREEN",
+      "meaning": "The unchanged control on candidate4 returned201 with an explicit native reference-coordinate-change refusal and no completed accounting envelope.",
+      "candidate_binary_sha256": "31fc5615d1753ccbb7b53d5a47175ac1122f18d5cb13060cec272462bb0bd03d",
+      "returncode": 201
+    },
+    {
+      "path": "evidence/component-unit",
+      "classification": "ARTIFICIAL_NATIVE_C_ALGEBRA_COMPONENT_UNITS",
+      "positive_cases": 8,
+      "expected_refusals": 5,
+      "all13_passed": true,
+      "meaning": "Actual production C included directly with real native header/strcmp1.o. Manufactured residuals, zero coordinates, no elements or cut bodies test scheduling/projection only. Not native physical qualification, FEM accuracy or engineering acceptance."
+    },
+    {
+      "path": "evidence/native-analytic",
+      "classification": "STANDALONE_NATIVE_ANALYTIC_SOFTWARE_QUALIFICATION",
+      "positive_cases": 8,
+      "force_and_moment_vector_checks": 144,
+      "expected_domain_refusals": 2,
+      "meaning": "Tet4/Tet10 ordinary Tie/equivalent equations/chains/dependent-node loads use frozen analytic weights and signed original-origin moments; independent1% vector norm/floor checks. These controlled input decks are not public FreeCAD-writer integration proof."
+    },
+    {
+      "path": "evidence/native-mixed-green2",
+      "classification": "REAL_STOCK_FREECAD_GMSH_WRITER_RUNNER_IMPORT_INTEGRATION",
+      "meaning": "Generic same-body nonzero CONTACT and MPC plus rear CUT/support LOAD decomposition passes predeclared analytic force/original-origin moment references. Separate permanent paired-cut tests and movement lifecycle qualification belong to root's final evidence."
+    }
+  ],
+  "portable_drivers": {
+    "paths": [
+      "qualify_native_v2_analytic.py",
+      "NativeMpcComponentUnit.c",
+      "run_mpc_component_unit.py",
+      "probe_actual_contact_adjustment.py",
+      "process_control.py"
+    ],
+    "status_at_promotion": "Only AST syntax checks performed by the promoting agent; no portable driver, native binary or build was launched by that agent. Fresh executions belong to root's separate source evidence.",
+    "deliberate_changes": "Repository-relative paths replace machine-private paths. Native component header/object/compiler inputs are explicit and pinned by CLI hashes. Shared POSIX supervision adds bounded ps, per-child new sessions and finally-based cleanup on exceptions, timeout, Ctrl-C, SIGTERM and SIGHUP. No reference, force/moment limit, sample or solver law was fitted.",
+    "dependencies": "Existing FreeCAD9ztContactWitness.py is hash-pinned. Component runner requires a qualified32-bit CalculiX source/build directory with its actual CalculiX.h and strcmp1.o plus explicit expected hashes; none are replaced by stubs.",
+    "fresh_execution_evidence": "Not included or asserted by this archive; root will preserve it separately."
+  },
+  "preserved_engineering_holds": {
+    "force_and_original_origin_moment_limit_fraction": 0.01,
+    "sampled_displacement_comparison_limit_fraction": 0.05,
+    "sampled_overclosure_limit_mm": 0.02,
+    "sampled_rear_tangential_slip_limit_mm": 0.01,
+    "required_physical_pairs": 97,
+    "required_independently_owned_vectors": 194,
+    "R49_displacement_comparison_percent": 11.123267892,
+    "R49_status": "FAIL preserved; no exact-Tie engineering rerun or acceptance is claimed.",
+    "historical_section_and_raw_RF_failures": "Preserved; not renamed or retrospectively passed.",
+    "physical_anchorage_whole_house_R30_BIM": "Unaccepted; source capability does not authorize automatic project execution."
+  },
+  "exclusions": [
+    "No application/executable, native object, CAD model, BRep, UNV, VTK or Gmsh mesh is included.",
+    "Only the tiny generic contact-adjustment ASCII FRDs are retained for direct coordinate evidence; no building response field is included.",
+    "No private user.cfg/system.cfg/profile or credentials are copied.",
+    "Original force-probe meshes/decks/results remain omitted; their exact hashes and producing scripts are retained.",
+    "Historical candidate3 full contract file is not retained; its original SHA256 and declared frame text remain verbatim in its manifest. The present contract is not asserted byte-identical to that historical file.",
+    "The copied setup-failure receipts remain failures and do not count as RED or PASS."
+  ],
+  "files": [
+    {
+      "path": "NativeMpcComponentUnit.c",
+      "sha256": "e2e120bafd318f7b855cfee20973f232107d4c135fae1c3c1780b7fe1f09b337",
+      "bytes": 10958
+    },
+    {
+      "path": "evidence/component-unit/branch-permuted/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "a88357b5630c7b2d3f094c7e5b338bf4c695ff986d09b00ebcd59451edea2354",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/branch-permuted/execution.json",
+      "sha256": "2ac5a4e46a89db012b4cf126f3615dcb2c066e728ff35dfde750e8e7b7a81041",
+      "bytes": 1588
+    },
+    {
+      "path": "evidence/component-unit/branch-permuted/unit.log",
+      "sha256": "26a3ff122f7977266cff4f651fc61fd833d300e898370358c96fb2db816d4191",
+      "bytes": 192
+    },
+    {
+      "path": "evidence/component-unit/branch-scaled/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "a88357b5630c7b2d3f094c7e5b338bf4c695ff986d09b00ebcd59451edea2354",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/branch-scaled/execution.json",
+      "sha256": "e6688db9107b8c2d47cb23d60afd9dc5a0a3c468a2a3f832e4da9ba7c313236c",
+      "bytes": 1578
+    },
+    {
+      "path": "evidence/component-unit/branch-scaled/unit.log",
+      "sha256": "2a0c415556e028a25cf4522e0dda5c54d7962a51cf448f52275633ac90fc5324",
+      "bytes": 190
+    },
+    {
+      "path": "evidence/component-unit/build-receipt.json",
+      "sha256": "f6d8c7eac7ca04cddf4c7f90ef016b135128e2b4e7ff320242c3b553cb53ba31",
+      "bytes": 1757
+    },
+    {
+      "path": "evidence/component-unit/chain-dependent-external/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/chain-dependent-external/execution.json",
+      "sha256": "429e33e50535d9f04dc353aae9eee77fc2d1c941fb13fe075705d6da4afd43b0",
+      "bytes": 1615
+    },
+    {
+      "path": "evidence/component-unit/chain-dependent-external/unit.log",
+      "sha256": "12406f4737a61730ca7cab3abbc08e1135c12fdf72d855765d1924123836d9cf",
+      "bytes": 199
+    },
+    {
+      "path": "evidence/component-unit/chain-forward/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/chain-forward/execution.json",
+      "sha256": "a4c262ed2aa3eee09d28e5c83e88cdd2385b37b3483c566bdb4e5e1cd04baabe",
+      "bytes": 1571
+    },
+    {
+      "path": "evidence/component-unit/chain-forward/unit.log",
+      "sha256": "5ca8badfcaabb480ed04a74fbf7ee5eef039abb0c86c6adb1c5d7954b2e80377",
+      "bytes": 188
+    },
+    {
+      "path": "evidence/component-unit/chain-scaled/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/chain-scaled/execution.json",
+      "sha256": "23391c491b7345c9064d8639fc0c7f2e62cbec30e6212e87815f0344c6746096",
+      "bytes": 1567
+    },
+    {
+      "path": "evidence/component-unit/chain-scaled/unit.log",
+      "sha256": "8b0d06f256dfb044edfed63a0d1bbbfe4960071d42fea228464ba503502af282",
+      "bytes": 187
+    },
+    {
+      "path": "evidence/component-unit/chain-wrong-order/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/chain-wrong-order/execution.json",
+      "sha256": "bd5c337a60aebf70085a0e0fd6fa1675a3fd7dac36dbc9e3af21d1ac03eda2ea",
+      "bytes": 1585
+    },
+    {
+      "path": "evidence/component-unit/chain-wrong-order/unit.log",
+      "sha256": "5208f96f865ed349b0e78af082f1140ec3d1c4a131ddedf53535f0bd48452531",
+      "bytes": 192
+    },
+    {
+      "path": "evidence/component-unit/compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "evidence/component-unit/duplicate-edge/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "a88357b5630c7b2d3f094c7e5b338bf4c695ff986d09b00ebcd59451edea2354",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/duplicate-edge/execution.json",
+      "sha256": "97161d090ba950d357705b01719e134e1bebeb7e1d84e9e927b92eccfba6683a",
+      "bytes": 1584
+    },
+    {
+      "path": "evidence/component-unit/duplicate-edge/unit.log",
+      "sha256": "a152487c8caeb026ee77b1b4dc782e5b27d8ed590ac8c1db76145ed72dbfc5e4",
+      "bytes": 191
+    },
+    {
+      "path": "evidence/component-unit/reject-cycle/execution.json",
+      "sha256": "14f31e94bb1e6b09dc2de4375cee49561978bb0014feaae0630d08082ba7695c",
+      "bytes": 1242
+    },
+    {
+      "path": "evidence/component-unit/reject-cycle/unit.log",
+      "sha256": "a05c772cb8bc364aa706a527356e95b6867a824bd32c891d854f5482aded3240",
+      "bytes": 177
+    },
+    {
+      "path": "evidence/component-unit/reject-linked-list-cycle/execution.json",
+      "sha256": "0fa23fa57db1365e8755e925cb698788224766fb3dc5ccf1198b0e714ed10092",
+      "bytes": 1273
+    },
+    {
+      "path": "evidence/component-unit/reject-linked-list-cycle/unit.log",
+      "sha256": "eff4a88bee66cec0f816577f18570b4c64c119229d26766629165abaf415bf40",
+      "bytes": 169
+    },
+    {
+      "path": "evidence/component-unit/reject-nonfinite-pivot/execution.json",
+      "sha256": "4134c7d79e568e5ba4ea7114818370f1a195ce9882a36325b69b9d6a238a9a66",
+      "bytes": 1257
+    },
+    {
+      "path": "evidence/component-unit/reject-nonfinite-pivot/unit.log",
+      "sha256": "d426967214bfa7dbe19b6d65c265f7d6049a17358e05f7f6aad25e4e49ad692f",
+      "bytes": 147
+    },
+    {
+      "path": "evidence/component-unit/reject-repeated-pivot/execution.json",
+      "sha256": "210f25bde07c43dd5a2930209569c44eff45ce08627cb4b45a3e5e1785c1360b",
+      "bytes": 1273
+    },
+    {
+      "path": "evidence/component-unit/reject-repeated-pivot/unit.log",
+      "sha256": "edf144788bb2b273f10d266334208397d06fe050534704ee30ed9a21edc1a464",
+      "bytes": 185
+    },
+    {
+      "path": "evidence/component-unit/reject-self/execution.json",
+      "sha256": "5a61e8319b027b382c9752be7e195527fcd1ebd862a8c148ea0f86890115c6fa",
+      "bytes": 1240
+    },
+    {
+      "path": "evidence/component-unit/reject-self/unit.log",
+      "sha256": "4c446012b0560f4c92f41c5b3bb43824331bfdfbe24483bd3e76319a47306053",
+      "bytes": 179
+    },
+    {
+      "path": "evidence/component-unit/summary.json",
+      "sha256": "1529f1605dfed3878d8cc6e812a1a5937af55533a9189baee868f954df852cfa",
+      "bytes": 23661
+    },
+    {
+      "path": "evidence/component-unit/zero-edge-not-cycle/ARTIFICIAL_COMPONENT_OUTPUT_NOT_SOLVER_REQUEST.out",
+      "sha256": "3c71ed35a0f9547832ab9688146b3ada968ec373868eb8ea347ffc6854bff7ef",
+      "bytes": 79
+    },
+    {
+      "path": "evidence/component-unit/zero-edge-not-cycle/execution.json",
+      "sha256": "5ae4ab2fe87a77825fbe4c840598178937993689242c58eeab5a8a1d5efed337",
+      "bytes": 1595
+    },
+    {
+      "path": "evidence/component-unit/zero-edge-not-cycle/unit.log",
+      "sha256": "3be5639f5681f55f52b50966623c401e9c6e546602b7ea126a6686264b681455",
+      "bytes": 194
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/contact.frd",
+      "sha256": "5ae61746b7e80aa8f3d1ad50d1cf23238e8600ad5bcccdb2a37872c6b7506068",
+      "bytes": 80
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/contact.inp",
+      "sha256": "bb38a600d9bd2bfe9b169a196743ee5f9956cf021e4964f67fab65631b22cfb9",
+      "bytes": 1332
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/execution.json",
+      "sha256": "70b561aef58255ba739a974e21005a7f9119258a02ea254b1023c5374e271486",
+      "bytes": 2348
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/manifest.json",
+      "sha256": "be39f6b25143229e3fe8b722932c4ff659289f9a7e02a6b3a29fcc260566ac4a",
+      "bytes": 2516
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/original-deck-coordinates.json",
+      "sha256": "6b4faeeb6144f12c44e1d4e6c91c67e13ce699836fdd96bdc4c13267457335ed",
+      "bytes": 914
+    },
+    {
+      "path": "evidence/contact-adjust/green-candidate4/solver.log",
+      "sha256": "76d6c4a215ef74cd1195062c36bf94c9af9f2298227693aa650cb0ae749819e1",
+      "bytes": 3031
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/contact.accounting.out",
+      "sha256": "54b517144f1b25ebc9b2fa059ffdee3a9b490e4a7243591436b80f2823d6bc94",
+      "bytes": 575
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/contact.frd",
+      "sha256": "b309cf568e6cffd92a8b9869b7d04bfeb8b9877e79477a252a98e2caca2d7827",
+      "bytes": 8816
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/contact.inp",
+      "sha256": "bb38a600d9bd2bfe9b169a196743ee5f9956cf021e4964f67fab65631b22cfb9",
+      "bytes": 1332
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/execution.json",
+      "sha256": "0247ce0076e34982c3d23c0aeeeedb45b198af9e8595776478bfbbfc37dcb458",
+      "bytes": 4702
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/manifest.json",
+      "sha256": "8ea8aa80c16be28a733a130fe52e40a6dd4686fa1cecd2c5a66c90c1a8bb277e",
+      "bytes": 2190
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/original-deck-coordinates.json",
+      "sha256": "6b4faeeb6144f12c44e1d4e6c91c67e13ce699836fdd96bdc4c13267457335ed",
+      "bytes": 914
+    },
+    {
+      "path": "evidence/contact-adjust/red-candidate3/solver.log",
+      "sha256": "df9a3dcc5af06752cfaeba46c6b4433a80d5492795a90fc51f89ddb12285d4a5",
+      "bytes": 4292
+    },
+    {
+      "path": "evidence/executed-scripts/NativeMpcComponentUnit.c",
+      "sha256": "0a7cc95159fc2e107094ec921d71bceceb0ef82ae0dd5d703ee2173ae71a9921",
+      "bytes": 10990
+    },
+    {
+      "path": "evidence/executed-scripts/NativeTieForceProbe.mixed-green2.py",
+      "sha256": "8a9ba8a011c0c1dc91d3becf2bfc590d98f256bd413ae178ef9fa5ecb86f91e4",
+      "bytes": 15490
+    },
+    {
+      "path": "evidence/executed-scripts/NativeTieForceProbe.red6-mixed-guided.py",
+      "sha256": "b88209a814c8d3f04ae4cb7ce00e342e54f4ec24fd5a2ebf6eb292bbfec7b955",
+      "bytes": 15058
+    },
+    {
+      "path": "evidence/executed-scripts/NativeTieForceProbe.tie-only-red.py",
+      "sha256": "8efd2961c01463428a2444ee1421b6a4dc6bfab9c213e9271f71835cc430e788",
+      "bytes": 13575
+    },
+    {
+      "path": "evidence/executed-scripts/probe_actual_contact_adjustment.py",
+      "sha256": "15816c0b134d7b563e90746a5322c776c631eef28835f60bb06d51c84ca84c7c",
+      "bytes": 12878
+    },
+    {
+      "path": "evidence/executed-scripts/qualify_native_v2_analytic.py",
+      "sha256": "d7a5a2b6fcd2260b14e2b9c4f3b3ee86fc71474be59a2e5a6ca3d8d6ade017ba",
+      "bytes": 24815
+    },
+    {
+      "path": "evidence/executed-scripts/run_mpc_component_unit.py",
+      "sha256": "f476ee3b5cb23d29941fd7a93fccde6ebd981bda53da2f1e1adc8f3996eaede5",
+      "bytes": 8041
+    },
+    {
+      "path": "evidence/executed-scripts/run_native_tie_probe.py",
+      "sha256": "a5c0293a60b7ea42fad7015bce3d9849eb8c5428e78f1f52c393b769256886f0",
+      "bytes": 9283
+    },
+    {
+      "path": "evidence/historical-sources/baseline-v1-contract.json",
+      "sha256": "c59557b7dcd4fbbf5c8dbf6d93a3aefeba2b8347f88df2f9ca52f1f139919d11",
+      "bytes": 7516
+    },
+    {
+      "path": "evidence/historical-sources/baseline-v1-forceaccounting.c",
+      "sha256": "df2074b14f6ab9a548f067c085d37bcad21f5db290abf291cd1ff6e75b17edbd",
+      "bytes": 17513
+    },
+    {
+      "path": "evidence/historical-sources/candidate3-build-receipt.json",
+      "sha256": "6aa347c67eefe18672074755d4f06bcff1e2b411219cbde789df9bff60ba4ab8",
+      "bytes": 813
+    },
+    {
+      "path": "evidence/historical-sources/candidate3-forceaccounting.c",
+      "sha256": "a04897989c2ee14f496fbdea87b4261f2a63f56157f2d51403b3d37f525d5b32",
+      "bytes": 24405
+    },
+    {
+      "path": "evidence/historical-sources/candidate4-build-receipt.json",
+      "sha256": "5e06567a929263c6ad4102194dc560a326fd3b53e321aad3f55a402688622ed1",
+      "bytes": 813
+    },
+    {
+      "path": "evidence/historical-sources/candidate4-forceaccounting.c",
+      "sha256": "e09d85f68b707931e6d9a51e7bc989f7662d2c146d7688bbfb99cc0c58e7b91d",
+      "bytes": 26964
+    },
+    {
+      "path": "evidence/historical-sources/executed-hooks.patch",
+      "sha256": "c8088592a0e366bfb7b7dbc8227efc5f0ff950d9f4bb2200ca1bb1bc684ac92d",
+      "bytes": 10370
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-dependent-point-tet10/contact.accounting",
+      "sha256": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+      "bytes": 167
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-dependent-point-tet10/contact.accounting.out",
+      "sha256": "c7a5127f569edd8a70409c5b7115b2c3a242b6a6b53dc4666d859d5336c43311",
+      "bytes": 867
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-dependent-point-tet10/contact.inp",
+      "sha256": "736a60c47d4e2f7011d0ff0dc48e9beb38b4a5eef10fa6beaa2e2f8d597a806f",
+      "bytes": 3842
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-dependent-point-tet10/execution.json",
+      "sha256": "2f926064a3f363ef34a68f792fe66ce0359c1747391aefa204b01b28bdf662f9",
+      "bytes": 9396
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-dependent-point-tet10/solver.log",
+      "sha256": "f96f17ee3546cc68c738388bdd7343d009e8ca8dfecf0993eb715c7f43afc87c",
+      "bytes": 2651
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-reverse-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-reverse-tet4/contact.accounting.out",
+      "sha256": "207bdeb1c2ed69fc8d36103633dd9c21c77fabcdc0cb7ef4abbf2f1b6bba77c0",
+      "bytes": 765
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-reverse-tet4/contact.inp",
+      "sha256": "d379372f849e409021f4eca06dd7e2d5edaa30de2fda60a40ddb1ca5b643a90a",
+      "bytes": 1679
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-reverse-tet4/execution.json",
+      "sha256": "bfc5d1b873c848a99f362411704a9a307b47af2da2f68ae9f373c3952cf77b18",
+      "bytes": 9179
+    },
+    {
+      "path": "evidence/native-analytic/equation-chain-reverse-tet4/solver.log",
+      "sha256": "833ee1806b342455ec40b5af92b96e14c9244bd82861457c82ede2f1f68575b0",
+      "bytes": 2706
+    },
+    {
+      "path": "evidence/native-analytic/equation-negative-scale-reverse-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/equation-negative-scale-reverse-tet4/contact.accounting.out",
+      "sha256": "415055cdd34d2ed92143cf77a8f9729a196160a7331cc73c445901d52d4a1b76",
+      "bytes": 765
+    },
+    {
+      "path": "evidence/native-analytic/equation-negative-scale-reverse-tet4/contact.inp",
+      "sha256": "17a6bbb1d7153065717d4c24f0af4a3bad969c35cac337d95fe1d61a9997dd4b",
+      "bytes": 1319
+    },
+    {
+      "path": "evidence/native-analytic/equation-negative-scale-reverse-tet4/execution.json",
+      "sha256": "209f33a2d1bc77f746b2443da8b26ddf666704cbd91ff6656b00b3ac3cf1d794",
+      "bytes": 9184
+    },
+    {
+      "path": "evidence/native-analytic/equation-negative-scale-reverse-tet4/solver.log",
+      "sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "bytes": 2649
+    },
+    {
+      "path": "evidence/native-analytic/equation-quarter-scale-tet10/contact.accounting",
+      "sha256": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+      "bytes": 167
+    },
+    {
+      "path": "evidence/native-analytic/equation-quarter-scale-tet10/contact.accounting.out",
+      "sha256": "fbd57aac65de6ee6591b18533983118c852ef3dde655b690088195454c570883",
+      "bytes": 887
+    },
+    {
+      "path": "evidence/native-analytic/equation-quarter-scale-tet10/contact.inp",
+      "sha256": "9bc07ebafd9055772ad44bd9858627f1c62192a0c38e8584c0dbc3b32fac0305",
+      "bytes": 3048
+    },
+    {
+      "path": "evidence/native-analytic/equation-quarter-scale-tet10/execution.json",
+      "sha256": "b9e3d0baff199bd0143ce583dcd5bc2397345e7beef8af1bcdfd80a0eb4c4df2",
+      "bytes": 9382
+    },
+    {
+      "path": "evidence/native-analytic/equation-quarter-scale-tet10/solver.log",
+      "sha256": "687f6ea757ecba40d4e8da786d0abe7513cb0f93a23549e4c1834bb72e22fa55",
+      "bytes": 2594
+    },
+    {
+      "path": "evidence/native-analytic/equation-unit-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/equation-unit-tet4/contact.accounting.out",
+      "sha256": "f246d1bf17b24adb628686904a4c9eebf7e970d04db784c889ef4de808880dbc",
+      "bytes": 765
+    },
+    {
+      "path": "evidence/native-analytic/equation-unit-tet4/contact.inp",
+      "sha256": "d0f286cc20469ed0d69db84ae6cd332e989b08b0ad8ead2d946dd0f2b6f585a5",
+      "bytes": 1319
+    },
+    {
+      "path": "evidence/native-analytic/equation-unit-tet4/execution.json",
+      "sha256": "619fbeb867323fcf825496654ce262f95eed1ab7484631cf290f45e9dc2632ed",
+      "bytes": 9174
+    },
+    {
+      "path": "evidence/native-analytic/equation-unit-tet4/solver.log",
+      "sha256": "f050ba534a1adc0396a4de416aec2b7d864fb8ea401fbbe4438117c43a38f796",
+      "bytes": 2649
+    },
+    {
+      "path": "evidence/native-analytic/manifest.json",
+      "sha256": "6002c26adfbb8a3ef6c8dcaf868574e692137090164979addb173ac7c26832ca",
+      "bytes": 22869
+    },
+    {
+      "path": "evidence/native-analytic/reject-body-spc-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/reject-body-spc-tet4/contact.inp",
+      "sha256": "2fa2e4451e7fb5a611e68bce3c8ff7bdcf5cc240def211cda22fcae56586bae6",
+      "bytes": 1081
+    },
+    {
+      "path": "evidence/native-analytic/reject-body-spc-tet4/execution.json",
+      "sha256": "e6118ac45370667beb724d512123fb2ef513c6aa9fd321816048024cefa7e2a5",
+      "bytes": 1512
+    },
+    {
+      "path": "evidence/native-analytic/reject-body-spc-tet4/solver.log",
+      "sha256": "60f10a2d388fb893de68a38fa418ad7c94d05982e3bac7239561b26979f1f97b",
+      "bytes": 2264
+    },
+    {
+      "path": "evidence/native-analytic/reject-shared-cut-mpc-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/reject-shared-cut-mpc-tet4/contact.inp",
+      "sha256": "34ecd5111d050cc489718ea21bbfd70813cc490ce4590f3559ccb530c1cf269e",
+      "bytes": 1088
+    },
+    {
+      "path": "evidence/native-analytic/reject-shared-cut-mpc-tet4/execution.json",
+      "sha256": "494aec26284fe9e10db8eafc4f08997ac877d38106dc8cf34571cc31f1cd074a",
+      "bytes": 1524
+    },
+    {
+      "path": "evidence/native-analytic/reject-shared-cut-mpc-tet4/solver.log",
+      "sha256": "c02d1ae6cab83fe1ca57ab1922c1489c58c1f98906516532e1a29d14ab7054f5",
+      "bytes": 2267
+    },
+    {
+      "path": "evidence/native-analytic/summary.json",
+      "sha256": "8b9b14b6d276697bd686470aac8c59732c3b0317c56f43785d56588b7acc4977",
+      "bytes": 92119
+    },
+    {
+      "path": "evidence/native-analytic/tie-dependent-point-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/tie-dependent-point-tet4/contact.accounting.out",
+      "sha256": "a1046ad2905caf7fe61680cc442f2770ad36f592a61a3430c81ebc0381680751",
+      "bytes": 741
+    },
+    {
+      "path": "evidence/native-analytic/tie-dependent-point-tet4/contact.inp",
+      "sha256": "a37838b058c5f4cbdbb0a83011ddf902d0ca4d678e70ed4bfbc88dce9cb8914f",
+      "bytes": 1088
+    },
+    {
+      "path": "evidence/native-analytic/tie-dependent-point-tet4/execution.json",
+      "sha256": "61205783719d6b02305cbd0590e1096d3e84995b494799a5deb60228db818f38",
+      "bytes": 9178
+    },
+    {
+      "path": "evidence/native-analytic/tie-dependent-point-tet4/solver.log",
+      "sha256": "06f5d5418784766f42bf2d99546037cfe0cf6e26fea5740dc9dbf3f72c936ded",
+      "bytes": 2478
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet10/contact.accounting",
+      "sha256": "318b0bc04d9b0c0f073f8da7d4e66b4ec2deca980a42249acf7495f92afb173c",
+      "bytes": 167
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet10/contact.accounting.out",
+      "sha256": "1470e1004dc09e9dc78d130072a2dbc55ad1bc431ce0b24d84086d47cb5400d6",
+      "bytes": 885
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet10/contact.inp",
+      "sha256": "4a764219eb6ed35f6acbb45dc339d97ff664e0d11b37194a53c6b943c5fdbf1d",
+      "bytes": 2224
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet10/execution.json",
+      "sha256": "a2c71dc6ddb1433ee7772b67b9fa6c981963289350d822c538a75b08786b8315",
+      "bytes": 9358
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet10/solver.log",
+      "sha256": "cbf1bdb0c3c0486240eaf4a7951de5c7191b1dfff15aa733c890c70f7a00113b",
+      "bytes": 2480
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet4/contact.accounting",
+      "sha256": "5ae3960ed81b604f8c9418addca7c6555f62b6752727797c09fbd150c65a5f31",
+      "bytes": 137
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet4/contact.accounting.out",
+      "sha256": "d65d8bacf0b5899ceedf521beb14a23bb50a585e897ac4e86674bf785bdbc246",
+      "bytes": 764
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet4/contact.inp",
+      "sha256": "27a76fca3a1da49387691ef33a4736fc6ea48a27f77ec21cce2bd1ca1f77c3c2",
+      "bytes": 1062
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet4/execution.json",
+      "sha256": "a1c135a418473c889eb2c771c7b43538c724b959514521494cf2a2eb55dceb07",
+      "bytes": 9156
+    },
+    {
+      "path": "evidence/native-analytic/tie-tet4/solver.log",
+      "sha256": "0dc3575942f587cf673d2a2c554cd9c28d5eaf3b64bf59c1764e1d02a4789d42",
+      "bytes": 2478
+    },
+    {
+      "path": "evidence/native-force-red3/execution.json",
+      "sha256": "ec7f83fb913db91f601f9fdd544c9ceffc8f4404fd63612abe8356c9d7c4fc4e",
+      "bytes": 12418
+    },
+    {
+      "path": "evidence/native-force-red3/probe.json",
+      "sha256": "b753c1c076a8ecfc1c0ad63d2f938cfeabca995c39299e10e28cc247141e18ea",
+      "bytes": 4582
+    },
+    {
+      "path": "evidence/native-force-red3/run.log",
+      "sha256": "e265236ac96ba5e57917d40fc13f86c75286e1c918681c256e0e5c4d1340a250",
+      "bytes": 7315
+    },
+    {
+      "path": "evidence/native-force-red3/solver.stderr",
+      "sha256": "731e41dc232cc0b501ea6c178e8bc88f931b94bfaa853326f8c63a91a310a3e8",
+      "bytes": 70
+    },
+    {
+      "path": "evidence/native-force-red3/solver.stdout",
+      "sha256": "8eb8f6231044e6cc7e58132dc8a0bac6c6d83d994d823828440df1c692894776",
+      "bytes": 1852
+    },
+    {
+      "path": "evidence/native-force-red6/execution.json",
+      "sha256": "28e47e057b59f247cdce4932f6c32d7dc09b874c5084796479305be662f3749c",
+      "bytes": 12416
+    },
+    {
+      "path": "evidence/native-force-red6/probe.json",
+      "sha256": "d45f2d6b07a4bd31d93de3f292fa57feadcc7b0206c9e556a22ffb1bbf1ae861",
+      "bytes": 4582
+    },
+    {
+      "path": "evidence/native-force-red6/run.log",
+      "sha256": "4ac25ca6753d1b6237e6e74b4353162dffc35d47f17a2d349e72bc9e2ae3b8c0",
+      "bytes": 8815
+    },
+    {
+      "path": "evidence/native-force-red6/solver.stderr",
+      "sha256": "182919bc1790196a97ae9c1f4fb484d215ec7e814bb23e0ab018dea3f42786ba",
+      "bytes": 59
+    },
+    {
+      "path": "evidence/native-force-red6/solver.stdout",
+      "sha256": "037cd7a8f28068fdd93898ee838ad235576c12058788d5652cad67035afc03b0",
+      "bytes": 2119
+    },
+    {
+      "path": "evidence/native-mixed-green2/Mesh.accounting.out",
+      "sha256": "44b62b476d83f1423beff92adc4cd536982e78ef4c6e2d7c847c3b0d3d249b68",
+      "bytes": 673
+    },
+    {
+      "path": "evidence/native-mixed-green2/execution.json",
+      "sha256": "e54d381e824853779a44ad1c460033afbc80f1e81b138155925b7809be536bd2",
+      "bytes": 12302
+    },
+    {
+      "path": "evidence/native-mixed-green2/native-accounting.json",
+      "sha256": "3f8918915c153ad2bebc9db87a6555bcb4a310eeafaf6dc92361149ea49d860d",
+      "bytes": 3389
+    },
+    {
+      "path": "evidence/native-mixed-green2/probe.json",
+      "sha256": "6f8ce973be1ab35f4133f2fe961a35ec0773a0860502d0194e5edb073a960532",
+      "bytes": 6839
+    },
+    {
+      "path": "evidence/native-mixed-green2/run.log",
+      "sha256": "ca967e26bdd111bae9c02c9b670542c39b9bbdaa11fabc1ce0b9ea6743d9e914",
+      "bytes": 5785
+    },
+    {
+      "path": "evidence/native-mixed-green2/solver.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "evidence/native-mixed-green2/solver.stdout",
+      "sha256": "1dabf76cace2a957e04b43e93d11ec40999ff42130b831b1a1a164198be53176",
+      "bytes": 3975
+    },
+    {
+      "path": "evidence/setup-failures/force-red-1/execution.json",
+      "sha256": "4ff23394597e0ff9256665ce3aec7c32345ca7af6f007c9deffe8bdc815b6460",
+      "bytes": 12436
+    },
+    {
+      "path": "evidence/setup-failures/force-red-2/execution.json",
+      "sha256": "bf5a5a49664680212853cb17d9baea84983e626a22e973a8bc65827f9e4c07e1",
+      "bytes": 169806
+    },
+    {
+      "path": "evidence/setup-failures/force-red-4/execution.json",
+      "sha256": "c76178623ee852c31a3e79f3ff375b75f80d6fae8fc5abb8fab1905cfca28220",
+      "bytes": 12455
+    },
+    {
+      "path": "evidence/setup-failures/force-red-5/execution.json",
+      "sha256": "3b60cdfa0a19fd7b3ec0b18c82406228cca7805e32d55a47190301391177f129",
+      "bytes": 12456
+    },
+    {
+      "path": "probe_actual_contact_adjustment.py",
+      "sha256": "050e842f8239014a85be1bb32f1128d86fa778ee3ac695c8baf24379d8726938",
+      "bytes": 13029
+    },
+    {
+      "path": "process_control.py",
+      "sha256": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d",
+      "bytes": 4083
+    },
+    {
+      "path": "qualify_native_v2_analytic.py",
+      "sha256": "50a7fef8edf68a31b1ffc451b089b73008e391a6429d3737e6f0c8b483c3be90",
+      "bytes": 23321
+    },
+    {
+      "path": "run_mpc_component_unit.py",
+      "sha256": "3d33c9c10ebbe0f2a63ac5ad038b50689e7431ddba2faab323a76e426ba43090",
+      "bytes": 6888
+    }
+  ]
+}

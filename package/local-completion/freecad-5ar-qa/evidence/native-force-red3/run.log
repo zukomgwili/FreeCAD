@@ -1,0 +1,172 @@
+test_ordinary_tie_participating_body_produces_physical_cut (NativeTieForceProbe.NativeTieForceProbe.test_ordinary_tie_participating_body_produces_physical_cut) ... FIVEAR_CHECKPOINT={"name": "native-identity-confirmed"}
+FIVEAR_CHECKPOINT={"name": "native-three-body-fixture-authored"}
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +215 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-5ar-wYCAxF/force-red-3/ThreeBodies_Geometry.brep
+  /private/tmp/freecad-5ar-wYCAxF/force-red-3/ThreeBodies_Mesh.vtk
+  /private/tmp/freecad-5ar-wYCAxF/force-red-3/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 72
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 73
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 74
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 75
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 76
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 77
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 78
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 79
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 80
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 81
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 82
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 83
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 84
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 85
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 86
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 87
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 88
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 89
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 90
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 91
+AddGroupElements: num elements: 1 sizeof: 8
+FIVEAR_CHECKPOINT={"name": "native-gmsh-complete", "nodes": 1290, "volumes": 588}
+FIVEAR_CHECKPOINT={"name": "before-stock-writer"}
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+FIVEAR_CHECKPOINT={"name": "stock-writer-complete"}
+CalculiX failed with exit code 201
+FIVEAR_CAPABILITY_FAILURE=AssertionError('201 != 0')
+FAIL
+
+======================================================================
+FAIL: test_ordinary_tie_participating_body_produces_physical_cut (NativeTieForceProbe.NativeTieForceProbe.test_ordinary_tie_participating_body_produces_physical_cut)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-5ar-wYCAxF/NativeTieForceProbe.py", line 226, in test_ordinary_tie_participating_body_produces_physical_cut
+    self.assertEqual(code, 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^
+AssertionError: 201 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 1.141s
+
+FAILED (failures=1)
+
+Get mesh data for constraints, materials and element geometry...
+FrontLateralGuide:
+    Type: Fem::ConstraintDisplacement, Name: FrontLateralGuide
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face17
+BaseSupport:
+    Type: Fem::ConstraintRigidBody, Name: BaseSupport
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+RearOrdinaryTie:
+    Type: Fem::ConstraintTie, Name: RearOrdinaryTie
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face6
+RearCut:
+    Type: Fem::ConstraintSectionPrint, Name: RearCut
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face12
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Face17
+Getting mesh data time: 0.176 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-5ar-wYCAxF/force-red-3/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.007 seconds.
+    ReferenceShape ... Type: Solid, Object name: ThreeBodies, Object label: ThreeBodies, Element name: Solid1
+
+CalculiX solver run...
+--------start of stderr-------
+*ERROR CCX force accounting V1: face-to-face penalty contact required
+--------end of stderr---------
+--------start of stdout-------
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Mon Oct 19 00:20:13 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:         1751
+   elements:         1180
+   one-dimensional elements:            0
+   two-dimensional elements:            0
+   integration points per element:            4
+   degrees of freedom per node:            3
+   layers per element:            1
+
+   distributed facial loads:           28
+   distributed volumetric loads:            1
+   concentrated loads:            0
+   single point constraints:         1503
+   multiple point constraints:         1360
+   terms in all multiple point constraints:         8155
+   tie constraints:            1
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           11
+   terms in all sets:         4952
+
+   materials:            1
+   constants per material and temperature:            2
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:            0
+   amplitudes:            9
+   data points in all amplitudes:            9
+   print requests:            8
+   transformations:            0
+   property cards:            0
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Decascading the MPC's
+
+ Determining the structure of the matrix:
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 2166
+ number of nonzero lower triangular matrix elements
+ 66591
+
+
+--------end of stdout---------
+--------start problems---------
+
+--------end problems---------
