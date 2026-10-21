@@ -1,0 +1,528 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Native contact diagnostics through ordinary author/write/solve/inspect seams.
+
+Software output qualification only, not contact-law or engineering acceptance.
+"""
+
+import os
+import math
+import json
+import copy
+from pathlib import Path
+import shutil
+import tempfile
+import subprocess
+from types import SimpleNamespace
+import unittest
+
+import FreeCAD as App
+import ObjectsFem
+from femmesh.gmshtools import GmshTools
+from femtools.ccxtools import FemToolsCcx
+
+
+@unittest.skipUnless(shutil.which("gmsh"), "Native Gmsh executable required")
+class TestContactStateNative(unittest.TestCase):
+    def setUp(self):
+        self.doc = App.newDocument("NativeContactState")
+        self.directory = Path(tempfile.mkdtemp(prefix="freecad-contact-state-native-"))
+
+    def tearDown(self):
+        if self.doc.Name in App.listDocuments():
+            App.closeDocument(self.doc.Name)
+
+    def make_case(
+        self,
+        normal="-0.002 mm",
+        tangent="0 mm",
+        increment=1.0,
+        output_frequency=1,
+        accounting=False,
+        order="2nd",
+        friction=True,
+        rotation=None,
+    ):
+        doc = self.doc
+        analysis = ObjectsFem.makeAnalysis(doc)
+        solver = ObjectsFem.makeSolverCalculiXCcxTools(doc)
+        solver.AnalysisType = "static"
+        solver.TimeInitialIncrement = increment
+        solver.TimeMaximumIncrement = increment
+        solver.OutputFrequency = output_frequency
+        analysis.addObject(solver)
+        left = doc.addObject("Part::Box", "Left")
+        right = doc.addObject("Part::Box", "Right")
+        for body in (left, right):
+            body.Length = body.Width = body.Height = 1
+        right.Placement.Base = App.Vector(1, 0, 0)
+        if rotation is not None:
+            left.Placement.Rotation = rotation
+            right.Placement = App.Placement(rotation.multVec(App.Vector(1, 0, 0)), rotation)
+        geometry = doc.addObject("Part::Compound", "Geometry")
+        geometry.Links = [left, right]
+        contact = ObjectsFem.makeConstraintContact(doc, "Interface")
+        contact.SurfaceBehavior = "Linear"
+        contact.References = [(left, ["Face2"]), (right, ["Face1"])]
+        contact.Slope = "100000 MPa/mm"
+        contact.Friction = friction
+        contact.FrictionCoefficient = 0.3
+        contact.StickSlope = "10000 MPa/mm"
+        contact.Adjust = "0 mm"
+        analysis.addObject(contact)
+        # The saved ordinary solver selection is the request interface.
+        solver.NativeContactOutputs = [contact]
+        self.assertFalse(solver.NativeForceAccounting)
+        candidate = os.environ.get("FREECAD_CONTACT_STATE_SOLVER")
+        if candidate:
+            solver.NativeAccountingSolver = candidate
+        material = ObjectsFem.makeMaterialSolid(doc)
+        material.Material = {
+            "Name": "Analytical elastic solid",
+            "YoungsModulus": "1000 MPa",
+            "PoissonRatio": "0",
+        }
+        analysis.addObject(material)
+        fixed = ObjectsFem.makeConstraintFixed(doc)
+        fixed.References = [(left, ["Face1"])]
+        analysis.addObject(fixed)
+        if accounting:
+            solver.NativeForceAccounting = True
+            solver.NativeAccountingSupports = [fixed]
+        displacement = ObjectsFem.makeConstraintDisplacement(doc)
+        displacement.References = [(right, ["Face2"])]
+        displacement.xFree = displacement.yFree = displacement.zFree = False
+        displacement.xDisplacement = normal
+        displacement.yDisplacement = tangent
+        if rotation is not None:
+            motion = rotation.multVec(
+                App.Vector(App.Units.Quantity(normal).Value, App.Units.Quantity(tangent).Value, 0)
+            )
+            for axis, value in zip("xyz", motion):
+                setattr(displacement, axis + "Displacement", value)
+        analysis.addObject(displacement)
+        mesh = ObjectsFem.makeMeshGmsh(doc, "Mesh")
+        mesh.Shape = geometry
+        mesh.ElementOrder = order
+        mesh.SecondOrderLinear = True
+        mesh.CoherenceMesh = False
+        mesh.CharacteristicLengthMax = 0.5
+        mesh.CharacteristicLengthMin = 0.5
+        mesh.WorkingDirectory = str(self.directory)
+        analysis.addObject(mesh)
+        doc.recompute()
+        mesher = GmshTools(mesh)
+        mesher.create_mesh()
+        self.assertEqual(mesher.process.exitCode(), 0)
+        self.assertGreater(mesh.FemMesh.VolumeCount, 0)
+        fea = FemToolsCcx(analysis=analysis, solver=solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        fea.write_inp_file()
+        self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+        fea.load_results()
+        results = [
+            item
+            for item in analysis.Group
+            if getattr(getattr(item, "Proxy", None), "Type", "") == "Fem::ContactStateResult"
+        ]
+        self.assertEqual(len(results), 1)
+        result = results[0]
+        data = result.Proxy.getContactStates(result)
+        return SimpleNamespace(
+            analysis=analysis,
+            solver=solver,
+            contact=contact,
+            mesh=mesh,
+            fea=fea,
+            result=result,
+            data=data,
+            fixed=fixed,
+            displacement=displacement,
+            left=left,
+            right=right,
+        )
+
+    def test_native_compression_preserves_local_identity_and_actual_stick(self):
+        model = self.make_case()
+        data = model.data
+        self.assertEqual(data["schema"], "CCX_CONTACT_STATE_V1")
+        self.assertTrue(data["frames"])
+        frame = data["frames"][-1]
+        self.assertEqual(frame["step"], 1)
+        self.assertGreater(frame["increment"], 0)
+        self.assertAlmostEqual(frame["time"], 1.0)
+        active = [row for row in frame["samples"] if row["availability"] == "ACTIVE"]
+        self.assertTrue(active)
+        for row in active:
+            self.assertEqual(row["contact"], model.contact.Name)
+            self.assertGreater(row["slave_element"], 0)
+            self.assertGreater(row["slave_face"], 0)
+            self.assertGreater(row["native_point"], 0)
+            self.assertGreater(row["master_element"], 0)
+            self.assertGreater(row["master_face"], 0)
+            self.assertLess(row["clearance"], 0)
+            self.assertGreater(row["pressure"], 0)
+            # Independent unit-area, Nu=0 bar/contact series-compliance oracle.
+            self.assertAlmostEqual(row["pressure"], 0.9950248756218906, delta=0.01)
+            self.assertAlmostEqual(row["clearance"], -9.950248756218906e-6, delta=1e-7)
+            self.assertEqual(row["state"], "STICK")
+            self.assertEqual(len(row["normal"]), 3)
+            self.assertEqual(len(row["tangent1"]), 3)
+            self.assertEqual(len(row["tangent2"]), 3)
+
+    def test_opening_is_measured_at_native_projection_without_invented_traction(self):
+        model = self.make_case(normal="0.002 mm")
+        samples = model.data["frames"][-1]["samples"]
+        self.assertTrue(samples)
+        paired = [row for row in samples if row["availability"] == "INACTIVE"]
+        self.assertTrue(
+            paired, "Expected preserved native projections on this initially paired face"
+        )
+        self.assertFalse(any(row["availability"] == "ACTIVE" for row in samples))
+        for row in paired:
+            self.assertEqual(row["evaluation"], "NATIVE_PRESERVED_PROJECTION")
+            self.assertEqual(row["engagement"], "OPEN_AT_PRESERVED_PROJECTION")
+            self.assertAlmostEqual(row["clearance"], 0.002, delta=1e-10)
+            self.assertEqual(row["state"], "UNAVAILABLE")
+            for key in ("pressure", "shear", "plastic_slip_increment", "tangential_displacement"):
+                self.assertIsNone(row[key])
+
+    def test_nonzero_elastic_tangential_motion_is_stick_not_sliding(self):
+        model = self.make_case(tangent="0.000001 mm")
+        active = [
+            row for row in model.data["frames"][-1]["samples"] if row["availability"] == "ACTIVE"
+        ]
+        self.assertTrue(active)
+        self.assertTrue(any(math.hypot(*row["tangential_displacement"]) > 1e-12 for row in active))
+        for row in active:
+            self.assertEqual(row["state"], "STICK")
+            self.assertEqual(row["plastic_slip_increment"], 0)
+            self.assertEqual(row["plastic_slip_vector"], [0, 0, 0])
+
+    def test_sliding_reports_actual_native_branch_and_positive_plastic_increment(self):
+        model = self.make_case(tangent="0.005 mm")
+        sliding = [
+            row
+            for row in model.data["frames"][-1]["samples"]
+            if row["availability"] == "ACTIVE" and row["state"] == "SLIP"
+        ]
+        self.assertTrue(sliding)
+        self.assertTrue(any(row["plastic_slip_increment"] > 1e-6 for row in sliding))
+        for row in sliding:
+            self.assertGreaterEqual(row["plastic_slip_increment"], 0)
+            self.assertAlmostEqual(
+                math.hypot(*row["plastic_slip_vector"]), row["plastic_slip_increment"], delta=1e-12
+            )
+
+    def test_only_retained_increments_are_reported_with_native_frame_identity(self):
+        model = self.make_case(increment=0.25, output_frequency=2)
+        frames = model.data["frames"]
+        self.assertEqual([frame["time"] for frame in frames], [0.5, 1.0])
+        self.assertEqual([frame["increment"] for frame in frames], [2, 4])
+        self.assertEqual([frame["step"] for frame in frames], [1, 1])
+        self.assertEqual(model.data["sample_identity_scope"], "FRAME_LOCAL_NATIVE_CATALOGUE")
+        for frame in frames:
+            self.assertTrue(frame["success"])
+            self.assertTrue(all(len(row["slave_parameters"]) == 2 for row in frame["samples"]))
+
+    def test_saved_native_labels_stay_historical_until_a_fresh_stock_run(self):
+        model = self.make_case()
+        literal = model.result.ContactData
+        digest = model.result.ContactHash
+        name = model.result.Name
+        original_elements = {
+            element: tuple(model.mesh.FemMesh.getElementNodes(element))
+            for element in model.mesh.FemMesh.getIdByElementType("All")
+        }
+        path = self.directory / "native-contact-state.FCStd"
+        self.doc.recompute()
+        self.doc.saveAs(str(path))
+        App.closeDocument(self.doc.Name)
+        self.doc = App.openDocument(str(path))
+        restored = self.doc.getObject(name)
+        self.assertEqual(restored.ContactData, literal)
+        self.assertEqual(restored.ContactHash, digest)
+        self.assertTrue(restored.Status.startswith("Historical"), restored.Status)
+        with self.assertRaises(ValueError):
+            restored.Proxy.getContactStates(restored)
+        # Native mesh persistence drops point cells and renumbers this Gmsh
+        # mesh. Old raw source IDs must NOT be promoted onto different cells.
+        current_elements = {
+            element: tuple(restored.Mesh.FemMesh.getElementNodes(element))
+            for element in restored.Mesh.FemMesh.getIdByElementType("All")
+        }
+        self.assertNotEqual(original_elements, current_elements)
+        restored.Proxy.refresh(restored)
+        with self.assertRaises(ValueError):
+            restored.Proxy.getContactStates(restored)
+        self.assertEqual(restored.ContactData, literal)
+        self.assertEqual(restored.ContactHash, digest)
+        # Normal export/solve/import resolves new exact labels, with no saved
+        # fingerprint migration, private deck editing or historical ID fitting.
+        fresh = self.directory / "after-restore"
+        fresh.mkdir()
+        fea = FemToolsCcx(analysis=restored.Analysis, solver=restored.Solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(fresh))
+        fea.write_inp_file()
+        self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+        fea.load_results()
+        data = restored.Proxy.getContactStates(restored)
+        self.assertNotEqual(
+            data["provenance"]["run"]["token"], model.data["provenance"]["run"]["token"]
+        )
+        for row in data["frames"][-1]["samples"]:
+            self.assertIn(row["slave_element"], restored.Mesh.FemMesh.Volumes)
+        self.assertTrue(
+            any(row["availability"] == "ACTIVE" for row in data["frames"][-1]["samples"])
+        )
+
+    def test_source_bytes_and_physical_edits_withdraw_but_preserve_literal_history(self):
+        model = self.make_case()
+        literal, digest = model.result.ContactData, model.result.ContactHash
+        source = model.data["provenance"]
+        for name in ("deck", "request_path", "output", "run"):
+            with self.subTest(source=name):
+                path = Path(source[name]["path"] if name == "run" else source[name])
+                original = path.read_bytes()
+                try:
+                    path.write_bytes(original + b"\n")
+                    with self.assertRaises(ValueError):
+                        model.result.Proxy.getContactStates(model.result)
+                    self.assertEqual(model.result.ContactData, literal)
+                    self.assertEqual(model.result.ContactHash, digest)
+                finally:
+                    path.write_bytes(original)
+                model.result.Proxy.refresh(model.result)
+                self.assertEqual(model.result.Proxy.getContactStates(model.result), model.data)
+        model.contact.FrictionCoefficient = 0.31
+        self.doc.recompute()
+        with self.assertRaises(ValueError):
+            model.result.Proxy.getContactStates(model.result)
+        self.assertEqual(model.result.ContactData, literal)
+        model.contact.FrictionCoefficient = 0.3
+        self.doc.recompute()
+        model.result.Proxy.refresh(model.result)
+        self.assertEqual(model.result.Proxy.getContactStates(model.result), model.data)
+        model.solver.NativeContactOutputs = []
+        with self.assertRaises(ValueError):
+            model.result.Proxy.getContactStates(model.result)
+        self.assertEqual(model.result.ContactData, literal)
+
+    def test_failed_rerun_cannot_resurrect_a_previous_completed_run(self):
+        model = self.make_case()
+        literal = model.result.ContactData
+        request = Path(model.data["provenance"]["request_path"])
+        original = request.read_bytes()
+        try:
+            request.write_bytes(original + b"\n")
+            with self.assertRaises(ValueError):
+                model.fea.ccx_run()
+        finally:
+            request.write_bytes(original)
+        self.assertFalse(model.result.CompletedRun)
+        model.result.Proxy.refresh(model.result)
+        with self.assertRaises(ValueError):
+            model.result.Proxy.getContactStates(model.result)
+        self.assertEqual(model.result.ContactData, literal)
+        model.fea.write_inp_file()
+        self.assertEqual(model.fea.ccx_run(), 0)
+        data = model.result.Proxy.getContactStates(model.result)
+        self.assertNotEqual(
+            data["provenance"]["run"]["token"], model.data["provenance"]["run"]["token"]
+        )
+
+    def test_tet4_frictionless_output_does_not_invent_tangential_state(self):
+        model = self.make_case(order="1st", friction=False)
+        active = [
+            row for row in model.data["frames"][-1]["samples"] if row["availability"] == "ACTIVE"
+        ]
+        self.assertTrue(active)
+        for row in active:
+            self.assertEqual(len(model.mesh.FemMesh.getElementNodes(row["slave_element"])), 4)
+            self.assertEqual(row["state"], "FRICTIONLESS")
+            self.assertAlmostEqual(row["pressure"], 0.9950248756218906, delta=0.01)
+            for key in (
+                "tangential_displacement",
+                "shear",
+                "plastic_slip_increment",
+                "plastic_slip_vector",
+            ):
+                self.assertIsNone(row[key])
+
+    def test_diagnostics_on_off_preserves_native_mechanics_and_v3_accounting(self):
+        # The native results/stiffness/Spooles controls permit deterministic
+        # single-worker comparison, not a new numerical acceptance tolerance.
+        controls = ("CCX_NPROC_RESULTS", "CCX_NPROC_STIFFNESS", "CCX_NPROC_EQUATION_SOLVER")
+        previous = {key: os.environ.get(key) for key in controls}
+
+        def restore_environment():
+            for key, value in previous.items():
+                if value is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = value
+
+        self.addCleanup(restore_environment)
+        for key in controls:
+            os.environ[key] = "1"
+        model = self.make_case(accounting=True)
+
+        def accounting():
+            current = [
+                item
+                for item in model.analysis.Group
+                if getattr(getattr(item, "Proxy", None), "Type", "")
+                == "Fem::NativeForceAccountingResult"
+                and item.Status.startswith("Current")
+            ]
+            self.assertEqual(len(current), 1)
+            data = json.loads(current[0].AccountingData)
+            self.assertEqual(data["schema"], "CCX_FORCE_ACCOUNTING_V3")
+            self.assertEqual(data["movement_source"]["status"], "BOUND")
+            self.assertAlmostEqual(
+                abs(data["wrenches"]["SUPPORT"][model.fixed.Name][0]),
+                0.9950248756218906,
+                delta=0.01,
+            )
+            return current[0], data
+
+        report, enabled_data = accounting()
+        deck = Path(model.fea.inp_file_name)
+
+        def mechanical_frd():
+            # Only native creation timestamps are nonmechanical metadata.
+            return [
+                line
+                for line in deck.with_suffix(".frd").read_bytes().splitlines()
+                if not line.startswith((b"    1UDATE ", b"    1UTIME "))
+            ]
+
+        frd = mechanical_frd()
+        dat = deck.with_suffix(".dat").read_text()
+        # Existing pair-resultant blocks are literal native output, not sums
+        # reconstructed from the new diagnostic integration-point samples.
+        pair_totals = dat[dat.index(" statistics for slave set") :]
+        self.assertEqual(deck.read_text().count("CF, CFN, CFS\n"), 1)
+        model.solver.NativeContactOutputs = []
+        model.fea.write_inp_file()
+        self.assertFalse(report.Status.startswith("Current"))
+        self.assertEqual(model.fea.ccx_run(), 0)
+        self.assertEqual(mechanical_frd(), frd)
+        without = deck.with_suffix(".dat").read_text()
+        self.assertEqual(without[without.index(" statistics for slave set") :], pair_totals)
+        self.assertNotIn("*CONTACT PRINT\nCDIS, CSTR\n", deck.read_text())
+        self.assertEqual(deck.read_text().count("CF, CFN, CFS\n"), 1)
+        _report, disabled_data = accounting()
+        self.assertEqual(disabled_data["wrenches"], enabled_data["wrenches"])
+        with self.assertRaises(ValueError):
+            model.result.Proxy.getContactStates(model.result)
+
+    def test_rotated_sliding_basis_retains_native_global_normal_and_plastic_vector(self):
+        model = self.make_case(tangent="0.005 mm", rotation=App.Rotation(App.Vector(0, 0, 1), 90))
+        sliding = [
+            row
+            for row in model.data["frames"][-1]["samples"]
+            if row["availability"] == "ACTIVE" and row["state"] == "SLIP"
+        ]
+        self.assertTrue(sliding)
+        for row in sliding:
+            normal = row["normal"]
+            self.assertAlmostEqual(abs(normal[1]), 1, delta=1e-10)
+            self.assertAlmostEqual(normal[0], 0, delta=1e-10)
+            self.assertAlmostEqual(normal[2], 0, delta=1e-10)
+            plastic = row["plastic_slip_vector"]
+            self.assertAlmostEqual(sum(x * y for x, y in zip(normal, plastic)), 0, delta=1e-10)
+            self.assertAlmostEqual(math.hypot(*plastic), row["plastic_slip_increment"], delta=1e-12)
+            self.assertGreater(row["pressure"], 0)
+
+    def test_retargeted_selected_solver_symlink_withdraws_old_binary_binding(self):
+        model = self.make_case()
+        original = Path(model.data["provenance"]["binary"])
+        link = self.directory / "selected-solver"
+        link.symlink_to(original)
+        model.solver.NativeAccountingSolver = str(link)
+        model.fea.write_inp_file()
+        self.assertEqual(model.fea.ccx_run(), 0)
+        literal = model.result.ContactData
+        different = self.directory / "other-solver"
+        shutil.copy2(original, different)
+        link.unlink()
+        link.symlink_to(different)
+        with self.assertRaises(ValueError):
+            model.result.Proxy.getContactStates(model.result)
+        self.assertEqual(model.result.ContactData, literal)
+
+    def test_inconsistent_native_frame_and_sample_contracts_are_refused(self):
+        from femtools import contact_state
+
+        model = self.make_case()
+        source = model.data["provenance"]
+        native = {key: value for key, value in model.data.items() if key != "provenance"}
+        self.assertEqual(contact_state._validate_output(copy.deepcopy(native), source), native)
+        for mutation in (
+            "final incomplete",
+            "missing sample",
+            "duplicate sample",
+            "wrong token",
+            "nonfinite pressure",
+            "wrong master",
+            "bad basis",
+            "missing face",
+        ):
+            with self.subTest(mutation=mutation):
+                data = copy.deepcopy(native)
+                frame = data["frames"][-1]
+                row = frame["samples"][0]
+                if mutation == "final incomplete":
+                    frame["time"] -= 5e-13
+                    frame["complete"] = False
+                elif mutation == "missing sample":
+                    frame["samples"].pop()
+                elif mutation == "duplicate sample":
+                    frame["samples"].append(copy.deepcopy(row))
+                elif mutation == "wrong token":
+                    data["request"] = "0" * 32
+                elif mutation == "nonfinite pressure":
+                    row["pressure"] = float("nan")
+                elif mutation == "wrong master":
+                    row["master_element"] = 2147483647
+                elif mutation == "bad basis":
+                    row["normal"] = [2, 0, 0]
+                else:
+                    data["face_inventory"].pop()
+                with self.assertRaises(ValueError):
+                    contact_state._validate_output(data, source)
+
+    def test_superseded_owned_completion_cannot_republish_over_a_new_attempt(self):
+        from femtools import contact_state
+
+        model = self.make_case()
+        literal = model.result.ContactData
+        binary = model.data["provenance"]["binary"]
+        earlier = contact_state.run_context(model.fea, binary)
+        latest = contact_state.run_context(model.fea, binary)
+
+        # Interleave admissions/completions while executing native children
+        # strictly serially. No deck or native diagnostic output is edited.
+        def complete(context):
+            child = subprocess.run(
+                [binary, "-i", Path(model.fea.inp_file_name).stem],
+                cwd=str(Path(model.fea.inp_file_name).parent),
+                env=context["environment"],
+                stdin=subprocess.DEVNULL,
+                capture_output=True,
+                timeout=60,
+                check=False,
+            )
+            self.assertEqual(child.returncode, 0, child.stdout + child.stderr)
+            contact_state.finish_run(model.fea, context, child.returncode, child.stdout)
+
+        complete(earlier)
+        self.assertFalse(model.result.CompletedRun)
+        self.assertEqual(model.result.ContactData, literal)
+        with self.assertRaises(ValueError):
+            model.result.Proxy.getContactStates(model.result)
+        complete(latest)
+        current = model.result.Proxy.getContactStates(model.result)
+        self.assertEqual(current["provenance"]["run"]["token"], latest["metadata"]["run"]["token"])

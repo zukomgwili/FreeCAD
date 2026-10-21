@@ -1,0 +1,55 @@
+(qt.qpa.fonts) Populating font family aliases took 70 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +233 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector (femtest.gui.test_contact_state.TestContactStateGui.test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector) ...   ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/gui-r01/tmp/freecad-contact-state-native-tdx5quvk/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/gui-r01/tmp/freecad-contact-state-native-tdx5quvk/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/gui-r01/tmp/freecad-contact-state-native-tdx5quvk/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r01/tmp/freecad-contact-state-native-tdx5quvk/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r01/tmp/freecad-contact-state-native-tdx5quvk/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r01/tmp/freecad-contact-state-native-tdx5quvk/Mesh.dat
+FAIL
+
+======================================================================
+FAIL: test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector (femtest.gui.test_contact_state.TestContactStateGui.test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/gui/test_contact_state.py", line 107, in test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector
+    write = self._button("pb_write_inp")
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/gui/test_contact_state.py", line 63, in _button
+    self.assertEqual(len(buttons), 1, "Expected one visible native solver button: " + name)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : Expected one visible native solver button: pb_write_inp
+
+----------------------------------------------------------------------
+Ran 1 test in 2.177s
+
+FAILED (failures=1)
+System exit

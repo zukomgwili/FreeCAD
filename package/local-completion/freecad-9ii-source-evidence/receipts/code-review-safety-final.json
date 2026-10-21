@@ -1,0 +1,90 @@
+{
+  "schema": "FREECAD_9II_INDEPENDENT_SAFETY_REVIEW_V1",
+  "reviewer": "/root/contact_state_safety_review",
+  "issue": "FreeCAD-9ii",
+  "repository": "/Users/zukomgwili/src/FreeCAD",
+  "reviewed_at_utc": "2026-10-21T14:41:03Z",
+  "review_type": "Independent, targeted static safety and acceptance-contract review",
+  "result": "No unresolved material finding in the declared supported source route",
+  "unresolved_material_findings": [],
+  "resolved_findings": [
+    {
+      "id": "selected-executable-custody",
+      "resolution": "Export and every current read use _selected_binary, bind the actual resolved executable path and hash, and reject a retargeted selected executable even when the old target remains unchanged."
+    },
+    {
+      "id": "absolute-selection-boundary",
+      "resolution": "Contact diagnostics reject non-absolute executable selections at export and current reads. The view also requires the saved absolute lexical path without PATH/cwd lookup. Empty selection retains the absolute bundled path; legacy ordinary/force-accounting-only selection behavior is not changed."
+    },
+    {
+      "id": "bounded-fenced-source-capture",
+      "resolution": "_capture reads at most the declared size limit plus one byte, compares opened identity before reading, hashes the captured bytes, and fences pre/opened/post/final regular-file identities."
+    },
+    {
+      "id": "external-owner-name-aliasing",
+      "resolution": "_model walks the non-result physical dependency graph, including nested resolved App::Links, and refuses external-document or unavailable inputs before invoking the shared document-local digest. The check is used at export and current validation."
+    },
+    {
+      "id": "incomplete-final-frame",
+      "resolution": "The final retained frame must explicitly be complete at the exact requested end time. Near-end incomplete frames no longer pass an isclose-only final check."
+    },
+    {
+      "id": "superseded-child-completion",
+      "resolution": "Per-analysis latest-attempt tokens are withdrawn by every rewrite/new attempt. finish_run ignores superseded completions without invalidating a newer child's result; document deletion removes the attempt registry."
+    },
+    {
+      "id": "gui-close-stop-ownership",
+      "resolution": "Close/cancel withdraws native contexts, includes Starting and Running children, uses bounded terminate/kill waits and keeps the task open if its child survives. Cancelled completions cannot import native or mechanical output. A Stop click cannot immediately launch another child through the shared Run slot."
+    },
+    {
+      "id": "open-inspector-selection-topology",
+      "resolution": "The inspector records finite lexical and encountered-target symlink topology using fenced lstat/readlink identities, watches containing directories, checks topology and selected resolved path on events, and rechecks after watch registration. Leaf and ancestor-directory retargeting withdraw the table without automatic refresh. A 256-path cap rejects unsupported topology rather than silently omitting watches."
+    },
+    {
+      "id": "independent-completion-imports",
+      "resolution": "GUI and synchronous runners independently collect force-accounting completion/import errors and contact-state completion errors. Ambient observer activation is scrubbed. A force-accounting finish error does not skip contact-state completion."
+    },
+    {
+      "id": "documented-native-rebuild",
+      "resolution": "The contract's build command now explicitly supplies --contact-source package/calculix/force-accounting/contactstate.c."
+    }
+  ],
+  "qualified_scope": [
+    "Source-level software-output capability review, not structural design or contact-law accuracy acceptance.",
+    "Same-document ordinary-contact physical dependencies through SolverCcxTools and the stock writer/request/import/inspection routes.",
+    "One global-coordinate small-displacement mechanical static step with Tet4/Tet10 structural solids and a stable selected native sample label/count catalogue.",
+    "FreeCAD selected ordinary Linear/Hard contact; Tied and unsupported native domains refuse explicitly.",
+    "Native sample identities are frame-local. Actual native law callbacks supply pressure, tangential values and stick/slip branch; inactive/unpaired constitutive values remain unavailable, not invented zeros.",
+    "Absolute saved executable paths, including watched finite symlink topologies, or the absolute separately bundled default.",
+    "Historical persistence retains literal source labels; changed native labels require a fresh stock export/owned solve/import, not identity fitting or provenance migration.",
+    "No Oomakhi opening, solve, geometry/load/acceptance-limit change, engineering acceptance or application installation is asserted by this review."
+  ],
+  "execution_boundary": {
+    "native_apps_builds_or_solvers_executed_by_reviewer": false,
+    "production_files_edited_by_reviewer": false,
+    "only_written_artifact": "/private/tmp/freecad-9ii-T61k55sb/code-review-safety-final.json",
+    "static_checks": ["Source inspection", "Exact SHA256 capture", "git diff --check"],
+    "final_execution_gates": "Pending/separate from this static receipt. Root must record exact-source GUI, default-bundled native, interface, fingerprint, regression, cold-process and build outcomes. This receipt does not mark any pending gate as passed."
+  },
+  "reviewed_source_files_sha256": {
+    "src/Mod/Fem/femtools/contact_state.py": "f4a1dc5c83f277a69fb369a5ff903db0ea6065679cf9b00c8d5b36ca9f440b8b",
+    "package/calculix/force-accounting/contactstate.c": "3c7e8d77f94bdd7c8bd54ac1cfe164a0577ca982bdc065f32c479c480f22a52e",
+    "package/calculix/force-accounting/hooks.patch": "39898e56a8e4f6eb802d4ea5149d253f380d8f7a88f15af668c71a111f61f4af",
+    "package/calculix/force-accounting/forceaccounting.c": "e25df61ffb38889a4287ce1eafc2b098a8b53dc7b272016d6b8bb722bfdcca91",
+    "package/calculix/force-accounting/contract.json": "ca38ce96b6fac8f405f4b1228b7db04f4718393a5e36d179ebe46aaf59cbf5bf",
+    "src/Mod/Fem/femtools/ccxtools.py": "82bd2d84bdf1818950f95a1068601f2189d08d542e16c725ccba67cd4646b993",
+    "src/Mod/Fem/femtaskpanels/task_solver_ccxtools.py": "614696cc1dd0e7e50340b48b27f69e456725e0551bcb675b33f0ea4bfad55889",
+    "src/Mod/Fem/femviewprovider/view_contact_state.py": "dd3796037f8292101d338235d974af7746023f46ddf38ad282395d847ce34947",
+    "src/Mod/Fem/femtools/force_accounting.py": "c7238ae4615833cf84863461637ece51411ba332f969c84bc4128164c1a702ad",
+    "src/Mod/Fem/femmesh/quality.py": "36c94195275136af0de0864477bc695c5b23d1d567db29c12894190723d4f974",
+    "src/Mod/Fem/femtools/native_properties.py": "a50799ba6711bc82b0e6eeba3d721426979b93e9c8c3bcd24949f6bb2828623f",
+    "src/Mod/Fem/femobjects/solver_ccxtools.py": "78c880a13acb6bcb8c1856231bd7221293a1266446404f5758a436980cfa1d3a",
+    "src/Mod/Fem/femsolver/calculix/write_step_output.py": "95709c6f82dfec816de6f68d8fc5db9bdf460b1deab93079a6d6ba64406df95d",
+    "src/Mod/Fem/femtest/app/test_contact_state_native.py": "2963946bc09119c8b6d0234ad21fde551b04fac12c20f770364a612d39a14cb9",
+    "src/Mod/Fem/femtest/app/test_contact_state_interfaces.py": "453ae3fc0d8b386a017299a4476cb6e0784e40e96a7a927d1f5b1946975d0933",
+    "src/Mod/Fem/femtest/app/test_input_fingerprint.py": "096c443acfa559ab962a213b2aab77cb8436cc7b08fe5e30859c6487864b7c75",
+    "src/Mod/Fem/femtest/gui/test_contact_state.py": "16bd96a378b24df444002fc393d642f5b6e60735d505f74ee9f17cbb7d2ba63b",
+    "src/Mod/Fem/CMakeLists.txt": "5cfbd7294f4e77d2266b72d56f7febafd204102a8dca3c05a5600b7fa9e657e9",
+    "package/local-completion/calculix-9zt-probe/build_probe.py": "6b9b67d3218be36c96134c2777fd14d4dfc47073cfff6b017ff6062f0da4fcc8"
+  }
+}

@@ -1,0 +1,253 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Literal inspection of qualified native contact samples; no field recovery."""
+
+import json
+import shutil
+import stat
+from pathlib import Path
+
+from PySide import QtCore
+from PySide import QtGui
+
+from FreeCAD import Qt
+
+from femtools.force_accounting import solver_binary
+from femviewprovider.view_base_femobject import VPBaseFemObject
+
+
+def _literal(value):
+    if value is None:
+        return "Unavailable (not emitted)"
+    if isinstance(value, str):
+        return value
+    return json.dumps(value, sort_keys=True, allow_nan=False)
+
+
+def _file_identity(name):
+    """Lightweight event fence, not a replacement for the qualified getter."""
+    path = Path(name)
+    if path.resolve(strict=True) != path:
+        raise ValueError("The bound source path changed")
+    info = path.lstat()
+    if not stat.S_ISREG(info.st_mode):
+        raise ValueError("The bound source is no longer a regular file")
+    return (
+        info.st_dev,
+        info.st_ino,
+        info.st_mode,
+        info.st_nlink,
+        info.st_size,
+        info.st_mtime_ns,
+        info.st_ctime_ns,
+    )
+
+
+class VPContactState(VPBaseFemObject):
+    def getIcon(self):
+        return ":/icons/FEM_PostFilterDataAtPoint.svg"
+
+    def setupContextMenu(self, vobj, menu):
+        refresh = menu.addAction(Qt.translate("FEM_ContactState", "Refresh native contact states"))
+        refresh.triggered.connect(lambda _checked=False: self.refresh(vobj))
+        inspect = menu.addAction(Qt.translate("FEM_ContactState", "Inspect native contact states"))
+        inspect.triggered.connect(lambda _checked=False: self.inspect(vobj))
+
+    def refresh(self, vobj):
+        obj = vobj.Object
+        try:
+            obj.Proxy.refresh(obj)
+        except Exception as error:
+            QtGui.QMessageBox.warning(None, "Native contact states unavailable", str(error))
+
+    def doubleClicked(self, vobj):
+        self.inspect(vobj)
+        return True
+
+    def _withdraw_inspectors(self, reason):
+        for withdraw in tuple(getattr(self, "_inspectors", ())):
+            withdraw(reason)
+
+    def updateData(self, obj, prop):
+        if prop in {
+            "Status",
+            "ContactData",
+            "ContactHash",
+            "CompletedRun",
+            "Analysis",
+            "Mesh",
+            "Solver",
+        }:
+            self._withdraw_inspectors("The result changed; close, refresh and reopen the inspector")
+
+    def onDelete(self, vobj, subelements):
+        self._withdraw_inspectors("The result was deleted")
+        return True
+
+    def inspect(self, vobj):
+        obj = vobj.Object
+        try:
+            data = obj.Proxy.getContactStates(obj)
+        except Exception as error:
+            QtGui.QMessageBox.warning(None, "Native contact states unavailable", str(error))
+            return
+
+        dialog = QtGui.QDialog()
+        dialog.setObjectName("NativeContactStateInspector")
+        dialog.setWindowTitle("Native contact states — " + obj.Label)
+        dialog.resize(1100, 600)
+        layout = QtGui.QVBoxLayout(dialog)
+        layout.addWidget(QtGui.QLabel("Native solver samples; not engineering acceptance"))
+        layout.addWidget(QtGui.QLabel("Units: " + _literal(data.get("units"))))
+        frames = QtGui.QComboBox()
+        frames.setObjectName("NativeContactStateFrames")
+        layout.addWidget(frames)
+        table = QtGui.QTableWidget()
+        table.setObjectName("NativeContactStateSamples")
+        table.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        table.setAlternatingRowColors(True)
+        layout.addWidget(table)
+        status = QtGui.QLabel()
+        status.setObjectName("NativeContactStateAvailability")
+        layout.addWidget(status)
+        close = QtGui.QPushButton("Close")
+        close.clicked.connect(dialog.accept)
+        layout.addWidget(close)
+        withdrawn = False
+        closed = False
+
+        def withdraw(reason):
+            nonlocal withdrawn
+            if closed or withdrawn:
+                return
+            withdrawn = True
+            table.clearContents()
+            table.setRowCount(0)
+            frames.setEnabled(False)
+            status.setText("Unavailable: " + reason)
+
+        for frame in data["frames"]:
+            frames.addItem(
+                f"Step {frame['step']}, increment {frame['increment']}, time {frame['time']}",
+                (frame["step"], frame["increment"], frame["time"]),
+            )
+
+        def show_frame(index):
+            if closed or withdrawn:
+                return
+            try:
+                # The source may have changed while the dialog was open.
+                # Every inspection crosses the same validated getter seam.
+                current = obj.Proxy.getContactStates(obj)
+                if withdrawn:
+                    return
+                selected = frames.itemData(index)
+                matching = [
+                    frame
+                    for frame in current["frames"]
+                    if (frame["step"], frame["increment"], frame["time"]) == tuple(selected)
+                ]
+                if len(matching) != 1:
+                    raise ValueError("The selected retained frame changed; reopen the inspector")
+                samples = matching[0]["samples"]
+                leading = (
+                    "contact",
+                    "availability",
+                    "state",
+                    "slave_element",
+                    "slave_face",
+                    "native_point",
+                    "master_element",
+                    "master_face",
+                )
+                extra = sorted({key for row in samples for key in row}.difference(leading))
+                columns = [*leading, *extra]
+                table.clear()
+                table.setColumnCount(len(columns))
+                table.setHorizontalHeaderLabels(columns)
+                table.setRowCount(len(samples))
+                for row_index, sample in enumerate(samples):
+                    for column_index, key in enumerate(columns):
+                        table.setItem(
+                            row_index,
+                            column_index,
+                            QtGui.QTableWidgetItem(_literal(sample.get(key))),
+                        )
+                status.setText(
+                    f"{len(samples)} native samples; last validated snapshot; "
+                    "missing values are unavailable"
+                )
+            except Exception as error:
+                withdraw(str(error))
+
+        watcher = QtCore.QFileSystemWatcher(dialog)
+
+        def source_changed(path):
+            withdraw("A bound source file changed; close, refresh and reopen the inspector")
+
+        identities = {}
+
+        def selected_executable():
+            selection = solver_binary(obj.Solver)
+            return Path(shutil.which(selection) or selection).absolute()
+
+        def directory_changed(path):
+            if closed or withdrawn:
+                return
+            try:
+                if str(selected_executable().resolve(strict=True)) != source["binary"] or any(
+                    _file_identity(name) != identity for name, identity in identities.items()
+                ):
+                    source_changed(path)
+            except (OSError, ValueError, RuntimeError):
+                source_changed(path)
+
+        if not hasattr(self, "_inspectors"):
+            self._inspectors = []
+        self._inspectors.append(withdraw)
+        watcher.fileChanged.connect(source_changed)
+        watcher.directoryChanged.connect(directory_changed)
+
+        frames.currentIndexChanged.connect(show_frame)
+        try:
+            try:
+                source = data["provenance"]
+                names = list(
+                    dict.fromkeys(
+                        (
+                            source["deck"],
+                            source["request_path"],
+                            source["run"]["path"],
+                            source["output"],
+                            source["binary"],
+                        )
+                    )
+                )
+                identities = {name: _file_identity(name) for name in names}
+                # Watching only the resolved binary misses a retargeted saved
+                # executable symlink while the old target still exists. Watch
+                # its configured parent and fence resolution on directory events.
+                parents = sorted(
+                    {str(Path(name).parent) for name in names} | {str(selected_executable().parent)}
+                )
+                if watcher.addPaths([*names, *parents]):
+                    withdraw("A bound source cannot be watched; close and reopen the inspector")
+            except (OSError, ValueError, KeyError, TypeError):
+                withdraw("A bound source is unavailable; close and reopen the inspector")
+            if data["frames"]:
+                frames.setCurrentIndex(len(data["frames"]) - 1)
+                # Revalidate after installing the watches, closing the gap
+                # between the initial getter and file-event registration.
+                show_frame(frames.currentIndex())
+            else:
+                withdraw("No retained native frames")
+            dialog.exec()
+        finally:
+            closed = True
+            self._inspectors.remove(withdraw)
+            frames.currentIndexChanged.disconnect(show_frame)
+            watcher.fileChanged.disconnect(source_changed)
+            watcher.directoryChanged.disconnect(directory_changed)
+            watched = [*watcher.files(), *watcher.directories()]
+            if watched:
+                watcher.removePaths(watched)
+            dialog.deleteLater()

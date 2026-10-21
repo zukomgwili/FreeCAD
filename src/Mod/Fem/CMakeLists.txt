@@ -420,6 +420,9 @@ SET(FemTestsApp_SRCS
     femtest/app/test_contact_observation.py
     femtest/app/test_contact_observation_source.py
     femtest/app/test_contact_observation_native.py
+    femtest/app/test_contact_state_native.py
+    femtest/app/test_contact_state_interfaces.py
+    femtest/app/test_input_fingerprint.py
     femtest/app/test_movement_provenance.py
     femtest/app/test_mesh_vtk_identity.py
     femtest/app/test_owned_probe.py
@@ -649,6 +652,7 @@ SET(FemTools_SRCS
     femtools/__init__.py
     femtools/ccxtools.py
     femtools/force_accounting.py
+    femtools/contact_state.py
     femtools/native_properties.py
     femtools/checksanalysis.py
     femtools/elastic_connector.py
@@ -807,6 +811,7 @@ SET(FemGuiTests_SRCS
     femtest/gui/__init__.py
     femtest/gui/test_open.py
     femtest/gui/test_contact_observation.py
+    femtest/gui/test_contact_state.py
 )
 
 SET(FemGuiUtils_SRCS
@@ -870,6 +875,7 @@ SET(FemGuiViewProvider_SRCS
     femviewprovider/view_mesh_result.py
     femviewprovider/view_result_mechanical.py
     femviewprovider/view_contact_observation.py
+    femviewprovider/view_contact_state.py
     femviewprovider/view_solver_calculix.py
     femviewprovider/view_solver_ccxtools.py
     femviewprovider/view_solver_elmer.py

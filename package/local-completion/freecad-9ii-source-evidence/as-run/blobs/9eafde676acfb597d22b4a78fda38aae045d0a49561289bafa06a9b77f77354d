@@ -1,0 +1,205 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Physical native input identity excludes only worker session state.
+
+The volume-only restore fixture explicitly checks its native labels. This does
+not assert that Gmsh point cells or arbitrary mesh labels survive persistence.
+"""
+
+import tempfile
+import unittest
+from pathlib import Path
+from types import SimpleNamespace
+
+import FreeCAD as App
+
+import Fem
+import Materials
+import ObjectsFem
+import Part
+
+from femmesh import quality
+from femmesh.gmshtools import GmshTools
+from femtools import contact_state
+from femtools import force_accounting
+
+
+class TestInputFingerprint(unittest.TestCase):
+    def setUp(self):
+        self.doc = App.newDocument("NativeInputFingerprint")
+        self.directory = tempfile.TemporaryDirectory(prefix="freecad-input-fingerprint-")
+        self.addCleanup(self.directory.cleanup)
+
+    def tearDown(self):
+        if self.doc is not None and self.doc.Name in App.listDocuments():
+            App.closeDocument(self.doc.Name)
+
+    def _make_model(self):
+        geometry = self.doc.addObject("Part::Feature", "Geometry")
+        geometry.Shape = Part.makeBox(1, 1, 1)
+        analysis = ObjectsFem.makeAnalysis(self.doc)
+        material = ObjectsFem.makeMaterialSolid(self.doc)
+        material.References = [(geometry, ["Solid1"])]
+        analysis.addObject(material)
+        mesh = ObjectsFem.makeMeshGmsh(self.doc)
+        mesh.Shape = geometry
+        mesh.WorkingDirectory = self.directory.name
+        native = Fem.FemMesh()
+        for point in ((0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)):
+            native.addNode(*point)
+        native.addVolume([1, 2, 3, 4])
+        mesh.FemMesh = native
+        analysis.addObject(mesh)
+        self.doc.recompute()
+        return SimpleNamespace(analysis=analysis, mesh=mesh, geometry=geometry, material=material)
+
+    @staticmethod
+    def _fingerprints(model):
+        return (
+            quality.input_fingerprint(model.mesh),
+            force_accounting._model_digest(model.analysis, model.mesh),
+        )
+
+    @staticmethod
+    def _mesh_literal(mesh):
+        native = mesh.FemMesh
+        return (
+            tuple((node, tuple(point)) for node, point in sorted(native.Nodes.items())),
+            tuple(
+                (element, tuple(native.getElementNodes(element)))
+                for element in sorted(native.getIdByElementType("All"))
+            ),
+        )
+
+    def test_recreating_actual_worker_controller_does_not_change_physical_inputs(self):
+        model = self._make_model()
+        baseline = self._fingerprints(model)
+        first = GmshTools(model.mesh)
+        self.assertIs(model.mesh.Tool, first)
+        self.assertEqual(self._fingerprints(model), baseline)
+        second = GmshTools(model.mesh)
+        self.assertIs(model.mesh.Tool, second)
+        self.assertIsNot(first, second)
+        self.assertEqual(self._fingerprints(model), baseline)
+        model.mesh.Tool = None
+        self.assertEqual(self._fingerprints(model), baseline)
+
+    def test_volume_only_restore_changes_session_name_not_unchanged_native_inputs(self):
+        model = self._make_model()
+        worker = GmshTools(model.mesh)
+        self.assertIs(model.mesh.Tool, worker)
+        native = model.mesh.FemMesh
+        self.assertEqual(native.VolumeCount, 1)
+        self.assertEqual(len(native.getIdByElementType("All")), 1)
+        literal = self._mesh_literal(model.mesh)
+        baseline = self._fingerprints(model)
+        names = (model.analysis.Name, model.mesh.Name, model.geometry.Name, model.material.Name)
+        session_name = self.doc.Name
+        path = Path(self.directory.name) / "different-file-stem.FCStd"
+        self.doc.saveAs(str(path))
+        self.assertEqual(self._fingerprints(model), baseline)
+        App.closeDocument(self.doc.Name)
+        self.doc = None
+        self.doc = App.openDocument(str(path))
+        self.assertNotEqual(self.doc.Name, session_name)
+        analysis, mesh, geometry, material = [self.doc.getObject(name) for name in names]
+        restored = SimpleNamespace(
+            analysis=analysis, mesh=mesh, geometry=geometry, material=material
+        )
+        self.assertIsNone(mesh.Tool)
+        self.assertEqual(self._mesh_literal(mesh), literal)
+        self.assertEqual(self._fingerprints(restored), baseline)
+
+    def test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs(self):
+        for change in ("geometry", "mesh", "material", "meshing control"):
+            with self.subTest(change=change):
+                model = self._make_model()
+                native_material = Materials.Material()
+                native_material.addPhysicalModel(Materials.UUIDs().Density)
+                native_material.setPhysicalValue("Density", "10 kg/m^3")
+                model.geometry.ShapeMaterial = native_material
+                self.doc.recompute()
+                baseline = self._fingerprints(model)
+                if change == "geometry":
+                    model.geometry.Shape = Part.makeBox(2, 1, 1)
+                elif change == "mesh":
+                    native = model.mesh.FemMesh
+                    native.addNode(2, 2, 2)
+                    model.mesh.FemMesh = native
+                elif change == "material":
+                    changed = model.geometry.ShapeMaterial
+                    changed.setPhysicalValue("Density", "11 kg/m^3")
+                    model.geometry.ShapeMaterial = changed
+                else:
+                    model.mesh.CharacteristicLengthMax = "0.25 mm"
+                self.doc.recompute()
+                actual = self._fingerprints(model)
+                self.assertNotEqual(actual[0], baseline[0])
+                self.assertNotEqual(actual[1], baseline[1])
+
+    def test_boolean_tool_link_is_physical_even_when_result_geometry_is_unchanged(self):
+        model = self._make_model()
+        base = self.doc.addObject("Part::Box", "BooleanBase")
+        base.Length = base.Width = base.Height = 1
+        tools = []
+        for name in ("FirstPhysicalTool", "SecondPhysicalTool"):
+            tool = self.doc.addObject("Part::Feature", name)
+            tool.Shape = Part.makeBox(0.25, 0.25, 0.25, App.Vector(2, 0, 0))
+            tools.append(tool)
+        cut = self.doc.addObject("Part::Cut", "PhysicalCut")
+        cut.Base = base
+        cut.Tool = tools[0]
+        model.mesh.Shape = cut
+        model.material.References = [(cut, ["Solid1"])]
+        self.doc.recompute()
+        self.assertEqual(cut.getTypeIdOfProperty("Tool"), "App::PropertyLink")
+        self.assertFalse(cut.hasExtension("Fem::WorkerExtension"))
+        self.assertAlmostEqual(cut.Shape.Volume, 1.0)
+        baseline = self._fingerprints(model)
+        cut.Tool = tools[1]
+        self.doc.recompute()
+        self.assertAlmostEqual(cut.Shape.Volume, 1.0)
+        actual = self._fingerprints(model)
+        self.assertNotEqual(actual[0], baseline[0])
+        self.assertNotEqual(actual[1], baseline[1])
+
+    def test_contact_model_admits_local_nested_link_but_refuses_external_target(self):
+        model = self._make_model()
+        external = App.newDocument("ExternalInputFingerprint")
+        external_name = external.Name
+        try:
+            target = external.addObject("Part::Feature", model.geometry.Name)
+            target.Shape = Part.makeBox(1, 1, 1)
+            external.recompute()
+            external.saveAs(str(Path(self.directory.name) / "external-input.FCStd"))
+
+            occurrence = self.doc.addObject("App::Link", "NestedOccurrence")
+            occurrence.setLink(model.geometry)
+            compound = self.doc.addObject("Part::Compound", "NestedCompound")
+            compound.Links = [occurrence]
+            model.mesh.Shape = compound
+            model.material.References = [(compound, ["Solid1"])]
+            self.doc.recompute()
+            self.doc.saveAs(str(Path(self.directory.name) / "local-input.FCStd"))
+            self.assertEqual(target.Name, model.geometry.Name)
+            self.assertNotEqual(target.Document, model.geometry.Document)
+            self.assertEqual(occurrence.getLinkedObject(True), model.geometry)
+            self.assertEqual(compound.Links, [occurrence])
+            baseline = contact_state._model(model.analysis, model.mesh)
+            self.assertEqual(baseline, self._fingerprints(model)[1])
+
+            occurrence.setLink(target)
+            self.doc.recompute()
+            self.assertEqual(occurrence.getLinkedObject(True), target)
+            self.assertEqual(model.mesh.Shape, compound)
+            self.assertEqual(compound.Links, [occurrence])
+            with self.assertRaisesRegex(ValueError, "requires same-document physical inputs"):
+                contact_state._model(model.analysis, model.mesh)
+
+            occurrence.setLink(model.geometry)
+            self.doc.recompute()
+            self.assertEqual(occurrence.getLinkedObject(True), model.geometry)
+            self.assertEqual(contact_state._model(model.analysis, model.mesh), baseline)
+            self.assertEqual(self._fingerprints(model)[1], baseline)
+        finally:
+            if external_name in App.listDocuments():
+                App.closeDocument(external_name)

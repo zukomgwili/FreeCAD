@@ -1,0 +1,1732 @@
+test_00print (femtest.app.test_ccxtools.TestCcxTools.test_00print) ... ok
+test_box_frequency (femtest.app.test_ccxtools.TestCcxTools.test_box_frequency) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +234 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestCcxTools 
+
+****************************************************************************************************
+********** run FEM TestCcxTools tests **************************************************************
+**************************************************************************************************** 
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge4' Type: 'Edge' id: 3
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge5' Type: 'Edge' id: 4
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge6' Type: 'Edge' id: 5
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge7' Type: 'Edge' id: 6
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge8' Type: 'Edge' id: 7
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge9' Type: 'Edge' id: 8
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge10' Type: 'Edge' id: 9
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge11' Type: 'Edge' id: 10
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge12' Type: 'Edge' id: 11
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 12
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 13
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 14
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 15
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 16
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 17
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Solid1' Type: 'Volume' id: 18
+AddGroupElements: num elements: 132 sizeof: 8
+Added Group: Name: 'Vertex1' Type: '0DElement' id: 19
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: '0DElement' id: 20
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: '0DElement' id: 21
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: '0DElement' id: 22
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: '0DElement' id: 23
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: '0DElement' id: 24
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: '0DElement' id: 25
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: '0DElement' id: 26
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MechanicalMaterialSolid', 'mat_obj_name': 'MechanicalMaterial', 'ccx_mat_name': 'Steel-Generic'}]
+ok
+test_box_static (femtest.app.test_ccxtools.TestCcxTools.test_box_static) ... 
+--------------- Start of FEM ccxtools box_frequency test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_frequency_ab371a83ef8b 
+Checking FEM inp file prerequisites for box_frequency ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_frequency_ab371a83ef8b/Mesh.inp for box_frequency 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_frequency_ab371a83ef8b/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.002 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/box_frequency.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_frequency_ab371a83ef8b/Mesh.inp 
+Setting up working directory to /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix in order to read simulated calculations 
+Setting base name to read test box_frequency.frd file... 
+Setting inp file name to read test box_frequency.frd file... 
+Checking FEM frd file read from box_frequency... 
+
+CalculiX read results...
+Read ccx results from frd file: /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/box_frequency.frd
+Read ccx results from dat file: /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/box_frequency.dat
+Reading stats from result object for box_frequency... 
+Save FreeCAD file for box_frequency to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_frequency_ab371a83ef8b/box_frequency.FCStd... 
+--------------- End of box_frequency ------------------- 
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge4' Type: 'Edge' id: 3
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge5' Type: 'Edge' id: 4
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge6' Type: 'Edge' id: 5
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge7' Type: 'Edge' id: 6
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge8' Type: 'Edge' id: 7
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge9' Type: 'Edge' id: 8
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge10' Type: 'Edge' id: 9
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge11' Type: 'Edge' id: 10
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge12' Type: 'Edge' id: 11
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 12
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 13
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 14
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 15
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 16
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 17
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Solid1' Type: 'Volume' id: 18
+AddGroupElements: num elements: 132 sizeof: 8
+Added Group: Name: 'Vertex1' Type: '0DElement' id: 19
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: '0DElement' id: 20
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: '0DElement' id: 21
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: '0DElement' id: 22
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: '0DElement' id: 23
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: '0DElement' id: 24
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: '0DElement' id: 25
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: '0DElement' id: 26
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MechanicalMaterialSolid', 'mat_obj_name': 'MechanicalMaterial', 'ccx_mat_name': 'Steel-Generic'}]
+ok
+test_ccx_buckling_flexuralbuckling (femtest.app.test_ccxtools.TestCcxTools.test_ccx_buckling_flexuralbuckling) ... 
+--------------- Start of FEM ccxtools box_static test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_static_949f80fad294 
+Checking FEM inp file prerequisites for box_static ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_static_949f80fad294/Mesh.inp for box_static 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+Getting mesh data time: 0.009 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_static_949f80fad294/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.002 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/box_static.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_static_949f80fad294/Mesh.inp 
+Setting up working directory to /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix in order to read simulated calculations 
+Setting base name to read test box_static.frd file... 
+Setting inp file name to read test box_static.frd file... 
+Checking FEM frd file read from box_static... 
+
+CalculiX read results...
+Read ccx results from frd file: /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/box_static.frd
+Read ccx results from dat file: /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/box_static.dat
+Reading stats from result object for box_static... 
+Save FreeCAD file for box_static to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_box_static_949f80fad294/box_static.FCStd... 
+--------------- End of box_static ------------------- 
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 8 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 8 sizeof: 8
+Added Group: Name: 'Edge4' Type: 'Edge' id: 3
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge5' Type: 'Edge' id: 4
+AddGroupElements: num elements: 8 sizeof: 8
+Added Group: Name: 'Edge6' Type: 'Edge' id: 5
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge7' Type: 'Edge' id: 6
+AddGroupElements: num elements: 8 sizeof: 8
+Added Group: Name: 'Edge8' Type: 'Edge' id: 7
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge9' Type: 'Edge' id: 8
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge10' Type: 'Edge' id: 9
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge11' Type: 'Edge' id: 10
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge12' Type: 'Edge' id: 11
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 12
+AddGroupElements: num elements: 34 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 13
+AddGroupElements: num elements: 34 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 14
+AddGroupElements: num elements: 32 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 15
+AddGroupElements: num elements: 32 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 16
+AddGroupElements: num elements: 8 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 17
+AddGroupElements: num elements: 8 sizeof: 8
+Added Group: Name: 'Solid1' Type: 'Volume' id: 18
+AddGroupElements: num elements: 175 sizeof: 8
+Added Group: Name: 'Vertex1' Type: '0DElement' id: 19
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: '0DElement' id: 20
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: '0DElement' id: 21
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: '0DElement' id: 22
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: '0DElement' id: 23
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: '0DElement' id: 24
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: '0DElement' id: 25
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: '0DElement' id: 26
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MechanicalMaterialSolid', 'mat_obj_name': 'MechanicalMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_ccx_cantilever_beam_circle (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_beam_circle) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_ccx_cantilever_beam_pipe (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_beam_pipe) ... 
+--------------- Start of FEM ccxtools ccx_buckling_flexuralbuckling test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_buckling_flexuralbuckling_3c994f4c98b3 
+Checking FEM inp file prerequisites for ccx_buckling_flexuralbuckling ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_buckling_flexuralbuckling_3c994f4c98b3/Mesh.inp for ccx_buckling_flexuralbuckling 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Beam, Object label: Beam, Element name: Face5
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Beam, Object label: Beam, Element name: Face6
+Getting mesh data time: 0.003 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_buckling_flexuralbuckling_3c994f4c98b3/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.002 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_buckling_flexuralbuckling.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_buckling_flexuralbuckling_3c994f4c98b3/Mesh.inp 
+Save FreeCAD file for ccx_buckling_flexuralbuckling to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_buckling_flexuralbuckling_3c994f4c98b3/ccx_buckling_flexuralbuckling.FCStd... 
+
+--------------- End of FEM ccxtools ccx_buckling_flexuralbuckling--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_beam_circle test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_circle_d2a318903536 
+Checking FEM inp file prerequisites for ccx_cantilever_beam_circle ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_circle_d2a318903536/Mesh.inp for ccx_cantilever_beam_circle 
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_circle_d2a318903536/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_beam_circle.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_circle_d2a318903536/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_beam_circle to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_circle_d2a318903536/ccx_cantilever_beam_circle.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_beam_circle--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_beam_pipe test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressionsbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_ccx_cantilever_beam_rect (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_beam_rect) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_ccx_cantilever_ele_hexa20 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_hexa20) ... -r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_pipe_e43cdd972653 
+Checking FEM inp file prerequisites for ccx_cantilever_beam_pipe ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_pipe_e43cdd972653/Mesh.inp for ccx_cantilever_beam_pipe 
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_pipe_e43cdd972653/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_beam_pipe.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_pipe_e43cdd972653/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_beam_pipe to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_pipe_e43cdd972653/ccx_cantilever_beam_pipe.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_beam_pipe--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_beam_rect test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_rect_22f729ccda45 
+Checking FEM inp file prerequisites for ccx_cantilever_beam_rect ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_rect_22f729ccda45/Mesh.inp for ccx_cantilever_beam_rect 
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_rect_22f729ccda45/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_beam_rect.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_rect_22f729ccda45/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_beam_rect to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_beam_rect_22f729ccda45/ccx_cantilever_beam_rect.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_beam_rect--------------- 
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/fem_rxayrtu3/Box_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/fem_rxayrtu3/Box_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/fem_rxayrtu3/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 27
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 28
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 29
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 30
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 31
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 32
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 33
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 34
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_ccx_cantilever_ele_quad4 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_quad4) ... ok
+test_ccx_cantilever_ele_quad8 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_quad8) ... 
+--------------- Start of FEM ccxtools ccx_cantilever_ele_hexa20 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_hexa20_431d43b35644 
+Checking FEM inp file prerequisites for ccx_cantilever_ele_hexa20 ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_hexa20_431d43b35644/Mesh.inp for ccx_cantilever_ele_hexa20 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+Getting mesh data time: 0.004 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_hexa20_431d43b35644/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_hexa20.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_hexa20_431d43b35644/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_hexa20 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_hexa20_431d43b35644/ccx_cantilever_ele_hexa20.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_hexa20--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_ele_quad4 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad4_a14be2be92ef 
+Checking FEM inp file prerequisites for ccx_cantilever_ele_quad4 ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad4_a14be2be92ef/Mesh.inp for ccx_cantilever_ele_quad4 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Thickness:
+    Type: Fem::ElementGeometry2D, Name: Thickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge3
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad4_a14be2be92ef/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_quad4.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad4_a14be2be92ef/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_quad4 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad4_a14be2be92ef/ccx_cantilever_ele_quad4.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_quad4--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_ele_quad8 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad8_b5c77838956f 
+Checking FEM inp file prerequisites for ccx_cantilever_ele_quad8 ... 
+
+Check ok
+test_ccx_cantilever_ele_seg2 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_seg2) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_ccx_cantilever_ele_seg3 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_seg3) ... prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad8_b5c77838956f/Mesh.inp for ccx_cantilever_ele_quad8 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Thickness:
+    Type: Fem::ElementGeometry2D, Name: Thickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge3
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad8_b5c77838956f/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_quad8.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad8_b5c77838956f/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_quad8 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_quad8_b5c77838956f/ccx_cantilever_ele_quad8.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_quad8--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_ele_seg2 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg2_8f9afd2b652e 
+Checking FEM inp file prerequisites for ccx_cantilever_ele_seg2 ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg2_8f9afd2b652e/Mesh.inp for ccx_cantilever_ele_seg2 
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg2_8f9afd2b652e/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_seg2.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg2_8f9afd2b652e/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_seg2 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg2_8f9afd2b652e/ccx_cantilever_ele_seg2.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_seg2--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_ele_seg3 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg3_c11ada7d5bcd 
+Checking FEM inp file prerequisites for ccx_canbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_ccx_cantilever_ele_tria3 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_tria3) ... ok
+test_ccx_cantilever_ele_tria6 (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_ele_tria6) ... tilever_ele_seg3 ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg3_c11ada7d5bcd/Mesh.inp for ccx_cantilever_ele_seg3 
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg3_c11ada7d5bcd/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_seg3.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg3_c11ada7d5bcd/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_seg3 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_seg3_c11ada7d5bcd/ccx_cantilever_ele_seg3.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_seg3--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_ele_tria3 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria3_e9138b695e63 
+Checking FEM inp file prerequisites for ccx_cantilever_ele_tria3 ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria3_e9138b695e63/Mesh.inp for ccx_cantilever_ele_tria3 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Thickness:
+    Type: Fem::ElementGeometry2D, Name: Thickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge3
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria3_e9138b695e63/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.004 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_tria3.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria3_e9138b695e63/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_tria3 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria3_e9138b695e63/ccx_cantilever_ele_tria3.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_tria3--------------- 
+
+--------------- Start of FEM ccxtools ccx_cantilever_ele_tria6 test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria6_2160d32e0c3a 
+Checking FEM inp file prerequisites for ccx_cantilever_ele_tria6 ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittesok
+test_ccx_cantilever_faceload (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_faceload) ... ts/ccxtools_ccx_cantilever_ele_tria6_2160d32e0c3a/Mesh.inp for ccx_cantilever_ele_tria6 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Thickness:
+    Type: Fem::ElementGeometry2D, Name: Thickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Edge, Object name: CanileverPlate, Object label: CanileverPlate, Element name: Edge3
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria6_2160d32e0c3a/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_ele_tria6.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria6_2160d32e0c3a/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_ele_tria6 to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_ele_tria6_2160d32e0c3a/ccx_cantilever_ele_tria6.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_ele_tria6--------------- 
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge4' Type: 'Edge' id: 3
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge5' Type: 'Edge' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge6' Type: 'Edge' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge7' Type: 'Edge' id: 6
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge8' Type: 'Edge' id: 7
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge9' Type: 'Edge' id: 8
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge10' Type: 'Edge' id: 9
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge11' Type: 'Edge' id: 10
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge12' Type: 'Edge' id: 11
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 12
+AddGroupElements: num elements: 4 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 13
+AddGroupElements: num elements: 4 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 14
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 15
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 16
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 17
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Solid1' Type: 'Volume' id: 18
+AddGroupElements: num elements: 100 sizeof: 8
+Added Group: Name: 'Vertex1' Type: '0DElement' id: 19
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: '0DElement' id: 20
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: '0DElement' id: 21
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: '0DElement' id: 22
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: '0DElement' id: 23
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: '0DElement' id: 24
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: '0DElement' id: 25
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: '0DElement' id: 26
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_ccx_cantilever_nodeload (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_nodeload) ... 
+--------------- Start of FEM ccxtools ccx_cantilever_faceload test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_faceload_fad4fff4cded 
+Checking FEM inp file prerequisites for ccx_cantilever_faceload ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_faceload_fad4fff4cded/Mesh.inp for ccx_cantilever_faceload 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+Getting mesh data time: 0.002 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_faceload_fad4fff4cded/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_faceload.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_faceload_fad4fff4cded/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_faceload to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_faceload_fad4fff4cded/ccx_cantilever_faceload.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_faceload--------------- 
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge4' Type: 'Edge' id: 3
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge5' Type: 'Edge' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge6' Type: 'Edge' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge7' Type: 'Edge' id: 6
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge8' Type: 'Edge' id: 7
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge9' Type: 'Edge' id: 8
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge10' Type: 'Edge' id: 9
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge11' Type: 'Edge' id: 10
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge12' Type: 'Edge' id: 11
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 12
+AddGroupElements: num elements: 4 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 13
+AddGroupElements: num elements: 4 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 14
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 15
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 16
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 17
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Solid1' Type: 'Volume' id: 18
+AddGroupElements: num elements: 100 sizeof: 8
+Added Group: Name: 'Vertex1' Type: '0DElement' id: 19
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: '0DElement' id: 20
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: '0DElement' id: 21
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: '0DElement' id: 22
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: '0DElement' id: 23
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: '0DElement' id: 24
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: '0DElement' id: 25
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: '0DElement' id: 26
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_ccx_cantilever_prescribeddisplacement (femtest.app.test_ccxtools.TestCcxTools.test_ccx_cantilever_prescribeddisplacement) ... 
+--------------- Start of FEM ccxtools ccx_cantilever_nodeload test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_nodeload_ea98e556eeb3 
+Checking FEM inp file prerequisites for ccx_cantilever_nodeload ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_nodeload_ea98e556eeb3/Mesh.inp for ccx_cantilever_nodeload 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: Box, Object label: Box, Element name: Vertex5
+    ReferenceShape ... Type: Vertex, Object name: Box, Object label: Box, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: Box, Object label: Box, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: Box, Object label: Box, Element name: Vertex8
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_nodeload_ea98e556eeb3/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_nodeload.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_nodeload_ea98e556eeb3/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_nodeload to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_nodeload_ea98e556eeb3/ccx_cantilever_nodeload.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_nodeload--------------- 
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge4' Type: 'Edge' id: 3
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge5' Type: 'Edge' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge6' Type: 'Edge' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge7' Type: 'Edge' id: 6
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge8' Type: 'Edge' id: 7
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge9' Type: 'Edge' id: 8
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge10' Type: 'Edge' id: 9
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge11' Type: 'Edge' id: 10
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge12' Type: 'Edge' id: 11
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 12
+AddGroupElements: num elements: 4 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 13
+AddGroupElements: num elements: 4 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 14
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 15
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 16
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 17
+AddGroupElements: num elements: 20 sizeof: 8
+Added Group: Name: 'Solid1' Type: 'Volume' id: 18
+AddGroupElements: num elements: 100 sizeof: 8
+Added Group: Name: 'Vertex1' Type: '0DElement' id: 19
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: '0DElement' id: 20
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: '0DElement' id: 21
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: '0DElement' id: 22
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: '0DElement' id: 23
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: '0DElement' id: 24
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: '0DElement' id: 25
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: '0DElement' id: 26
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_constraint_centrif (femtest.app.test_ccxtools.TestCcxTools.test_constraint_centrif) ... ok
+test_constraint_contact_shell_shell (femtest.app.test_ccxtools.TestCcxTools.test_constraint_contact_shell_shell) ... 
+--------------- Start of FEM ccxtools ccx_cantilever_prescribeddisplacement test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_prescribeddisplacement_cfe17fef62ff 
+Checking FEM inp file prerequisites for ccx_cantilever_prescribeddisplacement ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_prescribeddisplacement_cfe17fef62ff/Mesh.inp for ccx_cantilever_prescribeddisplacement 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+Getting mesh data time: 0.002 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_prescribeddisplacement_cfe17fef62ff/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/ccx_cantilever_prescribeddisplacement.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_prescribeddisplacement_cfe17fef62ff/Mesh.inp 
+Save FreeCAD file for ccx_cantilever_prescribeddisplacement to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_ccx_cantilever_prescribeddisplacement_cfe17fef62ff/ccx_cantilever_prescribeddisplacement.FCStd... 
+
+--------------- End of FEM ccxtools ccx_cantilever_prescribeddisplacement--------------- 
+
+--------------- Start of FEM ccxtools constraint_contact_shell_shell test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_contact_shell_shell_ca43ee28dd12 
+Checking FEM inp file prerequisites for constraint_contact_shell_shell ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_contact_shell_shell_ca43ee28dd12/Mesh.inp for constraint_contact_shell_shell 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+ShellThickness:
+    Type: Fem::ElementGeometry2D, Name: ShellThickness
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Edge, Object name: Lower_tube, Object label: Lower_tube, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: Upper_tube, Object label: Upper_tube, Element name: Edge3
+Contact:
+    Type: Fem::ConstraintContact, Name: Contact
+    ReferenceShape ... Type: Face, Object name: Lower_tube, Object label: Lower_tube, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: Upper_tube, Object label: Upper_tube, Element name: Face1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: Load_place_point, Object label: Load_place_point, Element name: Vertex1
+Getting mesh data time: 0.787 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_contact_shell_shell_ca43ee28dd12/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.06 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/constraint_contact_shell_shell.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_contact_shell_shell_ca43ee28dd12/Mesh.inp 
+Save FreeCAD file for constraint_contact_shell_shell to /private/tmp/freecad-9ii-T61k55sb/final-regressiook
+test_constraint_contact_solid_solid (femtest.app.test_ccxtools.TestCcxTools.test_constraint_contact_solid_solid) ... ok
+test_constraint_sectionprint (femtest.app.test_ccxtools.TestCcxTools.test_constraint_sectionprint) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolid', 'mat_obj_name': 'Material', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_constraint_selfweight_cantilever (femtest.app.test_ccxtools.TestCcxTools.test_constraint_selfweight_cantilever) ... Only one material object, but this one has a reference shape. The reference shape will be ignored.
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_constraint_tie (femtest.app.test_ccxtools.TestCcxTools.test_constraint_tie) ... ns-r01/tmp/FEM_unittests/ccxtools_constraint_contact_shell_shell_ca43ee28dd12/constraint_contact_shell_shell.FCStd... 
+
+--------------- End of FEM ccxtools constraint_contact_shell_shell--------------- 
+
+--------------- Start of FEM ccxtools constraint_sectionprint test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_sectionprint_adb726ae0f23 
+Checking FEM inp file prerequisites for constraint_sectionprint ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_sectionprint_adb726ae0f23/Mesh.inp for constraint_sectionprint 
+
+Get mesh data for constraints, materials and element geometry...
+Material:
+    Type: Fem::MaterialCommon, Name: Material
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: ArcExtrude, Object label: ArcExtrude, Element name: Face8
+SectionPrint:
+    Type: Fem::ConstraintSectionPrint, Name: SectionPrint
+    ReferenceShape ... Type: Face, Object name: ArcExtrude, Object label: ArcExtrude, Element name: Face2
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: ArcExtrude, Object label: ArcExtrude, Element name: Face4
+Getting mesh data time: 0.031 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_sectionprint_adb726ae0f23/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.009 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/constraint_sectionprint.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_sectionprint_adb726ae0f23/Mesh.inp 
+Save FreeCAD file for constraint_sectionprint to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_sectionprint_adb726ae0f23/constraint_sectionprint.FCStd... 
+
+--------------- End of FEM ccxtools constraint_sectionprint--------------- 
+
+--------------- Start of FEM ccxtools constraint_selfweight_cantilever test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_selfweight_cantilever_f066436bdc60 
+Checking FEM inp file prerequisites for constraint_selfweight_cantilever ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_selfweight_cantilever_f066436bdc60/Mesh.inp for constraint_selfweight_cantilever 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Getting mesh data time: 0.401 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_selfweight_cantilever_f066436bdc60/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.006 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/constraint_selfweight_cantilever.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_selfweight_cantilever_f066436bdc60/Mesh.inp 
+Save FreeCAD file for constraint_selfweight_cantilever to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_selfweight_cantilever_f066436bdc60/constraint_selfweight_cantilever.FCStd... 
+
+--------------- End of FEM ccxtools constraint_selfweight_cantilever--------------- 
+
+--------------- Start of FEM ccxtools constraint_tie test--------------- 
+Setting up working directory /private/tmp/freeca[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MechanicalMaterialSolid', 'mat_obj_name': 'MechanicalMaterial', 'ccx_mat_name': 'Calculix-Steel'}]
+ok
+test_constraint_transform_beam_hinged (femtest.app.test_ccxtools.TestCcxTools.test_constraint_transform_beam_hinged) ... d-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_tie_dcee5f7b0ccb 
+Checking FEM inp file prerequisites for constraint_tie ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_tie_dcee5f7b0ccb/Mesh.inp for constraint_tie 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Edge1
+Tie:
+    Type: Fem::ConstraintTie, Name: Tie
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face7
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Edge, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Edge2
+Getting mesh data time: 0.024 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_tie_dcee5f7b0ccb/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.053 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/constraint_tie.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_tie_dcee5f7b0ccb/Mesh.inp 
+Save FreeCAD file for constraint_tie to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_tie_dcee5f7b0ccb/constraint_tie.FCStd... 
+
+--------------- End of FEM ccxtools constraint_tie--------------- 
+
+--------------- Start of FEM ccxtools constraint_transform_beam_hinged test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_beam_hinged_10b4fc792277 
+Checking FEM inp file prerequisites for constraint_transform_beam_hinged ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_beam_hinged_10b4fc792277/Mesh.inp for constraint_transform_beam_hinged 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: CompoundFilter, Object label: CompoundFilter, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: CompoundFilter, Object label: CompoundFilter, Element name: Face5
+Transform1:
+    Type: Fem::ConstraintTransform, Name: Transform1
+    ReferenceShape ... Type: Face, Object name: CompoundFilter, Object label: CompoundFilter, Element name: Face4
+Transform2:
+    Type: Fem::ConstraintTransform, Name: Transform2
+    ReferenceShape ... Type: Face, Object name: CompoundFilter, Object label: CompoundFilter, Element name: Face5
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: CompoundFilter, Object label: CompoundFilter, Element name: Face8
+Getting mesh data time: 0.137 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_beam_hinged_10b4fc792277/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.009 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/constraint_transform_beam_hinged.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_beam_hinged_10b4fc792277/Mesh.inp 
+Save FreeCAD file for constraint_transform_beam_hinged to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_constraint_transform_torque (femtest.app.test_ccxtools.TestCcxTools.test_constraint_transform_torque) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MechanicalMaterialSolid', 'mat_obj_name': 'MechanicalMaterial', 'ccx_mat_name': 'Calculix-Steel'}]
+ok
+test_frequency_beamsimple (femtest.app.test_ccxtools.TestCcxTools.test_frequency_beamsimple) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MechanicalMaterialSolid', 'mat_obj_name': 'MechanicalMaterial', 'ccx_mat_name': 'Steel-Generic'}]
+ok
+test_material_multiple_bendingbeam_fiveboxes (femtest.app.test_ccxtools.TestCcxTools.test_material_multiple_bendingbeam_fiveboxes) ... _constraint_transform_beam_hinged_10b4fc792277/constraint_transform_beam_hinged.FCStd... 
+
+--------------- End of FEM ccxtools constraint_transform_beam_hinged--------------- 
+
+--------------- Start of FEM ccxtools constraint_transform_torque test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_torque_24ae5c9b7136 
+Checking FEM inp file prerequisites for constraint_transform_torque ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_torque_24ae5c9b7136/Mesh.inp for constraint_transform_torque 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Cut, Object label: Cut, Element name: Face3
+Transform:
+    Type: Fem::ConstraintTransform, Name: Transform
+    ReferenceShape ... Type: Face, Object name: Cut, Object label: Cut, Element name: Face1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Cut, Object label: Cut, Element name: Face1
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+Getting mesh data time: 1.784 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_torque_24ae5c9b7136/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.027 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/constraint_transform_torque.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_torque_24ae5c9b7136/Mesh.inp 
+Save FreeCAD file for constraint_transform_torque to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_constraint_transform_torque_24ae5c9b7136/constraint_transform_torque.FCStd... 
+
+--------------- End of FEM ccxtools constraint_transform_torque--------------- 
+
+--------------- Start of FEM ccxtools frequency_beamsimple test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_frequency_beamsimple_f3b1267100cd 
+Checking FEM inp file prerequisites for frequency_beamsimple ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_frequency_beamsimple_f3b1267100cd/Mesh.inp for frequency_beamsimple 
+
+Get mesh data for constraints, materials and element geometry...
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+Fix_XYZ:
+    Type: Fem::ConstraintDisplacement, Name: Fix_XYZ
+    ReferenceShape ... Type: Edge, Object name: Box, Object label: Box, Element name: Edge4
+Fix_YZ:
+    Type: Fem::ConstraintDisplacement, Name: Fix_YZ
+    ReferenceShape ... Type: Edge, Object name: Box, Object label: Box, Element name: Edge8
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_frequency_beamsimple_f3b1267100cd/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.046 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/frequency_beamsimple.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_frequency_beamsimple_f3b1267100cd/Mesh.inp 
+Save FreeCAD file for frequency_beamsimple to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_frequency_beamsimple_f3b1267100cd/frequency_beamsimple.FCStd... 
+
+--------------- End of FEM ccxtools frequency_beamsimple--------------- 
+
+--------------- Start of FEM ccxtools material_multiple_bendingbeam_fiveboxes test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fiveboxes_29235d4da787 
+Checking FEM inp file prerequisites for material_multiple_bendingbeam_fiveboxes ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fiveboxes_29235d4da787/Mesh.inp for material_multiple_bendingbeam_fiveboxes 
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+Constraint: FemMaterial1 --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Solid, Object name: Box3, Object label: Box3, Element name: Solid1
+binary search: get_femelements_by_femnodes_bin
+Constraint: FemMaterial2 --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Solid, Object name: Box2, Object label: Box2, Element name: Solid1
+binary search: get_femelements_by_femnodes_bin
+    ReferenceShape ... Type: Solid, Object name: Box4, Object label: Box4, Element name: Solid1
+binary search: get_femelements_by_femnodes_bin
+Constraint: FemMaterial3 --> We're going to search in the mesh for the element ID's.
+Count finite elements as sum of constraints:   7315
+Count finite elements of the finite element mesh: 7315
+FemMaterial1:
+    Type: Fem::MaterialCommon, Name: FemMaterial1
+    ReferenceShape ... Type: Solid, Object name: Box3, Object label: Box3, Element name: Solid1
+FemMaterial2:
+    Type: Fem::MaterialCommon, Name: FemMaterial2
+    ReferenceShape ... Type: Solid, Object name: Box2, Object label: Box2, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: Box4, Object label: Box4, Element name: Solid1
+FemMaterial3:
+    Type: Fem::MaterialCommon, Name: FemMaterial3
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box1, Object label: Box1, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: Box5, Object label: Box5, Element name: Face2
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Face, Object name: Box1, Object label: Box1, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: Box2, Object label: Box2, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: Box3, Object label: Box3, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: Box4, Object label: Box4, Element name: Face6
+    ReferenceShape ... Type: Face, Object name: Box5, Object label: Box5, Element name: Face6
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+Getting mesh data time: 4.267 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fiveboxes_29235d4da787/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.058 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/material_multiple_bendingbeam_fiveboxes.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fiveboxes_29235d4da787/Mesh.inp 
+Save FreeCAD file for material_multiple_bendingbeam_fiveboxes to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fiveboxes_29235d4da787/material_multiple_bendingbok
+test_material_multiple_bendingbeam_fivefaces (femtest.app.test_ccxtools.TestCcxTools.test_material_multiple_bendingbeam_fivefaces) ... ok
+test_material_multiple_tensionrod_twoboxes (femtest.app.test_ccxtools.TestCcxTools.test_material_multiple_tensionrod_twoboxes) ... eam_fiveboxes.FCStd... 
+
+--------------- End of FEM ccxtools material_multiple_bendingbeam_fiveboxes--------------- 
+
+--------------- Start of FEM ccxtools material_multiple_bendingbeam_fivefaces test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fivefaces_53d4b5466825 
+Checking FEM inp file prerequisites for material_multiple_bendingbeam_fivefaces ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fivefaces_53d4b5466825/Mesh.inp for material_multiple_bendingbeam_fivefaces 
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+Constraint: FemMaterial1 --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Face, Object name: Face3, Object label: Face3, Element name: Face1
+std search: get_femelements_by_femnodes_std
+Constraint: FemMaterial2 --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Face, Object name: Face2, Object label: Face2, Element name: Face1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Face, Object name: Face4, Object label: Face4, Element name: Face1
+std search: get_femelements_by_femnodes_std
+Constraint: FemMaterial3 --> We're going to search in the mesh for the element ID's.
+Count finite elements as sum of constraints:   590
+Count finite elements of the finite element mesh: 590
+FemMaterial1:
+    Type: Fem::MaterialCommon, Name: FemMaterial1
+    ReferenceShape ... Type: Face, Object name: Face3, Object label: Face3, Element name: Face1
+FemMaterial2:
+    Type: Fem::MaterialCommon, Name: FemMaterial2
+    ReferenceShape ... Type: Face, Object name: Face2, Object label: Face2, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: Face4, Object label: Face4, Element name: Face1
+FemMaterial3:
+    Type: Fem::MaterialCommon, Name: FemMaterial3
+ShellThickness:
+    Type: Fem::ElementGeometry2D, Name: ShellThickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: Face1, Object label: Face1, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: Face5, Object label: Face5, Element name: Edge3
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Edge, Object name: Face1, Object label: Face1, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: Face2, Object label: Face2, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: Face3, Object label: Face3, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: Face4, Object label: Face4, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: Face5, Object label: Face5, Element name: Edge4
+Getting mesh data time: 0.127 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fivefaces_53d4b5466825/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.005 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/material_multiple_bendingbeam_fivefaces.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fivefaces_53d4b5466825/Mesh.inp 
+Save FreeCAD file for material_multiple_bendingbeam_fivefaces to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_bendingbeam_fivefaces_53d4b5466825/material_multiple_bendingbeam_fivefaces.FCStd... 
+
+--------------- End of FEM ccxtools material_multiple_bendingbeam_fivefaces--------------- 
+
+--------------- Start of FEM ccxtools material_multiple_tensionrod_twoboxes test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_tensionrod_twoboxes_1a51c76c296f 
+Checkinok
+test_material_nonlinear (femtest.app.test_ccxtools.TestCcxTools.test_material_nonlinear) ... g FEM inp file prerequisites for material_multiple_tensionrod_twoboxes ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_tensionrod_twoboxes_1a51c76c296f/Mesh.inp for material_multiple_tensionrod_twoboxes 
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+Constraint: MechanicalMaterialLow --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Solid, Object name: BoxLower, Object label: BoxLower, Element name: Solid1
+binary search: get_femelements_by_femnodes_bin
+Constraint: MechanicalMaterialUpp --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Solid, Object name: BoxUpper, Object label: BoxUpper, Element name: Solid1
+binary search: get_femelements_by_femnodes_bin
+Count finite elements as sum of constraints:   296
+Count finite elements of the finite element mesh: 296
+MechanicalMaterialLow:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterialLow
+    ReferenceShape ... Type: Solid, Object name: BoxLower, Object label: BoxLower, Element name: Solid1
+MechanicalMaterialUpp:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterialUpp
+    ReferenceShape ... Type: Solid, Object name: BoxUpper, Object label: BoxUpper, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: MultiMatCompSolid, Object label: MultiMatCompSolid, Element name: Face5
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: MultiMatCompSolid, Object label: MultiMatCompSolid, Element name: Face11
+Getting mesh data time: 0.33 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_tensionrod_twoboxes_1a51c76c296f/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/material_multiple_tensionrod_twoboxes.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_tensionrod_twoboxes_1a51c76c296f/Mesh.inp 
+Save FreeCAD file for material_multiple_tensionrod_twoboxes to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_multiple_tensionrod_twoboxes_1a51c76c296f/material_multiple_tensionrod_twoboxes.FCStd... 
+
+--------------- End of FEM ccxtools material_multiple_tensionrod_twoboxes--------------- 
+
+--------------- Start of FEM ccxtools material_nonlinear test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_nonlinear_aa9eed808452 
+Checking FEM inp file prerequisites for material_nonlinear ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_nonlinear_aa9eed808452/Mesh.inp for material_nonlinear 
+
+Get mesh data for constraints, materials and element geometry...
+Material_lin:
+    Type: Fem::MaterialCommon, Name: Material_lin
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Hole_Plate, Object label: Hole_Plate, Element name: Face4
+Pressure:
+    Type: Fem::ConstraintPressure, Name: Pressure
+    ReferenceShape ... Type: Face, Object name: Hole_Plate, Object label: Hole_Plate, Element name: Face2
+Getting mesh data time: 0.053 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_nonlinear_aa9eed808452/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.056 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/material_nonlinear.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_nonlinear_aa9eed808452/Mesh.i[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'Material_linSolid', 'mat_obj_name': 'Material_lin', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_square_pipe_end_twisted_edgeforces (femtest.app.test_ccxtools.TestCcxTools.test_square_pipe_end_twisted_edgeforces) ... ok
+test_square_pipe_end_twisted_nodeforces (femtest.app.test_ccxtools.TestCcxTools.test_square_pipe_end_twisted_nodeforces) ... np 
+Save FreeCAD file for material_nonlinear to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_material_nonlinear_aa9eed808452/material_nonlinear.FCStd... 
+
+--------------- End of FEM ccxtools material_nonlinear--------------- 
+
+--------------- Start of FEM ccxtools square_pipe_end_twisted_edgeforces test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_edgeforces_ebf144bcf2e6 
+Checking FEM inp file prerequisites for square_pipe_end_twisted_edgeforces ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_edgeforces_ebf144bcf2e6/Mesh.inp for square_pipe_end_twisted_edgeforces 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+ShellThickness:
+    Type: Fem::ElementGeometry2D, Name: ShellThickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge7
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge10
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge12
+Force1:
+    Type: Fem::ConstraintForce, Name: Force1
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge9
+Force2:
+    Type: Fem::ConstraintForce, Name: Force2
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge3
+Force3:
+    Type: Fem::ConstraintForce, Name: Force3
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge11
+Force4:
+    Type: Fem::ConstraintForce, Name: Force4
+    ReferenceShape ... Type: Edge, Object name: SquareTube, Object label: SquareTube, Element name: Edge6
+Getting mesh data time: 0.003 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_edgeforces_ebf144bcf2e6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.007 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/square_pipe_end_twisted_edgeforces.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_edgeforces_ebf144bcf2e6/Mesh.inp 
+Save FreeCAD file for square_pipe_end_twisted_edgeforces to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_edgeforces_ebf144bcf2e6/square_pipe_end_twisted_edgeforces.FCStd... 
+
+--------------- End of FEM ccxtools square_pipe_end_twisted_edgeforces--------------- 
+
+--------------- Start of FEM ccxtools square_pipe_end_twisted_nodeforces test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_nodeforces_68d7c17ec0d5 
+Checking FEM inp file prerequisites for square_pipe_end_twisted_nodeforces ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_nodeforces_68d7c17ec0d5/Mesh.inp for square_pipe_end_twisted_nodeforces 
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+ShellThickness:
+    Type: Fem::ElementGeometry2D, Name: ShellThickness
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex15
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex5
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex29
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex42
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex30
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex9
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex31
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex33
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex32
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex3
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex34
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex46
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex36
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex11
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex38
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex39
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex13
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex40
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex16
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex35
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex14
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex47
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex20
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex37
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex18
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex41
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex17
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex10
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex26
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex43
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex21
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex44
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex19
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex28
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex48
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex22
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex8
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex23
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex24
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex45
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex27
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex2
+    ReferenceShape ... Type: Vertex, Object name: Fixes, Object label: Fixes, Element name: Vertex25
+Force1:
+    Type: Fem::ConstraintForce, Name: Force1
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex14
+Force2:
+    Type: Fem::ConstraintForce, Name: Force2
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex2
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex8
+Force3:
+    Type: Fem::ConstraintForce, Name: Force3
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex20
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex21
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex22
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex23
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex24
+Force4:
+    Type: Fem::ConstraintForce, Name: Force4
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex9
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex10
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex11
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex13
+Force5:
+    Type: Fem::ConstraintForce, Name: Force5
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex43
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex44
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex45
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex46
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex47
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex48
+Force6:
+    Type: Fem::ConstraintForce, Name: Force6
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex31
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex32
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex33
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex34
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex35
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex36
+Force7:
+    Type: Fem::ConstraintForce, Name: Force7
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex2
+Force8:
+    Type: Fem::ConstraintForce, Name: Force8
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex8
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex14
+Force9:
+    Type: Fem::ConstraintForce, Name: Force9
+    Referenceok
+test_thermomech_bimetal (femtest.app.test_ccxtools.TestCcxTools.test_thermomech_bimetal) ... Shape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex3
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex5
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex7
+Force10:
+    Type: Fem::ConstraintForce, Name: Force10
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex15
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex16
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex17
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex18
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex19
+Force11:
+    Type: Fem::ConstraintForce, Name: Force11
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex25
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex26
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex27
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex28
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex29
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex30
+Force12:
+    Type: Fem::ConstraintForce, Name: Force12
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex37
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex38
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex39
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex40
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex41
+    ReferenceShape ... Type: Vertex, Object name: Forces, Object label: Forces, Element name: Vertex42
+Getting mesh data time: 0.009 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_nodeforces_68d7c17ec0d5/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.007 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/square_pipe_end_twisted_nodeforces.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_nodeforces_68d7c17ec0d5/Mesh.inp 
+Save FreeCAD file for square_pipe_end_twisted_nodeforces to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_square_pipe_end_twisted_nodeforces_68d7c17ec0d5/square_pipe_end_twisted_nodeforces.FCStd... 
+
+--------------- End of FEM ccxtools square_pipe_end_twisted_nodeforces--------------- 
+
+--------------- Start of FEM ccxtools thermomech_bimetal test--------------- 
+Setting up working directory /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_thermomech_bimetal_0c9b8c8f8e1f 
+Checking FEM inp file prerequisites for thermomech_bimetal ... 
+
+Check prerequisites...
+Checking FEM inp file write... 
+Writing /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_thermomech_bimetal_0c9b8c8f8e1f/Mesh.inp for thermomech_bimetal 
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+Constraint: MaterialCopper --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Solid, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Solid1
+binary searok
+test_ambiguous_native_material_properties_are_rejected (femtest.app.test_force_accounting.TestForceAccounting.test_ambiguous_native_material_properties_are_rejected) ... ok
+test_capability_probe_is_private_even_when_the_solver_is_unsupported (femtest.app.test_force_accounting.TestForceAccounting.test_capability_probe_is_private_even_when_the_solver_is_unsupported)
+Replace only the child boundary; never create probe jobs in the project. ... ok
+test_capacity_query_rejects_malformed_mappings_with_actionable_error (femtest.app.test_force_accounting.TestForceAccounting.test_capacity_query_rejects_malformed_mappings_with_actionable_error) ... ok
+test_changed_solver_files_during_solve_cannot_import_current (femtest.app.test_force_accounting.TestForceAccounting.test_changed_solver_files_during_solve_cannot_import_current) ... ok
+test_cut_request_cannot_silently_fall_back_to_stress_output (femtest.app.test_force_accounting.TestForceAccounting.test_cut_request_cannot_silently_fall_back_to_stress_output) ... ok
+test_empty_native_material_arrays_preserve_dimensions (femtest.app.test_force_accounting.TestForceAccounting.test_empty_native_material_arrays_preserve_dimensions) ... ok
+test_legacy_context_cannot_import_an_unrequested_v2_output (femtest.app.test_force_accounting.TestForceAccounting.test_legacy_context_cannot_import_an_unrequested_v2_output) ... ok
+test_legacy_import_does_not_claim_mpc_capability (femtest.app.test_force_accounting.TestForceAccounting.test_legacy_import_does_not_claim_mpc_capability) ... ok
+test_native_array_nonquantity_columns_preserve_input_sensitivity (femtest.app.test_force_accounting.TestForceAccounting.test_native_array_nonquantity_columns_preserve_input_sensitivity) ... ok
+test_native_array_null_and_authored_zero_fingerprints_are_distinct (femtest.app.test_force_accounting.TestForceAccounting.test_native_array_null_and_authored_zero_fingerprints_are_distinct) ... ok
+test_native_material_typed_values_preserve_content_without_addresses (femtest.app.test_force_accounting.TestForceAccounting.test_native_material_typed_values_preserve_content_without_addresses) ... ok
+test_output_parser_is_strict (femtest.app.test_force_accounting.TestForceAccounting.test_output_parser_is_strict) ... ok
+test_properties_are_opt_in_and_restore (femtest.app.test_force_accounting.TestForceAccounting.test_properties_are_opt_in_and_restore) ... ok
+test_reading_native_material_does_not_change_input_identity (femtest.app.test_force_accounting.TestForceAccounting.test_reading_native_material_does_not_change_input_identity) ... ok
+test_real_model_edits_during_solve_cannot_import_current (femtest.app.test_force_accounting.TestForceAccounting.test_real_model_edits_during_solve_cannot_import_current) ... ok
+test_result_restore_and_model_changes_invalidate (femtest.app.test_force_accounting.TestForceAccounting.test_result_restore_and_model_changes_invalidate) ... ok
+test_retained_native_material_import_and_historical_restore (femtest.app.test_force_accounting.TestForceAccounting.test_retained_native_material_import_and_historical_restore) ... ok
+test_stock_export_records_complete_effective_capacity (femtest.app.test_force_accounting.TestForceAccounting.test_stock_export_records_complete_effective_capacity)
+A normal export binds its full graph to the external resource policy. ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Export boundary material'}]
+ok
+test_stock_export_refuses_complete_port_count_before_mesh_work (femtest.app.test_force_accounting.TestForceAccounting.test_stock_export_refuses_complete_port_count_before_mesh_work)
+Capacity is checked even before an unfinished model has a mesh. ... Base.FreeCADError: FEM: no mesh object found in analysis.
+ The prerequisite check will fail.
+ok
+test_unknown_solver_capability_is_rejected (femtest.app.test_force_accounting.TestForceAccounting.test_unknown_solver_capability_is_rejected) ... ok
+test_v2_keeps_mpc_transfer_separate_from_load_and_contact (femtest.app.test_force_accounting.TestForceAccounting.test_v2_keeps_mpc_transfer_separate_from_load_and_contact) ... ok
+test_v2_request_cannot_import_a_downgraded_v1_output (femtest.app.test_force_accounting.TestForceAccounting.test_v2_request_cannot_import_a_downgraded_v1_output) ... ok
+test_control_geometry_and_cold_restore_invalidate (femtest.app.test_mesh_quality.TestMeshQuality.test_control_geometry_and_cold_restore_invalidate) ... ok
+test_curved_quadratic_native_warning_preserves_raw_output (femtest.app.test_mesh_quality.TestMeshQuality.test_curved_quadratic_native_warning_preserves_raw_output) ... ch: get_femelements_by_femnodes_bin
+Constraint: MaterialInvar --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Solid, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Solid2
+binary search: get_femelements_by_femnodes_bin
+Count finite elements as sum of constraints:   1500
+Count finite elements of the finite element mesh: 1500
+MaterialCopper:
+    Type: Fem::MaterialCommon, Name: MaterialCopper
+    ReferenceShape ... Type: Solid, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Solid1
+MaterialInvar:
+    Type: Fem::MaterialCommon, Name: MaterialInvar
+    ReferenceShape ... Type: Solid, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Solid2
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face7
+TemperatureHot:
+    Type: Fem::ConstraintTemperature, Name: TemperatureHot
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face11
+TemperatureNormal:
+    Type: Fem::ConstraintTemperature, Name: TemperatureNormal
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BooleanFragments, Object label: BooleanFragments, Element name: Face7
+InitialTemperature:
+    Type: Fem::ConstraintInitialTemperature, Name: InitialTemperature
+Getting mesh data time: 2.723 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_thermomech_bimetal_0c9b8c8f8e1f/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.013 seconds.
+Comparing /Users/zukomgwili/src/FreeCAD/build/release//Mod/Fem/femtest/data/calculix/thermomech_bimetal.inp to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_thermomech_bimetal_0c9b8c8f8e1f/Mesh.inp 
+Save FreeCAD file for thermomech_bimetal to /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/FEM_unittests/ccxtools_thermomech_bimetal_0c9b8c8f8e1f/thermomech_bimetal.FCStd... 
+
+--------------- End of FEM ccxtools thermomech_bimetal--------------- 
+
+Get mesh data for constraints, materials and element geometry...
+MaterialSolid:
+    Type: Fem::MaterialCommon, Name: MaterialSolid
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+R:
+    Type: Fem::ConstraintRigidBody, Name: R
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+Getting mesh data time: 0.007 seconds.
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmp9mdx9z0w/MeshGmsh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+    ReferenceShape ... Type: Solid, Object name: Geometry, Object label: Geometry, Element name: Solid1
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpjndznadm/Torus_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpjndznadm/Torus_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpjndznadm/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 9
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 10
+AddGroupElements: num elements: 1 sizeof: 8
+ok
+test_geometry_changed_during_check_cannot_acquire_old_diagnostics (femtest.app.test_mesh_quality.TestMeshQuality.test_geometry_changed_during_check_cannot_acquire_old_diagnostics) ... ok
+test_successful_curved_generation_remains_unchecked (femtest.app.test_mesh_quality.TestMeshQuality.test_successful_curved_generation_remains_unchecked) ...   ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpmbb4vamn/Solid_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpmbb4vamn/Solid_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpmbb4vamn/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 9
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 10
+AddGroupElements: num elements: 1 sizeof: 8
+ok
+test_unchecked_and_native_ids_are_not_quality_acceptance (femtest.app.test_mesh_quality.TestMeshQuality.test_unchecked_and_native_ids_are_not_quality_acceptance) ... 
+
+CalculiX returned an error due to nonpositive jacobian elements.
+ok
+test_analysis_backlink_does_not_create_a_recompute_dependency_cycle (femtest.app.test_contact_observation.TestContactObservation.test_analysis_backlink_does_not_create_a_recompute_dependency_cycle) ... ok
+test_legacy_accounting_is_preserved_but_not_used_as_movement (femtest.app.test_contact_observation.TestContactObservation.test_legacy_accounting_is_preserved_but_not_used_as_movement) ... ok
+test_recompute_does_not_implicitly_refresh_an_editable_observation (femtest.app.test_contact_observation.TestContactObservation.test_recompute_does_not_implicitly_refresh_an_editable_observation) ... ok
+test_unconfigured_result_is_explicitly_unavailable_not_zero (femtest.app.test_contact_observation.TestContactObservation.test_unconfigured_result_is_explicitly_unavailable_not_zero) ... ok
+test_ambiguous_or_nonstatic_final_displacement_frames_are_rejected (femtest.app.test_contact_observation_source.TestContactObservationSource.test_ambiguous_or_nonstatic_final_displacement_frames_are_rejected) ... ok
+test_changed_and_restored_source_during_native_read_is_not_returned (femtest.app.test_contact_observation_source.TestContactObservationSource.test_changed_and_restored_source_during_native_read_is_not_returned) ... ok
+test_duplicate_geometry_or_displacement_ids_are_not_silently_overwritten (femtest.app.test_contact_observation_source.TestContactObservationSource.test_duplicate_geometry_or_displacement_ids_are_not_silently_overwritten) ... ok
+test_file_or_model_changes_reject_without_rewriting_accounting_history (femtest.app.test_contact_observation_source.TestContactObservationSource.test_file_or_model_changes_reject_without_rewriting_accounting_history) ... ok
+test_final_time_must_match_exactly_not_with_a_solver_tolerance (femtest.app.test_contact_observation_source.TestContactObservationSource.test_final_time_must_match_exactly_not_with_a_solver_tolerance) ... ok
+test_initial_adjustment_is_rejected_even_below_frd_print_precision (femtest.app.test_contact_observation_source.TestContactObservationSource.test_initial_adjustment_is_rejected_even_below_frd_print_precision) ... ok
+test_legacy_or_mismatched_bindings_are_explicitly_unavailable (femtest.app.test_contact_observation_source.TestContactObservationSource.test_legacy_or_mismatched_bindings_are_explicitly_unavailable) ... ok
+test_local_output_and_unbound_deck_includes_are_not_global_displacement (femtest.app.test_contact_observation_source.TestContactObservationSource.test_local_output_and_unbound_deck_includes_are_not_global_displacement) ... ok
+test_missing_or_nonfinite_physical_u_does_not_become_a_zero_vector (femtest.app.test_contact_observation_source.TestContactObservationSource.test_missing_or_nonfinite_physical_u_does_not_become_a_zero_vector) ... ok
+test_native_reader_sidecar_is_not_an_unbound_input (femtest.app.test_contact_observation_source.TestContactObservationSource.test_native_reader_sidecar_is_not_an_unbound_input) ... ok
+test_original_sparse_node_ids_and_native_vectors_are_preserved (femtest.app.test_contact_observation_source.TestContactObservationSource.test_original_sparse_node_ids_and_native_vectors_are_preserved) ... ok
+test_source_changed_during_native_file_read_is_not_returned (femtest.app.test_contact_observation_source.TestContactObservationSource.test_source_changed_during_native_file_read_is_not_returned) ... ok
+test_tet10_corner_and_midside_reassignment_is_not_the_same_topology (femtest.app.test_contact_observation_source.TestContactObservationSource.test_tet10_corner_and_midside_reassignment_is_not_the_same_topology) ... ok
+test_wrong_coordinates_or_original_volume_topology_cannot_qualify (femtest.app.test_contact_observation_source.TestContactObservationSource.test_wrong_coordinates_or_original_volume_topology_cannot_qualify) ... ok
+test_capacity_echo_must_match_owned_child_before_current_import (femtest.app.test_movement_provenance.TestMovementProvenance.test_capacity_echo_must_match_owned_child_before_current_import) ... ok
+test_changed_capacity_requires_reexport_before_launch_or_output_quarantine (femtest.app.test_movement_provenance.TestMovementProvenance.test_changed_capacity_requires_reexport_before_launch_or_output_quarantine)
+A real child query changes; prior output must survive the refusal. ... ok
+test_dotted_input_name_runs_exact_requested_deck_not_neighboring_deck (femtest.app.test_movement_provenance.TestMovementProvenance.test_dotted_input_name_runs_exact_requested_deck_not_neighboring_deck) ... ok
+test_existing_symlink_output_is_refused_without_touching_its_target (femtest.app.test_movement_provenance.TestMovementProvenance.test_existing_symlink_output_is_refused_without_touching_its_target) ... ok
+test_failed_child_preserves_previous_frd_without_creating_current_result (femtest.app.test_movement_provenance.TestMovementProvenance.test_failed_child_preserves_previous_frd_without_creating_current_result) ... ok
+test_failed_launch_preserves_previous_frd_without_restoring_it_as_current (femtest.app.test_movement_provenance.TestMovementProvenance.test_failed_launch_preserves_previous_frd_without_restoring_it_as_current) ... ok
+test_fresh_frd_binds_exact_bytes_and_requested_state_not_qualified_field (femtest.app.test_movement_provenance.TestMovementProvenance.test_fresh_frd_binds_exact_bytes_and_requested_state_not_qualified_field) ... ok
+test_legacy_export_still_refuses_current_budget_before_quarantine (femtest.app.test_movement_provenance.TestMovementProvenance.test_legacy_export_still_refuses_current_budget_before_quarantine) ... ok
+test_output_replaced_after_child_completion_cannot_bind_movement (femtest.app.test_movement_provenance.TestMovementProvenance.test_output_replaced_after_child_completion_cannot_bind_movement) ... ok
+test_save_restore_keeps_exact_source_history_but_never_current_status (femtest.app.test_movement_provenance.TestMovementProvenance.test_save_restore_keeps_exact_source_history_but_never_current_status) ... ok
+test_success_without_new_frd_preserves_old_without_binding_movement (femtest.app.test_movement_provenance.TestMovementProvenance.test_success_without_new_frd_preserves_old_without_binding_movement) ... ok
+test_unfinished_context_and_legacy_context_cannot_attest_existing_frd (femtest.app.test_movement_provenance.TestMovementProvenance.test_unfinished_context_and_legacy_context_cannot_attest_existing_frd) ... ok
+test_coincident_input_owner_change_invalidates_signature (femtest.app.test_geometry_signature.TestGeometrySignature.test_coincident_input_owner_change_invalidates_signature) ... ok
+test_curved_signature_survives_native_reopen (femtest.app.test_geometry_signature.TestGeometrySignature.test_curved_signature_survives_native_reopen) ... ok
+test_legacy_signature_requires_exact_current_geometry (femtest.app.test_geometry_signature.TestGeometrySignature.test_legacy_signature_requires_exact_current_geometry) ... ok
+test_ambiguous_group_fails_closed (femtest.app.test_reference_groups.TestReferenceGroups.test_ambiguous_group_fails_closed) ... ok
+test_exact_identity_precedes_geometry (femtest.app.test_reference_groups.TestReferenceGroups.test_exact_identity_precedes_geometry) ... ok
+test_explicit_compound_face (femtest.app.test_reference_groups.TestReferenceGroups.test_explicit_compound_face) ... ok
+test_explicit_index_with_reversed_owner (femtest.app.test_reference_groups.TestReferenceGroups.test_explicit_index_with_reversed_owner) ... ok
+test_external_coincident_geometry_is_ambiguous (femtest.app.test_reference_groups.TestReferenceGroups.test_external_coincident_geometry_is_ambiguous) ... ok
+test_independently_owned_coincident_faces (femtest.app.test_reference_groups.TestReferenceGroups.test_independently_owned_coincident_faces) ... ok
+test_link_occurrence_ownership_after_reopen (femtest.app.test_reference_groups.TestReferenceGroups.test_link_occurrence_ownership_after_reopen) ... ok
+test_missing_geometry_still_returns_none (femtest.app.test_reference_groups.TestReferenceGroups.test_missing_geometry_still_returns_none) ... ok
+test_native_mesh_groups (femtest.app.test_reference_groups.TestReferenceGroups.test_native_mesh_groups) ... nonpositive_jacobian_elements = [1]
+nonpositive_jacobian_elenodes = [1, 2, 3, 4]
+
+Following some commands to copy. They highlight the nonpositive jacobians or to reset the highlighted nodes:
+Gui.ActiveDocument.Mesh.HighlightedNodes = nonpositive_jacobian_elenodes
+Gui.ActiveDocument.Mesh.HighlightedNodes = []
+
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpvi0fr4ed/model.frd
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpcjbf1iu8/model.frd
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpj8tugr28/model.frd
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmp59viq2rd/model.frd
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmp8na8yked/model.frd
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpru86faco/model.frd
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/tmpru86faco/model.frd
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/freecad-reference-mesh-htwzey_r/Compound_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/freecad-reference-mesh-htwzey_r/Compound_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/final-regressions-r01/tmp/freecad-reference-mesh-htwzey_r/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+  Mesh group objects, we need to get the elements.
+Added Group: Name: 'FirstGroup' Type: 'All' id: 54
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'SecondGroup' Type: 'All' id: 55
+AddGroupElements: num elements: 16 sizeof: 8
+  Group meshing for analysis is set to true in FEM General Preferences. Are you really sure about this? You could run into trouble!
+Added Group: Name: 'FirstBody' Type: 'All' id: 56
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'SecondBody' Type: 'All' id: 57
+AddGroupElements: num elements: 16 sizeof: 8
+Added Group: Name: 'Vertex1' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 70
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 71
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 72
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 73
+AddGroupElements: num elements: 1 sizeof: 8
+ok
+test_nested_compound_ownership_after_reopen (femtest.app.test_reference_groups.TestReferenceGroups.test_nested_compound_ownership_after_reopen) ... ok
+test_noncoincident_and_regeneration (femtest.app.test_reference_groups.TestReferenceGroups.test_noncoincident_and_regeneration) ... ok
+test_opposite_orientation (femtest.app.test_reference_groups.TestReferenceGroups.test_opposite_orientation) ... ok
+test_partner_placement_is_not_ignored (femtest.app.test_reference_groups.TestReferenceGroups.test_partner_placement_is_not_ignored) ... ok
+test_persistence_and_group_regeneration (femtest.app.test_reference_groups.TestReferenceGroups.test_persistence_and_group_regeneration) ... ok
+test_solids_edges_and_vertices (femtest.app.test_reference_groups.TestReferenceGroups.test_solids_edges_and_vertices) ... ok
+test_unique_external_geometry (femtest.app.test_reference_groups.TestReferenceGroups.test_unique_external_geometry) ... ok
+test_whole_compound_reference (femtest.app.test_reference_groups.TestReferenceGroups.test_whole_compound_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 110 tests in 12.649s
+
+OK

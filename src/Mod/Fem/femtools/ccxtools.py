@@ -369,8 +369,11 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         self.set_inp_file_name()
 
     def write_inp_file(self):
+        from femtools import contact_state
         from femtools import force_accounting
 
+        force_accounting.invalidate(self.analysis, "solver input rewrite attempted")
+        contact_export = contact_state.begin_export(self)
         # Count the complete active graph before any mesh-set resolution,
         # connector validation or deck writing can incur expensive work.
         self.native_accounting_capacity = force_accounting.capacity_preflight(
@@ -417,10 +420,12 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
                 meshdatagetter.mat_geo_sets,
             )
             inp_writer.native_accounting_capacity = self.native_accounting_capacity
+            inp_writer.native_contact_export_digest = contact_export
             self.inp_file_name = inp_writer.write_solver_input()
             from femtools import force_accounting
 
             force_accounting.prepare_request(inp_writer)
+            contact_state.prepare_request(inp_writer)
         except Exception:
             FreeCAD.Console.PrintError(
                 f"Unexpected error when writing CalculiX input file: {sys.exc_info()[1]}\n"
@@ -440,11 +445,17 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
 
         """
         error_title = self.tr("No or wrong CalculiX binary ccx")
+        from femtools import contact_state
         from femtools import force_accounting
 
-        if ccx_binary is None and force_accounting.enabled(self.solver):
+        if ccx_binary is None and (
+            force_accounting.enabled(self.solver) or contact_state.enabled(self.solver)
+        ):
             ccx_binary = force_accounting.solver_binary(self.solver)
-            force_accounting.require_capability(ccx_binary)
+            if force_accounting.enabled(self.solver):
+                force_accounting.require_capability(ccx_binary)
+            if contact_state.enabled(self.solver):
+                contact_state.require_capability(ccx_binary)
         self.ccx_binary = ccx_binary
         if self.ccx_binary is None:
             self.ccx_binary = FreeCAD.ParamGet(
@@ -512,6 +523,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
     def start_ccx(self):
         import multiprocessing
         from femmesh import quality
+        from femtools import contact_state
         from femtools import force_accounting
 
         self._quality_input = quality.input_fingerprint(self.mesh)
@@ -522,6 +534,11 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         num_cpu_pref = self.ccx_prefs.GetInt("AnalysisNumCPUs", 1)
         context = force_accounting.run_context(self, self.ccx_binary)
         environment = context[0] if context else dict(os.environ)
+        environment.pop(contact_state.ENV, None)
+        environment.pop("CCX_9ZT_DIAGNOSTIC", None)
+        contact_context = contact_state.run_context(self, self.ccx_binary, environment=environment)
+        if contact_context:
+            environment = contact_context["environment"]
         # A per-process environment/cwd avoids leaking accounting activation,
         # thread settings or a temporary directory into another solver run.
         environment["OMP_NUM_THREADS"] = str(
@@ -539,11 +556,26 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             cwd=f.path(),
         )
         self.ccx_stdout, self.ccx_stderr = p.communicate()
-        force_accounting.finish_run(context, p.returncode, self.ccx_stdout)
+        errors = []
+        accounting_finished = False
+        try:
+            force_accounting.finish_run(context, p.returncode, self.ccx_stdout)
+            accounting_finished = True
+        except Exception as error:
+            errors.append(error)
         self.ccx_stdout = self.ccx_stdout.decode()
         self.ccx_stderr = self.ccx_stderr.decode()
-        if p.returncode == 0 and context:
-            force_accounting.import_result(self, context)
+        if p.returncode == 0 and context and accounting_finished:
+            try:
+                force_accounting.import_result(self, context)
+            except Exception as error:
+                errors.append(error)
+        try:
+            contact_state.finish_run(self, contact_context, p.returncode, self.ccx_stdout)
+        except Exception as error:
+            errors.append(error)
+        if errors:
+            raise ValueError("; ".join(str(error) for error in errors)) from errors[0]
         return p.returncode
 
     def get_ccx_version(self):
@@ -568,6 +600,11 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         return (int(m.group(1)), int(m.group(2)))
 
     def ccx_run(self):
+        from femtools import contact_state
+        from femtools import force_accounting
+
+        force_accounting.invalidate(self.analysis, "new solver run attempted")
+        contact_state.invalidate(self.analysis, "new solver run attempted")
         ret_code = None
         FreeCAD.Console.PrintMessage("\n")  # because of time print in separate line
         FreeCAD.Console.PrintMessage("CalculiX solver run...\n")

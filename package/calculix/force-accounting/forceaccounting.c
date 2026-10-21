@@ -1550,3 +1550,6 @@ void fa_emit(
     free(mpc);
     free(order);
 }
+
+/* Independent opt-in diagnostics; the V1/V2/V3 accounting wire is unchanged. */
+#include "contactstate.c"

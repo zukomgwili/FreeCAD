@@ -46,10 +46,15 @@ def main():
     parser.add_argument("--baseline", action="store_true")
     parser.add_argument("--patch", type=Path)
     parser.add_argument("--extra-source", type=Path)
+    parser.add_argument("--contact-source", type=Path)
     parser.add_argument("--runtime-prefix", type=Path)
     args = parser.parse_args()
-    if args.baseline and (args.patch or args.extra_source):
+    if args.baseline and (args.patch or args.extra_source or args.contact_source):
         parser.error("baseline builds cannot contain a source extension")
+    if args.contact_source and (
+        not args.extra_source or args.contact_source.name != "contactstate.c"
+    ):
+        parser.error("contactstate.c requires the declared forceaccounting.c overlay")
     here = Path(__file__).resolve().parent
     recipe = args.recipe.resolve()
     archive = args.source_archive.resolve()
@@ -102,6 +107,8 @@ def main():
                 "only the declared forceaccounting.c source overlay is supported"
             )
         shutil.copyfile(args.extra_source, src / args.extra_source.name)
+    if args.contact_source:
+        shutil.copyfile(args.contact_source, src / args.contact_source.name)
     manifest = target / "pixi.toml"
     run(
         ["pixi", "install", "--locked", "--manifest-path", str(manifest)],
@@ -184,6 +191,7 @@ def main():
         "recipe_pins_sha256": digest(here / "recipe-pins.json"),
         "probe_patch_sha256": digest(selected_patch) if not args.baseline else None,
         "extra_source_sha256": digest(args.extra_source) if args.extra_source else None,
+        "contact_source_sha256": digest(args.contact_source) if args.contact_source else None,
         "toolchain_lock_sha256": digest(here / "pixi.lock"),
         "binary": str(binary),
         "binary_sha256": digest(binary),

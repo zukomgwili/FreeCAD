@@ -1,0 +1,124 @@
+{
+  "schema": "FREECAD_9II_INDEPENDENT_EVIDENCE_REVIEW_V1",
+  "issue": "FreeCAD-9ii",
+  "reviewer": "/root/contact_9ii_evidence_audit",
+  "reviewed_at_utc": "2026-10-21T14:50:00Z",
+  "result": "PASS: no unresolved material evidence finding",
+  "unresolved_material_findings": [],
+  "review_boundary": {
+    "native_application_solver_or_build_execution_by_reviewer": false,
+    "production_or_existing_evidence_files_edited_by_reviewer": false,
+    "only_written_artifact": "package/local-completion/freecad-9ii-source-evidence/independent-evidence-review.json",
+    "method": "Read-only SHA256, JSON cross-reference, original-file comparison, streamed archive verification, native-binary hashing and independent protected-tree inventories. No archive extraction or native execution."
+  },
+  "reviewed_indices_sha256": {
+    "manifest.json": "518fab998e06d8d79341593407a8e487681d16b5b6e0843e36f356028756167e",
+    "execution-index.json": "5f5b96803d417c2fb18d98edf7720daa863be805af14686eec818d0ab6601fc0",
+    "native-fixture-index.json": "9cce55c45925ec2963242d21d951d3bb88b7e7b6f212a2e477ee104faef8072c",
+    "native-fixtures.tar.gz": "0404299d4f12c896d0d1bc2071d4250a1070cc5af7529227fdc3c2cdf3136e60",
+    "receipts/code-review-safety-final.json": "0aa043bef64bd3aab072a9b2aba2c034577037139019fc72a03bbabb712d1f06",
+    "native-build/build-receipt.json": "31f8f42e6ea321d659c1965a1bcfb299910863ba75803c05475511c995fa5ccc"
+  },
+  "validation_index_sha256_before_audit_reference_finalization": "d3f6d1ce5545122ac43f13e3f9455d33623eb424486cfead6f1d85477076f19e",
+  "manifest_verification": {
+    "files_verified": 315,
+    "all_sizes_and_sha256_match": true,
+    "duplicates_missing_or_unexpected_files_at_review": false,
+    "this_receipt_is_an_explicit_post_manifest_addition": true
+  },
+  "execution_verification": {
+    "receipts_verified": 69,
+    "passed_historical_attempts": 56,
+    "failed_historical_attempts": 13,
+    "all_log_hashes_match": true,
+    "all_curated_execution_receipts_match_original_private_bytes": true,
+    "all_recorded_children_reaped_and_groups_gone": true,
+    "recorded_timeouts": 0,
+    "all_protected_before_after_inventories_equal": true,
+    "all_final_gate_input_before_after_hashes_equal": true,
+    "final_test_count": 135,
+    "failed_attempts_remain_failed_and_classified_separately": true
+  },
+  "final_gates": {
+    "application-build-r03": {
+      "tests": null,
+      "passed": true,
+      "log_sha256": "d9a70fac8357dce5e8e935ff5a8556823d0c83f9d2477176900f8d6c5be4a141"
+    },
+    "gui-r05": {
+      "tests": 4,
+      "passed": true,
+      "log_sha256": "992668cd679ac6c760b33138418ca7bbe520ed7e30a71d995d918f70f167c7d4"
+    },
+    "final-native-r02": {
+      "tests": 14,
+      "passed": true,
+      "log_sha256": "70fa12d19acb1c9ccdd385d59003bfde3448d72fce4dc4801da3407a8272acf3"
+    },
+    "final-interfaces-r02": {
+      "tests": 1,
+      "passed": true,
+      "log_sha256": "928f30887c379f7379a5191b53537e94a732b9c403bcee4218e6e40980171f80"
+    },
+    "final-fingerprint-r02": {
+      "tests": 5,
+      "passed": true,
+      "log_sha256": "4ca92340b2451fd2b7318b85cea876884d74ac5ad892d4e16c7a8cdc3efb06b6"
+    },
+    "final-regressions-r02": {
+      "tests": 110,
+      "passed": true,
+      "log_sha256": "78790c709bfe9f0f4dde0a897f41bcda570404fa8cbf81a35fe32bac549ae26c"
+    },
+    "cold-r03": {
+      "tests": 1,
+      "passed": true,
+      "log_sha256": "911eb65e37706a0b2cac4415dff75855adabba720e5a7bfc0e92c1d9a313abc4"
+    },
+    "native-build-r03": {
+      "tests": null,
+      "passed": true,
+      "log_sha256": "a443848801b2dc0e7d50744a8e941abaf0f4efc39e46a21f9e138e7d79e8f876"
+    }
+  },
+  "source_verification": {
+    "current_source_hashes_verified": 19,
+    "all_match_independent_safety_review": true,
+    "all_final_FEM_sources_match_GUI_and_application_build_input_fences": true,
+    "all_indexed_snapshot_bytes_match_original_private_input_copies": true,
+    "ancillary_snapshot_occurrences_outside_that_gate_input_fingerprint": 128,
+    "qualification": "The supervisor also copied changed ancillary source files that were not dependencies fingerprinted by a particular CLI or native-build gate. Such copied context is not treated as execution proof for that gate. Final GUI and application-build receipts independently bind the current FEM GUI source hashes."
+  },
+  "archive_verification": {
+    "members_verified": 244,
+    "uncompressed_bytes_verified": 25124347,
+    "all_members_regular_unique_and_safe_relative_paths": true,
+    "all_member_hashes_sizes_and_original_path_mapping_match": true,
+    "all_original_source_bytes_match_curated_members": true,
+    "native_executable_or_library_magic_found": false,
+    "vendor_source_or_build_tree_found": false,
+    "cold_fixture_file_bindings_verified_excluding_separate_native_binary": 5,
+    "relocation_qualification": "Archive contents retain original absolute provenance and literal bytes. The mapping records relocation only and does not make copied historical files Current."
+  },
+  "native_binary_verification": {
+    "qualified_sha256": "0c2a86318df9c7cc9d921e5068ae52f1d53e27b7b16747e00a74ccc8fe37c6cc",
+    "private_native_build_binary_matches": true,
+    "current_build_release_bundled_binary_matches": true,
+    "platform_binary_not_curated_in_archive": true,
+    "original_build_receipt_unchanged": true,
+    "dependency_functional_tests_passed": true,
+    "original_build_receipt_physical_duty_qualified": false,
+    "meaning": "Dependency-build evidence remains separate from the later analytical software-output tests. Neither is structural design or contact-law accuracy acceptance."
+  },
+  "current_protected_inventory_sha256": {
+    "/Applications/FreeCAD-27.1.0.app": "ad3e2241c9688ea15738d70ad8bd8ad6bd1bf2469c3161825b7b1da158a93438",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "bcb11703599d9074ff9c8484b6d076780a8b310b0b46bd74a91bd31f79747ee2",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "8f7c2f513fa24f4ccafc300266f7a86ca235edcfdb442c8600317bea5c697e92",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "1b72daebc9c9b390deed22f7b7a33ac56e8a500b35921d739111361809694efd"
+  },
+  "qualifications": [
+    "Cold restore proves exact historical raw-label and provenance preservation plus fail-closed refusal when restored native mesh labels differ. It does not claim cold Current promotion; a fresh stock export and owned run are required.",
+    "This evidence audit is not an additional native execution or code review, and it does not reinterpret recorded harness failures as product regressions or successful gates.",
+    "No application installation, Oomakhi opening or solve, engineering acceptance, geometry/load change or acceptance-limit change is asserted."
+  ]
+}

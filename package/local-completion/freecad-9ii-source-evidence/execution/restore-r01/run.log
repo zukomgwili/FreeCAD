@@ -1,0 +1,404 @@
+test_native_compression_preserves_local_identity_and_actual_stick (femtest.app.test_contact_state_native.TestContactStateNative.test_native_compression_preserves_local_identity_and_actual_stick) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +233 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-8hilqj48/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-8hilqj48/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-8hilqj48/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_nonzero_elastic_tangential_motion_is_stick_not_sliding (femtest.app.test_contact_state_native.TestContactStateNative.test_nonzero_elastic_tangential_motion_is_stick_not_sliding) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-8hilqj48/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-8hilqj48/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-8hilqj48/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-2xkdevbe/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-2xkdevbe/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-2xkdevbe/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_only_retained_increments_are_reported_with_native_frame_identity (femtest.app.test_contact_state_native.TestContactStateNative.test_only_retained_increments_are_reported_with_native_frame_identity) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-2xkdevbe/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-2xkdevbe/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-2xkdevbe/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-j52aw76g/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-j52aw76g/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-j52aw76g/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_opening_is_measured_at_native_projection_without_invented_traction (femtest.app.test_contact_state_native.TestContactStateNative.test_opening_is_measured_at_native_projection_without_invented_traction) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.024 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-j52aw76g/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-j52aw76g/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-j52aw76g/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-t82h678b/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-t82h678b/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-t82h678b/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_saved_native_contact_output_is_historical_until_explicit_revalidation (femtest.app.test_contact_state_native.TestContactStateNative.test_saved_native_contact_output_is_historical_until_explicit_revalidation) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-t82h678b/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-t82h678b/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-t82h678b/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-zaqtgzsn/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-zaqtgzsn/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-zaqtgzsn/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ERROR
+test_sliding_reports_actual_native_branch_and_positive_plastic_increment (femtest.app.test_contact_state_native.TestContactStateNative.test_sliding_reports_actual_native_branch_and_positive_plastic_increment) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-zaqtgzsn/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-zaqtgzsn/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-zaqtgzsn/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-s0jqs2rx/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-s0jqs2rx/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-s0jqs2rx/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+
+======================================================================
+ERROR: test_saved_native_contact_output_is_historical_until_explicit_revalidation (femtest.app.test_contact_state_native.TestContactStateNative.test_saved_native_contact_output_is_historical_until_explicit_revalidation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_contact_state_native.py", line 211, in test_saved_native_contact_output_is_historical_until_explicit_revalidation
+    self.assertEqual(restored.Proxy.getContactStates(restored), model.data)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/contact_state.py", line 675, in getContactStates
+    raise ValueError(obj.Status)
+ValueError: Unavailable: Native contact model, mesh, solver, request or files changed
+
+----------------------------------------------------------------------
+Ran 6 tests in 3.727s
+
+FAILED (errors=1)
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.024 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-s0jqs2rx/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-s0jqs2rx/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/restore-r01/tmp/freecad-contact-state-native-s0jqs2rx/Mesh.dat

@@ -16,6 +16,7 @@ import re
 import FreeCAD
 
 from femtools.native_properties import property_value
+from femtools.native_properties import is_worker_session_property
 
 from . import meshtools
 
@@ -103,7 +104,14 @@ def input_fingerprint(mesh):
 
     def control(value):
         if hasattr(value, "Document") and hasattr(value, "PropertiesList"):
-            key = (value.Document.Name, value.Name)
+            # A local document's session name may change to its filename on
+            # restore. Object names and physical links persist; do not bind
+            # unchanged controls to that process-local container name.
+            key = (
+                ("local", value.Name)
+                if value.Document == mesh.Document
+                else ("external", value.Document.Name, value.Name)
+            )
             if key in seen:
                 return key
             seen.add(key)
@@ -113,6 +121,7 @@ def input_fingerprint(mesh):
                     name: control(value.getPropertyByName(name))
                     for name in sorted(value.PropertiesList)
                     if name not in ("Shape", "Proxy", "ExpressionEngine")
+                    and not is_worker_session_property(value, name)
                 },
             ]
         if isinstance(value, (list, tuple)):

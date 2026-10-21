@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/calculix-9zt-probe/build_probe.py", line 206, in <module>
+    main()
+    ~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/calculix-9zt-probe/build_probe.py", line 92, in main
+    run(
+    ~~~^
+        [
+        ^
+    ...<8 lines>...
+        target / "accounting-patch.log",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/calculix-9zt-probe/build_probe.py", line 31, in run
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        command,
+        ^^^^^^^^
+    ...<4 lines>...
+        check=True,
+        ^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['patch', '-p1', '--batch', '--forward', '-i', '/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch']' returned non-zero exit status 1.

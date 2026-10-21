@@ -1,0 +1,55 @@
+"""DEBUG-9ii-fingerprint: diagnostic snapshots, not a passing feature oracle."""
+import json
+from pathlib import Path
+import sys
+import unittest
+
+import FreeCAD as App
+from femtest.app import test_contact_state_native as native
+from femtools import force_accounting
+from femmesh import quality
+
+
+def snapshot(analysis, mesh):
+    captured = {}
+
+    def profile(frame, event, value):
+        if event == 'return' and frame.f_code is force_accounting._model_digest.__code__:
+            captured.update(digest=value, state=json.loads(json.dumps(frame.f_locals['state'])))
+        if event == 'return' and frame.f_code is quality.input_fingerprint.__code__:
+            captured.update(controls=json.loads(json.dumps(frame.f_locals['controls'])),
+                            document=mesh.Document.Name)
+
+    previous = sys.getprofile()
+    sys.setprofile(profile)
+    try:
+        force_accounting._model_digest(analysis, mesh)
+    finally:
+        sys.setprofile(previous)
+    return captured
+
+
+class FingerprintProbe(unittest.TestCase):
+    def test_save_restore_boundaries(self):
+        fixture = native.TestContactStateNative()
+        fixture.setUp()
+        try:
+            model = fixture.make_case()
+            snapshots = {'after_solve': snapshot(model.analysis, model.mesh)}
+            snapshots['expected'] = model.data['provenance']['model_digest']
+            fixture.doc.recompute()
+            snapshots['after_recompute'] = snapshot(model.analysis, model.mesh)
+            path = fixture.directory / 'fingerprint.FCStd'
+            fixture.doc.saveAs(str(path))
+            snapshots['after_save'] = snapshot(model.analysis, model.mesh)
+            result_name = model.result.Name
+            App.closeDocument(fixture.doc.Name)
+            fixture.doc = App.openDocument(str(path))
+            result = fixture.doc.getObject(result_name)
+            snapshots['after_restore'] = snapshot(result.Analysis, result.Mesh)
+            target = Path(__file__).parent / 'fingerprint-states.json'
+            target.write_text(json.dumps(snapshots, indent=2) + '\n')
+            print('[DEBUG-9ii-fingerprint]', json.dumps({key: value['digest'] if isinstance(value, dict) else value
+                  for key, value in snapshots.items()}))
+        finally:
+            fixture.tearDown()

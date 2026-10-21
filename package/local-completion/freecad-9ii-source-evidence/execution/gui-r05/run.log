@@ -1,0 +1,251 @@
+(qt.qpa.fonts) Populating font family aliases took 83 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +234 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_dual_opt_in_gui_run_preserves_accounting_and_saved_observation (femtest.gui.test_contact_state.TestContactStateGui.test_dual_opt_in_gui_run_preserves_accounting_and_saved_observation) ...   ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.027 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.027 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+run CalculiX at: /Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.dat
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-d_p1vnub/Mesh.frd
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+ok
+test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector (femtest.gui.test_contact_state.TestContactStateGui.test_native_gui_run_imports_fresh_state_and_withdraws_open_inspector) ...   ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.027 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+run CalculiX at: /Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-2q4p4qui/Mesh.dat
+ok
+test_retargeted_selected_solver_withdraws_open_inspector_without_frame_change (femtest.gui.test_contact_state.TestContactStateGui.test_retargeted_selected_solver_withdraws_open_inspector_without_frame_change) ...   ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.027 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+run CalculiX at: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-selection-m_tns2r7/selected-solver with: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-7_lcex8z/Mesh.dat
+ok
+test_retargeted_solver_directory_withdraws_open_inspector_without_frame_change (femtest.gui.test_contact_state.TestContactStateGui.test_retargeted_solver_directory_withdraws_open_inspector_without_frame_change) ...   ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.004 seconds.
+run CalculiX at: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-selection-l3dx6bn5/current/ccx with: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/gui-r05/tmp/freecad-contact-state-native-euczqcl6/Mesh.dat
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 12.252s
+
+OK
+System exit

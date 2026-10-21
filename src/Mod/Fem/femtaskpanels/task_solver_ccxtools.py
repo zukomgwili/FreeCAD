@@ -72,10 +72,18 @@ class _TaskPanel:
         self.fea.setup_working_dir()
         try:
             self.fea.setup_ccx()
-        except FileNotFoundError as e:
+        except (FileNotFoundError, ValueError) as e:
+            # A saved diagnostic request may select an older/unsupported
+            # executable. Keep the task panel usable so its inputs can be
+            # corrected; Run repeats capability validation before launch.
             FreeCAD.Console.PrintWarning(e.args[0])
 
         self.Calculix = QtCore.QProcess()
+        self._accounting_context = None
+        self._contact_context = None
+        self._contact_stdout = b""
+        self._run_cancelled = False
+        self._skip_run_click = False
         self.Timer = QtCore.QTimer()
         self.Timer.start(300)
 
@@ -148,7 +156,10 @@ class _TaskPanel:
         return QtGui.QDialogButtonBox.Close
 
     def reject(self):
-        FreeCADGui.ActiveDocument.resetEdit()
+        if not self._cancel_calculix("Solver task closed before completion"):
+            return False
+        FreeCADGui.getDocument(self.fea.analysis.Document.Name).resetEdit()
+        return True
 
     def update(self):
         "fills the widgets"
@@ -188,6 +199,9 @@ class _TaskPanel:
     def printCalculiXstdout(self):
 
         out = self.Calculix.readAllStandardOutput()
+        # Preserve the literal child output before the console presentation
+        # removes blank lines and replaces newlines with HTML.
+        self._contact_stdout = bytes(out.data())
         # print(type(out))
         # <class 'PySide6.QtCore.QByteArray'>
 
@@ -199,10 +213,16 @@ class _TaskPanel:
         # convert QByteArray to a binary string an decode it to "utf-8"
         out = out.data().decode()  # "utf-8" can be omitted
         from femmesh import quality
-        quality.record(self.fea.mesh, "CalculiX", out,
-                       exit_code=self.Calculix.exitCode(), command=self.Calculix.program(),
-                       binary=self.Calculix.program(),
-                       input_signature=getattr(self, "_quality_input", None))
+
+        quality.record(
+            self.fea.mesh,
+            "CalculiX",
+            out,
+            exit_code=self.Calculix.exitCode(),
+            command=self.Calculix.program(),
+            binary=self.Calculix.program(),
+            input_signature=getattr(self, "_quality_input", None),
+        )
         out = os.linesep.join([s for s in out.splitlines() if s])
         out = out.replace("\n", "<br>")
         # print(out)
@@ -228,6 +248,39 @@ class _TaskPanel:
     def calculixError(self, error=""):
         print(f"Error() {error}")
         self.femConsoleMessage(f"CalculiX execute error: {error}", "Error")
+        if error != "":
+            self._withdraw_native_run("CalculiX process error; rerun required")
+
+    def _withdraw_native_run(self, reason):
+        from femtools import contact_state
+        from femtools import force_accounting
+
+        accounting, self._accounting_context = self._accounting_context, None
+        self._contact_context = None
+        force_accounting.invalidate(self.fea.analysis, reason)
+        contact_state.invalidate(self.fea.analysis, reason)
+        # Error/cancel/prelaunch failure is not a successful child completion,
+        # even if a later finished signal happens to carry a zero exit code.
+        force_accounting.finish_run(accounting, -1, self._contact_stdout)
+
+    def _finish_native_run(self, returncode):
+        from femtools import contact_state
+        from femtools import force_accounting
+
+        accounting, self._accounting_context = self._accounting_context, None
+        contact, self._contact_context = self._contact_context, None
+        try:
+            force_accounting.finish_run(accounting, returncode, self._contact_stdout)
+            if returncode == 0 and accounting is not None:
+                force_accounting.import_result(self.fea, accounting)
+        except Exception as error:
+            force_accounting.invalidate(self.fea.analysis, "Force accounting import failed")
+            self.femConsoleMessage(f"Native force accounting unavailable: {error}", "Error")
+        try:
+            contact_state.finish_run(self.fea, contact, returncode, self._contact_stdout)
+        except Exception as error:
+            contact_state.invalidate(self.fea.analysis, "Contact output import failed")
+            self.femConsoleMessage(f"Native contact output unavailable: {error}", "Error")
 
     def calculixNoError(self):
         print("CalculiX done without error!")
@@ -254,20 +307,26 @@ class _TaskPanel:
         # print("calculixFinished(), exit code: {}".format(exitCode))
         FreeCAD.Console.PrintLog(f"calculix state: {self.Calculix.state()}\n")
 
-        # Restore previous cwd
-        QtCore.QDir.setCurrent(self.cwd)
-
         self.Timer.stop()
 
         self.form.pb_run_ccx.setText("Re-run CalculiX")
 
+        if self._run_cancelled:
+            # A graceful termination can race a normal zero exit. Neither
+            # native nor mechanical output belongs to a cancelled attempt.
+            self._withdraw_native_run("Solver run cancelled")
+            return
+
         if exitStatus != QtCore.QProcess.ExitStatus.NormalExit:
+            self._withdraw_native_run("CalculiX did not finish normally")
             return
 
         if self.printCalculiXstdout():
             self.calculixNoError()
         else:
             self.calculixError()
+
+        self._finish_native_run(exitCode)
 
         self.femConsoleMessage("Loading result sets...")
         self.form.l_time.setText(f"Time: {time.time() - self.Start:4.1f}: ")
@@ -298,7 +357,10 @@ class _TaskPanel:
         self.form.le_working_dir.setText(self.fea.working_dir)
 
     def write_input_file_handler(self):
+        from femtools import force_accounting
+
         self.Start = time.time()
+        force_accounting.invalidate(self.fea.analysis, "Solver input rewrite attempted")
         self.form.l_time.setText(f"Time: {time.time() - self.Start:4.1f}: ")
         QApplication.restoreOverrideCursor()
         if self.check_prerequisites_helper():
@@ -345,7 +407,28 @@ class _TaskPanel:
             FemGui.open(self.fea.inp_file_name)
 
     def runCalculix(self):
+        if self._skip_run_click:
+            # Stop and Run share a button. A synchronous reap in the first
+            # slot must not make this same click launch a replacement child.
+            self._skip_run_click = False
+            return
         if self.Calculix.state() == QtCore.QProcess.ProcessState.NotRunning:
+            from femtools import contact_state
+            from femtools import force_accounting
+
+            self.Start = time.time()
+            self._contact_stdout = b""
+            self._run_cancelled = False
+            self._withdraw_native_run("Solver rerun started")
+            if contact_state.enabled(self.fea.solver) or force_accounting.enabled(self.fea.solver):
+                try:
+                    # The saved request may have changed since this task
+                    # panel opened. Select and qualify its actual executable.
+                    self.fea.setup_ccx()
+                except Exception as error:
+                    self.femConsoleMessage(f"Native solver output unavailable: {error}", "Error")
+                    QApplication.restoreOverrideCursor()
+                    return
             if self.fea.ccx_binary_present is False:
                 self.femConsoleMessage(
                     "CalculiX can not be started. Missing or incorrect CalculiX binary: {}".format(
@@ -364,30 +447,81 @@ class _TaskPanel:
             FreeCAD.Console.PrintMessage(
                 f"run CalculiX at: {self.fea.ccx_binary} with: {self.fea.inp_file_name}\n"
             )
-            # change cwd because ccx may crash if directory has no write permission
-            # there is also a limit of the length of file names so jump to the document directory
-
             # Set up for multi-threading. Note: same functionality as ccx_tools.py/start_ccx()
             ccx_prefs = FreeCAD.ParamGet(self.PREFS_PATH).GetGroup("Ccx")
-            env = QtCore.QProcessEnvironment.systemEnvironment()
-            num_cpu_pref = ccx_prefs.GetInt("AnalysisNumCPUs", QtCore.QThread.idealThreadCount())
-            env.insert("OMP_NUM_THREADS", str(num_cpu_pref))
-            pastix_prec = "1" if self.fea.solver.PastixMixedPrecision else "0"
-            env.insert("PASTIX_MIXED_PRECISION", pastix_prec)
-            self.Calculix.setProcessEnvironment(env)
+            try:
+                self._accounting_context = force_accounting.run_context(
+                    self.fea, self.fea.ccx_binary
+                )
+                environment = (
+                    dict(self._accounting_context[0])
+                    if self._accounting_context is not None
+                    else dict(os.environ)
+                )
+                # Ambient requests must never activate either native observer
+                # or point this child at another solver attempt's output.
+                environment.pop(contact_state.ENV, None)
+                environment.pop("CCX_9ZT_DIAGNOSTIC", None)
+                if self._accounting_context is None:
+                    environment.pop("CCX_FORCE_ACCOUNTING_REQUEST", None)
+                num_cpu_pref = ccx_prefs.GetInt(
+                    "AnalysisNumCPUs", QtCore.QThread.idealThreadCount()
+                )
+                environment["OMP_NUM_THREADS"] = str(num_cpu_pref)
+                environment["PASTIX_MIXED_PRECISION"] = (
+                    "1" if self.fea.solver.PastixMixedPrecision else "0"
+                )
+                self._contact_context = contact_state.run_context(
+                    self.fea, self.fea.ccx_binary, environment=environment
+                )
+                if self._contact_context is not None:
+                    environment = self._contact_context["environment"]
+                env = QtCore.QProcessEnvironment()
+                for key, value in environment.items():
+                    env.insert(key, value)
+                self.Calculix.setProcessEnvironment(env)
+                fi = QtCore.QFileInfo(self.fea.inp_file_name)
+                # Keep cwd local to the child, including FailedToStart paths.
+                self.Calculix.setWorkingDirectory(fi.path())
+                from femmesh import quality
 
-            self.cwd = QtCore.QDir.currentPath()
-            fi = QtCore.QFileInfo(self.fea.inp_file_name)
-            QtCore.QDir.setCurrent(fi.path())
-            from femmesh import quality
-            self._quality_input = quality.input_fingerprint(self.fea.mesh)
-            self.Calculix.start(self.fea.ccx_binary, ["-i", fi.baseName()])
+                self._quality_input = quality.input_fingerprint(self.fea.mesh)
+                self.Timer.start(300)
+                self.Calculix.start(self.fea.ccx_binary, ["-i", fi.baseName()])
+            except Exception as error:
+                self._withdraw_native_run("Native solver launch failed")
+                self.femConsoleMessage(f"Native solver output unavailable: {error}", "Error")
+                QApplication.restoreOverrideCursor()
+                return
 
             QApplication.restoreOverrideCursor()
 
     def stopCalculix(self):
-        if self.Calculix.state() == QtCore.QProcess.ProcessState.Running:
-            self.Calculix.kill()
+        if self.Calculix.state() != QtCore.QProcess.ProcessState.NotRunning:
+            self._skip_run_click = True
+            self._cancel_calculix("Solver run cancelled")
+
+    def _cancel_calculix(self, reason):
+        active = self.Calculix.state() != QtCore.QProcess.ProcessState.NotRunning
+        pending = self._accounting_context is not None or self._contact_context is not None
+        self.Timer.stop()
+        if active or pending:
+            self._run_cancelled = True
+            self._withdraw_native_run(reason)
+        if active:
+            # Include Starting, and keep the total synchronous wait below
+            # three seconds. The task stays open if its owned child survives.
+            self.Calculix.terminate()
+            self.Calculix.waitForFinished(1000)
+            if self.Calculix.state() != QtCore.QProcess.ProcessState.NotRunning:
+                self.Calculix.kill()
+                self.Calculix.waitForFinished(1000)
+        if self.Calculix.state() != QtCore.QProcess.ProcessState.NotRunning:
+            FreeCAD.Console.PrintWarning(
+                "CalculiX has not stopped; the solver task must remain open.\n"
+            )
+            return False
+        return True
 
     def select_analysis_type(self, analysis_type):
         if self.fea.solver.AnalysisType != analysis_type:

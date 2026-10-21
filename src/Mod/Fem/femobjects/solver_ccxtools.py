@@ -48,6 +48,15 @@ class SolverCcxTools(SolverCalculiX):
         prop.extend(
             [
                 _PropHelper(
+                    type="App::PropertyLinkList",
+                    name="NativeContactOutputs",
+                    group="Native Contact Output",
+                    value=[],
+                    doc="Contacts whose native local stress, relative movement and state are "
+                    "requested. Empty disables diagnostics. Requires the qualified bundled "
+                    "solver; does not change contact mechanics or establish design acceptance.",
+                ),
+                _PropHelper(
                     type="App::PropertyBool",
                     name="NativeForceAccounting",
                     group="Native Force Accounting",
@@ -69,8 +78,8 @@ class SolverCcxTools(SolverCalculiX):
                     name="NativeAccountingSolver",
                     group="Native Force Accounting",
                     value="",
-                    doc="Qualified accounting executable. Empty selects the bundled native solver "
-                    "when enabled; ordinary solver preferences are unchanged.",
+                    doc="Qualified accounting/contact-diagnostics executable. Empty selects the "
+                    "bundled native solver when either is enabled; ordinary preferences are unchanged.",
                 ),
             ]
         )

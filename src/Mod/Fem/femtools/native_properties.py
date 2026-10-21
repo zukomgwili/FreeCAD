@@ -12,6 +12,19 @@ import FreeCAD
 import Materials
 
 
+def is_worker_session_property(obj, name):
+    """Exclude the native worker's transient Python controller, not physical Tools.
+
+    WorkerExtension.Tool owns a live QProcess and is intentionally not saved.
+    In particular, a Boolean's Tool link remains a physical geometry input.
+    """
+    return (
+        name == "Tool"
+        and obj.hasExtension("Fem::WorkerExtension")
+        and obj.getTypeIdOfProperty(name) == "App::PropertyPythonObject"
+    )
+
+
 def _material_value(value):
     if value is None or isinstance(value, (str, bool, int)):
         return value
@@ -42,13 +55,9 @@ def _material_value(value):
         return {
             "array3d": _material_value(value.Array),
             "columns": value.Columns,
-            "depths": [
-                _material_value(value.getDepthValue(i)) for i in range(value.Depth)
-            ],
+            "depths": [_material_value(value.getDepthValue(i)) for i in range(value.Depth)],
         }
-    raise ValueError(
-        f"Cannot fingerprint native material value type {type(value).__name__}"
-    )
+    raise ValueError(f"Cannot fingerprint native material value type {type(value).__name__}")
 
 
 def _declaration(prop):
@@ -80,10 +89,7 @@ def property_value(value):
     if not isinstance(value, Materials.Material):
         return str(value)
     props = value.PropertyObjects
-    if any(
-        value.hasPhysicalProperty(key) and value.hasAppearanceProperty(key)
-        for key in props
-    ):
+    if any(value.hasPhysicalProperty(key) and value.hasAppearanceProperty(key) for key in props):
         # PropertyObjects merges the two namespaces and cannot supply both
         # declarations when names collide. Never use one domain's Empty/type
         # metadata to decide whether the other domain's value can be omitted.
@@ -107,8 +113,7 @@ def property_value(value):
         "physical_models": sorted(value.PhysicalModels),
         "appearance_models": sorted(value.AppearanceModels),
         "declarations": {
-            key: dict(_declaration(prop), empty=prop.Empty)
-            for key, prop in sorted(props.items())
+            key: dict(_declaration(prop), empty=prop.Empty) for key, prop in sorted(props.items())
         },
         "physical": {
             key: _property_value(value.getPhysicalValue, key, props[key])

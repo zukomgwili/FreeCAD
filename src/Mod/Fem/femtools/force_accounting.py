@@ -506,12 +506,22 @@ def _is_result(obj):
         # still outputs and must never participate in the physical input digest.
         from femobjects.mesh_result import MeshResult
         from femobjects.result_contact_observation import ContactObservationResult
+        from femtools.contact_state import ContactStateResult
 
-        return isinstance(obj.Proxy, (ContactObservationResult, MeshResult))
+        return isinstance(obj.Proxy, (ContactObservationResult, MeshResult, ContactStateResult))
     return False
 
 
+def invalidate(analysis, reason):
+    """Withdraw prior availability without deleting literal historical outputs."""
+    for obj in analysis.Group:
+        if isinstance(getattr(obj, "Proxy", None), AccountingResult):
+            obj.Status = "Stale: " + reason
+
+
 def _model_digest(analysis, mesh):
+    from femtools.native_properties import is_worker_session_property
+
     seen = set()
 
     def value(item):
@@ -544,6 +554,7 @@ def _model_digest(analysis, mesh):
                         "WorkingDirectory",
                     )
                     and item.getGroupOfProperty(key) != "Mesh Quality"
+                    and not is_worker_session_property(item, key)
                 },
             }
         if isinstance(item, dict):

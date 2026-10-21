@@ -1,0 +1,757 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Run-bound native local contact diagnostics, never Python contact recovery.
+
+The independently versioned solver observer supplies values, identities and
+constitutive branches. No state is inferred from CSLIP, absent output, recovered
+FRD nodes or pair totals. Empty solver selection leaves legacy output unchanged.
+"""
+
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+import re
+import shutil
+import stat
+import subprocess
+import tempfile
+from types import SimpleNamespace
+import uuid
+
+import FreeCAD as App
+from femobjects.base_fempythonobject import BaseFemPythonObject
+
+SCHEMA = "CCX_CONTACT_STATE_V1"
+ENV = "CCX_CONTACT_STATE_REQUEST"
+_reports = {}
+
+
+def enabled(solver):
+    return bool(getattr(solver, "NativeContactOutputs", ()))
+
+
+def _capture(path):
+    """Read and hash the same fenced bytes, never a later replacement."""
+    path = Path(path)
+    before = path.lstat()
+    if not stat.S_ISREG(before.st_mode) or before.st_size > 256 * 1024 * 1024:
+        raise ValueError("Native contact source must be a regular, non-symlink file")
+    with os.fdopen(os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)), "rb") as stream:
+        opened = os.fstat(stream.fileno())
+        data = stream.read()
+        after = os.fstat(stream.fileno())
+
+    def identity(info):
+        return (
+            info.st_dev,
+            info.st_ino,
+            info.st_mode,
+            info.st_size,
+            info.st_mtime_ns,
+            info.st_ctime_ns,
+            info.st_nlink,
+        )
+
+    if not (identity(before) == identity(opened) == identity(after) == identity(path.lstat())):
+        raise ValueError("Native contact source changed while reading")
+    return data, hashlib.sha256(data).hexdigest()
+
+
+def _sha(path):
+    return _capture(path)[1]
+
+
+def _write_generated(path, text):
+    path = Path(path)
+    if path.exists() or path.is_symlink():
+        _sha(path)
+    temporary = path.with_name(path.name + ".new-" + uuid.uuid4().hex)
+    with temporary.open("x") as stream:
+        stream.write(text)
+    os.replace(temporary, path)
+
+
+def _json(text):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError("Duplicate native contact JSON key")
+            result[key] = value
+        return result
+
+    def nonfinite(value):
+        raise ValueError("Nonfinite native contact output: " + value)
+
+    return json.loads(text, object_pairs_hook=pairs, parse_constant=nonfinite)
+
+
+def require_capability(binary):
+    executable = shutil.which(str(binary)) or str(binary)
+    try:
+        with tempfile.TemporaryDirectory(prefix="freecad-contact-version-") as directory:
+            result = subprocess.run(
+                [executable, "--freecad-contact-state-version"],
+                stdin=subprocess.DEVNULL,
+                capture_output=True,
+                text=True,
+                timeout=10,
+                cwd=directory,
+                check=False,
+            )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise ValueError("Qualified native contact-diagnostics solver is unavailable") from error
+    if result.returncode != 0 or result.stdout.strip() != SCHEMA:
+        raise ValueError(
+            "Solver lacks native contact diagnostics V1; select the qualified solver "
+            "or clear NativeContactOutputs"
+        )
+
+
+def _model(analysis, mesh):
+    from femtools.force_accounting import _model_digest
+
+    return _model_digest(analysis, mesh)
+
+
+def _results(analysis):
+    return [
+        obj for obj in analysis.Group if isinstance(getattr(obj, "Proxy", None), ContactStateResult)
+    ]
+
+
+def invalidate(analysis, reason):
+    for obj in _results(analysis):
+        obj.Proxy._updating = True
+        try:
+            obj.CompletedRun = False
+        finally:
+            obj.Proxy._updating = False
+        obj.Proxy._set_status(obj, "Stale: " + reason)
+
+
+def _request_path(deck):
+    return Path(deck).with_suffix(".contact-state")
+
+
+def begin_export(fea):
+    invalidate(fea.analysis, "solver input rewrite attempted")
+    return _model(fea.analysis, fea.mesh) if enabled(fea.solver) else None
+
+
+def prepare_request(writer):
+    """Bind the opt-in request to exact stock writer faces and physical inputs."""
+    solver, analysis, mesh = writer.solver_obj, writer.analysis, writer.mesh_object
+    if not enabled(solver):
+        return
+    frozen = getattr(writer, "native_contact_export_digest", None)
+    if frozen is None or _model(analysis, mesh) != frozen:
+        raise ValueError("Native contact inputs changed during export; rewrite solver input")
+    invalidate(analysis, "solver input rewritten; a completed diagnostic run is required")
+    if solver.AnalysisType != "static" or solver.GeometricalNonlinearity or solver.SplitInputWriter:
+        raise ValueError("Native contact output requires an unsplit small-displacement static step")
+    selected = list(solver.NativeContactOutputs)
+    if len(set(selected)) != len(selected):
+        raise ValueError("Duplicate native contact output selection")
+    available = {row["Object"]: row for row in writer.member.cons_contact}
+    if any(obj not in available or obj.Document != analysis.Document for obj in selected):
+        raise ValueError("Select active ordinary Contacts in this analysis for native output")
+    from femtools.force_accounting import solver_binary
+
+    binary = str(Path(shutil.which(solver_binary(solver)) or solver_binary(solver)).resolve())
+    before = _sha(binary)
+    require_capability(binary)
+    if _sha(binary) != before:
+        raise ValueError("Native contact solver changed during capability query")
+    end = solver.TimePeriod.Value
+    if not math.isfinite(end) or end <= 0:
+        raise ValueError("Native contact output needs a finite positive step period")
+    token = uuid.uuid4().hex
+    lines = [SCHEMA, "REQUEST " + token, f"END_TIME {end:.17g}", "UNITS MM N MPA"]
+    contacts = []
+    for obj in selected:
+        row = available[obj]
+        if obj.EnableThermalContact or obj.SurfaceBehavior not in ("Linear", "Hard", "Tied"):
+            raise ValueError("Selected native contact law is not supported by diagnostics")
+
+        def faces(key):
+            values = []
+            for _refs, surface, solid in row[key]:
+                if not solid:
+                    raise ValueError("Native contact diagnostics require tetrahedral solid faces")
+                for element, face in surface:
+                    if element not in mesh.FemMesh.Volumes or len(
+                        mesh.FemMesh.getElementNodes(element)
+                    ) not in (4, 10):
+                        raise ValueError(
+                            "Native contact diagnostics require Tet4/Tet10 solid faces"
+                        )
+                    values.append([int(element), int(face)])
+            if not values or len({tuple(value) for value in values}) != len(values):
+                raise ValueError("Missing or repeated native contact source faces")
+            return sorted(values)
+
+        slave, master = "DEP" + obj.Name, "IND" + obj.Name
+        if any(
+            not re.fullmatch(r"[A-Za-z0-9_.-]{1,80}", value) for value in (obj.Name, slave, master)
+        ):
+            raise ValueError("Native contact output identifier is unsupported")
+        contacts.append(
+            {
+                "contact": obj.Name,
+                "slave_surface": slave,
+                "master_surface": master,
+                "slave_faces": faces("ContactSlaveFaces"),
+                "master_faces": faces("ContactMasterFaces"),
+                "references_slave_then_master": [
+                    [owner.Name, list(names)] for owner, names in obj.References
+                ],
+            }
+        )
+        lines.append(f"PAIR {obj.Name} {slave} {master}")
+    lines.append("END")
+    request = _request_path(writer.file_name)
+    text = "\n".join(lines) + "\n"
+    _write_generated(request, text)
+    metadata = {
+        "schema": SCHEMA,
+        "request": token,
+        "analysis": analysis.Name,
+        "solver": solver.Name,
+        "mesh": mesh.Name,
+        "model_digest": frozen,
+        "contacts": contacts,
+        "deck": str(Path(writer.file_name).resolve()),
+        "request_path": str(request.resolve()),
+        "deck_sha256": _sha(writer.file_name),
+        "request_sha256": _sha(request),
+        "binary": binary,
+        "binary_sha256": before,
+        "end_time": end,
+        "output_frequency": int(solver.OutputFrequency),
+    }
+    if _model(analysis, mesh) != frozen or _sha(writer.file_name) != metadata["deck_sha256"]:
+        raise ValueError("Native contact inputs changed while publishing the request")
+    _write_generated(
+        Path(str(request) + ".json"), json.dumps(metadata, sort_keys=True, allow_nan=False)
+    )
+
+
+def _current(fea, metadata):
+    deck = Path(fea.inp_file_name).resolve()
+    request = _request_path(deck)
+    run = metadata.get("run")
+    if run:
+        if not re.fullmatch(r"[0-9a-f]{32}", run["token"]):
+            return False
+        if run["path"] != str(request) + ".run-" + run["token"] or run["sha256"] != _sha(
+            run["path"]
+        ):
+            return False
+    return (
+        metadata["schema"] == SCHEMA
+        and metadata["deck"] == str(deck)
+        and metadata["request_path"] == str(request)
+        and metadata["model_digest"] == _model(fea.analysis, fea.mesh)
+        and metadata["deck_sha256"] == _sha(fea.inp_file_name)
+        and metadata["request_sha256"] == _sha(metadata["request_path"])
+        and metadata["binary_sha256"] == _sha(metadata["binary"])
+        and metadata["solver"] == fea.solver.Name
+        and metadata["mesh"] == fea.mesh.Name
+        and metadata["analysis"] == fea.analysis.Name
+    )
+
+
+def run_context(fea, binary, environment=None):
+    """Invalidate old availability before admitting a fresh owned solver child."""
+    invalidate(fea.analysis, "new solver run attempted")
+    if not enabled(fea.solver):
+        return None
+    request = _request_path(fea.inp_file_name)
+    try:
+        metadata = _json(_capture(Path(str(request) + ".json"))[0])
+        if str(Path(binary).resolve()) != metadata["binary"] or not _current(fea, metadata):
+            raise ValueError("Changed native contact inputs")
+        require_capability(binary)
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        raise ValueError(
+            "Native contact request is unavailable or stale; rewrite solver input"
+        ) from error
+    # Every child gets its own immutable request and output pathname. Late
+    # output from another attempt cannot masquerade as this child's result.
+    token = uuid.uuid4().hex
+    child_request = Path(str(request.resolve()) + ".run-" + token)
+    literal = _capture(request)[0].decode("utf-8")
+    old = "REQUEST " + metadata["request"] + "\n"
+    if literal.count(old) != 1:
+        raise ValueError("Native contact export request token is invalid")
+    literal = literal.replace(old, "REQUEST " + token + "\n")
+    if child_request.exists() or child_request.is_symlink():
+        raise ValueError("Native contact run request already exists")
+    with child_request.open("x") as stream:
+        stream.write(literal)
+    metadata["run"] = {"token": token, "path": str(child_request), "sha256": _sha(child_request)}
+    output = Path(str(child_request) + ".out")
+    if output.exists() or output.is_symlink():
+        raise ValueError("Native contact run output already exists")
+    env = dict(os.environ if environment is None else environment)
+    env.pop(ENV, None)
+    env[ENV] = str(child_request)
+    return {"environment": env, "metadata": metadata, "output": str(output), "finished": False}
+
+
+def _validate_output(data, metadata):
+    def finite(value):
+        return type(value) in (int, float) and math.isfinite(value)
+
+    def positive_id(value):
+        return type(value) is int and value > 0
+
+    def vector(value, count):
+        return isinstance(value, list) and len(value) == count and all(map(finite, value))
+
+    def all_finite(value):
+        if isinstance(value, dict):
+            return all(all_finite(item) for item in value.values())
+        if isinstance(value, list):
+            return all(all_finite(item) for item in value)
+        return not isinstance(value, float) or math.isfinite(value)
+
+    if not all_finite(data):
+        raise ValueError("Nonfinite native contact output")
+    if (
+        not isinstance(data, dict)
+        or data.get("schema") != SCHEMA
+        or data.get("complete") is not True
+    ):
+        raise ValueError("Incomplete or unsupported native contact output")
+    if data.get("request") != metadata["run"]["token"] or data.get("units") != {
+        "length": "mm",
+        "force": "N",
+        "stress": "MPa",
+    }:
+        raise ValueError("Native contact request or units differ")
+    frames = data.get("frames")
+    if not isinstance(frames, list) or not frames:
+        raise ValueError("Native contact retained frames are missing")
+    if (
+        data.get("position_frame") != "CURRENT_WITH_NATIVE_CLEARANCE_ADJUSTMENT"
+        or data.get("basis_frame") != "NATIVE_MASTER_NORMAL"
+    ):
+        raise ValueError("Native contact position or local frame is unavailable")
+    selected = {row["contact"]: row for row in metadata["contacts"]}
+    expected_faces = {
+        (name, *face) for name, row in selected.items() for face in row["slave_faces"]
+    }
+    face_inventory, pair_ids = {}, {}
+    for face in data["face_inventory"]:
+        key = (face["contact"], face["slave_element"], face["slave_face"])
+        count, pair = face["expected_points"], face["native_pair"]
+        if (
+            key not in expected_faces
+            or key in face_inventory
+            or not all(positive_id(value) for value in key[1:])
+            or not positive_id(pair)
+            or type(count) is not int
+            or count < 0
+        ):
+            raise ValueError("Invalid native contact face inventory")
+        face_inventory[key] = count
+        if key[0] in pair_ids and pair_ids[key[0]] != pair:
+            raise ValueError("Native contact pair identity is ambiguous")
+        pair_ids[key[0]] = pair
+    if set(face_inventory) != expected_faces or len(set(pair_ids.values())) != len(selected):
+        raise ValueError("Native contact face inventory does not cover the selected interfaces")
+    inventory, local = {}, {key: set() for key in expected_faces}
+    identity_fields = (
+        "contact",
+        "native_pair",
+        "slave_element",
+        "slave_face",
+        "native_point",
+        "local_point",
+    )
+    for item in data["sample_inventory"]:
+        key = (item["contact"], item["slave_element"], item["slave_face"])
+        point = item["native_point"]
+        if (
+            key not in face_inventory
+            or not all(positive_id(item[name]) for name in identity_fields[1:])
+            or item["native_pair"] != pair_ids[key[0]]
+            or point in inventory
+            or item["local_point"] in local[key]
+        ):
+            raise ValueError("Invalid or repeated native sample inventory identity")
+        inventory[point] = {name: item[name] for name in identity_fields}
+        local[key].add(item["local_point"])
+    if any(local[key] != set(range(1, count + 1)) for key, count in face_inventory.items()):
+        raise ValueError("Native contact integration-point coverage is incomplete")
+    previous = (0, 0, -1.0)
+    for frame in frames:
+        step, increment, time = frame["step"], frame["increment"], frame["time"]
+        if (
+            type(step) is not int
+            or step != 1
+            or type(increment) is not int
+            or increment <= 0
+            or type(time) not in (int, float)
+            or not math.isfinite(time)
+            or time <= 0
+            or increment <= previous[1]
+            or time < previous[2]
+        ):
+            raise ValueError("Ambiguous native contact retained frame identity")
+        if frame.get("success") is not True or type(frame.get("complete")) is not bool:
+            raise ValueError("Native contact retained frame was not successful")
+        if frame["complete"] != (time == metadata["end_time"]):
+            raise ValueError("Native contact frame completion differs from the requested end time")
+        previous = (step, increment, time)
+        samples = frame["samples"]
+        if not isinstance(samples, list):
+            raise ValueError("Native contact sample coverage is missing")
+        seen, present = set(), set()
+        for row in samples:
+            contact = row["contact"]
+            if contact not in selected:
+                raise ValueError("Unexpected native contact owner")
+            present.add(contact)
+            native = row["native_point"]
+            if not positive_id(native) or native in seen or native not in inventory:
+                raise ValueError("Repeated or invalid native contact sample identity")
+            if {name: row[name] for name in identity_fields} != inventory[native]:
+                raise ValueError("Native contact sample differs from the native inventory")
+            seen.add(native)
+            owner = selected[contact]
+            if [row["slave_element"], row["slave_face"]] not in owner["slave_faces"]:
+                raise ValueError("Native contact sample has a different slave owner")
+            if (
+                row["master_element"] is not None
+                and [row["master_element"], row["master_face"]] not in owner["master_faces"]
+            ):
+                raise ValueError("Native contact sample has a different master owner")
+            if row["availability"] not in ("ACTIVE", "INACTIVE", "UNPAIRED"):
+                raise ValueError("Invalid native contact availability")
+            if (
+                not vector(row["slave_position"], 3)
+                or not finite(row["weight"])
+                or row["weight"] <= 0
+            ):
+                raise ValueError("Native contact position or integration weight is unavailable")
+            if row["availability"] != "UNPAIRED":
+                if (
+                    not positive_id(row["master_element"])
+                    or not positive_id(row["master_face"])
+                    or not finite(row["clearance"])
+                    or not finite(row["area"])
+                    or row["area"] <= 0
+                    or not vector(row["master_position"], 3)
+                    or not all(vector(row[key], 3) for key in ("normal", "tangent1", "tangent2"))
+                ):
+                    raise ValueError("Native contact master, clearance or basis is unavailable")
+                n, a, b = (row[key] for key in ("normal", "tangent1", "tangent2"))
+                # Wire/frame consistency only, not a contact acceptance tolerance.
+                if (
+                    any(abs(math.fsum(value * value for value in v) - 1) > 1e-10 for v in (n, a, b))
+                    or abs(math.fsum(x * y for x, y in zip(n, a))) > 1e-10
+                    or abs(math.fsum(x * y for x, y in zip(n, b))) > 1e-10
+                    or any(
+                        abs(value - expected) > 1e-10
+                        for value, expected in zip(
+                            b,
+                            (
+                                n[1] * a[2] - n[2] * a[1],
+                                n[2] * a[0] - n[0] * a[2],
+                                n[0] * a[1] - n[1] * a[0],
+                            ),
+                        )
+                    )
+                ):
+                    raise ValueError("Native contact frame is not orthonormal and right-handed")
+            if row["availability"] == "ACTIVE":
+                for key in ("clearance", "pressure"):
+                    value = row[key]
+                    if type(value) not in (int, float) or not math.isfinite(value):
+                        raise ValueError("Unavailable active native contact scalar")
+                if row["evaluation"] != "NATIVE_CONTACT_LAW" or row["engagement"] != "ACTIVE":
+                    raise ValueError("Native active contact law evaluation is unavailable")
+                if row["state"] not in ("STICK", "SLIP", "FRICTIONLESS", "ELASTIC_OVERRIDE"):
+                    raise ValueError("Unavailable active native contact constitutive state")
+                tangential = (
+                    "tangential_displacement",
+                    "shear",
+                    "plastic_slip_increment",
+                    "plastic_slip_vector",
+                )
+                if row["state"] == "FRICTIONLESS":
+                    if any(row[key] is not None for key in tangential):
+                        raise ValueError(
+                            "Frictionless contact must not manufacture tangential state"
+                        )
+                elif (
+                    not vector(row["tangential_displacement"], 2)
+                    or not vector(row["shear"], 2)
+                    or not finite(row["plastic_slip_increment"])
+                    or row["plastic_slip_increment"] < 0
+                    or not vector(row["plastic_slip_vector"], 3)
+                ):
+                    raise ValueError("Native contact tangential state is unavailable")
+                elif row["state"] in ("STICK", "ELASTIC_OVERRIDE") and (
+                    row["plastic_slip_increment"] != 0 or any(row["plastic_slip_vector"])
+                ):
+                    raise ValueError("Native sticking branch has an inconsistent plastic increment")
+            else:
+                if row["state"] != "UNAVAILABLE" or any(
+                    row[key] is not None
+                    for key in (
+                        "pressure",
+                        "shear",
+                        "tangential_displacement",
+                        "plastic_slip_increment",
+                        "plastic_slip_vector",
+                    )
+                ):
+                    raise ValueError(
+                        "Inactive native contact must not manufacture constitutive state"
+                    )
+                if row["availability"] == "INACTIVE":
+                    expected = (
+                        "OPEN_AT_PRESERVED_PROJECTION" if row["clearance"] > 0 else "INACTIVE"
+                    )
+                    if (
+                        row["engagement"] != expected
+                        or row["evaluation"] != "NATIVE_PRESERVED_PROJECTION"
+                    ):
+                        raise ValueError("Native inactive projection state is inconsistent")
+                elif (
+                    row["evaluation"] != "UNAVAILABLE"
+                    or row["engagement"] != "UNAVAILABLE"
+                    or any(
+                        row[key] is not None
+                        for key in (
+                            "master_element",
+                            "master_face",
+                            "normal",
+                            "tangent1",
+                            "tangent2",
+                            "master_position",
+                            "clearance",
+                            "area",
+                        )
+                    )
+                ):
+                    raise ValueError(
+                        "Unpaired native contact must retain unavailable projection data"
+                    )
+        if seen != set(inventory):
+            raise ValueError("Native contact retained frame omits native integration samples")
+        if present != {key[0] for key, count in face_inventory.items() if count}:
+            raise ValueError("Native contact interface coverage is incomplete")
+    if not math.isclose(frames[-1]["time"], metadata["end_time"], rel_tol=1e-12, abs_tol=0):
+        raise ValueError("Native contact output does not reach the requested end time")
+    return data
+
+
+def finish_run(fea, context, returncode, stdout):
+    """Publish only a completed, successful owned child's exact native output."""
+    if context is None:
+        return
+    if context["finished"]:
+        raise ValueError("Native contact child completion was already consumed")
+    context["finished"] = True
+    if returncode != 0:
+        invalidate(fea.analysis, "native solver did not complete successfully")
+        return
+    metadata = context["metadata"]
+    if not _current(fea, metadata):
+        raise ValueError("Native contact inputs changed while solving")
+    output = Path(context["output"])
+    literal, output_sha = _capture(output)
+    data = _validate_output(_json(literal), metadata)
+    if not _current(fea, metadata) or _sha(output) != output_sha:
+        raise ValueError("Native contact provenance changed during import")
+    provenance = {
+        **metadata,
+        "output": str(output.resolve()),
+        "output_sha256": output_sha,
+        "stdout_sha256": hashlib.sha256(
+            stdout.encode() if isinstance(stdout, str) else stdout
+        ).hexdigest(),
+        "completed_owned_run": True,
+    }
+    obj = make_result(fea.analysis, fea.mesh, fea.solver)
+    obj.Proxy._updating = True
+    try:
+        obj.ContactData = json.dumps(
+            {**data, "provenance": provenance}, sort_keys=True, allow_nan=False
+        )
+        obj.ContactHash = hashlib.sha256(obj.ContactData.encode()).hexdigest()
+        obj.CompletedRun = True
+        obj.Status = "Current native contact output; not design acceptance"
+    finally:
+        obj.Proxy._updating = False
+    return obj
+
+
+class ContactStateResult(BaseFemPythonObject):
+    Type = "Fem::ContactStateResult"
+
+    def __init__(self, obj):
+        self._updating = True
+        super().__init__(obj)
+        for kind, name, description in (
+            ("App::PropertyLinkHidden", "Analysis", "Source physical analysis"),
+            ("App::PropertyLink", "Mesh", "Original native mesh"),
+            ("App::PropertyLink", "Solver", "Source solver and saved contact selection"),
+            ("App::PropertyString", "Status", "Availability, never engineering acceptance"),
+            ("App::PropertyString", "ContactData", "Literal native frames and run provenance"),
+            ("App::PropertyString", "ContactHash", "Identity of saved contact data"),
+            ("App::PropertyBool", "CompletedRun", "Withdrawn at every new solver attempt"),
+        ):
+            obj.addProperty(kind, name, "Native Contact Output", description)
+            obj.setPropertyStatus(name, "LockDynamic")
+            obj.setEditorMode(name, 1)
+            if name in ("Status", "ContactData", "ContactHash", "CompletedRun"):
+                obj.setPropertyStatus(name, "Output")
+        obj.Status = "Unavailable: no completed native contact run"
+        self._updating = False
+        _reports.setdefault(obj.Document.Name, set()).add(obj.Name)
+
+    def _set_status(self, obj, status):
+        self._updating = True
+        try:
+            obj.Status = status
+        finally:
+            self._updating = False
+
+    def _validated(self, obj):
+        if not obj.CompletedRun:
+            raise ValueError("Prior native contact output was withdrawn; rerun required")
+        if hashlib.sha256(obj.ContactData.encode()).hexdigest() != obj.ContactHash:
+            raise ValueError("Saved native contact data changed")
+        data = _json(obj.ContactData)
+        metadata = data["provenance"]
+        if not obj.Analysis or not obj.Mesh or not obj.Solver or obj not in obj.Analysis.Group:
+            raise ValueError("Native contact source links are missing")
+        doc = obj.Document
+        if (
+            any(item.Document != doc for item in (obj.Analysis, obj.Mesh, obj.Solver))
+            or obj.Mesh not in obj.Analysis.Group
+            or obj.Solver not in obj.Analysis.Group
+            or not obj.Analysis.isDerivedFrom("Fem::FemAnalysis")
+        ):
+            raise ValueError("Native contact source links do not belong to this analysis")
+        fea = SimpleNamespace(
+            analysis=obj.Analysis, mesh=obj.Mesh, solver=obj.Solver, inp_file_name=metadata["deck"]
+        )
+        if metadata["output"] != metadata["run"]["path"] + ".out":
+            raise ValueError("Native contact output is not the bound run sibling")
+        if (
+            metadata.get("completed_owned_run") is not True
+            or not _current(fea, metadata)
+            or metadata["output_sha256"] != _sha(metadata["output"])
+        ):
+            raise ValueError("Native contact model, mesh, solver, request or files changed")
+        literal, output_sha = _capture(metadata["output"])
+        if output_sha != metadata["output_sha256"]:
+            raise ValueError("Native contact output changed during validation")
+        native = _validate_output(_json(literal), metadata)
+        if native != {key: value for key, value in data.items() if key != "provenance"}:
+            raise ValueError("Saved native contact frames differ from the bound native output")
+        return data
+
+    def getContactStates(self, obj):
+        if not obj.Status.startswith("Current"):
+            raise ValueError(obj.Status)
+        try:
+            return self._validated(obj)
+        except Exception as error:
+            self._set_status(obj, "Stale: " + str(error))
+            raise ValueError(obj.Status) from error
+
+    def refresh(self, obj):
+        try:
+            self._validated(obj)
+            self._set_status(obj, "Current native contact output; not design acceptance")
+        except Exception as error:
+            self._set_status(obj, "Unavailable: " + str(error))
+
+    def execute(self, obj):
+        pass
+
+    def onChanged(self, obj, prop):
+        if not getattr(self, "_updating", True) and prop in {
+            "Analysis",
+            "Mesh",
+            "Solver",
+            "ContactData",
+            "ContactHash",
+        }:
+            self._set_status(obj, "Stale: contact result inputs changed")
+
+    def onDocumentRestored(self, obj):
+        _reports.setdefault(obj.Document.Name, set()).add(obj.Name)
+        self._set_status(obj, "Historical after restore; explicit validation required")
+
+
+def make_result(analysis, mesh, solver):
+    results = _results(analysis)
+    obj = (
+        results[0]
+        if results
+        else analysis.Document.addObject("App::FeaturePython", "NativeContactOutput")
+    )
+    if not results:
+        ContactStateResult(obj)
+        obj.Label = "Native local contact output"
+        if App.GuiUp:
+            from femviewprovider.view_contact_state import VPContactState
+
+            VPContactState(obj.ViewObject)
+    obj.Proxy._updating = True
+    try:
+        obj.Analysis, obj.Mesh, obj.Solver = analysis, mesh, solver
+        if obj not in analysis.Group:
+            analysis.addObject(obj)
+    finally:
+        obj.Proxy._updating = False
+    return obj
+
+
+class _Observer:
+    def slotChangedObject(self, obj, prop):
+        if obj.Document is None:
+            return
+        from femtools.force_accounting import _is_result
+
+        if _is_result(obj):
+            return
+        for name in tuple(_reports.get(obj.Document.Name, ())):
+            result = obj.Document.getObject(name)
+            if result is not None and result.Status.startswith("Current"):
+                try:
+                    metadata = _json(result.ContactData)["provenance"]
+                    if (
+                        not result.Analysis
+                        or not result.Mesh
+                        or metadata["model_digest"] != _model(result.Analysis, result.Mesh)
+                    ):
+                        result.Proxy._set_status(result, "Stale: physical model or request changed")
+                except Exception:
+                    result.Proxy._set_status(result, "Stale: physical inputs cannot be validated")
+
+    def slotDeletedObject(self, obj):
+        from femtools.force_accounting import _is_result
+
+        if obj.Document is not None and not _is_result(obj):
+            for name in tuple(_reports.get(obj.Document.Name, ())):
+                result = obj.Document.getObject(name)
+                if result is not None and result != obj:
+                    result.Proxy._set_status(result, "Stale: source object deleted")
+
+    def slotDeletedDocument(self, doc):
+        _reports.pop(doc.Name, None)
+
+
+_observer = _Observer()
+App.addDocumentObserver(_observer)

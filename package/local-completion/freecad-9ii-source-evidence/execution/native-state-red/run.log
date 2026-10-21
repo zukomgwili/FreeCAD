@@ -1,0 +1,19 @@
+test_native_compression_preserves_local_identity_and_actual_stick (contact_state_source_test.TestContactStateNative.test_native_compression_preserves_local_identity_and_actual_stick) ... ERROR
+
+======================================================================
+ERROR: test_native_compression_preserves_local_identity_and_actual_stick (contact_state_source_test.TestContactStateNative.test_native_compression_preserves_local_identity_and_actual_stick)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_contact_state_native.py", line 50, in test_native_compression_preserves_local_identity_and_actual_stick
+    solver.NativeContactOutputs = [contact]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FeaturePython' object has no attribute 'NativeContactOutputs'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.089s
+
+FAILED (errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +233 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

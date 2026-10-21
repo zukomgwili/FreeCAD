@@ -1,0 +1,74 @@
+test_save_restore_boundaries (FingerprintProbe.FingerprintProbe.test_save_restore_boundaries) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +233 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-9ii-T61k55sb/fingerprint-probe-r02/tmp/freecad-contact-state-native-y_d64b7e/Geometry_Geometry.brep
+  /private/tmp/freecad-9ii-T61k55sb/fingerprint-probe-r02/tmp/freecad-contact-state-native-y_d64b7e/Geometry_Mesh.vtk
+  /private/tmp/freecad-9ii-T61k55sb/fingerprint-probe-r02/tmp/freecad-contact-state-native-y_d64b7e/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+[DEBUG-9ii-fingerprint] {"after_solve": "9678fc27bcc310d40c632c8a7fc510dc5a7734bd044f8efd67b10be3a4e69b69", "expected": "9678fc27bcc310d40c632c8a7fc510dc5a7734bd044f8efd67b10be3a4e69b69", "after_recompute": "9678fc27bcc310d40c632c8a7fc510dc5a7734bd044f8efd67b10be3a4e69b69", "after_save": "9678fc27bcc310d40c632c8a7fc510dc5a7734bd044f8efd67b10be3a4e69b69", "after_restore": "5234ecb798c2d7683cb8d19dc59f0b9428502c69e3863495d1b6028058db47b1"}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.693s
+
+OK
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9ii-T61k55sb/fingerprint-probe-r02/tmp/freecad-contact-state-native-y_d64b7e/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9ii-T61k55sb/fingerprint-probe-r02/tmp/freecad-contact-state-native-y_d64b7e/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9ii-T61k55sb/fingerprint-probe-r02/tmp/freecad-contact-state-native-y_d64b7e/Mesh.dat

@@ -1,0 +1,36 @@
+test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs (femtest.app.test_input_fingerprint.TestInputFingerprint.test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs) ... 
+  test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs (femtest.app.test_input_fingerprint.TestInputFingerprint.test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs) (change='mesh') ... ERROR
+test_boolean_tool_link_is_physical_even_when_result_geometry_is_unchanged (femtest.app.test_input_fingerprint.TestInputFingerprint.test_boolean_tool_link_is_physical_even_when_result_geometry_is_unchanged) ... ok
+test_contact_model_admits_local_nested_link_but_refuses_external_target (femtest.app.test_input_fingerprint.TestInputFingerprint.test_contact_model_admits_local_nested_link_but_refuses_external_target) ... FAIL
+test_recreating_actual_worker_controller_does_not_change_physical_inputs (femtest.app.test_input_fingerprint.TestInputFingerprint.test_recreating_actual_worker_controller_does_not_change_physical_inputs) ... ok
+test_volume_only_restore_changes_session_name_not_unchanged_native_inputs (femtest.app.test_input_fingerprint.TestInputFingerprint.test_volume_only_restore_changes_session_name_not_unchanged_native_inputs) ... ok
+
+======================================================================
+ERROR: test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs (femtest.app.test_input_fingerprint.TestInputFingerprint.test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs) (change='mesh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_input_fingerprint.py", line 126, in test_actual_geometry_mesh_material_and_meshing_controls_remain_inputs
+    native.addNode(2, 2, 2)
+    ~~~~~~~~~~~~~~^^^^^^^^^
+ReferenceError: This object is immutable, you can not set any attribute or call a non const method
+
+======================================================================
+FAIL: test_contact_model_admits_local_nested_link_but_refuses_external_target (femtest.app.test_input_fingerprint.TestInputFingerprint.test_contact_model_admits_local_nested_link_but_refuses_external_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_input_fingerprint.py", line 201, in test_contact_model_admits_local_nested_link_but_refuses_external_target
+    self.assertEqual(contact_state._model(model.analysis, model.mesh), baseline)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '8c7d3cf52b45a58964b10354956a17d234a3dd7343b400f01d2fc130864932db' != '8f4d40ba18731abb990cd40be67af45fa5bbe939ba1749fd1ff70af2bb4c35bb'
+- 8c7d3cf52b45a58964b10354956a17d234a3dd7343b400f01d2fc130864932db
++ 8f4d40ba18731abb990cd40be67af45fa5bbe939ba1749fd1ff70af2bb4c35bb
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.283s
+
+FAILED (failures=1, errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +233 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

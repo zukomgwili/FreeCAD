@@ -1,0 +1,174 @@
+"""Root-only isolated serial gate for source-contact work, never installation."""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import runpy
+import shutil
+import signal
+import subprocess
+import sys
+import time
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parent
+REPO = Path('/Users/zukomgwili/src/FreeCAD')
+HELPER = REPO / 'package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py'
+helpers = runpy.run_path(str(HELPER))
+inventory = helpers['inventory']
+
+
+def sha(path):
+    with Path(path).open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+
+def serial():
+    rows = subprocess.check_output(['ps', '-axo', 'pid=,comm='], text=True, timeout=10)
+    active = []
+    for row in rows.splitlines():
+        fields = row.strip().split(None, 1)
+        if len(fields) != 2:
+            continue
+        name = Path(fields[1]).name
+        if name in {'FreeCAD', 'FreeCADCmd', 'gmsh', 'ccx', 'ccx-force-accounting',
+                    'ccx_2.23_conda', 'ctest', 'make', 'gmake', 'ninja'} or name.endswith('_tests_run'):
+            active.append(row.strip())
+    assert not active, active
+
+
+def protected():
+    return {str(path): hashlib.sha256(json.dumps(inventory(path), sort_keys=True,
+            separators=(',', ':')).encode()).hexdigest() if path.exists() else None
+            for path in [helpers['APP'], *helpers['PROFILE_CANDIDATES']]}
+
+
+def group_exists(pid):
+    try:
+        os.killpg(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('label')
+    parser.add_argument('mode', choices=('copy', 'test', 'gui-test', 'native-build'))
+    parser.add_argument('--module', default='femtest.app.test_contact_state_native')
+    parser.add_argument('--solver', type=Path)
+    parser.add_argument('--expected-tests', type=int, default=1)
+    args = parser.parse_args()
+    assert re.fullmatch('[a-z0-9-]+', args.label)
+    serial()
+    run = ROOT / args.label
+    run.mkdir()
+    sources = [Path(__file__), HELPER, REPO / 'pixi.toml', REPO / 'pixi.lock',
+               REPO / 'src/Mod/Fem/CMakeLists.txt']
+    if args.mode != 'native-build':
+        sources += list((REPO / 'src/Mod/Fem').rglob('*.py'))
+        if args.mode == 'test':
+            gui_parts = {'femviewprovider', 'femtaskpanels', 'femguiutils',
+                         'fempreferencepages', 'femcommands', 'gui'}
+            sources = [path for path in sources if not gui_parts.intersection(path.parts)]
+    else:
+        recipe = Path('/Users/zukomgwili/Library/Caches/rattler/cache/pkgs/calculix-2.23-pl5321hd17ca8b_8/info/recipe')
+        archive = Path('/private/tmp/freecad-927-ccx-research.Trz3MF/ccx_2.23.src.tar.bz2')
+        sources += [archive, *[path for path in recipe.rglob('*') if path.is_file()]]
+        sources += [path for path in (REPO / 'package/calculix/force-accounting').iterdir() if path.is_file()]
+        sources += [path for path in (REPO / 'package/local-completion/calculix-9zt-probe').iterdir() if path.is_file()]
+    if args.solver:
+        sources.append(args.solver.resolve(strict=True))
+    before = {str(path): sha(path) for path in sources}
+    # Preserve the actual supervisor and changed sources as executed, not an
+    # unpinned later helper revision. Native outputs remain in this private run.
+    snapshots = run / 'inputs'
+    snapshots.mkdir()
+    shutil.copy2(__file__, snapshots / Path(__file__).name)
+    changed = subprocess.check_output(['git', 'diff', '--name-only', '--', 'src/Mod/Fem'],
+                                      cwd=REPO, text=True, timeout=10).splitlines()
+    changed += subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard',
+                                        'src/Mod/Fem'], cwd=REPO, text=True, timeout=10).splitlines()
+    for name in changed:
+        target = snapshots / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(REPO / name, target)
+    custody = protected()
+    env = dict(os.environ)
+    for key in tuple(env):
+        if key.startswith(('FREECAD_', 'CCX_', 'DYLD_', 'LD_', 'APPQA_', 'F8_', 'F9II_')) or key in (
+            'PYTHONPATH', 'PYTHONHOME', 'XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_CACHE_HOME',
+            'TMPDIR', 'TMP', 'TEMP', 'DESTDIR'):
+            env.pop(key)
+    for key in ('FREECAD_USER_HOME', 'FREECAD_USER_DATA', 'FREECAD_USER_TEMP',
+                'XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_CACHE_HOME'):
+        path = run / key.lower()
+        path.mkdir()
+        env[key] = str(path)
+    temporary = run / 'tmp'
+    temporary.mkdir()
+    env.update(TMPDIR=str(temporary) + '/', TMP=str(temporary), TEMP=str(temporary),
+               PYTHONDONTWRITEBYTECODE='1', PYTHONNOUSERSITE='1', OMP_NUM_THREADS='2')
+    prefix = ['pixi', 'run', '--frozen']
+    if args.mode == 'native-build':
+        driver = REPO / 'package/local-completion/calculix-9zt-probe/build_probe.py'
+        native = REPO / 'package/calculix/force-accounting'
+        command = [sys.executable, '-B', str(driver), '--source-archive', str(archive),
+            '--recipe', str(recipe), '--workdir', str(run / 'native'),
+            '--patch', str(native / 'hooks.patch'), '--extra-source', str(native / 'forceaccounting.c'),
+            '--contact-source', str(native / 'contactstate.c'),
+            '--runtime-prefix', str(REPO / '.pixi/envs/default')]
+    elif args.mode == 'copy':
+        command = prefix + ['cmake', '--build', 'build/release', '--target',
+                            'FemScriptsTarget', 'FemGuiScriptsTarget', '--parallel', '6']
+    else:
+        if args.solver:
+            env['FREECAD_CONTACT_STATE_SOLVER'] = str(args.solver.resolve(strict=True))
+        binary = 'FreeCAD' if args.mode == 'gui-test' else 'FreeCADCmd'
+        command = prefix + [str(REPO / 'build/release/bin' / binary),
+            '-u', str(run / 'user.cfg'), '-s', str(run / 'system.cfg'), '-P', str(ROOT),
+            '-t', args.module]
+    timed_out, started = False, time.monotonic()
+    with (run / 'run.log').open('xb') as output:
+        child = subprocess.Popen(command, cwd=REPO, env=env, stdin=subprocess.DEVNULL,
+                                 stdout=output, stderr=subprocess.STDOUT, start_new_session=True)
+        try:
+            child.wait(timeout=900)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+        finally:
+            for number in (signal.SIGTERM, signal.SIGKILL):
+                if child.poll() is None or group_exists(child.pid):
+                    try:
+                        os.killpg(child.pid, number)
+                    except ProcessLookupError:
+                        pass
+                    try:
+                        child.wait(timeout=3)
+                    except subprocess.TimeoutExpired:
+                        pass
+    log = (run / 'run.log').read_text()
+    counts = re.findall(r'^Ran (\d+) tests? in [0-9.]+s$', log, re.M)
+    semantic = args.mode in ('copy', 'native-build') or (counts == [str(args.expected_tests)]
+        and len(re.findall(r'^OK$', log, re.M)) == 1
+        and not re.search(r'^(?:FAILED|FAIL:|ERROR:|UNEXPECTED SUCCESS)|\.\.\. skipped', log, re.M))
+    after, final_custody = {str(path): sha(path) for path in sources}, protected()
+    report = {'command': command, 'returncode': child.returncode, 'timed_out': timed_out,
+              'elapsed_seconds': time.monotonic() - started, 'child_reaped': child.poll() is not None,
+              'group_gone': not group_exists(child.pid), 'inputs_before': before, 'inputs_after': after,
+              'protected_before': custody, 'protected_after': final_custody,
+              'log_sha256': sha(run / 'run.log'), 'test_counts': counts,
+              'semantic_passed': semantic}
+    report['passed'] = bool(child.returncode == 0 and not timed_out and semantic and before == after
+                            and custody == final_custody and report['child_reaped'] and report['group_gone'])
+    (run / 'execution.json').write_text(json.dumps(report, indent=2) + '\n')
+    serial()
+    print(json.dumps({key: value for key, value in report.items()
+                      if key not in ('inputs_before', 'inputs_after')}, indent=2))
+    return 0 if report['passed'] else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

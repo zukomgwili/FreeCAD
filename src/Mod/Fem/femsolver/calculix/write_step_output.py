@@ -132,6 +132,11 @@ def write_step_output(f, ccxwriter):
                     )
                 )
                 f.write("CF, CFN, CFS\n")
+            if getattr(ccxwriter.solver_obj, "NativeContactOutputs", ()):
+                # Native local PRINT is global, unlike the pair totals above.
+                # The independent diagnostic channel retains exact pair/IP
+                # identity and actual state; raw DAT remains inspectable too.
+                f.write("*CONTACT PRINT\nCDIS, CSTR\n")
         if any(
             vars(ccxwriter.member).get(f"cons_{key}")
             for key in ["fixed", "displacement", "rigidbody", "contact"]

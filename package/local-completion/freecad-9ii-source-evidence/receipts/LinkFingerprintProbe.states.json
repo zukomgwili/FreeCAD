@@ -1,0 +1,1119 @@
+[
+  {
+    "digest": "d4b52c830d281c8aa2b5316335c9f59c2ee709e45dc876081871408cbc3af9e2",
+    "state": [
+      "c00f21e9c4e2177b18cf0638721bac3a22a70f5ae2c5e27c7bb06178139b4188",
+      {
+        "name": "Analysis",
+        "type": "Fem::FemAnalysis",
+        "geometry": null,
+        "properties": {
+          "Group": [
+            {
+              "name": "MaterialSolid",
+              "type": "App::MaterialObjectPython",
+              "geometry": null,
+              "properties": {
+                "Category": "Solid",
+                "ElasticityModel": "Isotropic",
+                "Label2": "",
+                "Material": {},
+                "MaterialName": "",
+                "MaterialOrientation": "Rotation (0.0, 0.0, 0.0, 1.0)",
+                "MaterialOrientationReference": "None",
+                "Nonlinear": "None",
+                "PoissonRatio12": "0.0",
+                "PoissonRatio13": "0.0",
+                "PoissonRatio23": "0.0",
+                "References": [
+                  [
+                    {
+                      "name": "NestedCompound",
+                      "type": "Part::Compound",
+                      "geometry": "f5e2cdce8e222263d3c401ea037d7498f5a0fc64e8f97b2cded6e938bbb47075",
+                      "properties": {
+                        "Label2": "",
+                        "Links": [
+                          {
+                            "name": "NestedOccurrence",
+                            "type": "App::Link",
+                            "geometry": null,
+                            "properties": {
+                              "ColoredElements": "None",
+                              "ElementCount": "0",
+                              "ElementList": [],
+                              "Label2": "",
+                              "LinkClaimChild": "False",
+                              "LinkCopyOnChange": "Disabled",
+                              "LinkCopyOnChangeGroup": "None",
+                              "LinkCopyOnChangeSource": "None",
+                              "LinkCopyOnChangeTouched": "False",
+                              "LinkExecute": "",
+                              "LinkPlacement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                              "LinkTransform": "False",
+                              "LinkedObject": {
+                                "name": "Geometry",
+                                "type": "Part::Feature",
+                                "geometry": "d614770d48045c34e59ce28876d704a2b9b44e7c94ab450d4c8fe3f1fd59a6b0",
+                                "properties": {
+                                  "Label2": "",
+                                  "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                                  "ShapeMaterial": {
+                                    "native_material": {
+                                      "UUID": "7f9fd73b-50c9-41d8-b7b2-575a030c1eeb",
+                                      "Name": "Default",
+                                      "Directory": "Standard",
+                                      "Parent": "5dbb7be6-8b63-479b-ab4c-87be02ead973",
+                                      "Description": "Generic material with density of 1",
+                                      "URL": "",
+                                      "Reference": "",
+                                      "Author": "David Carter",
+                                      "License": "CC-BY-4.0"
+                                    },
+                                    "tags": [],
+                                    "physical_models": [
+                                      "454661e5-265b-4320-8e6f-fcf6223ac3af"
+                                    ],
+                                    "appearance_models": [
+                                      "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+                                    ],
+                                    "declarations": {
+                                      "AmbientColor": {
+                                        "name": "AmbientColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Density": {
+                                        "name": "Density",
+                                        "type": "Quantity",
+                                        "units": "kg/m^3",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "DiffuseColor": {
+                                        "name": "DiffuseColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "EmissiveColor": {
+                                        "name": "EmissiveColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Shininess": {
+                                        "name": "Shininess",
+                                        "type": "Float",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "SpecularColor": {
+                                        "name": "SpecularColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Transparency": {
+                                        "name": "Transparency",
+                                        "type": "Float",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      }
+                                    },
+                                    "physical": {
+                                      "Density": {
+                                        "quantity": {
+                                          "float": "0x1.12e0be826d695p-30"
+                                        },
+                                        "unit": [
+                                          -3,
+                                          1,
+                                          0,
+                                          0,
+                                          0,
+                                          0,
+                                          0,
+                                          0
+                                        ]
+                                      }
+                                    },
+                                    "appearance": {
+                                      "AmbientColor": "(0.333333, 0.333333, 0.333333, 1)",
+                                      "DiffuseColor": "(0.8, 0.8, 0.901961, 1)",
+                                      "EmissiveColor": "(0, 0, 0, 1)",
+                                      "Shininess": {
+                                        "float": "0x1.cccccc0000000p-1"
+                                      },
+                                      "SpecularColor": "(0.533333, 0.533333, 0.533333, 1)",
+                                      "Transparency": {
+                                        "float": "0x0.0p+0"
+                                      }
+                                    },
+                                    "legacy": {}
+                                  },
+                                  "Visibility": "True",
+                                  "_ElementMapVersion": "15.70200.5"
+                                }
+                              },
+                              "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                              "PlacementList": [],
+                              "Scale": "1.0",
+                              "ScaleList": [],
+                              "ScaleVector": "Vector (1.0, 1.0, 1.0)",
+                              "ShowElement": "True",
+                              "Visibility": "True",
+                              "VisibilityList": [],
+                              "_ChildCache": [],
+                              "_LinkOwner": "0",
+                              "_LinkTouched": "False"
+                            }
+                          }
+                        ],
+                        "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                        "ShapeMaterial": {
+                          "native_material": {
+                            "UUID": "7f9fd73b-50c9-41d8-b7b2-575a030c1eeb",
+                            "Name": "Default",
+                            "Directory": "Standard",
+                            "Parent": "5dbb7be6-8b63-479b-ab4c-87be02ead973",
+                            "Description": "Generic material with density of 1",
+                            "URL": "",
+                            "Reference": "",
+                            "Author": "David Carter",
+                            "License": "CC-BY-4.0"
+                          },
+                          "tags": [],
+                          "physical_models": [
+                            "454661e5-265b-4320-8e6f-fcf6223ac3af"
+                          ],
+                          "appearance_models": [
+                            "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+                          ],
+                          "declarations": {
+                            "AmbientColor": {
+                              "name": "AmbientColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Density": {
+                              "name": "Density",
+                              "type": "Quantity",
+                              "units": "kg/m^3",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "DiffuseColor": {
+                              "name": "DiffuseColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "EmissiveColor": {
+                              "name": "EmissiveColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Shininess": {
+                              "name": "Shininess",
+                              "type": "Float",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "SpecularColor": {
+                              "name": "SpecularColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Transparency": {
+                              "name": "Transparency",
+                              "type": "Float",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            }
+                          },
+                          "physical": {
+                            "Density": {
+                              "quantity": {
+                                "float": "0x1.12e0be826d695p-30"
+                              },
+                              "unit": [
+                                -3,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                              ]
+                            }
+                          },
+                          "appearance": {
+                            "AmbientColor": "(0.333333, 0.333333, 0.333333, 1)",
+                            "DiffuseColor": "(0.8, 0.8, 0.901961, 1)",
+                            "EmissiveColor": "(0, 0, 0, 1)",
+                            "Shininess": {
+                              "float": "0x1.cccccc0000000p-1"
+                            },
+                            "SpecularColor": "(0.533333, 0.533333, 0.533333, 1)",
+                            "Transparency": {
+                              "float": "0x0.0p+0"
+                            }
+                          },
+                          "legacy": {}
+                        },
+                        "Visibility": "True",
+                        "_ElementMapVersion": "15.70200.5"
+                      }
+                    },
+                    [
+                      "Solid1"
+                    ]
+                  ]
+                ],
+                "ShearModulus12": "0.0 kg/(mm*s^2)",
+                "ShearModulus13": "0.0 kg/(mm*s^2)",
+                "ShearModulus23": "0.0 kg/(mm*s^2)",
+                "Suppressed": "False",
+                "UUID": "",
+                "Visibility": "True",
+                "YoungsModulus1": "0.0 kg/(mm*s^2)",
+                "YoungsModulus2": "0.0 kg/(mm*s^2)",
+                "YoungsModulus3": "0.0 kg/(mm*s^2)"
+              }
+            },
+            {
+              "name": "MeshGmsh",
+              "type": "Fem::FemMeshShapeBaseObjectPython",
+              "geometry": null,
+              "properties": {
+                "Algorithm2D": "Automatic",
+                "Algorithm3D": "Automatic",
+                "CharacteristicLengthMax": "0.0 mm",
+                "CharacteristicLengthMin": "0.0 mm",
+                "CoherenceMesh": "True",
+                "ElementDimension": "From Shape",
+                "ElementGroupGeometry": "",
+                "ElementGroupNames": [],
+                "ElementGroupReferences": [],
+                "ElementOrder": "1st",
+                "GeometryTolerance": "1e-06",
+                "HighOrderOptimize": "None",
+                "Label2": "",
+                "MeshGroupList": [],
+                "MeshRefinementList": [],
+                "MeshSizeFromCurvature": "12",
+                "OptimizeNetgen": "False",
+                "OptimizeStd": "True",
+                "ParallelProcessing": "True",
+                "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                "RecombinationAlgorithm": "Simple",
+                "Recombine3DAll": "False",
+                "RecombineAll": "False",
+                "SecondOrderLinear": "False",
+                "SubdivisionAlgorithm": "None",
+                "Suppressed": "False",
+                "Visibility": "True",
+                "_ElementMapVersion": "5"
+              }
+            }
+          ],
+          "Label2": "",
+          "Uid": "96de8e51-4578-44d6-8089-74a005ac46a4",
+          "Visibility": "True",
+          "_GroupTouched": "False"
+        }
+      }
+    ]
+  },
+  {
+    "digest": "d4b52c830d281c8aa2b5316335c9f59c2ee709e45dc876081871408cbc3af9e2",
+    "state": [
+      "c00f21e9c4e2177b18cf0638721bac3a22a70f5ae2c5e27c7bb06178139b4188",
+      {
+        "name": "Analysis",
+        "type": "Fem::FemAnalysis",
+        "geometry": null,
+        "properties": {
+          "Group": [
+            {
+              "name": "MaterialSolid",
+              "type": "App::MaterialObjectPython",
+              "geometry": null,
+              "properties": {
+                "Category": "Solid",
+                "ElasticityModel": "Isotropic",
+                "Label2": "",
+                "Material": {},
+                "MaterialName": "",
+                "MaterialOrientation": "Rotation (0.0, 0.0, 0.0, 1.0)",
+                "MaterialOrientationReference": "None",
+                "Nonlinear": "None",
+                "PoissonRatio12": "0.0",
+                "PoissonRatio13": "0.0",
+                "PoissonRatio23": "0.0",
+                "References": [
+                  [
+                    {
+                      "name": "NestedCompound",
+                      "type": "Part::Compound",
+                      "geometry": "f5e2cdce8e222263d3c401ea037d7498f5a0fc64e8f97b2cded6e938bbb47075",
+                      "properties": {
+                        "Label2": "",
+                        "Links": [
+                          {
+                            "name": "NestedOccurrence",
+                            "type": "App::Link",
+                            "geometry": null,
+                            "properties": {
+                              "ColoredElements": "None",
+                              "ElementCount": "0",
+                              "ElementList": [],
+                              "Label2": "",
+                              "LinkClaimChild": "False",
+                              "LinkCopyOnChange": "Disabled",
+                              "LinkCopyOnChangeGroup": "None",
+                              "LinkCopyOnChangeSource": "None",
+                              "LinkCopyOnChangeTouched": "False",
+                              "LinkExecute": "",
+                              "LinkPlacement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                              "LinkTransform": "False",
+                              "LinkedObject": {
+                                "name": "Geometry",
+                                "type": "Part::Feature",
+                                "geometry": "d614770d48045c34e59ce28876d704a2b9b44e7c94ab450d4c8fe3f1fd59a6b0",
+                                "properties": {
+                                  "Label2": "",
+                                  "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                                  "ShapeMaterial": {
+                                    "native_material": {
+                                      "UUID": "7f9fd73b-50c9-41d8-b7b2-575a030c1eeb",
+                                      "Name": "Default",
+                                      "Directory": "Standard",
+                                      "Parent": "5dbb7be6-8b63-479b-ab4c-87be02ead973",
+                                      "Description": "Generic material with density of 1",
+                                      "URL": "",
+                                      "Reference": "",
+                                      "Author": "David Carter",
+                                      "License": "CC-BY-4.0"
+                                    },
+                                    "tags": [],
+                                    "physical_models": [
+                                      "454661e5-265b-4320-8e6f-fcf6223ac3af"
+                                    ],
+                                    "appearance_models": [
+                                      "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+                                    ],
+                                    "declarations": {
+                                      "AmbientColor": {
+                                        "name": "AmbientColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Density": {
+                                        "name": "Density",
+                                        "type": "Quantity",
+                                        "units": "kg/m^3",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "DiffuseColor": {
+                                        "name": "DiffuseColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "EmissiveColor": {
+                                        "name": "EmissiveColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Shininess": {
+                                        "name": "Shininess",
+                                        "type": "Float",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "SpecularColor": {
+                                        "name": "SpecularColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Transparency": {
+                                        "name": "Transparency",
+                                        "type": "Float",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      }
+                                    },
+                                    "physical": {
+                                      "Density": {
+                                        "quantity": {
+                                          "float": "0x1.12e0be826d695p-30"
+                                        },
+                                        "unit": [
+                                          -3,
+                                          1,
+                                          0,
+                                          0,
+                                          0,
+                                          0,
+                                          0,
+                                          0
+                                        ]
+                                      }
+                                    },
+                                    "appearance": {
+                                      "AmbientColor": "(0.333333, 0.333333, 0.333333, 1)",
+                                      "DiffuseColor": "(0.8, 0.8, 0.901961, 1)",
+                                      "EmissiveColor": "(0, 0, 0, 1)",
+                                      "Shininess": {
+                                        "float": "0x1.cccccc0000000p-1"
+                                      },
+                                      "SpecularColor": "(0.533333, 0.533333, 0.533333, 1)",
+                                      "Transparency": {
+                                        "float": "0x0.0p+0"
+                                      }
+                                    },
+                                    "legacy": {}
+                                  },
+                                  "Visibility": "True",
+                                  "_ElementMapVersion": "15.70200.5"
+                                }
+                              },
+                              "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                              "PlacementList": [],
+                              "Scale": "1.0",
+                              "ScaleList": [],
+                              "ScaleVector": "Vector (1.0, 1.0, 1.0)",
+                              "ShowElement": "True",
+                              "Visibility": "True",
+                              "VisibilityList": [],
+                              "_ChildCache": [],
+                              "_LinkOwner": "0",
+                              "_LinkTouched": "False"
+                            }
+                          }
+                        ],
+                        "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                        "ShapeMaterial": {
+                          "native_material": {
+                            "UUID": "7f9fd73b-50c9-41d8-b7b2-575a030c1eeb",
+                            "Name": "Default",
+                            "Directory": "Standard",
+                            "Parent": "5dbb7be6-8b63-479b-ab4c-87be02ead973",
+                            "Description": "Generic material with density of 1",
+                            "URL": "",
+                            "Reference": "",
+                            "Author": "David Carter",
+                            "License": "CC-BY-4.0"
+                          },
+                          "tags": [],
+                          "physical_models": [
+                            "454661e5-265b-4320-8e6f-fcf6223ac3af"
+                          ],
+                          "appearance_models": [
+                            "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+                          ],
+                          "declarations": {
+                            "AmbientColor": {
+                              "name": "AmbientColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Density": {
+                              "name": "Density",
+                              "type": "Quantity",
+                              "units": "kg/m^3",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "DiffuseColor": {
+                              "name": "DiffuseColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "EmissiveColor": {
+                              "name": "EmissiveColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Shininess": {
+                              "name": "Shininess",
+                              "type": "Float",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "SpecularColor": {
+                              "name": "SpecularColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Transparency": {
+                              "name": "Transparency",
+                              "type": "Float",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            }
+                          },
+                          "physical": {
+                            "Density": {
+                              "quantity": {
+                                "float": "0x1.12e0be826d695p-30"
+                              },
+                              "unit": [
+                                -3,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                              ]
+                            }
+                          },
+                          "appearance": {
+                            "AmbientColor": "(0.333333, 0.333333, 0.333333, 1)",
+                            "DiffuseColor": "(0.8, 0.8, 0.901961, 1)",
+                            "EmissiveColor": "(0, 0, 0, 1)",
+                            "Shininess": {
+                              "float": "0x1.cccccc0000000p-1"
+                            },
+                            "SpecularColor": "(0.533333, 0.533333, 0.533333, 1)",
+                            "Transparency": {
+                              "float": "0x0.0p+0"
+                            }
+                          },
+                          "legacy": {}
+                        },
+                        "Visibility": "True",
+                        "_ElementMapVersion": "15.70200.5"
+                      }
+                    },
+                    [
+                      "Solid1"
+                    ]
+                  ]
+                ],
+                "ShearModulus12": "0.0 kg/(mm*s^2)",
+                "ShearModulus13": "0.0 kg/(mm*s^2)",
+                "ShearModulus23": "0.0 kg/(mm*s^2)",
+                "Suppressed": "False",
+                "UUID": "",
+                "Visibility": "True",
+                "YoungsModulus1": "0.0 kg/(mm*s^2)",
+                "YoungsModulus2": "0.0 kg/(mm*s^2)",
+                "YoungsModulus3": "0.0 kg/(mm*s^2)"
+              }
+            },
+            {
+              "name": "MeshGmsh",
+              "type": "Fem::FemMeshShapeBaseObjectPython",
+              "geometry": null,
+              "properties": {
+                "Algorithm2D": "Automatic",
+                "Algorithm3D": "Automatic",
+                "CharacteristicLengthMax": "0.0 mm",
+                "CharacteristicLengthMin": "0.0 mm",
+                "CoherenceMesh": "True",
+                "ElementDimension": "From Shape",
+                "ElementGroupGeometry": "",
+                "ElementGroupNames": [],
+                "ElementGroupReferences": [],
+                "ElementOrder": "1st",
+                "GeometryTolerance": "1e-06",
+                "HighOrderOptimize": "None",
+                "Label2": "",
+                "MeshGroupList": [],
+                "MeshRefinementList": [],
+                "MeshSizeFromCurvature": "12",
+                "OptimizeNetgen": "False",
+                "OptimizeStd": "True",
+                "ParallelProcessing": "True",
+                "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                "RecombinationAlgorithm": "Simple",
+                "Recombine3DAll": "False",
+                "RecombineAll": "False",
+                "SecondOrderLinear": "False",
+                "SubdivisionAlgorithm": "None",
+                "Suppressed": "False",
+                "Visibility": "True",
+                "_ElementMapVersion": "5"
+              }
+            }
+          ],
+          "Label2": "",
+          "Uid": "96de8e51-4578-44d6-8089-74a005ac46a4",
+          "Visibility": "True",
+          "_GroupTouched": "False"
+        }
+      }
+    ]
+  },
+  {
+    "digest": "b1e1b3eaf1fc0f0f1e3889137843337e266cf406e4be1277a1f84f8ea16a60ef",
+    "state": [
+      "cda348bbed8a96168844c2b3fc1c91361130c3123b4831f74982ee62de60d5e2",
+      {
+        "name": "Analysis",
+        "type": "Fem::FemAnalysis",
+        "geometry": null,
+        "properties": {
+          "Group": [
+            {
+              "name": "MaterialSolid",
+              "type": "App::MaterialObjectPython",
+              "geometry": null,
+              "properties": {
+                "Category": "Solid",
+                "ElasticityModel": "Isotropic",
+                "Label2": "",
+                "Material": {},
+                "MaterialName": "",
+                "MaterialOrientation": "Rotation (0.0, 0.0, 0.0, 1.0)",
+                "MaterialOrientationReference": "None",
+                "Nonlinear": "None",
+                "PoissonRatio12": "0.0",
+                "PoissonRatio13": "0.0",
+                "PoissonRatio23": "0.0",
+                "References": [
+                  [
+                    {
+                      "name": "NestedCompound",
+                      "type": "Part::Compound",
+                      "geometry": "f5e2cdce8e222263d3c401ea037d7498f5a0fc64e8f97b2cded6e938bbb47075",
+                      "properties": {
+                        "Label2": "",
+                        "Links": [
+                          {
+                            "name": "NestedOccurrence",
+                            "type": "App::Link",
+                            "geometry": null,
+                            "properties": {
+                              "ColoredElements": "None",
+                              "ElementCount": "0",
+                              "ElementList": [],
+                              "Label2": "",
+                              "LinkClaimChild": "False",
+                              "LinkCopyOnChange": "Disabled",
+                              "LinkCopyOnChangeGroup": "None",
+                              "LinkCopyOnChangeSource": "None",
+                              "LinkCopyOnChangeTouched": "False",
+                              "LinkExecute": "",
+                              "LinkPlacement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                              "LinkTransform": "False",
+                              "LinkedObject": {
+                                "name": "Geometry",
+                                "type": "Part::Feature",
+                                "geometry": "d614770d48045c34e59ce28876d704a2b9b44e7c94ab450d4c8fe3f1fd59a6b0",
+                                "properties": {
+                                  "Label2": "",
+                                  "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                                  "ShapeMaterial": {
+                                    "native_material": {
+                                      "UUID": "7f9fd73b-50c9-41d8-b7b2-575a030c1eeb",
+                                      "Name": "Default",
+                                      "Directory": "Standard",
+                                      "Parent": "5dbb7be6-8b63-479b-ab4c-87be02ead973",
+                                      "Description": "Generic material with density of 1",
+                                      "URL": "",
+                                      "Reference": "",
+                                      "Author": "David Carter",
+                                      "License": "CC-BY-4.0"
+                                    },
+                                    "tags": [],
+                                    "physical_models": [
+                                      "454661e5-265b-4320-8e6f-fcf6223ac3af"
+                                    ],
+                                    "appearance_models": [
+                                      "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+                                    ],
+                                    "declarations": {
+                                      "AmbientColor": {
+                                        "name": "AmbientColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Density": {
+                                        "name": "Density",
+                                        "type": "Quantity",
+                                        "units": "kg/m^3",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "DiffuseColor": {
+                                        "name": "DiffuseColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "EmissiveColor": {
+                                        "name": "EmissiveColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Shininess": {
+                                        "name": "Shininess",
+                                        "type": "Float",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "SpecularColor": {
+                                        "name": "SpecularColor",
+                                        "type": "Color",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      },
+                                      "Transparency": {
+                                        "name": "Transparency",
+                                        "type": "Float",
+                                        "units": "",
+                                        "inheritance": "",
+                                        "inherited": false,
+                                        "columns": [],
+                                        "empty": false
+                                      }
+                                    },
+                                    "physical": {
+                                      "Density": {
+                                        "quantity": {
+                                          "float": "0x1.12e0be826d695p-30"
+                                        },
+                                        "unit": [
+                                          -3,
+                                          1,
+                                          0,
+                                          0,
+                                          0,
+                                          0,
+                                          0,
+                                          0
+                                        ]
+                                      }
+                                    },
+                                    "appearance": {
+                                      "AmbientColor": "(0.333333, 0.333333, 0.333333, 1)",
+                                      "DiffuseColor": "(0.8, 0.8, 0.901961, 1)",
+                                      "EmissiveColor": "(0, 0, 0, 1)",
+                                      "Shininess": {
+                                        "float": "0x1.cccccc0000000p-1"
+                                      },
+                                      "SpecularColor": "(0.533333, 0.533333, 0.533333, 1)",
+                                      "Transparency": {
+                                        "float": "0x0.0p+0"
+                                      }
+                                    },
+                                    "legacy": {}
+                                  },
+                                  "Visibility": "True",
+                                  "_ElementMapVersion": "15.70200.5"
+                                }
+                              },
+                              "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                              "PlacementList": [],
+                              "Scale": "1.0",
+                              "ScaleList": [],
+                              "ScaleVector": "Vector (1.0, 1.0, 1.0)",
+                              "ShowElement": "True",
+                              "Visibility": "True",
+                              "VisibilityList": [],
+                              "_ChildCache": [],
+                              "_LinkOwner": "0",
+                              "_LinkTouched": "False",
+                              "_Part_ShapeCache": []
+                            }
+                          }
+                        ],
+                        "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                        "ShapeMaterial": {
+                          "native_material": {
+                            "UUID": "7f9fd73b-50c9-41d8-b7b2-575a030c1eeb",
+                            "Name": "Default",
+                            "Directory": "Standard",
+                            "Parent": "5dbb7be6-8b63-479b-ab4c-87be02ead973",
+                            "Description": "Generic material with density of 1",
+                            "URL": "",
+                            "Reference": "",
+                            "Author": "David Carter",
+                            "License": "CC-BY-4.0"
+                          },
+                          "tags": [],
+                          "physical_models": [
+                            "454661e5-265b-4320-8e6f-fcf6223ac3af"
+                          ],
+                          "appearance_models": [
+                            "f006c7e4-35b7-43d5-bbf9-c5d572309e6e"
+                          ],
+                          "declarations": {
+                            "AmbientColor": {
+                              "name": "AmbientColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Density": {
+                              "name": "Density",
+                              "type": "Quantity",
+                              "units": "kg/m^3",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "DiffuseColor": {
+                              "name": "DiffuseColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "EmissiveColor": {
+                              "name": "EmissiveColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Shininess": {
+                              "name": "Shininess",
+                              "type": "Float",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "SpecularColor": {
+                              "name": "SpecularColor",
+                              "type": "Color",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            },
+                            "Transparency": {
+                              "name": "Transparency",
+                              "type": "Float",
+                              "units": "",
+                              "inheritance": "",
+                              "inherited": false,
+                              "columns": [],
+                              "empty": false
+                            }
+                          },
+                          "physical": {
+                            "Density": {
+                              "quantity": {
+                                "float": "0x1.12e0be826d695p-30"
+                              },
+                              "unit": [
+                                -3,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                              ]
+                            }
+                          },
+                          "appearance": {
+                            "AmbientColor": "(0.333333, 0.333333, 0.333333, 1)",
+                            "DiffuseColor": "(0.8, 0.8, 0.901961, 1)",
+                            "EmissiveColor": "(0, 0, 0, 1)",
+                            "Shininess": {
+                              "float": "0x1.cccccc0000000p-1"
+                            },
+                            "SpecularColor": "(0.533333, 0.533333, 0.533333, 1)",
+                            "Transparency": {
+                              "float": "0x0.0p+0"
+                            }
+                          },
+                          "legacy": {}
+                        },
+                        "Visibility": "True",
+                        "_ElementMapVersion": "15.70200.5"
+                      }
+                    },
+                    [
+                      "Solid1"
+                    ]
+                  ]
+                ],
+                "ShearModulus12": "0.0 kg/(mm*s^2)",
+                "ShearModulus13": "0.0 kg/(mm*s^2)",
+                "ShearModulus23": "0.0 kg/(mm*s^2)",
+                "Suppressed": "False",
+                "UUID": "",
+                "Visibility": "True",
+                "YoungsModulus1": "0.0 kg/(mm*s^2)",
+                "YoungsModulus2": "0.0 kg/(mm*s^2)",
+                "YoungsModulus3": "0.0 kg/(mm*s^2)"
+              }
+            },
+            {
+              "name": "MeshGmsh",
+              "type": "Fem::FemMeshShapeBaseObjectPython",
+              "geometry": null,
+              "properties": {
+                "Algorithm2D": "Automatic",
+                "Algorithm3D": "Automatic",
+                "CharacteristicLengthMax": "0.0 mm",
+                "CharacteristicLengthMin": "0.0 mm",
+                "CoherenceMesh": "True",
+                "ElementDimension": "From Shape",
+                "ElementGroupGeometry": "",
+                "ElementGroupNames": [],
+                "ElementGroupReferences": [],
+                "ElementOrder": "1st",
+                "GeometryTolerance": "1e-06",
+                "HighOrderOptimize": "None",
+                "Label2": "",
+                "MeshGroupList": [],
+                "MeshRefinementList": [],
+                "MeshSizeFromCurvature": "12",
+                "OptimizeNetgen": "False",
+                "OptimizeStd": "True",
+                "ParallelProcessing": "True",
+                "Placement": "Placement [Pos=(0,0,0), Yaw-Pitch-Roll=(0,0,0)]",
+                "RecombinationAlgorithm": "Simple",
+                "Recombine3DAll": "False",
+                "RecombineAll": "False",
+                "SecondOrderLinear": "False",
+                "SubdivisionAlgorithm": "None",
+                "Suppressed": "False",
+                "Visibility": "True",
+                "_ElementMapVersion": "5"
+              }
+            }
+          ],
+          "Label2": "",
+          "Uid": "96de8e51-4578-44d6-8089-74a005ac46a4",
+          "Visibility": "True",
+          "_GroupTouched": "False"
+        }
+      }
+    ]
+  }
+]
