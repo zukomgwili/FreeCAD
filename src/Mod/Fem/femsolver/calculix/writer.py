@@ -137,7 +137,10 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
             else None
         )
         try:
-            return self._write_solver_input()
+            result = self._write_solver_input()
+            if self.port_resolution_context is not None:
+                self.port_resolution_context.validate_unchanged()
+            return result
         finally:
             self.port_resolution_context = None
 

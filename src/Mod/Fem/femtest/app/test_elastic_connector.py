@@ -14,6 +14,11 @@ import FreeCAD as App
 import Fem
 import ObjectsFem
 import Part
+from femtest.app.support_utils import (
+    assign_exact_native_mesh,
+    checked_native_mesh_copy,
+    during_native_return,
+)
 
 
 class TestRigidPortConnector(unittest.TestCase):
@@ -456,6 +461,39 @@ class TestRigidPortConnector(unittest.TestCase):
                             values = helper.values(data, "forces", identifier("EC_END2_", obj))
                             for actual, axis in zip(values, direction):
                                 self.assertAlmostEqual(actual, 10 * axis, delta=1e-6)
+
+    def test_legacy_classifier_fences_same_id_native_coordinate_mutation(self):
+        from femtools.elastic_connector import validation_errors
+
+        analysis, solver, _connector, mesh, _bodies, _direction = self.model()
+        self.assertFalse(mesh.ElementGroupGeometry)
+        native = mesh.FemMesh
+        backup = checked_native_mesh_copy(native)
+        before_ids = tuple(native.Nodes)
+        errors = []
+
+        def change_coordinates():
+            shifted = checked_native_mesh_copy(backup)
+            shifted.setTransform(App.Placement(App.Vector(0, 0, 0.25), App.Rotation()))
+            assign_exact_native_mesh(mesh, shifted)
+            self.assertEqual(tuple(mesh.FemMesh.Nodes), before_ids)
+            self.assertEqual(mesh.FemMesh.NodeCount, backup.NodeCount)
+            self.assertNotEqual(mesh.FemMesh.Nodes, backup.Nodes)
+
+        def classify():
+            errors.extend(validation_errors(analysis, solver, mesh))
+
+        observed = during_native_return(
+            "getNodesBySolid",
+            change_coordinates,
+            classify,
+            python_caller="get_femnodes_by_refshape",
+        )
+        self.assertEqual(len(observed), 1, "Must mutate after actual legacy native classification")
+        self.assertTrue(errors, "A single operation must not adopt a post-classifier snapshot")
+        self.assertTrue(any("changed" in error.lower() for error in errors), errors)
+        assign_exact_native_mesh(mesh, backup)
+        self.assertEqual(validation_errors(analysis, solver, mesh), [])
 
 
 class TestElasticConnector(unittest.TestCase):

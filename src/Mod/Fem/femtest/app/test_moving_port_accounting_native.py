@@ -7,6 +7,7 @@ temporary directories. No deck patches or accounting-force helpers are used.
 """
 
 import hashlib
+import io
 import json
 import math
 import os
@@ -30,6 +31,7 @@ from feminout.importCcxFrdResults import read_frd_result
 from femtools import force_accounting
 from femtools.ccxtools import FemToolsCcx
 from femtools.femutils import is_of_type
+from femtest.app.support_utils import during_native_return, reference_snapshot
 
 
 @unittest.skipUnless(shutil.which("gmsh"), "Native Gmsh executable required")
@@ -658,6 +660,50 @@ class TestMovingPortAccountingNative(unittest.TestCase):
         self.assertTrue(restored.Status.startswith("Stale"), restored.Status)
         self.assertEqual(restored.AccountingData, literal)
 
+    def test_owned_whole_export_bounds_repeated_native_validation_work(self):
+        """Bound whole-export work, not elapsed time or mocked resolver calls."""
+        import cProfile
+        import pstats
+
+        model = self._make_model()
+        elements = len(model.mesh.FemMesh.getIdByElementType("All"))
+        groups = len(model.mesh.FemMesh.Groups)
+        directory = self.output / "validation-work"
+        directory.mkdir()
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(directory))
+        profile = cProfile.Profile()
+        profile.runcall(fea.write_inp_file)
+
+        # The native classifier and whole-mesh entry/end fences still run.
+        # These generous budgets catch repeated full scans for every region;
+        # they are not a timing SLA or a claim about arbitrary mesh scaling.
+        limits = {
+            "<method 'isValid' of 'Part.Shape' objects>": 36,
+            "<method 'getElementNodes' of 'Fem.FemMesh' objects>": 24 * elements,
+            "<method 'getGroupElements' of 'Fem.FemMesh' objects>": 20 * groups + 64,
+        }
+        rows = pstats.Stats(profile).stats
+        for operation, limit in limits.items():
+            with self.subTest(native_operation=operation):
+                counts = [row[1] for key, row in rows.items() if key[2] == operation]
+                self.assertEqual(len(counts), 1, "Required native work was not observed")
+                self.assertGreater(counts[0], 0)
+                self.assertLessEqual(counts[0], limit)
+
+        # Preserve actual owner-specific receiving sets, not merely the work
+        # budget or a successful return from the writer.
+        sets, _, _ = self._stock_boundary(Path(fea.inp_file_name).read_text())
+        for body, name in (
+            (model.supports[0], "external"),
+            (model.ports[0], "moving_a"),
+            (model.ports[1], "moving_b"),
+        ):
+            self.assertEqual(sets[body.Name.upper()], model.memberships[name])
+        metadata = json.loads(Path(fea.inp_file_name).with_suffix(".accounting.json").read_text())
+        self.assertEqual(metadata["capacity"]["total"], 18)
+
     def test_moving_finite_rbe_ports_keep_elastic_transfer_separate_from_physical_support(self):
         model = self._make_model()
         report, literal = self._solve_and_check(model)
@@ -784,3 +830,89 @@ class TestMovingPortAccountingNative(unittest.TestCase):
         self.assertEqual(list(model.solver.NativeAccountingSupports), model.supports)
         with self.assertRaisesRegex(ValueError, "overlap a selected external RBE receiving region"):
             self._write(model, "unselected-ordinary-on-rbe")
+
+    def _concrete_writer(self, model, label):
+        from femmesh.meshsetsgetter import MeshSetsGetter
+        from femsolver.calculix.calculixutils import define_masks
+        from femsolver.calculix.writer import FemInputWriterCcx
+        from femtools.membertools import AnalysisMember
+
+        directory = self.output / label
+        directory.mkdir()
+        getter = MeshSetsGetter(
+            model.analysis, model.solver, model.mesh, AnalysisMember(model.analysis)
+        )
+        for name, mask in define_masks(model.solver).items():
+            setattr(getter, "mask_" + name, mask)
+        getter.get_mesh_sets()
+        writer = FemInputWriterCcx(
+            model.analysis,
+            model.solver,
+            model.mesh,
+            getter.member,
+            str(directory),
+            getter.mat_geo_sets,
+        )
+        writer.write_solver_input()
+        return writer
+
+    def _direct_retry_keeps_request(self, change, restore, label):
+        from femtools import force_accounting
+        from femsolver.calculix.write_constraint_elastic_connector import write_connectors
+
+        model = self._make_model()
+        writer = self._concrete_writer(model, label)
+        force_accounting.prepare_request(writer)
+        path = Path(writer.file_name).with_suffix(".accounting")
+        metadata = Path(str(path) + ".json")
+        original = path.read_bytes(), metadata.read_bytes()
+
+        def refused():
+            with self.assertRaisesRegex(
+                (ValueError, RuntimeError), "(?i)body|reference|group|mesh|batch|changed|regenerat"
+            ):
+                force_accounting.prepare_request(writer)
+
+        observed = during_native_return(
+            "getGroupElements",
+            lambda: change(model),
+            refused,
+            python_caller="_get_solid_reference_group_sets",
+        )
+        self.assertEqual(len(observed), 1, "Must inject inside actual native body-group selection")
+        self.assertEqual((path.read_bytes(), metadata.read_bytes()), original)
+        self.assertIsNone(writer.port_resolution_context)
+
+        restore(model)
+        # Direct emitter after request failure must create fresh operation-local
+        # facts rather than resurrecting the completed full writer context.
+        output = io.StringIO()
+        write_connectors(output, writer)
+        self.assertIn("*SPRING", output.getvalue())
+        self.assertIsNone(writer.port_resolution_context)
+        force_accounting.prepare_request(writer)
+        self.assertEqual((path.read_bytes(), metadata.read_bytes()), original)
+
+    def test_body_reference_changed_during_request_is_not_published(self):
+        original = []
+
+        def change(model):
+            original.append(reference_snapshot(model.cuts[0], "AccountingBody"))
+            model.cuts[0].AccountingBody = model.cuts[1].AccountingBody
+
+        def restore(model):
+            model.cuts[0].AccountingBody = original[0]
+
+        self._direct_retry_keeps_request(change, restore, "body-reference-mutation")
+
+    def test_provenance_changed_during_request_is_not_published(self):
+        original = []
+
+        def change(model):
+            original.append(model.mesh.ElementGroupGeometry)
+            model.mesh.ElementGroupGeometry = "deliberate stale request provenance"
+
+        def restore(model):
+            model.mesh.ElementGroupGeometry = original[0]
+
+        self._direct_retry_keeps_request(change, restore, "body-provenance-mutation")

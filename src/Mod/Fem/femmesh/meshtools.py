@@ -94,14 +94,21 @@ def get_mesh_geometry_signature(part, *, canonical=True):
         if hasattr(value, "Document") and hasattr(value, "Name"):
             if value.Document != part.Document and not value.Document.FileName:
                 raise ValueError(
-                    "Save external geometry documents before generating mesh ownership.")
-            key = ("local" if value.Document == part.Document else value.Document.FileName,
-                   value.Name)
+                    "Save external geometry documents before generating mesh ownership."
+                )
+            key = (
+                "local" if value.Document == part.Document else value.Document.FileName,
+                value.Name,
+            )
             if key not in graph:
                 graph[key] = {}  # Mark before following potentially shared links.
-                graph[key].update({name: encode(value.getPropertyByName(name))
-                                   for name in sorted(value.PropertiesList)
-                                   if "Link" in value.getTypeIdOfProperty(name)})
+                graph[key].update(
+                    {
+                        name: encode(value.getPropertyByName(name))
+                        for name in sorted(value.PropertiesList)
+                        if "Link" in value.getTypeIdOfProperty(name)
+                    }
+                )
             return key
         if isinstance(value, (list, tuple)):
             return [encode(item) for item in value]
@@ -140,7 +147,7 @@ def _same_occurrence_geometry(first, second):
         return False
     measure = {1: "Length", 2: "Area", 3: "Volume"}[dimension]
     left, right = getattr(first, measure), getattr(second, measure)
-    scale = max(1., first.BoundBox.DiagonalLength, second.BoundBox.DiagonalLength)
+    scale = max(1.0, first.BoundBox.DiagonalLength, second.BoundBox.DiagonalLength)
     tolerance = precision * scale ** (dimension - 1)
     if min(left, right) <= tolerance or abs(left - right) > tolerance:
         return False
@@ -177,14 +184,24 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object, context=None
         if len(meshes) > 1:
             raise ValueError(f"{obj.Name}: ambiguous mesh ownership; specify the mesh object.")
         mesh_object = next(iter(meshes), None)
-    part = getattr(mesh_object, "Shape", None)
-    original = list(getattr(mesh_object, "ElementGroupNames", []))
-    references = [
-        (owner, name)
-        for owner, names in getattr(mesh_object, "ElementGroupReferences", [])
-        for name in names
-    ]
-    signature = getattr(mesh_object, "ElementGroupGeometry", "")
+    if context is None:
+        part = getattr(mesh_object, "Shape", None)
+        original = list(getattr(mesh_object, "ElementGroupNames", []))
+        references = [
+            (owner, name)
+            for owner, names in getattr(mesh_object, "ElementGroupReferences", [])
+            for name in names
+        ]
+        signature = getattr(mesh_object, "ElementGroupGeometry", "")
+    else:
+        if context.femmesh is not femmesh or context.mesh_object != mesh_object:
+            raise ValueError(f"{obj.Name}: invalid mesh ownership context.")
+        part, original, references, signature = (
+            context.part,
+            context._names,
+            context._references,
+            context._signature,
+        )
     if not part:
         if original or references or signature:
             raise ValueError(f"{obj.Name}: missing mesh geometry owner; regenerate the mesh.")
@@ -297,8 +314,13 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object, context=None
                 if kind not in ("All", allowed_kind):
                     raise ValueError(f"{obj.Name}: wrong mesh group type for {name}; remesh.")
                 entities = (
-                    context.faces
-                    if context is not None and expected_type == "Face"
+                    {
+                        "Face": context.faces,
+                        "Edge": context.edges,
+                        "Solid": context._volumes,
+                        "Vertex": context.vertices,
+                    }.get(expected_type)
+                    if context is not None
                     else {
                         "Face": femmesh.Faces,
                         "Edge": femmesh.Edges,
@@ -317,6 +339,8 @@ def _get_mesh_region_by_owned_references(femmesh, obj, mesh_object, context=None
                         else context.elements[element]
                     )
                 }
+            if context is not None and not nodes.issubset(context.nodes):
+                raise ValueError(f"{obj.Name}: invalid mesh nodes for {name}; remesh.")
             # Validate, never repair/filter, against the current positioned CAD
             # entity. This rejects movement without a remesh, retaining owner IDs.
             if not _owned_nodes_fit_region(
@@ -2009,8 +2033,12 @@ def _get_owned_interface_elements(sets_getter, constraint, ref_pair, context, ki
     feature, name = ref_pair
     shape = feature.getSubObject(name) if feature is not None else None
     # A native null TopoShape raises when its ShapeType property is read.
-    if (shape is None or not hasattr(shape, "isNull") or shape.isNull()
-            or not hasattr(shape, "ShapeType")):
+    if (
+        shape is None
+        or not hasattr(shape, "isNull")
+        or shape.isNull()
+        or not hasattr(shape, "ShapeType")
+    ):
         raise ValueError(f"{constraint.Name}: unresolved {kind} region; select a current face.")
     if not is_solid_femmesh(sets_getter.femmesh) or shape.ShapeType != "Face":
         return get_elements(sets_getter, ref_pair, sets_getter.face_masks, sets_getter.edge_masks)
@@ -2072,8 +2100,9 @@ def _get_owned_interface_elements(sets_getter, constraint, ref_pair, context, ki
 
 def _validate_interface_face_reference(constraint, feature, name, kind):
     resolved, mapped, indexed = feature.resolveSubElement(name)
-    if resolved is None or (not mapped and (
-            ";" in name or re.fullmatch(r"Face[1-9][0-9]*", indexed) is None)):
+    if resolved is None or (
+        not mapped and (";" in name or re.fullmatch(r"Face[1-9][0-9]*", indexed) is None)
+    ):
         raise ValueError(f"{constraint.Name}: unresolved {kind} face reference; reselect the face.")
     return resolved, indexed
 
@@ -2087,8 +2116,9 @@ def _check_legacy_interface_ownership(sets_getter, constraint, ref_pair, kind):
         resolved, indexed = _validate_interface_face_reference(constraint, feature, name, kind)
         # Resolving a link to an assembly can return its shared base feature.
         # Preserve the native occurrence chain while normalizing name aliases.
-        links = tuple(item for item in feature.getSubObjectList(name)
-                      if item.getLinkedObject() != item)
+        links = tuple(
+            item for item in feature.getSubObjectList(name) if item.getLinkedObject() != item
+        )
         if not links and part and part.isDerivedFrom("Part::Compound"):
             if resolved == part:
                 return (), part, indexed
@@ -2104,18 +2134,23 @@ def _check_legacy_interface_ownership(sets_getter, constraint, ref_pair, kind):
         if other_feature is None:
             raise ValueError(f"{constraint.Name}: unresolved {kind} region references.")
         other_shape = other_feature.getSubObject(other_name)
-        if (other_shape is None or not hasattr(other_shape, "isNull") or other_shape.isNull()
-                or not hasattr(other_shape, "ShapeType")):
+        if (
+            other_shape is None
+            or not hasattr(other_shape, "isNull")
+            or other_shape.isNull()
+            or not hasattr(other_shape, "ShapeType")
+        ):
             raise ValueError(f"{constraint.Name}: unresolved {kind} region references.")
         if other_shape.ShapeType != "Face":
             continue
         if canonical((other_feature, other_name)) == selected_key:
             continue  # The same region, including native reference aliases.
         other = sub_shape_at_global_placement(other_feature, other_name)
-        scale = max(1., selected.BoundBox.DiagonalLength, other.BoundBox.DiagonalLength)
+        scale = max(1.0, selected.BoundBox.DiagonalLength, other.BoundBox.DiagonalLength)
         if selected.common(other).Area > FreeCAD.Base.Precision.confusion() * scale:
             raise ValueError(
-                f"{constraint.Name}: overlapping {kind} faces require owned mesh groups; remesh.")
+                f"{constraint.Name}: overlapping {kind} faces require owned mesh groups; remesh."
+            )
 
 
 def get_sectionprint_one_sided_faces(sets_getter, face_set):
@@ -2134,8 +2169,7 @@ def get_sectionprint_one_sided_faces(sets_getter, face_set):
     if face.ShapeType != "Face":
         return face_set
 
-    mask_names = {4: "tetra4", 10: "tetra10", 8: "hexa8", 20: "hexa20",
-                  6: "penta6", 15: "penta15"}
+    mask_names = {4: "tetra4", 10: "tetra10", 8: "hexa8", 20: "hexa20", 6: "penta6", 15: "penta15"}
     patches = {}
     for element, side in sides:
         nodes = sets_getter.femelement_table[element]
@@ -2146,7 +2180,9 @@ def get_sectionprint_one_sided_faces(sets_getter, face_set):
         patches.setdefault(patch, []).append((element, side))
 
     def center(nodes):
-        return sum((sets_getter.femnodes_mesh[node] for node in nodes), FreeCAD.Vector()) / len(nodes)
+        return sum((sets_getter.femnodes_mesh[node] for node in nodes), FreeCAD.Vector()) / len(
+            nodes
+        )
 
     keep = set()
     for nodes, incident in patches.items():
@@ -2154,7 +2190,9 @@ def get_sectionprint_one_sided_faces(sets_getter, face_set):
             keep.add(incident[0])
             continue
         if len(incident) != 2:
-            raise ValueError("Section Print requires a manifold section: more than two incident volumes")
+            raise ValueError(
+                "Section Print requires a manifold section: more than two incident volumes"
+            )
         point = center(nodes)
         normal = face.normalAt(*face.Surface.parameter(point))
         aligned = []
@@ -2335,8 +2373,9 @@ def _get_compound_reference_element(aPart, parent, child, shape_type):
         return None
     source_parent = parent.getLinkedObject(True) if parent.isDerivedFrom("App::Link") else parent
     source_name = source_parent.Shape.getElementMappedName(child) or child
-    occurrence_shape = (sub_shape_at_global_placement(parent, child)
-                        if source_parent != parent else None)
+    occurrence_shape = (
+        sub_shape_at_global_placement(parent, child) if source_parent != parent else None
+    )
     matches = set()
     for indexed in set(aPart.Shape.ElementMap.values()):
         if not indexed.startswith(shape_type):
@@ -2352,9 +2391,15 @@ def _get_compound_reference_element(aPart, parent, child, shape_type):
             visited.add(state)
             history = feature.getElementHistory(element, recursive=False)
             for owner, source, _intermediates in history:
-                if owner == source_parent and source == source_name and (
-                    occurrence_shape is None or _same_occurrence_geometry(
-                        aPart.Shape.getElement(indexed), occurrence_shape)
+                if (
+                    owner == source_parent
+                    and source == source_name
+                    and (
+                        occurrence_shape is None
+                        or _same_occurrence_geometry(
+                            aPart.Shape.getElement(indexed), occurrence_shape
+                        )
+                    )
                 ):
                     matches.add(indexed)
             if not history:
@@ -2404,15 +2449,19 @@ def get_reference_group_elements(obj, aPart):
             # An explicit index on the meshed object already carries ownership.
             # Do not replace it with the first geometrically coincident element.
             shape_type = ref_shape1.ShapeType
-            if (parent == aPart and shape_type in ("Solid", "Face", "Edge", "Vertex")
-                    and child1.startswith(shape_type)
-                    and child1[len(shape_type):].isdigit()):
+            if (
+                parent == aPart
+                and shape_type in ("Solid", "Face", "Edge", "Vertex")
+                and child1.startswith(shape_type)
+                and child1[len(shape_type) :].isdigit()
+            ):
                 elements.append(child1)
                 continue
             if shape_type in ("Face", "Edge", "Vertex"):
                 try:
                     found_element = _get_compound_reference_element(
-                        aPart, parent, child1, shape_type)
+                        aPart, parent, child1, shape_type
+                    )
                 except ValueError as error:
                     raise ValueError(
                         f"{obj.Name}: reference {parent.Name}.{child1} in {aPart.Name}: {error}"

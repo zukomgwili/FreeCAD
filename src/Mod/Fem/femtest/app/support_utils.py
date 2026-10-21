@@ -39,6 +39,140 @@ import FreeCAD
 from os.path import join
 
 
+def during_native_return(operation, callback, action, python_caller=None):
+    """Inject one recorded edit after a real native operation, then restore profiling."""
+    injected = []
+    previous = sys.getprofile()
+
+    def observe(frame, event, function):
+        if (
+            not injected
+            and event == "c_return"
+            and getattr(function, "__name__", "") == operation
+            and (python_caller is None or frame.f_code.co_name == python_caller)
+        ):
+            injected.append((frame.f_code.co_name, operation))
+            try:
+                callback()
+            except Exception as error:
+                # An action may expect a product ValueError/RuntimeError. A
+                # failed edit callback must never satisfy that expectation.
+                raise AssertionError("Native mutation callback failed before completion") from error
+
+    try:
+        sys.setprofile(observe)
+        action()
+    finally:
+        sys.setprofile(previous)
+    return injected
+
+
+def reference_snapshot(obj, name="References"):
+    return tuple((owner, tuple(names)) for owner, names in getattr(obj, name))
+
+
+def native_mesh_snapshot(mesh):
+    """Exact fixture identity, including sparse IDs, 0D cells and group metadata."""
+    return (
+        tuple((node, tuple(point)) for node, point in mesh.Nodes.items()),
+        tuple(
+            (element, tuple(mesh.getElementNodes(element)))
+            for element in mesh.getIdByElementType("All")
+        ),
+        tuple(
+            (kind, tuple(mesh.getIdByElementType(kind)))
+            for kind in ("0DElement", "Edge", "Face", "Volume", "Ball")
+        ),
+        tuple(
+            (
+                group,
+                mesh.getGroupName(group),
+                mesh.getGroupElementType(group),
+                tuple(mesh.getGroupElements(group)),
+            )
+            for group in mesh.Groups
+        ),
+    )
+
+
+def _copy_fixture_groups(source, target):
+    # Native copying can normalize group-ID gaps or omit empty groups. Recreate
+    # every fixture group with its explicit original ID, never filter members.
+    for group in tuple(target.Groups):
+        target.removeGroup(group)
+    for group in source.Groups:
+        new = target.addGroup(source.getGroupName(group), source.getGroupElementType(group), group)
+        if new != group:
+            raise AssertionError("Native fixture copy must retain literal group IDs")
+        target.addGroupElements(new, list(source.getGroupElements(group)))
+
+
+def checked_native_mesh_copy(source):
+    """Copy valid test data, not a replacement for product ownership validation."""
+    import Fem
+
+    # copyMeshData preserves native 0D elements; the Python API has no add0D
+    # mutator. Rebuild groups explicitly, then reject any remaining loss or
+    # normalization instead of mislabeling it as the injected negative control.
+    result = Fem.FemMesh(source)
+    _copy_fixture_groups(source, result)
+    if native_mesh_snapshot(result) != native_mesh_snapshot(source):
+        raise AssertionError("Native fixture copy did not retain exact IDs/connectivity/groups")
+    return result
+
+
+def assign_exact_native_mesh(mesh_object, source):
+    """Assign a synthetic fixture without losing its explicit native group IDs."""
+    mesh_object.FemMesh = source
+    # The feature setter deep-copies into the existing native object. Its old
+    # wrappers therefore alias the changed object, and group IDs may normalize.
+    # Recreate the exact fixture groups and assert every final native fact.
+    _copy_fixture_groups(source, mesh_object.FemMesh)
+    if native_mesh_snapshot(mesh_object.FemMesh) != native_mesh_snapshot(source):
+        raise AssertionError("Native feature assignment changed fixture identity")
+
+
+def changed_native_volume_connectivity(source):
+    """Change one ordered volume tuple, preserving every other cold-fixture fact."""
+    import Fem
+
+    # Native save/reopen omits 0D cells. This helper is only for that literal
+    # cold fixture: never silently drop cells from a live Gmsh mesh.
+    if source.getIdByElementType("0DElement") or source.getIdByElementType("Ball"):
+        raise AssertionError("Connectivity reconstruction requires the literal cold fixture")
+    result = Fem.FemMesh()
+    for node, point in source.Nodes.items():
+        result.addNode(point.x, point.y, point.z, node)
+    changed = None
+    for elements, add in (
+        (source.Edges, result.addEdge),
+        (source.Faces, result.addFace),
+        (source.Volumes, result.addVolume),
+    ):
+        for element in elements:
+            nodes = list(source.getElementNodes(element))
+            if changed is None and element in source.Volumes:
+                nodes[0], nodes[1] = nodes[1], nodes[0]
+                changed = element, tuple(nodes)
+            add(nodes, element)
+    if changed is None:
+        raise AssertionError("No native volume connectivity was changed")
+    _copy_fixture_groups(source, result)
+    expected = native_mesh_snapshot(source)
+    expected = (
+        expected[0],
+        tuple(
+            (element, changed[1] if element == changed[0] else nodes)
+            for element, nodes in expected[1]
+        ),
+        expected[2],
+        expected[3],
+    )
+    if native_mesh_snapshot(result) != expected:
+        raise AssertionError("Connectivity mutation changed other native fixture identity")
+    return result
+
+
 def get_fem_test_home_dir():
     return join(FreeCAD.getHomePath(), "Mod", "Fem", "femtest", "data")
 

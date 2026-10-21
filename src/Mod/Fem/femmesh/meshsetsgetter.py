@@ -309,15 +309,40 @@ class MeshSetsGetter:
     def get_constraints_rigidbody_nodes(self):
         if not self.member.cons_rigidbody:
             return
-        # get nodes
-        for femobj in self.member.cons_rigidbody:
-            # femobj --> dict, FreeCAD document object is femobj["Object"]
-            print_obj_info(femobj["Object"])
-            femobj["Nodes"] = meshtools.get_femnodes_by_femobj_with_references(
-                self.femmesh, femobj, self.mesh_object)
-            # add nodes to constraint_conflict_nodes, needed by constraint plane rotation
-            for node in femobj["Nodes"]:
-                self.constraint_conflict_nodes.append(node)
+        rows = tuple(self.member.cons_rigidbody)
+        group = tuple(self.analysis.Group)
+        references = [
+            (
+                row,
+                row["Object"],
+                tuple((owner, tuple(names)) for owner, names in row["Object"].References),
+            )
+            for row in rows
+        ]
+        context = ownership_context._for_mesh(self.femmesh, self.mesh_object, self, "Rigid Body")
+        pending = []
+        for femobj in rows:
+            obj = femobj["Object"]
+            print_obj_info(obj)
+            nodes = meshtools._get_mesh_region_by_owned_references(
+                self.femmesh, obj, self.mesh_object, context
+            )[0]
+            pending.append((femobj, nodes))
+        if context is not None:
+            context.validate_unchanged()
+        if group != tuple(self.analysis.Group) or any(
+            row["Object"] != obj
+            or tuple((owner, tuple(names)) for owner, names in obj.References) != saved
+            for row, obj, saved in references
+        ):
+            raise ValueError(
+                "Rigid Body references or analysis order changed during mesh gathering."
+            )
+        # Publish only the completely validated batch; a later invalid row or
+        # a native edit must leave all earlier nodes/conflict data untouched.
+        for femobj, nodes in pending:
+            femobj["Nodes"] = nodes
+            self.constraint_conflict_nodes.extend(nodes)
 
     def get_constraints_displacement_nodes(self):
         if not self.member.cons_displacement:
@@ -515,7 +540,9 @@ class MeshSetsGetter:
             for name in names
         )
         owned_faces = self.femmesh.VolumeCount and any(
-            shape is not None and hasattr(shape, "isNull") and not shape.isNull()
+            shape is not None
+            and hasattr(shape, "isNull")
+            and not shape.isNull()
             and getattr(shape, "ShapeType", None) == "Face"
             for shape in shapes
         )
@@ -569,8 +596,7 @@ class MeshSetsGetter:
             result = self._get_elements(obj)
 
             femobj["SectionPrintFaces"] = [
-                meshtools.get_sectionprint_one_sided_faces(self, face_set)
-                for face_set in result
+                meshtools.get_sectionprint_one_sided_faces(self, face_set) for face_set in result
             ]
 
     def get_constraints_heatflux_faces(self):

@@ -3,6 +3,7 @@
 """Export scalar point/explicit rigid-body port springs without mutating the mesh."""
 
 import FreeCAD
+import io
 
 from femtools import elastic_connector
 
@@ -12,12 +13,30 @@ def write_connectors(f, writer):
     # The full writer owns one fresh context for this export. Direct callers
     # receive a local context on every call, even when reusing a writer object.
     context = getattr(writer, "port_resolution_context", None)
+    local = context is None
     if context is None:
         context = elastic_connector.PortResolutionContext(mesh, getattr(writer, "analysis", None))
+    if any(
+        getattr(row["Object"], "Attachment", "Vertices") == "Rigid body ports"
+        for row in writer.member.cons_elasticconnector
+    ):
+        # Element/node allocation must use the same fenced native state as
+        # region resolution, including a direct call on an old writer.
+        context._owned_facts()
+    pending = io.StringIO()
+    springs = _write_connectors(pending, writer, context)
+    if local:
+        context.validate_unchanged()
+    f.write(pending.getvalue())
+    writer.native_accounting_springs = springs
+
+
+def _write_connectors(f, writer, context):
+    mesh = writer.mesh_object
     # Private export metadata binds accounting to the exact native element and
     # angular auxiliary identities written below. It never changes the mesh,
     # model constraints, ordinary deck or ordinary result channels.
-    writer.native_accounting_springs = []
+    springs = []
     ids = list(mesh.FemMesh.Edges) + list(mesh.FemMesh.Faces) + list(mesh.FemMesh.Volumes)
     next_id = max(ids, default=0) + 1
     next_node = None
@@ -66,7 +85,7 @@ def write_connectors(f, writer):
                 next_node += 1
             nodes = auxiliary
         kind = "SPRING1" if len(nodes) == 1 else "SPRING2"
-        writer.native_accounting_springs.append(
+        springs.append(
             {
                 "name": obj.Name,
                 "element": next_id,
@@ -96,6 +115,7 @@ def write_connectors(f, writer):
         for end, node in enumerate(output_nodes, 1):
             nset = elastic_connector.identifier(f"EC_END{end}_", obj)
             f.write(f"*NSET, NSET={nset}\n{node}\n")
+    return springs
 
 
 def write_output(f, writer):

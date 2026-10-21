@@ -630,6 +630,33 @@ def prepare_request(writer):
                 "not ground or direct solid-node springs."
             )
     elements = _connectivity(writer.file_name, springs)
+    # Freeze original selections, not just the lightweight selector proxies.
+    # A native callback can edit a cut or the analysis without a mesh revision.
+    analysis_group = tuple(analysis.Group)
+    section_rows = tuple(writer.member.cons_sectionprint)
+
+    def cut_state(row):
+        obj = row["Object"]
+        return (
+            obj,
+            getattr(obj, "NativeEquilibriumCut", False),
+            obj.Variable,
+            tuple((owner, tuple(names)) for owner, names in obj.References),
+            tuple((owner, tuple(names)) for owner, names in getattr(obj, "AccountingBody", ())),
+        )
+
+    selections = [cut_state(row) for row in section_rows]
+    cut_rows = [row for row, state in zip(section_rows, selections) if state[1]]
+    from femmesh.ownership_context import _for_mesh
+
+    # Cut-only requests need the same exact native end fence even if there are
+    # no RBE ports. Solid selection remains canonical-only, unlike generic RBE
+    # ownership's backward-readable legacy fingerprint.
+    cut_context = (
+        _for_mesh(mesh.FemMesh, mesh, kind="AccountingBody", canonical_only=True)
+        if cut_rows
+        else None
+    )
     lines, expected = [SCHEMA], []
     support_regions, selected_rigid_regions = set(), set()
     rigid_rows = {row["Object"]: row for row in writer.member.cons_rigidbody}
@@ -718,23 +745,28 @@ def prepare_request(writer):
                 f"ANGLE {auxiliary} {rotation} " + " ".join(f"{value:.12e}" for value in axis)
             )
         lines.append(f"SPRING {spring['element']} " + " ".join(map(str, spring["nodes"])))
-    for row in writer.member.cons_sectionprint:
+    selectors = []
+    for row in cut_rows:
         obj = row["Object"]
-        if not getattr(obj, "NativeEquilibriumCut", False):
-            continue
         if obj.Variable != "Section Force" or not obj.AccountingBody:
             raise ValueError(
                 f"{obj.Name}: select the explicit solid AccountingBody for a Section Force cut."
             )
-        selector = SimpleNamespace(Name=obj.Name, References=obj.AccountingBody)
-        owned = meshtools._get_solid_reference_group_sets(
-            mesh, [{"Object": selector}], set(mesh.FemMesh.Volumes)
+        selectors.append({"Object": SimpleNamespace(Name=obj.Name, References=obj.AccountingBody)})
+    owned = (
+        meshtools._get_solid_reference_group_sets(mesh, selectors, set(mesh.FemMesh.Volumes))
+        if selectors
+        else []
+    )
+    if owned is None:
+        raise ValueError(
+            "Native equilibrium cuts require current CAD entity groups; regenerate the mesh."
         )
-        if owned is None:
-            raise ValueError(
-                "Native equilibrium cuts require current CAD entity groups; regenerate the mesh."
-            )
-        volumes = sorted({element for reference, group, sub in owned[0] for element in group})
+    for row, selected_groups in zip(cut_rows, owned):
+        obj = row["Object"]
+        volumes = sorted(
+            {element for reference, group, sub in selected_groups for element in group}
+        )
         cut = set()
         for reference, faces, sub in row["SectionPrintFaces"]:
             if not sub:
@@ -771,6 +803,17 @@ def prepare_request(writer):
         )
     text = "\n".join(lines) + "\n"
     _verify_request_capacity(text, capacity)
+    # Complete every potentially failing/native computation before publishing
+    # either request file. In particular, a changed selection must not stamp a
+    # request assembled from old groups with the new model's digest.
+    model_digest = _model_digest(analysis, mesh)
+    port_context.validate_unchanged()
+    if cut_context is not None:
+        cut_context.validate_unchanged()
+    if analysis_group != tuple(analysis.Group) or any(
+        cut_state(row) != state for row, state in zip(section_rows, selections)
+    ):
+        raise ValueError("AccountingBody or section references changed during request preparation.")
     path = Path(writer.file_name).with_suffix(".accounting")
     path.write_text(text)
     metadata = {
@@ -778,7 +821,7 @@ def prepare_request(writer):
         "expected": expected,
         "deck_sha256": _sha(writer.file_name),
         "request_sha256": _sha(path),
-        "model_digest": _model_digest(analysis, mesh),
+        "model_digest": model_digest,
         "analysis": analysis.Name,
         "mesh": mesh.Name,
         "end_time": solver.TimePeriod.getValueAs("s").Value,

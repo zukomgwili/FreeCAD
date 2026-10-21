@@ -10,12 +10,11 @@ empty groups and unresolvable group members.
 
 
 class _OwnershipContext:
-    def __init__(self, femmesh, mesh_object, getter, kind="Contact"):
-        from femmesh import meshtools
-
+    def __init__(self, femmesh, mesh_object, getter=None, kind="Contact", *, canonical_only=False):
         self.femmesh = femmesh
         self.mesh_object = mesh_object
         self._kind = kind
+        self._canonical_only = canonical_only
         self.part, self._names, self._references, self._signature = self._provenance()
         if not self.part:
             raise ValueError("Missing mesh geometry owner; regenerate the mesh.")
@@ -27,7 +26,7 @@ class _OwnershipContext:
             or len(self._names) != len(set(self._names))
         ):
             raise ValueError("Invalid mesh group provenance; regenerate the mesh.")
-        if not meshtools.mesh_geometry_matches(mesh_object, self.part):
+        if not self._geometry_matches():
             raise ValueError("Changed mesh geometry; regenerate the mesh.")
 
         self.current_groups = {}
@@ -46,7 +45,12 @@ class _OwnershipContext:
         self._group_ids = tuple(femmesh.Groups)
         self.groups = {group: self._group_data(femmesh, group) for group in self._group_ids}
         self.faces = set(femmesh.Faces)
+        self.edges = set(femmesh.Edges)
+        self.vertices = set(femmesh.getIdByElementType("0DElement"))
         self._volumes = tuple(femmesh.Volumes)
+        # Match the stock getter's highest-dimensional element table. Generic
+        # RBEs also support shell/beam meshes, unlike solid connector ports.
+        self._table_elements = set(self._volumes or self.faces or self.edges)
         self.group_ids = {}
         for group, (name, _kind, _members) in self.groups.items():
             self.group_ids.setdefault(name, []).append(group)
@@ -71,6 +75,13 @@ class _OwnershipContext:
             getattr(mesh_object, "ElementGroupGeometry", ""),
         )
 
+    def _geometry_matches(self):
+        from femmesh import meshtools
+
+        if self._canonical_only:
+            return self._signature == meshtools.get_mesh_geometry_signature(self.part)
+        return meshtools.mesh_geometry_matches(self.mesh_object, self.part)
+
     @staticmethod
     def _group_data(mesh, group):
         return (
@@ -92,6 +103,8 @@ class _OwnershipContext:
             not self._nodes_match(mesh.Nodes)
             or self._element_ids != tuple(mesh.getIdByElementType("All"))
             or self.faces != set(mesh.Faces)
+            or self.edges != set(mesh.Edges)
+            or self.vertices != set(mesh.getIdByElementType("0DElement"))
             or self._volumes != tuple(mesh.Volumes)
             or any(
                 connectivity != tuple(mesh.getElementNodes(element))
@@ -106,12 +119,14 @@ class _OwnershipContext:
 
     def _validate_getter(self):
         getter = self._getter
+        if getter is None:
+            return
         if (
             not self._nodes_match(getter.femnodes_mesh)
-            or set(getter.femelement_table) != set(self._volumes)
+            or set(getter.femelement_table) != self._table_elements
             or any(
                 tuple(getter.femelement_table[element]) != self.elements[element]
-                for element in self._volumes
+                for element in self._table_elements
             )
         ):
             raise ValueError(
@@ -120,14 +135,12 @@ class _OwnershipContext:
 
     def validate_unchanged(self):
         """Reject changes before any of this batch's interface sets are published."""
-        from femmesh import meshtools
-
         if (
             self.part,
             self._names,
             self._references,
             self._signature,
-        ) != self._provenance() or not meshtools.mesh_geometry_matches(self.mesh_object, self.part):
+        ) != self._provenance() or not self._geometry_matches():
             raise ValueError(
                 f"Mesh geometry owner or group provenance changed during {self._kind} batch."
             )
@@ -136,3 +149,13 @@ class _OwnershipContext:
         if own_mesh is not self.femmesh:
             self._validate_mesh(own_mesh)
         self._validate_getter()
+
+
+def _for_mesh(femmesh, mesh_object, getter=None, kind="Rigid Body", *, canonical_only=False):
+    """Keep provenance-free legacy resolution outside the owned-mesh domain."""
+    if not any(
+        getattr(mesh_object, name, None)
+        for name in ("ElementGroupNames", "ElementGroupReferences", "ElementGroupGeometry")
+    ):
+        return None
+    return _OwnershipContext(femmesh, mesh_object, getter, kind, canonical_only=canonical_only)

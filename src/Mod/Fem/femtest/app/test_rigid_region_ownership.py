@@ -11,6 +11,7 @@ ownership checks, not a physical joint or building-design qualification.
 from pathlib import Path
 import shutil
 import tempfile
+from types import SimpleNamespace
 import unittest
 
 import FreeCAD as App
@@ -18,7 +19,16 @@ import Fem
 import ObjectsFem
 import Part
 from femmesh import gmshtools, meshtools
-from femtools import elastic_connector
+from femmesh.meshsetsgetter import MeshSetsGetter
+from femtools import elastic_connector, rigid_body
+from femtest.app.support_utils import (
+    assign_exact_native_mesh,
+    changed_native_volume_connectivity,
+    checked_native_mesh_copy,
+    during_native_return,
+    native_mesh_snapshot,
+    reference_snapshot,
+)
 
 
 @unittest.skipUnless(shutil.which("gmsh"), "Gmsh binary required")
@@ -122,8 +132,9 @@ class TestRigidRegionOwnership(unittest.TestCase):
         self.doc.recompute()
         for stage in ("live", "reopened"):
             with self.subTest(stage=stage):
-                self.assertEqual(meshtools.get_reference_group_elements(
-                    self.a, self.compound)[1], ["Edge2"])
+                self.assertEqual(
+                    meshtools.get_reference_group_elements(self.a, self.compound)[1], ["Edge2"]
+                )
             if stage == "live":
                 self.reopen()
 
@@ -219,14 +230,18 @@ class TestRigidRegionOwnership(unittest.TestCase):
 
     def region_resolvers(self, body):
         return (
-            ("ordinary RBE writer", lambda: set(
-                meshtools.get_femnodes_by_femobj_with_references(
-                    self.mesh.FemMesh, {"Object": body}))),
+            (
+                "ordinary RBE writer",
+                lambda: set(
+                    meshtools.get_femnodes_by_femobj_with_references(
+                        self.mesh.FemMesh, {"Object": body}
+                    )
+                ),
+            ),
             ("rigid port validation", lambda: elastic_connector.rigid_body_nodes(body, self.mesh)),
         )
 
-    def assert_owned_regions(self, faces=("Face2", "Face7"), coincident=True,
-                             analysis_groups=True):
+    def assert_owned_regions(self, faces=("Face2", "Face7"), coincident=True, analysis_groups=True):
         mesh = self.mesh.FemMesh
         expected = [self.face_nodes(face) for face in faces]
         self.assertFalse(expected[0].intersection(expected[1]))
@@ -254,12 +269,17 @@ class TestRigidRegionOwnership(unittest.TestCase):
                     try:
                         actual = resolve()
                     except (ValueError, RuntimeError) as error:
-                        self.assertRegex(str(error).lower(),
-                                         "mesh|regenerat|stale|changed|current|remesh|ownership")
+                        self.assertRegex(
+                            str(error).lower(),
+                            "mesh|regenerat|stale|changed|current|remesh|ownership",
+                        )
                     else:
                         self.assertIsNotNone(expected, "Changed geometry requires a remesh error")
-                        self.assertEqual(actual, expected[index],
-                                         "Resolver accepted stale or wrong-owner native groups")
+                        self.assertEqual(
+                            actual,
+                            expected[index],
+                            "Resolver accepted stale or wrong-owner native groups",
+                        )
 
     def assert_regions_rejected(self, bodies=None, pattern="mesh|remesh|regenerat|owner|reference"):
         for body in bodies or (self.a, self.b):
@@ -273,10 +293,16 @@ class TestRigidRegionOwnership(unittest.TestCase):
         self.doc.saveAs(filename)
         App.closeDocument(self.doc.Name)
         self.doc = App.openDocument(filename)
-        for attribute, name in (("first", "First"), ("second", "Second"),
-                                ("compound", "Compound"), ("analysis", "Analysis"),
-                                ("a", "FirstBody"), ("b", "SecondBody"),
-                                ("mesh", "Mesh"), ("connector", "Connector")):
+        for attribute, name in (
+            ("first", "First"),
+            ("second", "Second"),
+            ("compound", "Compound"),
+            ("analysis", "Analysis"),
+            ("a", "FirstBody"),
+            ("b", "SecondBody"),
+            ("mesh", "Mesh"),
+            ("connector", "Connector"),
+        ):
             setattr(self, attribute, self.doc.getObject(name))
 
     def test_separate_coincident_regions_match_native_face_connectivity(self):
@@ -293,7 +319,8 @@ class TestRigidRegionOwnership(unittest.TestCase):
         self.b.References = [(self.second, ["Face2"])]
         self.doc.recompute()
         self.assert_current_nodes_or_actionable_rejection(
-            [self.face_nodes("Face1"), self.face_nodes("Face8")])
+            [self.face_nodes("Face1"), self.face_nodes("Face8")]
+        )
         self.generate_mesh()
         self.assert_owned_regions(("Face1", "Face8"), coincident=False)
         # Rebinding back must derive current interface ownership, not cached IDs.
@@ -347,8 +374,14 @@ class TestRigidRegionOwnership(unittest.TestCase):
         expected = self.face_nodes("Face2")
         for body in (self.a, self.b):
             self.assertEqual(self.group_elements(body.Name), self.group_elements("Face2"))
-            self.assertEqual(set(meshtools.get_femnodes_by_femobj_with_references(
-                self.mesh.FemMesh, {"Object": body})), expected)
+            self.assertEqual(
+                set(
+                    meshtools.get_femnodes_by_femobj_with_references(
+                        self.mesh.FemMesh, {"Object": body}
+                    )
+                ),
+                expected,
+            )
             self.assertEqual(elastic_connector.rigid_body_nodes(body, self.mesh), expected)
         with self.assertRaisesRegex(ValueError, "regions must not overlap"):
             elastic_connector.resolve_connector(self.connector, self.mesh, self.analysis)
@@ -356,11 +389,16 @@ class TestRigidRegionOwnership(unittest.TestCase):
     def test_noncollinear_vertex_regions_use_native_zero_dimensional_connectivity(self):
         selected_vertices = []
         for offset, body, owner, face_name in (
-                (0, self.a, self.first, "Face2"), (8, self.b, self.second, "Face1")):
+            (0, self.a, self.first, "Face2"),
+            (8, self.b, self.second, "Face1"),
+        ):
             vertices = owner.getSubObject(face_name).Vertexes[:3]
-            names = [f"Vertex{index}" for vertex in vertices
-                     for index, candidate in enumerate(owner.Shape.Vertexes, 1)
-                     if candidate.isSame(vertex)]
+            names = [
+                f"Vertex{index}"
+                for vertex in vertices
+                for index, candidate in enumerate(owner.Shape.Vertexes, 1)
+                if candidate.isSame(vertex)
+            ]
             self.assertEqual(len(names), 3)
             body.References = [(owner, names)]
             # This controlled compound contains two ordered eight-vertex boxes.
@@ -408,7 +446,8 @@ class TestRigidRegionOwnership(unittest.TestCase):
                         with self.subTest(body=body.Name, resolver=resolver_name):
                             self.assertEqual(resolve(), nodes)
                 resolved = elastic_connector.resolve_connector(
-                    self.connector, self.mesh, self.analysis)
+                    self.connector, self.mesh, self.analysis
+                )
                 self.assertEqual(resolved["regions"], expected)
             if phase == "generated":
                 self.reopen()
@@ -422,10 +461,11 @@ class TestRigidRegionOwnership(unittest.TestCase):
         self.doc.recompute()
         for body, old_nodes in zip((self.a, self.b), expected):
             owner, names = body.References[0]
-            coordinate_nodes = set(self.mesh.FemMesh.getNodesByFace(
-                owner.getSubObject(names[0])))
-            self.assertTrue(old_nodes <= coordinate_nodes,
-                            "Control must expose geometric-subset validation's blind spot")
+            coordinate_nodes = set(self.mesh.FemMesh.getNodesByFace(owner.getSubObject(names[0])))
+            self.assertTrue(
+                old_nodes <= coordinate_nodes,
+                "Control must expose geometric-subset validation's blind spot",
+            )
         self.assert_regions_rejected(pattern="changed|stale|regenerat|remesh|current")
 
     def test_cleared_geometry_owner_never_uses_coordinate_fallback(self):
@@ -474,13 +514,21 @@ class TestRigidRegionOwnership(unittest.TestCase):
         self.assertTrue(Path(tool.temp_file_mesh).is_file())
         mesh = self.mesh.FemMesh
         old_nodes = dict(mesh.Nodes)
-        old_elements = {element: mesh.getElementNodes(element)
-                        for element in mesh.getIdByElementType("All")}
-        old_groups = [(mesh.getGroupName(group), mesh.getGroupElementType(group),
-                       tuple(mesh.getGroupElements(group))) for group in mesh.Groups]
+        old_elements = {
+            element: mesh.getElementNodes(element) for element in mesh.getIdByElementType("All")
+        }
+        old_groups = [
+            (
+                mesh.getGroupName(group),
+                mesh.getGroupElementType(group),
+                tuple(mesh.getGroupElements(group)),
+            )
+            for group in mesh.Groups
+        ]
         old_names = list(self.mesh.ElementGroupNames)
-        old_references = [(owner.Name, list(names))
-                          for owner, names in self.mesh.ElementGroupReferences]
+        old_references = [
+            (owner.Name, list(names)) for owner, names in self.mesh.ElementGroupReferences
+        ]
         old_geometry = self.mesh.ElementGroupGeometry
         for box in (self.first, self.second):
             box.Width = 24
@@ -505,8 +553,10 @@ class TestRigidRegionOwnership(unittest.TestCase):
             old_groups,
         )
         self.assertEqual(list(self.mesh.ElementGroupNames), old_names)
-        self.assertEqual([(owner.Name, list(names))
-                          for owner, names in self.mesh.ElementGroupReferences], old_references)
+        self.assertEqual(
+            [(owner.Name, list(names)) for owner, names in self.mesh.ElementGroupReferences],
+            old_references,
+        )
         self.assertEqual(self.mesh.ElementGroupGeometry, old_geometry)
 
     def test_unrelated_femmesh_cannot_borrow_inferred_analysis_provenance(self):
@@ -516,3 +566,222 @@ class TestRigidRegionOwnership(unittest.TestCase):
         unrelated.addNode(100, 200, 300, 1)
         with self.assertRaisesRegex((ValueError, RuntimeError), "(?i)mesh.*(match|owner)"):
             meshtools.get_femnodes_by_femobj_with_references(unrelated, {"Object": self.a})
+
+    def _rbe_getter(self, rows):
+        solver = self.doc.getObject("SolverCcxTools")
+        if solver is None:
+            solver = ObjectsFem.makeSolverCalculiXCcxTools(self.doc)
+            self.analysis.addObject(solver)
+        return MeshSetsGetter(
+            self.analysis, solver, self.mesh, SimpleNamespace(cons_rigidbody=rows)
+        )
+
+    def _mutating_batch(self, change, *, cold=False):
+        self.generate_mesh()
+        if cold:
+            self.reopen()
+            self.assertEqual(self.mesh.FemMesh.getIdByElementType("0DElement"), ())
+        expected = [self.face_nodes("Face2"), self.face_nodes("Face7")]
+        # Property assignment mutates the native object behind earlier Python
+        # wrappers, so retain a detached exact backup rather than an alias.
+        original_mesh = checked_native_mesh_copy(self.mesh.FemMesh)
+        original_mesh_state = native_mesh_snapshot(original_mesh)
+        original = {
+            name: getattr(self.mesh, name)
+            for name in ("ElementGroupNames", "ElementGroupReferences", "ElementGroupGeometry")
+        }
+        original_references = [reference_snapshot(body) for body in (self.a, self.b)]
+        rows = [{"Object": body, "Nodes": ["old nodes"]} for body in (self.a, self.b)]
+        sentinels = [row["Nodes"] for row in rows]
+        getter = self._rbe_getter(rows)
+        getter.constraint_conflict_nodes = ["previous conflict"]
+        old_conflicts = list(getter.constraint_conflict_nodes)
+
+        def assert_refused():
+            with self.assertRaisesRegex(
+                (ValueError, RuntimeError), "(?i)reference|group|node|mesh|regenerat|batch|owner"
+            ):
+                getter.get_constraints_rigidbody_nodes()
+
+        observed = during_native_return("getNodesByFace", change, assert_refused)
+        self.assertEqual(len(observed), 1, "Must inject after native owned face validation")
+        for row, sentinel in zip(rows, sentinels):
+            self.assertIs(row["Nodes"], sentinel, "Failed batch published an earlier RBE row")
+        self.assertEqual(getter.constraint_conflict_nodes, old_conflicts)
+
+        # Real corrected retry on the exact same getter, not a newly hidden
+        # context or a remesh that would obscure operation-lifetime cleanup.
+        assign_exact_native_mesh(self.mesh, original_mesh)
+        self.assertEqual(native_mesh_snapshot(self.mesh.FemMesh), original_mesh_state)
+        for name, value in original.items():
+            setattr(self.mesh, name, value)
+        for body, references in zip((self.a, self.b), original_references):
+            body.References = references
+        getter.get_constraints_rigidbody_nodes()
+        for row, nodes in zip(rows, expected):
+            self.assertEqual(set(row["Nodes"]), nodes)
+
+    def test_native_callback_failure_cannot_mimic_product_refusal(self):
+        native = Fem.FemMesh()
+
+        def broken_edit():
+            raise ValueError("mesh reference edit failed")
+
+        def product_action():
+            with self.assertRaisesRegex((ValueError, RuntimeError), "mesh reference"):
+                native.getIdByElementType("All")
+
+        with self.assertRaisesRegex(AssertionError, "callback failed") as caught:
+            during_native_return("getIdByElementType", broken_edit, product_action)
+        self.assertIsInstance(caught.exception.__cause__, ValueError)
+        self.assertEqual(str(caught.exception.__cause__), "mesh reference edit failed")
+
+    def test_rbe_batch_reference_mutation_preserves_previous_rows(self):
+        self._mutating_batch(lambda: setattr(self.a, "References", self.b.References))
+
+    def test_rbe_batch_provenance_mutation_preserves_previous_rows(self):
+        for field in ("ElementGroupNames", "ElementGroupReferences", "ElementGroupGeometry"):
+            with self.subTest(provenance_property=field):
+
+                def change(field=field):
+                    if field == "ElementGroupNames":
+                        before = tuple(self.mesh.ElementGroupNames)
+                        self.mesh.ElementGroupNames = list(reversed(before))
+                        self.assertNotEqual(tuple(self.mesh.ElementGroupNames), before)
+                    elif field == "ElementGroupReferences":
+                        before = reference_snapshot(self.mesh, field)
+                        self.mesh.ElementGroupReferences = [
+                            (owner, list(reversed(names))) for owner, names in before
+                        ]
+                        self.assertNotEqual(reference_snapshot(self.mesh, field), before)
+                    else:
+                        self.mesh.ElementGroupGeometry = "deliberate stale provenance"
+
+                self._mutating_batch(change)
+
+    def test_rbe_batch_same_id_node_motion_preserves_previous_rows(self):
+        def change():
+            original = self.mesh.FemMesh
+            moved = checked_native_mesh_copy(original)
+            moved.setTransform(App.Placement(App.Vector(0, 0, 1), App.Rotation()))
+            self.assertEqual(tuple(moved.Nodes), tuple(original.Nodes))
+            self.assertEqual(tuple(moved.Volumes), tuple(original.Volumes))
+            node = next(iter(original.Nodes))
+            self.assertNotEqual(moved.getNodeById(node), original.getNodeById(node))
+            assign_exact_native_mesh(self.mesh, moved)
+
+        self._mutating_batch(change)
+
+    def test_rbe_batch_same_id_group_rename_preserves_previous_rows(self):
+        def change():
+            original = self.mesh.FemMesh
+            old_groups = tuple(original.Groups)
+            target = next(group for group in old_groups if original.getGroupName(group) == "Face2")
+            old_members = tuple(original.getGroupElements(target))
+            old_name = original.getGroupName(target)
+            # renameGroup is an existing native const-wrapper method: this
+            # changes no feature property or document recompute marker.
+            original.renameGroup(target, "DeliberatelyChangedOwnedFace")
+            self.assertEqual(tuple(self.mesh.FemMesh.Groups), old_groups)
+            self.assertEqual(tuple(self.mesh.FemMesh.getGroupElements(target)), old_members)
+            self.assertNotEqual(self.mesh.FemMesh.getGroupName(target), old_name)
+
+        self._mutating_batch(change)
+
+    def test_rbe_batch_same_id_connectivity_change_preserves_previous_rows(self):
+        def change():
+            original = self.mesh.FemMesh
+            changed = changed_native_volume_connectivity(original)
+            self.assertEqual(tuple(changed.Volumes), tuple(original.Volumes))
+            self.assertTrue(
+                any(
+                    changed.getElementNodes(element) != original.getElementNodes(element)
+                    for element in original.Volumes
+                )
+            )
+            assign_exact_native_mesh(self.mesh, changed)
+
+        self._mutating_batch(change, cold=True)
+
+    def test_owned_port_resolution_preserves_independent_mutable_regions(self):
+        from femtools.elastic_connector import PortResolutionContext, resolve_connector
+
+        self.generate_mesh()
+        expected = [self.face_nodes("Face2"), self.face_nodes("Face7")]
+        context = PortResolutionContext(self.mesh, self.analysis)
+        first = resolve_connector(self.connector, self.mesh, self.analysis, context)
+        self.assertEqual(first["regions"], expected)
+        self.assertTrue(all(isinstance(region, set) for region in first["regions"]))
+        first["regions"][0].clear()
+        first["regions"][1].add(-123)
+        second = resolve_connector(self.connector, self.mesh, self.analysis, context)
+        self.assertEqual(second["regions"], expected)
+
+    def _assert_generic_owned_mesh(self, kind):
+        directory = tempfile.TemporaryDirectory(prefix=f"freecad-owned-rbe-{kind}-")
+        self.addCleanup(directory.cleanup)
+        doc = App.newDocument("OwnedRbe" + kind.capitalize())
+        self.addCleanup(App.closeDocument, doc.Name)
+        shape = doc.addObject("Part::Feature", "Geometry")
+        if kind == "beam":
+            shape.Shape = Part.makeLine(App.Vector(), App.Vector(10, 0, 0))
+            region = "Edge1"
+        else:
+            shape.Shape = Part.makePlane(10, 8)
+            region = "Face1"
+        analysis = ObjectsFem.makeAnalysis(doc)
+        solver = ObjectsFem.makeSolverCalculiXCcxTools(doc)
+        analysis.addObject(solver)
+        body = ObjectsFem.makeConstraintRigidBody(doc)
+        body.References = [(shape, [region])]
+        for mode in ("Translational", "Rotational"):
+            for axis in "XYZ":
+                setattr(body, mode + "Mode" + axis, "Constraint")
+        analysis.addObject(body)
+        mesh = ObjectsFem.makeMeshGmsh(doc, "Mesh")
+        mesh.Shape, mesh.ElementOrder = shape, "1st"
+        mesh.CharacteristicLengthMax, mesh.CharacteristicLengthMin = 3, 1
+        mesh.WorkingDirectory = directory.name
+        analysis.addObject(mesh)
+        doc.recompute()
+        tool = gmshtools.GmshTools(mesh)
+        tool.create_mesh()
+        self.assertEqual(tool.process.exitCode(), 0)
+        self.assertEqual(tool.process.exitStatus(), tool.process.ExitStatus.NormalExit)
+        native = mesh.FemMesh
+        self.assertEqual(native.VolumeCount, 0, "Must be a genuine non-solid domain")
+        if kind == "beam":
+            self.assertEqual(native.FaceCount, 0)
+            self.assertGreater(native.EdgeCount, 0)
+            table_ids = set(native.Edges)
+        else:
+            self.assertGreater(native.FaceCount, 0)
+            table_ids = set(native.Faces)
+        self.assertTrue(mesh.ElementGroupGeometry)
+        self.assertTrue(mesh.ElementGroupReferences)
+        groups = [group for group in native.Groups if native.getGroupName(group) == region]
+        self.assertEqual(len(groups), 1)
+        expected = {
+            node
+            for element in native.getGroupElements(groups[0])
+            for node in native.getElementNodes(element)
+        }
+        self.assertGreaterEqual(len(expected), 2)
+        row = {"Object": body}
+        getter = MeshSetsGetter(analysis, solver, mesh, SimpleNamespace(cons_rigidbody=[row]))
+        self.assertEqual(set(getter.femelement_table), table_ids)
+        getter.get_constraints_rigidbody_nodes()
+        self.assertEqual(set(row["Nodes"]), expected)
+        self.assertEqual(set(getter.constraint_conflict_nodes), expected)
+        self.assertEqual(rigid_body.validation_diagnostics(analysis, solver, mesh), [])
+        self.assertEqual(elastic_connector.validation_errors(analysis, solver, mesh), [])
+        # Sharing generic owned facts must not silently qualify this same mesh
+        # as a connector port: the established solid-only restriction remains.
+        with self.assertRaisesRegex(ValueError, "3D solid|shells|beams"):
+            elastic_connector.rigid_body_nodes(body, mesh)
+
+    def test_owned_pure_beam_keeps_generic_rbe_getter_and_preflight(self):
+        self._assert_generic_owned_mesh("beam")
+
+    def test_owned_pure_shell_keeps_generic_rbe_getter_and_preflight(self):
+        self._assert_generic_owned_mesh("shell")

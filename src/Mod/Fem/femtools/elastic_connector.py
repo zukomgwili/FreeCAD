@@ -32,6 +32,148 @@ class PortResolutionContext:
         self._volume_nodes = None
         self._regions = {}
         self._node_ids = {}
+        self._generic_regions = {}
+        self._body_states = {}
+        self._connector_states = {}
+        self._ownership = None
+        self._ownership_initialized = False
+        self._legacy_mesh = None
+
+    @staticmethod
+    def _mesh_state(mesh):
+        """Exact mutable native state, without imposing CAD provenance on legacy meshes."""
+        elements = tuple(mesh.getIdByElementType("All"))
+        return (
+            {node: tuple(point) for node, point in mesh.Nodes.items()},
+            elements,
+            {element: tuple(mesh.getElementNodes(element)) for element in elements},
+            tuple(
+                (
+                    group,
+                    mesh.getGroupName(group),
+                    mesh.getGroupElementType(group),
+                    tuple(mesh.getGroupElements(group)),
+                )
+                for group in mesh.Groups
+            ),
+            tuple(mesh.Faces),
+            tuple(mesh.Edges),
+            tuple(mesh.Volumes),
+            tuple(mesh.getIdByElementType("0DElement")),
+        )
+
+    def _owned_facts(self):
+        if not self._ownership_initialized:
+            from femmesh.ownership_context import _for_mesh
+
+            facts = _for_mesh(self._femmesh, self.mesh, kind="Rigid Body ports")
+            nodes = facts.nodes if facts is not None else self._femmesh.Nodes
+            volumes = facts._volumes if facts is not None else tuple(self._femmesh.Volumes)
+            if self._coordinates is not None and not self._same_nodes(self._coordinates, nodes):
+                raise ValueError("Mesh nodes changed before rigid port region resolution.")
+            if self._volumes is not None and self._volumes != volumes:
+                raise ValueError("Mesh volumes changed before rigid port region resolution.")
+            if facts is None:
+                self._legacy_mesh = self._mesh_state(self._femmesh)
+                if self._legacy_mesh != self._mesh_state(self.mesh.FemMesh):
+                    raise ValueError("Supplied mesh changed before rigid port resolution.")
+            self._ownership = facts
+            self._ownership_initialized = True
+        return self._ownership
+
+    @staticmethod
+    def _same_nodes(first, second):
+        return first.keys() == second.keys() and all(
+            tuple(point) == tuple(second[node]) for node, point in first.items()
+        )
+
+    @staticmethod
+    def _body_state(body):
+        return (
+            tuple((owner, tuple(names)) for owner, names in body.References),
+            tuple(body.ReferenceNode),
+            tuple(body.Displacement),
+            tuple(body.Rotation.Q),
+            body.EnableAmplitude,
+            tuple(
+                getattr(body, kind + "Mode" + axis)
+                for kind in ("Translational", "Rotational")
+                for axis in "XYZ"
+            ),
+            tuple(getattr(body, "Force" + axis).getValueAs("N").Value for axis in "XYZ"),
+            tuple(getattr(body, "Moment" + axis).getValueAs("N*mm").Value for axis in "XYZ"),
+        )
+
+    @staticmethod
+    def _connector_state(obj):
+        kind = getattr(obj, "Kind", "Translational")
+        return (
+            getattr(obj, "Attachment", "Vertices"),
+            obj.Mode,
+            kind,
+            obj.Axis,
+            (
+                obj.RotationalStiffness.getValueAs("N*mm/rad").Value
+                if kind == "Rotational"
+                else obj.Stiffness.getValueAs("N/mm").Value
+            ),
+            obj.RigidBody1,
+            obj.RigidBody2,
+            tuple(
+                (reference[0], tuple(reference[1])) if reference else None
+                for reference in (obj.End1, obj.End2)
+            ),
+            obj.OrientationReference,
+            tuple(connector_rotation(obj).Q),
+        )
+
+    def _region_nodes(self, body):
+        """Share owned facts, not the stricter solid/rank rules of a port."""
+        if body not in self._body_states:
+            self._body_states[body] = self._body_state(body)
+        if body not in self._generic_regions:
+            facts = self._owned_facts()
+            nodes = meshtools._get_mesh_region_by_owned_references(
+                self._femmesh, body, self.mesh, facts
+            )[0]
+            if facts is None:
+                # Keep the established geometric classifier for every legacy
+                # reference. Only owned, end-fenced entity facts are shared.
+                return set(nodes)
+            self._generic_regions[body] = frozenset(nodes)
+        return set(self._generic_regions[body])
+
+    def validate_unchanged(self):
+        """Fence this operation before its results escape to a later call."""
+        if self.analysis is not None and tuple(self.analysis.Group) != self.analysis_group:
+            raise ValueError(
+                "Analysis order changed during rigid port resolution; retry the writer."
+            )
+        if any(self._body_state(body) != state for body, state in self._body_states.items()):
+            raise ValueError("Rigid Body references or properties changed during port resolution.")
+        if any(
+            self._connector_state(obj) != state for obj, state in self._connector_states.items()
+        ):
+            raise ValueError(
+                "Elastic Connector references or properties changed during resolution."
+            )
+        if self._ownership is not None:
+            self._ownership.validate_unchanged()
+        else:
+            # Legacy meshes do not acquire an owned-provenance requirement.
+            # They still cannot change data already used by this operation.
+            current = self.mesh.FemMesh
+            if self._legacy_mesh is not None and (
+                self._mesh_state(self._femmesh) != self._legacy_mesh
+                or self._mesh_state(current) != self._legacy_mesh
+            ):
+                raise ValueError("Native mesh or groups changed during rigid port resolution.")
+            if self._coordinates is not None and not self._same_nodes(
+                current.Nodes, self._coordinates
+            ):
+                raise ValueError("Mesh nodes changed during rigid port resolution.")
+            if self._volumes is not None and tuple(current.Volumes) != self._volumes:
+                raise ValueError("Mesh volumes changed during rigid port resolution.")
 
     @property
     def max_node_id(self):
@@ -40,20 +182,30 @@ class PortResolutionContext:
 
     def _nodes(self):
         if self._coordinates is None:
-            self._coordinates = self._femmesh.Nodes
+            # Allocation-only public calls do not add a CAD ownership
+            # prerequisite. Region callers initialize/fence owned facts first.
+            facts = self._ownership
+            self._coordinates = facts.nodes if facts is not None else self._femmesh.Nodes
             self._max_node_id = max(self._coordinates, default=0)
         return self._coordinates
 
     def _solid_elements(self):
         if self._volumes is None:
-            self._volumes = tuple(self._femmesh.Volumes)
+            facts = self._owned_facts()
+            self._volumes = facts._volumes if facts is not None else tuple(self._femmesh.Volumes)
         return self._volumes
 
     def _solid_nodes(self):
         if self._volume_nodes is None:
             self._volume_nodes = set()
+            facts = self._owned_facts()
             for element in self._solid_elements():
-                self._volume_nodes.update(self._femmesh.getElementNodes(element))
+                nodes = (
+                    facts.elements[element]
+                    if facts is not None
+                    else tuple(self._femmesh.getElementNodes(element))
+                )
+                self._volume_nodes.update(nodes)
         return self._volume_nodes
 
 
@@ -104,20 +256,27 @@ def endpoint_node(reference, mesh):
 
 def rigid_body_node_ids(analysis, mesh, body, context=None):
     """Match native rigid-body allocation, including meshes with sparse node IDs."""
+    local = context is None
     context = _resolution_context(mesh, analysis, context)
     if body not in context._node_ids:
         base = context.max_node_id + 2 * context.analysis_group.index(body)
         context._node_ids[body] = base + 1, base + 2
-    return context._node_ids[body]
+    result = context._node_ids[body]
+    if local:
+        context.validate_unchanged()
+    return result
 
 
 def rigid_body_nodes(body, mesh, context=None):
     """Validate user-selected solid-mesh regions; never infer a coupling region."""
+    local = context is None
     context = _resolution_context(mesh, context=context)
     if body not in context._regions:
         context._regions[body] = frozenset(_validated_rigid_body_nodes(body, mesh, context))
     # Public callers historically receive mutable sets. Do not expose the
     # operation's verified cache to mutation through one connector's result.
+    if local:
+        context.validate_unchanged()
     return set(context._regions[body])
 
 
@@ -138,9 +297,7 @@ def _validated_rigid_body_nodes(body, mesh, context):
                 or re.fullmatch(r"(?:Vertex|Edge|Face|Solid)[1-9][0-9]*", indexed) is None
             ):
                 raise ValueError(f"Unresolved Rigid Body region {owner.Name}.{name}.")
-    nodes = set(
-        meshtools.get_femnodes_by_femobj_with_references(context._femmesh, {"Object": body}, mesh)
-    )
+    nodes = context._region_nodes(body)
     if not nodes:
         raise ValueError("Rigid Body region has no mesh nodes.")
     coordinates = context._nodes()
@@ -165,6 +322,7 @@ def _validated_rigid_body_nodes(body, mesh, context):
 
 
 def resolve_connector(obj, mesh, analysis=None, context=None):
+    local = context is None
     rotational = getattr(obj, "Kind", "Translational") == "Rotational"
     ports = getattr(obj, "Attachment", "Vertices") == "Rigid body ports"
     if rotational and not ports:
@@ -184,6 +342,8 @@ def resolve_connector(obj, mesh, analysis=None, context=None):
     }
     if ports:
         context = _resolution_context(mesh, analysis, context)
+        if obj not in context._connector_states:
+            context._connector_states[obj] = context._connector_state(obj)
         if (obj.End1 and obj.End1[0]) or (obj.End2 and obj.End2[0]):
             raise ValueError("Rigid Body port attachment requires empty vertex endpoints.")
         bodies = [obj.RigidBody1]
@@ -201,6 +361,8 @@ def resolve_connector(obj, mesh, analysis=None, context=None):
         if len(regions) == 2 and regions[0].intersection(regions[1]):
             raise ValueError("Rigid Body connector regions must not overlap.")
         result.update(bodies=bodies, regions=regions, nodes=[])
+        if local:
+            context.validate_unchanged()
         return result
     if getattr(obj, "RigidBody1", None) or getattr(obj, "RigidBody2", None):
         raise ValueError("Vertex attachment requires empty Rigid Body port links.")
@@ -231,7 +393,18 @@ def validation_errors(analysis, solver, mesh, context=None):
     from .rigid_body import validation_diagnostics
 
     errors = []
-    for diagnostic in validation_diagnostics(analysis, solver, mesh):
+    if mesh:
+        context = _resolution_context(mesh, analysis, context)
+
+    def complete():
+        if context is not None:
+            try:
+                context.validate_unchanged()
+            except (ValueError, TypeError, AttributeError, RuntimeError) as error:
+                errors.append(str(error))
+        return errors
+
+    for diagnostic in validation_diagnostics(analysis, solver, mesh, context=context):
         if diagnostic["severity"] == "error":
             errors.append(diagnostic["message"])
         elif diagnostic["severity"] == "warning":
@@ -243,9 +416,7 @@ def validation_errors(analysis, solver, mesh, context=None):
         )
     objects = connectors(analysis)
     if not objects:
-        return errors
-    if mesh:
-        context = _resolution_context(mesh, analysis, context)
+        return complete()
     materials = get_member(analysis, "Fem::MaterialCommon")
     materials += get_member(analysis, "Fem::MaterialReinforced")
     active_nonlinearity = solver.MaterialNonlinearity and any(
@@ -287,4 +458,4 @@ def validation_errors(analysis, solver, mesh, context=None):
                     errors.append(f"Rigid Body regions overlap at mesh node {node}.")
                     break
                 occupied[node] = body
-    return errors
+    return complete()

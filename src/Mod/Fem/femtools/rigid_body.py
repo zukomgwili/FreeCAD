@@ -13,7 +13,6 @@ No writer equations, RF semantics or port allocation are changed here.
 from itertools import combinations
 import math
 
-from femmesh import meshtools
 from .membertools import get_member
 
 
@@ -32,14 +31,17 @@ def _prescribed_translation(body):
     return tuple(float(f"{value:.13G}") for value in body.Displacement)
 
 
-def validation_diagnostics(analysis, solver, mesh):
+def validation_diagnostics(analysis, solver, mesh, context=None):
     """Structured identity/ownership errors and bounded compatibility warnings."""
     if mesh is None:
         return []  # The ordinary analysis prerequisite owns missing-mesh errors.
     result = []
     regions = {}
     allocated = set()
-    from .elastic_connector import rigid_body_node_ids
+    from .elastic_connector import rigid_body_node_ids, _resolution_context
+
+    local = context is None
+    context = _resolution_context(mesh, analysis, context)
 
     def report(severity, bodies, message, nodes=()):
         result.append(
@@ -65,18 +67,14 @@ def validation_diagnostics(analysis, solver, mesh):
             )
             if not all(math.isfinite(value) for value in values):
                 raise ValueError("Rigid Body position, motion and loads must be finite.")
-            nodes = set(
-                meshtools.get_femnodes_by_femobj_with_references(
-                    mesh.FemMesh, {"Object": body}, mesh
-                )
-            )
+            nodes = context._region_nodes(body)
             if not nodes:
                 raise ValueError("Rigid Body region has no current mesh nodes.")
-            ids = rigid_body_node_ids(analysis, mesh, body)
+            ids = rigid_body_node_ids(analysis, mesh, body, context)
             if (
                 len(set(ids)) != 2
                 or allocated.intersection(ids)
-                or set(ids).intersection(mesh.FemMesh.Nodes)
+                or set(ids).intersection(context._nodes())
             ):
                 raise ValueError("Rigid Body external reference/rotation node identities collide.")
             allocated.update(ids)
@@ -116,4 +114,9 @@ def validation_diagnostics(analysis, solver, mesh):
                 "equations; inspect native warnings and verify the intended motion.",
                 shared,
             )
+    if local:
+        try:
+            context.validate_unchanged()
+        except (ValueError, TypeError, AttributeError, RuntimeError) as error:
+            report("error", list(regions), str(error))
     return result
