@@ -27,7 +27,7 @@ class _OwnershipContext:
         ):
             raise ValueError("Invalid mesh group provenance; regenerate the mesh.")
         if not self._geometry_matches():
-            raise ValueError("Changed mesh geometry; regenerate the mesh.")
+            raise ValueError("References select changed mesh geometry; regenerate the mesh.")
 
         self.current_groups = {}
         for original, (owner, current) in zip(self._names, self._references):
