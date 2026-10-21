@@ -1,0 +1,75 @@
+{
+  "schema": "FreeCAD-8rk-installation-validation-v1",
+  "passed": true,
+  "date": "2026-10-21",
+  "deployment_bead": "FreeCAD-soh",
+  "fix_bead": "FreeCAD-8rk",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-8rk-6a0ed157b1.app",
+  "source_commit": "4eb8f43362c0cbc5a0dab4869ad77be6f27ad679",
+  "revision": "49261 +233 (Git)",
+  "modified_local_time": "2026-10-21 11:17:19 BST",
+  "build": {
+    "full_incremental_Release": true,
+    "clean_from_scratch_claimed": false,
+    "nonfatal_Pivy_stub_warning_tracked_separately": "FreeCAD-szc"
+  },
+  "ctest": {
+    "catalogue": 2277,
+    "passed": 2267,
+    "failed": 0,
+    "existing_skipped": [
+      "BackupPolicyTest.StandardWithZeroFilesDeletesExisting",
+      "BackupPolicyTest.TimestampWithZeroFilesDeletesExisting"
+    ],
+    "existing_disabled": [
+      "BackupPolicyTest.TimestampWithInvalidFormatStringThrows",
+      "BackupPolicyTest.TimestampWithAbsurdlyLongFormatStringThrows",
+      "DocumentObserverTest.hasSubObject",
+      "DocumentObserverTest.hasSubElement",
+      "DocumentObserverTest.normalize",
+      "DocumentObserverTest.normalized",
+      "ExpressionParserTest.expressionsParseAsPyObjectWrapper",
+      "CrashReporterTests.DeliberateSegfaultRoundTrip"
+    ],
+    "excluded": [],
+    "genuinely_dotted_TMPDIR": true,
+    "elapsed_seconds": 312.00811349996366
+  },
+  "application_tests": {
+    "stage_cmd": 2,
+    "stage_gui": 10,
+    "installed_cmd": 2,
+    "installed_gui": 10,
+    "GUI_controls": "Eight unchanged TestFemGui tests plus two new native identity/save tests.",
+    "regression": "Extensionless native document under dotted parent; two backups contain exact previous file bytes, no escaped/temp files, values third/first/second survive native same-process reopen.",
+    "separate_cold_process_claimed": false
+  },
+  "payload": {
+    "complete_native_images": 61,
+    "non_native_payload_matches": 3843,
+    "full_DESTDIR_manifest_leaf_set_verified": true,
+    "stage_and_installed_exact_sealed_inventory_sha256": "ad3e2241c9688ea15738d70ad8bd8ad6bd1bf2469c3161825b7b1da158a93438",
+    "old_backup_exact_inventory_sha256": "04221ab2f8bb7b7eae3a95e417d19e4b815d2731da6be6b47ecd2b87b2de5c98",
+    "strict_signatures_and_extension_entitlements_verified": true,
+    "resources_readonly_and_cachefree": true
+  },
+  "preservation": {
+    "profiles_unchanged": 3,
+    "external_namespace_files_unchanged": 11,
+    "selected_critical_dependency_files_unchanged": 16,
+    "whole_dependency_environment_inventory_claimed": false
+  },
+  "preparation_history": "Initial capture child failed to import the private helper. A first DESTDIR-only payload was accidentally created before baseline capture; it was preserved as payload-before-capture and is not qualifying evidence. The import was corrected, successful capture-r02 preceded a freshly regenerated qualifying payload-r02 and all stage/installed gates. Both earlier receipts/logs remain honest historical setup outputs; finalized helpers are not a full historical checkout of initial setup.",
+  "runtime_dependency": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "self_contained": false,
+  "notarized": false,
+  "scope": "Current fork software deployment only; no engineering/Oomakhi acceptance, project solve, dependency upgrade, source fix or upstream PR.",
+  "evidence": {
+    "directory": "package/local-completion/freecad-8rk-installation-evidence",
+    "files": 67,
+    "index_sha256": "3fd4a1fd56d03ab969941be62acb49af26f31db2a00cf5556d924312ecdb4ca8",
+    "private_directory": "/private/tmp/freecad-8rk-install-vW1atvoW"
+  },
+  "metadata_note": "Installation was tested against this compiled source commit; later tracking/evidence commits do not change its binary identity."
+}
