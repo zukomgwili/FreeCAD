@@ -346,6 +346,39 @@ TEST_F(BackupPolicyTest, TimestampWithOneFileAndNoneExistingFCBakCreatesDatedFil
     EXPECT_TRUE(std::filesystem::exists(getTempPath() / expected));
 }
 
+TEST_F(BackupPolicyTest, TimestampExtensionlessTargetStaysInDottedDirectory)
+{
+    setPolicyTerms(App::BackupPolicy::Policy::TimeStamp, 3, true, "fixed");
+    const auto directory = getTempPath() / "dotted.parent";
+    ASSERT_TRUE(std::filesystem::create_directory(directory));
+    auto source = createTempFile("dotted.parent/source.fcstd");
+    auto target = createTempFile("dotted.parent/target");
+
+    apply(source.string(), target.string());
+
+    const auto firstBackup = directory / "target.fixed.FCBak";
+    ASSERT_TRUE(std::filesystem::exists(firstBackup));
+    std::ifstream firstStream(firstBackup);
+    std::string contents;
+    std::getline(firstStream, contents);
+    EXPECT_EQ(contents, "Test data");
+    firstStream.close();
+
+    source = createTempFile("dotted.parent/source.fcstd");
+    apply(source.string(), target.string());
+
+    const auto secondBackup = directory / "target.fixed-1.FCBak";
+    ASSERT_TRUE(std::filesystem::exists(secondBackup));
+    EXPECT_TRUE(std::filesystem::exists(firstBackup));
+    EXPECT_TRUE(std::filesystem::exists(target));
+    std::ifstream secondStream(secondBackup);
+    std::getline(secondStream, contents);
+    EXPECT_EQ(contents, "Test data");
+    for (const auto& entry : std::filesystem::directory_iterator(getTempPath())) {
+        EXPECT_EQ(entry.path(), directory);
+    }
+}
+
 TEST_F(BackupPolicyTest, TimestampReplacesDotsWithDashes)
 {
     // Arrange

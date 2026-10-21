@@ -157,6 +157,53 @@ TEST_F(FileInfoTest, TestCopyFile)
     EXPECT_TRUE(copy.deleteFile());
 }
 
+namespace
+{
+struct ExtensionTestCase
+{
+    const char* name;
+    const char* extension;
+    const char* completeExtension;
+};
+
+constexpr ExtensionTestCase extensionTestCases[] = {
+    {"", "", ""},
+    {"file", "", ""},
+    {"file.FCStd", "FCStd", "FCStd"},
+    {"archive.tar.gz", "gz", "tar.gz"},
+    {"file.", "", ""},
+    {".hidden", "hidden", "hidden"},
+    {".hidden.ext", "ext", "hidden.ext"},
+    {".", "", ""},
+    {"..", "", "."},
+    {"caf\xc3\xa9", "", ""},
+};
+}  // namespace
+
+TEST(FileInfoExtensionTest, PreservesBasenameExtensionConventions)
+{
+    for (const auto& row : extensionTestCases) {
+        SCOPED_TRACE(row.name);
+        Base::FileInfo info(row.name);
+        EXPECT_EQ(info.extension(), row.extension);
+        EXPECT_EQ(info.completeExtension(), row.completeExtension);
+    }
+}
+
+TEST(FileInfoExtensionTest, IgnoresDotsInParentDirectories)
+{
+    for (const char* parent : {"parent.folder/", "parent.folder/nested.dir/",
+                               "parent.folder\\nested.dir\\", "\\\\server\\share.folder\\"}) {
+        for (const auto& row : extensionTestCases) {
+            const std::string path = std::string(parent) + row.name;
+            SCOPED_TRACE(path);
+            Base::FileInfo info(path);
+            EXPECT_EQ(info.extension(), row.extension);
+            EXPECT_EQ(info.completeExtension(), row.completeExtension);
+        }
+    }
+}
+
 // Tests for pathToString / stringToPath UTF-8 round-trip (PR #28222)
 
 class FileInfoPathConversionTest: public ::testing::Test
