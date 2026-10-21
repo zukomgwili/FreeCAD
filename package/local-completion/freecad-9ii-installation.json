@@ -1,0 +1,101 @@
+{
+  "schema": "FreeCAD-9ii-installation-validation-v1",
+  "passed": true,
+  "date": "2026-10-21",
+  "timezone": "Europe/London",
+  "deployment_bead": "FreeCAD-amg",
+  "fix_bead": "FreeCAD-9ii",
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-9ii-4eb8f43362.app",
+  "source_commit": "d15a59e8ff39d610337b02ca290fe477d24d065c",
+  "revision": "49261 +235 (Git)",
+  "native_sha256": "0c2a86318df9c7cc9d921e5068ae52f1d53e27b7b16747e00a74ccc8fe37c6cc",
+  "modified_local_time": "2026-10-21T16:27:46.096541+01:00",
+  "build": {
+    "full_incremental_Release": true,
+    "clean_from_scratch_claimed": false,
+    "nonfatal_Pivy_stub_warning_tracked_separately": "FreeCAD-szc"
+  },
+  "ctest": {
+    "catalogue": 2277,
+    "passed": 2267,
+    "failed": 0,
+    "existing_skipped": [
+      "BackupPolicyTest.StandardWithZeroFilesDeletesExisting",
+      "BackupPolicyTest.TimestampWithZeroFilesDeletesExisting"
+    ],
+    "existing_disabled": [
+      "BackupPolicyTest.TimestampWithInvalidFormatStringThrows",
+      "BackupPolicyTest.TimestampWithAbsurdlyLongFormatStringThrows",
+      "DocumentObserverTest.hasSubObject",
+      "DocumentObserverTest.hasSubElement",
+      "DocumentObserverTest.normalize",
+      "DocumentObserverTest.normalized",
+      "ExpressionParserTest.expressionsParseAsPyObjectWrapper",
+      "CrashReporterTests.DeliberateSegfaultRoundTrip"
+    ],
+    "excluded": [],
+    "genuinely_dotted_TMPDIR": true,
+    "elapsed_seconds": 307.5520794170443
+  },
+  "admission_self_test": {
+    "valid_accepted": 3,
+    "invalid_rejected": 64
+  },
+  "application_tests": {
+    "stage": {
+      "cmd": 132,
+      "gui": 14,
+      "cold": 2
+    },
+    "installed": {
+      "cmd": 132,
+      "gui": 14,
+      "cold": 2
+    },
+    "stage_total": 148,
+    "installed_total": 148,
+    "total_executed": 296,
+    "source_feature_qualification_135_added_to_deployment_total": false,
+    "separate_process_cold_restore_per_location": true
+  },
+  "payload": {
+    "complete_native_images": 61,
+    "non_native_payload_matches": 3850,
+    "selected_source_matches": 52,
+    "full_DESTDIR_manifest_leaf_set_verified": true,
+    "stage_and_installed_exact_sealed_inventory_sha256": "0de4c139e9d2d90bfcfc12ce4fa9d0237687bdfa62aa5c82f667f1f43274903e",
+    "old_backup_exact_inventory_sha256": "ad3e2241c9688ea15738d70ad8bd8ad6bd1bf2469c3161825b7b1da158a93438",
+    "strict_signatures_and_QuickLook_entitlements_verified": true,
+    "resources_readonly_and_cachefree": true
+  },
+  "preservation": {
+    "profiles_unchanged": 3,
+    "external_namespace_files_unchanged": 11,
+    "selected_critical_dependency_files_unchanged": 17,
+    "whole_dependency_environment_inventory_claimed": false
+  },
+  "phases": {
+    "qualifying_passed": 16,
+    "historical_other_attempts": []
+  },
+  "fixture_preservation": {
+    "regular_files": 800,
+    "archive_sha256": "a43f11539aae63cd2ccb068b09be0520b6c05f9a87c293051cd8e710e12d7c4a",
+    "original_absolute_provenance_preserved": true,
+    "stage_histories_rebound_or_relabelled_Current": false,
+    "native_binaries_and_symlinks_excluded": true
+  },
+  "runtime_dependency": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "self_contained": false,
+  "notarized": false,
+  "scope": "Current fork software deployment only; no Oomakhi opening/solve or engineering acceptance.",
+  "evidence": {
+    "directory": "package/local-completion/freecad-9ii-installation-evidence",
+    "files": 66,
+    "index_sha256": "fab4f82d5a5fb9c25d793900f75578b5b06309ded7af17b2dde1e254fbb0a7e7",
+    "private_directory": "/private/tmp/freecad-9ii-install-frvQG620"
+  },
+  "final_independent_audit": "Published separately after collection; not claimed by this collector.",
+  "metadata_note": "Later evidence/tracking commits do not change the exact compiled d15/+235 identity."
+}

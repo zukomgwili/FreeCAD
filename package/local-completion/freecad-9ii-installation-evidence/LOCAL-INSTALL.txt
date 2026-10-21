@@ -1,0 +1,26 @@
+FreeCAD Local Release built from d15a59e8ff39d610337b02ca290fe477d24d065c.
+21 October 2026, version 27.1.0dev49261+235 (Git).
+
+Includes FreeCAD-9ii: selected native contact sample/state diagnostic output,
+run-bound saved import and inspection, and stale-result withdrawal.
+The bundled CalculiX exposes CCX_CONTACT_STATE_V1 and preserves
+CCX_FORCE_ACCOUNTING_V3. Native SHA256:
+0c2a86318df9c7cc9d921e5068ae52f1d53e27b7b16747e00a74ccc8fe37c6cc
+All preceding fork fixes, including FreeCAD-8rk backups, remain included.
+
+This host-local application requires the matching repository dependencies:
+/Users/zukomgwili/src/FreeCAD/.pixi/envs/default
+It is not self-contained or notarized. Existing launchers, patched Qt,
+dependency links and canonical Ext/freecad namespace are retained.
+User preferences and material libraries are not migrated.
+
+Rollback: quit FreeCAD, move this app aside and restore the exact prior app:
+/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-9ii-4eb8f43362.app
+Older rollback backups are not changed.
+
+Contact-state qualification is limited to the documented same-document,
+small-displacement static Tet4/Tet10 route. Missing/inactive constitutive
+channels remain unavailable. Cold histories do not become Current solely
+because a document was reopened; changed raw mesh labels require a new run.
+Software qualification only; no Oomakhi or engineering acceptance is claimed.
+Engineering projects are not opened or solved by the deployment tests.

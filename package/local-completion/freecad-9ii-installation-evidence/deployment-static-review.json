@@ -1,0 +1,116 @@
+{
+  "schema": "FreeCAD-9ii-deployment-static-review-v1",
+  "issue": "FreeCAD-amg",
+  "fix_issue": "FreeCAD-9ii",
+  "reviewer": "/root/contact_9ii_evidence_audit",
+  "reviewed_at_utc": "2026-10-21T15:22:52Z",
+  "result": "No unresolved material static finding in the reviewed deployment controls",
+  "unresolved_material_findings": [],
+  "source_commit": "d15a59e8ff39d610337b02ca290fe477d24d065c",
+  "compiled_revision_observed_in_Version_h": "49261 +235 (Git)",
+  "qualified_native_sha256": "0c2a86318df9c7cc9d921e5068ae52f1d53e27b7b16747e00a74ccc8fe37c6cc",
+  "review_boundary": {
+    "native_build_application_solver_installer_or_signature_execution_by_reviewer": false,
+    "frozen_evidence_production_source_application_or_profile_edits_by_reviewer": false,
+    "review_methods": ["Complete static helper inspection", "Read-only SHA256 capture", "Inspection of root-produced receipts and logs"],
+    "auditor_authorship": "This reviewer authored the fresh audit_payload_stage.py. Its inclusion here is author self-review, not a separately independent code review of that file.",
+    "other_helper_authorship": "The deployment adapter, application identity/harness and root supervisor/custody helpers were authored by other agents; this review is independent of those authors.",
+    "separate_auditor_review_reported_by_root": "Root reports reading the entire new auditor and immutable core, and a separate safety agent reports peer-reading the frozen auditor without a critical finding. This receipt does not substitute for or invent a separate peer-review artifact.",
+    "qualification": "A later independent audit of actual deployment evidence and live installed/backup/profile bytes is still required. This static receipt does not mark pending stage, swap, installed application or publication gates passed."
+  },
+  "reviewed_current_files_sha256": {
+    "audit_payload_stage.py": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+    "stage_install.py": "072b8999f9188b024fd8865804e9e9e3712f22db9da75110b6f02cef98fd0d82",
+    "run_application.py": "23359cadaccfc3c07572ce389ffc3ec36ce5da468d911317c651a8c43a910a17",
+    "App9iiIdentity.py": "60d409e7cff47a2f98faac76e34cd3097e876f15b10790de5fa1501a59d2b959",
+    "run_gate.py": "80d50c87136f09bf966d0739a65b8198d749024d9dd8758160c5106e52acc1cd",
+    "run_step.py": "88e25c26ba2207736e66bc6dc3e0c1ffe05a13f068f029088c45ef70d66f27e8",
+    "critical_pins.py": "1272a950ca9c6b3da65fd54068d550f57492f87e251a09a2fe9acafaae4a055d",
+    "LOCAL-INSTALL.txt": "b290680a8d93ee976ff3233731c4771740ddf01fec25651175e00656277b24b1"
+  },
+  "immutable_reuse": {
+    "staging_signing_rollback_core": {
+      "path": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py",
+      "sha256": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+      "reviewed_controls": "Exact baseline copy; explicit DESTDIR merge; unchanged external namespace; native-leaf preservation through signing; QuickLook entitlement preservation; read-only/cache-free seal; same-device exact-target app/backup renames with bounded rollback restoration."
+    },
+    "source_gate_supervisor": {
+      "path": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/run_gate.py",
+      "sha256": "556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e"
+    },
+    "selected_custody_core": {
+      "path": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/critical_pins.py",
+      "sha256": "a2e81c1d1adb5c8e18093b42e0b15b3bc2c194cfb352f3c76925b9120943cfdc"
+    },
+    "deployment_step_supervisor": {
+      "path": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/run_step.py",
+      "sha256": "612141eb6c5f8693dd33d9dd8d5012a99d8571b16d17654043d187c7fca8bbb3"
+    },
+    "historical_receipt_schema_qualification": "The unchanged 8rk supervisors honestly retain their original receipt schema names. Their new private ROOT, commands, current source commit, complete input hashes, producer modes and current literal paths bind these executions; no historical execution is relabelled as a new pass."
+  },
+  "strict_producer_admission": {
+    "schema": "FreeCAD.LOCAL_INSTALL_INDEPENDENT_AUDIT_V2",
+    "roles": ["payload", "stage", "custody"],
+    "shared_interface": "admit_producer(proof, mode, *, commit, revision)",
+    "checks": [
+      "Exact schema, role and frozen helper SHA; passed must be the literal boolean true",
+      "Expected per-role source/compiled commit and custody revision",
+      "Payload read_only_payload_and_app_unchanged must be literal true",
+      "Stage stage_signature_verified must be literal true",
+      "Custody baseline_and_stage_exact, strict_signatures_quicklook_readonly_cachefree and no_live_app must each be literal true",
+      "Every predecessor-consuming stage/custody/staging/swap route uses strict admission",
+      "Actual payload inventory, manifest leaves, native sets and hashes are rebound; custody recomputes the complete stage proof semantics",
+      "Final swap additionally cross-binds payload/stage/custody receipts, sealed/baseline inventories, profile receipt, critical receipt, current native set, source identity and fresh stage application gates"
+    ],
+    "root_executed_negative_coverage_observed": {
+      "execution": "step-admission-self-test/execution.json",
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "mode": "admission-self-test",
+      "passed": true,
+      "returncode": 0,
+      "timed_out": false,
+      "child_reaped": true,
+      "process_group_gone": true,
+      "inputs_unchanged": true,
+      "protected_unchanged": true,
+      "log_sha256": "0c83d7ebc205e3f1b585a1202d4c32d9fcff9b4a7683ad9a3fed3a61fcbe6e90",
+      "valid_fixtures_accepted": 3,
+      "invalid_fixtures_rejected": 64,
+      "meaning": "Pure producer-admission checks, including six cross-role substitutions, old/wrong schema, wrong helper, missing flags, false flags, integer/string truthy flags, wrong commit and wrong custody revision. Not a native signature or application test."
+    }
+  },
+  "payload_and_custody_controls": [
+    "Complete DESTDIR leaf set must equal deduplicated current install manifest, with only app resources and the eleven exact namespace files admitted",
+    "Every regular Mach-O image must have a code-identical normalized current build match; unsupported native formats refuse",
+    "Normalization is inherited from the pinned core and excludes only RPATH and signature bookkeeping; payload-to-stage RPATHs must match exactly",
+    "All payload non-native leaves match staged bytes or symlink targets and expected read-only modes; additional native launchers match the prior app",
+    "All selected old and new source copies match the repository, including contactstate.c and the packaged native observer source",
+    "Strict stage/app signatures and preserved QuickLook entitlements, read-only resources, cache-free staging, no live FreeCAD and immutable sealed inventories are explicit controls",
+    "Seventeen selected critical files include the qualified stable native observer; this is not represented as a whole dependency-environment inventory",
+    "Successful baseline/profile/build/critical capture is required before a qualifying DESTDIR payload; the known previous +233 app inventory is pinned"
+  ],
+  "literal_application_controls": {
+    "required_counts_per_location": {"cmd": 132, "gui": 14, "cold": 2},
+    "cmd_composition": "Two identity/backup witnesses, fourteen native contact cases, one independent ownership case, five input-fingerprint tests and 110 existing regressions",
+    "gui_composition": "Two identity/backup witnesses, four actual contact inspector/solver GUI cases and eight stock GUI tests",
+    "cold_composition": "Exact application identity and separate-process literal historical contact restore",
+    "reviewed_guards": [
+      "Literal staged or installed launcher and exact compiled identity, dyld process/library origins, bundle FEM imports and current selected source hashes",
+      "Empty NativeAccountingSolver selection resolves the candidate bundled in that same app; both V3 accounting and V1 contact-state capabilities are checked",
+      "Source/build import overlays and ambient solver overrides are scrubbed/refused",
+      "Unique exact test IDs/counts, raw unittest totals, no skipped tests, exact manifest/module/log/receipt hashes and before/after input/app/profile custody",
+      "Cold input must be the exact same-location CMD witness with matching source files and literal data/hash; no history/provenance repair, fresh solve or Current promotion is claimed",
+      "Bounded isolated subprocess execution, child reap/group disappearance, genuine dotted temporary directory and no real user profile use"
+    ]
+  },
+  "remaining_runtime_qualification": [
+    "Root must execute and retain the actual payload, stage, custody, staged CMD/GUI/cold, reversible swap and fresh installed CMD/GUI/cold gates",
+    "Root or collector must preserve exact byte/log/hash links and perform final live installed/rollback/profile/dependency custody verification",
+    "This static review does not claim software deployment or engineering acceptance is complete"
+  ],
+  "limits": [
+    "Incremental Release build, not a clean-from-scratch build claim",
+    "Local repository Pixi dependency prefix remains required; the app is not self-contained or notarized",
+    "No Oomakhi opening/solve, geometry or load change, acceptance-limit change, contact-law accuracy approval or building design acceptance"
+  ]
+}
