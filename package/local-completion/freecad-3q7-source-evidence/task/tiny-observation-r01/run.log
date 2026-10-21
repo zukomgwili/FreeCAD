@@ -1,0 +1,109 @@
+test_literal_installed_runtime_and_fixture_origin (Q37Identity.TestQ37Identity.test_literal_installed_runtime_and_fixture_origin) ... ok
+test_observe_whole_export_native_work_on_owned_tiny_mesh (Q37WholeExport.TestQ37WholeExport.test_observe_whole_export_native_work_on_owned_tiny_mesh) ... [DEBUG-3q7] real-tiny-fixture-started
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +224 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-3q7-Pq3Byy/tiny-observation-r01/fixture/BeamCells_Geometry.brep
+  /private/tmp/freecad-3q7-Pq3Byy/tiny-observation-r01/fixture/BeamCells_Mesh.vtk
+  /private/tmp/freecad-3q7-Pq3Byy/tiny-observation-r01/fixture/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 90
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 91
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 92
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 93
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 94
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 95
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 96
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 97
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 98
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 99
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 100
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 101
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 102
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 103
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 104
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 105
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 106
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 107
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 108
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 109
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 110
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 111
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 112
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 113
+AddGroupElements: num elements: 1 sizeof: 8
+[DEBUG-3q7] whole-stock-write-started
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Moving-port analytical witness'}]
+[DEBUG-3q7] whole-stock-write-returned
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.072s
+
+OK
+
+Get mesh data for constraints, materials and element geometry...
+ExternalSupport:
+    Type: Fem::ConstraintRigidBody, Name: ExternalSupport
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+MovingPortA:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortA
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+MovingPortB:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortB
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+CutARight:
+    Type: Fem::ConstraintSectionPrint, Name: CutARight
+    ReferenceShape ... Type: Face, Object name: CutARightOrientation, Object label: CutARightOrientation, Element name: Face2
+CutBLeft:
+    Type: Fem::ConstraintSectionPrint, Name: CutBLeft
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face13
+AxialLoad:
+    Type: Fem::ConstraintForce, Name: AxialLoad
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face18
+TorquePositiveZ:
+    Type: Fem::ConstraintForce, Name: TorquePositiveZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge35
+TorqueNegativeZ:
+    Type: Fem::ConstraintForce, Name: TorqueNegativeZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge33
+Getting mesh data time: 0.045 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-3q7-Pq3Byy/tiny-observation-r01/native/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12

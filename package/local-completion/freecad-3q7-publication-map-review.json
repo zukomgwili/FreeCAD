@@ -1,0 +1,266 @@
+{
+  "schema": "FreeCAD-3q7-independent-actual-approved-map-prepublication-review-v1",
+  "reviewer": "/root/batch_guard_review/physical_audit_review",
+  "review_scope": "Exact actual approved r03 map, completed qualification, source identity, custody links, selected payload privacy and original bytes only. No publication or postpublication packet audit.",
+  "method": "New stdlib-only file hashing/JSON/byte comparisons and AST parsing. No product, collector or published-packet-auditor import/execution; no native apps, tests, builds, Git writes or runtime/core binary reads.",
+  "replay_script": {
+    "path": "/private/tmp/freecad-3q7-Pq3Byy/publication-audit/preflight_actual_r02_selection.py",
+    "sha256": "469712e91ddd784757a5309dcc328e59c51a91c4c39f6f02fe3dbda0b59c3022"
+  },
+  "additional_input_descriptors": {
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-882-source-evidence/index.json": {
+      "bytes": 71516,
+      "sha256": "e7f19fd63d4c391714a4e5413bd208026efdc8331bc440f236750a7d644c85b3"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/collection/final-approved-plan-r01.json": {
+      "bytes": 129372,
+      "sha256": "4050d0d80d531f5f42b438cd522e548ffbee1cd66ead7e2462be29cf877432e2"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/collection/final-approved-plan-r03.json": {
+      "bytes": 131978,
+      "sha256": "bbb68ac688c60b8777ee746bc29b7c5e35d546b3c547d013429cd10bddb2216d"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/collection/final-r02-plan-draft.json": {
+      "bytes": 128665,
+      "sha256": "714dbdbbb914aa2d0c56534f920b662a3a0f27a87bece888cded391c3626b335"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/collection/final-r02-selection.json": {
+      "bytes": 89572,
+      "sha256": "09ff4d8017d729b9e8ec75aa85ff0da4ae095d487a95fc7910e6007ad2e05e1f"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/proposals/cold-ctest-adapters-independent-static-review-r01.json": {
+      "bytes": 9316,
+      "sha256": "0058dcd635d49af017e73720864e317b910a6088fd283d375df7d5b81eeab0a7"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/proposals/private-candidate-files-r02.json": {
+      "bytes": 4490,
+      "sha256": "8a5f2f2d71b86cf15585cd1ec8819e0c64fa4b0da31362bfb2db5ace57c4f65d"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/cold-case.json": {
+      "bytes": 2561541,
+      "sha256": "b7fc81febd9cbdf9358fed4e49d5899b6682a5f0dba6f6202e0113e99e323242"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/coupled-before-export.FCStd": {
+      "bytes": 6055399,
+      "sha256": "acfd9e43dcec1fa956d89971e3757f47faa09962876ffd9cbe7982aebe08ee19"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/coupled-native-current.FCStd": {
+      "bytes": 53560350,
+      "sha256": "e7ba28e051614be40a15bb4403570ec7eaad14d9e3a2f9a3e4a29df7df41dcab"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/export-properties.json": {
+      "bytes": 2094344,
+      "sha256": "19c7f44abc3de40655830db8da189c4798644d59ad16a318547471161fbdbfac"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/geometry-contract.json": {
+      "bytes": 246947,
+      "sha256": "d0285f0c99c239f792f6eca63be1eb34b813ab1d08839a19fb0301aef8091911"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/independent-export-audit.json": {
+      "bytes": 1803536,
+      "sha256": "ec5a661641b8ea072c51acaf3d684b90033667032ef052b8caca53f5fd5d14df"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/mesh-membership.json": {
+      "bytes": 24676043,
+      "sha256": "e25d7327c836a7658af4ccae91c2010a7bbab8dcd9fd0135a714121b467e75df"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/motion-from-original-dat.json": {
+      "bytes": 100842,
+      "sha256": "416b7f5b9724f19e07a3c7f074f64ae72e6db83df4f77739cd196cdcf78b486a"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native-accounting-data.json": {
+      "bytes": 136371,
+      "sha256": "c922f8cb12f399e7602e339478814d332a351e278276889b26da0d0ddf785ea0"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native-properties.json": {
+      "bytes": 2094344,
+      "sha256": "19c7f44abc3de40655830db8da189c4798644d59ad16a318547471161fbdbfac"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native.stdout": {
+      "bytes": 2298,
+      "sha256": "55b43bc7bf41e2e136263a8778f9465923cebd30d15a9e2280a00ce301996a49"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native/Mesh.accounting": {
+      "bytes": 502861,
+      "sha256": "78312f3f564a08d45c3473d1613f8036e28c70a91b9dac5ad26db6e94ac35f10"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native/Mesh.accounting.json": {
+      "bytes": 53879,
+      "sha256": "b014c3faa28a14e281d0180f8143868f42dd9075ec96eacf995e7b655dc4f3d3"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native/Mesh.accounting.out": {
+      "bytes": 65383,
+      "sha256": "86909afdca1bd5abd3da4548408fed33dfb521e19d6d95467443d7be24b234da"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native/Mesh.dat": {
+      "bytes": 665361,
+      "sha256": "2e3a3252bf51e53babaabce2912aa6c373eb1b9c9c3402342e3df9e3f110d28a"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native/Mesh.frd": {
+      "bytes": 53525323,
+      "sha256": "d1e0cc4b8c535273f5adb04c912fad92e974a52e9b21a5a77e4eeafeec4de986"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/native/Mesh.inp": {
+      "bytes": 12146029,
+      "sha256": "61480b2749a58f61912c63ca69320d61c51cb8cc6ed23e8ad5db47e2c528b908"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/physical-face-motion-proof.json": {
+      "bytes": 41278,
+      "sha256": "1e7a01f0a7181e6b19e6694e9acb8b48c981c7e941d08ec2beb40e183abbbe83"
+    },
+    "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01/freecad_user_temp/freecad-moving-port-capacity-native-kgd8rdbk/witness/witness-receipt.json": {
+      "bytes": 1345103,
+      "sha256": "2b33bc1c54680c4542140407579c3f5a1e517859824c4525fad29452e565981b"
+    }
+  },
+  "all_inputs_unchanged_before_after": true,
+  "blocking_findings": [],
+  "capsule_leaves_exact_originals": 20,
+  "checked_input_count": 334,
+  "checked_input_descriptor_map_sha256": "9e7916e8237f6e4e8f802ccbda509fa8aab4e33c2cb552a1f4df6656c0d39098",
+  "collector_zero_write_preflight_and_postpublication_audit_still_required": true,
+  "curated_4490_byte_pin_manifest_copy_admissible": true,
+  "measured_vs_final_differing_source_files": [
+    "femmesh/ownership_context.py"
+  ],
+  "physical_vs_measured_mesh_counts": {
+    "fresh_physical": {
+      "nodes": 145046,
+      "volumes": 74323
+    },
+    "timing_pair": {
+      "nodes": 144951,
+      "volumes": 74228
+    }
+  },
+  "plan_descriptor": {
+    "bytes": 131978,
+    "sha256": "bbb68ac688c60b8777ee746bc29b7c5e35d546b3c547d013429cd10bddb2216d"
+  },
+  "prepublication_content_review_passed": true,
+  "publication_or_packet_audit_performed": false,
+  "role_count": 30,
+  "role_counts": {
+    "cold_execution": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "fem": {
+      "actual": 419,
+      "manifest_expected": 419,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "full_graph_execution": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "guards": {
+      "actual": 13,
+      "manifest_expected": 13,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "gui": {
+      "actual": 9,
+      "manifest_expected": 9,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "historical_baseline": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-3q7-large-common-runtime-manifest-v1",
+      "passed": true
+    },
+    "historical_fem_failure": {
+      "actual": 419,
+      "manifest_expected": 419,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": false
+    },
+    "historical_none_endpoint_failure": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": false
+    },
+    "historical_tiny_selection_failure": {
+      "actual": 9,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": false
+    },
+    "paired_baseline": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-3q7-large-common-runtime-manifest-v2",
+      "passed": true
+    },
+    "paired_candidate": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-3q7-large-common-runtime-manifest-v2",
+      "passed": true
+    },
+    "rejected_large_pair": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-3q7-large-common-runtime-manifest-v1",
+      "passed": false
+    },
+    "restore_first_execution": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "restore_second_execution": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": true
+    },
+    "source_work_red": {
+      "actual": 2,
+      "manifest_expected": 2,
+      "manifest_schema": "FreeCAD-yzk-source-run-manifest-v3",
+      "passed": false
+    }
+  },
+  "root_approval_performed_by_reviewer": false,
+  "root_approved_final_plan_reviewed": true,
+  "selected_files": 307,
+  "selected_payload_plus_approved_plan_bytes": 379854055,
+  "selection_descriptor": {
+    "bytes": 89572,
+    "sha256": "09ff4d8017d729b9e8ec75aa85ff0da4ae095d487a95fc7910e6007ad2e05e1f"
+  },
+  "source_identity": {
+    "compiled_revision": "49261 +228 (Git)",
+    "default_native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "diagnostic_only_followup_commit": "6605b582911c320418951abaa415fa947237c4c8",
+    "final_product_commit": "6605b582911c320418951abaa415fa947237c4c8",
+    "implementation_commit": "9c3e7ec2637d6d3149dc55d0906576225a4d8bf7",
+    "performance_pair_common_compiled_commit": "5b11849843232fdffa4c9c08e2821a6f7c99dee3",
+    "performance_pair_is_not_relabelled_as_final_build": true
+  },
+  "typed_assertions_checked": 248,
+  "provenance_notes": [
+    "Both accepted timing profiles retain the actual +226/5b compiled runtime and recorded source_HEAD5b. Candidate measured Python bytes bind to later implementation commit9c3 through the exact twelve-file matrix; they are not relabelled as a9c3 compiled runtime.",
+    "Final qualification is +228/6605, with the sole ownership_context exception-message literal change from the measured candidate bytes. Timing mesh144951nodes/74228volumes remains distinct from fresh physical145046nodes/74323volumes.",
+    "Historical rejected r01, work REDs, the419-test failure, the None endpoint failure and actual9-tests-versus-expected2 selection failure remain false.",
+    "The conservative privacy rule was not changed. One optional explanatory environment-named static review remains immutable and hash-only; all actual cold/CTest/native sources, outputs and final reviews remain copied.",
+    "Synthetic FCStd/FRD files are exact individually approved generic software-QA capsule bytes, not user engineering project data. Text/key/magic checks supplement explicit selection and are not a universal secret scanner."
+  ],
+  "output_scope": "Private review outside the selected packet; avoids a self-reference. No engineering, installation, runtime re-execution, packet publication or push acceptance claim.",
+  "authorship": "Reviewer authored this private preflight comparator, earlier independent pair comparator and static reviews; authored none of product implementation, frozen oracle, native physical producer or collector."
+}

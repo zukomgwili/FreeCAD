@@ -1,0 +1,56 @@
+{
+  "schema": "FreeCAD-3q7-committed-standards-axis-review-v1",
+  "reviewer": "/root/batch_guard_review/physical_audit_review",
+  "axis": "Standards",
+  "fixed_point": "5b11849843232fdffa4c9c08e2821a6f7c99dee3",
+  "reviewed_commit": "6605b582911c320418951abaa415fa947237c4c8",
+  "diff_command": "git diff 5b11849843232fdffa4c9c08e2821a6f7c99dee3...6605b582911c320418951abaa415fa947237c4c8 -- src/Mod/Fem",
+  "commits": [
+    "9c3e7ec263 FEM: bound exact ownership validation to export batches",
+    "6605b58291 FEM: retain stale-geometry diagnostic compatibility"
+  ],
+  "standards_sources": [
+    "6605b582911c320418951abaa415fa947237c4c8:src/Mod/Fem/coding_conventions.md",
+    "6605b582911c320418951abaa415fa947237c4c8:AGENTS.md",
+    "6605b582911c320418951abaa415fa947237c4c8:.pre-commit-config.yaml"
+  ],
+  "tool_enforced_formatting_excluded": true,
+  "findings": [
+    {
+      "priority": "P3",
+      "classification": "Documented convention",
+      "title": "Split new multiple-name imports",
+      "rule": "coding_conventions.md:48-50 requires one imported module/method per line.",
+      "hunks": [
+        "src/Mod/Fem/femtools/rigid_body.py:41 — from .elastic_connector import rigid_body_node_ids, _resolution_context",
+        "src/Mod/Fem/femtest/app/test_moving_port_accounting_native.py:34 — from femtest.app.support_utils import during_native_return, reference_snapshot",
+        "src/Mod/Fem/femtest/app/test_rigid_region_ownership.py:23 — from femtools import elastic_connector, rigid_body",
+        "src/Mod/Fem/femtest/app/test_rigid_region_ownership.py:707 — from femtools.elastic_connector import PortResolutionContext, resolve_connector"
+      ],
+      "recommendation": "Use a separate from-import statement for each name; keep each import group alphabetized. No runtime behavior changes."
+    },
+    {
+      "priority": "P3",
+      "classification": "Documented convention",
+      "title": "Put the new standard-library import before FreeCAD",
+      "rule": "coding_conventions.md:56-65 requires a standard-library group before the separate FreeCAD group.",
+      "hunks": [
+        "src/Mod/Fem/femsolver/calculix/write_constraint_elastic_connector.py:5-6 — import FreeCAD followed by new import io"
+      ],
+      "recommendation": "Move import io above the FreeCAD group with the documented blank-line separation. Black does not enforce import grouping, so this is not a duplicate formatting-tool finding."
+    }
+  ],
+  "baseline_smells": "All twelve requested Fowler heuristics were considered as judgment calls. No additional actionable smell finding: staged publication, separate legacy/owned snapshots, and operation-local contexts have concrete purposes in this change.",
+  "final_literal_delta": {
+    "previous_commit": "9c3e7ec263",
+    "file": "src/Mod/Fem/femmesh/ownership_context.py",
+    "line": 30,
+    "before": "Changed mesh geometry; regenerate the mesh.",
+    "after": "References select changed mesh geometry; regenerate the mesh.",
+    "only_exception_message_literal_changed": true,
+    "control_flow_or_acceptance_change": false
+  },
+  "summary": "Standards: two low-priority convention findings, no blocking standards finding and no additional smell finding. Runtime/physical/acceptance gates were not reviewed or executed by this axis.",
+  "execution_boundary": "Read-only Git object text/diff inspection only; no live build/core/source hashes, watched edits, product imports, native apps, tests, builds, or Git writes. Only this private review JSON was created.",
+  "authorship": "Reviewer authored none of the product changes or tests in the reviewed diff."
+}

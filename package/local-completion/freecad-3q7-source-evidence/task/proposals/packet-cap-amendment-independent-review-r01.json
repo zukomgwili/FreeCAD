@@ -1,0 +1,41 @@
+{
+  "schema": "FreeCAD-3q7-packet-cap-independent-file-review-v1",
+  "reviewer": "/root/batch_guard_review",
+  "passed": true,
+  "scope": "Independent stdlib file/hash/byte comparison of actual existing lower-bound bodies and the exact collector revision delta; no collector, check-only, copy, publication, test, native application or product import executed.",
+  "amendment": {
+    "path": "/private/tmp/freecad-3q7-Pq3Byy/collection/explicit-packet-cap-amendment-r01.json",
+    "sha256": "1499b421b47cff371c25e968bc0f6a47fa3ef218d2481a0e6a325cc754929fdc"
+  },
+  "actual_existing_lower_bound": {
+    "files": 58,
+    "unique_literal_paths": 58,
+    "all_original_byte_sizes_and_sha256_descriptors_recomputed": true,
+    "uncompressed_bytes": 348339218,
+    "old_packet_ceiling_bytes": 268435456,
+    "old_ceiling_exceeded_by_bytes": 79903762,
+    "all58_sources_hash_and_size_unchanged_at_end": true,
+    "contents": "All10 defining outputs of each accepted r02 leg, all8 defining outputs of each original r01 leg including the failed candidate, both full raw restore observations, and the exact20 individually approved fresh synthetic capsule leaves. Equal bodies at different defining paths are not deduplicated."
+  },
+  "exact_collector_delta": {
+    "old": {
+      "path": "/private/tmp/freecad-3q7-Pq3Byy/collection/collect_3q7_v2.py",
+      "sha256": "f22344609f3f8dbba40e354cba88034870122640345e51d8c9bf1578a33fb692"
+    },
+    "new": {
+      "path": "/private/tmp/freecad-3q7-Pq3Byy/collection/collect_3q7_v3.py",
+      "sha256": "df2b6fa9fd926d1a8e7d2e5ba43bd4da2cf0d6261dd321509ea83d53f3dc26b6"
+    },
+    "proof": "New source bytes equal old source bytes after exactly one literal PACKET = 256 * 1024 * 1024 replacement with PACKET = 512 * 1024 * 1024. No other byte differs.",
+    "new_packet_ceiling_bytes": 536870912,
+    "unchanged_per_file_ceiling_bytes": 134217728,
+    "semantic_privacy_scope_custody_and_new_only_checks_changed": false,
+    "uncompressed_payload_index_and_summary_cap_gate_retained": true
+  },
+  "remaining_actual_plan_gate": "This lower bound does not approve a final file list. Root must compute and review the complete actual plan and all role/file/custody bindings, and the v3 zero-write gate must prove total uncompressed payload plus index plus summary remains below512MiB before publication.",
+  "outstanding_findings_in_reviewed_delta": [],
+  "actual_final_plan_approved": false,
+  "publication_performed": false,
+  "engineering_or_BIM_accepted": false,
+  "authorship": "Reviewer did not author collector v2/v3 or the root cap amendment; reviewer authored a numerical file auditor and some separate mutation guards."
+}

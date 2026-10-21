@@ -1,0 +1,45 @@
+{
+  "schema": "FreeCAD-3q7-large-profile-v2-independent-static-review-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "scope": "Static approval of the exact newly named v2 common-runtime paired-export harness only. No application/native/helper imports or execution, no build/test/solver/mesher, no product or existing evidence edits by this reviewer. Actual new baseline/candidate PASS, speedup and fresh physics remain unestablished by this static review.",
+  "authorship": "Root authored the v2 adaptation from the earlier evidence-agent harness. This reviewer did not author it; earlier native capacity/test and882 review authorship remains disclosed in acceptance-replay-plan-r01. Standards axis was separately reviewed by /root/ywu_final_review/standards, who did not author these files.",
+  "amendment": {"path": "/private/tmp/freecad-3q7-Pq3Byy/proposals/benchmark-native-group-handle-amendment-r01.json", "sha256": "e5fe78f283685cf4169924629d560d92021222b2da02a8f3d8ba86c97898acf3"},
+  "reviewed_directory": "/private/tmp/freecad-3q7-Pq3Byy/large-qa-v2",
+  "files": {
+    "Q37LargeProfile.py": {"sha256": "7cbbffe71989f0c9b239a1e38a9d563c3357707e4d16b06f3185c8509abe78db", "lines": 393, "fully_read": true},
+    "run_large_profile.py": {"sha256": "0bac352f9948c97676c92f0cf9cd8555d1ef66fc2acea2c70be36dd355794ff0", "lines": 280, "fully_read": true},
+    "Q37LargeIdentity.py": {"sha256": "85b422873d1e10f7d7fa982a7962cb622a8e1a949121dd2ec39725d627dc08ad", "lines": 102, "fully_read": true},
+    "large_config.py": {"sha256": "581ece477f1c3612dc160f25d5f005c2b3732ae66ed893015a5f33c2c9472385", "lines": 20, "fully_read": true, "exact_prior_copy": true},
+    "process_control.py": {"sha256": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d", "lines": 118, "fully_read": true, "exact_prior_copy": true},
+    "preservation.py": {"sha256": "30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989", "lines": 77, "fully_read": true, "exact_prior_copy": true},
+    "critical_pins.py": {"sha256": "15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9", "lines": 79, "fully_read": true, "exact_prior_copy": true}
+  },
+  "Standards": {
+    "reviewer": "/root/ywu_final_review/standards",
+    "assessment": "No actionable safety or maintainability findings. The named/typed group comparator rejects duplicate keys, preserves ordered memberships and raw handle order, and remains separate from exact within-run snapshots. Retained snapshot outputs are bound and rechecked by the driver.",
+    "findings": []
+  },
+  "Spec": {
+    "assessment": "The adaptation follows the evidence-backed narrow amendment. Only cross-process native group-handle-to-name association is disregarded; no other raw/native identity or per-operation product guard is relaxed. The new experiment cannot adopt the old hash-only baseline as a v2 reference.",
+    "findings": []
+  },
+  "specific_checks": {
+    "raw_state": "Underlying mesh_snapshot is unchanged: coordinates, ordered All IDs/every ordered connectivity, volume connectivity, raw provenance, analysis order and raw native groups. Full before/after bodies are newly retained and exact raw SHA equality remains required inside each leg, including group IDs/order/name/type/ordered members.",
+    "cross_process_comparator": "comparable_mesh_snapshot requires unique(name,element_type) keys and retains ordered_native_group_handles exactly. It sorts group records by their unique named/typed key while retaining each exact elements sequence, not sorting physical memberships/connectivity or changing native state. Every other snapshot field is carried through unchanged. Candidate checks both named digests and directly parsed/hash-bound raw baseline bodies.",
+    "reference_custody": "Baseline must have a passed v2 producer, explicit approved execution SHA and identical compiled-native pin map. Baseline raw before/after files join the referenced execution/profile/deck/request input set, receive SHA/size checks before launch and stay in the outer end-fenced input map. Old v1 producers cannot satisfy the v2 reference requirement.",
+    "ten_outputs": "Identity, producer profile, process log, profiler blob, cumulative text, native deck/request/metadata and raw mesh-before/after are captured by the driver. Producer descriptors must match exact captured SHA/size/path records; log SHA matches owned process receipt and every captured output is end-fenced. Child also rechecks retained raw snapshot descriptor hashes/sizes before PASS.",
+    "unchanged_pairing": "Same original3128ea saved input, pinned restored connectivity/node data, source compiled5b/+226/default6c, actual loaded executable/library/native modules, per-leg Python parity and common native pin map. One whole public call with identical profiler mode. Request/native IDs stay literal; deck permits only one declared written-on timestamp comment. Historical outputs and physical timing remain diagnostic.",
+    "control_and_privacy": "New-only task labels and v2 QA path, isolated profiles/config/temp, null stdin,2400-second operational bound, owned new process group/reaping/group-gone and post-serial guard, source/core/manifest end fences, app plus3protected user locations and16selected critical records. Helper CLI capture/stage routines are not called by the runner; only read-only inventory/snapshot definitions are imported. Raw inventories remain private."
+  },
+  "limits": [
+    "The comparator is justified for the frozen fixture with observed unique named/typed groups; it is not a new general product group-identity interface or permission to merge duplicates.",
+    "Retained raw snapshot files are generic fixture geometry/provenance evidence and must be explicitly selected/bounded by any later publication plan, not confused with user inventories or silently omitted while claiming full replay.",
+    "The v1 failed candidate remains failed and its timing diagnostic. This review does not supply missing raw old-baseline evidence, reclassify historical receipts or establish a new pair PASS.",
+    "Original guard tests, early2112, full132/3566 unchanged physical checks, separate cold Stale history and final source/build gates remain required. No installation, Oomakhi or engineering acceptance is authorized."
+  ],
+  "outstanding_findings": [],
+  "actual_new_pair_PASS_claimed": false,
+  "speedup_accepted": false,
+  "product_candidate_accepted": false
+}

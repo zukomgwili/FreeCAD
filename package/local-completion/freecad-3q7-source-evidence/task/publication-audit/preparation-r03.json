@@ -1,0 +1,32 @@
+{
+  "schema": "FreeCAD-3q7-independent-publication-auditor-preparation-v1",
+  "status": "UNEXECUTED packet auditor; no actual publication audit or packet PASS claimed",
+  "author": "/root/batch_guard_review/physical_audit_review",
+  "source": {
+    "path": "/private/tmp/freecad-3q7-Pq3Byy/publication-audit/audit_published_packet_r03.py",
+    "sha256": "9e843ffb57317bdfebce2b78cd660c2221298d71f7958324400195837044f251",
+    "lines": 442,
+    "AST_only_validated": true
+  },
+  "prior_400_and_430_line_drafts_preserved": true,
+  "schema_specific_count_fields": {
+    "FreeCAD-yzk-source-run-manifest-v3": "expected_count",
+    "FreeCAD-3q7-large-common-runtime-manifest-v1": "selected_tests_including_identity, exact int 2",
+    "FreeCAD-3q7-large-common-runtime-manifest-v2": "selected_tests_including_identity, exact int 2"
+  },
+  "actual_large_manifest_formats_read": {
+    "large-baseline-r01": {"schema": "FreeCAD-3q7-large-common-runtime-manifest-v1", "selected_tests_including_identity": 2},
+    "large-candidate-r01": {"schema": "FreeCAD-3q7-large-common-runtime-manifest-v1", "selected_tests_including_identity": 2},
+    "large-baseline-r02": {"schema": "FreeCAD-3q7-large-common-runtime-manifest-v2", "selected_tests_including_identity": 2},
+    "large-candidate-r02": {"schema": "FreeCAD-3q7-large-common-runtime-manifest-v2", "selected_tests_including_identity": 2}
+  },
+  "manifest_sha_required_for_every_manifest_bearing_role": true,
+  "unknown_or_absent_unittest_manifest_schemas_refused": true,
+  "successful_counts_require_exact_manifest_count": true,
+  "historical_failed_counts_preserved_and_require_exact_root_pointer_assertion": true,
+  "report_retains_manifest_schema_count_field_actual_expected_counts_and_outcomes": true,
+  "packet_only_512MiB_amendment_remains_exact_hash_bound": true,
+  "per_file_128MiB_cap_unchanged": true,
+  "execution_boundary": "Only private completed JSON manifest text inspection, source copying through apply_patch, and stdlib AST parsing. No collector/auditor execution, product imports, live source/core/build/runtime reads, native apps, tests, builds, publication or Git writes.",
+  "actual_final_plan_or_publication_approved": false
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "FreeCAD-3q7-independent-formatted-candidate-permanent-guards-review-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "scope": "Independent private hash/AST formatting verification and permanent guard integration review. Only the reviewer's own stdlib AST/hash file audit was executed; no product or QA module imported/executed, no native/application/build/test/mesher/solver action, and no watched source/build/large-QA edit. This is not an additional full review of every unchanged candidate implementation body or a runtime/product qualification.",
+  "authorship": "This reviewer did not author the3q7 candidate or permanent test integration. Root authored the product changes and final callback-safety correction/control; /root/batch_guard_review authored earlier test integration/helpers. This reviewer authored earlier yzk native capacity C/hooks and context-lifetime test proposals and882 evidence; full disclosure is retained in acceptance-replay-plan-r01.",
+  "formatting_audit_before_final_test_safety_fix": {
+    "root_proof": {"path": "/private/tmp/freecad-3q7-Pq3Byy/proposals/private-formatting-AST-equivalence-r01.json", "sha256": "4bbe9c180a363d5df075cb2d446fd1c0788b6f17cb394fdad4823a9acccd2f1a"},
+    "independent_executed_auditor": {"path": "/private/tmp/freecad-3q7-Pq3Byy/proposals/verify_private_formatting_ast_r01.py", "sha256": "ba6aad29ecc940376b14c147186084764432ad57b244253b694231423683eb3a"},
+    "result": "All12 exact proof hashes matched. ASTs of8 formatted implementation files equalled their reviewed private references, applying only the independently reviewed End1/End2 None correction to the old elastic proposal IN MEMORY. All4 formatted test ASTs equalled both the private integrated references and the then-current promoted repository copies. All input bytes were end-fenced; auditor writes0 and reviewed-module imports/execution0. The full result was emitted to the tool transcript.",
+    "important_limit": "This audit ran BEFORE the later deliberate callback-safety fix and new negative-control test. The old0969 helper and5482 rigid-region formatting hashes were correct then; they are not falsely claimed as final current bytes or AST-identical after the intentional test changes. Preserve this executed audit code byte-for-byte and do not rerun it against changed paths expecting the old proof to pass.",
+    "formatter": "Root reported the exact configured cached Black26.5.1 hook commit4160603246a6b365d4a2af661c6d71b0a0f50478 with line length100 and no installation. This reviewer verified semantic AST equivalence, not a separate formatter execution."
+  },
+  "final_private_file_pins": {
+    "implementation-formatted/femmesh/meshsetsgetter.py": "d5af449fa66b11d150406d99767d8088d11bcf194438b43d3813eebf57858dc6",
+    "implementation-formatted/femmesh/meshtools.py": "4ce55366a0f0b912899e13351b85e0b5d829bf55f6d516159eb7623545873f23",
+    "implementation-formatted/femmesh/ownership_context.py": "18012c0b2dbe1eeead32c4224b1847eb5173c79c12a0112cd9a1379c87c199dd",
+    "implementation-formatted/femtools/elastic_connector.py": "2c8da6d11506980b2528f474aa303695fe1639c6837f86f24a9b38005b15388d",
+    "implementation-formatted/femtools/force_accounting.py": "f3775d1862e07d1c0968a108a521a27bdaf7bfeaec91d40675a000183769c9ff",
+    "implementation-formatted/femtools/rigid_body.py": "5751a36140ee75665327aa08bbdc1d9f879233053c8adf7f1dd8600d0764e564",
+    "implementation-formatted/femsolver/calculix/write_constraint_elastic_connector.py": "285043f566e6462c457d667e85b74dd3e08a4d40a0cb225b85893b6d3e13b05b",
+    "implementation-formatted/femsolver/calculix/writer.py": "2a53a3e48b6ec424d31638fa92934fce9dd42ee1904c0ff9c9d005464c22af90",
+    "regression-formatted/femtest/app/support_utils.py": "6452e5190957ec4d2ff55e47f36679cccb3730591485e1db7523f61b1e7c52f7",
+    "regression-formatted/femtest/app/test_elastic_connector.py": "971df814ae15058e537d06c793d7c71f4755982784e5cf56a9adb66c44200387",
+    "regression-formatted/femtest/app/test_moving_port_accounting_native.py": "6699b02b54cf5214aa93648da39d3ca827418107de7224b293dca40c5b8dd4e2",
+    "regression-formatted/femtest/app/test_rigid_region_ownership.py": "32795b374014c65e36b68b6324407f1c2bfceb8fa74f8566414ff3924d52547e"
+  },
+  "Standards": {
+    "separate_reviewer": "/root/ywu_final_review/standards",
+    "assessment": "One actionable P2 false-pass risk in the mutation helper, otherwise no actionable Standards findings in reviewed deltas/helpers/methods. Main reviewer independently verified the authorized final fix and negative control without redispatching another child, leaving the publisher preparation slot free.",
+    "findings": []
+  },
+  "Spec": {
+    "assessment": "No remaining actionable finding in the permanent guard integration or final test-safety correction. The tests keep real native interfaces, exact fixture identity and unchanged product/physics requirements. Formatting changes to existing code are AST-only apart from the explicitly declared native None-endpoint correction and later two deliberate test changes.",
+    "findings": []
+  },
+  "resolved_finding": {
+    "id": "mutation-callback-failure-cannot-satisfy-product-refusal",
+    "priority": 2,
+    "original": "during_native_return recorded injection before callback(); callback ValueError/RuntimeError could be consumed by an action's expected product-refusal assertion even if the mutation never completed.",
+    "final_fix": "Callback exceptions are now re-raised as chained AssertionError with the distinct message Native mutation callback failed before completion. Expected product ValueError/RuntimeError wrappers cannot accept that failure, while profiling still restores in finally.",
+    "negative_control": "New TestRigidRegionOwnership.test_native_callback_failure_cannot_mimic_product_refusal uses actual empty native FemMesh.getIdByElementType(All) c_return, deliberately raises ValueError(mesh reference edit failed) from the callback and requires the outer distinct AssertionError plus exact original cause/type/message. Missing hook produces a different assertion and cannot match callback failed; the old helper would not satisfy the outer requirement.",
+    "execution_limit": "New negative control and final12-guard set remain unrun by this reviewer. The old11-guard actual PASS receipt is not rewritten or promoted to evidence for the new control. Selected final guard run becomes12methods plus identity,13total, subject to actual discovery."
+  },
+  "permanent_integration_review": {
+    "coverage_map": {"path": "/private/tmp/freecad-3q7-Pq3Byy/regression-integration/coverage-map-r01.json", "sha256": "077108e1e079c69d00a92e82151b38d11815f6f757bed315fe175580e1e5d9ea", "historical": "Maps the original11 integrated guards before the new callback-control method"},
+    "read_extent": "Read complete new shared native fixture helpers, all11 permanent guard methods and relevant helper blocks/diffs, final callback wrapper/control and the earlier private8+3 proposals. Formatting-only AST audit supplements rather than substitutes for that integration reading.",
+    "registry": "Methods are directly in the existing registered TestRigidRegionOwnership, TestMovingPortAccountingNative and TestRigidPortConnector classes. No new module/class/dynamic loader or CMake/TestFemApp registry change is needed. Retain all existing selectors and use actual final discovery counts rather than guessing total FEM counts.",
+    "rollback_and_exact_native_data": "Detached checked native backup replaces the old alias-based rollback. Native feature assignment is followed by exact explicit-ID group reconstruction and complete snapshot equality. Node/element/0D/Ball/dimension/group IDs, ordered connectivity and group names/type/member tuples must match; copy/assignment omissions or native API refusal cause assertion failure, not a repaired product identity.",
+    "negative_mutations": "Owned RBE batch tests retain sentinel Nodes identity and conflict state, then restore exact native/selector state before retrying the SAME getter. Provenance test now separately mutates ElementGroupNames, ElementGroupReferences and ElementGroupGeometry and proves each actual change. Native rename is in place without recompute; coordinate and connectivity replacements preserve all other asserted fixture facts.",
+    "legacy_and_domain": "Legacy mutation now honestly replaces a detached shifted native mesh through the public feature setter, rather than claiming a const wrapper setTransform changes the owner in place. It still has same IDs/count and no recompute. Actual pure beam/shell generic RBE behavior remains valid while strict solid ports refuse the same meshes.",
+    "request_and_public_results": "Concrete request mutation tests retain old request/metadata bytes, released writer context and corrected direct-emitter/request retry. Owned public returned regions remain mutable independent sets. Existing whole-public-export operation counts and exact owner-specific NSET/capacity assertions remain separate and preserved.",
+    "limits": "These methods do not become exhaustive group/member/order/all-request mutation coverage, a timing SLA, strict large pair, fresh3566 physical proof,2112 refusal or separate cold-history evidence. Those gates remain mandatory and separately receipt-backed."
+  },
+  "remaining_gates": "Root must wait for the watched baseline to finish, apply only the approved private candidate/test files, use its supported copy/build workflow, rerun final guard/control discovery/execution and strict v2 candidate, then complete focused/full suites, fresh full132/2112/3566 and literal cold, final clean build/CTest/quality/landing. Later collector/archive approval requires actual paths and original/stored/decoded byte audit; planned fresh FCStd plus5native outputs including FRD are not assumed published yet.",
+  "outstanding_findings": [],
+  "actual_final_guards_pass_claimed": false,
+  "strict_pair_or_speedup_accepted": false,
+  "product_candidate_accepted": false,
+  "installation_or_engineering_acceptance": false
+}

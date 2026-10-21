@@ -1,0 +1,22 @@
+{
+  "schema": "FreeCAD-3q7-restore-observation-independent-static-review-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "scope": "Static safety/scope review of a read-only native cold-restore observation proposal, not a benchmark amendment or runtime/cross-process equivalence result. No application/native/helper execution or product edit by this reviewer.",
+  "module": {
+    "path": "/private/tmp/freecad-3q7-Pq3Byy/YzkQ37RestoreObservation.py",
+    "sha256": "ca830a6916b2bdae7469fd115e030a3d0eb06d929d5d34712b41a019c23f228b",
+    "lines": 53,
+    "fully_read": true
+  },
+  "assessment": "The proposal explicitly imports unchanged mesh_snapshot/canonical/pins from the frozen large-QA directory, opens the original saved model, obtains two immediate complete snapshots, requires their exact equality, writes literal canonical JSON plus per-component digests into fresh run outputs, closes the document and rechecks original input hashes. It calls no writer, save, recompute, mesher, solver, build or repair. The outer source supervisor must bind all fixture and large-QA inputs and run identity plus exactly one probe test, with its existing isolated profiles/bounded owned-child controls.",
+  "interpretation_limits": [
+    "PASS means observations completed and the immediate unchanged snapshots agree. It does not assert cross-process equality, equality with the earlier baseline digest, physical equivalence or successful paired performance qualification.",
+    "The probe records pins before/after but does not independently compare them to large_config.FIXTURE_PINS. Before interpreting raw differences, compare its recorded hashes to the exact earlier benchmark inputs and retain all literal raw outputs.",
+    "The actual candidate-r01 receipt remains failed at strict mesh_before comparison; its timing is diagnostic only. No old receipt may be lifted to PASS or output rewritten.",
+    "Native binding inspection establishes getIdByElementType(All) and getGroupElements gather std::set IDs before returning tuples. Do not attribute a mismatch to their iterator presentation without raw evidence. Groups uses GetGroupIds list; actual component observations are still required. plain() has a str fallback, but no unsupported provenance value or nonstable representation has been established."
+  ],
+  "outstanding_findings": [],
+  "benchmark_amendment_approved": false,
+  "native_execution_by_reviewer": false
+}

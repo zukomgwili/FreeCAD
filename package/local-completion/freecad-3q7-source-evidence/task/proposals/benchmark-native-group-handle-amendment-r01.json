@@ -1,0 +1,70 @@
+{
+  "schema": "FreeCAD-3q7-evidence-backed-native-group-handle-comparison-amendment-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "scope": "Narrow software benchmark cross-process comparison amendment based on actual read-only cold observations. It does not change product code, per-operation native fences, physical node/element/PORT identities, grouping, geometry, loads, limits or engineering acceptance. No native/application/helper/test execution by this reviewer; full snapshot comparison used file-only jq/hash operations.",
+  "prior_reviews": {
+    "acceptance_plan_sha256": "c27d65ada651b5c03dcabe04f0d4bc8bed44f49f2bb974e0398b2fb1c37cfa79",
+    "large_harness_static_review_sha256": "8ba5d19f8d8232b721e57664afc4977463837bf057dc993c39d10a12f70808da",
+    "restore_probe_static_review_sha256": "47abbe2d6e0c8b01f6c69ad3129bda187ef991deca11f2444ab4eb049b55b79d",
+    "clarification": "The earlier recommendation to add raw all-element/provenance/group/analysis-order snapshots was correct for mutation detection. Requiring the raw numeric group-handle assignment itself to match across separate cold restores was overstrong for this fixture, as the observations below now establish. The old approval and failed actual run remain preserved, not silently reinterpreted."
+  },
+  "actual_observation_inputs": [
+    {
+      "snapshot": "/private/tmp/freecad-3q7-Pq3Byy/source-qa/restore-components-r01/literal-mesh-snapshot.json",
+      "sha256": "5d4c4d2e49f9a4bb181ccdf97160612949988159587b7f24ae91eae92ed4e1de",
+      "bytes": 22214986,
+      "execution": "/private/tmp/freecad-3q7-Pq3Byy/source-qa/restore-components-r01/execution.json",
+      "execution_sha256": "f50be0fe9ce4b90720426f71d7f867f5de70d5330bb98d910aa374ff8ee23e5a"
+    },
+    {
+      "snapshot": "/private/tmp/freecad-3q7-Pq3Byy/source-qa/restore-components-r02/literal-mesh-snapshot.json",
+      "sha256": "8158b0e982d4454005b066431c8fbc31a5d392638941d064e97806fa87c378c2",
+      "bytes": 22214986,
+      "execution": "/private/tmp/freecad-3q7-Pq3Byy/source-qa/restore-components-r02/execution.json",
+      "execution_sha256": "343fd0c3bc451163bc1aa5d6532b6f0df575a0ed62656d712ce39241b9be1d5e"
+    }
+  ],
+  "independently_verified_file_only_results": {
+    "snapshot_hashes_unchanged_before_after_full_comparison": true,
+    "execution_input_files_maps_exactly_equal": true,
+    "actual_test_count_each_including_identity": 2,
+    "both_execution_passed_child_reaped_and_process_group_gone": true,
+    "raw_snapshot_components": 7,
+    "exactly_equal_non_group_components": [
+      "nodes",
+      "ordered_all_element_ids",
+      "all_element_connectivity",
+      "volume_connectivity",
+      "raw_mesh_provenance",
+      "ordered_analysis_group"
+    ],
+    "nodes": 144951,
+    "all_elements": 132472,
+    "volume_elements": 74228,
+    "group_count_each": 9531,
+    "unique_native_group_IDs_each": 9531,
+    "ordered_native_group_ID_lists_exactly_equal": true,
+    "unique_name_type_group_keys_each": 9531,
+    "native_group_ID_to_name_type_assignments_different": 9531,
+    "exact_unique_name_type_to_ordered_element_membership_bijection": true,
+    "description": "Both complete raw snapshots were parsed and compared. Only groups differ. Each has9531unique(name,type) records; deleting only each record's numeric id and sorting records by(name,type) yields identical records, including each exact ordered membership list. No element/node connectivity was sorted, relabeled or normalized."
+  },
+  "approved_narrow_comparison_change": {
+    "within_each_leg": "Retain and compare exact raw pre/post snapshots, including native group IDs, their order and their names/type/ordered members. Keep every existing product native-group identity and mutation fence unchanged. A within-process handle reassignment or membership/order/type/name change must still fail.",
+    "between_fresh_cold_processes_only": "Compare groups by a required unique(name,element_type) key and its exact ordered element-membership sequence, independently of the native numeric group handle assigned during restore. Require the same key set, count and all exact sequences, with duplicate keys rejected rather than merged. This comparator is justified for the observed frozen fixture; it is not a new general product group identity contract.",
+    "all_other_components": "Keep node IDs/coordinates, ordered All element IDs, every ordered element connectivity, volume connectivity, provenance and Analysis.Group order exact across legs. No sorting within a cell or group membership, tolerances, coordinate fitting, capacity/physical graph change, public result/type change or native ID reassignment is permitted.",
+    "outputs_and_timing": "Keep exact new-baseline accounting request/native PORT/receiving/spring/cut identities and deck comparison permitting only its one written-on timestamp comment. Retain the same compiled native runtime/default6c, source origins, profiler mode and one whole accepted public write clock. Record raw and cross-process named-group snapshots/digests separately; do not call the named comparator literal raw equality."
+  },
+  "required_new_experiment": {
+    "recommendation": "Run a NEW source baseline and candidate pair through a reviewed newly named harness revision retaining full raw pre/post snapshot bodies and component hashes for both legs, plus the explicit named-group comparator. Keep the same fixed saved input/common native runtime and all other strict gates. Root should preserve exact candidate/source edits and use its scoped supported copy/build workflow, never a broad reset or unreviewed import override.",
+    "why_old_pair_cannot_be_promoted": "The old baseline retained only an aggregate raw mesh digest, not the raw component/group data. The two later observations establish unstable group-handle assignment on the same frozen file, but cannot reconstruct the old baseline's named-group membership proof. Its failed candidate receipt must stay failed. The86.9887s versus1187.5088s values remain diagnostic until a new strict pair actually passes.",
+    "fresh_physics_cold_and_refusal": "Original early2112 refusal, complete132-bay/264-port/792-spring/2113-declaration solve with all3566 unchanged1%/1%/5% checks, separate literal cold Stale history and focused/full source/build gates remain mandatory for the product candidate. No old physical qualification is transferred."
+  },
+  "outstanding_findings": [],
+  "old_failed_pair_reclassified": false,
+  "new_pair_pass_claimed": false,
+  "speedup_accepted": false,
+  "product_guard_or_engineering_limit_changed": false,
+  "installation_authorized": false
+}

@@ -1,0 +1,143 @@
+test_exact_source_build_and_selected_public_suite (SourceBuildIdentity.SourceBuildIdentity.test_exact_source_build_and_selected_public_suite) ... ok
+test_owned_whole_export_bounds_repeated_native_validation_work (femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_owned_whole_export_bounds_repeated_native_validation_work)
+Bound whole-export work, not elapsed time or mocked resolver calls. ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +226 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+import TestFemImport 
+import TestObjectexistence 
+import TestFemCommon 
+import TestObjectCreate 
+import TestObjectType 
+import TestObjectOpen 
+import TestMaterialUnits 
+import TestMeshCommon 
+import TestMeshEleTetra10 
+import TestMeshGroups 
+import TestResult 
+import TestCcxTools 
+import TestSolverElmer 
+import TestSolverZ88 
+import TestGMSHTransfinite 
+import TestGMSHRefinements 
+import TestPostDataObjectSecurity 
+  ElementDimension: 3
+  /private/tmp/freecad-3q7-Pq3Byy/source-qa/tiny-source-green-r01/freecad_user_temp/freecad-moving-port-accounting-native-ygjjksn7/BeamCells_Geometry.brep
+  /private/tmp/freecad-3q7-Pq3Byy/source-qa/tiny-source-green-r01/freecad_user_temp/freecad-moving-port-accounting-native-ygjjksn7/BeamCells_Mesh.vtk
+  /private/tmp/freecad-3q7-Pq3Byy/source-qa/tiny-source-green-r01/freecad_user_temp/freecad-moving-port-accounting-native-ygjjksn7/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 90
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 91
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 92
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 93
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 94
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 95
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 96
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 97
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 98
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 99
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 100
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 101
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 102
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 103
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 104
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 105
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 106
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 107
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 108
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 109
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex21' Type: 'Node' id: 110
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex22' Type: 'Node' id: 111
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex23' Type: 'Node' id: 112
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex24' Type: 'Node' id: 113
+AddGroupElements: num elements: 1 sizeof: 8
+Unexpected error when writing CalculiX input file: ConnectorTX: cannot unpack non-iterable NoneType object
+ConnectorTY: cannot unpack non-iterable NoneType object
+ConnectorTZ: cannot unpack non-iterable NoneType object
+ConnectorRX: cannot unpack non-iterable NoneType object
+ConnectorRY: cannot unpack non-iterable NoneType object
+ConnectorRZ: cannot unpack non-iterable NoneType object
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Moving-port analytical witness'}]
+ERROR
+
+======================================================================
+ERROR: test_owned_whole_export_bounds_repeated_native_validation_work (femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_owned_whole_export_bounds_repeated_native_validation_work)
+Bound whole-export work, not elapsed time or mocked resolver calls.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_moving_port_accounting_native.py", line 675, in test_owned_whole_export_bounds_repeated_native_validation_work
+    profile.runcall(fea.write_inp_file)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/cProfile.py", line 113, in runcall
+    return func(*args, **kw)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", line 420, in write_inp_file
+    self.inp_file_name = inp_writer.write_solver_input()
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/writer.py", line 140, in write_solver_input
+    result = self._write_solver_input()
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femsolver/calculix/writer.py", line 152, in _write_solver_input
+    raise ValueError("\n".join(errors))
+ValueError: ConnectorTX: cannot unpack non-iterable NoneType object
+ConnectorTY: cannot unpack non-iterable NoneType object
+ConnectorTZ: cannot unpack non-iterable NoneType object
+ConnectorRX: cannot unpack non-iterable NoneType object
+ConnectorRY: cannot unpack non-iterable NoneType object
+ConnectorRZ: cannot unpack non-iterable NoneType object
+
+----------------------------------------------------------------------
+Ran 2 tests in 6.416s
+
+FAILED (errors=1)
+
+Get mesh data for constraints, materials and element geometry...
+ExternalSupport:
+    Type: Fem::ConstraintRigidBody, Name: ExternalSupport
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+MovingPortA:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortA
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+MovingPortB:
+    Type: Fem::ConstraintRigidBody, Name: MovingPortB
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12
+CutARight:
+    Type: Fem::ConstraintSectionPrint, Name: CutARight
+    ReferenceShape ... Type: Face, Object name: CutARightOrientation, Object label: CutARightOrientation, Element name: Face2
+CutBLeft:
+    Type: Fem::ConstraintSectionPrint, Name: CutBLeft
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face13
+AxialLoad:
+    Type: Fem::ConstraintForce, Name: AxialLoad
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face18
+TorquePositiveZ:
+    Type: Fem::ConstraintForce, Name: TorquePositiveZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge35
+TorqueNegativeZ:
+    Type: Fem::ConstraintForce, Name: TorqueNegativeZ
+    ReferenceShape ... Type: Edge, Object name: BeamCells, Object label: BeamCells, Element name: Edge33
+Getting mesh data time: 0.043 seconds.
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face7
+    ReferenceShape ... Type: Face, Object name: BeamCells, Object label: BeamCells, Element name: Face12

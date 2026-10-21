@@ -1,0 +1,99 @@
+{
+  "schema": "FreeCAD-3q7-completed-pair-mesh-request-deck-independent-file-review-v1",
+  "reviewer": "/root/batch_guard_review/physical_audit_review",
+  "passed": true,
+  "scope": "Independent full private-file comparison of the completed large-baseline-r02 and large-candidate-r02 mesh snapshots, accounting request and exported deck under the approved narrow cross-cold-process native-group-handle amendment. This is not the complete pair acceptance audit, a timing acceptance, or a physical qualification.",
+  "comparison_script": {
+    "path": "/private/tmp/freecad-3q7-Pq3Byy/pair-audit/review/compare_completed_pair_r01.py",
+    "sha256": "3ed58bb7062b30c7cdbc1a2c853c925ab555f73f3a014ba29d86134a16571655",
+    "method": "New stdlib-only JSON/byte parsing and arithmetic; duplicate JSON keys and nonfinite constants rejected. Full raw bytes compared within each leg; exact canonical JSON tokens for every non-group field across legs, preserving every ordered sequence and numeric type. No imported product helper or auditor code was used."
+  },
+  "authorship": "Reviewer authored only this private comparison script and report. Reviewer authored none of the product fix, frozen fixture/oracle, native physical producer or benchmark harness.",
+  "within_each_leg": {
+    "large-baseline-r02": {
+      "full_raw_before_after_bytes_identical": true,
+      "each_snapshot_bytes": 22214986,
+      "raw_file_sha256": "d309c83229282dfbea625a6a60935f46a1a56c74cc71924e8bc7c0eac326eae6",
+      "independently_recomputed_canonical_payload_sha256": "58f516037945a9eb67955623ff2e92f3ff2bb554ce94634331d6819465b6ac81"
+    },
+    "large-candidate-r02": {
+      "full_raw_before_after_bytes_identical": true,
+      "each_snapshot_bytes": 22214986,
+      "raw_file_sha256": "9613d2a8516fe8436bcdf6b88fd947d8a97482f2918385a8508098add8adb2db",
+      "independently_recomputed_canonical_payload_sha256": "1c20aef1e64435e2fefd302a69e461ba4c6051524a962b9d809600523b5e6c09"
+    }
+  },
+  "cross_leg_non_group_components_exact": {
+    "nodes": {"count": 144951, "canonical_sha256": "a5a0e5a9a771462321c1ea5245edb5bc0eaf685dea4cbf9be94ec35f0654c1ec"},
+    "ordered_all_element_ids": {"count": 132472, "canonical_sha256": "ce347f01d2163a5cd763e6dca16872b2af96eacb2ffc5d445f562f8744f04b38"},
+    "all_element_connectivity": {"count": 132472, "canonical_sha256": "3d910344f1aeda779598a71dcbb621cbbf27f9bb16495c151edb3a5ef42a423a"},
+    "volume_connectivity": {"count": 74228, "canonical_sha256": "23491724b34bf065d49900335b11d6381a0955b8890dddd080bf438b9d7532fc"},
+    "raw_mesh_provenance": {"canonical_sha256": "9b912b3693d927bd1811a10c2d185b35153895a56574749338964c0795456e03"},
+    "ordered_analysis_group": {"count": 1720, "canonical_sha256": "51d3544541c9327d4219e1eec0405ee7a6de6e2d2b518a86fcc4dcd51e988fcf"}
+  },
+  "cross_leg_groups": {
+    "group_count_each": 9531,
+    "unique_numeric_group_handles_each": 9531,
+    "ordered_numeric_group_handle_lists_exactly_equal": true,
+    "unique_name_element_type_keys_each": 9531,
+    "exact_name_type_to_ordered_membership_bijection": true,
+    "changed_numeric_handle_to_name_type_assignments": 9531,
+    "only_allowed_cross_process_group_change_observed": "Native numeric handle-to-name/type assignment; no name/type keys or ordered memberships differ",
+    "raw_group_component_sha256": {
+      "large-baseline-r02": "719fe5d7edf6168cc37886ff10e47546391535720c49e5084582f8a27060000c",
+      "large-candidate-r02": "81667dd4bc0de83db58f8ae9c05a624ed0cc91104f4dab9406229247235c46e5"
+    },
+    "named_group_payload_sha256": "b64093778850884505ed91da752dedae4f7c676175f05a081e1976b6933f0966",
+    "independently_recomputed_whole_comparable_snapshot_sha256": "af9a5471f0662b07b20509c4e2e5406d6b2ae0686435fc28a7f27bfb7bcc4688",
+    "normalization": "Across the two cold legs only: remove each group's id field, require unique exact(name,element_type) keys, retain exact ordered element membership, and retain the ordered numeric-handle list separately. No node, element, connectivity, provenance, analysis-order or membership sequence was sorted or relabeled."
+  },
+  "raw_accounting_requests": {
+    "bytes_identical": true,
+    "bytes_each": 502952,
+    "sha256_each": "f21d852c94554ceee8b51286e51d7fabf91239d2c8c7fead2511185b1fd069a4"
+  },
+  "exported_decks": {
+    "bytes_each": 12130453,
+    "raw_identical": false,
+    "only_differing_line_one_based": 278941,
+    "one_exact_timestamp_comment_each": true,
+    "baseline_timestamp_comment": "**   written on    --> Wed Oct 21 06:33:55 2026",
+    "candidate_timestamp_comment": "**   written on    --> Wed Oct 21 06:48:14 2026",
+    "all_other_lines_and_bytes_exactly_equal": true,
+    "comparison_only_replacement_sha256": "ad9f48639d8e84f99526be251bc0bf2b809ac002281b981a0e157605d87933cf",
+    "comparison_only_replacement_literal": "**   written on    --> <TIMESTAMP>\n",
+    "output_files_modified": false
+  },
+  "recorded_native_runtime_pins": {
+    "recorded_pin_count_each": 63,
+    "recorded_maps_exactly_equal": true,
+    "canonical_recorded_pin_map_sha256": "23f1bbaad4128313a25c8d8b93539ead70d3ac147db4c8a1e24fa7bf5a821fc2",
+    "live_current_native_core_build_or_source_paths_read_or_hashed": false
+  },
+  "recorded_raw_snapshot_component_and_comparable_hashes_independently_recomputed": true,
+  "all_13_private_input_hashes_unchanged_before_after": true,
+  "input_descriptors": {
+    "/private/tmp/freecad-3q7-Pq3Byy/large-baseline-r02/execution.json": {"bytes": 345756, "sha256": "fd97c389e80593076fe035573fb357ae4836bd955aca7aad72541cae9fd14a36"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-baseline-r02/export-profile.json": {"bytes": 260812, "sha256": "66920db0f20b6ab3c3788506e12ada5f45f53765f37b1ad17055602757ecaf13"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-baseline-r02/mesh-before.json": {"bytes": 22214986, "sha256": "d309c83229282dfbea625a6a60935f46a1a56c74cc71924e8bc7c0eac326eae6"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-baseline-r02/mesh-after.json": {"bytes": 22214986, "sha256": "d309c83229282dfbea625a6a60935f46a1a56c74cc71924e8bc7c0eac326eae6"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-baseline-r02/native/Mesh.accounting": {"bytes": 502952, "sha256": "f21d852c94554ceee8b51286e51d7fabf91239d2c8c7fead2511185b1fd069a4"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-baseline-r02/native/Mesh.inp": {"bytes": 12130453, "sha256": "2cf831222ea4b40d728f8779c0bffc234d230dd1a1850cecda3b3bba188547cc"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-candidate-r02/execution.json": {"bytes": 348799, "sha256": "df10f37e56e1ff2c91d5bb735c5b60e48bbb876e6911e4a72c1a1b9f6c887da6"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-candidate-r02/export-profile.json": {"bytes": 273735, "sha256": "99efd8649a3c6b1bf2289220582195d0858be5c9cef5f795c4c389eaa4ca5eed"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-candidate-r02/mesh-before.json": {"bytes": 22214986, "sha256": "9613d2a8516fe8436bcdf6b88fd947d8a97482f2918385a8508098add8adb2db"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-candidate-r02/mesh-after.json": {"bytes": 22214986, "sha256": "9613d2a8516fe8436bcdf6b88fd947d8a97482f2918385a8508098add8adb2db"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-candidate-r02/native/Mesh.accounting": {"bytes": 502952, "sha256": "f21d852c94554ceee8b51286e51d7fabf91239d2c8c7fead2511185b1fd069a4"},
+    "/private/tmp/freecad-3q7-Pq3Byy/large-candidate-r02/native/Mesh.inp": {"bytes": 12130453, "sha256": "6b80b49cfafaa3677368121a58d975efe0ce429f87632f5444629bf39fb57de8"},
+    "/private/tmp/freecad-3q7-Pq3Byy/proposals/benchmark-native-group-handle-amendment-r01.json": {"bytes": 6633, "sha256": "e5fe78f283685cf4169924629d560d92021222b2da02a8f3d8ba86c97898acf3"}
+  },
+  "execution_boundary": {
+    "file_only_stdlib_comparison_executed": true,
+    "product_native_imports_or_application_test_solver_mesher_build_execution": false,
+    "completed_pair_inputs_modified": false,
+    "live_build_or_core_inspected": false,
+    "review_output_created_using_apply_patch": true
+  },
+  "outstanding_findings_in_this_scope": [],
+  "complete_pair_speedup_physical_cold_refusal_or_engineering_acceptance_claimed": false
+}

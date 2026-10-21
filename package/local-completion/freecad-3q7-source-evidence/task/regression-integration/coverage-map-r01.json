@@ -1,0 +1,188 @@
+{
+  "schema": "FreeCAD-3q7-durable-guard-integration-static-map-v1",
+  "reviewer": "/root/batch_guard_review",
+  "scope": "Four private proposal files only; 11 new regression methods integrated into existing registered test classes. No repository/build edits, product imports, native/application/solver/mesher/process/test execution by this reviewer. Source-reading, textual diffs, exact hashes and method-name inventory only; no runtime PASS or skip-free execution claim.",
+  "frozen_proposal_root": "/private/tmp/freecad-3q7-Pq3Byy/regression-integration",
+  "files": [
+    {
+      "path": "femtest/app/support_utils.py",
+      "original_sha256": "2108b32778c373548324b998df3ae58cfd8b3c44ee22004d3f68d40bb612a137",
+      "proposal_sha256": "0bca9ed78f4856a1eedbe2d57deeba1d31d6d8374e2ec3e9812f2e4adc884ce2"
+    },
+    {
+      "path": "femtest/app/test_rigid_region_ownership.py",
+      "original_sha256": "ac4fd75cc53f98dc2c1defe17c4a02dcb630f34f8325ede54ee7e7022bebd289",
+      "proposal_sha256": "28ee16963fe06c6272d43141243c8006ceb461bc3f045361ab3888f66d4d77ff"
+    },
+    {
+      "path": "femtest/app/test_moving_port_accounting_native.py",
+      "original_sha256": "82cca3bebe41b323f04ae2818eb9b6d484dc6c0028987791cc1f27be541b0d62",
+      "proposal_sha256": "6699b02b54cf5214aa93648da39d3ca827418107de7224b293dca40c5b8dd4e2"
+    },
+    {
+      "path": "femtest/app/test_elastic_connector.py",
+      "original_sha256": "27dd57fa08df8fab56b569afee623b4ab2017e4289daf23e752306fe9401d624",
+      "proposal_sha256": "971df814ae15058e537d06c793d7c71f4755982784e5cf56a9adb66c44200387"
+    }
+  ],
+  "discovery": {
+    "new_classes": 0,
+    "new_modules": 0,
+    "CMake_or_TestFemApp_changes": 0,
+    "new_methods": 11,
+    "registry": "Existing TestFemApp.py imports TestRigidPortConnector as FemTest27 (line51), TestRigidRegionOwnership as FemTest28 (line52), TestMovingPortAccountingNative as FemTest45 (line69). New methods are directly inside those classes, no dynamic load_tests or inherited private proposal class.",
+    "packaging": "Existing Fem CMakeLists already includes support_utils.py:417, test_elastic_connector.py:439, test_rigid_region_ownership.py:440, test_moving_port_accounting_native.py:447.",
+    "textual_method_inventory": {
+      "test_rigid_region_ownership": {
+        "old": 17,
+        "new": 25,
+        "added": 8
+      },
+      "test_moving_port_accounting_native": {
+        "old": 6,
+        "new": 8,
+        "added": 2
+      },
+      "test_elastic_connector": {
+        "old": 30,
+        "new": 31,
+        "added": 1
+      }
+    },
+    "all_original_method_selectors_retained": true,
+    "skipTest_skipUnless_skipIf_text_counts_unchanged_in_each_module": true,
+    "runtime_test_discovery_still_requires_root_execution": true
+  },
+  "selectors": [
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_rbe_batch_reference_mutation_preserves_previous_rows",
+      "line": 584
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_rbe_batch_provenance_mutation_preserves_previous_rows",
+      "line": 587
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_rbe_batch_same_id_node_motion_preserves_previous_rows",
+      "line": 606
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_rbe_batch_same_id_group_rename_preserves_previous_rows",
+      "line": 619
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_rbe_batch_same_id_connectivity_change_preserves_previous_rows",
+      "line": 637
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_owned_port_resolution_preserves_independent_mutable_regions",
+      "line": 652
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_owned_pure_beam_keeps_generic_rbe_getter_and_preflight",
+      "line": 731
+    },
+    {
+      "selector": "femtest.app.test_rigid_region_ownership.TestRigidRegionOwnership.test_owned_pure_shell_keeps_generic_rbe_getter_and_preflight",
+      "line": 734
+    },
+    {
+      "selector": "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_body_reference_changed_during_request_is_not_published",
+      "line": 896
+    },
+    {
+      "selector": "femtest.app.test_moving_port_accounting_native.TestMovingPortAccountingNative.test_provenance_changed_during_request_is_not_published",
+      "line": 908
+    },
+    {
+      "selector": "femtest.app.test_elastic_connector.TestRigidPortConnector.test_legacy_classifier_fences_same_id_native_coordinate_mutation",
+      "line": 465
+    }
+  ],
+  "safeguards": [
+    {
+      "bead_safeguard": "Fresh per-batch exact ownership/reference/provenance facts and no earlier-row publication after error",
+      "tests": [
+        "test_rbe_batch_reference_mutation_preserves_previous_rows",
+        "test_rbe_batch_provenance_mutation_preserves_previous_rows"
+      ],
+      "control": "Actual native getNodesByFace c_return edit after batch entry. Provenance method covers all3 fields separately: same-count ElementGroupNames reversal, same-count ElementGroupReferences subname reversal, and changed ElementGroupGeometry signature. Every injected event must fire once; prior Nodes objects retain identity and conflict list remains exact. Exact original physical/native state is restored before rerunning the same getter."
+    },
+    {
+      "bead_safeguard": "Native same-ID/count coordinates, ordered connectivity and native groups, not document revision or counts alone",
+      "tests": [
+        "test_rbe_batch_same_id_node_motion_preserves_previous_rows",
+        "test_rbe_batch_same_id_group_rename_preserves_previous_rows",
+        "test_rbe_batch_same_id_connectivity_change_preserves_previous_rows"
+      ],
+      "control": "Coordinate mutation uses checked detached native copy and real feature assignment with full exact post-assignment snapshot. Group rename uses existing native const-wrapper renameGroup in place, preserving literal group IDs/member tuples and not writing a feature property or recomputing. Connectivity control explicitly cold-reopens the synthetic fixture, asserts0D absent, then changes only one ordered volume tuple and asserts every other node/ID/type/group fact exact; no silent live0D loss."
+    },
+    {
+      "bead_safeguard": "Public mutable region copies, native identities/types unchanged",
+      "tests": [
+        "test_owned_port_resolution_preserves_independent_mutable_regions"
+      ],
+      "control": "Actual native Gmsh owned face oracle; returned regions remain set objects. Clearing/adding to first returned sets does not affect second resolution on same explicit context; no body/reference/physical edit."
+    },
+    {
+      "bead_safeguard": "Generic standalone RBE domain remains broader than strict solid connector port domain",
+      "tests": [
+        "test_owned_pure_beam_keeps_generic_rbe_getter_and_preflight",
+        "test_owned_pure_shell_keeps_generic_rbe_getter_and_preflight"
+      ],
+      "control": "Real native Gmsh pure1D/2D meshes, no volumes, exact highest-dimension table check. Generic getter, structured diagnostics and elastic validation succeed with no connectors; strict rigid_body_nodes on same valid non-solid mesh must still reject solid-only domain."
+    },
+    {
+      "bead_safeguard": "Legacy geometry classifier remains fresh and exact native state is fenced",
+      "tests": [
+        "test_legacy_classifier_fences_same_id_native_coordinate_mutation"
+      ],
+      "control": "Existing native manually authored legacy two-volume fixture with no provenance. Real getNodesBySolid callback replaces native coordinates with same IDs/count through the public setter; one operation must report changed state. Exact original detached mesh is restored and same analysis retry succeeds. This is a real native replacement without recompute, not an in-place const-wrapper transform claim or a real Gmsh remesh."
+    },
+    {
+      "bead_safeguard": "Fresh request-local AccountingBody selection, all-or-nothing request/metadata and writer/direct/error lifetime",
+      "tests": [
+        "test_body_reference_changed_during_request_is_not_published",
+        "test_provenance_changed_during_request_is_not_published"
+      ],
+      "control": "Existing small native analytical Gmsh fixture; concrete full writer and real prepare_request. Edit original AccountingBody or mesh signature inside original _get_solid_reference_group_sets native getGroupElements. Previous request+metadata bytes remain exact, writer.port_resolution_context remainsNone; restore original selection, call direct write_connectors then prepare_request again on exact same writer and require original literal request+metadata."
+    },
+    {
+      "bead_safeguard": "Whole public export performance regression, existing edit/remesh/reorder/failure coverage and fresh full physical/cold/capacity qualification",
+      "tests": [
+        "test_owned_whole_export_bounds_repeated_native_validation_work",
+        "existing TestRigidPortConnector stock/direct reuse tests",
+        "existing TestRigidRegionOwnership remesh/reorder/occurrence/invalid-owner tests",
+        "existing TestMovingPortCapacityNative full132 graph"
+      ],
+      "control": "Existing source whole-export work-budget test was retained byte-for-byte from the current input module. These11 methods supplement it; no elapsed-time SLA, paired large-output equivalence, 2112 refusal, physical3566-check or cold-history PASS is claimed by this static integration. All prospective acceptance remains root responsibility."
+    }
+  ],
+  "fixture_self_audit": {
+    "retained_historical_private_drafts_unchanged": true,
+    "fixed_alias_rollback": "FemMeshProperty.cpp:57-61 assigns into existing *_FemMesh; old wrapper aliases cannot be rollback evidence. Integration retains a detached checked native backup, restores exact owner state and checks full native snapshot before same-getter retry.",
+    "group_ID_handling": "Native copy/property assignment may normalize group-ID gaps. Test fixture helpers explicitly remove/recreate all groups with addGroup(name,type,original_id), require returned IDs exact and compare nodes, ordered all-element connectivity, dimensional/0D/Ball IDs and complete original group ID/name/type/member tuples. Empty/unresolvable omissions cannot produce a false product PASS; equality fails instead.",
+    "no_invented_native_API": "FemMesh.pyi exposes no add0DElement; C++ copyMeshData retains0D via native editor. Live node/group copies retain0D; connectivity reconstruction is restricted to literal public cold-reopened fixture.",
+    "native_API_sources": [
+      "src/Mod/Fem/App/FemMesh.pyi:277-311 (@constmethod addGroup/addGroupElements/removeGroup/renameGroup)",
+      "src/Mod/Fem/App/FemMeshPyImp.cpp:1778-1801 (optional integer group_id forwarded)",
+      "src/Mod/Fem/App/FemMesh.cpp:2706-2745 (requestedID passed to SMESH AddGroup)",
+      "src/Mod/Fem/App/FemMeshPyImp.cpp:1854-1875 (const removeGroup/renameGroup)",
+      "src/Mod/Fem/App/FemMeshProperty.cpp:57-61,96-108 (native setter aliases and const wrappers)"
+    ],
+    "native_API_runtime_applicability_not_executed": "Bindings are source-verified; backend honoring explicit IDs and root native guard run remain necessary. No fallback renumbering, sorting away identities, ownership mocks or skipped controls.",
+    "profiling": "Shared during_native_return helper restores prior sys.profile in finally, including assertion/exception paths; each test asserts its real native injection event was observed.",
+    "additional_parallel_review_unavailable": "Attempted followup for independent fixture review returned agent thread limit; four slots were active. Self-audit and root review are disclosed instead, not silently described as independent.",
+    "side_effect_scope": "Synthetic test documents/temporary working directories only; no Oomakhi access, original engineering acceptance change, application installation or public solver API invented."
+  },
+  "null_endpoint_delta_review": {
+    "repository_file": "src/Mod/Fem/femtools/elastic_connector.py",
+    "reviewed_sha256": "2c8da6d11506980b2528f474aa303695fe1639c6837f86f24a9b38005b15388d",
+    "change": "_connector_state serializes each End1/End2 as(reference[0],tuple(reference[1])) if reference elseNone rather than destructuring None.",
+    "assessment": "No static blocker: native defaultNone is preserved and no longer raises TypeError; valid linked endpoint snapshots still retain exact owner/subnames. Existing explicit-port empty/nonempty endpoint rules are not relaxed, no exported IDs/units/acceptance changes. Root-reported first native failure is not relabeled as work-budget failure or PASS.",
+    "frozen_original_eight_private_proposals_not_changed_by_reviewer": true,
+    "execution_by_reviewer": false
+  },
+  "authorship": "Reviewer authored these private test integrations/helper adjustments and coverage map. Candidate product implementation is root-authored; no independence from these test drafts is claimed.",
+  "remaining_qualification": "All integrated methods and exact native-copy controls are unrun. Root must AST/discover/review/adopt/run them serially, preserving failures and counts; full matched large fixture, all original physical checks, cold history, build/quality/landing gates remain required."
+}

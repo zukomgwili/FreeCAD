@@ -1,0 +1,23 @@
+{
+  "schema": "FreeCAD-3q7-explicit-privacy-selection-adjustment-v1",
+  "root_approved": true,
+  "passed": true,
+  "initial_zero_write_preflight": {
+    "plan_sha256": "4050d0d80d531f5f42b438cd522e548ffbee1cd66ead7e2462be29cf877432e2",
+    "passed": false,
+    "returncode": 1,
+    "writes": 0,
+    "diagnostic": "Raw inventory/environment/secret dictionary",
+    "publication_destinations_created": false
+  },
+  "hash_only_review": {
+    "path": "/private/tmp/freecad-3q7-Pq3Byy/proposals/cold-ctest-adapters-independent-static-review-r01.json",
+    "sha256": "0058dcd635d49af017e73720864e317b910a6088fd283d375df7d5b81eeab0a7",
+    "bytes": 9316
+  },
+  "reason": "The nondefining static adapter review has an explanatory string at cold_design_checks/environment. The conservative structured-key check refuses that name. Keep the original immutable and hash-only end-fenced, rather than weakening the collector, renaming the JSON to evade it, or editing the review. All actual native/cold/CTest receipts, helpers, defining outputs, final source qualification and numerical audits remain selected as exact bytes.",
+  "privacy_parser_changed": false,
+  "defining_measured_or_native_outputs_removed": false,
+  "static_review_content_rewritten_or_reclassified_as_another_kind": false,
+  "publication_performed": false
+}

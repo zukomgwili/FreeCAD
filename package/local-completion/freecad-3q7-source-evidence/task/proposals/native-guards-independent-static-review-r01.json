@@ -1,0 +1,79 @@
+{
+  "schema": "FreeCAD-3q7-native-guards-independent-static-review-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "scope": "Static fixture/interface/coverage review of11 private proposed guard methods. No helper import or native/application/build/mesher/solver/test execution, no edits to product or existing evidence. Passing here is static approval only, not an executed gate, product acceptance, speedup or engineering approval.",
+  "authorship": "This reviewer did not author these guard proposals or the3q7 candidate. Historical yzk native C/hooks, context-lifetime test proposal and882 evidence authorship/review are disclosed in the earlier acceptance plan. The guard author separately reviewed the implementation; that is not treated as proof of these tests.",
+  "parallel_axes": "All4 available agent slots were occupied. Standards and Spec were reviewed directly, with that limitation explicit rather than silently omitting the review. The code-review skill was previously read completely for this task; no missing-tracker setup or external issue tracker was used.",
+  "files": {
+    "B3Q7Guards.py": {"path": "/private/tmp/freecad-3q7-Pq3Byy/guard-proposals/B3Q7Guards.py", "sha256": "f8fc6689a28801123f4d8a66164d6877b45ad2a94310f36611e4f7235342b9ef", "lines": 336, "fully_read": true, "selected_methods": 8},
+    "B3Q7CompatibilityGuards.py": {"path": "/private/tmp/freecad-3q7-Pq3Byy/guard-proposals/B3Q7CompatibilityGuards.py", "sha256": "6aa575282a1af5adb684a2c95f23a1b4f309d518222fd5d4dd7ee1d04fa8432f", "lines": 133, "fully_read": true, "selected_methods": 3}
+  },
+  "other_sources_read": [
+    "Actual TestRigidRegionOwnership setUp/tearDown/generate_mesh/reopen and independent face_nodes/group helper interfaces; the second-order coincident-owned fixture supports Face2 and Face7 expectations.",
+    "Actual TestMovingPortAccountingNative setUp/tearDown/_make_model construction and return fields, including distinct CutARight/CutBLeft AccountingBody owners, native solver capability, Gmsh/VTK prerequisites and real stock writer inputs.",
+    "Actual TestRigidPortConnector setUp/tearDown/model native manually authored sparse-ID legacy mesh with no ElementGroupGeometry.",
+    "Relevant private candidate _get_solid_reference_group_sets and prepare_request group-read/selector/end-fence/publication seam, plus owned context table/native-state checks. This review is not a second complete review of all8 candidate files."
+  ],
+  "Standards": {
+    "findings": [],
+    "assessment": "No actionable correctness/maintainability blocker in this bounded private proposal. Helpers have specific roles, profiling restoration is in finally, native-copy and reconstruction preconditions fail closed, and explicit load_tests selection prevents accidental inherited-suite expansion. Tooling-enforced formatting is not raised as a review finding."
+  },
+  "Spec": {
+    "findings": [],
+    "assessment": "The11 proposed methods exercise real new batching/lifetime and generic-domain risks through existing native interfaces, without replacing ownership collaborators or running a physical solve. They supplement rather than replace the whole-call work regression, strict large pairing, existing tests and fresh physical/cold qualification."
+  },
+  "exact_coverage": [
+    {"method": "TestOwnedRbeBatchGuards.test_3q7_reference_mutation_fences_owned_batch_and_retry", "covers": "Change first RBE References after a real native owned-face classification; require actionable refusal, unchanged sentinel row identities/conflict list and corrected same-getter retry."},
+    {"method": "TestOwnedRbeBatchGuards.test_3q7_provenance_mutation_fences_owned_batch_and_retry", "covers": "Change ElementGroupGeometry during the same actual classification, no partial publication and corrected retry."},
+    {"method": "TestOwnedRbeBatchGuards.test_3q7_same_count_node_motion_fences_owned_batch_and_retry", "covers": "Replace native owner mesh with an exactly checked copy transformed by1mm, retain node/volume IDs and count but verify a moved coordinate; reject and retry."},
+    {"method": "TestOwnedRbeBatchGuards.test_3q7_same_count_group_name_fences_owned_batch_and_retry", "covers": "Rename the selected native Face2 group on a checked copy, retaining group IDs/count/member data; reject and retry. This is specifically a name edit, not a group-membership/order edit."},
+    {"method": "TestOwnedRbeBatchGuards.test_3q7_same_count_connectivity_fences_owned_batch_and_retry", "covers": "Literal cold fixture with absent0D cells, reconstructed exact native IDs/groups/counts and swapped ordered nodes in one volume; reject and retry. Reconstruction must fail if unsupported cell classes or relabeling appear."},
+    {"method": "TestOwnedRbeBatchGuards.test_3q7_owned_direct_resolution_keeps_mutable_region_copies", "covers": "Explicit PortResolutionContext on the actual owned fixture; mutate returned sets and prove a second public resolution retains independent expected owned regions."},
+    {"method": "TestOwnedRequestBatchGuards.test_3q7_body_reference_changed_during_request_is_not_published", "covers": "Concrete full writer followed by prepare_request; change one cut AccountingBody to a distinct body's selection inside actual native solid-group reading. Require old request and metadata bytes unchanged, released writer context, fresh direct connector emitter and corrected exact request retry."},
+    {"method": "TestOwnedRequestBatchGuards.test_3q7_provenance_changed_during_request_is_not_published", "covers": "Same concrete request/direct-retry seam with ElementGroupGeometry changed during the actual group read."},
+    {"method": "TestPureOwnedRbeCompatibility.test_3q7_owned_pure_beam_keeps_generic_rbe_getter_and_preflight", "covers": "Real Gmsh-owned Edge mesh with no faces/volumes; generic RBE table/region/diagnostics valid, strict solid connector-port path still refuses."},
+    {"method": "TestPureOwnedRbeCompatibility.test_3q7_owned_pure_shell_keeps_generic_rbe_getter_and_preflight", "covers": "Real Gmsh-owned Face mesh with no volumes; generic RBE table/region/diagnostics valid, strict solid port still refuses."},
+    {"method": "TestLegacyNativeRbeMutation.test_3q7_legacy_classifier_fences_same_id_native_coordinate_mutation", "covers": "Actual legacy in-place native transform immediately after getNodesBySolid; require changed-state diagnostic, unchanged IDs/count and corrected original restoration/retry."}
+  ],
+  "fixture_and_runtime_assumptions": [
+    "All injection tests require exactly one recorded real native c_return. A missing/renamed operation or moved Python caller is a failing QA assumption, never passing mutation coverage. Request hook currently matches the actual _get_solid_reference_group_sets native group read.",
+    "Gmsh availability, native VTK wrappers and bundled solver capability are inherited real prerequisites. Outer selection must require11 actual tests plus its identity test and reject skips; class decorators may otherwise turn missing prerequisites into a skipped suite.",
+    "The cold connectivity test deliberately asserts0DElement absence because public Python reconstruction cannot author0D elements. This is a literal-persistence fixture assumption, not normalization of a mutation. If future persistence retains0D cells, update/review the fixture rather than silently dropping them.",
+    "Checked copy snapshots assert native IDs, connectivity, group IDs/name/type/member data before mutation. This avoids attributing native copy omissions to the intended change.",
+    "A new temporary mesh/output path is used for each fixture. Existing base preferences/documents have their established cleanup. Root supervisor must retain isolated profile directories, literal loaded origins, source/runtime parity, selected-input/output fences and owned-process cleanup; the tests themselves do not establish those controls."
+  ],
+  "coverage_limits_not_findings": [
+    "The5 RBE mutations do not individually exercise every ElementGroupNames/ElementGroupReferences/Shape edit, group membership/type/order edit or every mixed native element class. Shared context code and existing native mutation/ownership suites must still run; do not describe this set as exhaustive.",
+    "Request tests explicitly cover AccountingBody and geometry-fingerprint mutation, old-file preservation and direct retry. They do not independently isolate every section variable/reference edit, native group mutation, cut-only/no-RBE request, or full public export after a request-stage failure.",
+    "No solver run, physical equilibrium, performance timing assertion, capacity-boundary acceptance, save/cold-history qualification or installation is established by these11 guards."
+  ],
+  "focused_source_gate_recommendation": {
+    "primary_modules": [
+      "femtest.app.test_contact_ownership",
+      "femtest.app.test_tie_ownership",
+      "femtest.app.test_rigid_region_ownership",
+      "femtest.app.test_rigid_body_preflight",
+      "femtest.app.test_elastic_connector",
+      "femtest.app.test_force_accounting",
+      "femtest.app.test_material_groups",
+      "femtest.app.test_reference_groups",
+      "femtest.app.test_sectionprint"
+    ],
+    "rationale": "Shared exact ownership context, generic RBE versus strict ports, public reexport/direct/error/mutable lifetimes, request policy/provenance, solid material/group reuse compatibility and one-sided cut selection. Discover actual method IDs/counts from the final source and require no unexpected skip, not a guessed static count.",
+    "native_interfaces": "Retain dedicated moving-port native coverage, the required full132 capacity/refusal/3566 qualification and a separate literal cold Stale run. Because shared Contact/Tie context is touched, include existing dedicated tie/contact native qualifications or explicitly justify overlap with the complete source suite; do not label an unchanged6c source legacy receipt as freshly rerun.",
+    "final_gates": "After permanent test promotion/registration, rerun current full FEM App/GUI, relevant CTest and final clean build/source-origin-copy parity. Expected counts must include only actually registered methods; private guard counts must not be silently folded into unrelated historical totals."
+  },
+  "final_evidence_publication_requirements": [
+    "Preserve all executed/unexecuted history and the immutable882 packet. Retain two actual preimplementation RED composite receipts with the exact frozen E/G bounds and actual successful real-export observations; distinguish expected work-bound failure from a product/solver failure.",
+    "Bind actual source-baseline execution d84573dfb8d5ab7603ca75abd861251ee5ebf8915c693b48cf01fac37bd7a839 and producer9343bd2ab63f122276f2de280df35f122d7d9ea7bc1850e0c61592b754ffa97f to original stored bytes, then bind final candidate to that exact baseline. These hashes were checked by this reviewer; root's runtime PASS is not substituted for a full independent publication audit.",
+    "Retain exact per-leg manifests, Python deltas/parity, actual common compiled-native pin maps and loaded-origin identities, public-call1 profile rows/blob/text, all8 output descriptors/end fences and raw state digests. Candidate request/native IDs must equal its new baseline exactly; deck permits only the single written-on timestamp. Separate historical installed timings from the new paired result, include profiling overhead/CPU scope and avoid summing nested cumulative costs.",
+    "Retain11-guard runtime IDs/counts/no-skips/injection observations plus focused/full suites, clean build/CTest receipts and final source/test hashes. Report setup or QA-harness failures truthfully and preserve failed attempts; do not promote pending gates.",
+    "Fresh full132 proof must retain complete graph/policy2113, early2112 empty-output refusal, original3566 unique raw checks and unchanged1%/1%/5% limits, actual bundled6c deck/request/native output/import bindings and a distinct fresh-process cold Stale case with all7 case/document/native inputs. No Oomakhi or engineering/BIM acceptance transfers.",
+    "Use a reviewed explicit new-only publication plan, original/stored/decoded size+SHA coverage and actual post-publication audit. Exclude raw application/user profile inventories, configs, environment, runtime/vendor binaries and profiler-specific incidental cache files. Explicitly label which generic fixture/native geometry bytes are retained versus hash-only omissions; never imply full replay if large originals are omitted. Independent audit appendices stay outside an already sealed packet to avoid self-reference or index mutation.",
+    "No installation is authorized by this task. Final summary must distinguish source optimization/verification from installed app identity and preserve all engineering holds. Root owns bead updates, final clean commit and successful push before completion."
+  ],
+  "outstanding_findings": [],
+  "runtime_guards_pass_claimed": false,
+  "product_candidate_accepted": false
+}

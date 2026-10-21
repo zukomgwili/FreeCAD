@@ -1,0 +1,16 @@
+{
+  "schema": "FreeCAD-3q7-large-profile-v2-independent-static-review-supplement-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "supplements": {"path": "/private/tmp/freecad-3q7-Pq3Byy/proposals/large-profile-v2-independent-static-review-r01.json", "sha256": "9ed98948687759eb5e017e436e9f471464d923b6588f24ed509d1aaf68a957fa"},
+  "scope": "Targeted static recheck of the final narrow additions before any v2 execution. Full initial7-file read and separate Standards axis are recorded in the supplemented review. No helper/native/application/build/test execution or product edits.",
+  "final_changed_file_pins": {
+    "Q37LargeProfile.py": {"sha256": "cc0ef0fe6b30e65abf54965b514939f1dfcc1e4e71ea2e04e7d40dbc322db002", "lines": 397},
+    "run_large_profile.py": {"sha256": "1fc724f62c5acc0fc008dae38ebe21d5541cc49676188382f31117aae9dcd68c", "lines": 284}
+  },
+  "other5_files_exactly_unchanged": true,
+  "assessment": "The profile now records canonical per-component raw SHA maps from each existing before/after snapshot. This adds diagnostic evidence without changing the comparator or product/physical guards. Runner explicitly pins the reviewed group-handle amendment path and e5fe78 SHA before launch, includes it in the before/after input map and records it in the manifest. The amendment therefore cannot change during a leg unnoticed. No other acceptance or process-control behavior is changed by these additions; no static blocker found.",
+  "outstanding_findings": [],
+  "actual_new_pair_PASS_claimed": false,
+  "speedup_accepted": false
+}

@@ -1,0 +1,296 @@
+{
+  "schema": "FreeCAD-native-coupled-port-capacity-spec-v1",
+  "declared_before_fixture_or_native_execution": true,
+  "scope": "Independent synthetic software-capacity qualification; not a house, screw product, connection design, project model or engineering acceptance.",
+  "approved_public_seams": [
+    "Native ObjectsFem analysis, static CalculiX solver, material, ordinary Fixed face support, RigidBody finite-face references, six scalar ElasticConnector objects per two-port branch, end face/edge Force objects and paired SectionPrint body selections",
+    "Native Part/BOPTools conforming geometry and GmshTools mesh creation",
+    "FemToolsCcx update_objects/setup_working_dir/write_inp_file/ccx_run/load_results with untouched stock deck and accounting request",
+    "Public native accounting result properties, original deck auxiliary-node identity and original DAT/FRD output, FCStd save and independent cold restore"
+  ],
+  "implementation_boundary": "Fixture and oracle use only the listed public native interfaces; they never import private accounting functions, patch a deck/request, filter the active graph or mock solver output.",
+  "parameters": {
+    "tracer": {
+      "rows_y": 1,
+      "columns_z": 1,
+      "branches": 1
+    },
+    "capacity": {
+      "rows_y": 11,
+      "columns_z": 12,
+      "branches": 132
+    },
+    "branch_identifier": "Bay_i_j with zero-based i in [0,rows_y) and j in [0,columns_z)",
+    "branch_centre_mm": [
+      "x varies by declared face",
+      "2+4*i",
+      "3+4*j"
+    ],
+    "all_numbers_use_original_undeformed_global_coordinates": true
+  },
+  "geometry": {
+    "common_backbone": {
+      "bounds_mm": {
+        "x": [
+          0,
+          5
+        ],
+        "y": [
+          0,
+          "4*rows_y"
+        ],
+        "z": [
+          1,
+          "1+4*columns_z"
+        ]
+      },
+      "mechanical_role": "One connected, finite elastic solid backbone. It is not one RBE and is not replaced by separate fixed branch supports."
+    },
+    "A_receiving_tongue_per_branch": {
+      "bounds_mm": {
+        "x": [
+          5,
+          10
+        ],
+        "y": [
+          "centre_y-1",
+          "centre_y+1"
+        ],
+        "z": [
+          "centre_z-1",
+          "centre_z+1"
+        ]
+      },
+      "joint_to_backbone": "Shared conforming physical topology on its x5 base, no Tie/contact/connector at that material interface.",
+      "receiving_face": {
+        "plane_x_mm": 10,
+        "area_mm2": 4,
+        "outward_normal": [
+          1,
+          0,
+          0
+        ],
+        "reference": [
+          10,
+          "centre_y",
+          "centre_z"
+        ]
+      }
+    },
+    "B_head_beam_per_branch": {
+      "bounds_mm": {
+        "x": [
+          20,
+          30
+        ],
+        "y": [
+          "centre_y-1",
+          "centre_y+1"
+        ],
+        "z": [
+          "centre_z-1",
+          "centre_z+1"
+        ]
+      },
+      "material_continuum_partition": "Two conformingly meshed cells x20..25 and x25..30, not an artificial interface constraint or release.",
+      "head_receiving_face": {
+        "plane_x_mm": 20,
+        "area_mm2": 4,
+        "outward_normal": [
+          -1,
+          0,
+          0
+        ],
+        "reference": [
+          20,
+          "centre_y",
+          "centre_z"
+        ]
+      },
+      "paired_section": {
+        "plane_x_mm": 25,
+        "area_each_mm2": 4,
+        "left_retained_body": "B x20..25 only",
+        "left_outward_cut_normal": [
+          1,
+          0,
+          0
+        ],
+        "right_retained_body": "B x25..30 only",
+        "right_outward_cut_normal": [
+          -1,
+          0,
+          0
+        ],
+        "normal_resolution": "Use the actual oriented shared face for each owner; Part::Reverse is allowed only as the existing public selectable orientation interface. Both selections bind the same physical shared cut nodes and opposite retained material owners. No fitted output signs."
+      }
+    },
+    "disjoint_receiving_patches": "Pitch4 minus width2 leaves a positive2mm gap between neighbouring A receiving faces and between neighbouring B faces; each of the264 capacity ports is a distinct finite2D patch.",
+    "expected_geometric_cell_count": "1+3*branches: one backbone cell, one A tongue cell and two B cells per branch; actual boolean fragmentation must preserve the same volume/topology even if harmless extra material partitions change this cell count.",
+    "expected_volume_mm3": "140*rows_y*columns_z = (80 backbone +20 A tongues +40 B beams) times the number of branches",
+    "tracer_component_volumes_mm3": {
+      "backbone": 80,
+      "all_A_tongues": 20,
+      "all_B_beams": 40,
+      "total": 140
+    },
+    "capacity_component_volumes_mm3": {
+      "backbone": 10560,
+      "all_A_tongues": 2640,
+      "all_B_beams": 5280,
+      "total": 18480
+    }
+  },
+  "physical_objects": {
+    "material": {
+      "Youngs_modulus_N_per_mm2": 20000,
+      "Poisson_ratio": 0.3,
+      "density_kg_per_m3": 1,
+      "gravity_applied": false
+    },
+    "external_support": {
+      "name": "BackboneFixed",
+      "selection": "Entire actual backbone x0 finite face; positive area16mm2 in tracer and2112mm2 in capacity fixture",
+      "native_type": "ordinary Fixed: physical translations1/2/3 at zero",
+      "selected_by": "solver.NativeAccountingSupports contains this exact one support only",
+      "external_RBE_created": false,
+      "moving_port_or_angular_auxiliary_node_is_physical_support": false
+    },
+    "moving_ports_per_branch": {
+      "names": [
+        "PortA_i_j",
+        "PortB_i_j"
+      ],
+      "native_type": "RigidBody with actual finite-face reference at the declared centroid",
+      "six_translational_and_rotational_modes": "Free",
+      "force_and_moment_properties": "Zero; all loading is separately declared on physical end geometry.",
+      "face_node_precondition": "At least three distinct noncollinear physical nodes; verify positive in-plane area/rank rather than count alone. No port face shares a physical node with another port or the external support/cut/load selection."
+    },
+    "scalar_connectors_per_branch": {
+      "count": 6,
+      "attachment": "Rigid body ports, Two points, actual PortA_i_j to PortB_i_j",
+      "orientation": "global identity axes",
+      "translation_X_Y_Z_stiffness_each_N_per_mm": 1200,
+      "rotation_X_Y_Z_stiffness_each_N_mm_per_rad": 6000,
+      "all_six_stiffnesses_strictly_positive": true,
+      "endpoints_not_filtered_or_grounded": true
+    },
+    "load_per_branch": {
+      "end_face": {
+        "plane_x_mm": 30,
+        "total_force_N": [
+          12,
+          0,
+          0
+        ],
+        "centroid": [
+          30,
+          "centre_y",
+          "centre_z"
+        ]
+      },
+      "positive_edge": {
+        "vertical_edge": [
+          30,
+          "centre_y+1",
+          "centre_z-1..centre_z+1"
+        ],
+        "total_force_N": [
+          0,
+          0,
+          3
+        ],
+        "centroid": [
+          30,
+          "centre_y+1",
+          "centre_z"
+        ]
+      },
+      "negative_edge": {
+        "vertical_edge": [
+          30,
+          "centre_y-1",
+          "centre_z-1..centre_z+1"
+        ],
+        "total_force_N": [
+          0,
+          0,
+          -3
+        ],
+        "centroid": [
+          30,
+          "centre_y-1",
+          "centre_z"
+        ]
+      },
+      "physical_equivalent": "Axial12N and pure+X torque6Nmm. There are no loads on either RBE face or on any x25 shared cut."
+    }
+  },
+  "graph_and_capacity_demands": {
+    "named_physical_supports": {
+      "tracer": 1,
+      "capacity": 1
+    },
+    "moving_PORT_declarations": {
+      "tracer": 2,
+      "capacity": 264
+    },
+    "BODY_declarations_for_paired_B_cuts": {
+      "tracer": 2,
+      "capacity": 264
+    },
+    "SPRING_declarations_and_actual_scalar_elements": {
+      "tracer": 6,
+      "capacity": 792
+    },
+    "ANGLE_declarations_and_actual_angular_endpoint_equations": {
+      "tracer": 6,
+      "capacity": 792
+    },
+    "physical_continuum_components_before_scalar_links": {
+      "tracer": 2,
+      "capacity": 133
+    },
+    "coupled_graph_components_after_scalar_links": 1,
+    "why_ANGLE_is_six_per_branch": "Three rotational connectors each have two independently declared angular endpoint nodes. This count follows retained public ywu native request examples, not the target implementation.",
+    "if_external_support_changed_to_an_RBE": "It would add one extra PORT:265, not264. This frozen fixture uses ordinary Fixed and must not silently substitute an RBE.",
+    "physical_SPC_pair_count": "3 times the actual unique fixed-face mesh-node count; report the actual mesh-derived count and exclude angular-auxiliary orthogonal restraints.",
+    "support_graph_unions": "All132 head/receiving pairs participate in one graph through the same finite backbone. The fixture is not132 disconnected repeated two-beam solves."
+  },
+  "ownership_and_once_only_duties": [
+    "Retain original mesh node IDs, coordinates, volume connectivity and each cell's physical owner. Prove one connected host continuum and132 connected two-cell B continua before scalar links, with no accidental continuum connection across the10mm gap or between neighbouring branches.",
+    "Every physical volume element belongs exactly once to host/A material or to one B-left/right body; B-left and B-right element sets are disjoint, their node intersection is precisely their shared x25 cut, and neither body contains the fixed support.",
+    "Every declared moving face has its own exact node set, centroid/reference and unique original native RefNode/RotNode IDs. All264 reference/rotation pairs are distinct and outside physical mesh IDs.",
+    "All792 actual scalar spring elements are enumerated exactly once with six per matching branch, and all792 angular endpoint nodes bind the correct original rotation reference/axis. No undeclared active spring, dangling port, cross-bay endpoint swap or angular orphan is accepted.",
+    "Stock nonzero CLOAD entries belong only to the correct B-right x30 end-node sets; independently reconstruct total force and original-origin moment from undeformed coordinates and compare with the frozen load ledger before evaluating accounting output.",
+    "Physical support node/DOF pairs match the one actual ordinary Fixed face exactly once. Neither moving RBE references nor scalar angular-auxiliary orthogonal restraints become physical reactions.",
+    "Compare every B-left/right CUT, LOAD, CONTACT and MPC channel with its independent statics reference, both paired cuts and the aggregate support. Do not add SPRING forces as an extra accounting channel on top of their projected MPC contribution.",
+    "Bind public Current output to the unchanged original request/deck/candidate and actual movement source, import normally, save, then cold-open in a separate process. Cold history stays literal Stale after recompute with no solve, status/hash/path repair or output reuse."
+  ],
+  "fixed_qualification_limits": {
+    "force_relative_error": 0.01,
+    "original_origin_moment_relative_error": 0.01,
+    "scalar_response_relative_error": 0.05,
+    "separate_local_torque_check_required": "k_rx*(thetaBx-thetaAx) against6Nmm, independently of the much larger global-origin moment lever arms",
+    "response_zero_scales": {
+      "translation_mm": 0.01,
+      "rotation_rad": 0.001
+    },
+    "absolute_backbone_displacement_or_rotation_is_an_oracle_target": false,
+    "movement_evidence": "All selected modes are genuinely Free with no actual prescribed reference DOFs. Demonstrate finite nonzero host motion and per-branch nonzero differential Ux/Rx. Do not require every absolute Rx to have a chosen sign or fitted magnitude.",
+    "no_fitted_signs_denominators_stiffness_or_reaction_corrections": true
+  },
+  "non_goals_and_holds": [
+    "Does not qualify arbitrary noncentral transverse connector couples: noncoincident A/B references differ only inX and the independently nonzero transmitted force is parallelX; transverse connector resultants are zero.",
+    "No engineering project file is accessed, changed, meshed or solved. R49 11.123267892% and R51 5.240441298% remain FAIL against unchanged5%. Original1% force/original-origin-moment, all original physical samples/references and engineering duties remain.",
+    "This capacity fixture does not replace existing moving-port, ordinary/partial-support, Tie/contact, negative-control or V1/V2 regression qualifications."
+  ],
+  "provenance": {
+    "original_frozen_sha256": {
+      "fixture-spec.json": "ab19711657222245daadade4037d2d1cf2ce6f0deef49a05e5465fe77a36a822",
+      "physical-oracle.json": "68f6663e3ff526356236473c11934069c38c5b2a50e264a7641e3382cc6cb3ac",
+      "acceptance-amendment-v1.json": "2e4014ec78adaff7bc9daf4acfbb0ea2a63c15d1f2ac7d66c63afc13798b2584"
+    },
+    "derivation": "Portable metadata-only edition. Every original JSON numeric leaf is retained unchanged; expected physical values are not fitted to implementation or observed solver output."
+  }
+}

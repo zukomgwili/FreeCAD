@@ -1,0 +1,56 @@
+{
+  "schema": "FreeCAD-3q7-large-profile-independent-static-review-v1",
+  "reviewer": "/root/ywu_final_review",
+  "passed": true,
+  "scope": "Static approval of the exact private large baseline/candidate export-only harness, not approval of a product candidate, actual runtime success, speedup or new physical qualification. No helper import, application/native/build/test/mesher/solver execution or product edit by this reviewer.",
+  "authorship": "Reviewer did not author these4 harness files. Earlier yzk native C/hooks and context-lifetime test authorship plus prior QA/publication review are disclosed in acceptance-replay-plan-r01. Standards review was delegated separately to /root/ywu_final_review/standards, who did not author the current files.",
+  "review_method": "Read code-review skill completely and applied separate Standards/Spec axes. The targets are new private files, so the review baseline is absence rather than a Git branch diff; source HEAD5b11849843232fdffa4c9c08e2821a6f7c99dee3 is separately recorded. AGENTS.md explicitly selects bd and supersedes the skill's missing-docs tracker setup suggestion; no tracker setup was attempted.",
+  "files": {
+    "Q37LargeProfile.py": {"path": "/private/tmp/freecad-3q7-Pq3Byy/large-qa/Q37LargeProfile.py", "sha256": "d6d68a6fa8c3121d2e43a0b8281f3219f261e57f692028284dab5250ad240505", "lines": 347, "read_extent": "Full initial340lines, final snapshot/import blocks and both updated call sites; no remaining Spec finding"},
+    "Q37LargeIdentity.py": {"path": "/private/tmp/freecad-3q7-Pq3Byy/large-qa/Q37LargeIdentity.py", "sha256": "f5a94cb4d89c2131ba52db09c00910602edd42fa481cef39e1f0d4f862f2b4ba", "lines": 101, "read_extent": "Full initial71lines and full final101lines"},
+    "run_large_profile.py": {"path": "/private/tmp/freecad-3q7-Pq3Byy/large-qa/run_large_profile.py", "sha256": "be94edb5f5422e6b5003792d8654ffe9df1fd1247144cace2e2cc2ac8929109b", "lines": 277, "fully_read": true},
+    "large_config.py": {"path": "/private/tmp/freecad-3q7-Pq3Byy/large-qa/large_config.py", "sha256": "581ece477f1c3612dc160f25d5f005c2b3732ae66ed893015a5f33c2c9472385", "lines": 20, "fully_read": true},
+    "process_control.py": {"sha256": "5199c733fdc18a2c6f78d03ea2a3281e236419365219d7b9f33b5ecca0aa733d", "basis": "Exact prior fully reviewed bounded-process helper"},
+    "preservation.py": {"sha256": "30fb49829d4f017ca99d82f7d2e169ec244d691150cb0f5c5f1ea00b73ff3989", "basis": "Exact prior reviewed private inventory helper"},
+    "critical_pins.py": {"sha256": "15b675d33addb03f4f3a54a9e44f78fe63f7ff21065185cf957fa682ef82f0e9", "basis": "Exact prior reviewed16-selected-input helper"}
+  },
+  "Standards": {
+    "reviewer": "/root/ywu_final_review/standards",
+    "assessment": "No actionable safety or maintainability findings in the four private QA files. Reviewed contribution/AI policies and FEM conventions; no applicable hard violation or actionable baseline smell found. Existing-output refusal, bounded-child delegation and fail-closed custody checks are coherent. Final snapshot and identity additions are read-only and fail closed; both snapshot call sites include analysis.",
+    "findings": []
+  },
+  "Spec": {
+    "spec_source": "FreeCAD-3q7 bd description/notes, root-authorized exact saved/cold-restored same-core paired experiment, and acceptance-replay-plan-r01 with tiny-remesh clarification",
+    "assessment": "No remaining actionable finding in the final frozen private harness. Its gates qualify an export-only same-runtime comparison; physical qualification and installation remain separate.",
+    "resolved_before_execution": [
+      {
+        "id": "large-snapshot-reused-input-coverage",
+        "priority": 2,
+        "original": "The original snapshot omitted face/edge connectivity and mesh ownership provenance, while model_properties excludes the mesh and loses Analysis.Group order. Those are inputs3q7 may reuse, so the asserted raw-state fence was incomplete.",
+        "resolution": "Final mesh_snapshot(mesh,analysis) captures ordered All element IDs and every ordered connectivity, raw Shape/ElementGroupNames/ElementGroupReferences/ElementGroupGeometry using existing plain(), plus ordered Analysis.Group. Existing nodes/volume connectivity/raw group data remain. Both before/after and baseline/candidate digests use the expanded snapshot."
+      },
+      {
+        "id": "large-actual-loaded-core-origins",
+        "priority": 2,
+        "original": "App home/version and hashes of native files on disk did not establish the actual executable, application library and native modules loaded for the paired run.",
+        "resolution": "Final identity uses the established read-only dyld pattern to require the actual FreeCADCmd and sole libFreeCADApp.dylib under the agreed build, and verifies actual Fem/Part/Materials module origins plus their existing compiled pin hashes."
+      }
+    ],
+    "findings": []
+  },
+  "verified_control_design": {
+    "whole_call": "Exactly one real public FemToolsCcx.write_inp_file is profiled; document load, setup and independent snapshots are outside that clock, but required export validation remains inside it. No solver, mesher, save, recompute, output edit or physical edit is called by this harness. CPU is FreeCAD-process CPU with profiler overhead; cumulative costs overlap.",
+    "strict_input": "Literal original FCStd3128ea, pinned raw/canonical restored connectivity a107/234917 and nodes are checked. Raw native/provenance/analysis-order/model state remains equal through each leg. Same-session raw hashes are not weakened by the historical own-document comparison normalization. The older live-session request/deck comparisons are diagnostic only.",
+    "common_runtime": "Source compiled5b/+226/native6c is distinct from historical installed766/+224. Each leg pins all existing native runtime library/module leaves and selected source/runtime Python parity; candidate requires the exact successful baseline execution SHA and identical compiled-native pin map. Source and QA cannot change during a leg; candidate code copying/building is outside this wrapper.",
+    "matched_outputs": "Candidate binds successful baseline profile/deck/request descriptors and same runtime, exact before/after model+mesh hashes, complete declarations and native PORT IDs. Requests compare as literal bytes; deck comparison permits only the one exact written-on comment, never output modification or broad version/path/ID normalization.",
+    "native_policy": "Actual stock sidecar binds complete264PORT/264BODY/792ANGLE/792SPRING/one ordinary support,2113total to default bundled6c and exact new deck/request hashes. No early2112, solver, equilibrium or cold-history qualification is claimed by this export-only role.",
+    "outputs": "Identity/profile/log plus profiler/text/deck/request/metadata are captured once, using the same buffers for parsing/hash. Process log SHA and producer descriptors must match; all8 output bodies have end hash/size fences. Manifest and all watched sources/compiled inputs are end-fenced before PASS.",
+    "process_and_private_custody": "New task-local label only, existing output refusal, isolated config/data/cache/temp paths, null stdin, explicit2400-second operational bound and exact owned-process-group helper. Reaped/group-gone/no-timeout and post-serial guard are required before PASS. App plus3live user locations and16selected critical records must remain equal; four private receipt SHAs are explicit. Raw inventories remain private, not copied into this review."
+  },
+  "outstanding_findings": [],
+  "actual_profile_or_pairing_PASS_claimed": false,
+  "speedup_established": false,
+  "product_candidate_accepted": false,
+  "fresh_physics_or_cold_history_pass_claimed": false,
+  "installation_or_engineering_acceptance": false
+}

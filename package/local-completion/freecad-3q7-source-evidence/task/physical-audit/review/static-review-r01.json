@@ -1,0 +1,62 @@
+{
+  "schema": "FreeCAD-3q7-independent-capacity-auditor-static-review-v1",
+  "reviewer": "/root/batch_guard_review/physical_audit_review",
+  "reviewed_source": "/private/tmp/freecad-3q7-Pq3Byy/physical-audit/audit_capacity.py",
+  "reviewed_sha256": "07946fbc5b127e88f1e05fd5641c549003a3df099cd860edb82e4174e2122328",
+  "reviewed_lines": 915,
+  "status": "Static review complete; no definite current producer-format blocker found; no fresh physical qualification performed",
+  "execution_boundary": {
+    "audit_script_executed": false,
+    "tests_or_native_apps_executed": false,
+    "solver_mesher_or_build_executed": false,
+    "product_modules_imported": false,
+    "only_python_execution": "stdlib AST parsing of the audit source; source was not imported or executed",
+    "repository_build_and_frozen_QA_files_modified": false
+  },
+  "authorship": {
+    "reviewer_authored_product_fix": false,
+    "reviewer_authored_frozen_oracle": false,
+    "reviewer_authored_physical_producer": false,
+    "reviewer_authored_audit_script": false,
+    "reviewer_authored_mutation_guards": false,
+    "reviewer_contribution": "Read-only static review; recommended validating the exact stock tetra export permutation rather than unordered full incidence or a new midpoint assumption"
+  },
+  "confirmed_by_static_inspection": [
+    "All imports are Python standard-library imports. No subprocess, native execution, product import or witness mutation is present. The one output is an explicitly named new-only private report outside the native run directory.",
+    "The vector-check cardinality is 2 + 132 * (20 body/channel/equilibrium + 2 paired-cut + 5 differential/scalar) = 3566. Names, references, zero-reference scales and unchanged limits match the current native producer.",
+    "Original accounting channels are parsed independently, reject duplicate identities and require the exact support/body channel ID sets. The recorded checks are compared field by field to newly computed rows.",
+    "Original DAT parsing requires each final-time RefNode/RotNode set to contain its exact original node once. Original fixed-width FRD DISP parsing and finite receiving-node rigid kinematics do not use the product FRD parser.",
+    "The exact 264 PORT, 264 BODY, 792 SPRING, 792 ANGLE and one SPC_SUPPORT graph is reconciled with deck IDs, request IDs, scalar laws, equations, ownership and boundary DOFs. The accepted total is 2113.",
+    "The revised exact C3D4 and C3D10 permutation check matches FemMesh.cpp:1913-1919 and the inverse importCcxFrdResults.py:563-579, including every quadratic midside ID.",
+    "The new native.stdout echo check matches forceaccounting.c:1120-1123 and the current finish_run producer format. It requires one echo and equality with the imported applied capacity.",
+    "Supervisor expected counts, reaped/log hash fields, private before/after receipt shapes and copy-parity dictionaries agree with run_source.py, process_control.py and SourceBuildIdentity.py.",
+    "The historical native6c compilation provenance is explicitly inherited and source-bound. Historical physical receipts are not selected as a fresh witness.",
+    "Early 2112 refusal and in-process stale reopening are explicitly crosschecks of fresh producer receipts, not independently observed no-solve or separate-process cold events. Saved FCStd XML is not independently decoded, consistently with the private contract."
+  ],
+  "resolved_findings": [
+    {
+      "severity": "P2",
+      "title": "Unordered tetra incidence did not prove native corner/midside ordering",
+      "original_sha256": "16f28e08b91498b786afac562908f7bc87c3e82b4e7beafeb7db05983862216c",
+      "resolution": "Current lines 379-386 require exact tuple equality after the fixed stock FreeCAD-to-CalculiX C3D4/C3D10 conversion. This closes the reported graph-proof gap without adding a new mesh midpoint acceptance criterion."
+    }
+  ],
+  "remaining_nonblocking_scope_notes": [
+    {
+      "severity": "P2 if independent CAD face geometry is claimed; otherwise disclosed scope limitation",
+      "source_lines": [490, 498],
+      "title": "Receiving-face geometry still originates in producer membership",
+      "detail": "The auditor proves each selected receiving set has at least three noncollinear owner nodes, is disjoint from cuts/loads/supports, matches its native RBE set, and moves according to its DAT kinematics. It does not independently derive the complete exterior x=10/x=20 square face from native tetra boundary facets; the fixed-face selection similarly originates in producer membership. A common producer membership-selection error could therefore be repeated by this file audit.",
+      "recommendation": "Describe this accurately as validation of producer-declared CAD membership. Only if independent frozen face geometry is required, derive exterior facet node sets, plane/bounds and areas from the deck and compare the complete port/support selections."
+    },
+    {
+      "severity": "P3",
+      "source_lines": [765, 770],
+      "title": "Applied-capacity echo equality permits JSON numeric type substitutions",
+      "detail": "Dictionary equality accepts supports:true as supports:1 and floating values equal to integer counts. The current product finish_run parser rejects such values using exact int type checks. Duplicate keys are already rejected by the auditor. This does not bypass the independently reconstructed graph or numerical acceptance, but weakens exact raw-receipt schema validation.",
+      "recommendation": "Optionally require exact int types for budget,total and every declaration count when validating the native stdout echo."
+    }
+  ],
+  "fresh_witness_available_during_review": false,
+  "qualification_limits": "This is source inspection and syntax validation only. The sole executor must still run the fresh native capacity witness and then the independent auditor. No passing physical result is asserted by this review."
+}

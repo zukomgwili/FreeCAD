@@ -1,0 +1,37 @@
+{
+  "actual_public_writes": 1,
+  "checks": [
+    {
+      "actual_calls": 42,
+      "maximum_calls": 36,
+      "native_operation": "Part.Shape.isValid",
+      "passed": false
+    },
+    {
+      "actual_calls": 26838,
+      "maximum_calls": 23760,
+      "native_operation": "Fem.FemMesh.getElementNodes",
+      "passed": false
+    },
+    {
+      "actual_calls": 2174,
+      "maximum_calls": 1864,
+      "native_operation": "Fem.FemMesh.getGroupElements",
+      "passed": false
+    }
+  ],
+  "composite_sha256": "24558dc054c8ee17720cf32c317601ca31f2316cd86274cbc5038399b6dd5171",
+  "element_count": 990,
+  "execution_sha256": "11046055987ecd56c8cb031ca4ae8f295d336fda66581b032331cad6f7f33ea3",
+  "group_count": 90,
+  "observation_sha256": "086ff20829d111c18a14510dd615e8c547accf247110a940e1a7bd43353e1144",
+  "passed": false,
+  "producer_pins": {
+    "Q37Identity.py": "36fb37d7e8f22625e3f2f3e52c5dddf22aaaa9d45b06044625807ee35d423b10",
+    "Q37WholeExport.py": "a9a7ee0ec437686c58d30b30493b58ebd1468c529b159fe0946064163156b6c4",
+    "run_tiny_profile.py": "e685745fe3a73083b1d605c5fbb8a2d23df7ad65663bad023b5cc118d4790c71"
+  },
+  "profiler_sha256": "d4272a366e09a6109df3235c0f08ab5d1ffacb50f92907ccf01a83d4662be4c6",
+  "schema": "FreeCAD-3q7-whole-export-work-regression-v1",
+  "scope": "Pre-implementation tiny real-owned-mesh whole-export work envelope, not a wall-time SLA, universal scaling proof, guard qualification or physical acceptance."
+}

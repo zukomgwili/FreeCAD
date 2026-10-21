@@ -1,0 +1,45 @@
+{
+  "schema": "FreeCAD-3q7-independent-capacity-auditor-static-review-supplement-v1",
+  "reviewer": "/root/batch_guard_review/physical_audit_review",
+  "reviewed_source": "/private/tmp/freecad-3q7-Pq3Byy/physical-audit/audit_capacity.py",
+  "reviewed_sha256": "81fdeb6a2fbf2c4fd36f60e0ca626987c21735e28f33b27453c8dee9970d01fc",
+  "reviewed_lines": 959,
+  "prior_review_preserved": "/private/tmp/freecad-3q7-Pq3Byy/physical-audit/review/static-review-r01.json",
+  "status": "Static amendment review complete; both remaining r01 scope/type notes and optional end-inventory hardening are addressed; no new blocker found",
+  "review_scope": "Amendment adding native exterior tetra face derivation, complete frozen support/receiving/end patch sets, strict raw applied-capacity echo types and final file-inventory rescan; previous review conclusions remain limited to their exact reviewed source revision",
+  "confirmed_amendments": [
+    {
+      "source_lines": [419, 469],
+      "finding": "Exterior facets are selected from the globally once-owned native tetra corner facets. The exact FreeCAD-to-CalculiX conversion already checked at lines 379-386 binds their topology to the original deck. Each C3D10 face mapping includes exactly its three corners and the three corresponding midsides: 012/456, 031/784, 132/895, and 230/976. These mappings agree with the standard edge pairs 01,12,20,03,13,23."
+    },
+    {
+      "source_lines": [456, 481],
+      "finding": "The support patch is independently selected from exterior facets at x=0 with y in [0,44], z in [1,49], total corner-triangle area 44*48=2112mm2. This matches the frozen 11-by-12 backbone box. All selected quadratic face nodes must remain on that plane and within those bounds, and the complete selected node set must equal the declared physical fixed face."
+    },
+    {
+      "source_lines": [498, 525],
+      "finding": "For each frozen branch centre, both receiving planes x=10 and x=20 and the loaded end plane x=30 are independently selected with y and z bounds centre +/-1, area4mm2. Their complete exterior facet node unions, including all quadratic midsides, must equal the producer's membership sets. This addresses the previous producer-declared-face scope note for the frozen flat fixture."
+    },
+    {
+      "source_lines": [803, 810],
+      "finding": "The raw native stdout echo requires one record, exact top-level and declaration keys, duplicate-key rejection, and exact int types for budget,total and every count. Boolean and floating substitutions, including nonfinite constants, cannot pass these type checks. The parsed echo must match the accepted 2113 applied-capacity record. This addresses the previous P3 raw-echo type note."
+    },
+    {
+      "source_lines": [899, 903],
+      "finding": "After rehashing every initially read file, the final amendment rescans all witness regular-file relative paths and requires exact equality with the initial inventory. It also repeats the no-symlink scan. This addresses the optional late-file-addition inventory hardening note."
+    }
+  ],
+  "remaining_blockers": [],
+  "remaining_optional_hardening_from_this_review": [],
+  "execution_boundary": {
+    "audit_script_executed": false,
+    "tests_or_native_apps_executed": false,
+    "solver_mesher_or_build_executed": false,
+    "product_modules_imported": false,
+    "only_python_execution": "stdlib AST parsing; audit source was neither imported nor executed",
+    "repository_build_and_frozen_QA_files_modified": false,
+    "only_written_file": "/private/tmp/freecad-3q7-Pq3Byy/physical-audit/review/static-review-r02-supplement.json"
+  },
+  "authorship": "Reviewer authored none of the product fix, frozen oracle, physical producer, audit script or mutation guards. Reviewer proposed independent checks and performed read-only source inspection.",
+  "qualification_limits": "No fresh physical witness was available to this reviewer. This supplement establishes no runtime pass, solver result, engineering acceptance or independent early-refusal/cold-process observation. The sole executor must still produce and audit the fresh capacity witness."
+}

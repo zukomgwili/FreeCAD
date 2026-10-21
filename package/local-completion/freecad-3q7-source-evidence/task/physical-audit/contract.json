@@ -1,0 +1,41 @@
+{
+  "schema": "FreeCAD-3q7-fresh-file-auditor-contract-v1",
+  "status": "Private proposal; AST-parsed, not executed against a physical witness",
+  "source": "/private/tmp/freecad-3q7-Pq3Byy/physical-audit/audit_capacity.py",
+  "exact_fresh_run": "/private/tmp/freecad-3q7-Pq3Byy/source-qa/capacity-native-r01",
+  "witness_selection": "Exactly one concrete Native capacity evidence prefix from this run.log, beneath this run's freecad_user_temp; no historical glob",
+  "execution_boundary": "Root alone executes native apps, tests, solvers, meshers and builds. This auditor uses standard-library file reads and arithmetic only, and creates one explicitly named new-only report outside the witness.",
+  "recomputed_checks": {
+    "unique_total": 3566,
+    "formula": "2 global-support vectors + 132 branches * (20 body/channel/balance vectors + 2 paired-cut vectors + 5 differential/scalar vectors)",
+    "raw_sources": ["Mesh.accounting.out", "Mesh.dat"],
+    "crosschecks_every_recorded_field": ["name", "actual", "reference", "reference_norm", "error_norm", "scale", "relative_error", "limit", "passed"],
+    "no_fitted_signs_scales_or_stiffness": true,
+    "unchanged_wrench_and_local_generalized_force_limits": 0.01,
+    "unchanged_differential_response_limit": 0.05
+  },
+  "graph_recomputed": {
+    "PORT": 264,
+    "BODY": 264,
+    "SPRING": 792,
+    "ANGLE": 792,
+    "SPC_SUPPORT": 1,
+    "accepted_total": 2113,
+    "native_solid_partitions": 397,
+    "actual_native_shared_tetra_facet_joins": 264,
+    "scope": "Original deck/request IDs, exact public native-to-CalculiX tetra ordering including every corner and midside, solid ownership, finite-cell facet connectivity, shared finite face areas, independently reconstructed complete finite exterior support/receiving/loaded square-face node sets, detached reference/rotation IDs, global-axis scalar incidence and positive linear laws, angular equations, once-only physical SPC pairs, moving modes unprescribed, physical CLOAD original-origin statics and raw native applied-capacity echo with exact integer types."
+  },
+  "motion_recomputed": "Original final-time DAT RefNode/RotNode translations and rotations; original FRD final DISP fixed-width records; every native finite receiving-face node checked against u_ref + theta cross undeformed lever arm at the unchanged 5% kinematic limit; nonzero A/B motion and positive host generalized load work.",
+  "custody": "Fresh supervised complete132 test plus build identity; exact2 tests and no skips; complete retained-file hash/size inventory excluding receipt self-reference, receipt pinned separately; source/build-copy parity, immutable input maps, app/profile/dependency equality, default native6c binary, inherited compiled C/hooks receipt; all files rehashed at the end.",
+  "not_independently_observed": [
+    "Early2112 admission refusal is crosschecked from the fresh native test producer receipt and exact diagnostic, not claimed as a separate audit-process no-solve observation.",
+    "In-process stale reopen is crosschecked from the fresh native test producer receipt and saved literal hashes; a separate cold process is explicitly not claimed.",
+    "Saved FCStd source bytes are hashed; its XML is not independently decoded by this proposal.",
+    "Native6c compilation is inherited and source-bound, not recompiled by this task."
+  ],
+  "no_historical_physical_result_reused_as_fresh": true,
+  "engineering_project_accessed_or_solved": false,
+  "engineering_or_BIM_accepted": false,
+  "installation_performed": false,
+  "authorship": "Auditor author did not author product implementation, frozen physical oracle or native physical producer; did author some separate mutation guard tests."
+}
