@@ -1,0 +1,57 @@
+{
+  "schema": "FreeCAD-3q7-installation-deployment-static-review-v1",
+  "passed": true,
+  "scope": "Read-only static review of exact prepared private deployment helpers; not actual build, payload, stage, installed, physical or cold qualification",
+  "reviewer": "/root/publication_review",
+  "authorship": "Reviewer did not author or modify the deployment helper adaptations; root alone executed the new-file setup. Reviewer performed no helper import or product/native/build/test/install execution.",
+  "blocking_findings": [],
+  "source_identity": {
+    "commit": "6a0ed157b1063fa21407dc8f3cdfa3aef9484d8d",
+    "expected_compiled_revision": "49261 +229 (Git)",
+    "default_native_sha256": "6c02452a896727af6cb4578fd3fb6bbfbdd48e3fb887c1c04fa2d8b171976c66",
+    "actual_fresh_version_header_and_runtime_qualification_still_required": true
+  },
+  "reviewed_sha256": {
+    "immutable_ywu_core": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "setup_deployment_helpers.py": "835a013b1bdcd401431348d7176aab91cc00441ea94b3eb6c8bc7946e2aaa674",
+    "stage_install.py": "243c7536f2804fea434149f4896e575ffa5d84e528880617776cc95ba8eb13c6",
+    "AppYzkIdentity.py": "f0e6d10260de7e6d44545aba8e3a000e35af2055b5531974ac1edfdd021eab71",
+    "critical_pins.py": "be87f38023dc0fb28284e955e38fa618fce97e0e2222ccc2dba263730871a437",
+    "run_app.py": "242a46e496138cc202b27640304fab3f3644c9a73054142166c4caddcd12c84b",
+    "harness_config.py": "e455e2ec1f6f2b3000fc0f75c30302cf9c27fe19ebdc77da14b9ad9e8fe1a43f",
+    "LOCAL-INSTALL.txt": "d142d5eb8e0b5f2d11e9f77353fdca8e0623212a607aa643a09ab1628380a1b8",
+    "unchanged_run_step.py": "96c2f4806cab1d1930280a34001fcafbaca9546eeb8f1a9fff23540116250f6c",
+    "unchanged_audit_payload_stage.py": "d2dd63a5dd9d9868816777e3af75fa06798f93910c56cf25b7a2ad51117ddaf3",
+    "unchanged_YzkPortableColdRestore.py": "164691a5afeedbee55f47841ed9a064c9addbb37e89d143f36de4d5d927b4c51"
+  },
+  "verified_controls": [
+    "The new setup hash-pins seven exact retained sources, applies only asserted one-occurrence substitutions and new explicit configuration/note bodies, AST-parses generated Python, refuses existing destinations and rechecks retained originals.",
+    "The immutable installer remains loaded only after its exact SHA check. Full-tree staging, native Mach-O normalization, signature handling, original QuickLook entitlements, read-only/cache-free resources, same-device sealed-image renames and signal-aware exception rollback bodies are unchanged.",
+    "The new backup target is unique and explicit: /Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-3q7-7667033a14.app. Existing backups cannot be replaced by the installer.",
+    "The prior-app note precondition now matches the actually retained installed7667033a/+224 note, rather than the historical pre-yzk6cdc/+221 note.",
+    "The source-parity list adds femtools/rigid_body.py, femtest/app/support_utils.py and femtest/app/test_rigid_region_ownership.py. Inherited parity entries cover the other nine changed3q7 source/test files.",
+    "The configured actual native test catalogue contains exactly four Tie IDs and eight moving-port IDs. Identity verifies their registration and exact equality against the current public source classes; admission requires all twelve unique IDs.",
+    "App identity requires418 registered TestFemApp methods and8 TestFemGui methods. Stage admission requires419/9/9 totals for full FEM, GUI and moving-port suites including one identity test per run. Every selected method must occur exactly once with no skips in the actual raw log.",
+    "Actual application home, process executable, native module and application-library origins, copied current source bytes and default bundled6c native selection are checked without source/build import substitution or candidate overrides.",
+    "Payload/stage/custody audits cross-bind the current commit/revision, complete native relative set/count/hash, normalized build parity, exact stage RPATH, inherited launcher parity, sealed stage image, critical receipt and protected profiles/namespace.",
+    "Stage gates bind exact manifests, identities, logs, source/build/harness snapshots, before/after application inventories and custody hashes to the same sealed image and current critical baseline.",
+    "The historical ywu catalogue validator remains explicitly refused. No old395/405/406 or moving5/6 catalogue is silently accepted for current3q7.",
+    "The app supervisor retains null stdin, isolated settings/data/temp directories, environment override removal, bounded owned-process cleanup and post-run serial guard before writing the final execution receipt.",
+    "No stage132-bay solve is claimed by this plan. Fresh installed132-bay3566-check qualification and a separate literal cold process remain mandatory after swapping the exact sealed stage image.",
+    "The installation note discloses the existing Pixi dependency requirement, lack of self-containment/notarization, historical profiling-pair scope, rollback path and no engineering/Oomakhi acceptance."
+  ],
+  "remaining_operational_gates": [
+    "Root must observe the fresh actual6a0ed157/+229 Version.h and runtime rather than relabel prior6605b5/+228 source qualification.",
+    "Fresh build/CTest, capture, payload, independent payload/stage/custody audits and419/9/9 stage gates must pass before swap.",
+    "Fresh419/9/9 installed gates plus the full132-bay3566-check public native test and separate literal Stale cold reopen must pass before installation completion.",
+    "The immutable core rolls back errors and interrupts during the swap/verification operation; it does not automatically roll back later installed-test failures. Preserve the validated backup until all later gates pass and explicitly resolve any later failure.",
+    "Keep all top-level helper Python fixed once literal-app gates start because the supervisor snapshots ROOT.glob('*.py'). Later collection/review proposal Python must remain under collection/.",
+    "The inherited build gate pins a selected FEM input list, not every3q7 changed file by itself. Complete current source qualification also relies on the full literal-app snapshots, loaded-FEM parity and extended stage source-parity list.",
+    "A separate exact evidence/publication audit is required. No raw private app/profile/dependency inventory bodies or runtime binaries may be published."
+  ],
+  "native_or_application_execution_performed_by_reviewer": false,
+  "repository_or_executed_helper_edits_performed_by_reviewer": false,
+  "actual_installation_pass_claimed_by_this_review": false,
+  "engineering_or_BIM_accepted": false,
+  "Oomakhi_accessed_or_solved": false
+}

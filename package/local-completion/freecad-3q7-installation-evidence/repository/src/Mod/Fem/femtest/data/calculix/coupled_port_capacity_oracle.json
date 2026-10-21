@@ -1,0 +1,383 @@
+{
+  "schema": "FreeCAD-native-independent-coupled-backbone-statics-v1",
+  "declared_before_fixture_or_native_execution": true,
+  "units": {
+    "length": "mm",
+    "force": "N",
+    "moment": "N*mm",
+    "rotation": "rad"
+  },
+  "wrench_order": "Fx,Fy,Fz,Mx,My,Mz",
+  "moment_origin": [
+    0,
+    0,
+    0
+  ],
+  "reference_basis": "Applied end forces and original undeformed positions, static free-body equilibrium and independently selected positive scalar spring laws; never fitted from stresses, RF/SOF/SOM, CF or observed output signs.",
+  "per_branch": {
+    "centres": {
+      "y": "2+4*i",
+      "z": "3+4*j"
+    },
+    "external_applied_wrench_W_i_j": [
+      12,
+      0,
+      0,
+      6,
+      "12*(3+4*j)",
+      "-12*(2+4*i)"
+    ],
+    "derivation": {
+      "axial_face_force": [
+        12,
+        0,
+        0
+      ],
+      "axial_face_origin_moment": [
+        0,
+        "12*centre_z",
+        "-12*centre_y"
+      ],
+      "positive_end_edge_force": [
+        0,
+        0,
+        3
+      ],
+      "positive_end_edge_origin_moment": [
+        "3*(centre_y+1)",
+        -90,
+        0
+      ],
+      "negative_end_edge_force": [
+        0,
+        0,
+        -3
+      ],
+      "negative_end_edge_origin_moment": [
+        "-3*(centre_y-1)",
+        90,
+        0
+      ],
+      "edge_pair_sum": [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0
+      ]
+    },
+    "body_channel_ledger": {
+      "B_left_retained_x20_to25": {
+        "CUT": "+W_i_j",
+        "LOAD": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "CONTACT": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "MPC": "-W_i_j",
+        "equilibrium_sum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "B_right_retained_x25_to30": {
+        "CUT": "-W_i_j",
+        "LOAD": "+W_i_j",
+        "CONTACT": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "MPC": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "equilibrium_sum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "paired_CUT_sum": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "no_per_branch_external_support": true
+    },
+    "scalar_connector_references": {
+      "definition": "PortB generalized value minus PortA generalized value along the declared global axis, bound to original native RefNode/RotNode sets",
+      "translation_difference_mm": [
+        0.01,
+        0,
+        0
+      ],
+      "rotation_difference_rad": [
+        0.001,
+        0,
+        0
+      ],
+      "translation_stiffness_N_per_mm": [
+        1200,
+        1200,
+        1200
+      ],
+      "rotation_stiffness_N_mm_per_rad": [
+        6000,
+        6000,
+        6000
+      ],
+      "generalized_force_on_A_N": [
+        12,
+        0,
+        0
+      ],
+      "local_generalized_moment_on_A_N_mm": [
+        6,
+        0,
+        0
+      ],
+      "generalized_force_on_B_N": [
+        -12,
+        0,
+        0
+      ],
+      "local_generalized_moment_on_B_N_mm": [
+        -6,
+        0,
+        0
+      ],
+      "separated_reference_force_couple": [
+        0,
+        0,
+        0
+      ],
+      "separated_reference_couple_proof": "rB-rA=(10,0,0)mm is parallel to F=(12,0,0)N; its cross product is exactly zero. Finite backbone compliance changes common motion, not the statically determined spring force/relative extension or torque/relative rotation."
+    },
+    "zero_channel_scales": {
+      "force_N": 12,
+      "moment_N_mm": "sqrt(6^2+(12*centre_z)^2+(12*centre_y)^2)"
+    },
+    "separate_zero_generalized_force_scale_N": 12,
+    "separate_zero_generalized_moment_scale_N_mm": 6
+  },
+  "tracer_1_by_1": {
+    "indices": [
+      [
+        0,
+        0
+      ]
+    ],
+    "centre_y_z_mm": [
+      2,
+      3
+    ],
+    "whole_applied_wrench": [
+      12,
+      0,
+      0,
+      6,
+      36,
+      -24
+    ],
+    "physical_external_SUPPORT": [
+      -12,
+      0,
+      0,
+      -6,
+      -36,
+      24
+    ],
+    "nonzero_moment_norm_N_mm": "sqrt(1908)",
+    "spring_energy_per_branch_N_mm": 0.063,
+    "counts": {
+      "PORT": 2,
+      "SPC_SUPPORT": 1,
+      "BODY": 2,
+      "SPRING": 6,
+      "ANGLE": 6
+    }
+  },
+  "capacity_11_by_12": {
+    "i_bounds_inclusive": [
+      0,
+      10
+    ],
+    "j_bounds_inclusive": [
+      0,
+      11
+    ],
+    "branches": 132,
+    "sum_centres_y_mm": 2904,
+    "sum_centres_z_mm": 3300,
+    "mean_centre_y_z_mm": [
+      22,
+      25
+    ],
+    "whole_applied_wrench": [
+      1584,
+      0,
+      0,
+      792,
+      39600,
+      -34848
+    ],
+    "physical_external_SUPPORT": [
+      -1584,
+      0,
+      0,
+      -792,
+      -39600,
+      34848
+    ],
+    "counts": {
+      "PORT": 264,
+      "SPC_SUPPORT": 1,
+      "BODY": 264,
+      "SPRING": 792,
+      "ANGLE": 792
+    },
+    "spring_energy_total_N_mm": 8.316,
+    "corner_branch_wrench_examples": {
+      "Bay_0_0": [
+        12,
+        0,
+        0,
+        6,
+        36,
+        -24
+      ],
+      "Bay_10_0": [
+        12,
+        0,
+        0,
+        6,
+        36,
+        -504
+      ],
+      "Bay_0_11": [
+        12,
+        0,
+        0,
+        6,
+        564,
+        -24
+      ],
+      "Bay_10_11": [
+        12,
+        0,
+        0,
+        6,
+        564,
+        -504
+      ]
+    }
+  },
+  "acceptance": {
+    "unchanged_force_relative_error_ceiling": 0.01,
+    "unchanged_original_origin_moment_relative_error_ceiling": 0.01,
+    "unchanged_scalar_response_relative_error_ceiling": 0.05,
+    "nonzero_reference_metric": "Euclidean norm(actual-reference)/Euclidean norm(reference), force and original-origin moment separately, each retained body and global support separately",
+    "zero_body_channel_and_balance_metric": "Euclidean norm(actual)/the frozen per-branch applied force or original-origin moment scale; global support balance uses the frozen whole-applied scales",
+    "differential_scalar_metric": "Absolute error divided by0.01mm for Ux or0.001rad for Rx; zero transverse differences use these same predeclared translational/rotational scales, not a response-fitted floor",
+    "local_scalar_torque_check": "Also compare k_rx*delta_rx with6Nmm separately; the large global spatial moments must not mask a wrong transmitted torque.",
+    "capacity_count_and_incidence_checks": "Exact equality, not a relative tolerance. A single missing, duplicate or swapped declaration/owner/endpoint is a failure even if aggregate load error is below1%.",
+    "absolute_backbone_motion_target": "None. Prove finite nonzero actual motion and free native modes without fitting an absolute displacement or sign.",
+    "fitted_signs_scales_supports_or_stiffness_changes": false
+  },
+  "engineering_holds": {
+    "engineering_or_BIM_accepted": false,
+    "R49_existing_failed_displacement_percent": 11.123267892,
+    "R51_existing_failed_displacement_percent": 5.240441298,
+    "original_displacement_ceiling_percent": 5,
+    "original_force_and_origin_moment_ceiling": 0.01,
+    "engineering_project_accessed_or_solved": false
+  },
+  "local_generalized_force_acceptance_amendment": {
+    "schema": "FreeCAD-native-local-generalized-force-acceptance-amendment-v1",
+    "declared_before_fixture_or_native_execution": true,
+    "role": "Resolve an independent pre-execution review ambiguity; not a response-fitted acceptance adjustment.",
+    "unchanged_frozen_fixture_spec_sha256": "ab19711657222245daadade4037d2d1cf2ce6f0deef49a05e5465fe77a36a822",
+    "unchanged_frozen_physical_oracle_sha256": "68f6663e3ff526356236473c11934069c38c5b2a50e264a7641e3382cc6cb3ac",
+    "local_scalar_force_and_couple_checks": {
+      "translational_vector_reference_N": [
+        12,
+        0,
+        0
+      ],
+      "rotational_vector_reference_N_mm": [
+        6,
+        0,
+        0
+      ],
+      "actual_translational_vector": "1200 times (native PortB RefNode U minus PortA RefNode U), in declared global axes",
+      "actual_rotational_vector": "6000 times (native PortB RotNode values minus PortA RotNode values), in declared global axes",
+      "nonzero_vector_metric": "Euclidean norm(actual-reference)/Euclidean norm(reference)",
+      "force_relative_error_ceiling": 0.01,
+      "local_couple_relative_error_ceiling": 0.01,
+      "explicit_X_torque_metric": "abs(6000*delta_rx-6)/6 <=0.01, independently of original-origin lever-arm moments",
+      "zero_transverse_generalized_force_scale_N": 12,
+      "zero_other_generalized_couple_scale_N_mm": 6,
+      "zero_component_relative_error_ceiling": 0.01
+    },
+    "unchanged_response_checks": {
+      "translation_difference_reference_mm": [
+        0.01,
+        0,
+        0
+      ],
+      "rotation_difference_reference_rad": [
+        0.001,
+        0,
+        0
+      ],
+      "relative_error_ceiling": 0.05,
+      "zero_translation_scale_mm": 0.01,
+      "zero_rotation_scale_rad": 0.001
+    },
+    "unchanged_global_and_body_wrench_checks": {
+      "force_relative_error_ceiling": 0.01,
+      "original_global_origin_moment_relative_error_ceiling": 0.01
+    },
+    "interpretation": "The response5% check is retained as requested. A separate stricter1% local generalized force/couple consistency check is deliberate and must pass too; it prevents large spatial origin moments from masking a wrong local torque. No original5% engineering response acceptance or1% force/moment ceiling is relaxed.",
+    "engineering_or_BIM_accepted": false,
+    "engineering_project_accessed_or_solved": false
+  },
+  "provenance": {
+    "original_frozen_sha256": {
+      "fixture-spec.json": "ab19711657222245daadade4037d2d1cf2ce6f0deef49a05e5465fe77a36a822",
+      "physical-oracle.json": "68f6663e3ff526356236473c11934069c38c5b2a50e264a7641e3382cc6cb3ac",
+      "acceptance-amendment-v1.json": "2e4014ec78adaff7bc9daf4acfbb0ea2a63c15d1f2ac7d66c63afc13798b2584"
+    },
+    "derivation": "Portable metadata-only edition. Every original JSON numeric leaf is retained unchanged; expected physical values are not fitted to implementation or observed solver output."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "FreeCAD-3q7-installation-packet-checker-static-review-v1",
+  "passed": true,
+  "scope": "Static source review only, not publication clearance or future packet PASS. The reviewed checker was not executed by this reviewer.",
+  "reviewed_source": {
+    "path": "/private/tmp/freecad-3q7-install-W35DLJ/collection/audit_published_installation.py",
+    "sha256": "1d2065245ca736467cfbf4cf84d0f24290513e82a08fe06f26b58653d2106fe1",
+    "bytes": 15314,
+    "lines": 250,
+    "fully_read": true,
+    "AST_parse_only": true
+  },
+  "initial_reviewed_sha256": "41791217c4cd95addd76692be9605a0bf3af5f127699e1385d0f545b2ae4ab19",
+  "blocking_findings_remaining": [],
+  "findings_resolved_before_execution": [
+    "Added exact omitted7 metadata equality against the fresh witness receipt, in addition to current original byte/hash checks. All seven actual custody stamps were independently confirmed equal to the witness stamps by stdlib JSON reads.",
+    "Added final exact packet-file inventory and no-symlink rescan after selected-read hash end fences, detecting late extra files or linked entries."
+  ],
+  "checked_logic": [
+    "Explicit approved-plan/index/summary SHA arguments; root-approved complete plan and unchanged512MiB packet/128MiB per-file limits.",
+    "Exact original-to-index bijection plus approved plan; exact stored packet file set; decoded bytes equal both original and capture; independent stored/decoded hashes and sizes; final read and tree end fences.",
+    "JSON duplicate/nonfinite/raw-key privacy rejection; Python AST-only parsing; synthetic saved-case classification; gzip threshold and zero timestamp compatible with r03 collector.",
+    "Exact f6c1c0 completed final-gate report and all17 actual role descriptors;8 retained raw app unittest totals and selected test-ID log occurrences; exact7c61cc installed physical report.",
+    "Exact20 retained synthetic-case copies plus7 explicitly hash-only omitted witness bodies, all tied to the installed-capacity log prefix and witness receipt; no whole-witness-retention claim.",
+    "Separate installed cold receipt/manifests retain original literal witness, saved document and native source paths/hashes; no stage132 or new timing/engineering claim."
+  ],
+  "new_execution_performed": false,
+  "native_app_test_build_solver_deployment_execution_performed": false,
+  "product_import_performed": false,
+  "reviewed_checker_execution_performed": false,
+  "original_sources_or_receipts_modified_by_reviewer": false,
+  "publication_pass_claimed": false,
+  "authorship_disclosure": "The reviewer did not author this checker, collector, deployment helpers, product fix, native producer or frozen oracle. The reviewer authored earlier private file auditors and suggested the two focused pre-execution checker assertions above; only this new review receipt was written."
+}
