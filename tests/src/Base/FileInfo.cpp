@@ -192,8 +192,11 @@ TEST(FileInfoExtensionTest, PreservesBasenameExtensionConventions)
 
 TEST(FileInfoExtensionTest, IgnoresDotsInParentDirectories)
 {
-    for (const char* parent : {"parent.folder/", "parent.folder/nested.dir/",
-                               "parent.folder\\nested.dir\\", "\\\\server\\share.folder\\"}) {
+    for (const char* parent :
+         {"parent.folder/",
+          "parent.folder/nested.dir/",
+          "parent.folder\\nested.dir\\",
+          "\\\\server\\share.folder\\"}) {
         for (const auto& row : extensionTestCases) {
             const std::string path = std::string(parent) + row.name;
             SCOPED_TRACE(path);
