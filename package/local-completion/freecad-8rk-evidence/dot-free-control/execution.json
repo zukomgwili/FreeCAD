@@ -1,0 +1,40 @@
+{
+  "schema": "FreeCAD-8rk-native-backup-probe-v1",
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "build/release/tests/App_tests_run",
+    "--gtest_filter=BackupPolicyTest.TimestampTargetHasNoExtension"
+  ],
+  "test": "BackupPolicyTest.TimestampTargetHasNoExtension",
+  "temporary_directory": "/private/tmp/freecad-8rk-1tDlX3/dot-free-control/plainparent",
+  "returncode": 0,
+  "timed_out": false,
+  "child_reaped": true,
+  "elapsed_seconds": 1.490454708924517,
+  "native_test_passed": true,
+  "app_and_three_profiles_unchanged": true,
+  "protected_sha256_before": {
+    "/Applications/FreeCAD-27.1.0.app": "b5701044eb3edf6ee3d1a6962cc57a3a24a0fbed12a73c78966e209a579efcdd",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "b5dd91713050018dc2f40353f1780e6fae9f41944be4db6c9c7eb211f6fb9852",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "a082cdbca42dfe3a86ba1834dd18d9f964bcee28baf95d9f62196e26564d9da2",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "protected_sha256_after": {
+    "/Applications/FreeCAD-27.1.0.app": "b5701044eb3edf6ee3d1a6962cc57a3a24a0fbed12a73c78966e209a579efcdd",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "b5dd91713050018dc2f40353f1780e6fae9f41944be4db6c9c7eb211f6fb9852",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "a082cdbca42dfe3a86ba1834dd18d9f964bcee28baf95d9f62196e26564d9da2",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "inputs_unchanged": true,
+  "inputs": {
+    "/private/tmp/freecad-8rk-1tDlX3/run_backup_probe_v2.py": "abf2d25cfd50815e15ed722b8469b64db322711780437091fe4a086a2b30a09f",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "/Users/zukomgwili/src/FreeCAD/build/release/tests/App_tests_run": "6a1fd553a40b530499a9eee8061742560bf5646c48b314db7ef40ab604d6ea97",
+    "/Users/zukomgwili/src/FreeCAD/build/release/src/Build/Version.h": "e696d4c6cdb38c30788fca631dfed1b6caa6715f63448969a301978d7c392b73"
+  },
+  "log_sha256": "d617f31aeff825c8bf213e8a1320b09b70ddcf32d633865db5d05138bce934a5",
+  "remaining_backup_files": [],
+  "installation_performed": false
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "FreeCAD-8rk-native-backup-probe-v1",
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "build/release/tests/App_tests_run",
+    "--gtest_filter=BackupPolicyTest.TimestampTargetHasNoExtension"
+  ],
+  "test": "BackupPolicyTest.TimestampTargetHasNoExtension",
+  "temporary_directory": "/private/tmp/freecad-8rk-1tDlX3/red-r01/dotted.parent",
+  "returncode": 1,
+  "timed_out": false,
+  "child_reaped": true,
+  "elapsed_seconds": 1.901815582998097,
+  "native_test_passed": false,
+  "app_and_three_profiles_unchanged": true,
+  "protected_sha256_before": {
+    "/Applications/FreeCAD-27.1.0.app": "b5701044eb3edf6ee3d1a6962cc57a3a24a0fbed12a73c78966e209a579efcdd",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "b5dd91713050018dc2f40353f1780e6fae9f41944be4db6c9c7eb211f6fb9852",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "a082cdbca42dfe3a86ba1834dd18d9f964bcee28baf95d9f62196e26564d9da2",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "protected_sha256_after": {
+    "/Applications/FreeCAD-27.1.0.app": "b5701044eb3edf6ee3d1a6962cc57a3a24a0fbed12a73c78966e209a579efcdd",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "b5dd91713050018dc2f40353f1780e6fae9f41944be4db6c9c7eb211f6fb9852",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "a082cdbca42dfe3a86ba1834dd18d9f964bcee28baf95d9f62196e26564d9da2",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "inputs_unchanged": true,
+  "inputs": {
+    "/private/tmp/freecad-8rk-1tDlX3/run_backup_probe.py": "614dfe4c5f5538fe0f7221b79a5ca7901c252af089b823de98d16b637298eb3d",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "/Users/zukomgwili/src/FreeCAD/build/release/tests/App_tests_run": "6a1fd553a40b530499a9eee8061742560bf5646c48b314db7ef40ab604d6ea97",
+    "/Users/zukomgwili/src/FreeCAD/build/release/src/Build/Version.h": "e696d4c6cdb38c30788fca631dfed1b6caa6715f63448969a301978d7c392b73"
+  },
+  "log_sha256": "e9f5402b46aa798c86f25e620c44422b4789ebb6a58aa1b31e7aa39a7f219090",
+  "remaining_backup_files": [
+    {
+      "path": "/private/tmp/freecad-8rk-1tDlX3/red-r01/dotted.2026-10-21.FCBak",
+      "bytes": 9,
+      "sha256": "e27c8214be8b7cf5bccc7c08247e3cb0c1514a48ee1f63197fe4ef3ef51d7e6f",
+      "outside_requested_temporary_directory": true
+    }
+  ],
+  "installation_performed": false
+}

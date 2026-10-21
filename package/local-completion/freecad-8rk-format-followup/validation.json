@@ -1,0 +1,22 @@
+{
+  "schema": "FreeCAD-8rk-format-only-followup-v1",
+  "functional_qualification_commit": "7136d8188e779b6fb2c4decbd1509f26a1e68f70",
+  "format_only_commit": "b96fb301de70e31bf08ec5f855195cde928ccc5f",
+  "scope": "Only four-entry parent initializer layout in tests/src/Base/FileInfo.cpp; no production, values, assertions or behavior change.",
+  "canonical_format_proof": "clang-format23.1.0 of the7136 test file equals the final test file byte-for-byte.",
+  "canonical_formatted_test_sha256": "73d16da66bcdc9b142615c89d43c080b1de40f4c7f2783755eadde589ea0cda1",
+  "independent_review": "/root/publication_review inspected7136..b96fb301de and confirmed only initializer whitespace/layout changed.",
+  "quality_gates": "All applicable configured pre-commit hooks and clang-format23.1.0 dry-run pass for all three product/test files.",
+  "native_followup": "Bounded test-target rebuild and all661 Base tests pass under dotted isolated TMPDIR; one existing disabled test.",
+  "full_ctest_not_repeated_or_reattributed": true,
+  "historical_full_ctest": "7136 remains2277 entries/2267passes/2existing skips/8disabled/0failures. Original36-file packet and independent evidence review are immutable historical qualification, not a claim that current build/source bytes still equal those earlier values.",
+  "installation_performed": false,
+  "app_and_three_profiles_unchanged": true,
+  "raw_header_whitespace_exception": "The exact retained generated Version.h alone has an existing extra EOF blank line; excluded from metadata whitespace lint, not reformatted.",
+  "files_sha256": {
+    "format-only-build-tests-execution.json": "993bd542febbdb6db48bcf03c005ac42d2bdbf072bab44cf9dc417d0e710cfad",
+    "format-only-build-tests-run.log.gz": "02006961e8f880e05310ebad0dee819c991406ccee3a102ab20a5cf92e14dc2a",
+    "format-only-base-all-execution.json": "44375546c7dd7d1e080d2e087d7d2570a220614af9e116a1127d660df4cf8f69",
+    "format-only-base-all-run.log.gz": "53639a0544c7853faa8b84abcfa143ebdb9c07f246768abe20d2da1d70b397b5"
+  }
+}

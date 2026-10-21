@@ -1,0 +1,79 @@
+{
+  "bead": "FreeCAD-8rk",
+  "date": "2026-10-21",
+  "status": "source_fixed_built_and_verified_not_installed",
+  "source_commit": "7136d8188e779b6fb2c4decbd1509f26a1e68f70",
+  "compiled_revision": "49261 +231 (Git)",
+  "reproduced_before_implementation_read": true,
+  "cause": "Both FileInfo suffix accessors searched the full path, treating a parent-directory dot as part of the filename suffix and truncating an extensionless timestamp-backup path.",
+  "fix": "Search the existing normalized fileName() basename, retaining established first/last-dot, hidden-file, trailing-dot and case conventions. BackupPolicy itself is unchanged.",
+  "regressions": "Ten baseline names, forty dotted-parent/normalized-separator/UNC variants, and an isolated timestamp-backup placement/content/collision regression; both bug regressions failed before the fix.",
+  "original_reproduction": {
+    "dotted_parent_red_runs": 2,
+    "dot_free_diagnostic_control_passed": true,
+    "dotted_parent_green_passed": true,
+    "red_stray_backups": "Nine-byte Test data, outside requested TMPDIR but inside private task quarantine; no user data affected.",
+    "red_and_precommit_green_are_not_committed_qualification": true
+  },
+  "committed_gates": {
+    "release_build": true,
+    "base": {
+      "passed": 661,
+      "disabled": 1,
+      "failed": 0
+    },
+    "backup_policy": {
+      "passed": 23,
+      "existing_skipped": 2,
+      "disabled": 2,
+      "failed": 0
+    },
+    "ctest": {
+      "catalogue": 2277,
+      "passed": 2267,
+      "failed": 0,
+      "existing_skipped": [
+        "BackupPolicyTest.StandardWithZeroFilesDeletesExisting",
+        "BackupPolicyTest.TimestampWithZeroFilesDeletesExisting"
+      ],
+      "existing_disabled": [
+        "BackupPolicyTest.TimestampWithInvalidFormatStringThrows",
+        "BackupPolicyTest.TimestampWithAbsurdlyLongFormatStringThrows",
+        "DocumentObserverTest.hasSubObject",
+        "DocumentObserverTest.hasSubElement",
+        "DocumentObserverTest.normalize",
+        "DocumentObserverTest.normalized",
+        "ExpressionParserTest.expressionsParseAsPyObjectWrapper",
+        "CrashReporterTests.DeliberateSegfaultRoundTrip"
+      ],
+      "elapsed_seconds": 311.049316292163,
+      "complete_unique_catalogue_verified": true,
+      "excluded": []
+    },
+    "temporary_directory": "Genuinely dotted private TMPDIR for every qualification gate; no dot-free substitution.",
+    "incremental_release_build_not_clean_from_scratch": true,
+    "nonfatal_build_warning": "Pivy .pyi generation reported missing output; retained verbatim and tracked separately as FreeCAD-szc, with no causal or runtime-failure claim.",
+    "selected_build_identity_unchanged_after_ctest": true,
+    "independent_static_review_findings": [],
+    "whitespace": "CRLF-aware committed-diff check passes; existing FileInfo.cpp CRLF retained.",
+    "rails_pre_push_checks": "Not applicable: no Rails application, Gemfile, gemspec, wrappers, importmap or root JS lint configuration. Only a vendored Coin documentation package.json exists."
+  },
+  "evidence": {
+    "directory": "package/local-completion/freecad-8rk-evidence",
+    "index_sha256": "1d0f3bb7d106dc3abee7462e05ce696013fc464169f647f54715eea63d6a5948",
+    "retained_files": 36,
+    "private_directory": "/private/tmp/freecad-8rk-1tDlX3"
+  },
+  "collector_history": "Initial collector aborted before any writes because its summary-line assertion expected a different CTest wording. Corrected to the actual 100% tests passed out of 2269 line; unique result-row/count validation and native results were unchanged.",
+  "installation": {
+    "performed": false,
+    "installed_app_and_three_profiles_unchanged": true,
+    "installed_revision_remains": "49261 +229 (Git)",
+    "dependency_environment": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default"
+  },
+  "limits": [
+    "No installation or upstream PR requested or performed.",
+    "Runtime qualification is macOS only, not a direct Windows/Linux run.",
+    "No Oomakhi solve, fixture change, engineering acceptance or new public API."
+  ]
+}

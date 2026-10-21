@@ -1,0 +1,34 @@
+{
+  "schema": "FreeCAD-8rk-independent-static-review-v1",
+  "passed": true,
+  "scope": "Independent static standards/specification review of the three-file source commit, not runtime qualification",
+  "reviewer": "/root/publication_review",
+  "commit": "7136d8188e779b6fb2c4decbd1509f26a1e68f70",
+  "authorship": "Reviewer did not author or edit the product fix or regression tests",
+  "files": {
+    "src/Base/FileInfo.cpp": "ae970e77924c827990cee7eeeedb8b34b5087c1b23bd4623490400b81916953d",
+    "tests/src/Base/FileInfo.cpp": "530f00eac43cb05d92c693d1866e42449369fe264799300fc36de70538af116f",
+    "tests/src/App/BackupPolicy.cpp": "5124e29ab62515660196953e41d7b44ab34d4cc4ba22010638b9046ec09c6ea0"
+  },
+  "findings": [],
+  "reviewed": [
+    "The committed three-file change matches the previously reviewed working diff:86 insertions and4 deletions, with no remaining difference in those files.",
+    "Both extension() and completeExtension() now search the existing fileName() basename, preserving their respective last-dot and first-dot suffix contracts, including established hidden-file, uppercase, trailing-dot and dot-dot behavior.",
+    "The implementation reuses existing normalized separator/UNC handling and follows the neighboring fileNamePure() extraction approach. No BackupPolicy algorithm, public signature, persistent state or filesystem parsing dependency is changed.",
+    "The two new Base tests cover10 unchanged basename conventions and the same rows beneath dotted, nested dotted, normalized-backslash and UNC parents, including empty/trailing-separator basenames.",
+    "The new BackupPolicy test creates its own dotted directory within a RAII fixture, uses a deterministic literal timestamp format, checks backup contents and collision placement, retains the target and detects escaped siblings.",
+    "CRLF-aware committed-diff whitespace checking passes. The product file's existing CRLF convention is preserved; plain whitespace checking reports those line endings rather than introduced trailing spaces."
+  ],
+  "tests_inspected_not_executed": [
+    "FileInfoExtensionTest.PreservesBasenameExtensionConventions",
+    "FileInfoExtensionTest.IgnoresDotsInParentDirectories",
+    "BackupPolicyTest.TimestampExtensionlessTargetStaysInDottedDirectory",
+    "Existing FileInfo and BackupPolicy fixture/control source and test-registration conventions"
+  ],
+  "limitations": [
+    "Reviewer performed only read-only file/Git inspection, hashing and whitespace checks; no product/native/build/test/app/solver execution or Git write.",
+    "Root's reported RED/GREEN/build/Base results are not independently executed results of this reviewer. Remaining BackupPolicy and complete dotted-TMPDIR CTest qualification must be assessed from their actual completed receipts.",
+    "This static review does not claim installation, engineering acceptance or direct Windows/Linux runtime verification."
+  ],
+  "only_write": "/private/tmp/freecad-8rk-1tDlX3/static-review.json"
+}
