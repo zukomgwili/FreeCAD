@@ -29,6 +29,7 @@ from bimtests.TestArchWall import TestArchWall
 from bimtests.TestArchBuildingPart import TestArchBuildingPart
 from bimtests.TestArchAxis import TestArchAxis
 from bimtests.TestArchStructure import TestArchStructure
+from bimtests.TestArchShapeCleanup import TestArchShapeCleanup
 from bimtests.TestArchMaterial import TestArchMaterial
 from bimtests.TestArchPanel import TestArchPanel
 from bimtests.TestArchWindow import TestArchWindow

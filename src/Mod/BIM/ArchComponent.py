@@ -1169,10 +1169,18 @@ class Component(ArchIFC.IfcProduct):
 
                         try:
                             r = shape.removeSplitter()
+                            # Refinement can fail without raising an OCC error.
+                            # Keep the validated solid instead of such a result.
+                            if (
+                                not r.isNull()
+                                and r.isValid()
+                                and r.Solids
+                                and math.isfinite(r.Volume)
+                                and r.Volume > 0
+                            ):
+                                shape = r
                         except Part.OCCError:
                             pass
-                        else:
-                            shape = r
                         p = self.spread(
                             obj, shape, placement
                         ).Placement.copy()  # for some reason this gets zeroed in next line
