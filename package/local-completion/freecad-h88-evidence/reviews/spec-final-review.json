@@ -1,0 +1,32 @@
+{
+  "schema": "FreeCAD-h88-final-spec-review-v1",
+  "issue": "FreeCAD-h88",
+  "reviewedBaseSHA": "404927c5b8278149e5d22c4e8f6bc2f58ee94a8b",
+  "reviewedStagedTreeSHA": "25068c97a980409e38b759399adad12d866cf042",
+  "reviewedSHA": {
+    "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+    "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4"
+  },
+  "findings": [],
+  "verdict": "No blocking spec, implementation, or evidence findings in the exact staged four-file diff.",
+  "evidence": {
+    "logReceiptsVerified": 10,
+    "exactNewRegressionFailsWithQualifiedInstalledOldImplementation": true,
+    "exactNewRegressionSourceSuite": "7 tests passed",
+    "priorFullBIMSuite": "349 tests run; 2 GUI skips; 1 pre-existing expected failure; before the one added regression",
+    "originalImportedAndColdCheckpointWrapperVolume_mm3": 49054303.568511024,
+    "materialDifferences": "Two non-null valid Boolean results with zero vertices for each green original/imported/save/reopen comparison",
+    "originalControlDictionariesPreserved": true,
+    "originalInputCounts": {"rail": 165, "tools": 66},
+    "bothOriginalPartRefineControlsFalse": true,
+    "originalMaterialLink": "Material032",
+    "originalInputSHA256": "570e7ffd62c4dfb95c7b0bcbb1eafab69f11c5d54152bf9fd840ad0464402a33",
+    "savedPrivateCopySHA256": "38cedca869ddf0518edc5fb7db78fecaaba69b03d9107ad0578b3349056d07ec"
+  },
+  "limitations": [
+    "BIM rejects unhealthy automatic-refinement output; this is not universal protection against valid but materially wrong refinement output.",
+    "Native Part refinement and deeper cause remain follow-up FreeCAD-ajj.",
+    "Reviewed stage-one runtime reports base build 404927c5 and is qualified by exact loaded Python module SHA; committed build and rerun remain required before issue closure."
+  ],
+  "execution": "Offline evidence and source review only; no FreeCAD, Part, OCC, GUI, build, or test execution."
+}

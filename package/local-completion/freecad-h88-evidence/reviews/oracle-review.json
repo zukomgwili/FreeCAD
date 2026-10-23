@@ -1,0 +1,87 @@
+{
+  "schema": "FreeCAD-h88-independent-observable-oracle-plan-v1",
+  "issue": "FreeCAD-h88",
+  "reviewer": "/root/h88_oracle_review",
+  "date": "2026-10-23",
+  "status": "Read-only plan; no native qualification or fix acceptance asserted",
+  "boundary": {
+    "native_FreeCAD_Part_OCC_GUI_build_or_solver_execution": false,
+    "tests_written": false,
+    "cleanup_implementation_read": false,
+    "original_project_or_profile_changes": false,
+    "only_written_artifact": "/private/tmp/freecad-h88-cZ2yvMA9/oracle-review.json",
+    "confirmed_seam_reported_by_root": "Stock Part objects, BIM Structure creation/recompute, actual shape/material health and save/cold reopen using private checkpoint and reduced fixtures; no remesh, solve or original project changes"
+  },
+  "primary_local_interface_sources_sha256": {
+    "src/Mod/Part/App/TopoShape.pyi": "4522ce981977d642bdaf75ea9d155e629d569ff7933421be446ce0e8d8e562a8",
+    "src/Mod/BIM/coding_conventions.md": "14a72bc00228cf0f945fae39cb970fc4eda17ba1c926670bf3ccbdd908157b79",
+    "src/Mod/Draft/coding_conventions.md": "951406c55f4d87be897073614282045fcd6390981b1cf2fee39c5e73fec465b8"
+  },
+  "mandatory_observation_order": [
+    "Verify original checkpoint SHA and capture input graph, stock Refine controls, Base/Tool/Shapes and 66 tool Links before any touch/recompute.",
+    "Require the actual Base to be non-null, valid, closed and the declared one positive-volume solid. Do not take document.recompute() returning true or a status string as shape acceptance.",
+    "Touch/recompute only the stock Structure in the exact retained replay and inspect its actual Shape. An invalid, empty or non-positive result is RED immediately; do not derive trustworthy material differences from an invalid shape.",
+    "Only when both operands are valid, compare Base and wrapper in the same verified public world frame. Check both directed solid differences to detect removed and added material separately.",
+    "Require each nonempty difference to be itself valid before interpreting its solids or volume. A Boolean exception, invalid result or unexplained non-solid residue is an inconclusive oracle and must not be converted to zero or a pass.",
+    "Record input graph and source-shape observations again to establish that the wrapper recompute did not alter its input model. Keep full retained-model replay distinct from deliberately changed private minimization variants."
+  ],
+  "complementary_oracles": {
+    "material": "Use Base-minus-wrapper and wrapper-minus-Base, with default zero additional fuzzy Boolean tolerance. Exact empty differences are the strongest simple signal. Where numerical residue exists, expose it and justify a fixed numerical tolerance from kernel/shape scale controls before accepting, rather than tuning against the failing model.",
+    "scalars": "Record signed positive Volume, BoundBox coordinates, center of mass where available, Area and declared solid/shell counts. Equal volume is necessary but insufficient: opposite local gains/losses or a translated shape can retain volume.",
+    "placement": "Use a separately known translated/rotated primitive to establish the public frame convention; do not reset both placements to identity or reuse the wrapper's private transform implementation to manufacture the expected result.",
+    "occupancy": "For analytic bored controls, test known points strictly inside material, inside the bore and outside the envelope, all comfortably farther from boundaries than the recorded maximum stored shape tolerance. This independently checks that holes were not filled or material removed.",
+    "topology": "Do not require unchanged face/edge numbers or element ordering: legitimate refinement removes redundant edges. Require the intended solid count and material, not representational identity. Log face/edge counts as diagnostics.",
+    "identity": "isSame/isEqual are shared topology/geometry identity tests with placement/orientation distinctions. They can legitimately fail after copy, refinement or cold restore; use only as an opportunistic strong unchanged-handle check, never a universal geometric equivalence or persistence oracle.",
+    "distance": "distToShape reports minimum distance. A zero distance or overlapping bound boxes cannot prove equal solids and must not substitute for material comparison."
+  },
+  "analytic_controls": [
+    {
+      "case": "ordinary solid box",
+      "construction": "Stock Part box of dimensions 10 by 20 by 30 mm, then a stock BIM Structure with that Base and no additions, subtractions, array or axis",
+      "independent_volume_mm3": 6000,
+      "purpose": "Base and wrapper validity, positive solid, unchanged material and no regression of ordinary supported wrapping"
+    },
+    {
+      "case": "ordinary bored solid",
+      "construction": "Stock 10 by 20 by 30 mm box cut by a through-Z cylinder of radius 2 mm centered at local (5,10), retaining a valid one-solid Base",
+      "independent_volume_formula_mm3": "6000 - 120*pi",
+      "classification_points_mm": {
+        "bore_void": [5, 10, 15],
+        "solid_material": [1, 1, 15],
+        "outside": [-1, 10, 15]
+      },
+      "purpose": "Check both material amount and preservation of an interior void without asserting face numbering"
+    },
+    {
+      "case": "placement control",
+      "construction": "10 by 20 by 30 mm box with a positive 90 degree Z rotation and translation (100,-20,7), wrapped through the stock public interface",
+      "independent_world_bounds_mm": {
+        "x": [80, 100],
+        "y": [-20, -10],
+        "z": [7, 37]
+      },
+      "purpose": "Detect lost or doubled placement using literal known bounds; do not assert an unverified local/global shape convention"
+    },
+    {
+      "case": "legitimate simplification control",
+      "construction": "A valid connected fusion of adjacent stock boxes with redundant coplanar edges, wrapped as a stock Structure",
+      "purpose": "Show that the fix preserves useful cleanup and material without globally disabling supported refinement or depending on a particular kernel face count"
+    }
+  ],
+  "numerical_tolerance_discipline": [
+    "Do not reuse or change the project's 1% force/moment or 5% sensitivity acceptance limits; they are unrelated to this geometry regression.",
+    "Record operand bounding scale and getTolerance(mode>0), which the public stub documents as the maximum stored subshape tolerance. Record any added fuzzy Boolean tolerance; do not increase it silently.",
+    "First run copy/equivalent-primitive and analytic controls at the same scale and placement. Prefer exact empty directed differences and known literal analytic values. A numeric threshold must be fixed before the GREEN result is examined and clearly labeled software geometric comparison only.",
+    "Surface-area times a linear tolerance can be a dimensional estimate, not a universal proof of a safe volume bound for arbitrary thin, curved or highly intersecting solids. Do not present an invented formula as a rigorous general material-preservation guarantee.",
+    "Do not use abs(Volume) to hide orientation changes or accept a tiny deleted feature merely because it falls below a global relative-volume percentage."
+  ],
+  "minimization_route_after_exact_RED": [
+    "Keep the untouched full-checkpoint reproduction as the authoritative replay and prove original bytes and its declared input links/refine controls stay unchanged.",
+    "In a separate private diagnostic fixture, export the already-valid Base through a public BREP operation and import it into a fresh native Part document, then use stock BIM Structure creation. This can determine whether the dependency graph is necessary without assigning Structure.Shape. Keep any house-derived BREP private, not in the FreeCAD public test corpus.",
+    "If the imported valid Base preserves the RED, reduce only a separate copy or construct a stock primitive equivalent. Remove groups of fuse inputs or bore tools one variable at a time, rejecting variants whose Base is no longer valid, closed, positive and the declared solid count.",
+    "Re-run the same stock wrapper and exact health/material verdict after each reduction. Keep failed reductions as honest diagnostic attempts. Do not call the fixture minimal until every retained input is shown load-bearing for that same failure pattern.",
+    "Prefer a small parametric primitive construction for the committed regression. A retained private geometric snapshot can support the original-case qualification, but is not a substitute for permission to redistribute the actual project or a license-clean minimal fixture."
+  ],
+  "cold_restore": "Use a separate process with the public save/reopen interfaces and repeat actual shape health/material and persistent Base-link checks. Do not require cross-process isSame/isEqual or exact BREP serialization bytes. Preserve original checkpoint bytes and do not relabel a saved bad shape accepted merely because it reopens.",
+  "fix_scope": "A wrapper must not promote an invalid automatic-cleanup output over an already-valid supported Base. Safe fallback or clear failure belongs to that stock wrapping duty. This plan does not diagnose the general OCC root cause, repair FreeCAD-muw diagnostic state, authorize a custom Shape project workaround, or establish structural, fit, movement, remesh, solver, installation or house acceptance."
+}

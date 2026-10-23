@@ -1,0 +1,57 @@
+{
+  "schema": "FreeCAD-h88-focused-static-boundary-review-v1",
+  "issue": "FreeCAD-h88",
+  "reviewer": "/root/h88_oracle_review",
+  "date": "2026-10-23",
+  "result": "No material static blocker for the observed invalid-cleanup wrapper regression, subject to root's exact-source native qualification",
+  "material_findings": [],
+  "boundary": {
+    "implementation_read_after_root_reported_actual_RED": true,
+    "native_FreeCAD_Part_OCC_GUI_build_solver_or_test_execution": false,
+    "product_source_or_original_project_edits": false,
+    "only_written_artifact": "/private/tmp/freecad-h88-cZ2yvMA9/boundary-review.json",
+    "runtime_claims": "All native RED/shape-material observations cited below were reported by root; this reviewer did not execute or independently reproduce them."
+  },
+  "reviewed_product_files_sha256": {
+    "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+    "src/Mod/BIM/ArchStructure.py": "459b5b839371ea6c00c92a98a193debc7587ebe6e68a8577325bbb9ccbaf864e"
+  },
+  "root_reported_native_evidence": [
+    "Exact retained valid Base volume about49054303.56851mm3 becomes an invalid stock Structure about52346627.24849mm3 after touch/recompute while input controls remain unchanged.",
+    "A fresh two-object public BREP import plus stock Arch.makeStructure reproduces the same invalid output without the original house graph or old wrapper metadata.",
+    "The native Part removeSplitter call itself returns the invalid candidate. The original and copied input remain valid and their two directed cuts are empty with zero vertices. Serialization bytes can change through caches, so an earlier BREP-byte equality assertion was correctly retained as a harness failure rather than a product finding."
+  ],
+  "reviewed_path": {
+    "structure": "ArchStructure.createGeometry takes a valid solid Base copy, then processSubShapes and applyShape. No extra project-side Shape assignment is needed for the public regression.",
+    "applyShape": "The new candidate check is inside the pre-existing valid-input/has-Solids branch, after the existing negative-volume orientation handling. It adopts the candidate only when non-null, valid, still carrying solids, and with finite positive total volume; otherwise the existing input variable remains selected.",
+    "native_interface": "TopoShapePy::removeSplitter is const and calls the const makeElementRefine overload. TopoShape.h documents that overload as leaving the input unchanged and returning a new TopoShape. The expansion implementation fixes orientation and compares closedness, but does not itself reject an invalid returned shape.",
+    "cause_boundary": "The observed failure is in the native Part refinement route, which includes FreeCAD mapping/refinement code. This does not by itself prove that OCC rather than another layer is the deeper root cause."
+  },
+  "compatibility_assessment": [
+    "The patch does not force a single solid: a valid multi-solid compound with finite positive total volume remains eligible. Keep an ordinary compound control to prevent an accidental future one-solid restriction.",
+    "The original allowinvalid and allownosolid routes are untouched. Shared callers include Roof and Equipment with allownosolid=True and Window with both allowances; tests must not accidentally redefine their supported non-solid behavior.",
+    "Axis spreading and its existing placement handling run after selection exactly as before. Test a valid translated/rotated Base and an ordinary non-overlapping Axis case, but do not expand this patch into redesigning array or placement behavior.",
+    "Part.OCCError from refinement or the new native candidate postchecks is caught by the same fallback block. Null, invalid, non-solid, non-finite or non-positive candidate results do not overwrite the accepted input.",
+    "math is already imported in this module. No new dependency, public method, Refine property, global cleanup disable or diagnostic-state reset is introduced.",
+    "Extra defensive copies before the const refinement call are not required by the documented interface or root's observed material-unchanged control. Add one only if actual in-place material mutation is reproduced; BREP cache-byte changes alone do not establish that defect."
+  ],
+  "required_runtime_qualification": [
+    "Require literal source/build module origins and the reviewed current ArchComponent hash; -P appending a path is not proof that the source module was imported.",
+    "Run the original exact checkpoint and the reduced public wrapping interface against the fixed code, with actual shape validity, closedness, positive volume and unchanged input graph/controls.",
+    "On valid GREEN outputs, require both directed material differences to be empty or use an independently justified fixed numerical comparison. Failed or invalid Boolean oracles cannot pass as zero.",
+    "Retain ordinary box, bored solid/void occupancy, translated/rotated placement, valid multi-solid compound and useful coplanar simplification controls. Do not assert unchanged face or edge counts through successful cleanup.",
+    "Perform save and separate-process cold reopen through public interfaces, retaining literal Base links and rechecking actual material health. Do not require shared topology identity or byte-identical BREP serialization across copies or processes."
+  ],
+  "valid_but_changed_candidate_limit": {
+    "guard_does_not_prove_general_material_equivalence": true,
+    "meaning": "A valid positive-volume cleanup candidate containing different material would still be admitted by this health guard. Equal volume alone also cannot rule out balanced local gains/losses. The observed h88 native candidate is invalid, so rejecting it and independently verifying the fallback material addresses that reproduced failure pattern; this must not be advertised as a general kernel equivalence proof.",
+    "escalation": "If root observes an actual valid materially changed native cleanup candidate, this guard does not resolve that case; do not count it accepted or silently reduce the h88 material contract.",
+    "not_recommended_speculatively": "Do not add two production Booleans or an untuned global relative-volume threshold to every shared applyShape call merely to claim universal equivalence. That would add potentially substantial shared BIM cost, depend on the same kernel's ambiguous error paths and create a larger geometric-equivalence feature without a demonstrated case or agreed numerical contract."
+  },
+  "non_goals": [
+    "No claim to repair every invalid output of Part refinement or establish the deeper OCC root cause",
+    "No change to the separate FreeCAD-muw No error/MustExecute diagnostic duty",
+    "No remeshing, solving, project workaround with assigned Structure.Shape, installation, structural/fit/movement or house acceptance",
+    "No change to the project's original1% force/moment or5% sensitivity limits"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "FreeCAD-h88-offline-compatibility-controls-review-v1",
+  "reviewer": "/root/h88_oracle_review",
+  "issue": "FreeCAD-h88",
+  "date": "2026-10-23",
+  "result": "No mathematical or placement-oracle blocker found in the six controls; native execution remains root's responsibility",
+  "reviewed_test_file": "src/Mod/BIM/bimtests/TestArchShapeCleanup.py",
+  "reviewed_test_sha256": "9a01e80dac42acbf207118e4c3b40cbfc48bbb87f65318e56fb35de488bde1aa",
+  "boundary": {
+    "native_execution_by_reviewer": false,
+    "product_or_test_edits_by_reviewer": false,
+    "method": "Offline source arithmetic/semantics review plus read-only JSON and log-hash checks of root-produced native witnesses"
+  },
+  "mathematical_checks": [
+    "The10x20x30 box has volume6000mm3.",
+    "A radius2mm through-Z cylinder of height30mm removes120*pi mm3; the bored result is6000-120*pi mm3.",
+    "The disconnected5x5x5 second solid adds125mm3 to the6000mm3 first solid, yielding6125mm3. Point(22,2,2) lies inside it; point(15,10,15) lies in the gap.",
+    "Positive90degree Z rotation and translation(100,-20,7) map the original box to world bounds(80,-20,7)-(100,-10,37). The bore center maps to(90,-15,22), and the solid point(1,1,15) maps to(99,-19,22).",
+    "All classification sample points are far from intended boundaries relative to the explicit1e-7mm point-classification tolerance. The numerical assertions are software-geometry controls, not project engineering tolerances."
+  ],
+  "behavioral_checks": [
+    "The health helper requires actual non-null validity, declared solid count, each solid closed and finite positive volume. It correctly avoids requiring the top-level compound to report global closedness.",
+    "Material comparison runs both directed cuts. A non-null invalid difference fails rather than being silently interpreted as empty; each result must have zero vertices.",
+    "The successful-cleanup control expects the deliberately unrefined adjoining-box fusion to have more than six faces and its cleaned rectangular prism to have six. This is a fixture precondition to verify in the native run; a different fuse representation would be a control/setup failure, not evidence that the h88 guard failed.",
+    "The Base is assigned only in a fresh Part fixture. The test never assigns Structure.Shape. Base, empty Additions/Subtractions and a separate Material link are checked through the public object interface.",
+    "The saved-bore method saves and reopens in the same test process, then touches/recomputes and verifies Base and Material links and material geometry. It must not be labeled a separate-process cold test; root's independent checkpoint cold process supplies that distinct evidence.",
+    "TestArchBase.tearDown closes the current self.document, so replacing that member with the reopened document is compatible with the existing fixture lifecycle."
+  ],
+  "coverage_classification": {
+    "six_new_methods_are_compatibility_controls": true,
+    "these_controls_alone_lock_the_invalid_refinement_failure_in_CI": false,
+    "meaning": "These ordinary valid primitive cases appear capable of passing the old applyShape implementation. They protect supported geometry/cleanup/placement/persistence behavior, but they are not themselves the RED regression for a valid Base whose native refinement returns invalid. Do not claim that this six-method suite alone reproduces and locks down the reported failure.",
+    "target_regression_evidence": "The actual exact-checkpoint and reduced public imported-Base RED-to-GREEN witnesses are the separate failure-sensitive proof. A portable native failure-inducing fixture would be needed for a self-contained CI regression of that fallback path; do not silently publish house-derived geometry or mock an internal collaborator merely to imply such coverage."
+  },
+  "root_native_witnesses_inspected_sha256": {
+    "source-imported-green-r02/imported-observation.json": "61fd08ace2d40a6ddde73d3f798a471bd243094498250303a54e8ae28372248e",
+    "source-original-green-r01/observation.json": "39b6861f51fe792b51e0582ba7c835bef1a113470b10df0f2b578f4a2354527e",
+    "source-checkpoint-save-r01/cold-observation.json": "1cd8ba07d93a93f8396417ced607f090787bac98e9bc3bb1b34092dc22e14d80",
+    "source-checkpoint-reopen-r01/cold-observation.json": "f6b44864cb840bad1eb4a212907375df9629a63763e804b769632a3740335abe"
+  },
+  "observed_witness_meaning": [
+    "All four inspected executions report passed=true, returncode0, no timeout, reaped child and gone process group; their exact run.log hashes match their execution records.",
+    "All four observations record actual build/release/Mod/BIM module origins and ArchComponent SHA62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962, not an installed module selected accidentally by an appended import path.",
+    "The reduced imported Base and wrapper both record valid/closed/one-positive-solid,1292faces and49054303.568511024mm3; both valid directed material differences have zero vertices.",
+    "The exact original checkpoint and save/reopen records preserve their captured controls, including Base/Tool/Shapes and tool links, Refine controls and material link. Their wrapper material is valid and matches the Base under both directed cuts.",
+    "The restored wrapper is already valid before its new touch/recompute and remains so afterward. MustExecute/Touched remains true in the recorded objects, which is not to be relabeled as a fix of separate diagnostic beadFreeCAD-muw."
+  ],
+  "limits": [
+    "No claim of universal geometric equivalence for all possible valid refinement candidates",
+    "No native execution by this reviewer or qualification of pending new-control test runs",
+    "No remeshing, solving, original project mutation, installation or engineering/house acceptance"
+  ]
+}

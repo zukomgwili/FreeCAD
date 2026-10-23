@@ -1,0 +1,164 @@
+{
+  "schema": "FreeCAD-h88-post-collection-offline-audit-v1",
+  "issue": "FreeCAD-h88",
+  "auditor": "/root/h88_evidence_audit",
+  "checked_at_utc": "2026-10-23T01:09:39Z",
+  "artifact_directory": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-h88-evidence",
+  "manifest_sha256": "c30a25d01f3b3bbececc3396932cc4a763022cb86389122c135a863405575fc9",
+  "collector_sha256": "d5c532a6a7b3eed5b138dcd3539da8c2dd1d8290660e7e1b3e1ccd76f9dc1521",
+  "result": "pass",
+  "findings": [],
+  "method": {
+    "collector_or_archived_code_imported_or_executed": false,
+    "FreeCAD_Part_OCC_GUI_solver_build_test_or_installer_executed": false,
+    "Git_operations_performed": false,
+    "immutable_evidence_modified": false,
+    "original_project_or_profile_writes": false,
+    "only_authored_output": "/private/tmp/freecad-h88-cZ2yvMA9/post-collection-audit.json",
+    "checks": [
+      "Independent standard-library byte hashing and gzip decompression; no collector reuse",
+      "Exact retained file-set comparison against the manifest, excluding only manifest.json",
+      "Byte comparison with original private execution receipts, logs, input manifests and code snapshots",
+      "Independent parsing of actual final unittest and CTest log summaries",
+      "Read-only hashing of the seven original pinned paths and the four current product source files",
+      "AST parsing, without execution, of retained Python code and scanning all decompressed payloads for CAD/XML serialization signatures"
+    ],
+    "authorship_disclosure": "This auditor authored initial private minimization helpers and the initial collector draft. Root reviewed, amended and executed the collector and was sole native executor. This audit independently inspected actual archive bytes without running that collector."
+  },
+  "integrity": {
+    "manifest_entries_verified": 176,
+    "actual_files_including_manifest": 177,
+    "manifest_exact_coverage": true,
+    "all_entry_SHA256_and_sizes_match": true,
+    "collector_exactly_matches_current_private_executed_copy": true,
+    "gzip_streams_verified": 81,
+    "all_gzip_streams_decompress": true,
+    "all_gzip_mtime_fields_zero": true,
+    "all_gzip_original_filename_fields_absent": true,
+    "immutable_execution_receipts_verified": 32,
+    "all_run_logs_decompress_to_receipt_SHA_and_original_log_bytes": true,
+    "all_runs_record_equal_nonempty_protected_before_after_maps": true,
+    "all_runs_record_app_and_three_profiles_unchanged": true,
+    "all_runs_record_reaped_children_gone_process_groups_and_no_timeout": true,
+    "all_runs_record_no_application_installation": true
+  },
+  "code_custody": {
+    "original_inputs_json_manifests_copied_byte_exact": 31,
+    "normal_manifest_entries_verified": 714,
+    "code_snapshot_references_verified": 592,
+    "withheld_snapshot_entries_verified": 122,
+    "legacy_first_RED_manual_snapshot_references_verified": 4,
+    "legacy_receipt": "installed-original-red-r01",
+    "legacy_snapshots": ["run_gate.py", "H88OriginalCheckpoint.py", "ArchComponent.py", "ArchStructure.py"],
+    "legacy_exact_path_specific_receipt_SHA_binding_verified": true,
+    "all_normal_manifest_records_match_receipt_source_inputs_before": true,
+    "deduplicated_code_blobs_verified": 47,
+    "Python_code_blobs_AST_parsed_without_execution": 43,
+    "all_retained_code_is_UTF8_text_from_allowed_original_suffixes": true,
+    "all_snapshot_bytes_and_sizes_match_original_records": true,
+    "all_original_input_manifests_remain_unmodified": true
+  },
+  "final_committed_qualification": {
+    "product_commit": "a41994aa70f20397ef4f56503a1ecbe01ac5bb9b",
+    "runtime_in_committed_native_observations": "27.1.0devR49261 +237 (Git)",
+    "all_seven_required_receipts_pass_with_returncode_zero": true,
+    "all_seven_pin_exact_product_commit": true,
+    "all_seven_preserve_exact_source_and_supervisor_input_maps": true,
+    "all_seven_bind_all_four_reviewed_product_source_SHAs": true,
+    "current_product_source_SHA256_matches": {
+      "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+      "src/Mod/BIM/CMakeLists.txt": "9be9588db55025cf163cc94a5d36caad08be474852c8eecb2685f9958ca2c137",
+      "src/Mod/BIM/TestArch.py": "fcf4b21e5d6452ffa0e51a39cbdceae5044b8da101edcc4d549bee4027504af0",
+      "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4"
+    },
+    "final_gates": [
+      "committed-release-build-r01",
+      "committed-focused-r01",
+      "committed-original-r01",
+      "committed-checkpoint-save-r01",
+      "committed-checkpoint-reopen-r01",
+      "committed-bim-r01",
+      "committed-ctest-r01"
+    ],
+    "actual_test_counts": {
+      "focused": {"tests_run": 7, "skipped": 0, "expected_failures": 0},
+      "BIM": {"tests_run": 350, "skipped": 2, "expected_failures": 1, "ordinary_passes": 347},
+      "CTest": {"catalogued": 2277, "enabled": 2269, "passed": 2267, "skipped": 2, "disabled": 8, "failed": 0}
+    },
+    "counts_match_completion_json": true,
+    "formatting_and_discovery_receipt": {
+      "exact_stdout_SHA_bindings_verified": true,
+      "black_26_5_1_check_returncode": 0,
+      "black_reports_three_files_unchanged": true,
+      "git_diff_check_returncode": 0,
+      "all_four_product_source_SHA256_before_after_equal": true,
+      "Rails_status": "SKIPPED N/A; all recorded root Rails/importmap/package lint markers absent"
+    }
+  },
+  "failure_sensitive_geometry_evidence": {
+    "exact_committable_test_SHA256": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4",
+    "qualified_old_implementation_RED": {
+      "receipt": "installed-committable-red-r01",
+      "method": "test_notched_channels_keep_valid_material",
+      "old_ArchComponent_SHA256": "a0485c6b5f77755e936fc9189cea79dcaf3c55969161c05ba3763173842a5b32",
+      "tests_run": 1,
+      "actual_failure": "Actual wrapper shape.isValid() assertion",
+      "test_elapsed_seconds": 0.151
+    },
+    "committed_original": {
+      "valid_Base_volume_mm3": 49054303.568511024,
+      "saved_before_wrapper_invalid": true,
+      "after_wrapper_valid_closed_single_positive_solid": true,
+      "after_wrapper_volume_mm3": 49054303.568511024,
+      "both_directed_material_differences_nonnull_valid_and_zero_vertices": true,
+      "all_captured_input_controls_unchanged": true,
+      "rail_input_count": 165,
+      "bore_tool_count": 66,
+      "rail_and_cut_Refine": [false, false],
+      "Base_link": "R67C16BoredRail",
+      "Material_link": "Material032"
+    },
+    "committed_save_and_separate_process_reopen": {
+      "saved_private_copy_SHA256": "3fc10e2ed67b67da1298dca0e7bafaa05dc4fc2c6e69c3a31bb373dafe15f77b",
+      "reopen_input_SHA_matches_save_output": true,
+      "restored_and_recomputed_wrapper_valid_closed_single_positive_solid": true,
+      "restored_and_after_volumes_mm3": 49054303.568511024,
+      "restored_and_after_directed_material_pairs_nonnull_valid_zero_vertices": true,
+      "save_and_reopen_captured_controls_unchanged": true
+    },
+    "qualified_historical_imported_and_generic_GREEN_observations": "Inspected: source-imported-green-r02 and source-generic-regression-green-r01 both record valid unchanged Bases, valid wrappers and two non-null valid zero-vertex directed material differences. These retain their stage-one runtime scope, not relabeled as final committed gates."
+  },
+  "original_pin_custody": {
+    "all_seven_original_files_rehashed_in_this_audit": true,
+    "all_seven_match_initial_issue_pins_and_retained_custody_review": true,
+    "original_checkpoint_SHA256": "570e7ffd62c4dfb95c7b0bcbb1eafab69f11c5d54152bf9fd840ad0464402a33",
+    "retained_custody_review_SHA256": "678f1bc4ea2dee6ea82b66072941fa49ec53d0c7821b80eea08cd8ae34f0c7e9",
+    "pin_file_count": 7
+  },
+  "privacy": {
+    "no_FCStd_BREP_BRP_or_raw_XML_files_retained": true,
+    "no_CAD_or_XML_serialization_payload_signatures_in_raw_or_decompressed_retained_files": true,
+    "no_large_embedded_string_payloads_over_5000_characters_in_retained_Python_AST": true,
+    "no_JSON_fixture_or_catalogue_snapshot_archived_as_code": true,
+    "full_delta_summaries_and_parameter_observations_not_retained": true,
+    "redacted_minimization_summaries_verified": 2,
+    "redacted_summaries_contain_counts_and_shape_health_not_house_primitive_parameters": true,
+    "redacted_summary_source_SHA256_bindings_verified": true,
+    "allowed_metadata_remaining": "Immutable logs, receipts and input manifests retain local paths, source object names, SHA pins and shape/control health. Publicly constructed generic box-fixture code remains. This is not a claim that all names or all metadata were anonymized."
+  },
+  "historical_truthfulness": {
+    "source_build_controls_r01_false_source_custody_preserved_as_harness_error": true,
+    "installed_operations_r01_BREP_cache_byte_oracle_failure_preserved_as_harness_error": true,
+    "source_imported_green_r01_retained_but_not_accepted_as_qualified_GREEN": true,
+    "failed_receipts_not_relabelled_passed": true,
+    "two_collector_parser_refusals_recorded_as_pre_destination_attempt_notes": true
+  },
+  "limitations": [
+    "This is an offline artifact, hash, privacy and recorded-oracle audit, not a new native reproduction or test run.",
+    "Protected application/profile equality was verified in all immutable receipts; this auditor did not independently regenerate their full directory-tree fingerprints.",
+    "Geometry validity/material results are authenticated recorded native observations, not geometry independently recomputed by this auditor.",
+    "No application installation, original project mutation, remeshing, solving, engineering or house acceptance is asserted.",
+    "The native Part refinement/deeper cause remains follow-up FreeCAD-ajj; the wrapper guard is not a universal proof for valid but materially changed cleanup candidates.",
+    "The evidence bundle qualifies source behavior, not Bead closure, Git publication or deployment; those are separate root-owned session actions."
+  ]
+}

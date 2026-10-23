@@ -1,0 +1,73 @@
+{
+  "actual_test_counts": {
+    "BIM": {
+      "elapsed_seconds": 22.33,
+      "expected_failures": 1,
+      "passed_without_skip_or_expected_failure": 347,
+      "skipped": 2,
+      "summary": "OK (skipped=2, expected failures=1)",
+      "tests_run": 350
+    },
+    "CTest": {
+      "catalogued_including_disabled": 2277,
+      "count_source": "actual CTest run.log summary",
+      "disabled_entries": 8,
+      "not_run_or_skipped_entries": 2,
+      "passed_percentage": 100,
+      "passed_without_skip": 2267,
+      "tests_failed": 0,
+      "tests_total": 2269
+    },
+    "focused": {
+      "elapsed_seconds": 1.105,
+      "expected_failures": 0,
+      "passed_without_skip_or_expected_failure": 7,
+      "skipped": 0,
+      "summary": "OK",
+      "tests_run": 7
+    }
+  },
+  "all_run_logs_verified": true,
+  "all_runs_protected_before_after_equal": true,
+  "all_runs_reaped_without_timeout": true,
+  "collector_attempt_notes": "Initial preflight and collection refused the newer CTest success-summary syntax before destination creation; parser then qualified against the actual immutable log",
+  "completed": true,
+  "completion_scope": "Source-fix qualification only; not deployment or Git publication",
+  "engineering_or_house_acceptance_claimed": false,
+  "final_receipts_all_passed": true,
+  "historical_exclusions": {
+    "installed-operations-red-r01": "harness-error: BREP cache-byte equality is not a material oracle",
+    "source-build-controls-r01": "harness-error: source/supervisor changed during build; not accepted",
+    "source-imported-green-r01": "unqualified source import/origin attempt; not accepted as GREEN"
+  },
+  "installation_performed": false,
+  "issue": "FreeCAD-h88",
+  "limitations": [
+    "Native Part refinement/deeper cause remains separate follow-up FreeCAD-ajj",
+    "Wrapper health guard is not a universal material-equivalence proof for valid cleanup candidates",
+    "Stage-one reviews retain their original scope; final committed native gates provide final qualification"
+  ],
+  "nonmutating_checks_passed": true,
+  "original_project_mutated": false,
+  "original_project_sha256": "570e7ffd62c4dfb95c7b0bcbb1eafab69f11c5d54152bf9fd840ad0464402a33",
+  "product_commit": "a41994aa70f20397ef4f56503a1ecbe01ac5bb9b",
+  "product_source_sha256": {
+    "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+    "src/Mod/BIM/CMakeLists.txt": "9be9588db55025cf163cc94a5d36caad08be474852c8eecb2685f9958ca2c137",
+    "src/Mod/BIM/TestArch.py": "fcf4b21e5d6452ffa0e51a39cbdceae5044b8da101edcc4d549bee4027504af0",
+    "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4"
+  },
+  "publication_at_collection": "Session-final Bead closure and Git push are recorded separately",
+  "remeshing_or_solving_performed": false,
+  "required_final_labels": [
+    "committed-release-build-r01",
+    "committed-focused-r01",
+    "committed-original-r01",
+    "committed-checkpoint-save-r01",
+    "committed-checkpoint-reopen-r01",
+    "committed-bim-r01",
+    "committed-ctest-r01"
+  ],
+  "retention_policy": "No FCStd/BREP/XML or private parameter catalogue payload retained; original input manifests unmodified",
+  "schema": "FreeCAD-h88-local-completion-v1"
+}

@@ -1,0 +1,194 @@
+{
+  "OCC_version": "8.0.1",
+  "cases": [
+    {
+      "accepts_valid_base_invalid_cleanup_predicate": true,
+      "base": {
+        "closed": true,
+        "faces": 44,
+        "maximum_stored_tolerance_mm": 0.006013301748359526,
+        "null": false,
+        "solids": 1,
+        "valid": true,
+        "volume_mm3": 14730900.000000002
+      },
+      "base_meets_precondition": true,
+      "expected_volume_agrees": true,
+      "expected_volume_mm3": 14730900,
+      "far_slots": true,
+      "name": "translated-full",
+      "native_cleanup_candidate": {
+        "closed": true,
+        "faces": 34,
+        "maximum_stored_tolerance_mm": 0.006013301748359526,
+        "null": false,
+        "solids": 1,
+        "valid": false,
+        "volume_mm3": 14515452.808988761
+      },
+      "notches": true,
+      "simplified": false,
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "accepts_valid_base_invalid_cleanup_predicate": true,
+      "base": {
+        "closed": true,
+        "faces": 29,
+        "maximum_stored_tolerance_mm": 0.006013301748359526,
+        "null": false,
+        "solids": 1,
+        "valid": true,
+        "volume_mm3": 14781299.999999996
+      },
+      "base_meets_precondition": true,
+      "expected_volume_agrees": true,
+      "expected_volume_mm3": 14781300,
+      "far_slots": false,
+      "name": "translated-junction-slots-only",
+      "native_cleanup_candidate": {
+        "closed": true,
+        "faces": 21,
+        "maximum_stored_tolerance_mm": 0.006013301748359526,
+        "null": false,
+        "solids": 1,
+        "valid": false,
+        "volume_mm3": 14309248.69230769
+      },
+      "notches": true,
+      "simplified": false,
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "accepts_valid_base_invalid_cleanup_predicate": false,
+      "base": {
+        "closed": true,
+        "faces": 31,
+        "maximum_stored_tolerance_mm": 0.00425204146845585,
+        "null": false,
+        "solids": 1,
+        "valid": true,
+        "volume_mm3": 14805995.999999996
+      },
+      "base_meets_precondition": true,
+      "expected_volume_agrees": true,
+      "expected_volume_mm3": 14805996,
+      "far_slots": false,
+      "name": "translated-unnotched",
+      "native_cleanup_candidate": {
+        "closed": true,
+        "faces": 18,
+        "maximum_stored_tolerance_mm": 0.004252041468455852,
+        "null": false,
+        "solids": 1,
+        "valid": true,
+        "volume_mm3": 14805996.000000004
+      },
+      "notches": false,
+      "simplified": false,
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "accepts_valid_base_invalid_cleanup_predicate": true,
+      "base": {
+        "closed": true,
+        "faces": 29,
+        "maximum_stored_tolerance_mm": 0.0006005374151074554,
+        "null": false,
+        "solids": 1,
+        "valid": true,
+        "volume_mm3": 57300.00000000003
+      },
+      "base_meets_precondition": true,
+      "expected_volume_agrees": true,
+      "expected_volume_mm3": 57300,
+      "far_slots": false,
+      "name": "simplified-junction-slots-only",
+      "native_cleanup_candidate": {
+        "closed": true,
+        "faces": 21,
+        "maximum_stored_tolerance_mm": 0.0006005374151074554,
+        "null": false,
+        "solids": 1,
+        "valid": false,
+        "volume_mm3": 51733.97435897429
+      },
+      "notches": true,
+      "simplified": true,
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "accepts_valid_base_invalid_cleanup_predicate": true,
+      "base": {
+        "closed": true,
+        "faces": 44,
+        "maximum_stored_tolerance_mm": 0.006013301748359526,
+        "null": false,
+        "solids": 1,
+        "valid": true,
+        "volume_mm3": 14730899.999999998
+      },
+      "base_meets_precondition": true,
+      "expected_volume_agrees": true,
+      "expected_volume_mm3": 14730900,
+      "far_slots": true,
+      "name": "positive-offset-full",
+      "native_cleanup_candidate": {
+        "closed": true,
+        "faces": 34,
+        "maximum_stored_tolerance_mm": 0.006013301748359526,
+        "null": false,
+        "solids": 1,
+        "valid": false,
+        "volume_mm3": 14515452.80898876
+      },
+      "notches": true,
+      "simplified": false,
+      "translation": [
+        4325,
+        4775,
+        5719
+      ]
+    }
+  ],
+  "expected_volume_mm3": 14730900,
+  "found_natural_red": true,
+  "modules": {
+    "ArchComponent": {
+      "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/BIM/ArchComponent.py",
+      "sha256": "a0485c6b5f77755e936fc9189cea79dcaf3c55969161c05ba3763173842a5b32"
+    },
+    "ArchStructure": {
+      "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/BIM/ArchStructure.py",
+      "sha256": "459b5b839371ea6c00c92a98a193debc7587ebe6e68a8577325bbb9ccbaf864e"
+    }
+  },
+  "no_source_model_or_topology_read": true,
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +235 (Git)",
+    "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+    "2026/10/21 14:55:53",
+    "codex/fix-toroidal-self-cut",
+    "d15a59e8ff39d610337b02ca290fe477d24d065c"
+  ],
+  "schema": "FreeCAD-h88-private-generic-box-corner-v1"
+}

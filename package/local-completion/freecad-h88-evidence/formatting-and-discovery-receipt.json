@@ -1,0 +1,64 @@
+{
+  "Rails": {
+    "classification": "N/A",
+    "discovery": {
+      "Gemfile": false,
+      "bin/Rails": false,
+      "bin/rails": false,
+      "config/importmap.rb": false,
+      "package.json": false
+    },
+    "package_lint_scripts": {},
+    "reason": "FreeCAD C++/Python work; no root Rails/importmap or package lint task",
+    "status": "SKIPPED"
+  },
+  "commands": {
+    "black": {
+      "argv": [
+        "/Users/zukomgwili/.local/bin/uv",
+        "tool",
+        "run",
+        "--from",
+        "black==26.5.1",
+        "black",
+        "--check",
+        "--line-length",
+        "100",
+        "src/Mod/BIM/ArchComponent.py",
+        "src/Mod/BIM/TestArch.py",
+        "src/Mod/BIM/bimtests/TestArchShapeCleanup.py"
+      ],
+      "error": null,
+      "returncode": 0,
+      "stdout_and_stderr_path": "checks/black.log.gz",
+      "uncompressed_output_sha256": "85a6dc03ad627012849ae98242861e82ab92952c949568c259d9d1f9bce14ef3"
+    },
+    "git-diff-check": {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "error": null,
+      "returncode": 0,
+      "stdout_and_stderr_path": "checks/git-diff-check.log.gz",
+      "uncompressed_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "cwd": "/Users/zukomgwili/src/FreeCAD",
+  "passed": true,
+  "schema": "FreeCAD-h88-nonmutating-quality-checks-v1",
+  "source_after": {
+    "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+    "src/Mod/BIM/CMakeLists.txt": "9be9588db55025cf163cc94a5d36caad08be474852c8eecb2685f9958ca2c137",
+    "src/Mod/BIM/TestArch.py": "fcf4b21e5d6452ffa0e51a39cbdceae5044b8da101edcc4d549bee4027504af0",
+    "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4"
+  },
+  "source_before": {
+    "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+    "src/Mod/BIM/CMakeLists.txt": "9be9588db55025cf163cc94a5d36caad08be474852c8eecb2685f9958ca2c137",
+    "src/Mod/BIM/TestArch.py": "fcf4b21e5d6452ffa0e51a39cbdceae5044b8da101edcc4d549bee4027504af0",
+    "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4"
+  },
+  "source_unchanged": true
+}

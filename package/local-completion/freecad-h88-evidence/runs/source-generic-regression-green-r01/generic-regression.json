@@ -1,0 +1,125 @@
+{
+  "schema": "FreeCAD-h88-generic-public-regression-v1",
+  "runtime": [
+    "27",
+    "1",
+    "0",
+    "49261 +236 (Git)",
+    "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+    "2026/10/21 15:41:15",
+    "codex/fix-toroidal-self-cut",
+    "404927c5b8278149e5d22c4e8f6bc2f58ee94a8b"
+  ],
+  "modules": {
+    "ArchComponent": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/BIM/ArchComponent.py",
+      "sha256": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962"
+    },
+    "ArchStructure": {
+      "path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/BIM/ArchStructure.py",
+      "sha256": "459b5b839371ea6c00c92a98a193debc7587ebe6e68a8577325bbb9ccbaf864e"
+    }
+  },
+  "no_source_model_or_BREP_read": true,
+  "no_BIM_shape_assignment": true,
+  "passed": true,
+  "base_before": {
+    "name": "UnrefinedChannelCorner",
+    "type": "Part::MultiFuse",
+    "valid": true,
+    "null": false,
+    "closed": true,
+    "solid_count": 1,
+    "face_count": 29,
+    "volume_mm3": 57300.00000000003,
+    "area_mm2": 62039.99999999999,
+    "bounds_mm": [
+      -430.0,
+      -480.0,
+      0.0,
+      20.0,
+      240.0,
+      7.0
+    ],
+    "solid_closed": [
+      true
+    ],
+    "solid_volumes_mm3": [
+      57300.00000000003
+    ],
+    "must_execute": false,
+    "state": [
+      "Up-to-date"
+    ]
+  },
+  "wrapper": {
+    "name": "Structure",
+    "type": "Part::FeaturePython",
+    "valid": true,
+    "null": false,
+    "closed": true,
+    "solid_count": 1,
+    "face_count": 29,
+    "volume_mm3": 57300.00000000003,
+    "area_mm2": 62039.99999999999,
+    "bounds_mm": [
+      -430.0,
+      -480.0,
+      0.0,
+      20.0,
+      240.0,
+      7.0
+    ],
+    "solid_closed": [
+      true
+    ],
+    "solid_volumes_mm3": [
+      57300.00000000003
+    ],
+    "must_execute": true,
+    "state": [
+      "Touched"
+    ]
+  },
+  "base_after": {
+    "name": "UnrefinedChannelCorner",
+    "type": "Part::MultiFuse",
+    "valid": true,
+    "null": false,
+    "closed": true,
+    "solid_count": 1,
+    "face_count": 29,
+    "volume_mm3": 57300.00000000003,
+    "area_mm2": 62039.99999999999,
+    "bounds_mm": [
+      -430.0,
+      -480.0,
+      0.0,
+      20.0,
+      240.0,
+      7.0
+    ],
+    "solid_closed": [
+      true
+    ],
+    "solid_volumes_mm3": [
+      57300.00000000003
+    ],
+    "must_execute": false,
+    "state": [
+      "Up-to-date"
+    ]
+  },
+  "material_differences": [
+    {
+      "null": false,
+      "vertices": 0,
+      "valid": true
+    },
+    {
+      "null": false,
+      "vertices": 0,
+      "valid": true
+    }
+  ]
+}

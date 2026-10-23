@@ -1,0 +1,36 @@
+{
+  "review": "FreeCAD-h88 final standards and code quality",
+  "fixed_point": "404927c5b8278149e5d22c4e8f6bc2f58ee94a8b",
+  "diff_command": "git diff --cached 404927c5b8278149e5d22c4e8f6bc2f58ee94a8b -- src/Mod/BIM/ArchComponent.py src/Mod/BIM/CMakeLists.txt src/Mod/BIM/TestArch.py src/Mod/BIM/bimtests/TestArchShapeCleanup.py",
+  "result": "pass",
+  "findings": [],
+  "standards_read_in_full": [
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "AI_POLICY.md",
+    "src/Mod/BIM/coding_conventions.md",
+    "src/Mod/Draft/coding_conventions.md"
+  ],
+  "reviewed_files_sha256": {
+    "src/Mod/BIM/ArchComponent.py": "62bbd91946639b2b3c473d6d07d53159bf122958f4a425c0c17ba5dad07ca962",
+    "src/Mod/BIM/CMakeLists.txt": "9be9588db55025cf163cc94a5d36caad08be474852c8eecb2685f9958ca2c137",
+    "src/Mod/BIM/TestArch.py": "fcf4b21e5d6452ffa0e51a39cbdceae5044b8da101edcc4d549bee4027504af0",
+    "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "43744b847cc28f5a86c9664619f2ef80589dfb30e84ff42bbf2df14b06a27cb4"
+  },
+  "staged_blobs": {
+    "src/Mod/BIM/ArchComponent.py": "63a702c0facbe6cf81427de9d8a0aa78e4e9ed1a",
+    "src/Mod/BIM/CMakeLists.txt": "d98c8a95c1f2d712820805c704949fa905342c86",
+    "src/Mod/BIM/TestArch.py": "c441331bfe15502f51c02643e387a5b175de034e",
+    "src/Mod/BIM/bimtests/TestArchShapeCleanup.py": "8763c6c6dbb5510c52f1a59641ded5bdf1afb918"
+  },
+  "worktree_matches_reviewed_index": true,
+  "native_calls_executed": false,
+  "tests_executed": false,
+  "notes": [
+    "The refinement candidate checks are short-circuited and stay inside the existing OCCError fallback.",
+    "The fixture uses public Part and Arch APIs; material equivalence is checked in both cut directions, with invalid differences rejected.",
+    "Successful refinement, disconnected solids, placement, material links, and persistence have focused compatibility controls.",
+    "BIM test naming and registration match the existing local test suite.",
+    "AI policy obligations for any future upstream contribution remain with the human contributor; no upstream PR or installation is part of this review."
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "FreeCAD-h88-read-only-source-evidence-review-v1",
+  "date": "2026-10-23",
+  "reviewer": "/root/h88_evidence_audit",
+  "issue": "FreeCAD-h88",
+  "result": "All seven retained source pins match; no non-stock Python proxy or nonempty external-document link descriptor observed in the recovery checkpoint",
+  "unresolved_material_evidence_findings": [],
+  "review_boundary": {
+    "method": "Read-only SHA256, JSON and FCStd ZIP/XML inspection",
+    "native_FreeCAD_GUI_solver_build_or_installer_execution": false,
+    "ArchComponent_ArchStructure_cleanup_implementation_read": false,
+    "original_producer_or_proxy_execution": false,
+    "pickle_deserialization_or_macro_execution": false,
+    "original_project_profile_or_repository_file_writes": false,
+    "only_written_artifact": "/private/tmp/freecad-h88-cZ2yvMA9/evidence-review.json",
+    "actual_native_shape_health_independently_reproduced_here": false,
+    "qualification": "Saved XML and pinned earlier reports are evidence, not a fresh geometry validity verdict. Root must perform the agreed private-copy native reproduction."
+  },
+  "evidence_root": "/Users/zukomgwili/src/oomakhi/artifacts/Fire-Access-Integration/r01/review/en2-complete-r01/complete-native-p01-p02-r67",
+  "verified_originals": {
+    "native/EN2-failed-author-checkpoint-r67.FCStd": {
+      "sha256": "d9227164cd6db4b716d01144ddf75d57b78d686801c437e328df8d06084f5166",
+      "bytes": 23127446
+    },
+    "native/recovery-r02/EN2-failed-recovery-r02.FCStd": {
+      "sha256": "570e7ffd62c4dfb95c7b0bcbb1eafab69f11c5d54152bf9fd840ad0464402a33",
+      "bytes": 23563423
+    },
+    "NativeSavedAssemblyRecoveryR67R02.py": {
+      "sha256": "424f8bb2a335c435811b852b71e99cb3ece80cd96a8b879f6918ad936ac67888",
+      "bytes": 18895,
+      "executed": false
+    },
+    "recovery-config-r02.json": {
+      "sha256": "8e4a04a02fc64f390ee7d0f7e4db8519fb1abe196e32eac46e1a9de05e42cc21",
+      "bytes": 10833
+    },
+    "diagnostics/recovery-r02/author-report.json": {
+      "sha256": "30db934ae0c23aaed6ea8191ac087ec1e074776367d1b33fbb456e5f07747ae8",
+      "bytes": 1569811
+    },
+    "diagnostics/recovery-r02/author-progress.jsonl": {
+      "sha256": "75ac41f5bc70a5e4ad948636ab0386d400181dee4de9b3afc9fdbc078255c95f",
+      "bytes": 1908
+    },
+    "registration/recovery-author-execution-r02.json": {
+      "sha256": "469f4b753361667f46f5e6ed5f2e2b46d8185175e83efa4c8e96dffc2a899cad",
+      "bytes": 330567
+    }
+  },
+  "earlier_failed_run": {
+    "passed": false,
+    "failed_at": "Structure671 actual shape-health assertion",
+    "producer_native_elapsed_seconds": 17.265739415997814,
+    "guarded_execution_exit_code": 1,
+    "guarded_execution_timed_out": false,
+    "guarded_execution_reaped": true,
+    "public_failed_receipt": "f0b6dd40d2edae08fbb0d309f740cfaa8af8425dc52b450c8348873293eae190",
+    "source_unchanged": true,
+    "P01_parameter_changes_reached": false,
+    "mesh_writer_solve": false,
+    "authoring_complete": false,
+    "actual_fit_accepted": false,
+    "installation_accepted": false,
+    "engineering_accepted": false,
+    "limits_unchanged": {
+      "force_percent": 1,
+      "global_origin_moment_percent": 1,
+      "sensitivity_percent": 5,
+      "fixed_D_mm": 0.21543793787448395
+    }
+  },
+  "saved_checkpoint_dependencies": {
+    "zip_members": 17584,
+    "XLink_elements": 2254,
+    "nonempty_external_XLink_file_fields": 0,
+    "nonempty_external_XLinks": [],
+    "Python_proxy_descriptors": 2025,
+    "nonstock_Python_proxy_modules_observed": [],
+    "proxy_file_attributes_or_Proxy_named_ZIP_members_observed": [],
+    "module_class_counts": {
+      "ArchEquipment._Equipment": 8,
+      "ArchMaterial._ArchMaterial": 25,
+      "ArchMaterial._ArchMaterialContainer": 1,
+      "ArchMaterial._ArchMultiMaterial": 2,
+      "ArchPipe._ArchPipe": 22,
+      "ArchRebar._Rebar": 262,
+      "ArchRoof._Roof": 2,
+      "ArchStairs._Stairs": 2,
+      "ArchStructure._Structure": 1185,
+      "ArchWall._Wall": 13,
+      "ArchWindow._Window": 20,
+      "draftobjects.array.Array": 71,
+      "draftobjects.pointarray.PointArray": 59,
+      "draftobjects.wire.Wire": 353
+    },
+    "qualification": "Descriptor inventory only; no module or proxy was imported or executed. Empty XLink file fields mean same-document links in this saved XML, not a claim that every possible runtime dependency is absent."
+  },
+  "controls_to_preserve": {
+    "R67C16CompleteRail": {
+      "type": "Part::MultiFuse",
+      "Refine": false,
+      "identity_Placement": true,
+      "Shapes_ordered_count": 165,
+      "Shapes_names_unique": true,
+      "Shapes_ordered_names_canonical_sha256": "bc1912e0a674b370727a3c8f5914744132115a5fc6fad8ebe7551d49f32703c0"
+    },
+    "R67C16BoredRail": {
+      "type": "Part::Cut",
+      "Base": "R67C16CompleteRail",
+      "Tool": "R67C16CrownBores",
+      "Refine": false,
+      "identity_Placement": true
+    },
+    "R67C16CrownBores": {
+      "type": "Part::Compound",
+      "identity_Placement": true,
+      "Links_ordered_count": 66,
+      "Links_names_unique": true,
+      "all_Linked_types": "Part::Cylinder",
+      "Links_ordered_names_canonical_sha256": "b0bec49185ec098c3fbd1384a276441136519f33b01424c5bb188557ac6925a6",
+      "full_cylinder_property_XML_canonical_sha256": "575aea22d60e1b737d0472f69f2a713831d95d2bc6f79325b9c1f978abdceb78"
+    },
+    "Structure671": {
+      "type": "Part::FeaturePython",
+      "Base": "R67C16BoredRail",
+      "Additions_count": 0,
+      "Subtractions_count": 0,
+      "Axis": "",
+      "CloneOf": "",
+      "Tool_LinkSubList_count": 0,
+      "identity_Placement": true,
+      "Refine_property_exists": false,
+      "Material": "Material032",
+      "Proxy_module": "ArchStructure",
+      "Proxy_class": "_Structure"
+    },
+    "ordered_names_digest_algorithm": "SHA256(json.dumps(ordered_name_list, sort_keys=True, separators=(',', ':')).encode('utf-8'))",
+    "cylinder_XML_digest_algorithm": "SHA256(json.dumps({name: ElementTree.tostring(ObjectData.Object.Properties, encoding='unicode') for each original compound Link}, sort_keys=True, separators=(',', ':')).encode('utf-8'))",
+    "scope": "Keep all original links, order, Part controls, cylinder dimensions/placements, wrapper controls and material association unchanged for the actual retained-case probe. No custom Shape assignment to the project."
+  },
+  "embedded_shape_members": {
+    "R67C16CompleteRail.Shape.brp": {"bytes": 1453723, "sha256": "57253e60a1c615c7579e5c243589a01310ade0305e5fa58df975d47d645bc6cb"},
+    "R67C16BoredRail.Shape.brp": {"bytes": 1598803, "sha256": "6196ce905c2fb9a852f954ad2a05347e951ae05b765293b25343c73d5e395d34"},
+    "R67C16CrownBores.Shape.brp": {"bytes": 99895, "sha256": "490a4338c598e9f24fe979ece8b03c78dd7ccc09c041b80c4cab9c22297f0711"},
+    "Structure671.Shape.brp": {"bytes": 1768538, "sha256": "8495cbde9058005adaf5b008b4af3ad611427fb1a853d8b6a9ab43e59e1740a2"}
+  },
+  "recorded_earlier_shape_health_not_freshly_reproduced": {
+    "R67C16CompleteRail": {"valid": true, "all_solids_closed": true, "solids": 1, "volume_mm3": 49079495.99999995},
+    "R67C16BoredRail": {"valid": true, "all_solids_closed": true, "solids": 1, "volume_mm3": 49054303.568511024},
+    "Structure671": {"valid": false, "all_solids_closed": true, "solids": 1, "volume_mm3": 52346627.24849561, "recompute_returned": true, "MustExecute": true}
+  },
+  "next_gate": "Root's user-approved stock-interface private-copy native reproduction before any cleanup implementation inspection",
+  "publication_limit": "The actual house FCStd/shape payloads stay outside the FreeCAD repository and public artifacts. This private review does not qualify a structural/fit/movement/installation successor."
+}
