@@ -1,0 +1,46 @@
+{
+  "schema": "FreeCAD-h88-independent-static-install-helper-review-v1",
+  "auditor": "/root/h88_install_independent_audit",
+  "reviewed_at_utc": "2026-10-23T08:11:49Z",
+  "source_commit": "1e3e53ed1fc916524ead89e594bf160d5421f84f",
+  "revision": "49261 +238 (Git)",
+  "result": "pass",
+  "open_findings": [],
+  "resolved_findings": [
+    {
+      "finding": "The initial collector captured the current install manifest without binding its bytes to the executed payload audit.",
+      "resolution": "The revised collector binds the exact manifest path, SHA256 and unique leaf count, reconstructs only allowed application and namespace leaves, compares the complete DESTDIR leaf set, and rechecks the retained manifest SHA before publication.",
+      "closure_verified_by": "Independent static reading of audits() and publication capture in collector SHA256 91e39dd249a8421bc52b9dde6ffb7f8f8b7ac1d7d65b199d25a51be02dfc0bb1."
+    }
+  ],
+  "method": {
+    "helper_code_imported_or_executed": false,
+    "FreeCAD_Part_GUI_solver_build_test_install_or_signature_operations_executed": false,
+    "Git_or_beads_operations_performed": false,
+    "existing_helpers_receipts_or_evidence_modified": false,
+    "only_authored_output": "/private/tmp/freecad-h88-install-hBMSfyug/helper-review.json",
+    "scope": "Static helper review only; not independent execution or final installed-state/retained-byte verification.",
+    "inspections": [
+      "Read fresh deployment, custody, bounded source/step/application, identity, original-checkpoint, cold-reopen and suite helpers.",
+      "Read the unchanged complete-set auditor and the inherited core staging/signing and reversible swap sections.",
+      "Checked exact current and predecessor identity pins, native solver pin, all-three-profile requirement and unique rollback path.",
+      "Checked complete payload/native/source admission, strict signature/read-only/cache-free checks, bounded isolated processes and same-device reversible replacement.",
+      "Checked exact public h88 test IDs and counts, literal bundle native/BIM origins, private checkpoint health/material checks and separate-process save/reopen binding.",
+      "Read the complete collector; checked all 18 phase declarations, actual completed CTest log text/count compatibility, native-only historical stage-path relocation, CAD/native/full-inventory exclusions and index publication coverage.",
+      "Independently SHA256-hashed the reviewed helper bytes without importing or executing them."
+    ]
+  },
+  "reviewed_helpers_sha256": {
+    "run_gate.py": "52b8083f69f9d88356efa39410103d3cfdb04d8e8309e517877b17e70eec9f33",
+    "run_step.py": "c6e2c5570ef72e16a6b94b6327dd2c5b16d4ca5e6def0960a77a90d1bb813018",
+    "critical_pins.py": "563b35a61d0a639ea5b3d8c28cd10a5ac859af1dc27a8a1885ccc7a59560ebee",
+    "stage_install.py": "29be461bac606c2de9ff077ce9068ed411a21bc27ef62f460097f45f2b58ba38",
+    "audit_payload_stage.py": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+    "run_application.py": "71d46eb3bb115713465786e435bb0e83f6ffd74213aaa7438bb537c01ee270fc",
+    "AppH88Identity.py": "0070d229fcc746cdc32f51189c7a8a4abd8981c1ebe5cebe529bedbc39cc0073",
+    "H88Suite.py": "219b329fcc4448f4d3cf3508b0dbc5081a10306355f86fa11fa8148c801e2885",
+    "H88OriginalCheckpoint.py": "819b2101abc6ff63eefd6ea40bd4676dbf7c19f6db2d63ae28126b2e6366a944",
+    "H88ColdCheckpoint.py": "a9fa4668b1b1bb8ed4a1bea39f326c234c3d35571de90bf222c76545f3c22398",
+    "collection/collect_installation.py": "91e39dd249a8421bc52b9dde6ffb7f8f8b7ac1d7d65b199d25a51be02dfc0bb1"
+  }
+}

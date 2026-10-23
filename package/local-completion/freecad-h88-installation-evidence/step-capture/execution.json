@@ -1,0 +1,59 @@
+{
+  "schema": "FreeCAD-8rk-install-step-v1",
+  "mode": "capture",
+  "command": [
+    "/opt/homebrew/bin/pixi",
+    "run",
+    "--frozen",
+    "python",
+    "-B",
+    "-c",
+    "import sys; sys.path.insert(0, '/private/tmp/freecad-h88-install-hBMSfyug'); import critical_pins; critical_pins.capture()"
+  ],
+  "source_commit": "1e3e53ed1fc916524ead89e594bf160d5421f84f",
+  "returncode": 0,
+  "timed_out": false,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 1.7783898750058142,
+  "inputs_before": {
+    "/private/tmp/freecad-h88-install-hBMSfyug/AppH88Identity.py": "0070d229fcc746cdc32f51189c7a8a4abd8981c1ebe5cebe529bedbc39cc0073",
+    "/private/tmp/freecad-h88-install-hBMSfyug/H88ColdCheckpoint.py": "a9fa4668b1b1bb8ed4a1bea39f326c234c3d35571de90bf222c76545f3c22398",
+    "/private/tmp/freecad-h88-install-hBMSfyug/H88OriginalCheckpoint.py": "819b2101abc6ff63eefd6ea40bd4676dbf7c19f6db2d63ae28126b2e6366a944",
+    "/private/tmp/freecad-h88-install-hBMSfyug/H88Suite.py": "219b329fcc4448f4d3cf3508b0dbc5081a10306355f86fa11fa8148c801e2885",
+    "/private/tmp/freecad-h88-install-hBMSfyug/audit_payload_stage.py": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+    "/private/tmp/freecad-h88-install-hBMSfyug/critical_pins.py": "563b35a61d0a639ea5b3d8c28cd10a5ac859af1dc27a8a1885ccc7a59560ebee",
+    "/private/tmp/freecad-h88-install-hBMSfyug/run_application.py": "71d46eb3bb115713465786e435bb0e83f6ffd74213aaa7438bb537c01ee270fc",
+    "/private/tmp/freecad-h88-install-hBMSfyug/run_gate.py": "52b8083f69f9d88356efa39410103d3cfdb04d8e8309e517877b17e70eec9f33",
+    "/private/tmp/freecad-h88-install-hBMSfyug/run_step.py": "c6e2c5570ef72e16a6b94b6327dd2c5b16d4ca5e6def0960a77a90d1bb813018",
+    "/private/tmp/freecad-h88-install-hBMSfyug/stage_install.py": "29be461bac606c2de9ff077ce9068ed411a21bc27ef62f460097f45f2b58ba38"
+  },
+  "inputs_after": {
+    "/private/tmp/freecad-h88-install-hBMSfyug/AppH88Identity.py": "0070d229fcc746cdc32f51189c7a8a4abd8981c1ebe5cebe529bedbc39cc0073",
+    "/private/tmp/freecad-h88-install-hBMSfyug/H88ColdCheckpoint.py": "a9fa4668b1b1bb8ed4a1bea39f326c234c3d35571de90bf222c76545f3c22398",
+    "/private/tmp/freecad-h88-install-hBMSfyug/H88OriginalCheckpoint.py": "819b2101abc6ff63eefd6ea40bd4676dbf7c19f6db2d63ae28126b2e6366a944",
+    "/private/tmp/freecad-h88-install-hBMSfyug/H88Suite.py": "219b329fcc4448f4d3cf3508b0dbc5081a10306355f86fa11fa8148c801e2885",
+    "/private/tmp/freecad-h88-install-hBMSfyug/audit_payload_stage.py": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+    "/private/tmp/freecad-h88-install-hBMSfyug/critical_pins.py": "563b35a61d0a639ea5b3d8c28cd10a5ac859af1dc27a8a1885ccc7a59560ebee",
+    "/private/tmp/freecad-h88-install-hBMSfyug/run_application.py": "71d46eb3bb115713465786e435bb0e83f6ffd74213aaa7438bb537c01ee270fc",
+    "/private/tmp/freecad-h88-install-hBMSfyug/run_gate.py": "52b8083f69f9d88356efa39410103d3cfdb04d8e8309e517877b17e70eec9f33",
+    "/private/tmp/freecad-h88-install-hBMSfyug/run_step.py": "c6e2c5570ef72e16a6b94b6327dd2c5b16d4ca5e6def0960a77a90d1bb813018",
+    "/private/tmp/freecad-h88-install-hBMSfyug/stage_install.py": "29be461bac606c2de9ff077ce9068ed411a21bc27ef62f460097f45f2b58ba38"
+  },
+  "protected_before": {
+    "/Applications/FreeCAD-27.1.0.app": "0de4c139e9d2d90bfcfc12ce4fa9d0237687bdfa62aa5c82f667f1f43274903e",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "8f7c2f513fa24f4ccafc300266f7a86ca235edcfdb442c8600317bea5c697e92",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "bcb11703599d9074ff9c8484b6d076780a8b310b0b46bd74a91bd31f79747ee2",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "1b72daebc9c9b390deed22f7b7a33ac56e8a500b35921d739111361809694efd"
+  },
+  "protected_after": {
+    "/Applications/FreeCAD-27.1.0.app": "0de4c139e9d2d90bfcfc12ce4fa9d0237687bdfa62aa5c82f667f1f43274903e",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "8f7c2f513fa24f4ccafc300266f7a86ca235edcfdb442c8600317bea5c697e92",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "bcb11703599d9074ff9c8484b6d076780a8b310b0b46bd74a91bd31f79747ee2",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "1b72daebc9c9b390deed22f7b7a33ac56e8a500b35921d739111361809694efd"
+  },
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "inputs_unchanged": true,
+  "protected_unchanged": true,
+  "passed": true
+}
