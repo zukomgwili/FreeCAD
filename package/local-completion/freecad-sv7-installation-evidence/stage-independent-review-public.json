@@ -1,0 +1,128 @@
+{
+  "application_gates": {
+    "cmd": {
+      "identity_sha256": "a1b5746b6091ff54f10d87f60529c3be3de2b16b0f1f85d48882ff8a096d7cc4",
+      "receipt_sha256": "1705d8ee3bada738f8d580889187ce4445d6790393bba607a01966b00ed61e75",
+      "regression_sha256": "29c9f59fff4580566b882b693f4b0172c5efe8ed130f17d2e7e8a45f0302a116",
+      "tests": 31
+    },
+    "cold": {
+      "identity_sha256": "b367e551390f479ca03803572c790d193f50bd917fac881139d7dc01516129d5",
+      "receipt_sha256": "65a1272009b81c562740ac5e0495b8633e5ca0cf940ce1ac4ed9b48825b63f30",
+      "regression_sha256": "902d8981b4966330b74b89b241e4362895718d3ff018d391df445daf1b508011",
+      "tests": 1
+    },
+    "gui": {
+      "identity_sha256": "281bde5fdd10be27c93510ab4fb4b1171d439f626ea0bd69fd145b24277c308a",
+      "receipt_sha256": "5447aedc55246a0e85b1dad4e1788d3a7ad6755d2c8787b6b5e13aab7a71ec77",
+      "regression_sha256": "5aa0b7f0a6091116fbae8ec2067ea28f2eb6dee01233bf9aef434398519c3225",
+      "tests": 6
+    }
+  },
+  "baseline_inventory_sha256": "35421d224265349faebeb8ab974ec69e77452e0c44cb7b758709985292d86081",
+  "bulk_inputs_omitted": true,
+  "cold_domains": [
+    {
+      "case": {
+        "analysis": "Analysis",
+        "mesh": "Mesh",
+        "solver": "CalculiXCcxTools"
+      },
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/native-beam-gui.FCStd",
+        "sha256": "37252445b4840780f57b2934131766c85894178459d0f7822b46fbccf1e99b91"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/saved-output.json",
+        "sha256": "08ec57dcd0545bffaaf076b2f445c04df3519c99f2651ea2b7d2a9ee91a4c9c1"
+      },
+      "restored_completed_run": false,
+      "samples": 10,
+      "saved_completed_run": true,
+      "schema": "CCX_BEAM_SECTION_V1",
+      "status_after_current_read_refusal": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "08ec57dcd0545bffaaf076b2f445c04df3519c99f2651ea2b7d2a9ee91a4c9c1"
+    },
+    {
+      "case": {
+        "analysis": "Analysis",
+        "mesh": "Mesh",
+        "solver": "Solver"
+      },
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/series.FCStd",
+        "sha256": "da2ef951a1a362df9cd6fa9e1e27736d45b904d1b267a2d589913e7705a4ddac"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/observed.json",
+        "sha256": "7a29beb21e364e64d156ba730bffef9de7c52289497dcb795cfac5500109efff"
+      },
+      "restored_completed_run": false,
+      "samples": 10,
+      "saved_completed_run": true,
+      "schema": "CCX_BEAM_SECTION_V2",
+      "status_after_current_read_refusal": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "5a6090dfad8681cc70d11cdfaec60e5861ef855b4e9c4ae3b619357b5e1d5206"
+    },
+    {
+      "case": {
+        "analysis": "HybridAnalysis",
+        "mesh": "HybridMesh",
+        "solver": "HybridSolver"
+      },
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/hybrid.FCStd",
+        "sha256": "fc3e2f735a0a8eff26337f9b0e5084d6190eb77ddbbb417f5820b72cdf709319"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/observed.json",
+        "sha256": "f1296dd3bc3747235b374962d64248aee4851989543d6f14dc8006d0aadcc272"
+      },
+      "restored_completed_run": false,
+      "samples": 4,
+      "saved_completed_run": true,
+      "schema": "CCX_BEAM_SECTION_V3",
+      "status_after_current_read_refusal": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "6aee1f8bd363936881964886fd8548e975809d2cabd7b68b98b3d7b4a5f799a9"
+    }
+  ],
+  "compiled_commit": "2f6ed5df7bd9786449230ad01366a7d8e10ae0e2",
+  "findings": [],
+  "helper_sha256": "9ad628f2a1c10091ba949ba5530a2907f9057da259bcb9ff146163de33101f59",
+  "inherited_native_images": 2,
+  "input_record_count": 26177,
+  "inputs_canonical_sha256": "c243629627b42883b5597207ad3ec5a2fd30192c427635599275f62ef931ef93",
+  "manifest_leaf_set_count": 3946,
+  "namespace_files_unchanged": 11,
+  "native_sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e",
+  "non_native_payload_matches": 3868,
+  "original_private_path": "/private/tmp/freecad-sv7-install-o698f09g/stage-independent-review.json",
+  "original_schema": "FreeCAD-sv7-independent-stage-review-v1",
+  "original_sha256": "22aa96ed06b77b4cdc8a3f4abf4063d3d9b18318a58b443caba82e4d1981b9e5",
+  "passed": true,
+  "payload_native_images": 61,
+  "private_original_retained_unchanged": true,
+  "profiles_unchanged": 3,
+  "publication_is_new_review_or_reexecution": false,
+  "quicklook_embedded_entitlements": {
+    "FreeCADPreviewExtension.appex": {
+      "com.apple.security.app-sandbox": true,
+      "com.apple.security.files.bookmarks.app-scope": true,
+      "com.apple.security.files.downloads.read-only": true,
+      "com.apple.security.files.user-selected.read-only": true
+    },
+    "FreeCADThumbnailExtension.appex": {
+      "com.apple.security.app-sandbox": true,
+      "com.apple.security.files.bookmarks.app-scope": true,
+      "com.apple.security.files.downloads.read-only": true,
+      "com.apple.security.files.user-selected.read-only": true
+    }
+  },
+  "reviewer": "/root/sv7_install_audit",
+  "revision": "49261 +242 (Git)",
+  "schema": "FreeCAD-sv7-public-independent-review-derivative-v1",
+  "scope": "Independent read/hash/parse only. No dynamic deployment helper, FreeCAD, solver or native signature command executed. Actual Mach-O bytes/body/RPATH/embedded-entitlement/source/inventory checks performed; cryptographic strict-signature success is bound to root-produced frozen-supervisor reports, not independently rerun here. No engineering acceptance.",
+  "selected_critical_files_unchanged": 17,
+  "selected_source_matches": 77,
+  "stage_inventory_sha256": "f32924418d7edf1634b89c06f7aa2f5b497d97571eed2eb58173cf10c1900a27"
+}

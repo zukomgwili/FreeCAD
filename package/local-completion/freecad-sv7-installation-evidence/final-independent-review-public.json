@@ -1,0 +1,117 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "application_gates": {
+    "cmd": {
+      "identity_sha256": "a82a836edcab831e9fd4edfb135a3cb72ef848a9f7fd001848573f5a0adf9e08",
+      "receipt_sha256": "e7108d4f7c0526230127f13520056834130769d5bc827061a20a708845cc9a63",
+      "regression_sha256": "757c75e12cba76e990a58a5b2a51f6b796a8e82003cfd6cbc5dc45c6448bd458",
+      "tests": 31
+    },
+    "cold": {
+      "identity_sha256": "5b1b58712c1c967ac30eda784bf8b76e5b2c8843b503ca9a476d196f01072b7c",
+      "receipt_sha256": "73034dde76b7ceed1dac73612eded244c3e73e100d18df68e74b6054c2d6811f",
+      "regression_sha256": "99e697bb1c081e1219fd217bab8c5bf0f862231e01789a38470e6ff5e53b30b9",
+      "tests": 1
+    },
+    "gui": {
+      "identity_sha256": "97ebfce95600446846ac72344c6d313f426738f14f1f5f90c4a780718dbdf62a",
+      "receipt_sha256": "11816e3f585e4c2547e6c4e260dab320369e8b47604c3a018f2ff9dd90a1f4b7",
+      "regression_sha256": "f7ca9310cfd8acf8ee637be03f8a69c475aba0a912f5ed60981f8173c9017e65",
+      "tests": 6
+    }
+  },
+  "backup_inventory_sha256": "35421d224265349faebeb8ab974ec69e77452e0c44cb7b758709985292d86081",
+  "bulk_inputs_omitted": true,
+  "cold_domains": [
+    {
+      "case": {
+        "analysis": "Analysis",
+        "mesh": "Mesh",
+        "solver": "CalculiXCcxTools"
+      },
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/installed-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/native-beam-gui.FCStd",
+        "sha256": "d85fee87b686cf92194ec056b350706c7dd01375fefb126af615a8b4d3403ff9"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/installed-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/saved-output.json",
+        "sha256": "bc51141a4d9262ff5807c951f37c012a71bd793d2fcb634941386f22871f9aa7"
+      },
+      "restored_completed_run": false,
+      "samples": 10,
+      "saved_completed_run": true,
+      "schema": "CCX_BEAM_SECTION_V1",
+      "status_after_current_read_refusal": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "bc51141a4d9262ff5807c951f37c012a71bd793d2fcb634941386f22871f9aa7"
+    },
+    {
+      "case": {
+        "analysis": "Analysis",
+        "mesh": "Mesh",
+        "solver": "Solver"
+      },
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/installed-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/series.FCStd",
+        "sha256": "6f796ce21122339676698514333f1f80426bd068f875e91b6bbaeff87aef71d5"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/installed-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/observed.json",
+        "sha256": "64d66f8baa48713994abc796fd934521d6d6194b49e9b660ddc71edae134381a"
+      },
+      "restored_completed_run": false,
+      "samples": 10,
+      "saved_completed_run": true,
+      "schema": "CCX_BEAM_SECTION_V2",
+      "status_after_current_read_refusal": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "691e420b2aa573c58af7dd908f0c6ae1e45c93c3b21d2ae37ff33de446221994"
+    },
+    {
+      "case": {
+        "analysis": "HybridAnalysis",
+        "mesh": "HybridMesh",
+        "solver": "HybridSolver"
+      },
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/installed-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/hybrid.FCStd",
+        "sha256": "40cd4b4678a0bda4c57b4209f9526cb3b5e322d26d887f59e2a691cfc5241159"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/installed-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/observed.json",
+        "sha256": "b4987facfb35e228f405e1dc59e68397db01eee325fc1b5e43e187284ab349f5"
+      },
+      "restored_completed_run": false,
+      "samples": 4,
+      "saved_completed_run": true,
+      "schema": "CCX_BEAM_SECTION_V3",
+      "status_after_current_read_refusal": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "1fa935817ecadca0596670bdc5897b1c47d988faed10f67ae8068ee6680ecde3"
+    }
+  ],
+  "compiled_commit": "2f6ed5df7bd9786449230ad01366a7d8e10ae0e2",
+  "findings": [],
+  "helper_sha256": "9b95cbb55003505075532bc158ed0ac122575b49c086f163c3a15941a01d69f9",
+  "inherited_native_images": 2,
+  "input_record_count": 26122,
+  "inputs_canonical_sha256": "66a45af2f2531413e46e7d7d9ba27f1e1dede549d858dbd21925dba08736224b",
+  "installed_inventory_sha256": "f32924418d7edf1634b89c06f7aa2f5b497d97571eed2eb58173cf10c1900a27",
+  "namespace_files_unchanged": 11,
+  "native_payload_images": 61,
+  "native_sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e",
+  "original_private_path": "/private/tmp/freecad-sv7-install-o698f09g/final-independent-review.json",
+  "original_schema": "FreeCAD-sv7-independent-installed-review-v1",
+  "original_sha256": "8c0ea969893b04383f0451d5cef27c7060bfc20e445027faabc5448dc8e6e4e8",
+  "passed": true,
+  "private_original_retained_unchanged": true,
+  "profiles_unchanged": 3,
+  "publication_is_new_review_or_reexecution": false,
+  "readonly_cachefree_resources": true,
+  "reviewer": "/root/sv7_install_audit",
+  "revision": "49261 +242 (Git)",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-sv7-o698f09g.app",
+  "schema": "FreeCAD-sv7-public-independent-review-derivative-v1",
+  "scope": "Independent read/hash/parse only; actual installed and backup file inventories, Mach-O body/RPATH/embedded QuickLook entitlement parity, source equality and fresh literal installed runtime/cold-history chains verified. Native signature commands and FreeCAD/solver execution were performed only by root; cryptographic signature success is bound to frozen root-produced reports, not independently rerun here. Input maps remain private. No engineering acceptance.",
+  "selected_critical_files_unchanged": 17,
+  "selected_source_matches": 77,
+  "stage_history_preserved_without_rebinding": true,
+  "stage_review_sha256": "22aa96ed06b77b4cdc8a3f4abf4063d3d9b18318a58b443caba82e4d1981b9e5"
+}

@@ -1,0 +1,437 @@
+{
+  "analysis_solver_rerun": false,
+  "application": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app",
+  "cases": [
+    {
+      "case": {
+        "analysis": "Analysis",
+        "mesh": "Mesh",
+        "solver": "CalculiXCcxTools"
+      },
+      "completed_run": false,
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/native-beam-gui.FCStd",
+        "sha256": "37252445b4840780f57b2934131766c85894178459d0f7822b46fbccf1e99b91"
+      },
+      "frames": 1,
+      "mechanical_results": null,
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/saved-output.json",
+        "sha256": "08ec57dcd0545bffaaf076b2f445c04df3519c99f2651ea2b7d2a9ee91a4c9c1"
+      },
+      "reference_is_exact_stored_text": true,
+      "samples": 10,
+      "schema": "CCX_BEAM_SECTION_V1",
+      "status": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "08ec57dcd0545bffaaf076b2f445c04df3519c99f2651ea2b7d2a9ee91a4c9c1"
+    },
+    {
+      "case": {
+        "analysis": "Analysis",
+        "mesh": "Mesh",
+        "solver": "Solver"
+      },
+      "completed_run": false,
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/series.FCStd",
+        "sha256": "da2ef951a1a362df9cd6fa9e1e27736d45b904d1b267a2d589913e7705a4ddac"
+      },
+      "frames": 1,
+      "mechanical_results": null,
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/observed.json",
+        "sha256": "7a29beb21e364e64d156ba730bffef9de7c52289497dcb795cfac5500109efff"
+      },
+      "reference_is_exact_stored_text": false,
+      "samples": 10,
+      "schema": "CCX_BEAM_SECTION_V2",
+      "status": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "5a6090dfad8681cc70d11cdfaec60e5861ef855b4e9c4ae3b619357b5e1d5206"
+    },
+    {
+      "case": {
+        "analysis": "HybridAnalysis",
+        "mesh": "HybridMesh",
+        "solver": "HybridSolver"
+      },
+      "completed_run": false,
+      "document": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/hybrid.FCStd",
+        "sha256": "fc3e2f735a0a8eff26337f9b0e5084d6190eb77ddbbb417f5820b72cdf709319"
+      },
+      "frames": 1,
+      "mechanical_results": {
+        "mixed_original_nodes": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106
+        ],
+        "mixed_stress_xx_empty": true,
+        "solid_original_nodes": [
+          101,
+          102,
+          103,
+          104,
+          105,
+          106
+        ],
+        "solid_owner": "HybridPrism",
+        "solid_stress_xx_MPa": [
+          1.33333,
+          1.33333,
+          1.33333,
+          1.33333,
+          1.33333,
+          1.33333
+        ],
+        "source_file_sha256": "500e975a914b859d56da9e70e8543554ca0d073084c283382856bc19283335bf"
+      },
+      "reference": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/observed.json",
+        "sha256": "f1296dd3bc3747235b374962d64248aee4851989543d6f14dc8006d0aadcc272"
+      },
+      "reference_is_exact_stored_text": false,
+      "samples": 4,
+      "schema": "CCX_BEAM_SECTION_V3",
+      "status": "Stale: Native beam output is historical or withdrawn; rerun required",
+      "stored_section_data_sha256": "6aee1f8bd363936881964886fd8548e975809d2cabd7b68b98b3d7b4a5f799a9"
+    }
+  ],
+  "commit": "2f6ed5df7bd9786449230ad01366a7d8e10ae0e2",
+  "identity": {
+    "GuiUp": false,
+    "application": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app",
+    "candidate": {
+      "capabilities": {
+        "--freecad-beam-coupling-version": "CCX_BEAM_SECTION_V2",
+        "--freecad-beam-section-version": "CCX_BEAM_SECTION_V1",
+        "--freecad-beam-solid-version": "CCX_BEAM_SECTION_V3",
+        "--freecad-contact-state-version": "CCX_CONTACT_STATE_V1",
+        "--freecad-force-accounting-version": "CCX_FORCE_ACCOUNTING_V3"
+      },
+      "override": false,
+      "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+      "sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e"
+    },
+    "home_path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources//",
+    "native_origins": {
+      "Fem": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/lib/Fem.so",
+        "sha256": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f"
+      },
+      "FreeCAD": {
+        "embedded_native_binding": true,
+        "standalone_loaded": false
+      },
+      "Part": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/lib/Part.so",
+        "sha256": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44"
+      },
+      "libFreeCADApp.dylib": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADApp.dylib",
+        "sha256": "f45e2f1d1480cf0061f5a4ace245f220677e9f1771551bfcdfafeb6ff3fd0d34"
+      },
+      "libFreeCADBase.dylib": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/lib/libFreeCADBase.dylib",
+        "sha256": "1702ca3bdb1a30c7901a6ee0cc626cc362cf0c139c450759978bb8fc695b13ef"
+      }
+    },
+    "process_executable": {
+      "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/bin/FreeCADCmd",
+      "sha256": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00"
+    },
+    "python_origins": {
+      "ObjectsFem": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/ObjectsFem.py",
+        "sha256": "95a93ba6dfc6f29869113d0aad9237306470f1156b2f79ea49be6bc699997210"
+      },
+      "feminout": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/feminout/__init__.py",
+        "sha256": "3bc130465c0865f955960f710315ca720a814be86093bfdd267fea6d870784a0"
+      },
+      "feminout.importCcxFrdResults": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/feminout/importCcxFrdResults.py",
+        "sha256": "8adbdd2f38cc02e27d2abe8f51c4d54ff474b2322c1e646e99499f781d336a21"
+      },
+      "femmesh": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/__init__.py",
+        "sha256": "3bc130465c0865f955960f710315ca720a814be86093bfdd267fea6d870784a0"
+      },
+      "femmesh.meshsetsgetter": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshsetsgetter.py",
+        "sha256": "d5af449fa66b11d150406d99767d8088d11bcf194438b43d3813eebf57858dc6"
+      },
+      "femmesh.meshtools": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/meshtools.py",
+        "sha256": "4ce55366a0f0b912899e13351b85e0b5d829bf55f6d516159eb7623545873f23"
+      },
+      "femmesh.ownership_context": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/ownership_context.py",
+        "sha256": "698523c379149f4ebff2e80f4c57d586bb2d3c7b84bd3e34db16232a08ed1ed6"
+      },
+      "femmesh.quality": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femmesh/quality.py",
+        "sha256": "36c94195275136af0de0864477bc695c5b23d1d567db29c12894190723d4f974"
+      },
+      "femobjects": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/__init__.py",
+        "sha256": "3bc130465c0865f955960f710315ca720a814be86093bfdd267fea6d870784a0"
+      },
+      "femobjects.base_fempythonobject": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/base_fempythonobject.py",
+        "sha256": "db7cc6c2ec0282029cfc1e9e09d08b24934a0779a1f76c2cf95d8e037b74349f"
+      },
+      "femobjects.constraint_elastic_connector": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/constraint_elastic_connector.py",
+        "sha256": "c78394d7b8f7bc8e2ea1371fff96e1b2043eb2bf7a6d69af630a1c5cd02dcd78"
+      },
+      "femobjects.mesh_result": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/mesh_result.py",
+        "sha256": "c2c7de9d44e1d71640d4f8ffa7b377bb23736b92ae45eafb8120b535026b4d1a"
+      },
+      "femobjects.result_contact_observation": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/result_contact_observation.py",
+        "sha256": "0eb8d8f7701629eab987bedb5094df3646c4f19afb16d885ee0c94401a83cc8a"
+      },
+      "femobjects.solver_calculix": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/solver_calculix.py",
+        "sha256": "fb43352f42673b02daccc4441dbc1a3013d60bf0b84e0cfa73447469d35a7bba"
+      },
+      "femobjects.solver_ccxtools": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femobjects/solver_ccxtools.py",
+        "sha256": "1c3e9d64becfef528f6d06d4c1d956035c6c5a5c43e730d5aec7fba180d84b32"
+      },
+      "femsolver": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/__init__.py",
+        "sha256": "3bc130465c0865f955960f710315ca720a814be86093bfdd267fea6d870784a0"
+      },
+      "femsolver.calculix": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/__init__.py",
+        "sha256": "3bc130465c0865f955960f710315ca720a814be86093bfdd267fea6d870784a0"
+      },
+      "femsolver.calculix.calculixutils": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/calculixutils.py",
+        "sha256": "f25812afc5b6c6dcaf980de1a0e04c8d22e42358dc4e259df356b0516db6d3d0"
+      },
+      "femsolver.calculix.write_amplitude": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_amplitude.py",
+        "sha256": "bd5c4a0d61f5d8061e51a5643671547b10c991da7c46137b7f140b7812b9da5f"
+      },
+      "femsolver.calculix.write_constraint_bodyheatsource": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_bodyheatsource.py",
+        "sha256": "4f05533365372e65cb4439add59408c8206ff29f0354a335f4999e2f11905418"
+      },
+      "femsolver.calculix.write_constraint_centrif": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_centrif.py",
+        "sha256": "27ba34f74fc75ce9fdd205f2c322a401026b1f080b7b3bfd5538edcd171c1ccc"
+      },
+      "femsolver.calculix.write_constraint_contact": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_contact.py",
+        "sha256": "4761b1b2dd30b39ff0b55ced1670f366cc267fc3aa06ed507b5ba5b7be4da4df"
+      },
+      "femsolver.calculix.write_constraint_displacement": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_displacement.py",
+        "sha256": "89fac9e1f607ddbbef7fa9012a8af905a436830a443ceaded599ed3fee1a1cc3"
+      },
+      "femsolver.calculix.write_constraint_elastic_connector": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_elastic_connector.py",
+        "sha256": "7ea62a4615f526f11b2bf8c54715a77b97f2ce45971b85dd08e48d1fab5970e7"
+      },
+      "femsolver.calculix.write_constraint_electricchargedensity": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_electricchargedensity.py",
+        "sha256": "cc7378beb69b68c9fc4a4c335401186aea0f60f201d9410b71c87f2e553dfcf7"
+      },
+      "femsolver.calculix.write_constraint_electrostatic": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_electrostatic.py",
+        "sha256": "07eb7f4a112370c77e151bd3c52b18216088321ac93a5def9427774ba5287d09"
+      },
+      "femsolver.calculix.write_constraint_finaltemperature": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_finaltemperature.py",
+        "sha256": "2335a3fbc14aeacfeab0b03b8e860309fc4e9d2b8f8154a0159db8f45239ab48"
+      },
+      "femsolver.calculix.write_constraint_fixed": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_fixed.py",
+        "sha256": "5f10449491338b9c1511e692345363f3621290361ca95cd11bf046714b0335a1"
+      },
+      "femsolver.calculix.write_constraint_fluidsection": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_fluidsection.py",
+        "sha256": "dacb16426ed5c2f8ed0ec58c59b60f7f84e6514995a8c1a3df6dd5dccf76ab89"
+      },
+      "femsolver.calculix.write_constraint_force": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_force.py",
+        "sha256": "d0025209171cf5086aafb394092e6cdd65caea01f79e503b0ae2e04cdd81b659"
+      },
+      "femsolver.calculix.write_constraint_heatflux": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_heatflux.py",
+        "sha256": "2876ac420abc24f6097ebd0fc99ff27e7df56f42e62d544361e544a325bd4e49"
+      },
+      "femsolver.calculix.write_constraint_initialtemperature": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_initialtemperature.py",
+        "sha256": "8004d0f55731016c333b8727dae80d3195dfeebf94f1974afbd1fc4e3d118521"
+      },
+      "femsolver.calculix.write_constraint_planerotation": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_planerotation.py",
+        "sha256": "5454584d124f454562ab9e87f59f360609df52a4bef5d8d8322128b1c884a70e"
+      },
+      "femsolver.calculix.write_constraint_pressure": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_pressure.py",
+        "sha256": "62e02df7dbad06431d587dd91ce0a530991aff54f8040965d8ab012ebccc6c4a"
+      },
+      "femsolver.calculix.write_constraint_rigidbody": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_rigidbody.py",
+        "sha256": "c3deed017dffe92658b0f6c8b25a017feca37e5b14a3976a782910aad5c8af95"
+      },
+      "femsolver.calculix.write_constraint_rigidbody_step": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_rigidbody_step.py",
+        "sha256": "aad5685e5fe01e92947158f3ef5624627b147ec28e1a25cd89308d7a4915bd5c"
+      },
+      "femsolver.calculix.write_constraint_sectionprint": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_sectionprint.py",
+        "sha256": "709fd37e817a740630078a74d6e458236e55b8853a5a030e63f13c2bfdebcb33"
+      },
+      "femsolver.calculix.write_constraint_selfweight": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_selfweight.py",
+        "sha256": "77d0e8c950b5c86b403b7f0ecec0915cf51de91c5d9ab92b18bace93565f4af7"
+      },
+      "femsolver.calculix.write_constraint_temperature": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_temperature.py",
+        "sha256": "22b62c0ce7c819e67c9f7ac180c31b9f5ef3eb1059d9d005d390a1585be41d1f"
+      },
+      "femsolver.calculix.write_constraint_tie": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_tie.py",
+        "sha256": "283fdd393554f682e532deb55ed1d5cf767b14fdd62396ac5c2e5edf91d557db"
+      },
+      "femsolver.calculix.write_constraint_transform": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_constraint_transform.py",
+        "sha256": "b9e3ab476b2b54c7881720adbfe69a5b20769da089e80da9e3ecd0a59ad6d318"
+      },
+      "femsolver.calculix.write_femelement_geometry": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_femelement_geometry.py",
+        "sha256": "a492fcc3ad37a4795d4dc00e22124de71d94474d40174b97a278ec2657573acb"
+      },
+      "femsolver.calculix.write_femelement_material": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_femelement_material.py",
+        "sha256": "ebc71698c0cb3313ded646af87b758a6649f4ac7392cfd3fc8a1817d9ccba002"
+      },
+      "femsolver.calculix.write_femelement_matgeosets": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_femelement_matgeosets.py",
+        "sha256": "eeb9381421c707ca5cd255e84109de2e83389795de4692aa363f7e5f85b89a5a"
+      },
+      "femsolver.calculix.write_footer": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_footer.py",
+        "sha256": "11b57d3769130ad859a2a97743c852d8da36a8fc16fe89315aa1c8eba2a3f1d8"
+      },
+      "femsolver.calculix.write_mesh": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_mesh.py",
+        "sha256": "a97e14303d9e4c1aad77aa5ba59e90e5c85e0ba687df851b4606c70ed65ba264"
+      },
+      "femsolver.calculix.write_step_equation": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_step_equation.py",
+        "sha256": "309ee041a2506e26a814615df2a77ade96ae1340bf3decbad896a6448b467b6d"
+      },
+      "femsolver.calculix.write_step_output": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/write_step_output.py",
+        "sha256": "be202aa43a4388b9b0f366b4804a7bc8ec31c22f2c365e32a1be4dd14bca0db2"
+      },
+      "femsolver.calculix.writer": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/calculix/writer.py",
+        "sha256": "dbb7db34b9b17fa15d2ff2323f0c7b21753ab3e751513a06533ddc0f68a80668"
+      },
+      "femsolver.writerbase": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femsolver/writerbase.py",
+        "sha256": "0a564e0a9fb00aec273abca83cbb1c097a9f1132883c1097b15eef83bcb7ea5d"
+      },
+      "femtools": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/__init__.py",
+        "sha256": "3bc130465c0865f955960f710315ca720a814be86093bfdd267fea6d870784a0"
+      },
+      "femtools.beam_coupling": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/beam_coupling.py",
+        "sha256": "a0c796f6c7de171c4d84178b226e2432f31d4c3e6a25e4757f52383844dcc261"
+      },
+      "femtools.beam_section_forces": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/beam_section_forces.py",
+        "sha256": "ae362eae85f1492ec72dad04da49472d853f47389751e6d71ed4372d4f11da7c"
+      },
+      "femtools.beam_solid_coupling": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/beam_solid_coupling.py",
+        "sha256": "fc8145c06d203483da9ca2461a2c29eb69da3a95355ad13e63addd21bcdb5246"
+      },
+      "femtools.beam_solid_results": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/beam_solid_results.py",
+        "sha256": "5f97db3d2154d2a088ae755cbfaad73ec503c333e731226ac078df61a737ea42"
+      },
+      "femtools.ccxtools": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py",
+        "sha256": "2a460d92901048225a7d5da6e7f7f0be57d8d5d759d5a2f23c1e3f637a9d8b53"
+      },
+      "femtools.constants": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/constants.py",
+        "sha256": "d6d44c88402c3447fea041a2a0f3f91559c0257c8f6e96e9a1868e6a89a66649"
+      },
+      "femtools.contact_state": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/contact_state.py",
+        "sha256": "f4a1dc5c83f277a69fb369a5ff903db0ea6065679cf9b00c8d5b36ca9f440b8b"
+      },
+      "femtools.elastic_connector": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/elastic_connector.py",
+        "sha256": "22c994a9b0be981a0fd0b84f3dcde5ddcf8b28b3ff5d196a2a2b6d3418e21323"
+      },
+      "femtools.femutils": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/femutils.py",
+        "sha256": "f81c4f0a5c87c3ac1af703360c56f066b83bad4974edd44a556671855091a0fa"
+      },
+      "femtools.force_accounting": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/force_accounting.py",
+        "sha256": "64525df0d3e1282519973038937402b185b9fd2d2ca04cafb96bb5dd06efd325"
+      },
+      "femtools.geomtools": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/geomtools.py",
+        "sha256": "b5b9ae6d527a44b7cf828ad7582c5bff07c37e4f07fd69dd525d3ef0d3a0c810"
+      },
+      "femtools.material_orthotropic": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/material_orthotropic.py",
+        "sha256": "114781ef9895dd1f73924e9b482771a39bc9f98d1b34bb810ee800cbd10da6fc"
+      },
+      "femtools.membertools": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/membertools.py",
+        "sha256": "4c7406d8f089d7fcc22731064e59dfe0a49cd9e8cffa75e6b92a3e53c9658f0c"
+      },
+      "femtools.migrate_app": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/migrate_app.py",
+        "sha256": "a71c07ce8d6289889bcad275fa49410765e6b06b3f617522c9a7aef04b837dc8"
+      },
+      "femtools.native_properties": {
+        "path": "/private/tmp/freecad-sv7-install-o698f09g/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/native_properties.py",
+        "sha256": "a50799ba6711bc82b0e6eeba3d721426979b93e9c8c3bcd24949f6bb2828623f"
+      }
+    },
+    "runtime": [
+      "27",
+      "1",
+      "0",
+      "49261 +242 (Git)",
+      "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+      "2026/10/31 16:58:55",
+      "codex/fix-toroidal-self-cut",
+      "2f6ed5df7bd9786449230ad01366a7d8e10ae0e2"
+    ],
+    "schema": "FreeCAD-sv7-literal-application-identity-v1",
+    "source_or_build_import_override": false
+  },
+  "input_unchanged": true,
+  "native_sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e",
+  "passed": true,
+  "revision": "49261 +242 (Git)",
+  "schema": "FreeCAD-sv7-cold-beam-history-v1",
+  "source_inputs_rebound_or_history_promoted_current": false,
+  "source_or_build_import_override": false
+}

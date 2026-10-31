@@ -1,0 +1,25 @@
+{
+  "schema": "FreeCAD-sv7-nonqualifying-review-harness-attempt-v1",
+  "classification": "NONQUALIFYING_REVIEW_HARNESS_ATTEMPT",
+  "command": [
+    "/opt/homebrew/bin/pixi",
+    "run",
+    "--frozen",
+    "python",
+    "-B",
+    "/private/tmp/freecad-sv7-install-o698f09g/independent_review.py",
+    "stage"
+  ],
+  "returncode": 1,
+  "source_commit": "2f6ed5df7bd9786449230ad01366a7d8e10ae0e2",
+  "traceback_excerpt": "independent_stage_review.py, line408, main: assert identity == {...}; AssertionError",
+  "cause": "Review template expected exactly4identity keys; actual fresh identity also includes fix_bead, deployment_bead, application and rollback_backup. No product or payload failure is established by this rejected review attempt.",
+  "original_helpers_retained": {
+    "independent_review.py": "8873689c457486691f9c1f6ce52d16a374c116f8a2637da4ce9b5f22adde9be6",
+    "independent_stage_review.py": "5e98a43f1bfeb73fa06296e2cd22b12818aaa07db89a91b649465d969f4abc43",
+    "independent_final_review.py": "7493af890707a4254d7a6b31ffdbfa18102d5fdeb279eb48042768e5f81dbfae"
+  },
+  "identity_sha256": "a9147d45dcfb4348031eee226e68f58f5f155bec0ec6b225d4a78ab37594a4c4",
+  "corrected_helpers_must_be_separate": "review/; frozen installation and application helpers are not changed",
+  "passed_qualification_claimed": false
+}

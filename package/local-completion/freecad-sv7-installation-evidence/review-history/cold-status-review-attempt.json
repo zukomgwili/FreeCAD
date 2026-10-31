@@ -1,0 +1,39 @@
+{
+  "schema": "FreeCAD-sv7-nonqualifying-review-harness-attempt-v1",
+  "classification": "NONQUALIFYING_REVIEW_HARNESS_ATTEMPT",
+  "command": [
+    "/opt/homebrew/bin/pixi",
+    "run",
+    "--frozen",
+    "python",
+    "-B",
+    "/private/tmp/freecad-sv7-install-o698f09g/review/independent_review.py",
+    "stage"
+  ],
+  "returncode": 1,
+  "traceback_excerpt": "review/independent_stage_review.py line346, cold_audit: assert row[completed_run] is False and row[status].startswith(Historical); AssertionError",
+  "cause": "Cold tests first verify Historical, then intentionally refuse a current read. The existing public getter marks this Stale with explicit historical/withdrawn reason; stored history remains unchanged. The review and collection scripts incorrectly expected the final status to remain Historical.",
+  "attempt_helpers_sha256": {
+    "independent_stage_review.py": "48125c1a1bcf93fb1bd17fff21c39ae2c2657116dd4dc9beb828fbafb2354c73",
+    "independent_final_review.py": "ca3fc1cebdb24c9f97b995507929e96de0c86549044e3945dcf000dd91ff2450",
+    "independent_review.py": "2e0353e46253c805e7fc8c6c3c16c20e5b840a4ca4d26356860b5cae82622bc2"
+  },
+  "passed_qualification_claimed": false,
+  "actual_cold_statuses": [
+    [
+      "CCX_BEAM_SECTION_V1",
+      false,
+      "Stale: Native beam output is historical or withdrawn; rerun required"
+    ],
+    [
+      "CCX_BEAM_SECTION_V2",
+      false,
+      "Stale: Native beam output is historical or withdrawn; rerun required"
+    ],
+    [
+      "CCX_BEAM_SECTION_V3",
+      false,
+      "Stale: Native beam output is historical or withdrawn; rerun required"
+    ]
+  ]
+}
