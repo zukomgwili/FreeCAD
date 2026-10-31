@@ -1,0 +1,35 @@
+{
+  "schema": "FreeCAD.LOCAL_INSTALL_INDEPENDENT_AUDIT_V2",
+  "mode": "stage",
+  "passed": true,
+  "helper_sha256": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+  "limits": [
+    "Software payload/custody only; not engineering acceptance.",
+    "Mach-O normalization excludes only RPATH and signature bookkeeping; stage RPATH is exact.",
+    "Selected critical-prefix pins are not a whole-environment inventory.",
+    "Full private user/app inventory bodies are not included in this report."
+  ],
+  "source_commit": "64e6da94ac9e5d693f7dafb8495679983a68bb46",
+  "native_payload_parity_count": 61,
+  "native_complete_relative_set_sha256": "0b368fdf8d79955e26ed693fe9ff4139bb8b5dacbc72d790e13eea47a82fadaa",
+  "additional_inherited_native": [
+    {
+      "relative": "Contents/MacOS/FreeCAD",
+      "old_sha256": "dba1c0f36f807827ec67ff3139e9a3ebe8fb23cd297fe1f4e64a8cf07bcc0c64",
+      "stage_sha256": "21624ca645b6c6469fb6a1b567cca35719c050521267929c6d0f0f11faabff41",
+      "normalized_sha256": "f6f5d82762efeceb358602fbb6e7d83cc7826a48c5e0af4309394d192bd632ad"
+    },
+    {
+      "relative": "Contents/MacOS/FreeCADCmd",
+      "old_sha256": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+      "stage_sha256": "68fddda403a8b6a8e711898a7919c49be0dc70e10f5cf59016f268886c878d32",
+      "normalized_sha256": "3c16e30638edec4807938bcc014a0196fc152db565e7aa3b1676fa02ddf31c1e"
+    }
+  ],
+  "non_native_payload_matches": 3860,
+  "selected_source_matches": 66,
+  "payload_audit_sha256": "4faead2bdb385706f2bc682e676e205d37befd5e464b621192c3e972d4d991de",
+  "sealed_stage_inventory_sha256": "35421d224265349faebeb8ab974ec69e77452e0c44cb7b758709985292d86081",
+  "baseline_inventory_sha256": "4da10e9c75b3938b67d51c82ed29912bc2c80ddf8974268a3448974acf136ea8",
+  "stage_signature_verified": true
+}

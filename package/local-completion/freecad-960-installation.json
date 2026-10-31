@@ -1,0 +1,213 @@
+{
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "application_tests": {
+    "identity_checks_included_in_counts": true,
+    "installed": {
+      "cmd": 20,
+      "cold": 1,
+      "gui": 4
+    },
+    "installed_total": 25,
+    "native_solver_override": false,
+    "separate_process_cold_restore_per_location": true,
+    "skipped": [],
+    "source_or_build_import_override": false,
+    "stage": {
+      "cmd": 20,
+      "cold": 1,
+      "gui": 4
+    },
+    "stage_total": 25,
+    "total_executed": 50
+  },
+  "build": {
+    "clean_from_scratch_claimed": false,
+    "full_incremental_Release": true
+  },
+  "ctest": {
+    "catalogue": 2277,
+    "elapsed_seconds": 296.2674653750146,
+    "excluded": [],
+    "existing_disabled": [
+      "BackupPolicyTest.TimestampWithAbsurdlyLongFormatStringThrows",
+      "BackupPolicyTest.TimestampWithInvalidFormatStringThrows",
+      "CrashReporterTests.DeliberateSegfaultRoundTrip",
+      "DocumentObserverTest.hasSubElement",
+      "DocumentObserverTest.hasSubObject",
+      "DocumentObserverTest.normalize",
+      "DocumentObserverTest.normalized",
+      "ExpressionParserTest.expressionsParseAsPyObjectWrapper"
+    ],
+    "existing_skipped": [
+      "BackupPolicyTest.StandardWithZeroFilesDeletesExisting",
+      "BackupPolicyTest.TimestampWithZeroFilesDeletesExisting"
+    ],
+    "failed": 0,
+    "genuinely_dotted_TMPDIR": true,
+    "passed": 2267
+  },
+  "date": "2026-10-31",
+  "deployment_bead": "FreeCAD-xgx",
+  "evidence": {
+    "directory": "package/local-completion/freecad-960-installation-evidence",
+    "files": 86,
+    "independent_review_derivatives": {
+      "final-independent-review-public.json": {
+        "input_record_count": 22195,
+        "inputs_canonical_sha256": "e6225db6d0b63532b84cc4a13590485c1c297f3ed6816b071c54d5f8eb832317",
+        "original_sha256": "181384e638c6d4236a7d8e0330047e109188ff63261fdf1c9eca6f44f0b8b1fb"
+      },
+      "stage-independent-review-public.json": {
+        "input_record_count": 26128,
+        "inputs_canonical_sha256": "3f1808c8780c26e3ae147776194b7f035d3831748af8fa57356b96fe6509200c",
+        "original_sha256": "4f9edcd81c791fe6d4298cadcd951a177d1d0a97b29625d4d48dec7eb9cd98ae"
+      }
+    },
+    "index_sha256": "09f7333d1591305e5f0526f776f59b0711e2cf25095779453f0c32a79bd246b2",
+    "private_directory": "/private/tmp/freecad-960-install-pvznq9q8"
+  },
+  "fix_bead": "FreeCAD-960",
+  "initial_capture": "Read-only baseline capture predates helper admission hardening; exact helpers and original inventories remain retained. It was superseded by step-capture-qualified before DESTDIR, not relabelled as its admission proof.",
+  "metadata_note": "Later tracking/evidence commits do not change the exact compiled 64e6/+240 application identity.",
+  "modified_local_time": "2026-10-31T13:47:08.825774+00:00",
+  "native_sha256": "3fdd2b7f7cc3198e7fd1a5dc89a71e0cfacbd1f6ee3e21b106e2171ed6b52d7a",
+  "notarized": false,
+  "passed": true,
+  "payload": {
+    "complete_native_images": 61,
+    "full_DESTDIR_manifest_leaf_set_verified": true,
+    "non_native_payload_matches": 3860,
+    "old_backup_exact_inventory_sha256": "4da10e9c75b3938b67d51c82ed29912bc2c80ddf8974268a3448974acf136ea8",
+    "resources_readonly_and_cachefree": true,
+    "selected_source_matches": 66,
+    "stage_and_installed_exact_sealed_inventory_sha256": "35421d224265349faebeb8ab974ec69e77452e0c44cb7b758709985292d86081",
+    "strict_signatures_and_QuickLook_entitlements_verified": true
+  },
+  "phases": [
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "ad7134cd9b8282540d69aff44998605aa0ff9e69957e41f7d0c2152b21031eb6",
+      "label": "build-latest",
+      "log_sha256": "e9a164b1e9f1b45e96992682de398dccfdd71c59410633f4462c2162debc12ce"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "9701b9e59bfc0ff79ad015aab52cc42edd792c313d0c07d522fdedafd1e09a6e",
+      "label": "ctest-latest",
+      "log_sha256": "cb077bd1c00504dbf7bd149b89c48a1583ed5fce685cbe3dfe16f0108d37c390"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "d53f8a3c2283b642b799ed08df776fe558ed9dad990c944c1786247a015a1e9b",
+      "label": "installed-cmd",
+      "log_sha256": "b65e8c24d6363a02676386f63b56a7ffb61e0b11e04221c2732174c7ee885e77"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "45059a1cfd33083e61a2a6d64e298198bc55d97adc0a5f762962b3de1cf9743b",
+      "label": "installed-cold",
+      "log_sha256": "947396a7894f2acfe5938679b9856f0f1b7b729106541c3ed4b52dff483f756b"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "b65ba40db57d271db54b62b5b7682fa41a67112f0400fabd2bcbfa05c7fb6fcb",
+      "label": "installed-gui",
+      "log_sha256": "962b928f9f05079cd0415d8e14d07c54d2a4cb54b506061af048f1d20cd11959"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "b1801db4e2b9a71d48e6965e5ebfc5346f3d139ee16f3111932a6a52a7f8aa6c",
+      "label": "stage-cmd",
+      "log_sha256": "4448807d157004e4751f80456830df52d87a7834b65767baf7f9ada656d0cd41"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "5ae19a43511704f10cccf0dd1e14c1cc08fa914b695dbe1b355bcc35fd5f5dfa",
+      "label": "stage-cold",
+      "log_sha256": "9b2bb3c99652082a35cd4ae632a6da2d585859854707490f6344a30f0746a21a"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "169c2150f0ba91494a0c722a0fa3ec078442d16abb5153f784af91833a8aa468",
+      "label": "stage-gui",
+      "log_sha256": "e6483a6dd6c32f89fa183f1ff0ba6a49b0db17482e650cc82f1b9e3d7961c230"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "143b46d38c68371bba9cbec26ab486cd752d5717298c46754a24e4de3a184a12",
+      "label": "step-audit-custody",
+      "log_sha256": "39c7794624abbffe6e38c0be2802f750953a1c8352ebdc31a92288f8e624edbb"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "dd11588cc1a9abfbe7a535619264f8172639dc510531d99d1a67d4f691cc5d2f",
+      "label": "step-audit-payload",
+      "log_sha256": "2a8af5625392d25b1d274f29f5b16bf0875d6f6d43955d044fb8b882fc614a06"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "a0140c0ef8601c48446d8de39575f41fde0eba37e0872ffaa15d43d7d71fcb81",
+      "label": "step-audit-stage",
+      "log_sha256": "3a0a58b2e384a4329520f0b7ba625f9d806d12aa64cd426470e7ac65863abb7b"
+    },
+    {
+      "classification": "SUPERSEDED_READ_ONLY_INITIAL_CAPTURE",
+      "execution_sha256": "11870f12f0f0801346405910bb25abc74c309534fa35c61da892d0b9ed4e5ad4",
+      "label": "step-capture",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "04172dab743db59071bf535f3dd6875e554e2881ce1b85fef9215c35c2360083",
+      "label": "step-capture-qualified",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "42ea98b164d9289f87e9152e7b6001ab7057d3ed53b053774c816d6130630b91",
+      "label": "step-payload",
+      "log_sha256": "581d3f87fcff848315287342284d5a5a81cc2a79837f8b102053330ec64050bc"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "c30663e011fa0bb4afb3dfeb0decf15d5746e4a9c028b63661bc6852855c0ecb",
+      "label": "step-stage",
+      "log_sha256": "fed611b179fa95cc9e7e0ba480b3c3f9a224440f124b4a4a0e1a93ce75ec6268"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "4c9dcf5a4f07cefb98f0dd36863b812e0e75abdd04522fb38088db29ab29aefe",
+      "label": "step-swap",
+      "log_sha256": "d44636b8106ada81ecf814146ac53ff8214a25337d872c48d494a04334e09d67"
+    }
+  ],
+  "preservation": {
+    "external_namespace_files_unchanged": 11,
+    "profiles_unchanged": 3,
+    "selected_critical_dependency_files_unchanged": 17,
+    "whole_dependency_environment_inventory_claimed": false
+  },
+  "privacy": {
+    "bulk_app_and_profile_inventory_bodies_published": false,
+    "bulk_independent_review_inputs_maps_published": false,
+    "independent_review_publications_are_labelled_derivatives": true,
+    "native_binaries_or_private_environment_published": false,
+    "original_absolute_provenance_preserved": true,
+    "private_CAD_or_BREP_bytes_retained": false,
+    "stage_histories_rebound_or_relabelled_Current": false
+  },
+  "revision": "49261 +240 (Git)",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-960-1e3e53ed1f.app",
+  "runtime_dependency": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "schema": "FreeCAD-960-installation-validation-v1",
+  "scope": "Current fork software deployment only. No original project opened, changed, meshed, solved or accepted. Historical stage records and saved provenance remain literal.",
+  "self_contained": false,
+  "source_commit": "64e6da94ac9e5d693f7dafb8495679983a68bb46",
+  "source_qualification": {
+    "meaning": "Installed shipped tests repeat software checks; this is no new original-project or building acceptance.",
+    "new_deployment_engineering_acceptance_claimed": false,
+    "record": "package/local-completion/freecad-960-validation.json",
+    "six_equilibrium_fixtures_limit": 0.01
+  },
+  "timezone": "Europe/London"
+}

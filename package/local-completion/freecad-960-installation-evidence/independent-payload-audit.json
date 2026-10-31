@@ -1,0 +1,1337 @@
+{
+  "schema": "FreeCAD.LOCAL_INSTALL_INDEPENDENT_AUDIT_V2",
+  "mode": "payload",
+  "passed": true,
+  "helper_sha256": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+  "limits": [
+    "Software payload/custody only; not engineering acceptance.",
+    "Mach-O normalization excludes only RPATH and signature bookkeeping; stage RPATH is exact.",
+    "Selected critical-prefix pins are not a whole-environment inventory.",
+    "Full private user/app inventory bodies are not included in this report."
+  ],
+  "commit": "64e6da94ac9e5d693f7dafb8495679983a68bb46",
+  "payload_native_count": 61,
+  "native": [
+    {
+      "relative": "Mod/pivy/_coin.so",
+      "payload_sha256": "c58c7804af3870cfb5f49ae73400b7094cfd14e1b5ded165dd30c72ddf881ebb",
+      "normalized_sha256": "b106333c3616abd67b87908b00ae33555c9dd712067d7767e7cac7faa43c47da",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/../../lib"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/pivy/_coin.so",
+          "sha256": "4b95f0574a33cd131426d98b3fc53b99970686cd88131fd768632bf78e99afcd",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "$ORIGIN",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "PlugIns/FreeCADPreviewExtension.appex/Contents/MacOS/FreeCADPreviewExtension",
+      "payload_sha256": "83838cb8c64a123748f0a9f0f07205c1685a656c04ea8431df7661d434a406e3",
+      "normalized_sha256": "ff1e280fef8c4ca0a4a76bb1c8b1f2cd5b523a1b1551bbba2d324c1ed6b122ef",
+      "payload_rpaths": [
+        "@executable_path/../Frameworks",
+        "@executable_path/../../../../Frameworks"
+      ],
+      "build_matches": [
+        {
+          "path": "src/MacAppBundle/FreeCAD.app/Contents/PlugIns/FreeCADPreviewExtension.appex/Contents/MacOS/FreeCADPreviewExtension",
+          "sha256": "83838cb8c64a123748f0a9f0f07205c1685a656c04ea8431df7661d434a406e3",
+          "rpaths": [
+            "@executable_path/../Frameworks",
+            "@executable_path/../../../../Frameworks"
+          ]
+        },
+        {
+          "path": "src/MacAppBundle/QuickLook/modern/FreeCADPreviewExtension.appex/Contents/MacOS/FreeCADPreviewExtension",
+          "sha256": "83838cb8c64a123748f0a9f0f07205c1685a656c04ea8431df7661d434a406e3",
+          "rpaths": [
+            "@executable_path/../Frameworks",
+            "@executable_path/../../../../Frameworks"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "PlugIns/FreeCADThumbnailExtension.appex/Contents/MacOS/FreeCADThumbnailExtension",
+      "payload_sha256": "dad5d4f199c84a2c47646b9c6f405a2ef35a5434453b696be132587f691f2b03",
+      "normalized_sha256": "6b8177ee9f220fd7062969e42c73283aae3d6b2bd1406640e40de9cfe89f58a7",
+      "payload_rpaths": [
+        "@executable_path/../Frameworks",
+        "@executable_path/../../../../Frameworks"
+      ],
+      "build_matches": [
+        {
+          "path": "src/MacAppBundle/FreeCAD.app/Contents/PlugIns/FreeCADThumbnailExtension.appex/Contents/MacOS/FreeCADThumbnailExtension",
+          "sha256": "dad5d4f199c84a2c47646b9c6f405a2ef35a5434453b696be132587f691f2b03",
+          "rpaths": [
+            "@executable_path/../Frameworks",
+            "@executable_path/../../../../Frameworks"
+          ]
+        },
+        {
+          "path": "src/MacAppBundle/QuickLook/modern/FreeCADThumbnailExtension.appex/Contents/MacOS/FreeCADThumbnailExtension",
+          "sha256": "dad5d4f199c84a2c47646b9c6f405a2ef35a5434453b696be132587f691f2b03",
+          "rpaths": [
+            "@executable_path/../Frameworks",
+            "@executable_path/../../../../Frameworks"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "bin/FreeCAD",
+      "payload_sha256": "269ab46d8f2fab4619dd5ba10c4ab999293477429b93f683c5d71f2d6866716d",
+      "normalized_sha256": "12cf7f44de04413015bb247374de9ce1cba61a2839006a7fe0f0a37896184697",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/../lib"
+      ],
+      "build_matches": [
+        {
+          "path": "bin/FreeCAD",
+          "sha256": "79da5d7f3059ef98407806d3dafe8b0b36bd4c50c04d80504ddf97e4cc6137a2",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "bin/FreeCADCmd",
+      "payload_sha256": "f3aaea1ac64787da443e16e80ac7f504a7a2c7d681365b2450991a0dd679bf00",
+      "normalized_sha256": "f0d62db9a7e7efcfdb8633d6c77b7b3f0e8889c4a62cee65c43a946fab0dc105",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/../lib"
+      ],
+      "build_matches": [
+        {
+          "path": "bin/FreeCADCmd",
+          "sha256": "5b5f2cdb3818fefdf4dc2876373de9f4b618e3d977c5282d3ea8826bf677ab42",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "data/NativeSolvers/ccx-force-accounting",
+      "payload_sha256": "3fdd2b7f7cc3198e7fd1a5dc89a71e0cfacbd1f6ee3e21b106e2171ed6b52d7a",
+      "normalized_sha256": "bc71c9159888eeee177246feb2e9029b2a123603a40b96b301b4d59e968fc366",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+      ],
+      "build_matches": [
+        {
+          "path": "data/NativeSolvers/ccx-force-accounting",
+          "sha256": "3fdd2b7f7cc3198e7fd1a5dc89a71e0cfacbd1f6ee3e21b106e2171ed6b52d7a",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/AssemblyApp.so",
+      "payload_sha256": "d464b87aa67b37397f0d474974d299391c02e8a04413c3a03cd0eb1fdfbdb027",
+      "normalized_sha256": "f55f330a19323783a9ae3511957077f371849c0983036914d54e5d6febc1fa03",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Assembly/AssemblyApp.so",
+          "sha256": "abddb6d06bd12a37608d3676649d8139ef09b75dbf90c911df89fa6d3f6177c1",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/PartDesign",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Spreadsheet",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/AssemblyGui.so",
+      "payload_sha256": "0f2c4c1547f13112112e5e5b56e2844fe3b317add06502fd25cbe025b987ff82",
+      "normalized_sha256": "cbcc30e25423a9b73c7737f5a81b287f52a22302e44fc2f18a3b97478aef89d3",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Assembly/AssemblyGui.so",
+          "sha256": "f1c531387e18a01e165a145ea9f87c30a2422e8d3c36beae05f5ae82a99715d1",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Assembly",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/PartDesign",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Spreadsheet",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/CAMSimulator.so",
+      "payload_sha256": "0ccbae1323b1ed1e8830b995c828277734ba21df32344ee9aab9ee5e96ba7161",
+      "normalized_sha256": "846791349a4717e09b08498ac605d56c22f57e4626c96a73ba7cde1a9ccbf7ef",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/CAMSimulator.so",
+          "sha256": "a6cb8be28250cfcb45552a3a9e014e706ee6e89bdfb425dc65ce702639fe146f",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/CAM",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/DraftUtils.so",
+      "payload_sha256": "16f245a5caa493c038446c34e2e07dc808d8ebae849dd7b0eccf800fd48ced6c",
+      "normalized_sha256": "1e97dabcfb881b7e54493d9220c71b3d4078f246c37c36c3c992de7c1d254c15",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Draft/DraftUtils.so",
+          "sha256": "167b3b3fb206fe11b7f1ff7151cff9cc25fd3f5d1859ac300172937b51b1ccfd",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Fem.so",
+      "payload_sha256": "03c1c6db3b842cd0ca37cfb5971f8ed6b434f5b0c6f9d07b9374bd8572e4994f",
+      "normalized_sha256": "6a9a90e12f8f495d033b3df60d295ce95a26bdd59566e4197b2fb6fad8c9c96e",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Fem/Fem.so",
+          "sha256": "1c3fe10c9b73eb1576dae5108a4e8c0fa62dd2371317b60c12bff73dd0947e3d",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/FemGui.so",
+      "payload_sha256": "395d88aa09d232f231da3fc2224bbe9854b97954491bd6314183518dc964b446",
+      "normalized_sha256": "eb41c21ec36e16d10d262cb1fe16afc9b1138eeeb16db39c5a94369ad3d5b56f",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Fem/FemGui.so",
+          "sha256": "8fedc42adc1af198af7ecee9f27b7e40d03850c0cb14f3af98840aa7f370b232",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/FreeCAD.so",
+      "payload_sha256": "cd753be2568187d36ef4490a66dff564d47afcab552805778269959481c6fbf0",
+      "normalized_sha256": "b3cec09940b9a136e89ec161940d4ac10722d6af9cc9f109cf2b0702b6740ef8",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/FreeCAD.so",
+          "sha256": "8ce9d3d2861ec5a0de6e99ee8a1bd7776b47d3f82ac20b6dc4477ff7f3e3eba0",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/FreeCADGui.so",
+      "payload_sha256": "b19c30766416635ff8eee1036354824da60569680ca585315c83a1c47cca15fc",
+      "normalized_sha256": "fd35d802a9d25d9eeb31631634cdb196b767ebc9f1f1b78b9aabcbed7a03f364",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/FreeCADGui.so",
+          "sha256": "b14eec6800ede5ac70d916cbf68c9a666efcaf62fac1bf32a755d9ed537c1862",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Import.so",
+      "payload_sha256": "572f86e80cbb2b07b80f480fed99cda357ec97b8582d5fafa3b86f147aa96bd1",
+      "normalized_sha256": "7342c8092d4993e82fefd81e4077c44741c1c262af359c4b71b0de6b8f904366",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Import/Import.so",
+          "sha256": "1a90ef8fd94ddc5c1e9f95fae44df761028b15ea78dc7a562c5a03fe6a6b8054",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/ImportGui.so",
+      "payload_sha256": "e7933dd8b9feeac33caf977978c5f03e75b23e1cf4f744e9dd71fb7ec5b2ac53",
+      "normalized_sha256": "74e1af28718285b55c49ac9668645adcc0c501dfff3b9f01800b6470d71ed4f0",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Import/ImportGui.so",
+          "sha256": "f46f8852f89ff5d8408f3d29c60cd10fd978829bd1dcfd37b3f07e1771dce7bf",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Inspection.so",
+      "payload_sha256": "7897155bec664cffe2e8b42d34a16fd21a6e57c2696ad4f9efd49e0d9096d9be",
+      "normalized_sha256": "9b2337e829ac9e9831da5ef6274792a7b6d90fe2135b466c34f35c501f45f3ac",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Inspection/Inspection.so",
+          "sha256": "a75421ced1164fc64047c08eafc7478d539c7ae9083ce558c9a82e41e213619b",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/src/3rdParty/libE57Format",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Points",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/InspectionGui.so",
+      "payload_sha256": "3437112ccea783879fffa05676f7e01994661035286a7d344d5de4d08dd736a0",
+      "normalized_sha256": "9cc828d023129a895a4063961aceced05ba2316d687364302fa7fa3e08c7f6a3",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Inspection/InspectionGui.so",
+          "sha256": "e920ccb7fbc37e9c9b5438a172fd0bd7e95da4be00487aa9e72164be23fc2c1e",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/src/3rdParty/libE57Format",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Inspection",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Points",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/MatGui.so",
+      "payload_sha256": "6b9b8da56b836253a9af3cbf765c7fdb26a68877aa4322f47c613019d3e8898d",
+      "normalized_sha256": "ce63eba8ee1e3776fbcc60345325dbe4aac2afb127bee0460b39ba72943f6c2b",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Material/MatGui.so",
+          "sha256": "0733a378594e5c14a15a27cff524f0b8759d7db0621ab7dc57cabf547d5e7554",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Materials.so",
+      "payload_sha256": "cb462440ee1d4afae97b89bb4eeb3fe508de5cf5295260d79af8f1c2955a15e9",
+      "normalized_sha256": "69467e52759e6f2ad5101d96be3500801a5b116d12b710997d48e4040e03dd9f",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Material/Materials.so",
+          "sha256": "8e3a84525a9a745e1e1644d3811fa33aca8b12eeb6d43434449d7a6bd200c89b",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Measure.so",
+      "payload_sha256": "eb94f25eaedb8715192a2926ab45c657794babfa1330a11346095a062ebe3bb4",
+      "normalized_sha256": "e70ce0a031e7ac18d310149c88f32c44c3065c4b991026827403e57388c8c6a1",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Measure/Measure.so",
+          "sha256": "4c56b72beeec1206fa7855422e428aebfa05a68744c863703bd5e8f268bd03fc",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/MeasureGui.so",
+      "payload_sha256": "d360e532807b88cc9b8f2516be0f60f2d45490d89782ba5c860691a232d5cf3a",
+      "normalized_sha256": "a6107a5cc36e0bc330cf1505f0e80bb6b1e280a7a045cd2df49fc97fde706c5e",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Measure/MeasureGui.so",
+          "sha256": "29b070cd47d73d9d0aedecd343d01b29c4d18b03f016ae7f9b31593503891018",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Measure",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Mesh.so",
+      "payload_sha256": "8ad38cb3fccb5830846c65d6f50d2304a40cee11cd5cfee9dcc1166348950a71",
+      "normalized_sha256": "b85b5ecea744ead124528d87653f6bea9bd988802f109ac46f1abfd67ab9d47b",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Mesh/Mesh.so",
+          "sha256": "c262af7935920c1bd4ade92d1ad94acd93ee4d38dc91664d1b15baa78bcda026",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/MeshGui.so",
+      "payload_sha256": "dba31f72590cf700cdc05a1139c8f39b3c0f4733dc780209ae20e4d18cd31fa4",
+      "normalized_sha256": "1fd1e29a8b283ecefd8351ad7ffd957d1734809221420a138194daa12c68235d",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Mesh/MeshGui.so",
+          "sha256": "55697cd00f382f7bb0b1d9e3a716ea8f848cdb43f5fd2270fa099b98bb8dc1b1",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/MeshPart.so",
+      "payload_sha256": "796c4222ec6202a889d460e3ad25df43d035261023df58c89f5ed54940f50320",
+      "normalized_sha256": "9f7fa7237ad1b66b23b3cff71b15627e6b5d4b98c91dcd444a924e2fa935e845",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/MeshPart/MeshPart.so",
+          "sha256": "7be9dd99944a5b42ed65f1ce16ebba2e9d36e1f6d38bf8471469424fec786dd1",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/MeshPartGui.so",
+      "payload_sha256": "6ceda39f0efeac98f23cbf522a00e355ea90347ab3e56b0d4b8dda2af91bbbdc",
+      "normalized_sha256": "67ac40515323c6f79d0dba34f586f04f1ea4485633e0711702f4f0689088165f",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/MeshPart/MeshPartGui.so",
+          "sha256": "d172971d288a22c83ba3e49c07f43f0de58ee428c925004b48ab66ae4bd00a9a",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/MeshPart",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Part.so",
+      "payload_sha256": "34ba68282ac415b5f52c299833c682742d32350ba3a53f9f7b351804f25c6a44",
+      "normalized_sha256": "7048ec999f5448dfd92b3d9216273230d28d6668e5171e4d68eb43036215022a",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Part/Part.so",
+          "sha256": "682e7be651f11b573f34842394ea4359915e560ba9951fada2f127f562885d14",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/PartDesignGui.so",
+      "payload_sha256": "8fd0dd2bc0fe203cf976fdd0044ee3800b5795e054a57a5a9ebac192e5179e8e",
+      "normalized_sha256": "1f274b3b1bc07c724190f3dbfe06e18912e36b3db842e45027572fceaeeb2e4e",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/PartDesign/PartDesignGui.so",
+          "sha256": "d1e3ea1f8b5af3b25ce6793ff40de1d478fab8fccec4b404d45ef75debdea254",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/PartDesign",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Sketcher",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/PartGui.so",
+      "payload_sha256": "31907acb7810d2e0d86e8498337273473fa9b91b5501a6939a1078041d4157e5",
+      "normalized_sha256": "5397a5607c340aa6b44ec624d3b7475f50b2ab3621c8bbff63e86ff01278ba88",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Part/PartGui.so",
+          "sha256": "66f8964c38fb3d1914fa7eaf7214b2eb8d873d926bd40473848882b7acd69a47",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/PathApp.so",
+      "payload_sha256": "fcadb5ee7af38f52ed77e9a5c6bb4a6654192f2f0282af355e27898542cea330",
+      "normalized_sha256": "df7acf269bfca86e9f542c14074adf35df2f88df635956f9be12021d5fff7652",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/PathApp.so",
+          "sha256": "24a4e2e1c3839ffe8e028082f5a0e571aaa5917b23a4c3aa32407750d4814877",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/CAM",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/PathGui.so",
+      "payload_sha256": "379b633b097cbb9883a40ae2d052960929752defd01bfef665aa6b5846ebbc24",
+      "normalized_sha256": "7e3c5ef69689133d87fafc19da8aab8ce853eebba1de2ef1c77b79691b323de7",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/PathGui.so",
+          "sha256": "cc4538dc1b356552747f03936b948b91039bb7a4e88079385e33d04541204a97",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/CAM",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/PathSimulator.so",
+      "payload_sha256": "c9c1699b44ad37652f72e358664334e835282bb232e802494b880fb75bd09c5c",
+      "normalized_sha256": "046235eb12ee74376c0f54e3c95cbd2d007f47d325ca934029ccc921cb4595d1",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/PathSimulator.so",
+          "sha256": "4000c2675534c41cade00df725bf07b4e5eb733f1760550fac0d43476ac79f01",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/CAM",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Points.so",
+      "payload_sha256": "4c6dd7febdbbb0572d46d223ed4e88af1f01d36705f2e3580475199da901bbeb",
+      "normalized_sha256": "e3451e0051f446ee0d5114aa9f3149e8f8d60778446dfd2954170876777eedbb",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Points/Points.so",
+          "sha256": "a097d6a4655b2a5469c184774d70f05e8cac29f4987174dca659a628f7dea1d0",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/src/3rdParty/libE57Format",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/PointsGui.so",
+      "payload_sha256": "cf62ba101d8008148cad68feb3e153752704e7a1a916b7369217cef498c80387",
+      "normalized_sha256": "e6c75e396416523ee19af5d27e9102ad4493e56bad6b715d87d86454679dedd2",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Points/PointsGui.so",
+          "sha256": "a13a25578b606ecc1869786270a056b74f7bea947b60d83431132d037c18d86c",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/src/3rdParty/libE57Format",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Points",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/QtUnitGui.so",
+      "payload_sha256": "6cacf1c645a1f5462c8f05d631139f0905c24b9b339658721aac34204f007d8f",
+      "normalized_sha256": "17642724e1c9cb0cff8c503df7ffbbcb1de4fa77a20aa7eb1f9dc007b2cf8ba2",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Test/QtUnitGui.so",
+          "sha256": "67e447d0327b96497e1f624312a6093c65064c5f03a5484d8fe6cbd452729d32",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/ReverseEngineering.so",
+      "payload_sha256": "00c4d3cde9c3c871d72f85b2256793dba555dc715a13ec3ba963021ec686ece7",
+      "normalized_sha256": "63f07569f2c423d755b85b330c166cd4318c32fce42bf83ac01afb877aee978e",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/ReverseEngineering/ReverseEngineering.so",
+          "sha256": "b121269bf1a60c3bffdd1d00df0cad2a9c2f832c4d24e4e13769e5ac88290e51",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/src/3rdParty/libE57Format",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Points",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/ReverseEngineeringGui.so",
+      "payload_sha256": "a98fee0f38421c1b266a8408d4638f02a720104cffc1d919cfbf723f0d987216",
+      "normalized_sha256": "d1f85155da89dec94c9764b5378262df61854d15dfc5db93441245fa10f38ec9",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/ReverseEngineering/ReverseEngineeringGui.so",
+          "sha256": "030d070b27b0bf52d9e5d15b5f9facde68125e83234738b8aba42106756b3973",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/src/3rdParty/libE57Format",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/ReverseEngineering",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Points",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Robot.so",
+      "payload_sha256": "0e635683293404fa7cd3c8e7e18b0e47fea47d76e3a9846f61f6dfe39ec9369f",
+      "normalized_sha256": "f908d9f160804e1868a9094a442b63afc2432b1178764cda442ae1798525ff34",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Robot/Robot.so",
+          "sha256": "d55b830c176ae5005864d672c7337055b3c739a05b1b181d95b1c7da5786bf87",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/RobotGui.so",
+      "payload_sha256": "f24ea670c11c8ee63860863a9b448cc6716c412d63abaa59122adbcaac8b6575",
+      "normalized_sha256": "fdf94b4bbec11929a4ef41b491ad5e715887129dbfe90bf7c830ebd17ad9c6c7",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Robot/RobotGui.so",
+          "sha256": "8b98164d3e7316dc71c089bbccef322ff86fe48ed51a1a6f81af65b1f7743527",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Robot",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Sketcher.so",
+      "payload_sha256": "3c7ca73fcdd16a74f90180bb20662068ae9f9037365f091eed3a4a428d63d282",
+      "normalized_sha256": "76e8fb604ca85929043df495b032467b5b82bcca13f8a8e8a8383dc787589d89",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Sketcher/Sketcher.so",
+          "sha256": "0cf67e12d9d6be86e495b46f15aaebffc5c0e384eeaa2db55fca58937f9f749e",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/SketcherGui.so",
+      "payload_sha256": "28cdea8ff6f00085dd82038f03f588bcc2b2dbe1456f7f27fea7ddff272c9d9a",
+      "normalized_sha256": "f212526608ee5456c1999bf9ed26331a12a72b9130bc7173b2e7838c94d859de",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Sketcher/SketcherGui.so",
+          "sha256": "97c4ab973567b62d201b05ff41303425aa63d66853e67c58ef16830120327340",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Sketcher",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Spreadsheet.so",
+      "payload_sha256": "bb8bf4ede55497d0f347fed21b570202e23677cf8c074aab9dd640cde1c5db03",
+      "normalized_sha256": "314a41f126a60589d72ffad34fa524d5a18ffe6ee16aeafae233720be6cee54c",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Spreadsheet/Spreadsheet.so",
+          "sha256": "42ff2c73904b685c3ed6fc98ebbb740ed71c224d0f011c59754253d09cf80846",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/SpreadsheetGui.so",
+      "payload_sha256": "a5adf271711961a5168aadc07e97ef62851a3461ba777c56bc0857a32f0cd08f",
+      "normalized_sha256": "c9d986a0176369a4a3f014cdfd566132c6c6b2c6933abe80927dee3ea4854139",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Spreadsheet/SpreadsheetGui.so",
+          "sha256": "11b46574a6085743fd1b824674675963e2a3fd7fc6fe4f5641b32ab4cc193bd1",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Spreadsheet",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Start.so",
+      "payload_sha256": "f5565a5acc4eca428af96aabefc4377c17613469eaab6d46a31e5246f7dfc403",
+      "normalized_sha256": "560e44c4639a94955ddd955264c99502e70b3dd2ca814561fcbd05496a1b2428",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Start/Start.so",
+          "sha256": "0ec8854335f89a98779fcbfebfd1f1bf032113e9f47789fc6f1b57f10f7cd1c1",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/StartGui.so",
+      "payload_sha256": "63eefda2398d80ec0075d7653b9828f7ada4fa82d7615af60fe87e0b3b33fbb4",
+      "normalized_sha256": "8a34bca5764900a4d5015bc0d8cf41544f57527ae23ec8e9c6b08c769aa34041",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Start/StartGui.so",
+          "sha256": "7787b15b0933a0828372e2986c2dbe54a02841d854b3b727633783da75465a14",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Start",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Surface.so",
+      "payload_sha256": "69d99347424e60311773b8f267454d95a1278a0cc034dd98eda875db26ef8159",
+      "normalized_sha256": "039c06958b91fbc6f45c3b82e4f6fa373f91f7715ba9c6ac6888f27ba70ab1eb",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Surface/Surface.so",
+          "sha256": "3da48261e30f125dc6871cc388847bec81a8245a2bb1a0f5d9f222bb088caab9",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/SurfaceGui.so",
+      "payload_sha256": "db8c4b1a16d15837cf94e77430787b535a5fd07b2824a446e03422352d0b831f",
+      "normalized_sha256": "407b2e7c17a85a1036adb85071b8e39451164a08d5c272e3830d7bf99c417f99",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Surface/SurfaceGui.so",
+          "sha256": "23fe71e1e94c8761f022ad70b945b1d21265eb00b5f9d9a4f9691657903ed969",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Surface",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/TechDraw.so",
+      "payload_sha256": "d0e67e2dda2d951451d918aa8eafbfb284ecc9bd5ac878c5195820216668832d",
+      "normalized_sha256": "bd7bd42959cafcffbb2b2855a66cbb05cd6af12b6dd346af9d35ef955f24054b",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/TechDraw/TechDraw.so",
+          "sha256": "be6c66458bffca0a71cd3d5002c76bd808f6831eaadd87f8a13b72f3168abfc8",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Measure",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Spreadsheet",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/PartDesign",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/TechDrawGui.so",
+      "payload_sha256": "c144c821b6ed0af5d25d0961af3fc4ea1bac1fee6d683789a9b0d1cf41029f01",
+      "normalized_sha256": "ad1e2ae4b4edfbe8082683052ef4fdd11e6390f18924a523c63d0371640d9ba6",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/TechDraw/TechDrawGui.so",
+          "sha256": "62bebe224828415f76652406a41a45e05a88eeae115a3d6a8402419b643ad97c",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/TechDraw",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Measure",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Spreadsheet",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/PartDesign",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/Web.so",
+      "payload_sha256": "1b5522c3dd257f08f93e2324c539f2a94cbfea02106e529663c8dd6398c80ed0",
+      "normalized_sha256": "2484af3c036c7ec6eb5bb1fb746111c70a9250ffc248619de2cbc1a928fc8db1",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/Web/Web.so",
+          "sha256": "a7e21d92a8472d4aed108306d4cdaeb43f6b3f69bd25ae95660aa8c35563813b",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/_PartDesign.so",
+      "payload_sha256": "18704328053f520f7ab9720523af744c1d196881ea8c3df82f19d970eb14ff4a",
+      "normalized_sha256": "30ac80143325ad31ef15fd91c8be0d0cca12c5f93f45729fa5221140a41b0c83",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/PartDesign/_PartDesign.so",
+          "sha256": "828eaa0e09da5aed23cb7e71262c96f47d14ad492fc849574f5616180a18fc7d",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/area.so",
+      "payload_sha256": "a0e683a9fcef2a58b1c07bd87b0f8b020153a8a34767a6e6860738bd6044ebe9",
+      "normalized_sha256": "e72a7eaea126f85e60d9318f81abd44f3579d27a07432cb6c82552ab73869a10",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/area.so",
+          "sha256": "0300e4090fb4b605ea88e05e9d71dbddd2af32f5d9fefc8c3604ff25624d7f7c",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/CAM",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/flatmesh.so",
+      "payload_sha256": "5dbf6170964db708aa822e7f6f8346c9785d4b3e7d3d0feef5cbcd89602799ef",
+      "normalized_sha256": "72c210c03b20ea34e433331df3e01b9c326c54854408fe91bd01e8545451c3b9",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/MeshPart/flatmesh.so",
+          "sha256": "405d78e9000fbc78844cab7a6034590b28da61da842e1d2ac3aaa572802668b2",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Mesh",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/libCoin.80.0.10.dylib",
+      "payload_sha256": "03a9239b404589b18529b8b9583a4f74f16ec7c5574028bc9971fabb6c758362",
+      "normalized_sha256": "60163507c4f09447c8eb9ac5402e27a6eebc2a8c7113b13847765ffd8b2a335f",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/libCoin.80.0.10.dylib",
+          "sha256": "03a9239b404589b18529b8b9583a4f74f16ec7c5574028bc9971fabb6c758362",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/libFreeCADApp.dylib",
+      "payload_sha256": "f45e2f1d1480cf0061f5a4ace245f220677e9f1771551bfcdfafeb6ff3fd0d34",
+      "normalized_sha256": "8ff4278591615c73ee67439d2258f57e6fa1c228265b9fa64e5539032ade9744",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/libFreeCADApp.dylib",
+          "sha256": "c8b2938353cc58700240e2b36792ccfa7670ae82ce6e6b857605320113a4cb64",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/libFreeCADBase.dylib",
+      "payload_sha256": "f475b3a504f1daaa96a78167e25ab4fed8eb2892a1ae42c36065dc72af186905",
+      "normalized_sha256": "903682c4ea1f749c376b18c1e1dc196a4a180de91d91358003eb5f562dbd282d",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/libFreeCADBase.dylib",
+          "sha256": "25fbc4873d6553b5999483b3372213ccb1680fec6885ca7044380cea82bab062",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/libFreeCADGui.dylib",
+      "payload_sha256": "d63410d8217b61d0ae5f2f3ad2b4a0faffb5c850b1a816eafb8f4796dff0dbc0",
+      "normalized_sha256": "027d257161f558a56f6532741744d7884ee464a903da16829021040c036e324a",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/libFreeCADGui.dylib",
+          "sha256": "cd9b6a0838574ea2a16fed11d1f0ea2c2315bc2597a028eabf3c7e9f3032d87d",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/libOndselSolver.1.0.1.dylib",
+      "payload_sha256": "7be46f7b25ddeccc1990ea38b78b0e094601e525dd967f69960f8502eb2924ac",
+      "normalized_sha256": "7c99f11a1782d23371a25f45e86ca9d94d017192dc1be1ecef82e3d7b6542964",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "lib/libOndselSolver.1.0.1.dylib",
+          "sha256": "fcf727cdab433d93172af4118256515f9678a481759084c4222150a581094d36",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/libarea-native.dylib",
+      "payload_sha256": "04dce1a9969ff10e2a7112c70d6644495e5517fe5009c7aa499dfefc6ce6ce0d",
+      "normalized_sha256": "c085ebe68e39f2e31aefbc69300cf1bc9134133c1588c7f6b5df339641ca86c0",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/libarea-native.dylib",
+          "sha256": "fcbd5166a952e917681fbf0ea3c5039997c3a466524da3ee098334d646783bea",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Import",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/surface_generator.so",
+      "payload_sha256": "d44bed6ceaa24ec86bb99eb5154e551c31b5b8b48e21093d1f37d424ab0f6139",
+      "normalized_sha256": "12ef3ec1bf4383d0773be24542a9fcd6ab5752c4f62b2d6b28c47448b3944c2d",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/surface_generator.so",
+          "sha256": "9804edeffc795251a8f76481ca0f2fb0023817ed5566eae78fdd3ec98ce8011f",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Part",
+            "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Material",
+            "/Users/zukomgwili/src/FreeCAD/build/release/lib"
+          ]
+        }
+      ]
+    },
+    {
+      "relative": "lib/tsp_solver.so",
+      "payload_sha256": "63132e738b10a96ffc01c2fe7f2223caf308f34c0cd972fa77361b082495b746",
+      "normalized_sha256": "6809da6f6138f1a80118948dcff6ed98ca84b4b1e8ed507caec6f7d414be3d0a",
+      "payload_rpaths": [
+        "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib",
+        "@loader_path/"
+      ],
+      "build_matches": [
+        {
+          "path": "Mod/CAM/tsp_solver.so",
+          "sha256": "72439ddec44a67b225ff43d4c4c41b712bdb11ee24176282d831e4e0d9c3aff4",
+          "rpaths": [
+            "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib"
+          ]
+        }
+      ]
+    }
+  ],
+  "native_complete_relative_set_sha256": "0b368fdf8d79955e26ed693fe9ff4139bb8b5dacbc72d790e13eea47a82fadaa",
+  "install_manifest": {
+    "path": "/Users/zukomgwili/src/FreeCAD/build/release/install_manifest.txt",
+    "sha256": "509749eaa198c2c7184f3c1f5400d19adbfa56da185979f7d78a1a0e8854377d",
+    "unique_leaf_count": 3938
+  },
+  "payload_inventory_sha256": "0ad7741a0a3d17ddd6ceff33a87699d6b262fdefd812150d3d311cf0fc67f2c8",
+  "payload_inventory_entries": 4351,
+  "baseline_inventory_sha256": "4da10e9c75b3938b67d51c82ed29912bc2c80ddf8974268a3448974acf136ea8",
+  "external_namespace_sha256": {
+    "lib/python3.13/site-packages/freecad/UiTools.py": "ead0fa8de59dcc6d723e8404dfd12c7292e12af98da1442173e7ccaa8e857618",
+    "lib/python3.13/site-packages/freecad/__init__.py": "2ad8e636650f75309f74aee3793f190fb96aa2e690cba56717884fff67a59744",
+    "lib/python3.13/site-packages/freecad/deprecation.py": "31bbdcdea07eadfaa0d32bd716296ef866df04042000814318ae49dfa92e3bae",
+    "lib/python3.13/site-packages/freecad/freecad_doc.py": "a44b190947a1a5cc1ce790375c87066a6aa89cf45dba08d80e867f8cbf441242",
+    "lib/python3.13/site-packages/freecad/module_io.py": "398804393b26110122db5affcb1f7da46ea6225ebc5c08c6b1399d5dee8e8ea6",
+    "lib/python3.13/site-packages/freecad/part.py": "ecba9ca218988bd887f82072a594ba887b3cc4d959f765db84c8ef85c86024eb",
+    "lib/python3.13/site-packages/freecad/partdesign.py": "89c450f5cbf3943765759e5a7133296e910bb1448d51cb90b73d4a6f70aa387c",
+    "lib/python3.13/site-packages/freecad/project_utility.py": "8663235da7c7e20d1e0c1bf3d815c7d877c92857e8e82dcb466213a5e12220ee",
+    "lib/python3.13/site-packages/freecad/sketcher.py": "18638216c4e45485a12ff967386a0e830e65d1ce10d53981a187c8473174b474",
+    "lib/python3.13/site-packages/freecad/utils.py": "8024aea993669521c03aeb2b7386348251cd0551555c455aef7ab0496342ec4d",
+    "lib/python3.13/site-packages/freecad/utils_zip.py": "0e52e92d88416e87b5a28963fb8949da104b125039b01ab6ee372481604ba851"
+  },
+  "read_only_payload_and_app_unchanged": true
+}
