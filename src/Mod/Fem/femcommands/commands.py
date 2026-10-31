@@ -348,7 +348,8 @@ class _ConstraintElasticConnector(CommandManager):
         self.tooltip = Qt.QT_TRANSLATE_NOOP(
             "FEM_ConstraintElasticConnector",
             "Creates a scalar connector between vertices or existing Rigid Body ports; "
-            "explicitly enter translational or rotational stiffness",
+            "one beam vertex and one solid port define a scalar translation. "
+            "Explicitly enter translational or rotational stiffness",
         )
         self.is_active = "with_analysis"
 
@@ -377,24 +378,43 @@ class _ConstraintElasticConnector(CommandManager):
                     FreeCAD.Console.PrintError("Elastic connectors require CAD vertices.\n")
                     return
                 endpoints.append((selection.Object, [name]))
-        if (endpoints and bodies) or len(endpoints) > 2 or len(bodies) > 2:
+        hybrid = len(endpoints) == 1 and len(bodies) == 1
+        if (endpoints and bodies and not hybrid) or len(endpoints) > 2 or len(bodies) > 2:
             FreeCAD.Console.PrintError(
-                "Select at most two vertices or two existing Rigid Bodies, not a mixture.\n"
+                "Select at most two vertices, two existing Rigid Bodies, "
+                "or one beam vertex and one solid Rigid Body.\n"
             )
             return
+        if hybrid:
+            from femtools.membertools import get_member
+
+            if (
+                bodies[0] not in get_member(analysis, "Fem::ConstraintRigidBody")
+                or endpoints[0][0].Document != analysis.Document
+            ):
+                FreeCAD.Console.PrintError(
+                    "Select an active Rigid Body in this analysis and a beam vertex "
+                    "in the same document.\n"
+                )
+                return
         doc = analysis.Document
         doc.openTransaction("Create elastic connector")
         try:
             obj = ObjectsFem.makeConstraintElasticConnector(doc)
             analysis.addObject(obj)
-            if endpoints:
-                obj.End1 = endpoints[0]
-            if len(endpoints) == 2:
-                obj.Mode, obj.End2 = "Two points", endpoints[1]
-            if bodies:
-                obj.Attachment, obj.RigidBody1 = "Rigid body ports", bodies[0]
-            if len(bodies) == 2:
-                obj.Mode, obj.RigidBody2 = "Two points", bodies[1]
+            if hybrid:
+                obj.Attachment = "Vertex to rigid body port"
+                obj.Kind, obj.Mode = "Translational", "Two points"
+                obj.End1, obj.RigidBody2 = endpoints[0], bodies[0]
+            else:
+                if endpoints:
+                    obj.End1 = endpoints[0]
+                if len(endpoints) == 2:
+                    obj.Mode, obj.End2 = "Two points", endpoints[1]
+                if bodies:
+                    obj.Attachment, obj.RigidBody1 = "Rigid body ports", bodies[0]
+                if len(bodies) == 2:
+                    obj.Mode, obj.RigidBody2 = "Two points", bodies[1]
             doc.recompute()
             doc.commitTransaction()
         except Exception:
@@ -402,10 +422,16 @@ class _ConstraintElasticConnector(CommandManager):
             raise
         FreeCADGui.Selection.clearSelection()
         FreeCADGui.Selection.addSelection(obj)
-        FreeCAD.Console.PrintMessage(
-            "Set Kind, explicit Stiffness (N/mm) or RotationalStiffness (N*mm/rad), "
-            "and the local direction in Data. Rigid Body region coupling must be explicit.\n"
-        )
+        if hybrid:
+            FreeCAD.Console.PrintMessage(
+                "The beam vertex and explicit solid port define one scalar translation. "
+                "Set Stiffness (N/mm) and the local direction in Data.\n"
+            )
+        else:
+            FreeCAD.Console.PrintMessage(
+                "Set Kind, explicit Stiffness (N/mm) or RotationalStiffness (N*mm/rad), "
+                "and the local direction in Data. Rigid Body region coupling must be explicit.\n"
+            )
 
 
 class _ConstraintSectionPrint(CommandManager):
@@ -1157,7 +1183,9 @@ class _ResultContactObservation(CommandManager):
             for obj in selected
             if obj.Document == doc
             and obj in analysis.Group
-            and (obj.isDerivedFrom("Fem::ConstraintContact") or is_of_type(obj, "Fem::ConstraintTie"))
+            and (
+                obj.isDerivedFrom("Fem::ConstraintContact") or is_of_type(obj, "Fem::ConstraintTie")
+            )
         ]
         doc.openTransaction("Create contact-side observation")
         try:

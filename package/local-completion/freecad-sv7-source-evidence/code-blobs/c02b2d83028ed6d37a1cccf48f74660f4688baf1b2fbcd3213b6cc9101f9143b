@@ -1,0 +1,67 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""First public native coupled-result tracer; analytical limits frozen separately."""
+import json
+import os
+from pathlib import Path
+import unittest
+
+import FreeCAD as App
+from femtools.ccxtools import FemToolsCcx
+from Sv7SpringBaseline import make_series
+
+ROOT = Path(__file__).resolve().parent
+
+
+class TestCoupledBeamResult(unittest.TestCase):
+    def test_series_beam_ground_spring_and_restraints_share_one_owned_frame(self):
+        doc = App.newDocument("Sv7CoupledSeries")
+        directory = Path(os.environ.get("SV7_CASE_ROOT", ROOT / "coupled-red")) / "series"
+        directory.mkdir(parents=True)
+        try:
+            model = make_series(doc)
+            model.solver.BeamSectionForces = True
+            if os.environ.get("SV7_TEST_SOLVER"):
+                model.solver.NativeAccountingSolver = os.environ["SV7_TEST_SOLVER"]
+            fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+            fea.update_objects()
+            fea.setup_working_dir(str(directory))
+            self.assertFalse(fea.check_prerequisites())
+            self.assertFalse(fea.write_inp_file())
+            deck = Path(fea.inp_file_name).read_bytes()
+            (directory / "stock-input.inp").write_bytes(deck)
+            self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+            self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+            fea.load_results()
+            result = next(obj for obj in model.analysis.Group if obj.Name == "BeamSectionForces")
+            data = result.Proxy.getSectionForces(result)
+            self.assertEqual(data["schema"], "CCX_BEAM_SECTION_V2")
+            frame = data["frames"][-1]
+            actions = frame["native_actions"]
+            self.assertEqual(actions["position_frame"], "ORIGINAL_GLOBAL")
+            self.assertEqual(actions["moment_reference"], "GLOBAL_ORIGIN")
+            self.assertEqual(actions["force_action"], "ON_STRUCTURAL_MODEL")
+            expected = (
+                ("source", "Force", (10, 0, 0), (0, 300, -200)),
+                ("spring", "GroundSpring", (-10, 0, 0), (0, -300, 200)),
+                ("support", "Stabilizer", (0, 0, 0), (0, 0, 0)),
+            )
+            for name, owner, force, moment in expected:
+                row = actions[name]
+                self.assertEqual(row["owner"], owner)
+                self.assertLessEqual((App.Vector(*row["force_global"]) - App.Vector(*force)).Length, 0.001)
+                self.assertLessEqual((App.Vector(*row["moment_origin"]) - App.Vector(*moment)).Length, 0.1)
+            spring = actions["spring"]
+            self.assertEqual((spring["element"], spring["node"]), (6, 1))
+            self.assertLessEqual((App.Vector(*spring["native_resisting_force"]) - App.Vector(10, 0, 0)).Length, 0.001)
+            self.assertAlmostEqual(spring["displacement"][0], 0.005, delta=0.0000005)
+            self.assertTrue(actions["support"]["spcs"])
+            self.assertEqual({row["role"] for row in actions["support"]["spcs"]}, {"TRANSLATION", "ANGLE", "ALGEBRAIC"})
+            self.assertEqual(len(frame["samples"]), 10)
+            for row in frame["samples"]:
+                sign = -1 if row["end"] == 1 else 1
+                self.assertLessEqual((App.Vector(*row["force_global"]) - App.Vector(sign * 10, 0, 0)).Length, 0.01)
+                self.assertLessEqual(App.Vector(*row["moment_global"]).Length, 0.04)
+            (directory / "observed.json").write_text(json.dumps(data, indent=2))
+            doc.saveAs(str(directory / "series.FCStd"))
+        finally:
+            App.closeDocument(doc.Name)

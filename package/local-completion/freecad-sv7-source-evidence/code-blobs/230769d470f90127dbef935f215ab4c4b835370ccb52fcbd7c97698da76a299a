@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Cold process reads only the previously native-authored saved result."""
+import json
+from pathlib import Path
+import unittest
+
+import FreeCAD as App
+
+ROOT = Path(__file__).resolve().parent
+CASE = ROOT / 'spring-production-r01/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame'
+
+
+class TestColdCoupledHistory(unittest.TestCase):
+    def test_cold_reopen_retains_literal_actions_without_current_process_ownership(self):
+        expected = json.loads((CASE / 'observed.json').read_text())
+        doc = App.openDocument(str(CASE / 'series.FCStd'))
+        try:
+            result = doc.getObject('BeamSectionForces')
+            self.assertFalse(result.CompletedRun)
+            self.assertTrue(result.Status.startswith('Historical'), result.Status)
+            self.assertEqual(result.Proxy.getSectionForces(result, historical=True), expected)
+            self.assertEqual(doc.GroundSpring.Attachment, 'Vertices')
+            self.assertEqual(doc.GroundSpring.Mode, 'Ground')
+            self.assertEqual(doc.GroundSpring.Stiffness.getValueAs('N/mm').Value, 2000)
+            self.assertTrue(doc.Stabilizer.xFree)
+            self.assertFalse(doc.Stabilizer.rotxFree)
+            with self.assertRaises(ValueError):
+                result.Proxy.getSectionForces(result)
+            self.assertEqual(result.Proxy.getSectionForces(result, historical=True), expected)
+            doc.GroundSpring.Stiffness = '3000 N/mm'
+            self.assertEqual(result.Proxy.getSectionForces(result, historical=True), expected)
+        finally:
+            App.closeDocument(doc.Name)

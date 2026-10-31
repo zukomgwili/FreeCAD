@@ -1,0 +1,19 @@
+"""Public native tracer through the immutable serial custody supervisor."""
+import importlib.util
+from pathlib import Path
+import sys
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location("_coupled_guard", ROOT / "run_gate.py")
+base = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(base)
+base.core.SOURCE_FILES += tuple(map(str, (Path(__file__).resolve(), ROOT / "Sv7Coupled.py", ROOT / "Sv7SpringBaseline.py")))
+run = ROOT / "coupled-red"
+base.core.COMMANDS = {"coupled": [
+    "/Applications/FreeCAD-27.1.0.app/Contents/MacOS/FreeCADCmd",
+    "-u", str(run / "user.cfg"), "-s", str(run / "system.cfg"),
+    "-P", str(ROOT), "-t", "Sv7Coupled",
+]}
+if __name__ == "__main__":
+    raise SystemExit(base.core.main())

@@ -1,0 +1,214 @@
+--- a/ccx_2.23/src/CalculiX.h
++++ b/ccx_2.23/src/CalculiX.h
+@@ -88,6 +88,14 @@
+ void cs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,char*,ITG,char*,double*,ITG,ITG,ITG,double*);
+ void cs_begin_results(ITG,ITG,ITG,ITG,double*,double*,ITG*,ITG*,char*,ITG*,ITG*,double*,double*,double*,double*,double);
+ void cs_emit(ITG,ITG,double);
++void bs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,ITG,
++                ITG*,ITG*,char*,char*,double*,ITG,ITG*,ITG*,double*,
++                ITG*,char*,ITG,char*,ITG,ITG,ITG,ITG,ITG,ITG*);
++void bs_begin_actions(ITG,ITG,ITG,double,double*);
++void bs_pointloads(ITG,ITG*,ITG*,double*,ITG,ITG);
++void bs_projected_supports(ITG,ITG,double*,ITG*);
++void bs_begin_results(ITG,ITG,ITG,double);
++void bs_frd_frame(ITG,ITG,ITG,double);
+ 
+ void FORTRAN(actideacti,(char *set,ITG *nset,ITG *istartset,ITG *iendset,
+                          ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
+--- a/ccx_2.23/src/ccx_2.23.c
++++ b/ccx_2.23/src/ccx_2.23.c
+@@ -123,6 +123,12 @@
+   if(argc==2&&strcmp(argv[1],"--freecad-contact-state-version")==0){
+     printf("CCX_CONTACT_STATE_V1\n");return 0;
+   }
++  if(argc==2&&strcmp(argv[1],"--freecad-beam-section-version")==0){
++    printf("CCX_BEAM_SECTION_V1\n");return 0;
++  }
++  if(argc==2&&strcmp(argv[1],"--freecad-beam-coupling-version")==0){
++    printf("CCX_BEAM_SECTION_V2\n");return 0;
++  }
+   if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
+   else{
+     for(i=1;i<argc;i++){
+@@ -1254,6 +1260,10 @@
+     fa_check_contact_domain(ntie,tieset,tietol,mortar);
+     cs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,lakon,
+                ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
++    bs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,nkon,
++               ipkon,kon,lakon,filab,co,nboun,nodeboun,ndirboun,xboun,
++               nam>0?iamboun:NULL,typeboun,nmpc,labmpc,nload,nbody,ntie,
++               iprestr,mi[2],ielmat);
+     if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
+       {
+ 	if(iperturb[0]<2){
+--- a/ccx_2.23/src/ccx_2.23step.c
++++ b/ccx_2.23/src/ccx_2.23step.c
+@@ -1396,6 +1396,10 @@
+     fa_check_contact_domain(ntie,tieset,tietol,mortar);
+     cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
+                ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
++    bs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,nkon,
++               ipkon,kon,lakon,filab,co,*nboun,nodeboun,ndirboun,xboun,
++               nam>0?iamboun:NULL,typeboun,nmpc,labmpc,*nload,nbody,ntie,
++               iprestr,mi[2],ielmat);
+     if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
+       {
+ 	if(iperturb[0]<2){
+--- a/ccx_2.23/src/results.c
++++ b/ccx_2.23/src/results.c
+@@ -174,6 +174,7 @@
+ 	     &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
+ 	     &ikin,&intpointvart,typeboun,&num_cpus,mortar,nener,iponoeln,
+ 	     network);
++  bs_begin_actions(*iout,*istep,*iinc,*ttime+*time,v);
+   fa_begin_results(*ne,ipkon,kon,lakon,co);
+   cs_begin_results(*iout,*nk,*ne,mt,co,v,ipkon,kon,lakon,itiefac,islavsurf,
+                    pslavsurf,pmastsurf,clearini,springarea,*reltime);
+@@ -465,6 +466,7 @@
+      interpolation of 3d results for 1d/2d elements */
+ 
+   if(*mortartrafoflag==0){
++    bs_begin_results(*iout,*istep,*iinc,*ttime+*time);
+     FORTRAN(resultsprint,(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,ielorien,
+ 			  norien,orab,t1,ithermal,filab,een,iperturb,fn,nactdof,
+ 			  iout,vold,nodeboun,ndirboun,nboun,nmethod,ttime,
+--- a/ccx_2.23/src/resultsprint.f
++++ b/ccx_2.23/src/resultsprint.f
+@@ -272,9 +272,11 @@
+         cflag=filab(3)(5:5)
+         iforce=0
+ !     
++        call bs_map_begin()
+         call extrapolate(stx,stn,ipkon,inum,kon,lakon,nfield,nk,
+      &       ne,mi(1),ndim,orab,ielorien,co,iorienloc,cflag,
+      &       vold,iforce,ielmat,thicke,ielprop,prop)
++        call bs_map_end()
+         iextrapolate=1
+ !     
+       endif
+--- a/ccx_2.23/src/map3dto1d2d.f
++++ b/ccx_2.23/src/map3dto1d2d.f
+@@ -39,6 +39,9 @@
+       real*8 yn(nfield,*),cg(3),p(3),pcg(3),t(3),xl(3,8),shp(7,8),
+      &  xsj(3),e1(3),e2(3),e3(3),s(6),dd,xi,et,ze,co(3,*),xs(3,7),
+      &  vold(0:mi(2),*),ratioe(3),weight,prop(*),xil,etl
++!
++      integer bs_mapping_active
++      real*8 bs_moment(3)
+ !
+       include "gauss.f"
+ !
+@@ -373,6 +376,7 @@
+                      e3(2)=e1(3)*e2(1)-e2(3)*e1(1)
+                      e3(3)=e1(1)*e2(2)-e2(1)*e1(2)
+                   endif
++                  call bs_end_begin(i,node2d,j,cg,e1,e2,e3)
+ !
+ !                 loop over the integration points (2x2 for
+ !                 rectangular or circular cross section, else
+@@ -487,11 +491,23 @@
+      &                     e1(3)*pcg(1)*t(2)-e1(3)*pcg(2)*t(1)-
+      &                     e1(1)*pcg(3)*t(2)-e1(2)*pcg(1)*t(3))
+ !
++!                    Observe only the already computed native point
++!                    force and its exact centroid-relative moment.
++!                    Legacy result expressions above stay unchanged.
++!
++                     if(bs_mapping_active().eq.1) then
++                        bs_moment(1)=pcg(2)*t(3)-pcg(3)*t(2)
++                        bs_moment(2)=pcg(3)*t(1)-pcg(1)*t(3)
++                        bs_moment(3)=pcg(1)*t(2)-pcg(2)*t(1)
++                        call bs_end_point(t,bs_moment)
++                     endif
++!
+ !                    components 5 and 6 are switched in the frd
+ !                    format, so the final order is beam axis,
+ !                    1-direction and 2-direction, or s12, s23 and s31
+ !
+                   enddo
++                  call bs_end_finish()
+                enddo
+ !
+             endif
+--- a/ccx_2.23/src/frd.c
++++ b/ccx_2.23/src/frd.c
+@@ -1025,6 +1025,7 @@
+       frdselect(stn,stn,&iset,&nkcoords,inum,m1,istartset,iendset,
+ 		ialset,ngraph,&ncomptensor,ifieldtensor,icomptensor,
+ 		nfieldtensor,&iselect,m2,f1,output,m3);
++      bs_frd_frame(icounter,*istep,*iinc,*time);
+   
+     }
+   }
+--- a/ccx_2.23/src/Makefile.inc
++++ b/ccx_2.23/src/Makefile.inc
+@@ -1127,6 +1127,7 @@
+ results.c \
+ resultsforc.c \
+ forceaccounting.c \
++beamsection.c \
+ resultsinduction.c \
+ resultsini.c \
+ results_se.c \
+--- a/ccx_2.23/src/mafillsmmain.c
++++ b/ccx_2.23/src/mafillsmmain.c
+@@ -398,6 +398,7 @@
+ 			fext,ipompc,nodempc,coefmpc,mi,rhsi,fnext,
+ 			nmethod,ntrans,inotr,trab,co));
+   if(*rhsi==1)fa_pointloads(*nforc,nodeforc,ndirforc,xforc);
++  if(*rhsi==1)bs_pointloads(*nforc,nodeforc,ndirforc,xforc,*nload,*nbody);
+   
+   return;
+ 
+--- a/ccx_2.23/src/resultsforc.c
++++ b/ccx_2.23/src/resultsforc.c
+@@ -58,6 +58,9 @@
+ 	}
+     }
+     
++/* Read-only observation of the native projected SPC vector. */
++    if(*calcul_fn==1)bs_projected_supports(*nk,mt,fn,nactdof);
++
+ //     calculating the system force vector
+ 
+     if(*calcul_f==1){
+--- a/ccx_2.23/src/springforc_n2f.f
++++ b/ccx_2.23/src/springforc_n2f.f
+@@ -128,6 +128,8 @@
+ !
+          idof=nint(elcon(3,1,imat))
+ !
++         call bs_spring_law(nelem,konl(1),idof,kode,
++     &        nelcon(2,imat),elcon(1,1,imat))
+          if(norien.gt.0) then
+             iorien=max(0,ielorien(1,nelem))
+          else
+@@ -158,6 +160,8 @@
+          do i=1,3
+             fnl(i,1)=fk*xn(i)
+          enddo
++         call bs_spring(nelem,konl(1),idof,kode,nelcon(2,imat),
++     &        elcon(1,1,imat),xn,fnl,vl(1,1))
+          return
+       elseif(lakonl(7:7).eq.'2') then
+ !
+--- a/ccx_2.23/src/gen3dboun.f
++++ b/ccx_2.23/src/gen3dboun.f
+@@ -973,6 +973,7 @@
+ !     storing the index of the SPC with the angle
+ !     value in ilboun(id)
+ !     
++              call bs_record_angle(node,idirref,nk,a(1,idirref))
+               ilboun(id)=nboun
+             endif
+ !     
+--- a/ccx_2.23/src/gen3delem.f
++++ b/ccx_2.23/src/gen3delem.f
+@@ -74,6 +74,7 @@
+      &     1.d0,1.d0/
+ !     
+       iflagpl=0
++      call bs_input_mpcs(nmpc)
+       pi=4.d0*datan(1.d0)
+ !     
+ !     open file for 2d-information

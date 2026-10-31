@@ -42,7 +42,9 @@ class VPBeamSectionForces(VPBaseFemObject):
         dialog = QtWidgets.QDialog(Gui.getMainWindow())
         dialog.setObjectName("NativeBeamSectionInspector")
         dialog.setWindowTitle("Native beam-end forces and moments — " + obj.Label)
-        dialog.resize(1200, 650)
+        hybrid = data["schema"] == "CCX_BEAM_SECTION_V3"
+        coupled = hybrid or data["schema"] == "CCX_BEAM_SECTION_V2"
+        dialog.resize(1200, 900 if coupled else 650)
         layout = QtWidgets.QVBoxLayout(dialog)
         layout.addWidget(
             QtWidgets.QLabel(
@@ -54,7 +56,7 @@ class VPBeamSectionForces(VPBaseFemObject):
         layout.addWidget(
             QtWidgets.QLabel(
                 "Units: forces N; moments N*mm; positions mm. "
-                "Outward element-end actions about the current section centroid."
+                "Outward element-end actions about the native section-map centroid."
             )
         )
         source = data["provenance"]
@@ -72,7 +74,43 @@ class VPBeamSectionForces(VPBaseFemObject):
         table.setObjectName("NativeBeamSectionSamples")
         table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         table.setAlternatingRowColors(True)
-        layout.addWidget(table)
+        if hybrid:
+            table.verticalHeader().setDefaultSectionSize(24)
+        layout.addWidget(table, 2 if hybrid else 3)
+        tables = [table]
+        if coupled:
+            explanation = QtWidgets.QLabel(
+                "Actions use original global axes and moments about the global origin. "
+                "Beam guide and solid fixed are physical supports; spring ends and moving "
+                "RBE sides are internal transfer, not additional external ground supports."
+                if hybrid
+                else "Source, spring and support actions act on the structural model in original "
+                "global axes. Their moments are about the global origin."
+            )
+            explanation.setWordWrap(True)
+            layout.addWidget(explanation)
+            actions_table = QtWidgets.QTableWidget()
+            actions_table.setObjectName("NativeCoupledBeamActions")
+            actions_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+            actions_table.setAlternatingRowColors(True)
+            if hybrid:
+                actions_table.verticalHeader().setDefaultSectionSize(24)
+            layout.addWidget(actions_table, 3 if hybrid else 2)
+            explanation = QtWidgets.QLabel(
+                "Support DOFs: TRANSLATION is force (N); ANGLE is a physical couple (N*mm). "
+                "ALGEBRAIC is a native equation value excluded from the physical wrench; "
+                "it may be nonzero. Equation-node coordinates are not physical force locations."
+            )
+            explanation.setWordWrap(True)
+            layout.addWidget(explanation)
+            support_table = QtWidgets.QTableWidget()
+            support_table.setObjectName("NativeCoupledBeamSupportDofs")
+            support_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+            support_table.setAlternatingRowColors(True)
+            if hybrid:
+                support_table.verticalHeader().setDefaultSectionSize(24)
+            layout.addWidget(support_table, 3)
+            tables.extend((actions_table, support_table))
         status = QtWidgets.QLabel("Saved solver observations; not design acceptance")
         status.setObjectName("NativeBeamSectionAvailability")
         layout.addWidget(status)
@@ -85,8 +123,9 @@ class VPBeamSectionForces(VPBaseFemObject):
             nonlocal withdrawn
             if not withdrawn:
                 withdrawn = True
-                table.clearContents()
-                table.setRowCount(0)
+                for displayed in tables:
+                    displayed.clearContents()
+                    displayed.setRowCount(0)
                 frames.setEnabled(False)
                 status.setText("Unavailable: " + reason)
 
@@ -107,6 +146,149 @@ class VPBeamSectionForces(VPBaseFemObject):
         channels = ("shear1", "shear2", "axial", "torque", "bend2", "bend1")
         columns += [name + (" (N)" if i < 3 else " (N*mm)") for i, name in enumerate(channels)]
         columns += ["e1", "e2", "normal", "Centroid (mm)"]
+
+        def fill_table(displayed, headers, rows):
+            displayed.clear()
+            displayed.setColumnCount(len(headers))
+            displayed.setHorizontalHeaderLabels(headers)
+            displayed.setRowCount(len(rows))
+            for i, values in enumerate(rows):
+                for j, value in enumerate(values):
+                    text = format(value, ".10g") if isinstance(value, float) else str(value)
+                    displayed.setItem(i, j, QtWidgets.QTableWidgetItem(text))
+            displayed.resizeColumnsToContents()
+
+        def show_coupled_actions(frame):
+            actions = frame["native_actions"]
+            headers = [
+                "Action",
+                "Owner",
+                "Node / region" if hybrid else "Node",
+                "Spring element",
+                "Original position (mm)",
+            ]
+            headers += [f"F{axis} (N)" for axis in "xyz"]
+            headers += [f"M{axis} about origin (N*mm)" for axis in "xyz"]
+            rows = []
+            if hybrid:
+                spring = actions["spring"]
+                first, second = spring["ends"]
+                port = actions["port"]
+                catalogue = (
+                    (
+                        "source",
+                        actions["source"]["owner"],
+                        actions["source"]["node"],
+                        "—",
+                        actions["source"]["position"],
+                        actions["source"],
+                    ),
+                    (
+                        "beam guide",
+                        actions["support"]["owner"],
+                        actions["support"]["node"],
+                        "—",
+                        actions["support"]["position"],
+                        actions["support"],
+                    ),
+                    (
+                        "solid fixed",
+                        actions["solid_support"]["owner"],
+                        actions["solid_support"]["nodes"],
+                        "—",
+                        "—",
+                        actions["solid_support"],
+                    ),
+                    (
+                        "spring on beam",
+                        spring["owner"],
+                        first["node"],
+                        spring["element"],
+                        first["position"],
+                        first,
+                    ),
+                    (
+                        "spring on reference",
+                        spring["owner"],
+                        second["node"],
+                        spring["element"],
+                        second["position"],
+                        second,
+                    ),
+                    (
+                        "RBE receiving",
+                        port["owner"],
+                        port["receiving_nodes"],
+                        "—",
+                        "—",
+                        port["receiving_action"],
+                    ),
+                    (
+                        "RBE reference",
+                        port["owner"],
+                        port["reference_node"],
+                        "—",
+                        source["coupling"]["port"]["position"],
+                        port["reference_action"],
+                    ),
+                )
+                for name, owner, nodes, element, position, row in catalogue:
+                    rows.append(
+                        [name, owner, nodes, element, position]
+                        + row["force_global"]
+                        + row["moment_origin"]
+                    )
+            else:
+                for name in ("source", "spring", "support"):
+                    row = actions[name]
+                    rows.append(
+                        [name, row["owner"], row["node"], row.get("element", "—"), row["position"]]
+                        + row["force_global"]
+                        + row["moment_origin"]
+                    )
+            fill_table(actions_table, headers, rows)
+            headers = [
+                "Role",
+                "Owner",
+                "Node",
+                "DOF",
+                "Original node",
+                "Original DOF",
+                "Native value",
+                "Units",
+                "Axis",
+                "Physical contribution",
+            ]
+            roles = {
+                "TRANSLATION": ("N", "Force"),
+                "ANGLE": ("N*mm", "Couple"),
+                "ALGEBRAIC": ("Native equation value", "Excluded"),
+            }
+            terms = [(actions["support"]["owner"], row) for row in actions["support"]["spcs"]]
+            if hybrid:
+                terms.extend(
+                    (actions["solid_support"]["owner"], row)
+                    for row in actions["solid_support"]["spcs"]
+                )
+                terms.extend((port["owner"], row) for row in port["algebraic_spcs"])
+            rows = []
+            for owner, row in terms:
+                units, contribution = roles[row["role"]]
+                rows.append(
+                    [
+                        row["role"],
+                        owner,
+                        row["node"],
+                        row["direction"],
+                        row.get("original_node", row.get("receiving_node", row["node"])),
+                        row.get("original_direction", row["direction"]),
+                        row["value"],
+                        units,
+                        row.get("axis", "—"),
+                        contribution,
+                    ]
+                )
+            fill_table(support_table, headers, rows)
 
         def show_frame(index):
             validate()
@@ -134,6 +316,8 @@ class VPBeamSectionForces(VPBaseFemObject):
                     text = format(value, ".10g") if isinstance(value, float) else str(value)
                     table.setItem(i, j, QtWidgets.QTableWidgetItem(text))
             table.resizeColumnsToContents()
+            if coupled:
+                show_coupled_actions(data["frames"][index])
 
         for frame in data["frames"]:
             frames.addItem(

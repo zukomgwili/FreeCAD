@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/calculix-9zt-probe/build_probe.py", line 234, in <module>
+    main()
+    ~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/calculix-9zt-probe/build_probe.py", line 150, in main
+    run(
+    ~~~^
+        base
+        ^^^^
+    ...<13 lines>...
+        environment,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zukomgwili/src/FreeCAD/package/local-completion/calculix-9zt-probe/build_probe.py", line 30, in run
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        command,
+        ^^^^^^^^
+    ...<4 lines>...
+        check=True,
+        ^^^^^^^^^^^
+    )
+    ^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['pixi', 'run', '--manifest-path', '/private/tmp/freecad-sv7-_7lscq7g/native-build-r01/build/pixi.toml', 'make', '-f', '/Users/zukomgwili/Library/Caches/rattler/cache/pkgs/calculix-2.23-pl5321hd17ca8b_8/info/recipe/Makefile_MT', 'CC=arm64-apple-darwin20.0.0-clang', 'FC=arm64-apple-darwin20.0.0-gfortran', 'VERSION=2.23', 'SPOOLES_INCLUDE_DIR=/private/tmp/freecad-sv7-_7lscq7g/native-build-r01/build/.pixi/envs/default/include/spooles', 'LIB_DIR=/private/tmp/freecad-sv7-_7lscq7g/native-build-r01/build/.pixi/envs/default/lib', '-j6']' returned non-zero exit status 2.

@@ -1,0 +1,44 @@
+(qt.qpa.fonts) Populating font family aliases took 88 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +241 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit (femtest.gui.test_beam_coupling.TestBeamCouplingGui.test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/spring-gui-final-r01/cases/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/spring-gui-final-r01/cases/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/spring-gui-final-r01/cases/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/Mesh.dat
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.947s
+
+OK
+System exit

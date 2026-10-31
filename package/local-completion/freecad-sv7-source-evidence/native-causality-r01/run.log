@@ -1,0 +1,43 @@
+test_pure_native_beam_with_independent_root_motion_matches_mixed_beam (Sv7Controls.TestNativeBeamCausality.test_pure_native_beam_with_independent_root_motion_matches_mixed_beam) ... ERROR
+test_same_stock_deck_without_diagnostics_and_previous_solver_preserves_displacements (Sv7Controls.TestNativeBeamCausality.test_same_stock_deck_without_diagnostics_and_previous_solver_preserves_displacements) ... ERROR
+
+======================================================================
+ERROR: test_pure_native_beam_with_independent_root_motion_matches_mixed_beam (Sv7Controls.TestNativeBeamCausality.test_pure_native_beam_with_independent_root_motion_matches_mixed_beam)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-sv7-_7lscq7g/Sv7Controls.py", line 58, in test_pure_native_beam_with_independent_root_motion_matches_mixed_beam
+    model.section.Width = '4 mm'
+    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FeaturePython' object has no attribute 'Width'
+
+======================================================================
+ERROR: test_same_stock_deck_without_diagnostics_and_previous_solver_preserves_displacements (Sv7Controls.TestNativeBeamCausality.test_same_stock_deck_without_diagnostics_and_previous_solver_preserves_displacements)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-sv7-_7lscq7g/Sv7Controls.py", line 47, in test_same_stock_deck_without_diagnostics_and_previous_solver_preserves_displacements
+    (Path(os.environ['SV7_CASE_ROOT'])/'diagnostic-controls.json').write_text(json.dumps(observations,indent=2))
+                                                                              ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/__init__.py", line 242, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/encoder.py", line 202, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/encoder.py", line 263, in iterencode
+    return _iterencode(o, 0)
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/json/encoder.py", line 182, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type Vector is not JSON serializable
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.129s
+
+FAILED (errors=2)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/hybrid-green-r03/cases/hybrid/HybridMesh.frd
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/hybrid-green-r03/cases/hybrid/HybridMesh.frd
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/native-causality-r01/cases/inactive/control.frd
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/native-causality-r01/cases/previous/control.frd

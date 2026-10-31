@@ -88,8 +88,20 @@ def write_step_output(f, ccxwriter):
             f.write("** reaction forces for Constraint fixed\n")
             for femobj in ccxwriter.member.cons_fixed:
                 # femobj --> dict, FreeCAD document object is femobj["Object"]
-                f.write("*NODE PRINT, NSET={}, TOTALS=ONLY\n".format(femobj["Object"].Name))
-                f.write("RF\n")
+                name = femobj["Object"].Name
+                if ccxwriter.femmesh.Volumes and (
+                    ccxwriter.member.geos_shellthickness or ccxwriter.member.geos_beamsection
+                ):
+                    names = [
+                        name + suffix
+                        for key, suffix in (("NodesSolid", "Solid"), ("NodesFaceEdge", "FaceEdge"))
+                        if femobj[key]
+                    ]
+                else:
+                    names = [name]
+                for name in names:
+                    f.write(f"*NODE PRINT, NSET={name}, TOTALS=ONLY\n")
+                    f.write("RF\n")
         if ccxwriter.member.cons_displacement:
             # reaction forces for Constraint displacement constraining translation
             f.write("** reaction forces for Constraint displacement constraining translation\n")

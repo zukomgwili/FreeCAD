@@ -1,0 +1,73 @@
+test_series_beam_ground_spring_and_restraints_share_one_owned_frame (femtest.app.test_beam_coupling_native.TestBeamCouplingNative.test_series_beam_ground_spring_and_restraints_share_one_owned_frame) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_transverse_components_observe_nonzero_physical_rotation_reactions (femtest.app.test_beam_coupling_native.TestBeamCouplingNative.test_transverse_components_observe_nonzero_physical_rotation_reactions) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.422s
+
+OK
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/formal-r01/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/formal-r01/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/formal-r01/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/formal-r01/cases/test_transverse_components_observe_nonzero_physical_rotation_reactions/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/formal-r01/cases/test_transverse_components_observe_nonzero_physical_rotation_reactions/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/formal-r01/cases/test_transverse_components_observe_nonzero_physical_rotation_reactions/Mesh.dat

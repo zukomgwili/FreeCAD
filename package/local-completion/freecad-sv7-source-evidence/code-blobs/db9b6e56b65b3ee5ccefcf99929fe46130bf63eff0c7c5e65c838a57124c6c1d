@@ -1,0 +1,54 @@
+"""Installed public restriction probes; not coupled-physics benchmarks."""
+import json
+import sys
+sys.dont_write_bytecode=True
+import unittest
+from pathlib import Path
+import FreeCAD as App
+import Fem
+import ObjectsFem
+from femtest.app.test_beam_section_forces_native import make_straight_case
+from femtools.ccxtools import FemToolsCcx
+
+ROOT=Path(__file__).resolve().parent
+class TestInstalledCompositionRestrictions(unittest.TestCase):
+ def setUp(self):
+  self.doc=App.newDocument('Sv7InstalledRestriction')
+  self.model=make_straight_case(self.doc)
+  self.directory=ROOT/'installed-baseline'/self._testMethodName
+  self.directory.mkdir()
+  self.fea=FemToolsCcx(analysis=self.model.analysis,solver=self.model.solver)
+  self.fea.update_objects();self.fea.setup_working_dir(str(self.directory))
+ def tearDown(self):App.closeDocument(self.doc.Name)
+ def record(self,data):
+  (self.directory/'observation.json').write_text(json.dumps({'runtime':App.Version(),
+   'restriction_probe_only':True,'coupled_model_validity_or_solver_failure_claimed':False,
+   'solver_analysis_run':False,**data},indent=2)+'\n')
+ def test_existing_pure_1d_export_passes_but_same_case_accounting_is_refused(self):
+  self.assertFalse(self.fea.check_prerequisites());self.assertFalse(self.fea.write_inp_file())
+  self.assertIn('SECTION FORCES',Path(self.fea.inp_file_name).read_text())
+  self.model.solver.NativeForceAccounting=True
+  with self.assertRaises(ValueError) as refusal:self.fea.write_inp_file()
+  self.assertIn('separate',str(refusal.exception).lower())
+  self.record({'baseline_pure_1d_export':True,'requested_accounting':True,'refusal':str(refusal.exception)})
+ def test_same_case_contact_request_is_refused_before_contact_qualification(self):
+  contact=ObjectsFem.makeConstraintContact(self.doc,'RestrictionProbeContact')
+  self.model.analysis.addObject(contact)
+  self.model.solver.NativeContactOutputs=[contact]
+  with self.assertRaises(ValueError) as refusal:self.fea.write_inp_file()
+  self.assertIn('separate',str(refusal.exception).lower())
+  self.record({'contact_object_is_not_a_physical_benchmark':True,'refusal':str(refusal.exception)})
+ def test_stock_mixed_mesh_preflight_is_an_independent_barrier(self):
+  old=self.model.mesh.FemMesh;mesh=Fem.FemMesh()
+  for node,point in old.Nodes.items():mesh.addNode(point.x,point.y,point.z,node)
+  for element in old.Edges:mesh.addEdge(list(old.getElementNodes(element)),element)
+  for node,point in ((12,(150,0,0)),(13,(151,0,0)),(14,(150,1,0)),(15,(150,0,1))):mesh.addNode(*point,node)
+  mesh.addVolume([12,13,14,15],6);self.model.mesh.FemMesh=mesh
+  self.doc.recompute();self.fea.update_objects()
+  refusal=self.fea.check_prerequisites()
+  self.assertTrue(refusal)
+  self.assertIn('beam',refusal.lower())
+  self.assertTrue('volume' in refusal.lower() or 'solid' in refusal.lower(),refusal)
+  self.record({'deliberately_disconnected_mesh_is_not_a_coupled_benchmark':True,'refusal':refusal})
+
+def load_tests(loader,_tests,_pattern):return loader.loadTestsFromTestCase(TestInstalledCompositionRestrictions)

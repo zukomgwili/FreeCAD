@@ -1,0 +1,92 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Causality controls for the native mean-corner beam displacement quantity."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import unittest
+
+import FreeCAD as App
+import Fem
+import ObjectsFem
+from feminout.importCcxFrdResults import read_frd_result
+from femtest.app.test_beam_section_forces_native import make_straight_case
+from femtools.ccxtools import FemToolsCcx
+
+ROOT = Path(__file__).resolve().parent
+ORIGINAL = ROOT/'hybrid-green-r03/cases/hybrid'
+OLD = Path('/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting')
+
+
+def displacement(path):
+    return read_frd_result(str(path))['Results'][-1]['disp']
+
+
+class TestNativeBeamCausality(unittest.TestCase):
+    def test_same_stock_deck_without_diagnostics_and_previous_solver_preserves_displacements(self):
+        original = (ORIGINAL/'HybridMesh.inp').read_bytes()
+        expected = displacement(ORIGINAL/'HybridMesh.frd')
+        observations = []
+        for label, binary in (('inactive', Path(os.environ['SV7_TEST_SOLVER'])), ('previous', OLD)):
+            directory = Path(os.environ['SV7_CASE_ROOT'])/label
+            directory.mkdir(parents=True)
+            deck = directory/'control.inp'
+            deck.write_bytes(original)
+            environment = {key:value for key,value in os.environ.items() if not key.startswith('CCX_')}
+            completed = subprocess.run([str(binary), '-i', 'control'],cwd=directory,env=environment,
+                                       capture_output=True,text=True,stdin=subprocess.DEVNULL,timeout=60)
+            (directory/'solver.log').write_text(completed.stdout+completed.stderr)
+            self.assertEqual(completed.returncode, 0, completed.stdout+completed.stderr)
+            self.assertEqual(deck.read_bytes(), original)
+            actual = displacement(directory/'control.frd')
+            for node in (1,2,3,4,5,101,102,103,104,105,106):
+                self.assertLessEqual((App.Vector(*actual[node])-App.Vector(*expected[node])).Length, 0.0000002)
+            observations.append({'control':label,'binary':str(binary),'binary_sha256':hashlib.sha256(binary.read_bytes()).hexdigest(),
+                                 'input_sha256':hashlib.sha256(original).hexdigest(),'tip_displacement_mm':actual[5]})
+        (Path(os.environ['SV7_CASE_ROOT'])/'diagnostic-controls.json').write_text(json.dumps(observations,indent=2))
+
+    def test_pure_native_beam_with_independent_root_motion_matches_mixed_beam(self):
+        expected = displacement(ORIGINAL/'HybridMesh.frd')
+        directory = Path(os.environ['SV7_CASE_ROOT'])/'pure'
+        directory.mkdir(parents=True)
+        doc = App.newDocument('Sv7NativeBeamControl')
+        try:
+            model = make_straight_case(doc, load_vector=(100,0,0))
+            model.geometry.X1, model.geometry.Y1, model.geometry.Z1 = 0,17,-23
+            model.geometry.X2, model.geometry.Y2, model.geometry.Z2 = 40,17,-23
+            model.section.Width = '4 mm'
+            model.section.Height = '4 mm'
+            doc.MechanicalMaterial.Material = {'Name':'NativeBeamControl','YoungsModulus':'200000 MPa','PoissonRatio':'0'}
+            native = Fem.FemMesh()
+            for node in range(1,6):
+                native.addNode(10*(node-1),17,-23,node)
+            native.addEdge([1,3,2],1)
+            native.addEdge([3,5,4],2)
+            model.mesh.FemMesh = native
+            doc.removeObject('Fixed')
+            root = ObjectsFem.makeConstraintDisplacement(doc, 'PrescribedRoot')
+            root.References = [(model.geometry, ['Vertex1'])]
+            root.xFree = root.yFree = root.zFree = False
+            root.rotxFree = root.rotyFree = root.rotzFree = False
+            # Independent scalar and affine-solid references; never fitted to
+            # a recovered mixed beam-tip displacement or a changed tolerance.
+            root.xDisplacement = '0.010133333333333333 mm'
+            model.analysis.addObject(root)
+            model.solver.MaterialNonlinearity = False
+            model.solver.NativeAccountingSolver = os.environ['SV7_TEST_SOLVER']
+            doc.recompute()
+            fea = FemToolsCcx(analysis=model.analysis,solver=model.solver)
+            fea.update_objects()
+            fea.setup_working_dir(str(directory))
+            self.assertFalse(fea.check_prerequisites())
+            self.assertFalse(fea.write_inp_file())
+            self.assertEqual(fea.ccx_run(),0,fea.ccx_stdout+fea.ccx_stderr)
+            actual = displacement(Path(fea.inp_file_name).with_suffix('.frd'))
+            for node in range(1,6):
+                self.assertLessEqual((App.Vector(*actual[node])-App.Vector(*expected[node])).Length,0.0000002)
+            (directory/'observation.json').write_text(json.dumps({'reference_root_mm':0.010133333333333333,
+                'pure_tip_mm':actual[5], 'mixed_tip_mm':expected[5], 'equivalence_limit_mm':0.0000002,
+                'ideal_rod_tip_mm_diagnostic_only':0.011383333333333333},indent=2))
+        finally:
+            App.closeDocument(doc.Name)

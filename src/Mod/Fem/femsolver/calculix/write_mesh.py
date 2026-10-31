@@ -36,6 +36,14 @@ from femmesh import meshtools
 def write_mesh(ccxwriter):
 
     element_param = 1  # highest element order only
+    from femtools import beam_solid_coupling
+
+    if beam_solid_coupling.admitted(
+        ccxwriter.analysis, ccxwriter.solver_obj, ccxwriter.mesh_object
+    ):
+        # Native mode 2 writes actual FEM elements across dimensions, excluding
+        # volume-owned boundary faces/edges. Preserve the original native IDs.
+        element_param = 2
     group_param = False  # do not write mesh group data
 
     is_reduced = ccxwriter.solver_obj.ReducedIntegration

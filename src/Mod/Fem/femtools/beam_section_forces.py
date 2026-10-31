@@ -67,17 +67,23 @@ def _binary(solver):
     return str(selected.resolve(strict=True))
 
 
-def require_capability(binary):
+def require_capability(binary, *, coupled=False, schema=None):
     selected = Path(binary)
     if not selected.is_absolute():
         raise ValueError("Native beam output requires an absolute solver executable path")
     env = dict(os.environ)
     env.pop(ENV, None)
+    wanted = schema or ("CCX_BEAM_SECTION_V2" if coupled else SCHEMA)
+    flag = {
+        SCHEMA: "--freecad-beam-section-version",
+        "CCX_BEAM_SECTION_V2": "--freecad-beam-coupling-version",
+        "CCX_BEAM_SECTION_V3": "--freecad-beam-solid-version",
+    }[wanted]
     try:
         binary = str(selected.resolve(strict=True))
         with tempfile.TemporaryDirectory(prefix="freecad-beam-version-") as directory:
             result = subprocess.run(
-                [str(binary), "--freecad-beam-section-version"],
+                [str(binary), flag],
                 cwd=directory,
                 env=env,
                 stdin=subprocess.DEVNULL,
@@ -88,7 +94,15 @@ def require_capability(binary):
             )
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ValueError("Qualified native beam-end observer is unavailable") from error
-    if result.returncode != 0 or result.stdout.strip() != SCHEMA:
+    if result.returncode != 0 or result.stdout.strip() != wanted:
+        if wanted == "CCX_BEAM_SECTION_V3":
+            raise ValueError(
+                "Solver lacks native beam-to-solid output V3; select the qualified solver"
+            )
+        if wanted == "CCX_BEAM_SECTION_V2":
+            raise ValueError(
+                "Solver lacks native coupled beam output V2; select the qualified solver"
+            )
         raise ValueError("Solver lacks native beam-end output V1; select the qualified solver")
     return binary
 
@@ -172,6 +186,13 @@ def preflight(analysis, solver, mesh):
         raise ValueError("Beam section output requires same-document analysis, solver and mesh")
     if mesh not in analysis.Group or solver not in analysis.Group:
         raise ValueError("Select an active beam mesh and solver in this analysis")
+    end = solver.TimePeriod.Value
+    if not math.isfinite(end) or end <= 0:
+        raise ValueError("Beam section output requires a finite positive step period")
+    from femtools import beam_solid_coupling
+
+    if beam_solid_coupling.requested(analysis):
+        return beam_solid_coupling.plan(analysis, solver, mesh)
     native = mesh.FemMesh
     if not native.EdgeCount or native.FaceCount or native.VolumeCount:
         raise ValueError(
@@ -192,9 +213,9 @@ def preflight(analysis, solver, mesh):
             raise ValueError(
                 "Beam section output currently requires straight quadratic beam segments"
             )
-    end = solver.TimePeriod.Value
-    if not math.isfinite(end) or end <= 0:
-        raise ValueError("Beam section output requires a finite positive step period")
+    from femtools.beam_coupling import plan
+
+    return plan(analysis, solver, mesh)
 
 
 def begin_export(fea):
@@ -206,11 +227,13 @@ def begin_export(fea):
     return _model(fea.analysis, fea.mesh)
 
 
-def _deck_sections(writer, literal):
+def _deck_sections(writer, literal, coupling=None):
     """Bind actual stock-written IDs, connectivity and section assignments."""
     nodes, elements, sets, sections = {}, {}, {}, []
     mode, options, rows = "", {}, []
     steps = 0
+    spring_elements, solid_elements = {}, {}
+    mixed = coupling and coupling.get("schema") == "CCX_BEAM_SECTION_V3"
 
     def section():
         if mode == "*BEAM SECTION":
@@ -250,7 +273,10 @@ def _deck_sections(writer, literal):
                 options[key] = value if separator else True
             if mode == "*STEP":
                 steps += 1
-            if mode == "*ELEMENT" and options.get("TYPE") != "B32R":
+            allowed = {"B32R"} | (
+                {"SPRING2", "C3D4"} if mixed else {"SPRING1"} if coupling else set()
+            )
+            if mode == "*ELEMENT" and options.get("TYPE") not in allowed:
                 raise ValueError("Beam-end diagnostics require an exclusively B32R input deck")
             if mode == "*INCLUDE":
                 raise ValueError("Beam-end diagnostics do not accept split input decks")
@@ -263,7 +289,24 @@ def _deck_sections(writer, literal):
             nodes[node] = [float(value) for value in values[1:]]
         elif mode == "*ELEMENT":
             element = int(values[0])
-            if element in elements or len(values) != 4:
+            if element in elements or element in spring_elements or element in solid_elements:
+                raise ValueError("Repeated native beam or spring element")
+            if options.get("TYPE") == "SPRING1":
+                if len(values) != 2:
+                    raise ValueError("Malformed native ground spring element")
+                spring_elements[element] = int(values[1])
+                continue
+            if options.get("TYPE") == "SPRING2":
+                if len(values) != 3:
+                    raise ValueError("Malformed native hybrid scalar element")
+                spring_elements[element] = list(map(int, values[1:]))
+                continue
+            if options.get("TYPE") == "C3D4":
+                if len(values) != 5:
+                    raise ValueError("Malformed native hybrid tetrahedron")
+                solid_elements[element] = list(map(int, values[1:]))
+                continue
+            if len(values) != 4:
                 raise ValueError("Repeated or malformed native beam element")
             elements[element] = list(map(int, values[1:]))
             if "ELSET" in options:
@@ -284,7 +327,20 @@ def _deck_sections(writer, literal):
         elif mode == "*BEAM SECTION":
             rows.append(values)
     section()
-    if steps != 1 or not elements or set(elements) != set(writer.mesh_object.FemMesh.Edges):
+    if coupling and spring_elements != {
+        coupling["spring"]["element"]: (
+            coupling["spring"]["nodes"] if mixed else coupling["spring"]["node"]
+        )
+    }:
+        raise ValueError("Native ground spring connectivity differs from its owner catalogue")
+    if mixed and solid_elements != {
+        row["element"]: row["nodes"] for row in coupling["solid_elements"]
+    }:
+        raise ValueError("The native hybrid solid catalogue differs from the original mesh")
+    expected_edges = (
+        writer.mesh_object.FemMesh.EdgesOnly if mixed else writer.mesh_object.FemMesh.Edges
+    )
+    if steps != 1 or not elements or set(elements) != set(expected_edges):
         raise ValueError(
             "Beam-end request needs exactly one static step and the original beam catalogue"
         )
@@ -332,6 +388,22 @@ def _deck_sections(writer, literal):
             }
     if set(catalogue) != set(elements):
         raise ValueError("Native beam sections do not cover the complete element catalogue")
+    if (
+        coupling
+        and len(
+            {
+                (
+                    row["section"],
+                    row["material"],
+                    tuple(row["dimensions_mm"]),
+                    tuple(row["reference_n1"]),
+                )
+                for row in catalogue.values()
+            }
+        )
+        != 1
+    ):
+        raise ValueError("Coupled beam observations require one uniform section and material")
     return [catalogue[element] for element in sorted(catalogue)]
 
 
@@ -349,9 +421,11 @@ def _retire_request(deck):
     for path in paths:
         literal = _read(path)[0]
         valid = (
-            _json(literal).get("schema") == SCHEMA
+            _json(literal).get("schema") in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
             if path.suffix == ".json"
-            else literal.startswith((SCHEMA + "\n").encode())
+            else literal.startswith(
+                ((SCHEMA + "\n").encode(), b"CCX_BEAM_SECTION_V2\n", b"CCX_BEAM_SECTION_V3\n")
+            )
         )
         if not valid:
             raise ValueError("Unrecognized beam request sibling; preserve and inspect it")
@@ -372,7 +446,7 @@ def prepare_request(writer):
         _retire_request(writer.file_name)
         return
     solver, analysis, mesh = writer.solver_obj, writer.analysis, writer.mesh_object
-    preflight(analysis, solver, mesh)
+    coupling = preflight(analysis, solver, mesh)
     frozen = getattr(writer, "beam_section_export_digest", None)
     if frozen is None or _model(analysis, mesh) != frozen:
         raise ValueError("Beam inputs changed during export; rewrite the input")
@@ -381,25 +455,37 @@ def prepare_request(writer):
     text = literal.decode("utf-8")
     if "SECTION FORCES" not in text.upper():
         raise ValueError("The stock writer did not request native beam section forces")
-    elements = _deck_sections(writer, text)
+    from femtools import beam_coupling, beam_solid_coupling
+
+    coupling_module = (
+        beam_solid_coupling
+        if coupling and coupling.get("schema") == beam_solid_coupling.SCHEMA
+        else beam_coupling
+    )
+    if coupling:
+        coupling = coupling_module.catalogue(writer, text, coupling)
+    schema = coupling_module.SCHEMA if coupling else SCHEMA
+    elements = _deck_sections(writer, text, coupling)
     binary = _binary(solver)
     binary_sha = _sha(binary)
-    require_capability(binary)
+    require_capability(binary, schema=schema)
     if _sha(binary) != binary_sha:
         raise ValueError("Beam diagnostic solver changed during capability query")
     token = uuid.uuid4().hex
     lines = [
-        SCHEMA,
+        schema,
         "REQUEST " + token,
         f"END_TIME {solver.TimePeriod.Value:.17g}",
         "UNITS MM N NMM",
     ]
     lines.extend("ELEMENT {} {} {} {}".format(row["element"], *row["nodes"]) for row in elements)
+    if coupling:
+        lines.extend(coupling_module.request_lines(coupling))
     lines.append("END")
     request = _request_path(deck)
     _write_generated(request, "\n".join(lines) + "\n")
     metadata = {
-        "schema": SCHEMA,
+        "schema": schema,
         "request": token,
         "request_path": str(request),
         "request_sha256": _sha(request),
@@ -413,6 +499,8 @@ def prepare_request(writer):
         "case": {"analysis": analysis.Name, "solver": solver.Name, "mesh": mesh.Name},
         "freecad_version": App.Version(),
     }
+    if coupling:
+        metadata["coupling"] = coupling
     if _model(analysis, mesh) != frozen or _sha(deck) != deck_sha:
         raise ValueError("Beam inputs changed while preparing the native request")
     metadata_path = Path(str(request) + ".json")
@@ -493,7 +581,7 @@ def _current(fea, metadata):
         if frd["path"] != str(Path(deck).with_suffix(".frd")) or _sha(frd["path"]) != frd["sha256"]:
             return False
     return (
-        metadata["schema"] == SCHEMA
+        metadata["schema"] in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
         and _model(fea.analysis, fea.mesh) == metadata["model_hash"]
         and _binary(fea.solver) == metadata["binary"]
         and _sha(metadata["binary"]) == metadata["binary_sha256"]
@@ -510,6 +598,7 @@ def run_context(fea, binary, environment=None):
         return None
     request = _request_path(fea.inp_file_name).resolve(strict=True)
     metadata = _owned_export(fea)
+    require_capability(binary, schema=metadata["schema"])
     if str(Path(binary).resolve(strict=True)) != metadata["binary"] or not _current(fea, metadata):
         raise ValueError("Native beam request is stale; rewrite solver input")
     token = uuid.uuid4().hex
@@ -549,13 +638,24 @@ def _validate_output(data, metadata):
     def vector(value):
         return isinstance(value, list) and len(value) == 3 and all(map(finite, value))
 
+    coupled = data.get("schema") in ("CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
+    geometry_source = "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT"
+
     if (
-        data.get("schema") != SCHEMA
+        data.get("schema") != metadata.get("schema", SCHEMA)
+        or data.get("schema") not in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
         or data.get("request") != metadata["run"]["token"]
         or data.get("units") != UNITS
         or data.get("complete") is not True
-        or data.get("position_frame") != "CURRENT_EXPANDED_SECTION"
-        or data.get("basis_frame") != "NATIVE_CURRENT_FACE_BASIS"
+        or data.get("position_frame")
+        != ("NATIVE_MAP_EXPANDED_SECTION" if coupled else "CURRENT_EXPANDED_SECTION")
+        or data.get("basis_frame")
+        != ("NATIVE_MAP_FACE_BASIS" if coupled else "NATIVE_CURRENT_FACE_BASIS")
+        or (
+            data.get("geometry_source") != geometry_source
+            if coupled
+            else data.get("geometry_source") not in (None, geometry_source)
+        )
         or data.get("sample_identity_scope") != "ELEMENT_END_BEFORE_NODE_AVERAGING"
         or data.get("moment_reference") != "NATIVE_SECTION_CENTROID"
         or data.get("force_action") != "OUTWARD_NATIVE_ELEMENT_END_FACE"
@@ -592,6 +692,16 @@ def _validate_output(data, metadata):
             raise ValueError("Native beam frame identities or times are not monotonic")
         previous = (frame["frame"], frame["increment"], frame["time"])
         identities.add(tuple(values))
+        if data["schema"] == "CCX_BEAM_SECTION_V3":
+            from femtools.beam_solid_coupling import validate
+
+            validate(frame.get("native_actions"), metadata["coupling"])
+        elif data["schema"] == "CCX_BEAM_SECTION_V2":
+            from femtools.beam_coupling import validate
+
+            validate(frame.get("native_actions"), metadata["coupling"])
+        elif "native_actions" in frame:
+            raise ValueError("Legacy beam output cannot claim coupled native actions")
         seen = set()
         for row in frame.get("samples", []):
             key = tuple(row.get(name) for name in ("element", "node", "end"))
@@ -740,6 +850,7 @@ def validate_frd(fea, filename):
         or _sha(filename) != source["sha256"]
     ):
         raise ValueError("Displacement FRD is not the native beam run's exact fresh result")
+    return results[0]
 
 
 class BeamSectionForceResult(BaseFemPythonObject):

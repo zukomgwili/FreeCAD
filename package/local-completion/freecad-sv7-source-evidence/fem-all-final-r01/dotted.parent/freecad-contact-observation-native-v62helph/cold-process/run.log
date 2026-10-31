@@ -1,0 +1,39 @@
+test_historical_literal_and_explicit_revalidation (test_contact_observation_native._ColdObservationWitness.test_historical_literal_and_explicit_revalidation) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Steel'}]
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.556s
+
+OK
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +241 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+SlaveSupport:
+    Type: Fem::ConstraintRigidBody, Name: SlaveSupport
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face1
+MasterSupport:
+    Type: Fem::ConstraintRigidBody, Name: MasterSupport
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face8
+NonconformalContact:
+    Type: Fem::ConstraintContact, Name: NonconformalContact
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.039 seconds.
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face8
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-contact-observation-native-v62helph/cold-fresh-native-run/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.005 seconds.
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face1
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face8
+
+CalculiX solver run...
+CalculiX finished without error.
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-contact-observation-native-v62helph/cold-fresh-native-run/Mesh.frd
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7

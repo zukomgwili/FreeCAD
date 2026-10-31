@@ -1,0 +1,103 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""One end-to-end native mixed-domain tracer, with frozen affine references."""
+import json
+import os
+from pathlib import Path
+import unittest
+
+import FreeCAD as App
+from femtest.app.beam_coupling_fixtures import make_hybrid_series
+from femtools.ccxtools import FemToolsCcx
+
+ROOT = Path(__file__).resolve().parent
+
+
+class TestHybridBeamSolid(unittest.TestCase):
+    def vector(self, actual, expected, limit):
+        self.assertLessEqual((App.Vector(*actual) - App.Vector(*expected)).Length, limit)
+
+    def test_native_hybrid_scalar_connector_preserves_separate_beam_solid_and_port_results(self):
+        doc = App.newDocument("Sv7HybridSeries")
+        directory = Path(os.environ['SV7_CASE_ROOT']) / 'hybrid'
+        directory.mkdir(parents=True)
+        try:
+            model = make_hybrid_series(doc)
+            self.assertTrue(model.solid.Shape.isValid())
+            self.assertAlmostEqual(model.solid.Shape.Volume, 1500, delta=1e-9)
+            self.assertTrue(set(model.beam_nodes).isdisjoint(model.solid_nodes))
+            model.solver.NativeAccountingSolver = os.environ['SV7_TEST_SOLVER']
+            fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+            fea.update_objects()
+            fea.setup_working_dir(str(directory))
+            self.assertFalse(fea.check_prerequisites())
+            self.assertFalse(fea.write_inp_file())
+            deck = Path(fea.inp_file_name).read_bytes()
+            (directory/'stock-input.inp').write_bytes(deck)
+            for kind in (b'B32R', b'C3D4', b'SPRING2'):
+                self.assertIn(b'TYPE='+kind, deck.upper())
+            self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout+fea.ccx_stderr)
+            self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+            fea.load_results()
+            result = next(obj for obj in model.analysis.Group if getattr(getattr(obj,'Proxy',None),'Type','') == 'Fem::BeamSectionForceResult')
+            data = result.Proxy.getSectionForces(result)
+            self.assertEqual(data['schema'], 'CCX_BEAM_SECTION_V3')
+            frame = data['frames'][-1]
+            actions = frame['native_actions']
+            self.assertEqual(actions['moment_reference'], 'GLOBAL_ORIGIN')
+            for name, owner, force, moment in (
+                ('source', model.force.Name, (100,0,0), (0,-2300,-1700)),
+                ('support', model.stabilizer.Name, (0,0,0), (0,0,0)),
+                ('solid_support', model.fixed.Name, (-100,0,0), (0,2300,1700)),
+            ):
+                self.assertEqual(actions[name]['owner'], owner)
+                self.vector(actions[name]['force_global'], force, .01)
+                self.vector(actions[name]['moment_origin'], moment, 1)
+            spring = actions['spring']
+            self.assertEqual(spring['owner'], model.connector.Name)
+            self.assertEqual(len(spring['ends']), 2)
+            first, second = spring['ends']
+            self.assertEqual((first['end'],first['node']), (1,model.beam_nodes[0]))
+            self.assertEqual(second['end'], 2)
+            self.assertEqual(second['role'], 'RBE_REFERENCE')
+            for end, force, moment in ((first,(-100,0,0),(0,2300,1700)),(second,(100,0,0),(0,-2300,-1700))):
+                self.vector(end['force_global'], force, .01)
+                self.vector(end['moment_origin'], moment, 1)
+            self.assertAlmostEqual(first['displacement'][0]-second['displacement'][0], .01, delta=.000001)
+            self.assertAlmostEqual(second['displacement'][0], .0001333333333333333, delta=.0000001)
+            port = actions['port']
+            self.assertEqual(port['owner'], model.rbe.Name)
+            self.assertEqual(port['reference_node'], second['node'])
+            self.assertEqual(set(port['receiving_nodes']), set(model.near_nodes))
+            self.assertEqual(len(port['algebraic_spcs']), 9)
+            self.vector(port['receiving_action']['force_global'], (100,0,0), .01)
+            self.vector(port['receiving_action']['moment_origin'], (0,-2300,-1700), 1)
+            self.vector(port['reference_action']['force_global'], (-100,0,0), .01)
+            self.vector(port['reference_action']['moment_origin'], (0,2300,1700), 1)
+            self.vector(port['reference_action']['couple_global'], (0,0,0), 1)
+            self.assertEqual(len(actions['support']['spcs']), 8)
+            self.assertEqual(len(actions['solid_support']['spcs']), 9)
+            self.assertEqual({(row['element'],row['node'],row['end']) for row in frame['samples']}, {(1,1,1),(1,3,3),(2,3,1),(2,5,3)})
+            for row in frame['samples']:
+                self.vector(row['force_global'], (-100 if row['end']==1 else 100,0,0), .1)
+                self.vector(row['moment_global'], (0,0,0), .4)
+            mechanical = [obj for obj in model.analysis.Group if obj.isDerivedFrom('Fem::FemResultObject')]
+            solid = [obj for obj in mechanical if set(getattr(obj,'NativeSourceNodeNumbers',())) == set(model.solid_nodes)]
+            mixed = [obj for obj in mechanical if set(getattr(obj,'NativeSourceNodeNumbers',())) == set(model.beam_nodes+model.solid_nodes)]
+            self.assertEqual(len(solid), 1)
+            self.assertEqual(len(mixed), 1)
+            self.assertEqual(solid[0].Mesh.FemMesh.VolumeCount, 3)
+            self.assertEqual(solid[0].Mesh.FemMesh.EdgeCount, 0)
+            self.assertEqual(len(solid[0].NodeStressXX), 6)
+            for value in solid[0].NodeStressXX:
+                self.assertAlmostEqual(value, 4/3, delta=.0001)
+            for name in ('NodeStressYY','NodeStressZZ','NodeStressXY','NodeStressXZ','NodeStressYZ'):
+                for value in getattr(solid[0],name):
+                    self.assertAlmostEqual(value, 0, delta=.0001)
+            self.assertFalse(mixed[0].NodeStressXX)
+            displacement = dict(zip(mixed[0].NativeSourceNodeNumbers, mixed[0].DisplacementVectors))
+            self.assertAlmostEqual(displacement[5].x, .01138333333333333, delta=.000001)
+            (directory/'observed.json').write_text(json.dumps(data,indent=2))
+            doc.saveAs(str(directory/'hybrid.FCStd'))
+            self.assertEqual(result.Proxy.getSectionForces(result), data)
+        finally:
+            App.closeDocument(doc.Name)

@@ -1,0 +1,76 @@
+{
+  "method": "Separate public native V1 beam with independently prescribed root motion",
+  "root_reference_mm": 0.010133333333333333,
+  "equivalence_limit_mm": 2e-07,
+  "mixed_beam_displacements_mm": {
+    "1": [
+      0.0101333,
+      0.0,
+      -8.47033e-22
+    ],
+    "2": [
+      0.0104415,
+      -4.58795e-16,
+      -4.58103e-16
+    ],
+    "3": [
+      0.0107496,
+      -1.70064e-15,
+      -1.80383e-15
+    ],
+    "4": [
+      0.0110839,
+      -3.51028e-15,
+      -3.4979e-15
+    ],
+    "5": [
+      0.0114182,
+      -5.7252e-15,
+      -4.99841e-15
+    ]
+  },
+  "pure_beam_displacements_mm": {
+    "1": [
+      0.0101333,
+      0.0,
+      8.47033e-22
+    ],
+    "2": [
+      0.0104415,
+      -7.5952e-16,
+      -5.94204e-16
+    ],
+    "3": [
+      0.0107496,
+      -2.70406e-15,
+      -2.26403e-15
+    ],
+    "4": [
+      0.0110839,
+      -5.33034e-15,
+      -4.33744e-15
+    ],
+    "5": [
+      0.0114182,
+      -8.3634e-15,
+      -6.2168e-15
+    ]
+  },
+  "differences_mm": {
+    "1": 1.694066e-21,
+    "2": 3.3008939368904296e-16,
+    "3": 1.1039183558578958e-15,
+    "4": 2.004356708572603e-15,
+    "5": 2.9059548227906094e-15
+  },
+  "mixed_frd_sha256": "c2e6347377a905f9d1ab40764cebbfa687e46197b99ae83d1088b192fb5d03d4",
+  "pure_frd_sha256": "dd6e3d46fdf26b87b057c4f728b52105437caa1804f953b3c9c6537a8fe7bdb8",
+  "elementary_rod_tip_diagnostic": {
+    "reference_mm": 0.011383333333333334,
+    "original_limit_mm": 1e-06,
+    "qualified": false,
+    "reason": "Native corner-mean point load is not uniform end traction",
+    "observed_mixed_tip_mm": 0.0114182,
+    "difference_mm": 3.486666666666603e-05
+  }
+}

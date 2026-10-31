@@ -1,0 +1,203 @@
+test_hybrid_actions_solid_patch_and_native_beam_component_control (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_hybrid_actions_solid_patch_and_native_beam_component_control) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrisbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers) ... m, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+PrescribedRoot:
+    Type: Fem::ConstraintDisplacement, Name: PrescribedRoot
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+ok
+test_zero_period_is_refused_before_native_export (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_zero_period_is_refused_before_native_export) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.823s
+
+OK
+Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4

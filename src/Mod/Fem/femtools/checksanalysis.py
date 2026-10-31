@@ -114,12 +114,18 @@ def check_member_for_solver_calculix(analysis, solver, mesh, member):
         mat_obj = m["Object"]
         if material_orthotropic.is_orthotropic(mat_obj):
             errors = material_orthotropic.validation_errors(mat_obj)
-            if (solver.ModelSpace != "3D" or member.geos_beamsection
-                    or member.geos_fluidsection
-                    or (member.geos_shellthickness and solver.ExcludeBendingStiffness)):
+            if (
+                solver.ModelSpace != "3D"
+                or member.geos_beamsection
+                or member.geos_fluidsection
+                or (member.geos_shellthickness and solver.ExcludeBendingStiffness)
+            ):
                 errors.append("Orthotropic elasticity supports 3D solid/shell analyses only.")
-            if (solver.MaterialNonlinearity and mat_obj.Nonlinear
-                    and not mat_obj.Nonlinear.Suppressed):
+            if (
+                solver.MaterialNonlinearity
+                and mat_obj.Nonlinear
+                and not mat_obj.Nonlinear.Suppressed
+            ):
                 errors.append("Orthotropic elasticity cannot use isotropic plasticity.")
             for error in errors:
                 message += f"{mat_obj.Label}: {error}\n"
@@ -308,7 +314,15 @@ def check_member_for_solver_calculix(analysis, solver, mesh, member):
                 has_no_references = True
         if mesh:
             if mesh.FemMesh.FaceCount > 0 or mesh.FemMesh.VolumeCount > 0:
-                message += "Beam sections defined but FEM mesh has volume or shell elements.\n"
+                from femtools import beam_solid_coupling
+
+                try:
+                    mixed_admitted = beam_solid_coupling.admitted(analysis, solver, mesh)
+                except ValueError as error:
+                    message += str(error) + "\n"
+                    mixed_admitted = False
+                if not mixed_admitted:
+                    message += "Beam sections defined but FEM mesh has volume or shell elements.\n"
             if mesh.FemMesh.EdgeCount == 0:
                 message += "Beam sections defined but FEM mesh has no edge elements.\n"
             if not (hasattr(mesh, "Shape") or hasattr(mesh, "Part")):

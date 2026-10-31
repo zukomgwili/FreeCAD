@@ -1,0 +1,1915 @@
+{
+  "achieved_maxima": {
+    "beam_end_centroid_moment_error_N_mm": 5.808344536176128e-11,
+    "beam_end_force_error_N": 0.004000000044356966,
+    "free_body_force_residual_N": 1.8908812633897938e-11,
+    "free_body_origin_moment_residual_N_mm": 5.55499950555116e-10,
+    "pure_vs_mixed_beam_displacement_difference_mm": 2.9059548227906094e-15,
+    "solid_stress_component_error_MPa": 3.3333333333551707e-06
+  },
+  "auditor": {
+    "FreeCAD_import_or_execution_by_auditor": false,
+    "agent": "/root/sv7_integration_design",
+    "compiler_or_build_execution_by_auditor": false,
+    "disclosure": "This agent previously authored the additive native observer and reviewed the feature tests. The arithmetic in this report was freshly derived from emitted deck and captured JSON/FRD without importing or executing product/test code or using test assertions as reference definitions. This is not organizationally independent certification.",
+    "other_files_modified": false,
+    "role": "Independent offline arithmetic review of captured native output",
+    "solver_execution_by_auditor": false
+  },
+  "beam_end_checks": [
+    {
+      "centroid_moment_N_mm": {
+        "absolute_limit": 0.4,
+        "error_norm": 5.808344536176128e-11,
+        "error_vector": [
+          -5.981044394124687e-13,
+          -3.908340318048431e-11,
+          4.296296651773446e-11
+        ],
+        "observed": [
+          -5.981044394124687e-13,
+          -3.908340318048431e-11,
+          4.296296651773446e-11
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "channels": {
+        "axial": {
+          "absolute_error": 0.004000000009540372,
+          "absolute_limit": 0.1,
+          "observed": 99.99599999999046,
+          "passed": true,
+          "reference": 100.0
+        },
+        "bend1": {
+          "absolute_error": 3.908340318048431e-11,
+          "absolute_limit": 0.4,
+          "observed": 3.908340318048431e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "bend2": {
+          "absolute_error": 4.296296651773446e-11,
+          "absolute_limit": 0.4,
+          "observed": -4.296296651773446e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear1": {
+          "absolute_error": 2.9274360713316128e-12,
+          "absolute_limit": 0.1,
+          "observed": -2.9274360713316128e-12,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear2": {
+          "absolute_error": 1.815658734471981e-12,
+          "absolute_limit": 0.1,
+          "observed": -1.815658734471981e-12,
+          "passed": true,
+          "reference": 0.0
+        },
+        "torque": {
+          "absolute_error": 5.981044394124687e-13,
+          "absolute_limit": 0.4,
+          "observed": 5.981044394124687e-13,
+          "passed": true,
+          "reference": 0.0
+        }
+      },
+      "element": 1,
+      "end": 1,
+      "force_N": {
+        "absolute_limit": 0.1,
+        "error_norm": 0.004000000009540372,
+        "error_vector": [
+          0.004000000009540372,
+          2.9274360713316128e-12,
+          1.815658734471981e-12
+        ],
+        "observed": [
+          -99.99599999999046,
+          2.9274360713316128e-12,
+          1.815658734471981e-12
+        ],
+        "passed": true,
+        "reference": [
+          -100.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "node": 1
+    },
+    {
+      "centroid_moment_N_mm": {
+        "absolute_limit": 0.4,
+        "error_norm": 2.7463093287259664e-11,
+        "error_vector": [
+          -1.354147993025524e-12,
+          1.5369039374490967e-11,
+          -2.2719603975929203e-11
+        ],
+        "observed": [
+          -1.354147993025524e-12,
+          1.5369039374490967e-11,
+          -2.2719603975929203e-11
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "channels": {
+        "axial": {
+          "absolute_error": 0.004000000034096729,
+          "absolute_limit": 0.1,
+          "observed": 99.9959999999659,
+          "passed": true,
+          "reference": 100.0
+        },
+        "bend1": {
+          "absolute_error": 1.5369039374490967e-11,
+          "absolute_limit": 0.4,
+          "observed": 1.5369039374490967e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "bend2": {
+          "absolute_error": 2.2719603975929203e-11,
+          "absolute_limit": 0.4,
+          "observed": -2.2719603975929203e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear1": {
+          "absolute_error": 1.7528201112781971e-12,
+          "absolute_limit": 0.1,
+          "observed": 1.7528201112781971e-12,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear2": {
+          "absolute_error": 4.920508445138694e-13,
+          "absolute_limit": 0.1,
+          "observed": -4.920508445138694e-13,
+          "passed": true,
+          "reference": 0.0
+        },
+        "torque": {
+          "absolute_error": 1.354147993025524e-12,
+          "absolute_limit": 0.4,
+          "observed": -1.354147993025524e-12,
+          "passed": true,
+          "reference": 0.0
+        }
+      },
+      "element": 1,
+      "end": 3,
+      "force_N": {
+        "absolute_limit": 0.1,
+        "error_norm": 0.004000000034096729,
+        "error_vector": [
+          -0.004000000034096729,
+          1.7528201112781971e-12,
+          -4.920508445138694e-13
+        ],
+        "observed": [
+          99.9959999999659,
+          1.7528201112781971e-12,
+          -4.920508445138694e-13
+        ],
+        "passed": true,
+        "reference": [
+          100.0,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 3
+    },
+    {
+      "centroid_moment_N_mm": {
+        "absolute_limit": 0.4,
+        "error_norm": 2.754152114263696e-11,
+        "error_vector": [
+          1.3579497029816074e-12,
+          -1.532995952402416e-11,
+          2.284039624100842e-11
+        ],
+        "observed": [
+          1.3579497029816074e-12,
+          -1.532995952402416e-11,
+          2.284039624100842e-11
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "channels": {
+        "axial": {
+          "absolute_error": 0.004000000034082518,
+          "absolute_limit": 0.1,
+          "observed": 99.99599999996592,
+          "passed": true,
+          "reference": 100.0
+        },
+        "bend1": {
+          "absolute_error": 1.532995952402416e-11,
+          "absolute_limit": 0.4,
+          "observed": 1.532995952402416e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "bend2": {
+          "absolute_error": 2.284039624100842e-11,
+          "absolute_limit": 0.4,
+          "observed": -2.284039624100842e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear1": {
+          "absolute_error": 1.7470469515501463e-12,
+          "absolute_limit": 0.1,
+          "observed": 1.7470469515501463e-12,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear2": {
+          "absolute_error": 4.924949337237194e-13,
+          "absolute_limit": 0.1,
+          "observed": -4.924949337237194e-13,
+          "passed": true,
+          "reference": 0.0
+        },
+        "torque": {
+          "absolute_error": 1.3579497029816074e-12,
+          "absolute_limit": 0.4,
+          "observed": -1.3579497029816074e-12,
+          "passed": true,
+          "reference": 0.0
+        }
+      },
+      "element": 2,
+      "end": 1,
+      "force_N": {
+        "absolute_limit": 0.1,
+        "error_norm": 0.004000000034082518,
+        "error_vector": [
+          0.004000000034082518,
+          -1.7470469515501463e-12,
+          4.924949337237194e-13
+        ],
+        "observed": [
+          -99.99599999996592,
+          -1.7470469515501463e-12,
+          4.924949337237194e-13
+        ],
+        "passed": true,
+        "reference": [
+          -100.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "node": 3
+    },
+    {
+      "centroid_moment_N_mm": {
+        "absolute_limit": 0.4,
+        "error_norm": 1.6424459544879533e-11,
+        "error_vector": [
+          -9.616482009319234e-13,
+          -9.396927680427325e-12,
+          -1.3436363133223495e-11
+        ],
+        "observed": [
+          -9.616482009319234e-13,
+          -9.396927680427325e-12,
+          -1.3436363133223495e-11
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "channels": {
+        "axial": {
+          "absolute_error": 0.004000000044356966,
+          "absolute_limit": 0.1,
+          "observed": 99.99599999995564,
+          "passed": true,
+          "reference": 100.0
+        },
+        "bend1": {
+          "absolute_error": 9.396927680427325e-12,
+          "absolute_limit": 0.4,
+          "observed": -9.396927680427325e-12,
+          "passed": true,
+          "reference": 0.0
+        },
+        "bend2": {
+          "absolute_error": 1.3436363133223495e-11,
+          "absolute_limit": 0.4,
+          "observed": -1.3436363133223495e-11,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear1": {
+          "absolute_error": 2.213340621892712e-12,
+          "absolute_limit": 0.1,
+          "observed": -2.213340621892712e-12,
+          "passed": true,
+          "reference": 0.0
+        },
+        "shear2": {
+          "absolute_error": 9.547918011776346e-13,
+          "absolute_limit": 0.1,
+          "observed": 9.547918011776346e-13,
+          "passed": true,
+          "reference": 0.0
+        },
+        "torque": {
+          "absolute_error": 9.616482009319234e-13,
+          "absolute_limit": 0.4,
+          "observed": -9.616482009319234e-13,
+          "passed": true,
+          "reference": 0.0
+        }
+      },
+      "element": 2,
+      "end": 3,
+      "force_N": {
+        "absolute_limit": 0.1,
+        "error_norm": 0.004000000044356966,
+        "error_vector": [
+          -0.004000000044356966,
+          -2.213340621892712e-12,
+          9.547918011776346e-13
+        ],
+        "observed": [
+          99.99599999995564,
+          -2.213340621892712e-12,
+          9.547918011776346e-13
+        ],
+        "passed": true,
+        "reference": [
+          100.0,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 5
+    }
+  ],
+  "case": {
+    "FRD_STRESS_dataset": 2,
+    "case": {
+      "analysis": "HybridAnalysis",
+      "mesh": "HybridMesh",
+      "solver": "HybridSolver"
+    },
+    "geometry_source": "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT",
+    "increment": 1,
+    "physical_action_moment_frame": "GLOBAL_ORIGIN",
+    "recorded_solver_sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e",
+    "request": "3bd4072d102048968b3ab30f73f9c4ef",
+    "schema": "CCX_BEAM_SECTION_V3",
+    "step": 1,
+    "time": 1,
+    "units": {
+      "force": "N",
+      "length": "mm",
+      "moment": "N*mm"
+    }
+  },
+  "changed_inputs": [],
+  "custody_checks": {
+    "base_request_sha_matches_provenance": true,
+    "child_nonce_matches_native_output": true,
+    "child_request_sha_matches_provenance": true,
+    "compiled_binary_sha_matches_provenance": true,
+    "deck_sha_matches_provenance": true,
+    "mixed_frd_sha_matches_provenance_and_comparison": true,
+    "native_output_matches_saved_without_provenance": true,
+    "native_output_sha_matches_provenance": true,
+    "pure_frd_sha_matches_comparison": true
+  },
+  "free_body_closure": {
+    "beam": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.889820290999763e-11,
+        "error_vector": [
+          1.7976731214730535e-11,
+          5.66652535025097e-12,
+          1.3673691951111081e-12
+        ],
+        "observed": [
+          1.7976731214730535e-11,
+          5.66652535025097e-12,
+          1.3673691951111081e-12
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.550751296661831e-10,
+        "error_vector": [
+          1.6425924834519843e-10,
+          -4.699600708590879e-10,
+          -2.454889624914358e-10
+        ],
+        "observed": [
+          1.6425924834519843e-10,
+          -4.699600708590879e-10,
+          -2.454889624914358e-10
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "connector_internal_pair": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "detached_reference_port": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.7094368165503613e-14,
+        "error_vector": [
+          1.4210854715202004e-14,
+          -9.424428723143463e-15,
+          -1.2038166320469183e-15
+        ],
+        "observed": [
+          1.4210854715202004e-14,
+          -9.424428723143463e-15,
+          -1.2038166320469183e-15
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 4.99095175269191e-13,
+        "error_vector": [
+          -2.0567168215077039e-13,
+          -4.547473508864641e-13,
+          0.0
+        ],
+        "observed": [
+          -2.0567168215077039e-13,
+          -4.547473508864641e-13,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "rbe_internal_pair": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 2.524354896707238e-29,
+        "error_vector": [
+          2.524354896707238e-29,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          2.524354896707238e-29,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "solid": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 3.944304526105059e-31,
+        "error_vector": [
+          0.0,
+          0.0,
+          3.944304526105059e-31
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          3.944304526105059e-31
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 2.2737367544323206e-13,
+        "error_vector": [
+          -2.524354896707238e-29,
+          0.0,
+          -2.2737367544323206e-13
+        ],
+        "observed": [
+          -2.524354896707238e-29,
+          0.0,
+          -2.2737367544323206e-13
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "whole_physical_model": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.8908812633897938e-11,
+        "error_vector": [
+          1.7990942069445737e-11,
+          5.657100921527827e-12,
+          1.3661653784790613e-12
+        ],
+        "observed": [
+          1.7990942069445737e-11,
+          5.657100921527827e-12,
+          1.3661653784790613e-12
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.55499950555116e-10,
+        "error_vector": [
+          1.6405357666304768e-10,
+          -4.704148182099743e-10,
+          -2.4571633616687905e-10
+        ],
+        "observed": [
+          1.6405357666304768e-10,
+          -4.704148182099743e-10,
+          -2.4571633616687905e-10
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "frozen_thresholds": {
+    "selection": "Case-specific limits retained from the predeclared oracle; none selected from measured residuals. Wire closure recomputation uses explicit tighter reporting budgets 1e-10N/1e-9Nmm, separate from engineering acceptance.",
+    "source": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-sv7-oracles.md",
+    "values": {
+      "action_force_N": 0.01,
+      "action_origin_moment_N_mm": 1.0,
+      "affine_solid_U_mm": 1e-07,
+      "beam_end_centroid_moment_N_mm": 0.4,
+      "beam_end_force_N": 0.1,
+      "beam_root_U_mm": 1e-06,
+      "component_U_equivalence_mm": 2e-07,
+      "solid_stress_component_MPa": 0.0001,
+      "spring_relative_U_mm": 1e-06
+    }
+  },
+  "identity_and_role_checks": {
+    "RBE_exact_3DOF_algebraic_catalogue": true,
+    "beam_and_solid_declared_node_sets_disjoint": true,
+    "beam_guide_exact_physical_and_algebraic_roles": true,
+    "literal_FRD_stress_dataset_case_binding": true,
+    "single_completed_owned_native_frame": true,
+    "solid_fixed_exact_3DOF_catalogue": true
+  },
+  "independent_derivation": {
+    "E_N_per_mm2": 200000.0,
+    "Poisson_ratio": 0.0,
+    "RBE_reference": 121,
+    "RBE_rotation": 122,
+    "beam_length_mm": 40.0,
+    "beam_root": 1,
+    "beam_section_mm": [
+      4.0,
+      4.0
+    ],
+    "exact_RBE_Ux_mm": 0.00013333333333333334,
+    "exact_affine_solid_Sxx_MPa": 1.3333333333333333,
+    "exact_beam_boundary_Ux_mm": 0.010133333333333333,
+    "exact_spring_relative_Ux_mm": 0.01,
+    "method": "Read *NODE, *ELEMENT, *CLOAD, *BOUNDARY, *ELASTIC, *BEAM SECTION and *SPRING directly; source F=sum point-load components; source M=sum original_position cross F. Derive the triangular area and Tet volumes from coordinates; use scalar series equilibrium and affine nu=0 solid field. Sum copied observed actions separately on each free body. No force/stress recovery.",
+    "near_triangle_area_mm2": 75.0,
+    "near_triangle_centroid_mm": [
+      -10.0,
+      17.0,
+      -23.0
+    ],
+    "receiver_nodes": [
+      104,
+      105,
+      106
+    ],
+    "solid_fixed_nodes": [
+      101,
+      102,
+      103
+    ],
+    "solid_length_mm": 20.0,
+    "source_force_N": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "source_node": 5,
+    "source_origin_moment_N_mm": [
+      0.0,
+      -2300.0,
+      -1700.0
+    ],
+    "source_position_mm": [
+      40.0,
+      17.0,
+      -23.0
+    ],
+    "spring_stiffness_N_per_mm": 10000.0,
+    "tetrahedra": [
+      {
+        "element": 101,
+        "signed_volume_mm3": 500.0
+      },
+      {
+        "element": 102,
+        "signed_volume_mm3": 500.0
+      },
+      {
+        "element": 103,
+        "signed_volume_mm3": 500.0
+      }
+    ]
+  },
+  "independent_prescribed_beam_component_checks": [
+    {
+      "mixed_vs_prescribed_pure_mm": {
+        "absolute_limit": 2e-07,
+        "error_norm": 1.694066e-21,
+        "error_vector": [
+          0.0,
+          0.0,
+          -1.694066e-21
+        ],
+        "observed": [
+          0.0101333,
+          0.0,
+          -8.47033e-22
+        ],
+        "passed": true,
+        "reference": [
+          0.0101333,
+          0.0,
+          8.47033e-22
+        ]
+      },
+      "node": 1
+    },
+    {
+      "mixed_vs_prescribed_pure_mm": {
+        "absolute_limit": 2e-07,
+        "error_norm": 3.3008939368904296e-16,
+        "error_vector": [
+          0.0,
+          3.0072499999999997e-16,
+          1.36101e-16
+        ],
+        "observed": [
+          0.0104415,
+          -4.58795e-16,
+          -4.58103e-16
+        ],
+        "passed": true,
+        "reference": [
+          0.0104415,
+          -7.5952e-16,
+          -5.94204e-16
+        ]
+      },
+      "node": 2
+    },
+    {
+      "mixed_vs_prescribed_pure_mm": {
+        "absolute_limit": 2e-07,
+        "error_norm": 1.1039183558578958e-15,
+        "error_vector": [
+          0.0,
+          1.00342e-15,
+          4.601999999999999e-16
+        ],
+        "observed": [
+          0.0107496,
+          -1.70064e-15,
+          -1.80383e-15
+        ],
+        "passed": true,
+        "reference": [
+          0.0107496,
+          -2.70406e-15,
+          -2.26403e-15
+        ]
+      },
+      "node": 3
+    },
+    {
+      "mixed_vs_prescribed_pure_mm": {
+        "absolute_limit": 2e-07,
+        "error_norm": 2.004356708572603e-15,
+        "error_vector": [
+          0.0,
+          1.82006e-15,
+          8.395399999999998e-16
+        ],
+        "observed": [
+          0.0110839,
+          -3.51028e-15,
+          -3.4979e-15
+        ],
+        "passed": true,
+        "reference": [
+          0.0110839,
+          -5.33034e-15,
+          -4.33744e-15
+        ]
+      },
+      "node": 4
+    },
+    {
+      "mixed_vs_prescribed_pure_mm": {
+        "absolute_limit": 2e-07,
+        "error_norm": 2.9059548227906094e-15,
+        "error_vector": [
+          0.0,
+          2.6382e-15,
+          1.2183900000000005e-15
+        ],
+        "observed": [
+          0.0114182,
+          -5.7252e-15,
+          -4.99841e-15
+        ],
+        "passed": true,
+        "reference": [
+          0.0114182,
+          -8.3634e-15,
+          -6.2168e-15
+        ]
+      },
+      "node": 5
+    }
+  ],
+  "inputs": {
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-sv7-oracles.md": {
+      "bytes": 36437,
+      "sha256": "531c1cb9290c34b81f8776bd7af704ddfd8141671779ded3b8d141d67e5eacd0"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/native-build-r04/build/CalculiX/ccx_2.23/src/ccx_2.23_conda": {
+      "bytes": 5546608,
+      "sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/comparison.json": {
+      "bytes": 1618,
+      "sha256": "d9924c761cf606ad141f0dbb141b4963d306c4792395346d8a3bb554813498f9"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.beam-section": {
+      "bytes": 406,
+      "sha256": "7c82afa5acfaa4e018972b2bc923dba8de9fd0fae8bcd7d9d988e04004611c3e"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.beam-section.json": {
+      "bytes": 2965,
+      "sha256": "d56c8c67366f332ffdc7e7e964a4e539564a41afbbb30c0c8022353a7a51721e"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.beam-section.run-3bd4072d102048968b3ab30f73f9c4ef": {
+      "bytes": 406,
+      "sha256": "9cc8989bf18a875743dbaffd4e57f874a1ffad8e9c36f369885afad016412bf7"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.beam-section.run-3bd4072d102048968b3ab30f73f9c4ef.out": {
+      "bytes": 7276,
+      "sha256": "a26854fced0058ab73bc771ef3059524b25920ab05449f802a7a0e2c5479f2fd"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.frd": {
+      "bytes": 4291,
+      "sha256": "c2e6347377a905f9d1ab40764cebbfa687e46197b99ae83d1088b192fb5d03d4"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.inp": {
+      "bytes": 5492,
+      "sha256": "0b049e5a8f19bfe026b819efd55c794b73fbee4aa246f600a2b45b6c262fb36f"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/observed.json": {
+      "bytes": 22267,
+      "sha256": "458fd2763c530dc1c6c831b002251c42153df3240956689450d8361bfef17aa8"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.frd": {
+      "bytes": 2644,
+      "sha256": "dd6e3d46fdf26b87b057c4f728b52105437caa1804f953b3c9c6537a8fe7bdb8"
+    },
+    "/private/tmp/freecad-sv7-_7lscq7g/solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.inp": {
+      "bytes": 3284,
+      "sha256": "1c89b09ecd890f300b7d7bb6d645fa1701d5e960678233da77164d72b42bf960"
+    }
+  },
+  "inputs_unchanged_during_audit": true,
+  "limitations": "Checks arithmetic and captured-source consistency only; does not independently rerun solver, establish engineering constitutive validity, qualify mixed local contact, or replace root build/test/GUI/signing evidence.",
+  "literal_solid_displacement_checks": [
+    {
+      "displacement_mm": {
+        "absolute_limit": 1e-07,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 101
+    },
+    {
+      "displacement_mm": {
+        "absolute_limit": 1e-07,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 102
+    },
+    {
+      "displacement_mm": {
+        "absolute_limit": 1e-07,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 103
+    },
+    {
+      "displacement_mm": {
+        "absolute_limit": 1e-07,
+        "error_norm": 3.3333333334761676e-10,
+        "error_vector": [
+          -3.3333333334761676e-10,
+          2.68687e-20,
+          1.95668e-20
+        ],
+        "observed": [
+          0.000133333,
+          2.68687e-20,
+          1.95668e-20
+        ],
+        "passed": true,
+        "reference": [
+          0.00013333333333333334,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 104
+    },
+    {
+      "displacement_mm": {
+        "absolute_limit": 1e-07,
+        "error_norm": 3.3333333334761676e-10,
+        "error_vector": [
+          -3.3333333334761676e-10,
+          2.68687e-20,
+          1.56728e-20
+        ],
+        "observed": [
+          0.000133333,
+          2.68687e-20,
+          1.56728e-20
+        ],
+        "passed": true,
+        "reference": [
+          0.00013333333333333334,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 105
+    },
+    {
+      "displacement_mm": {
+        "absolute_limit": 1e-07,
+        "error_norm": 3.3333333334761676e-10,
+        "error_vector": [
+          -3.3333333334761676e-10,
+          3.27097e-20,
+          1.76198e-20
+        ],
+        "observed": [
+          0.000133333,
+          3.27097e-20,
+          1.76198e-20
+        ],
+        "passed": true,
+        "reference": [
+          0.00013333333333333334,
+          0.0,
+          0.0
+        ]
+      },
+      "node": 106
+    }
+  ],
+  "literal_solid_stress_checks": [
+    {
+      "components_MPa": [
+        {
+          "absolute_error": 3.3333333333551707e-06,
+          "absolute_limit": 0.0001,
+          "observed": 1.33333,
+          "passed": true,
+          "reference": 1.3333333333333333
+        },
+        {
+          "absolute_error": 0.0,
+          "absolute_limit": 0.0001,
+          "observed": 0.0,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 0.0,
+          "absolute_limit": 0.0001,
+          "observed": 0.0,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.34343e-16,
+          "absolute_limit": 0.0001,
+          "observed": 1.34343e-16,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 0.0,
+          "absolute_limit": 0.0001,
+          "observed": 0.0,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 9.78342e-17,
+          "absolute_limit": 0.0001,
+          "observed": 9.78342e-17,
+          "passed": true,
+          "reference": 0.0
+        }
+      ],
+      "native_component_order": [
+        "SXX",
+        "SYY",
+        "SZZ",
+        "SXY",
+        "SYZ",
+        "SZX"
+      ],
+      "node": 101
+    },
+    {
+      "components_MPa": [
+        {
+          "absolute_error": 3.3333333333551707e-06,
+          "absolute_limit": 0.0001,
+          "observed": 1.33333,
+          "passed": true,
+          "reference": 1.3333333333333333
+        },
+        {
+          "absolute_error": 1.51775e-32,
+          "absolute_limit": 0.0001,
+          "observed": -1.51775e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.29801e-17,
+          "absolute_limit": 0.0001,
+          "observed": -1.29801e-17,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.20529e-16,
+          "absolute_limit": 0.0001,
+          "observed": 1.20529e-16,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.94701e-17,
+          "absolute_limit": 0.0001,
+          "observed": -1.94701e-17,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 8.21917e-17,
+          "absolute_limit": 0.0001,
+          "observed": 8.21917e-17,
+          "passed": true,
+          "reference": 0.0
+        }
+      ],
+      "native_component_order": [
+        "SXX",
+        "SYY",
+        "SZZ",
+        "SXY",
+        "SYZ",
+        "SZX"
+      ],
+      "node": 102
+    },
+    {
+      "components_MPa": [
+        {
+          "absolute_error": 3.3333333333551707e-06,
+          "absolute_limit": 0.0001,
+          "observed": 1.33333,
+          "passed": true,
+          "reference": 1.3333333333333333
+        },
+        {
+          "absolute_error": 2.02367e-32,
+          "absolute_limit": 0.0001,
+          "observed": -2.02367e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 8.65338e-18,
+          "absolute_limit": 0.0001,
+          "observed": -8.65338e-18,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.25659e-16,
+          "absolute_limit": 0.0001,
+          "observed": 1.25659e-16,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.29801e-17,
+          "absolute_limit": 0.0001,
+          "observed": -1.29801e-17,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.60509e-17,
+          "absolute_limit": 0.0001,
+          "observed": 1.60509e-17,
+          "passed": true,
+          "reference": 0.0
+        }
+      ],
+      "native_component_order": [
+        "SXX",
+        "SYY",
+        "SZZ",
+        "SXY",
+        "SYZ",
+        "SZX"
+      ],
+      "node": 103
+    },
+    {
+      "components_MPa": [
+        {
+          "absolute_error": 3.3333333333551707e-06,
+          "absolute_limit": 0.0001,
+          "observed": 1.33333,
+          "passed": true,
+          "reference": 1.3333333333333333
+        },
+        {
+          "absolute_error": 2.02367e-32,
+          "absolute_limit": 0.0001,
+          "observed": -2.02367e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 8.65338e-18,
+          "absolute_limit": 0.0001,
+          "observed": -8.65338e-18,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.25659e-16,
+          "absolute_limit": 0.0001,
+          "observed": 1.25659e-16,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.29801e-17,
+          "absolute_limit": 0.0001,
+          "observed": -1.29801e-17,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.60509e-17,
+          "absolute_limit": 0.0001,
+          "observed": 1.60509e-17,
+          "passed": true,
+          "reference": 0.0
+        }
+      ],
+      "native_component_order": [
+        "SXX",
+        "SYY",
+        "SZZ",
+        "SXY",
+        "SYZ",
+        "SZX"
+      ],
+      "node": 104
+    },
+    {
+      "components_MPa": [
+        {
+          "absolute_error": 3.3333333333551707e-06,
+          "absolute_limit": 0.0001,
+          "observed": 1.33333,
+          "passed": true,
+          "reference": 1.3333333333333333
+        },
+        {
+          "absolute_error": 3.03551e-32,
+          "absolute_limit": 0.0001,
+          "observed": -3.03551e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.29801e-17,
+          "absolute_limit": 0.0001,
+          "observed": -1.29801e-17,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.21317e-16,
+          "absolute_limit": 0.0001,
+          "observed": 1.21317e-16,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.94701e-17,
+          "absolute_limit": 0.0001,
+          "observed": -1.94701e-17,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 2.48408e-17,
+          "absolute_limit": 0.0001,
+          "observed": -2.48408e-17,
+          "passed": true,
+          "reference": 0.0
+        }
+      ],
+      "native_component_order": [
+        "SXX",
+        "SYY",
+        "SZZ",
+        "SXY",
+        "SYZ",
+        "SZX"
+      ],
+      "node": 105
+    },
+    {
+      "components_MPa": [
+        {
+          "absolute_error": 3.3333333333551707e-06,
+          "absolute_limit": 0.0001,
+          "observed": 1.33333,
+          "passed": true,
+          "reference": 1.3333333333333333
+        },
+        {
+          "absolute_error": 3.03551e-32,
+          "absolute_limit": 0.0001,
+          "observed": -3.03551e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.1786e-32,
+          "absolute_limit": 0.0001,
+          "observed": 1.1786e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.35919e-16,
+          "absolute_limit": 0.0001,
+          "observed": 1.35919e-16,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 2.82119e-32,
+          "absolute_limit": 0.0001,
+          "observed": 2.82119e-32,
+          "passed": true,
+          "reference": 0.0
+        },
+        {
+          "absolute_error": 1.16231e-16,
+          "absolute_limit": 0.0001,
+          "observed": -1.16231e-16,
+          "passed": true,
+          "reference": 0.0
+        }
+      ],
+      "native_component_order": [
+        "SXX",
+        "SYY",
+        "SZZ",
+        "SXY",
+        "SYZ",
+        "SZX"
+      ],
+      "node": 106
+    }
+  ],
+  "physical_support_role_audit": {
+    "beam_guide": {
+      "aggregate_force_check_N": {
+        "absolute_limit": 1e-10,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0.0,
+          5.66652535025097e-12,
+          1.3673691951111081e-12
+        ],
+        "passed": true,
+        "reference": [
+          0,
+          5.66652535025097e-12,
+          1.3673691951111081e-12
+        ]
+      },
+      "aggregate_moment_check_N_mm": {
+        "absolute_limit": 1e-09,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          1.6425924834519843e-10,
+          -5.659472890329198e-11,
+          6.010125730426807e-11
+        ],
+        "passed": true,
+        "reference": [
+          1.6425924834519843e-10,
+          -5.659472890329198e-11,
+          6.010125730426807e-11
+        ]
+      },
+      "count": 8,
+      "excluded_algebraic_values": [
+        -2.6709722431343205e-12,
+        1.4148682225822995e-11,
+        -1.502531432606702e-11
+      ],
+      "roles": {
+        "ALGEBRAIC": 3,
+        "ANGLE": 3,
+        "TRANSLATION": 2
+      }
+    },
+    "rbe_algebraic": {
+      "all_excluded": true,
+      "count": 9,
+      "values": [
+        -33.333333333327325,
+        -4.007588189370661e-15,
+        -4.8255342049934605e-15,
+        -33.33333333332735,
+        -2.0188540399995063e-15,
+        7.159472820954799e-16,
+        -33.333333333327325,
+        -3.397986493773296e-15,
+        2.905770290851062e-15
+      ]
+    },
+    "solid_support": {
+      "aggregate_force_check_N": {
+        "absolute_limit": 1e-10,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          -99.99999999998201,
+          -9.424428723143463e-15,
+          -1.2038166320469179e-15
+        ],
+        "passed": true,
+        "reference": [
+          -99.99999999998201,
+          -9.424428723143463e-15,
+          -1.2038166320469179e-15
+        ]
+      },
+      "aggregate_moment_check_N_mm": {
+        "absolute_limit": 1e-09,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          -2.0567168215077044e-13,
+          2299.999999999586,
+          1699.9999999996942
+        ],
+        "passed": true,
+        "reference": [
+          -2.0567168215077044e-13,
+          2299.999999999586,
+          1699.9999999996942
+        ]
+      },
+      "count": 9,
+      "excluded_algebraic_values": [],
+      "roles": {
+        "TRANSLATION": 9
+      }
+    }
+  },
+  "qualified_arithmetic_checks_pass": true,
+  "raw_FRD_field_headers": [
+    {
+      "dataset_increment_step": [
+        1,
+        1,
+        1
+      ],
+      "name": "DISP",
+      "time": 1.0
+    },
+    {
+      "dataset_increment_step": [
+        2,
+        1,
+        1
+      ],
+      "name": "STRESS",
+      "time": 1.0
+    }
+  ],
+  "retained_unqualified_ideal_rod_diagnostic": {
+    "absolute_error": 3.486666666666777e-05,
+    "absolute_limit": 1e-06,
+    "expected_to_pass": false,
+    "observed": 0.0114182,
+    "passed": false,
+    "qualified": false,
+    "reason": "Ideal uniform-traction PL/EA is not the exact native four-corner endpoint-load problem; retained failed criterion, not widened",
+    "reference": 0.011383333333333332
+  },
+  "schema": "FreeCAD-sv7-independent-raw-arithmetic-audit-v1",
+  "scope": "One bounded V3 beam/scalar-spring/real-Tet-prism/explicit-RBE specimen; no contact, arbitrary joints, Oomakhi solve or building acceptance",
+  "signed_action_checks": {
+    "beam_guide": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 5.82916872811001e-12,
+        "error_vector": [
+          0.0,
+          5.66652535025097e-12,
+          1.3673691951111081e-12
+        ],
+        "observed": [
+          0,
+          5.66652535025097e-12,
+          1.3673691951111081e-12
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 1.8383749654551035e-10,
+        "error_vector": [
+          1.6425924834519843e-10,
+          -5.659472890329198e-11,
+          6.010125730426807e-11
+        ],
+        "observed": [
+          1.6425924834519843e-10,
+          -5.659472890329198e-11,
+          6.010125730426807e-11
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "physical_solid_support": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.7990944578181095e-11,
+        "error_vector": [
+          1.7990942069445737e-11,
+          -9.424428723143463e-15,
+          -1.2038166320469179e-15
+        ],
+        "observed": [
+          -99.99999999998201,
+          -9.424428723143463e-15,
+          -1.2038166320469179e-15
+        ],
+        "passed": true,
+        "reference": [
+          -100.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.145595292005729e-10,
+        "error_vector": [
+          -2.0567168215077044e-13,
+          -4.1382008930668235e-10,
+          -3.058175934711471e-10
+        ],
+        "observed": [
+          -2.0567168215077044e-13,
+          2299.999999999586,
+          1699.9999999996942
+        ],
+        "passed": true,
+        "reference": [
+          -0.0,
+          2300.0,
+          1700.0
+        ]
+      }
+    },
+    "rbe_on_receivers": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.7990944578181095e-11,
+        "error_vector": [
+          -1.7990942069445737e-11,
+          9.424428723143463e-15,
+          1.2038166320469183e-15
+        ],
+        "observed": [
+          99.99999999998201,
+          9.424428723143463e-15,
+          1.2038166320469183e-15
+        ],
+        "passed": true,
+        "reference": [
+          100.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.144244269563976e-10,
+        "error_vector": [
+          2.056716821507704e-13,
+          4.1382008930668235e-10,
+          3.055902197957039e-10
+        ],
+        "observed": [
+          2.056716821507704e-13,
+          -2299.999999999586,
+          -1699.9999999996944
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          -2300.0,
+          -1700.0
+        ]
+      }
+    },
+    "rbe_on_reference": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.7990944578181095e-11,
+        "error_vector": [
+          1.7990942069445737e-11,
+          -9.424428723143463e-15,
+          -1.2038166320469183e-15
+        ],
+        "observed": [
+          -99.99999999998201,
+          -9.424428723143463e-15,
+          -1.2038166320469183e-15
+        ],
+        "passed": true,
+        "reference": [
+          -100.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.144244269563976e-10,
+        "error_vector": [
+          -2.0567168215077039e-13,
+          -4.1382008930668235e-10,
+          -3.055902197957039e-10
+        ],
+        "observed": [
+          -2.0567168215077039e-13,
+          2299.999999999586,
+          1699.9999999996944
+        ],
+        "passed": true,
+        "reference": [
+          -0.0,
+          2300.0,
+          1700.0
+        ]
+      }
+    },
+    "rbe_reference_couple_N_mm": {
+      "absolute_limit": 1.0,
+      "error_norm": 1.847031622192652e-13,
+      "error_vector": [
+        3.1555061226326825e-14,
+        1.1368683772161603e-13,
+        1.4210854715202004e-13
+      ],
+      "observed": [
+        3.1555061226326825e-14,
+        1.1368683772161603e-13,
+        1.4210854715202004e-13
+      ],
+      "passed": true,
+      "reference": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "source": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          100,
+          0,
+          0
+        ],
+        "passed": true,
+        "reference": [
+          100.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 0.0,
+        "error_vector": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          0,
+          -2300,
+          -1700
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          -2300.0,
+          -1700.0
+        ]
+      }
+    },
+    "spring_on_beam": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.7976731214730535e-11,
+        "error_vector": [
+          1.7976731214730535e-11,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          -99.99999999998202,
+          0,
+          0
+        ],
+        "passed": true,
+        "reference": [
+          -100.0,
+          -0.0,
+          -0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.1405864292415e-10,
+        "error_vector": [
+          0.0,
+          -4.133653419557959e-10,
+          -3.055902197957039e-10
+        ],
+        "observed": [
+          0,
+          2299.9999999995866,
+          1699.9999999996944
+        ],
+        "passed": true,
+        "reference": [
+          -0.0,
+          2300.0,
+          1700.0
+        ]
+      }
+    },
+    "spring_on_reference": {
+      "force_N": {
+        "absolute_limit": 0.01,
+        "error_norm": 1.7976731214730535e-11,
+        "error_vector": [
+          -1.7976731214730535e-11,
+          0.0,
+          0.0
+        ],
+        "observed": [
+          99.99999999998202,
+          0,
+          0
+        ],
+        "passed": true,
+        "reference": [
+          100.0,
+          0.0,
+          0.0
+        ]
+      },
+      "origin_moment_N_mm": {
+        "absolute_limit": 1.0,
+        "error_norm": 5.1405864292415e-10,
+        "error_vector": [
+          0.0,
+          4.133653419557959e-10,
+          3.055902197957039e-10
+        ],
+        "observed": [
+          0,
+          -2299.9999999995866,
+          -1699.9999999996944
+        ],
+        "passed": true,
+        "reference": [
+          0.0,
+          -2300.0,
+          -1700.0
+        ]
+      }
+    }
+  },
+  "spring_and_boundary_checks": {
+    "reference_displacement_mm": {
+      "absolute_limit": 1e-07,
+      "error_norm": 2.4259047122296715e-17,
+      "error_vector": [
+        -2.4259023609363162e-17,
+        2.8815687976673947e-20,
+        1.761982689233084e-20
+      ],
+      "observed": [
+        0.00013333333333330908,
+        2.8815687976673947e-20,
+        1.761982689233084e-20
+      ],
+      "passed": true,
+      "reference": [
+        0.00013333333333333334,
+        0.0,
+        0.0
+      ]
+    },
+    "relative_axial_displacement_mm": {
+      "absolute_error": 1.797173521111972e-15,
+      "absolute_limit": 1e-06,
+      "observed": 0.009999999999998203,
+      "passed": true,
+      "reference": 0.01
+    },
+    "root_displacement_mm": {
+      "absolute_limit": 1e-06,
+      "error_norm": 1.8214596497756474e-15,
+      "error_vector": [
+        -1.8214596497756474e-15,
+        0.0,
+        0.0
+      ],
+      "observed": [
+        0.010133333333331511,
+        0,
+        0
+      ],
+      "passed": true,
+      "reference": [
+        0.010133333333333333,
+        0.0,
+        0.0
+      ]
+    },
+    "scalar_law_force_N": {
+      "absolute_error": 1.7976731214730535e-11,
+      "absolute_limit": 0.01,
+      "observed": 99.99999999998202,
+      "passed": true,
+      "reference": 100.0
+    }
+  }
+}

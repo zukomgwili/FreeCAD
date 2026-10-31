@@ -1,0 +1,38 @@
+test_existing_pure_1d_export_passes_but_same_case_accounting_is_refused (Sv7Baseline.TestInstalledCompositionRestrictions.test_existing_pure_1d_export_passes_but_same_case_accounting_is_refused) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_same_case_contact_request_is_refused_before_contact_qualification (Sv7Baseline.TestInstalledCompositionRestrictions.test_same_case_contact_request_is_refused_before_contact_qualification) ... ok
+test_stock_mixed_mesh_preflight_is_an_independent_barrier (Sv7Baseline.TestInstalledCompositionRestrictions.test_stock_mixed_mesh_preflight_is_an_independent_barrier) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.184s
+
+OK
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/installed-baseline/test_existing_pure_1d_export_passes_but_same_case_accounting_is_refused/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+Check prerequisites...

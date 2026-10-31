@@ -10,6 +10,8 @@ import FreeCAD
 
 from femmesh import meshtools
 
+HYBRID_ATTACHMENT = "Vertex to rigid body port"
+
 
 class PortResolutionContext:
     """Resolve current ports once during one synchronous validation/export.
@@ -90,6 +92,7 @@ class PortResolutionContext:
     @staticmethod
     def _body_state(body):
         return (
+            getattr(body, "Suppressed", False),
             tuple((owner, tuple(names)) for owner, names in body.References),
             tuple(body.ReferenceNode),
             tuple(body.Displacement),
@@ -108,6 +111,7 @@ class PortResolutionContext:
     def _connector_state(obj):
         kind = getattr(obj, "Kind", "Translational")
         return (
+            getattr(obj, "Suppressed", False),
             getattr(obj, "Attachment", "Vertices"),
             obj.Mode,
             kind,
@@ -321,10 +325,85 @@ def _validated_rigid_body_nodes(body, mesh, context):
     return nodes
 
 
+def _resolve_hybrid(obj, mesh, analysis, context):
+    from .membertools import get_member
+
+    if analysis is None or obj.Document != analysis.Document or mesh.Document != analysis.Document:
+        raise ValueError("A vertex-to-port connector requires a same-document analysis and mesh.")
+    if obj not in get_member(analysis, "Fem::ConstraintElasticConnector"):
+        raise ValueError("The vertex-to-port connector must be active in this analysis.")
+    if obj.Mode != "Two points" or getattr(obj, "Kind", "Translational") != "Translational":
+        raise ValueError("Vertex-to-port attachment requires a two-point translational connector.")
+    if obj.RigidBody1 or (obj.End2 and obj.End2[0]):
+        raise ValueError("Vertex-to-port attachment requires empty End2 and RigidBody1 links.")
+    body = obj.RigidBody2
+    if body not in get_member(analysis, "Fem::ConstraintRigidBody"):
+        raise ValueError("RigidBody2 must be an active Rigid Body in this analysis.")
+    if body.Document != analysis.Document:
+        raise ValueError("RigidBody2 must belong to the same document as the analysis.")
+    if not obj.End1 or not obj.End1[0] or obj.End1[0].Document != analysis.Document:
+        raise ValueError("End1 must be a beam vertex in the same document as the analysis.")
+    if any(
+        owner is None or owner.Document != analysis.Document for owner, _names in body.References
+    ):
+        raise ValueError("Rigid Body receiving references must belong to the same document.")
+
+    context._connector_states.setdefault(obj, context._connector_state(obj))
+    facts = context._owned_facts()
+    receiving = rigid_body_nodes(body, mesh, context)
+    solid_nodes = context._solid_nodes()
+    tetrahedral_nodes, other_volume_nodes = set(), set()
+    for element in context._solid_elements():
+        nodes = (
+            facts.elements[element]
+            if facts is not None
+            else tuple(context._femmesh.getElementNodes(element))
+        )
+        target = tetrahedral_nodes if len(nodes) in (4, 10) else other_volume_nodes
+        target.update(nodes)
+    if not receiving.issubset(tetrahedral_nodes) or receiving.intersection(other_volume_nodes):
+        raise ValueError("The hybrid rigid port requires only genuine Tet4/Tet10 receiving nodes.")
+
+    beam_nodes, beam_ends = set(), set()
+    for element in context._femmesh.EdgesOnly:
+        nodes = (
+            facts.elements[element]
+            if facts is not None
+            else tuple(context._femmesh.getElementNodes(element))
+        )
+        if len(nodes) != 3 or len(set(nodes)) != 3:
+            raise ValueError("Vertex-to-port attachment requires original quadratic beam elements.")
+        beam_nodes.update(nodes)
+        beam_ends.update(nodes[:2])
+    if receiving.intersection(beam_nodes):
+        raise ValueError("Rigid Body receiving regions must not contain original beam nodes.")
+    node = endpoint_node(obj.End1, mesh)
+    if node not in beam_ends or node in solid_nodes:
+        raise ValueError("End1 must be an original beam endpoint outside the solid mesh.")
+    reference, rotation = rigid_body_node_ids(analysis, mesh, body, context)
+    if reference == rotation or {reference, rotation}.intersection(context._nodes()):
+        raise ValueError("Hybrid RBE reference and rotation nodes must be distinct and detached.")
+    return {
+        "hybrid": True,
+        "bodies": [body],
+        "regions": [receiving],
+        "nodes": [node, reference],
+        "port": {
+            "name": body.Name,
+            "reference": reference,
+            "rotation": rotation,
+            "nodes": sorted(receiving),
+        },
+    }
+
+
 def resolve_connector(obj, mesh, analysis=None, context=None):
     local = context is None
     rotational = getattr(obj, "Kind", "Translational") == "Rotational"
-    ports = getattr(obj, "Attachment", "Vertices") == "Rigid body ports"
+    attachment = getattr(obj, "Attachment", "Vertices")
+    if attachment not in ("Vertices", "Rigid body ports", HYBRID_ATTACHMENT):
+        raise ValueError("Unsupported Elastic Connector attachment.")
+    ports = attachment == "Rigid body ports"
     if rotational and not ports:
         raise ValueError("Rotational connectors require explicit Rigid Body ports.")
     stiffness = (
@@ -340,6 +419,12 @@ def resolve_connector(obj, mesh, analysis=None, context=None):
         "dof": ("X", "Y", "Z").index(obj.Axis) + 1,
         "rotational": rotational,
     }
+    if attachment == HYBRID_ATTACHMENT:
+        context = _resolution_context(mesh, analysis, context)
+        result.update(_resolve_hybrid(obj, mesh, analysis, context))
+        if local:
+            context.validate_unchanged()
+        return result
     if ports:
         context = _resolution_context(mesh, analysis, context)
         if obj not in context._connector_states:
@@ -439,13 +524,23 @@ def validation_errors(analysis, solver, mesh, context=None):
             except (ValueError, TypeError, AttributeError, RuntimeError) as error:
                 errors.append(f"{obj.Label}: {error}")
     port_objects = [
-        obj for obj in objects if getattr(obj, "Attachment", "Vertices") == "Rigid body ports"
+        obj
+        for obj in objects
+        if getattr(obj, "Attachment", "Vertices") in ("Rigid body ports", HYBRID_ATTACHMENT)
     ]
     if port_objects and mesh:
-        if get_member(analysis, "Fem::ElementGeometry1D") or get_member(
-            analysis, "Fem::ElementGeometry2D"
+        legacy_ports = any(obj.Attachment == "Rigid body ports" for obj in port_objects)
+        if legacy_ports and (
+            get_member(analysis, "Fem::ElementGeometry1D")
+            or get_member(analysis, "Fem::ElementGeometry2D")
         ):
             errors.append("Rigid Body connector ports are qualified for solid-only analyses.")
+        if any(obj.Attachment == HYBRID_ATTACHMENT for obj in port_objects) and getattr(
+            solver, "NativeForceAccounting", False
+        ):
+            errors.append(
+                "Vertex-to-port connectors are not qualified for legacy NativeForceAccounting."
+            )
         occupied = {}
         for body in get_member(analysis, "Fem::ConstraintRigidBody"):
             try:

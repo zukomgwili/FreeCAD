@@ -1,0 +1,41 @@
+"""Root-only source gates with immutable snapshots and installed-app custody."""
+import hashlib
+import importlib.util
+import os
+from pathlib import Path
+import shutil
+import sys
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parent
+REPO = Path('/Users/zukomgwili/src/FreeCAD')
+GUARD = REPO / 'package/local-completion/freecad-8rk-installation-evidence/run_gate.py'
+assert hashlib.sha256(GUARD.read_bytes()).hexdigest() == '556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e'
+spec = importlib.util.spec_from_file_location('_sv7_source_guard', GUARD)
+core = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(core)
+core.ROOT = ROOT
+core.SOURCE_FILES = tuple(map(str, (
+    Path(__file__).resolve(), ROOT/'Sv7Coupled.py', ROOT/'Sv7SpringBaseline.py',
+    REPO/'src/Mod/Fem/CMakeLists.txt', REPO/'src/Mod/Fem/femtools/beam_coupling.py',
+    REPO/'src/Mod/Fem/femtools/beam_section_forces.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_section_forces_native.py',
+)))
+run = ROOT / sys.argv[1]
+os.environ['SV7_CASE_ROOT'] = str(run/'cases')
+if os.environ.get('SV7_TEST_SOLVER'):
+    core.SOURCE_FILES += (os.environ['SV7_TEST_SOLVER'],)
+prefix = ['/opt/homebrew/bin/pixi', 'run', '--frozen']
+core.COMMANDS = {
+    'scripts': prefix + ['cmake', '--build', 'build/release', '--target', 'FemScriptsTarget', '--parallel', '8'],
+    'coupled': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-P', str(ROOT), '-t', 'Sv7Coupled'],
+}
+blobs = ROOT/'code-blobs'
+blobs.mkdir(exist_ok=True)
+for path in map(Path, core.SOURCE_FILES):
+    target = blobs/hashlib.sha256(path.read_bytes()).hexdigest()
+    if not target.exists():
+        shutil.copyfile(path, target)
+if __name__ == '__main__':
+    raise SystemExit(core.main())

@@ -1,0 +1,243 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Publicly authored analytical specimens for native coupled beam observations."""
+
+from collections import Counter
+from types import SimpleNamespace
+
+import FreeCAD as App
+import Fem
+import ObjectsFem
+import Part
+
+
+def make_hybrid_series(doc):
+    """Author one translated beam/spring/rigid-face/Tet-prism series specimen.
+
+    One E=200000 MPa, nu=0 material gives a 40 mm, 4 by 4 mm tensile
+    beam and a real 20 mm triangular prism of area 75 mm^2. Three affine
+    Tet4 elements fill the prism; its far face is fixed, and its near face
+    has an explicitly selected, noncollinear Rigid Body receiving region.
+    A translational 10000 N/mm SPRING2 joins that body's detached reference
+    to the beam's original root vertex. No beam node belongs to the RBE.
+
+    Under the +100 N X source at the beam tip, both solids are in tension.
+    Solid Sxx=100/75 MPa, the RBE reference Ux=100*20/(200000*75)
+    =0.0001333333333333333 mm, and the spring's beam-minus-port extension
+    is 0.01 mm. Beam-root Ux=0.01013333333333333 mm. The elementary rod
+    tip value 0.01138333333333333 mm is diagnostic only: the stock beam
+    point force uses an expanded corner-mean load, not uniform end traction.
+    Compare beam motion with the independently prescribed pure-beam control.
+    Source origin moment is (0,-2300,-1700)
+    N*mm. Physical guide reactions must be observed, even where zero is
+    expected analytically. This is a deliberately rigid loading face and
+    an affine discrete-element benchmark, not a building/joint acceptance.
+
+    The new saved Attachment value is assigned literally. A runtime lacking
+    that authoring option must reject it; this factory does not inject an
+    enumeration, substitute another attachment, edit a deck or run a mesher.
+    """
+    geometry = doc.addObject("Part::Line", "HybridBeam")
+    geometry.X1, geometry.Y1, geometry.Z1 = 0.0, 17.0, -23.0
+    geometry.X2, geometry.Y2, geometry.Z2 = 40.0, 17.0, -23.0
+
+    yz = ((12.0, -28.0), (22.0, -28.0), (17.0, -13.0))
+    far_points = [App.Vector(-30.0, y, z) for y, z in yz]
+    perimeter = Part.makePolygon(far_points + [far_points[0]])
+    solid = doc.addObject("Part::Feature", "HybridPrism")
+    solid.Shape = Part.Face(perimeter).extrude(App.Vector(20.0, 0.0, 0.0))
+    compound = doc.addObject("Part::Compound", "HybridGeometry")
+    compound.Links = [geometry, solid]
+    doc.recompute()
+
+    # Select actual planar CAD end faces rather than depending on OCC face order.
+    far_face = next(
+        f"Face{index}"
+        for index, face in enumerate(solid.Shape.Faces, 1)
+        if all(abs(vertex.Point.x + 30.0) < 1e-12 for vertex in face.Vertexes)
+    )
+    near_face = next(
+        f"Face{index}"
+        for index, face in enumerate(solid.Shape.Faces, 1)
+        if all(abs(vertex.Point.x + 10.0) < 1e-12 for vertex in face.Vertexes)
+    )
+
+    analysis = ObjectsFem.makeAnalysis(doc, "HybridAnalysis")
+    solver = ObjectsFem.makeSolverCalculiXCcxTools(doc, "HybridSolver")
+    solver.AnalysisType = "static"
+    solver.GeometricalNonlinearity = False
+    solver.MaterialNonlinearity = False
+    solver.ReducedIntegration = True
+    solver.Output3d = False
+    solver.BeamSectionForces = True
+    solver.SplitInputWriter = False
+    solver.WorkingDir = ""
+    analysis.addObject(solver)
+
+    section = ObjectsFem.makeElementGeometry1D(
+        doc,
+        sectiontype="Rectangular",
+        width=4.0,
+        height=4.0,
+        name="HybridBeamSection",
+    )
+    section.References = [(geometry, ["Edge1"])]
+    analysis.addObject(section)
+    material = ObjectsFem.makeMaterialSolid(doc, "HybridMaterial")
+    material.Material = {
+        "Name": "HybridSeriesLinearElastic",
+        "YoungsModulus": "200000 MPa",
+        "PoissonRatio": "0",
+    }
+    analysis.addObject(material)
+
+    stabilizer = ObjectsFem.makeConstraintDisplacement(doc, "HybridStabilizer")
+    stabilizer.References = [(geometry, ["Vertex1"])]
+    stabilizer.xFree = True
+    stabilizer.yFree = stabilizer.zFree = False
+    stabilizer.yDisplacement = stabilizer.zDisplacement = "0 mm"
+    stabilizer.rotxFree = stabilizer.rotyFree = stabilizer.rotzFree = False
+    stabilizer.xRotation = stabilizer.yRotation = stabilizer.zRotation = "0 rad"
+    analysis.addObject(stabilizer)
+
+    fixed = ObjectsFem.makeConstraintFixed(doc, "HybridFixed")
+    fixed.References = [(solid, [far_face])]
+    analysis.addObject(fixed)
+    force = ObjectsFem.makeConstraintForce(doc, "HybridForce")
+    force.References = [(geometry, ["Vertex2"])]
+    force.Force = "100 N"
+    force.Direction = (geometry, ["Edge1"])
+    force.Reversed = False
+    analysis.addObject(force)
+
+    beam_nodes = (1, 2, 3, 4, 5)
+    far_nodes = (101, 102, 103)
+    near_nodes = (104, 105, 106)
+    solid_nodes = far_nodes + near_nodes
+    beam_elements = (1, 2)
+    solid_elements = (101, 102, 103)
+    native = Fem.FemMesh()
+    for node in beam_nodes:
+        native.addNode(10.0 * (node - 1), 17.0, -23.0, node)
+    for node, (y, z) in zip(far_nodes, yz):
+        native.addNode(-30.0, y, z, node)
+    for node, (y, z) in zip(near_nodes, yz):
+        native.addNode(-10.0, y, z, node)
+    # Native FemMesh Seg3 order is first, last, midside.
+    native.addEdge([1, 3, 2], beam_elements[0])
+    native.addEdge([3, 5, 4], beam_elements[1])
+    tetrahedra = (
+        (102, 101, 103, 104),
+        (103, 102, 104, 105),
+        (104, 103, 105, 106),
+    )
+    # Native SMESH Tet4 order is the reverse of the CalculiX corner order;
+    # writeABAQUS swaps the first two nodes. These emit positive-Jacobian
+    # CalculiX tetrahedra without altering any point or physical volume.
+    for element, nodes in zip(solid_elements, tetrahedra):
+        native.addVolume(list(nodes), element)
+
+    # Keep the real volume boundary faces for stock geometric selection.
+    # Native export mode 2 recognizes every one as volume-owned, not a shell.
+    faces = [
+        (nodes[a], nodes[b], nodes[c])
+        for nodes in tetrahedra
+        for a, b, c in ((0, 2, 1), (0, 1, 3), (1, 2, 3), (0, 3, 2))
+    ]
+    occurrences = Counter(tuple(sorted(face)) for face in faces)
+    boundary = [face for face in faces if occurrences[tuple(sorted(face))] == 1]
+    for element, nodes in enumerate(boundary, 201):
+        native.addFace(list(nodes), element)
+
+    mesh = ObjectsFem.makeMeshGmsh(doc, "HybridMesh")
+    mesh.Shape = compound
+    mesh.FemMesh = native
+    mesh.SecondOrderLinear = False
+    mesh.ElementDimension = "3D"
+    analysis.addObject(mesh)
+
+    rbe = ObjectsFem.makeConstraintRigidBody(doc, "HybridPort")
+    rbe.References = [(solid, [near_face])]
+    rbe.ReferenceNode = App.Vector(-10.0, 17.0, -23.0)
+    for axis in "XYZ":
+        setattr(rbe, "TranslationalMode" + axis, "Free")
+        setattr(rbe, "RotationalMode" + axis, "Free")
+    analysis.addObject(rbe)
+
+    connector = ObjectsFem.makeConstraintElasticConnector(doc, "HybridSpring")
+    connector.Attachment = "Vertex to rigid body port"
+    connector.Kind = "Translational"
+    connector.Mode = "Two points"
+    connector.End1 = (geometry, ["Vertex1"])
+    connector.RigidBody2 = rbe
+    connector.Axis = "X"
+    connector.Orientation = App.Rotation()
+    connector.Stiffness = "10000 N/mm"
+    analysis.addObject(connector)
+    doc.recompute()
+
+    return SimpleNamespace(
+        doc=doc,
+        analysis=analysis,
+        solver=solver,
+        mesh=mesh,
+        section=section,
+        force=force,
+        geometry=geometry,
+        solid=solid,
+        rbe=rbe,
+        connector=connector,
+        stabilizer=stabilizer,
+        fixed=fixed,
+        beam_nodes=beam_nodes,
+        solid_nodes=solid_nodes,
+        beam_elements=beam_elements,
+        solid_elements=solid_elements,
+        near_nodes=near_nodes,
+        far_nodes=far_nodes,
+    )
+
+
+def make_prescribed_beam_control(doc):
+    """Author the same beam with an independently prescribed root motion.
+
+    The root value is P/k + PL/(EA) for the scalar spring and affine solid,
+    with P=100 N, k=10000 N/mm, solid L=20 mm, A=75 mm² and E=200000 MPa.
+    It is never fitted to a mixed beam-tip result. The native point-force
+    discretization, beam mesh, material and other five root constraints match
+    make_hybrid_series, while the solid, RBE and spring are absent.
+    """
+    from femtest.app.test_beam_section_forces_native import make_straight_case
+
+    model = make_straight_case(doc, load_vector=(100, 0, 0))
+    model.geometry.X1, model.geometry.Y1, model.geometry.Z1 = 0.0, 17.0, -23.0
+    model.geometry.X2, model.geometry.Y2, model.geometry.Z2 = 40.0, 17.0, -23.0
+    model.section.RectWidth = "4 mm"
+    model.section.RectHeight = "4 mm"
+    doc.MechanicalMaterial.Material = {
+        "Name": "PrescribedNativeBeamControl",
+        "YoungsModulus": "200000 MPa",
+        "PoissonRatio": "0",
+    }
+    native = Fem.FemMesh()
+    for node in range(1, 6):
+        native.addNode(10.0 * (node - 1), 17.0, -23.0, node)
+    native.addEdge([1, 3, 2], 1)
+    native.addEdge([3, 5, 4], 2)
+    model.mesh.FemMesh = native
+    doc.removeObject("Fixed")
+    root = ObjectsFem.makeConstraintDisplacement(doc, "PrescribedRoot")
+    root.References = [(model.geometry, ["Vertex1"])]
+    root.xFree = root.yFree = root.zFree = False
+    root.rotxFree = root.rotyFree = root.rotzFree = False
+    root.xDisplacement = "0.010133333333333333 mm"
+    root.yDisplacement = root.zDisplacement = "0 mm"
+    root.xRotation = root.yRotation = root.zRotation = "0 rad"
+    model.analysis.addObject(root)
+    model.solver.MaterialNonlinearity = False
+    model.stabilizer = root
+    model.root_node = 1
+    model.tip_node = 5
+    model.beam_nodes = (1, 2, 3, 4, 5)
+    model.beam_elements = (1, 2)
+    doc.recompute()
+    return model

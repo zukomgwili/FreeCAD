@@ -1,0 +1,81 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Native stock spring composition probe, without resultant qualification."""
+import json
+from pathlib import Path
+import unittest
+
+import FreeCAD as App
+import Fem
+import ObjectsFem
+from femtest.app.test_beam_section_forces_native import make_straight_case
+from femtools.ccxtools import FemToolsCcx
+
+ROOT = Path(__file__).resolve().parent
+
+
+def make_series(doc):
+    model = make_straight_case(doc, load_vector=(10, 0, 0))
+    shift = App.Vector(10, 20, 30)
+    for axis, value in zip("XYZ", shift):
+        setattr(model.geometry, axis + "1", getattr(model.geometry, axis + "1") + value)
+        setattr(model.geometry, axis + "2", getattr(model.geometry, axis + "2") + value)
+    native = Fem.FemMesh()
+    for node, point in model.mesh.FemMesh.Nodes.items():
+        native.addNode(*(point + shift), node)
+    for element in model.mesh.FemMesh.Edges:
+        native.addEdge(model.mesh.FemMesh.getElementNodes(element), element)
+    model.mesh.FemMesh = native
+    doc.removeObject("Fixed")
+    support = ObjectsFem.makeConstraintDisplacement(doc, "Stabilizer")
+    support.References = [(model.geometry, "Vertex1")]
+    support.xFree = True
+    support.yFree = support.zFree = False
+    support.rotxFree = support.rotyFree = support.rotzFree = False
+    model.analysis.addObject(support)
+    connector = ObjectsFem.makeConstraintElasticConnector(doc, "GroundSpring")
+    connector.End1 = (model.geometry, ["Vertex1"])
+    connector.Stiffness = "2000 N/mm"
+    connector.Axis = "X"
+    connector.Mode = "Ground"
+    model.analysis.addObject(connector)
+    model.solver.BeamSectionForces = False
+    model.connector = connector
+    model.stabilizer = support
+    doc.recompute()
+    return model
+
+
+class TestStockSpringComposition(unittest.TestCase):
+    def test_stock_spring1_transmits_axial_load_without_observer(self):
+        doc = App.newDocument("Sv7StockSeries")
+        directory = ROOT / "stock-spring-baseline" / "series"
+        directory.mkdir(parents=True)
+        try:
+            model = make_series(doc)
+            fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+            fea.update_objects()
+            fea.setup_working_dir(str(directory))
+            self.assertFalse(fea.check_prerequisites())
+            self.assertFalse(fea.write_inp_file())
+            original = Path(fea.inp_file_name).read_bytes()
+            self.assertIn(b"TYPE=SPRING1", original)
+            self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+            self.assertEqual(Path(fea.inp_file_name).read_bytes(), original)
+            fea.load_results()
+            result = next(obj for obj in model.analysis.Group if obj.isDerivedFrom("Fem::FemResultObject"))
+            displacements = dict(zip(result.NodeNumbers, result.DisplacementVectors))
+            # Scalar spring law is exact; expanded-beam compliance is recorded separately.
+            root = tuple(displacements[model.root_node])
+            tip = tuple(displacements[model.tip_node])
+            self.assertAlmostEqual(root[0], 0.005, delta=0.000001)
+            (directory / "observation.json").write_text(json.dumps({
+                "runtime": App.Version(), "root_displacement_mm": root,
+                "tip_displacement_mm": tip, "spring_law_force_N": 2000 * root[0],
+                "beam_end_or_physical_support_diagnostics_qualified": False,
+                "stock_native_input_unchanged": True,
+            }, indent=2))
+            model.solver.BeamSectionForces = True
+            with self.assertRaisesRegex(ValueError, "exclusively B32R"):
+                fea.write_inp_file()
+        finally:
+            App.closeDocument(doc.Name)

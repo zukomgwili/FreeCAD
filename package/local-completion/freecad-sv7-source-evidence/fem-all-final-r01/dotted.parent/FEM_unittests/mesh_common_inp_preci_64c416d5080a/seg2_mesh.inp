@@ -1,0 +1,16 @@
+** written by FreeCAD inp file writer for CalculiX,Abaqus meshes
+** highest dimension mesh elements only.
+
+** Nodes
+*Node, NSET=Nall
+1, 0, 0, 0
+2, -5e+18, -1.123456789123e-14, -1.234567890123e-102
+
+
+** Edge elements
+*Element, TYPE=B31, ELSET=Eedges
+1, 1, 2
+
+** Define element set Eall
+*ELSET, ELSET=Eall
+Eedges

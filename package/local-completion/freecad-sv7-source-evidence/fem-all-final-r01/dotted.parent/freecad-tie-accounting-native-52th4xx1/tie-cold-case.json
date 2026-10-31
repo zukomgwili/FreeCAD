@@ -1,0 +1,102 @@
+{
+  "scope": "native Tie observation persistence; not engineering acceptance",
+  "document": "/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-tie-accounting-native-52th4xx1/tie-observation.FCStd",
+  "document_sha256": "2eb2e448f7fb21b24ea33b66320c9818c67bdc7a984c094d3f165afe49601aca",
+  "version": [
+    "27",
+    "1",
+    "0",
+    "49261 +241 (Git)",
+    "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+    "2026/10/31 13:58:00",
+    "codex/fix-toroidal-self-cut",
+    "93f621202af73ac8369ad25ac8f42ff99068c8a6"
+  ],
+  "analysis": "Analysis",
+  "solver": "SolverCcxTools",
+  "mesh": "Mesh",
+  "accounting": "NativeForceAccounting001",
+  "result": "ContactSideObservation",
+  "tie": "RearOrdinaryTie",
+  "contact": "SidepadContact",
+  "geometry": "FourBodies",
+  "reverse": "FrontCutOrientation",
+  "rear_cut": "RearCut",
+  "front_cut": "FrontCut",
+  "observation_sha256": "d747977ac81dfde5475f0b12c4f4c0f90f7926bbfcf686fcb05d8d79a3131f0a",
+  "observation_hash": "d747977ac81dfde5475f0b12c4f4c0f90f7926bbfcf686fcb05d8d79a3131f0a",
+  "accounting_sha256": "923910e74f5ee9bbf8486f18792a6c7222298e57abc9b795316a7071efaeaed7",
+  "movement_source": {
+    "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e",
+    "deck": "/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-tie-accounting-native-52th4xx1/Mesh.inp",
+    "deck_sha256": "28f7cfc8b4a5683437511a1a76dc759948e6cc95a48c9b298ffefb8c23ce62ab",
+    "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+    "model_digest": "9fc04edb570c589d658ec137498bfa769abdfb4f7013ccb4400e308a3c46dae9",
+    "path": "/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-tie-accounting-native-52th4xx1/Mesh.frd",
+    "recovery_path": "/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-tie-accounting-native-52th4xx1/.Mesh-previous-frd-8ecvgvdj/Mesh.frd",
+    "request": "/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-tie-accounting-native-52th4xx1/Mesh.accounting",
+    "request_sha256": "6112e017d17d5f755e0fcdff7aeb883e4eb09339335dfb7d336f9d4205bc9768",
+    "requested_end_time": 1.0,
+    "schema": "FREECAD_MOVEMENT_SOURCE_V1",
+    "sha256": "71ed7f2f85d3c4e9e384c1b27a7eefdbba69cb78090a73b3ab02176e92167ab4",
+    "status": "BOUND",
+    "time_basis": "Requested final static time; field reader must verify actual FRD state"
+  },
+  "observed_time": 1.0,
+  "requested_end_time": 1.0,
+  "frd": {
+    "path": "/private/tmp/freecad-sv7-_7lscq7g/fem-all-final-r01/dotted.parent/freecad-tie-accounting-native-52th4xx1/Mesh.frd",
+    "sha256": "71ed7f2f85d3c4e9e384c1b27a7eefdbba69cb78090a73b3ab02176e92167ab4"
+  },
+  "definition": {
+    "accounting_result": "NativeForceAccounting001",
+    "analysis": "Analysis",
+    "contacts": [
+      {
+        "constraint_kind": "Tie",
+        "contact": "RearOrdinaryTie",
+        "references_slave_then_master": [
+          [
+            "FourBodies",
+            [
+              "Face11"
+            ]
+          ],
+          [
+            "FourBodies",
+            [
+              "Face6"
+            ]
+          ]
+        ]
+      },
+      {
+        "constraint_kind": "Contact",
+        "contact": "SidepadContact",
+        "references_slave_then_master": [
+          [
+            "FourBodies",
+            [
+              "Face18"
+            ]
+          ],
+          [
+            "FourBodies",
+            [
+              "Face8"
+            ]
+          ]
+        ]
+      }
+    ],
+    "master_vertex": 1,
+    "mesh": "Mesh",
+    "point_side": "Slave",
+    "slave_vertex": 1
+  },
+  "schema": "FreeCAD.INTERFACE_SIDE_OBSERVATION_V2",
+  "point_side": "Slave",
+  "slave_vertex": 1,
+  "master_vertex": 1
+}

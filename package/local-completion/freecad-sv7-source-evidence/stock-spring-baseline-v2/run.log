@@ -1,0 +1,24 @@
+test_stock_spring1_transmits_axial_load_without_observer (Sv7SpringBaseline.TestStockSpringComposition.test_stock_spring1_transmits_axial_load_without_observer) ... ERROR
+
+======================================================================
+ERROR: test_stock_spring1_transmits_axial_load_without_observer (Sv7SpringBaseline.TestStockSpringComposition.test_stock_spring1_transmits_axial_load_without_observer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-sv7-_7lscq7g/Sv7SpringBaseline.py", line 54, in test_stock_spring1_transmits_axial_load_without_observer
+    model = make_series(doc)
+  File "/private/tmp/freecad-sv7-_7lscq7g/Sv7SpringBaseline.py", line 26, in make_series
+    native.addEdge(model.mesh.FemMesh.getElementNodes(element), element)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: addEdge accepts:
+-- int,int
+-- [2|3],[int]
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.090s
+
+FAILED (errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

@@ -1,0 +1,220 @@
+** written by FreeCAD inp file writer for CalculiX,Abaqus meshes
+** FEM mesh elements only (edges if they do not belong to faces and faces if they do not belong to volumes).
+
+** Nodes
+*Node, NSET=Nall
+1, 0, 17, -23
+2, 10, 17, -23
+3, 20, 17, -23
+4, 30, 17, -23
+5, 40, 17, -23
+101, -30, 12, -28
+102, -30, 22, -28
+103, -30, 17, -13
+104, -10, 12, -28
+105, -10, 22, -28
+106, -10, 17, -13
+
+
+** Volume elements
+*Element, TYPE=C3D4, ELSET=Evolumes
+101, 101, 102, 103, 104
+102, 102, 103, 104, 105
+103, 103, 104, 105, 106
+
+** Edge elements
+*Element, TYPE=B32R, ELSET=Eedges
+1, 1, 2, 3
+2, 3, 4, 5
+
+** Define element set Eall
+*ELSET, ELSET=Eall
+Evolumes, Eedges
+
+
+
+***********************************************************
+** Element sets for materials and FEM element type (solid, shell, beam, fluid)
+*ELSET,ELSET=HybridMaterialSolid
+Evolumes
+*ELSET,ELSET=M0B0RstdD0
+1,
+2,
+*ELSET,ELSET=M0B0RstdD1
+*ELSET,ELSET=M0B0RstdD2
+*ELSET,ELSET=M0B0RstdD3
+*ELSET,ELSET=M0B0RstdD4
+
+***********************************************************
+** constraints fixed node sets
+** HybridFixed
+*NSET,NSET=HybridFixedSolid
+101,
+102,
+103,
+
+***********************************************************
+** constraints rigidbody node sets
+** HybridPort
+*NSET,NSET=HybridPort
+104,
+105,
+106,
+
+***********************************************************
+** constraints displacement node sets
+** HybridStabilizer
+*NSET,NSET=HybridStabilizer
+1,
+
+** Physical constants for SI(mm) unit system with Kelvins
+*PHYSICAL CONSTANTS, ABSOLUTE ZERO=0, STEFAN BOLTZMANN=5.670374419e-11
+
+***********************************************************
+** Materials
+** see information about units at file end
+** FreeCAD material name: HybridSeriesLinearElastic
+** HybridMaterial
+*MATERIAL, NAME=HybridMaterial
+*ELASTIC
+200000,0
+*EXPANSION, ZERO=0
+0
+
+***********************************************************
+** Sections
+*SOLID SECTION, ELSET=HybridMaterialSolid, MATERIAL=HybridMaterial
+*BEAM SECTION, ELSET=M0B0RstdD0, MATERIAL=HybridMaterial, SECTION=RECT
+4,4
+0, 1, -0
+
+***********************************************************
+** Rigid Body Constraints
+** HybridPort
+*NODE
+121,-10.0,17.0,-23.0
+122,-10.0,17.0,-23.0
+*NSET,NSET=HybridPort_RefNode
+121,
+*NSET,NSET=HybridPort_RotNode
+122,
+*RIGID BODY, NSET=HybridPort, REF NODE=121, ROT NODE=122
+
+*ELEMENT, TYPE=SPRING2, ELSET=EC_HybridSpring
+209,1,121
+*ORIENTATION, NAME=EC_ORIENT_HybridSpring
+1,0,0,0,1,0
+*SPRING, ELSET=EC_HybridSpring, ORIENTATION=EC_ORIENT_HybridSpring
+1,1
+1.000000000000e+04
+*NSET, NSET=EC_END1_HybridSpring
+1
+*NSET, NSET=EC_END2_HybridSpring
+121
+
+***********************************************************
+** At least one step is needed to run an CalculiX analysis of FreeCAD
+*STEP, INC=2000
+*STATIC
+1.0,1.0,1e-05,1.0
+
+***********************************************************
+** Fixed Constraints
+** HybridFixed
+*BOUNDARY
+HybridFixedSolid,1
+HybridFixedSolid,2
+HybridFixedSolid,3
+
+
+***********************************************************
+** Rigid Body Constraints
+** HybridPort
+
+
+***********************************************************
+** Displacement constraint applied
+** HybridStabilizer
+*BOUNDARY
+HybridStabilizer,2,2,0
+HybridStabilizer,3,3,0
+HybridStabilizer,4,4,0
+HybridStabilizer,5,5,0
+HybridStabilizer,6,6,0
+
+
+***********************************************************
+** constraints force node loads
+** HybridForce
+*CLOAD
+** node load on shape: HybridBeam:Vertex2
+5,1,100
+
+
+
+***********************************************************
+** Outputs --> frd file
+*NODE FILE, OUTPUT=2d
+U
+*EL FILE, OUTPUT=2D, SECTION FORCES
+S, NOE
+** outputs --> dat file
+** reaction forces for Constraint fixed
+*NODE PRINT, NSET=HybridFixedSolid, TOTALS=ONLY
+RF
+** reaction forces for Constraint displacement constraining translation
+*NODE PRINT, NSET=HybridStabilizer, TOTALS=ONLY
+RF
+** displacements and reaction forces/moments for Constraint rigid body
+*NODE PRINT, NSET=HybridPort_RefNode
+U
+*NODE PRINT, NSET=HybridPort_RotNode
+U
+
+*OUTPUT, FREQUENCY=1
+** Translational port: U is mm, RF is N (global components)
+** RF is not generally an isolated connector-action result
+
+*NODE PRINT, NSET=EC_END1_HybridSpring, GLOBAL=YES
+U,RF
+
+** Translational port: U is mm, RF is N (global components)
+** RF is not generally an isolated connector-action result
+
+*NODE PRINT, NSET=EC_END2_HybridSpring, GLOBAL=YES
+U,RF
+
+***********************************************************
+*END STEP
+
+***********************************************************
+** CalculiX Input file
+**   written by    --> FreeCAD 27.1.0
+**   written on    --> Sat Oct 31 16:45:12 2026
+**   file name     --> 
+**   analysis name --> HybridAnalysis
+**
+**
+***********************************************************
+**  About units:
+**  See ccx manual, ccx does not know about any unit.
+**  Golden rule: The user must make sure that the numbers they provide have consistent units.
+**  The user is the FreeCAD calculix writer module ;-)
+**
+**  The unit system which is used at Guido Dhondt's company: mm, N, s, K
+**  Since Length and Mass are connected by Force, if Length is mm the Mass is in t to get N
+**  The following units are used to write to inp file:
+**
+**  Length: mm (this includes the mesh geometry)
+**  Mass: t
+**  TimeSpan: s
+**  Temperature: K
+**
+**  This leads to:
+**  Force: N
+**  Pressure: N/mm^2 == MPa (Young's Modulus has unit Pressure)
+**  Density: t/mm^3
+**  Gravity: mm/s^2
+**  Thermal conductivity: t*mm/K/s^3 == as W/m/K == kW/mm/K
+**  Specific Heat: mm^2/s^2/K = J/kg/K == kJ/t/K
+**

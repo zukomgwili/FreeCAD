@@ -35,6 +35,7 @@ __url__ = "https://www.freecad.org"
 
 import os
 import math
+import io
 
 import FreeCAD
 from FreeCAD import Console
@@ -60,7 +61,7 @@ def insert(filename, docname):
 
 
 # ********* module specific methods *********
-def setupPipeline(doc, analysis, results_name, result_data):
+def setupPipeline(doc, analysis, results_name, result_data, *, exact_result_role=False):
     import ObjectsFem
     from . import importToolsFem
 
@@ -72,20 +73,23 @@ def setupPipeline(doc, analysis, results_name, result_data):
     pipelines = analysis.getObjectsOfType("Fem::FemPostPipeline")
     fem_prefs = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/General")
     keep_results_on_rerun = fem_prefs.GetBool("KeepResultsOnReRun", False)
+    role_pipeline = analysis.getObject(pipeline_name) if exact_result_role else None
 
-    if not pipelines or keep_results_on_rerun:
+    if not pipelines or keep_results_on_rerun or (exact_result_role and not role_pipeline):
         # needs to create a new pipeline!
         pipeline_obj = ObjectsFem.makePostVtkResult(doc, result_data, results_name)
         pipeline_visibility = True
         if analysis:
             analysis.addObject(pipeline_obj)
     else:
-        # by default get the last one
-        pipeline_obj = pipelines[-1]
-        # maybe there is one with the correct name
-        named_pipeline = analysis.getObject(pipeline_name)
-        if named_pipeline:
-            pipeline_obj = named_pipeline
+        if exact_result_role:
+            pipeline_obj = role_pipeline
+        else:
+            # Ordinary imports retain their existing last-pipeline fallback.
+            pipeline_obj = pipelines[-1]
+            named_pipeline = analysis.getObject(pipeline_name)
+            if named_pipeline:
+                pipeline_obj = named_pipeline
 
         if FreeCAD.GuiUp:
             # store pipeline visibility because pipeline_obj.load makes the
@@ -120,10 +124,12 @@ def importFrd(
     *,
     beam_section_forces=False,
     trusted_stress_context=False,
+    beam_result=None,
 ):
     import ObjectsFem
     from . import importToolsFem
     from femtools import beam_section_forces as beam_output
+    from femtools import beam_solid_results
 
     if analysis:
         doc = analysis.Document
@@ -139,8 +145,25 @@ def importFrd(
             "Beam section-force output cannot be imported as mechanical stress; "
             "use its bound native beam result"
         )
-    m = read_frd_result(filename)
-    if beam_section_forces:
+    mixed_source = beam_solid_results.owned_source(filename, analysis, beam_result)
+    solid_data = None
+    if mixed_source:
+        if not beam_section_forces:
+            raise ValueError(
+                "Owned mixed beam/solid results require the native beam output workflow"
+            )
+        m = read_frd_result(filename, _literal=mixed_source["literal"])
+        m, solid_data = beam_solid_results.partition(m, mixed_source)
+    else:
+        m = read_frd_result(filename)
+    if beam_section_forces and not mixed_source:
+        if any(
+            m[key] for key in beam_solid_results.ELEMENT_KEYS if key not in ("Seg2Elem", "Seg3Elem")
+        ):
+            raise ValueError(
+                "Mixed beam/solid section output requires an owned native V3 beam result; "
+                "solid stresses cannot be inferred from the beam output flag"
+            )
         for result_set in m["Results"]:
             result_set.pop("stress", None)
     elif (
@@ -199,6 +222,9 @@ def importFrd(
 
                 res_obj = make_result_mesh(results_name)
                 res_obj = importToolsFem.fill_femresult_mechanical(res_obj, result_set)
+                if mixed_source:
+                    beam_solid_results.bind_provenance(res_obj, mixed_source)
+                    res_obj.Time = result_set["time"]
                 if analysis:
                     # need to be here, becasause later on, the analysis objs are needed
                     # see fill of principal stresses
@@ -266,7 +292,13 @@ def importFrd(
 
                 # if we have multiple results we delay the pipeline creation
                 if number_of_increments == 1:
-                    setupPipeline(doc, analysis, results_name, [res_obj])
+                    setupPipeline(
+                        doc,
+                        analysis,
+                        results_name,
+                        [res_obj],
+                        exact_result_role=mixed_source is not None,
+                    )
                 else:
                     multistep_value.append(step_time)
                     multistep_result.append(res_obj)
@@ -331,6 +363,19 @@ def importFrd(
             if analysis:
                 analysis.addObject(res_obj)
 
+        if solid_data is not None:
+            solid_results_name = f"{result_name_prefix}SolidResults"
+            solid_result = beam_solid_results.make_solid_result(
+                solid_data, mixed_source, solid_results_name
+            )
+            setupPipeline(
+                doc,
+                analysis,
+                solid_results_name,
+                [solid_result],
+                exact_result_role=True,
+            )
+
         if FreeCAD.GuiUp:
             if analysis:
                 import FemGui
@@ -348,7 +393,7 @@ def importFrd(
 
 # read a calculix result file and extract the nodes
 # displacement vectors and stress values.
-def read_frd_result(frd_input):
+def read_frd_result(frd_input, *, _literal=None):
     Console.PrintMessage(f"Read ccx results from frd file: {frd_input}\n")
     inout_nodes = []
     inout_nodes_file = frd_input.rsplit(".", 1)[0] + "_inout_nodes.txt"
@@ -361,7 +406,7 @@ def read_frd_result(frd_input):
             inout_nodes.append(a)
         f.close()
         Console.PrintMessage(f"{inout_nodes}\n")
-    frd_file = pyopen(frd_input, "r")
+    frd_file = pyopen(frd_input, "r") if _literal is None else io.StringIO(_literal.decode("utf-8"))
     nodes = {}
     elements_hexa8 = {}
     elements_penta6 = {}

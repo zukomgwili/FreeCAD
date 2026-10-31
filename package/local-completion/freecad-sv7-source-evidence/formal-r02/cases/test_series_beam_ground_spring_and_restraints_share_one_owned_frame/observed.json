@@ -1,0 +1,818 @@
+{
+  "basis_frame": "NATIVE_CURRENT_FACE_BASIS",
+  "complete": true,
+  "completion_requires_successful_child": true,
+  "force_action": "OUTWARD_NATIVE_ELEMENT_END_FACE",
+  "frames": [
+    {
+      "complete": true,
+      "frame": 2,
+      "increment": 1,
+      "native_actions": {
+        "force_action": "ON_STRUCTURAL_MODEL",
+        "moment_reference": "GLOBAL_ORIGIN",
+        "position_frame": "ORIGINAL_GLOBAL",
+        "source": {
+          "force_global": [
+            10,
+            0,
+            0
+          ],
+          "moment_origin": [
+            0,
+            300,
+            -200
+          ],
+          "node": 11,
+          "owner": "Force",
+          "position": [
+            110,
+            20,
+            30
+          ]
+        },
+        "spring": {
+          "displacement": [
+            0.005000000000024174,
+            0,
+            0
+          ],
+          "element": 6,
+          "force_global": [
+            -10.000000000048349,
+            0,
+            0
+          ],
+          "moment_origin": [
+            0,
+            -300.0000000014505,
+            200.00000000096696
+          ],
+          "native_resisting_force": [
+            10.000000000048349,
+            0,
+            0
+          ],
+          "node": 1,
+          "owner": "GroundSpring",
+          "position": [
+            10,
+            20,
+            30
+          ]
+        },
+        "support": {
+          "force_global": [
+            0,
+            -2.4162897211758142e-12,
+            1.5904545475758924e-12
+          ],
+          "moment_origin": [
+            1.0273863232459646e-10,
+            -1.0664662599205177e-10,
+            -9.58606560528409e-11
+          ],
+          "node": 1,
+          "owner": "Stabilizer",
+          "position": [
+            10,
+            20,
+            30
+          ],
+          "spcs": [
+            {
+              "direction": 2,
+              "node": 1,
+              "original_direction": 2,
+              "original_node": 1,
+              "role": "TRANSLATION",
+              "value": -2.4162897211758142e-12
+            },
+            {
+              "direction": 3,
+              "node": 1,
+              "original_direction": 3,
+              "original_node": 1,
+              "role": "TRANSLATION",
+              "value": 1.5904545475758924e-12
+            },
+            {
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "direction": 1,
+              "node": 100,
+              "original_direction": 4,
+              "original_node": 1,
+              "role": "ANGLE",
+              "value": -1.5591502621958132e-12
+            },
+            {
+              "direction": 2,
+              "node": 100,
+              "original_direction": 4,
+              "original_node": 1,
+              "role": "ALGEBRAIC",
+              "value": 3.897875655489533e-13
+            },
+            {
+              "axis": [
+                0,
+                1,
+                0
+              ],
+              "direction": 1,
+              "node": 101,
+              "original_direction": 5,
+              "original_node": 1,
+              "role": "ANGLE",
+              "value": -9.074208051629284e-11
+            },
+            {
+              "direction": 2,
+              "node": 101,
+              "original_direction": 5,
+              "original_node": 1,
+              "role": "ALGEBRAIC",
+              "value": 2.268552012907321e-11
+            },
+            {
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "direction": 1,
+              "node": 102,
+              "original_direction": 6,
+              "original_node": 1,
+              "role": "ANGLE",
+              "value": -7.169775884108276e-11
+            },
+            {
+              "direction": 2,
+              "node": 102,
+              "original_direction": 6,
+              "original_node": 1,
+              "role": "ALGEBRAIC",
+              "value": 1.792443971027069e-11
+            }
+          ]
+        }
+      },
+      "samples": [
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ]
+          },
+          "element": 1,
+          "end": 1,
+          "force_global": [
+            -9.999600000036583,
+            -2.035933921451516e-12,
+            1.4519947744151551e-12
+          ],
+          "moment_global": [
+            -1.2148945044421211e-12,
+            -9.036282833108089e-11,
+            -7.208433849825724e-11
+          ],
+          "native_channels": {
+            "axial": 9.999600000036583,
+            "bend1": 9.036282833108089e-11,
+            "bend2": 7.208433849825724e-11,
+            "shear1": 2.035933921451516e-12,
+            "shear2": -1.4519947744151551e-12,
+            "torque": 1.2148945044421211e-12
+          },
+          "node": 1,
+          "position": [
+            10,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 1,
+          "end": 3,
+          "force_global": [
+            9.999600000031698,
+            1.4460537801908036e-12,
+            -1.2086069992034432e-12
+          ],
+          "moment_global": [
+            1.5096757394542082e-12,
+            5.856160001371791e-11,
+            3.7834180233176085e-11
+          ],
+          "native_channels": {
+            "axial": 9.999600000031698,
+            "bend1": 5.856160001371791e-11,
+            "bend2": 3.7834180233176085e-11,
+            "shear1": 1.4460537801908036e-12,
+            "shear2": -1.2086069992034432e-12,
+            "torque": 1.5096757394542082e-12
+          },
+          "node": 3,
+          "position": [
+            30,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ]
+          },
+          "element": 2,
+          "end": 1,
+          "force_global": [
+            -9.99960000003169,
+            -1.446060068563404e-12,
+            1.2085965908625873e-12
+          ],
+          "moment_global": [
+            -1.5097016518861306e-12,
+            -5.852918150139885e-11,
+            -3.7827074805818484e-11
+          ],
+          "native_channels": {
+            "axial": 9.99960000003169,
+            "bend1": 5.852918150139885e-11,
+            "bend2": 3.7827074805818484e-11,
+            "shear1": 1.446060068563404e-12,
+            "shear2": -1.2085965908625873e-12,
+            "torque": 1.5097016518861306e-12
+          },
+          "node": 3,
+          "position": [
+            30,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 2,
+          "end": 3,
+          "force_global": [
+            9.999600000022433,
+            1.0049322485272683e-12,
+            -6.308712233171754e-13
+          ],
+          "moment_global": [
+            8.130364870934104e-13,
+            3.766809086869216e-11,
+            1.5996093338799255e-11
+          ],
+          "native_channels": {
+            "axial": 9.999600000022433,
+            "bend1": 3.766809086869216e-11,
+            "bend2": 1.5996093338799255e-11,
+            "shear1": 1.0049322485272683e-12,
+            "shear2": -6.308712233171754e-13,
+            "torque": 8.130364870934104e-13
+          },
+          "node": 5,
+          "position": [
+            50,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ]
+          },
+          "element": 3,
+          "end": 1,
+          "force_global": [
+            -9.999600000022426,
+            -1.0049114318455565e-12,
+            6.309189282127647e-13
+          ],
+          "moment_global": [
+            -8.130555690516461e-13,
+            -3.7635672356373107e-11,
+            -1.598965404525643e-11
+          ],
+          "native_channels": {
+            "axial": 9.999600000022426,
+            "bend1": 3.7635672356373107e-11,
+            "bend2": 1.598965404525643e-11,
+            "shear1": 1.0049114318455565e-12,
+            "shear2": -6.309189282127647e-13,
+            "torque": 8.130555690516461e-13
+          },
+          "node": 5,
+          "position": [
+            50,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 3,
+          "end": 3,
+          "force_global": [
+            9.999600000017203,
+            5.266863334352223e-13,
+            -5.035347139248358e-13
+          ],
+          "moment_global": [
+            6.567845226013169e-13,
+            3.51145779120543e-11,
+            9.642286968869485e-12
+          ],
+          "native_channels": {
+            "axial": 9.999600000017203,
+            "bend1": 3.51145779120543e-11,
+            "bend2": 9.642286968869485e-12,
+            "shear1": 5.266863334352223e-13,
+            "shear2": -5.035347139248358e-13,
+            "torque": 6.567845226013169e-13
+          },
+          "node": 7,
+          "position": [
+            70,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ]
+          },
+          "element": 4,
+          "end": 1,
+          "force_global": [
+            -9.999600000017194,
+            -5.267730696090211e-13,
+            5.039302308773586e-13
+          ],
+          "moment_global": [
+            -6.566986537892561e-13,
+            -3.5081715310525396e-11,
+            -9.635625630721734e-12
+          ],
+          "native_channels": {
+            "axial": 9.999600000017194,
+            "bend1": 3.5081715310525396e-11,
+            "bend2": 9.635625630721734e-12,
+            "shear1": 5.267730696090211e-13,
+            "shear2": -5.039302308773586e-13,
+            "torque": 6.566986537892561e-13
+          },
+          "node": 7,
+          "position": [
+            70,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 4,
+          "end": 3,
+          "force_global": [
+            9.999600000003422,
+            5.651035195342047e-14,
+            -6.361577931102147e-14
+          ],
+          "moment_global": [
+            8.483175099882612e-13,
+            1.6637802247032596e-11,
+            2.178257574314557e-12
+          ],
+          "native_channels": {
+            "axial": 9.999600000003422,
+            "bend1": 1.6637802247032596e-11,
+            "bend2": 2.178257574314557e-12,
+            "shear1": 5.651035195342047e-14,
+            "shear2": -6.361577931102147e-14,
+            "torque": 8.483175099882612e-13
+          },
+          "node": 9,
+          "position": [
+            90,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ]
+          },
+          "element": 5,
+          "end": 1,
+          "force_global": [
+            -9.999600000003415,
+            -5.6191162833840735e-14,
+            6.272760089132134e-14
+          ],
+          "moment_global": [
+            -8.482194981118685e-13,
+            -1.6609824626812042e-11,
+            -2.1722623699815813e-12
+          ],
+          "native_channels": {
+            "axial": 9.999600000003415,
+            "bend1": 1.6609824626812042e-11,
+            "bend2": 2.1722623699815813e-12,
+            "shear1": 5.6191162833840735e-14,
+            "shear2": -6.272760089132134e-14,
+            "torque": 8.482194981118685e-13
+          },
+          "node": 9,
+          "position": [
+            90,
+            20,
+            30
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 5,
+          "end": 3,
+          "force_global": [
+            9.99959999999098,
+            1.4163670236655435e-13,
+            1.6076029396572267e-13
+          ],
+          "moment_global": [
+            9.059697436697434e-13,
+            2.738698157145336e-12,
+            -5.859757123971576e-13
+          ],
+          "native_channels": {
+            "axial": 9.99959999999098,
+            "bend1": 2.738698157145336e-12,
+            "bend2": -5.859757123971576e-13,
+            "shear1": 1.4163670236655435e-13,
+            "shear2": 1.6076029396572267e-13,
+            "torque": 9.059697436697434e-13
+          },
+          "node": 11,
+          "position": [
+            110,
+            20,
+            30
+          ]
+        }
+      ],
+      "step": 1,
+      "time": 1
+    }
+  ],
+  "moment_reference": "NATIVE_SECTION_CENTROID",
+  "native_channels_method": "PROJECTED_NATIVE_FORCE_AND_MOMENT_INCREMENT_SUM",
+  "position_frame": "CURRENT_EXPANDED_SECTION",
+  "provenance": {
+    "binary": "/private/tmp/freecad-sv7-_7lscq7g/native-build-r02/build/CalculiX/ccx_2.23/src/ccx_2.23_conda",
+    "binary_sha256": "7da6bd9e485e0e277d03ed1a9d2d9f923df70555dfd3f65ceb8cb8b20752a10f",
+    "case": {
+      "analysis": "Analysis",
+      "mesh": "Mesh",
+      "solver": "Solver"
+    },
+    "completed_owned_run": true,
+    "coupling": {
+      "source": {
+        "force_global": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "node": 11,
+        "owner": "Force",
+        "position": [
+          110.0,
+          20.0,
+          30.0
+        ]
+      },
+      "spring": {
+        "direction": 1,
+        "element": 6,
+        "node": 1,
+        "owner": "GroundSpring",
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ],
+        "stiffness_N_per_mm": 2000.0
+      },
+      "support": {
+        "directions": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "node": 1,
+        "owner": "Stabilizer",
+        "position": [
+          10.0,
+          20.0,
+          30.0
+        ]
+      }
+    },
+    "deck": "/private/tmp/freecad-sv7-_7lscq7g/formal-r02/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.inp",
+    "deck_sha256": "0584d2f10161fd897f9792039209b8cee4ff33e7c4b388ac4c9175b12fe2bf55",
+    "elements": [
+      {
+        "dimensions_mm": [
+          2.0,
+          4.0
+        ],
+        "element": 1,
+        "elset": "M0B0RSTDD0",
+        "material": "MECHANICALMATERIAL",
+        "nodes": [
+          1,
+          2,
+          3
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "BeamCrossSection"
+      },
+      {
+        "dimensions_mm": [
+          2.0,
+          4.0
+        ],
+        "element": 2,
+        "elset": "M0B0RSTDD0",
+        "material": "MECHANICALMATERIAL",
+        "nodes": [
+          3,
+          4,
+          5
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "BeamCrossSection"
+      },
+      {
+        "dimensions_mm": [
+          2.0,
+          4.0
+        ],
+        "element": 3,
+        "elset": "M0B0RSTDD0",
+        "material": "MECHANICALMATERIAL",
+        "nodes": [
+          5,
+          6,
+          7
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "BeamCrossSection"
+      },
+      {
+        "dimensions_mm": [
+          2.0,
+          4.0
+        ],
+        "element": 4,
+        "elset": "M0B0RSTDD0",
+        "material": "MECHANICALMATERIAL",
+        "nodes": [
+          7,
+          8,
+          9
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "BeamCrossSection"
+      },
+      {
+        "dimensions_mm": [
+          2.0,
+          4.0
+        ],
+        "element": 5,
+        "elset": "M0B0RSTDD0",
+        "material": "MECHANICALMATERIAL",
+        "nodes": [
+          9,
+          10,
+          11
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "BeamCrossSection"
+      }
+    ],
+    "end_time": 1.0,
+    "frd": {
+      "path": "/private/tmp/freecad-sv7-_7lscq7g/formal-r02/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.frd",
+      "sha256": "8a537aa849a7065e4b4731ddb6d188bf3ce39dd9d91c6e5424d3be5d233fe3e4"
+    },
+    "freecad_version": [
+      "27",
+      "1",
+      "0",
+      "49261 +240 (Git)",
+      "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+      "2026/10/31 13:10:25",
+      "codex/fix-toroidal-self-cut",
+      "64e6da94ac9e5d693f7dafb8495679983a68bb46"
+    ],
+    "model_hash": "3480af5a772ed965ecb36358b9fb4e843b8e0a074982f939aae76a0d4c8db829",
+    "output": "/private/tmp/freecad-sv7-_7lscq7g/formal-r02/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.beam-section.run-daf5d568e6b14bc5bf15d8122bafa00b.out",
+    "output_sha256": "fb1cd02c0eb8f0fa0c62f8d12071f53b15ffb148cbb4cd044612e9c68afe620e",
+    "request": "27b8eec80a7c4d0bb0ce2d65b45a1c51",
+    "request_path": "/private/tmp/freecad-sv7-_7lscq7g/formal-r02/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.beam-section",
+    "request_sha256": "ac0a8f6de7e78079660601a2ba0e7bcdb44dd0d273d944f043d6b3c797b7be3c",
+    "run": {
+      "path": "/private/tmp/freecad-sv7-_7lscq7g/formal-r02/cases/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.beam-section.run-daf5d568e6b14bc5bf15d8122bafa00b",
+      "sha256": "46143c7068c654e231a98da4d1d460dfd39ca5851e057cd9499506a47e010877",
+      "token": "daf5d568e6b14bc5bf15d8122bafa00b"
+    },
+    "schema": "CCX_BEAM_SECTION_V2",
+    "stdout_sha256": "089cfe87ddb07006244bdf6235d5a0af31fab2dc428bab5b717173a42c713756"
+  },
+  "request": "daf5d568e6b14bc5bf15d8122bafa00b",
+  "sample_identity_scope": "ELEMENT_END_BEFORE_NODE_AVERAGING",
+  "schema": "CCX_BEAM_SECTION_V2",
+  "units": {
+    "force": "N",
+    "length": "mm",
+    "moment": "N*mm"
+  }
+}

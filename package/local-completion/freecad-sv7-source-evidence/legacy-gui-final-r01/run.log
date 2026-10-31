@@ -1,0 +1,96 @@
+(qt.qpa.fonts) Populating font family aliases took 88 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +241 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_invalid_output_request_reports_error_and_clears_busy_cursor (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_invalid_output_request_reports_error_and_clears_busy_cursor) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-1nv3szi4/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+Check prerequisites...
+ok
+test_stop_button_cancels_only_its_owned_beam_attempt (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_stop_button_cancels_only_its_owned_beam_attempt) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-ugwelp9c/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+run CalculiX at: /Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-ugwelp9c/Mesh.inp
+ok
+test_visible_solver_write_and_run_saves_current_native_beam_end_actions (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_visible_solver_write_and_run_saves_current_native_beam_end_actions) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-qk03o2sw/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+run CalculiX at: /Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-qk03o2sw/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-qk03o2sw/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/legacy-gui-final-r01/dotted.parent/freecad-beam-gui-qk03o2sw/Mesh.dat
+ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 4.997s
+
+OK
+System exit

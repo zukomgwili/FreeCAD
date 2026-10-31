@@ -17,7 +17,8 @@ def write_connectors(f, writer):
     if context is None:
         context = elastic_connector.PortResolutionContext(mesh, getattr(writer, "analysis", None))
     if any(
-        getattr(row["Object"], "Attachment", "Vertices") == "Rigid body ports"
+        getattr(row["Object"], "Attachment", "Vertices")
+        in ("Rigid body ports", elastic_connector.HYBRID_ATTACHMENT)
         for row in writer.member.cons_elasticconnector
     ):
         # Element/node allocation must use the same fenced native state as
@@ -48,7 +49,7 @@ def _write_connectors(f, writer, context):
         elset = elastic_connector.identifier("EC_", obj)
         orientation = elastic_connector.identifier("EC_ORIENT_", obj)
         nodes = data["nodes"]
-        if "bodies" in data:
+        if "bodies" in data and not data.get("hybrid"):
             ports = [
                 elastic_connector.rigid_body_node_ids(writer.analysis, mesh, body, context)
                 for body in data["bodies"]
@@ -85,16 +86,21 @@ def _write_connectors(f, writer, context):
                 next_node += 1
             nodes = auxiliary
         kind = "SPRING1" if len(nodes) == 1 else "SPRING2"
-        springs.append(
-            {
-                "name": obj.Name,
-                "element": next_id,
-                "nodes": tuple(nodes),
-                "kind": kind,
-                "bodies": tuple(body.Name for body in data.get("bodies", ())),
-                "angles": tuple(angular_bindings),
-            }
-        )
+        spring = {
+            "name": obj.Name,
+            "element": next_id,
+            "nodes": tuple(nodes),
+            "kind": kind,
+            "bodies": tuple(body.Name for body in data.get("bodies", ())),
+            "angles": tuple(angular_bindings),
+        }
+        if data.get("hybrid"):
+            spring.update(
+                hybrid=True,
+                bodies=[data["port"]["name"]],
+                port={**data["port"], "nodes": list(data["port"]["nodes"])},
+            )
+        springs.append(spring)
         f.write(f"\n*ELEMENT, TYPE={kind}, ELSET={elset}\n")
         f.write(",".join(str(value) for value in [next_id] + nodes) + "\n")
         next_id += 1

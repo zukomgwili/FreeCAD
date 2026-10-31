@@ -1,0 +1,11 @@
+"""Retain the complete existing FreeCAD-960 public regression modules."""
+import unittest
+
+
+def load_tests(loader, tests, pattern):
+    return loader.loadTestsFromNames([
+        'femtest.app.test_beam_section_forces',
+        'femtest.app.test_beam_section_forces_native',
+        'femtest.app.test_beam_section_forces_safety',
+        'femtest.app.test_beam_section_forces_lifecycle',
+    ])

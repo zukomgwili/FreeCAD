@@ -1,0 +1,256 @@
+test_native_hybrid_scalar_connector_preserves_separate_beam_solid_and_port_results (Sv7Hybrid.TestHybridBeamSolid.test_native_hybrid_scalar_connector_preserves_separate_beam_solid_and_port_results) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/hybrid-green-r02/cases/hybrid/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShCalculiX failed with exit code 201
+
+
+CalculiX returned an error due to nonpositive jacobian elements.
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+FAIL
+
+======================================================================
+FAIL: test_native_hybrid_scalar_connector_preserves_separate_beam_solid_and_port_results (Sv7Hybrid.TestHybridBeamSolid.test_native_hybrid_scalar_connector_preserves_separate_beam_solid_and_port_results)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-sv7-_7lscq7g/Sv7Hybrid.py", line 38, in test_native_hybrid_scalar_connector_preserves_separate_beam_solid_and_port_results
+    self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout+fea.ccx_stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 0 : 
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sat Oct 31 15:48:12 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:          235
+   elements:          209
+   one-dimensional elements:            2
+   two-dimensional elements:            0
+   integration points per element:           50
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            0
+   concentrated loads:            9
+   single point constraints:          351
+   multiple point constraints:          250
+   terms in all multiple point constraints:         1591
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           18
+   terms in all sets:           49
+
+   materials:            2
+   constants per material and temperature:            4
+   temperature points per material:            2
+   plastic data points per material:            0
+
+   orientations:            1
+   amplitudes:            3
+   data points in all amplitudes:            3
+   print requests:            8
+   transformations:            0
+   property cards:            0
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Decascading the MPC's
+
+ Determining the structure of the matrix:
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 85
+ number of nonzero lower triangular matrix elements
+ 2415
+
+ Using up to 6 cpu(s) for the stress calculation.
+
+ Using up to 6 cpu(s) for the symmetric stiffness/mass contributions.
+
+ *ERROR in e_c3d: nonpositive jacobian
+        determinant in element         101
+
+ *ERROR in e_c3d: nonpositive jacobian
+        determinant in element         103
+
+ *ERROR in e_c3d: nonpositive jacobian
+        determinant in element         102
+
+*ERROR CCX beam section V3: missing complete final native frame
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.331s
+
+FAILED (failures=1)
+ape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+--------start of stderr-------
+*ERROR CCX beam section V3: missing complete final native frame
+--------end of stderr---------
+--------start of stdout-------
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sat Oct 31 15:48:12 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:          235
+   elements:          209
+   one-dimensional elements:            2
+   two-dimensional elements:            0
+   integration points per element:           50
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            0
+   concentrated loads:            9
+   single point constraints:          351
+   multiple point constraints:          250
+   terms in all multiple point constraints:         1591
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           18
+   terms in all sets:           49
+
+   materials:            2
+   constants per material and temperature:            4
+   temperature points per material:            2
+   plastic data points per material:            0
+
+   orientations:            1
+   amplitudes:            3
+   data points in all amplitudes:            3
+   print requests:            8
+   transformations:            0
+   property cards:            0
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Decascading the MPC's
+
+ Determining the structure of the matrix:
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 85
+ number of nonzero lower triangular matrix elements
+ 2415
+
+ Using up to 6 cpu(s) for the stress calculation.
+
+ Using up to 6 cpu(s) for the symmetric stiffness/mass contributions.
+
+ *ERROR in e_c3d: nonpositive jacobian
+        determinant in element         101
+
+ *ERROR in e_c3d: nonpositive jacobian
+        determinant in element         103
+
+ *ERROR in e_c3d: nonpositive jacobian
+        determinant in element         102
+
+
+--------end of stdout---------
+--------start problems---------
+nonpositive_jacobian_elements = [101, 102, 103]
+nonpositive_jacobian_elenodes = [101, 102, 102, 103, 103, 103, 104, 104, 104, 105, 105, 106]
+
+Following some commands to copy. They highlight the nonpositive jacobians or to reset the highlighted nodes:
+Gui.ActiveDocument.HybridMesh.HighlightedNodes = nonpositive_jacobian_elenodes
+Gui.ActiveDocument.HybridMesh.HighlightedNodes = []
+
+
+--------end problems---------

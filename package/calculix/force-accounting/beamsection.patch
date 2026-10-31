@@ -1,11 +1,17 @@
 --- a/ccx_2.23/src/CalculiX.h
 +++ b/ccx_2.23/src/CalculiX.h
-@@ -88,6 +88,10 @@
+@@ -88,6 +88,16 @@
  void cs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,char*,ITG,char*,double*,ITG,ITG,ITG,double*);
  void cs_begin_results(ITG,ITG,ITG,ITG,double*,double*,ITG*,ITG*,char*,ITG*,ITG*,double*,double*,double*,double*,double);
  void cs_emit(ITG,ITG,double);
 +void bs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,ITG,
-+                ITG*,ITG*,char*,char*);
++                ITG*,ITG*,char*,char*,double*,ITG,ITG*,ITG*,double*,
++                ITG*,char*,ITG,char*,ITG,ITG,ITG,ITG,ITG,ITG*,
++                ITG*,ITG*,double*,ITG);
++void bs_begin_actions(ITG,ITG,ITG,double,double*);
++void bs_pointloads(ITG,ITG*,ITG*,double*,ITG,ITG);
++void bs_projected_supports(ITG,ITG,double*,ITG*);
++void bs_mpc_term(ITG,ITG,ITG,double,double);
 +void bs_begin_results(ITG,ITG,ITG,double);
 +void bs_frd_frame(ITG,ITG,ITG,double);
  
@@ -13,39 +19,57 @@
                           ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
 --- a/ccx_2.23/src/ccx_2.23.c
 +++ b/ccx_2.23/src/ccx_2.23.c
-@@ -123,6 +123,9 @@
+@@ -123,6 +123,15 @@
    if(argc==2&&strcmp(argv[1],"--freecad-contact-state-version")==0){
      printf("CCX_CONTACT_STATE_V1\n");return 0;
    }
 +  if(argc==2&&strcmp(argv[1],"--freecad-beam-section-version")==0){
 +    printf("CCX_BEAM_SECTION_V1\n");return 0;
 +  }
++  if(argc==2&&strcmp(argv[1],"--freecad-beam-coupling-version")==0){
++    printf("CCX_BEAM_SECTION_V2\n");return 0;
++  }
++  if(argc==2&&strcmp(argv[1],"--freecad-beam-solid-version")==0){
++    printf("CCX_BEAM_SECTION_V3\n");return 0;
++  }
    if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
    else{
      for(i=1;i<argc;i++){
-@@ -1254,6 +1257,8 @@
+@@ -1254,6 +1263,10 @@
      fa_check_contact_domain(ntie,tieset,tietol,mortar);
      cs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,lakon,
                 ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
 +    bs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,nkon,
-+               ipkon,kon,lakon,filab);
++               ipkon,kon,lakon,filab,co,nboun,nodeboun,ndirboun,xboun,
++               nam>0?iamboun:NULL,typeboun,nmpc,labmpc,nload,nbody,ntie,
++               iprestr,mi[2],ielmat,ipompc,nodempc,coefmpc,memmpc_);
      if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
        {
  	if(iperturb[0]<2){
 --- a/ccx_2.23/src/ccx_2.23step.c
 +++ b/ccx_2.23/src/ccx_2.23step.c
-@@ -1396,6 +1396,8 @@
+@@ -1396,6 +1396,10 @@
      fa_check_contact_domain(ntie,tieset,tietol,mortar);
      cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
                 ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
 +    bs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,nkon,
-+               ipkon,kon,lakon,filab);
++               ipkon,kon,lakon,filab,co,*nboun,nodeboun,ndirboun,xboun,
++               nam>0?iamboun:NULL,typeboun,nmpc,labmpc,*nload,nbody,ntie,
++               iprestr,mi[2],ielmat,ipompc,nodempc,coefmpc,memmpc_);
      if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
        {
  	if(iperturb[0]<2){
 --- a/ccx_2.23/src/results.c
 +++ b/ccx_2.23/src/results.c
-@@ -465,6 +465,7 @@
+@@ -174,6 +174,7 @@
+ 	     &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
+ 	     &ikin,&intpointvart,typeboun,&num_cpus,mortar,nener,iponoeln,
+ 	     network);
++  bs_begin_actions(*iout,*istep,*iinc,*ttime+*time,v);
+   fa_begin_results(*ne,ipkon,kon,lakon,co);
+   cs_begin_results(*iout,*nk,*ne,mt,co,v,ipkon,kon,lakon,itiefac,islavsurf,
+                    pslavsurf,pmastsurf,clearini,springarea,*reltime);
+@@ -465,6 +466,7 @@
       interpolation of 3d results for 1d/2d elements */
  
    if(*mortartrafoflag==0){
@@ -131,3 +155,108 @@
  resultsinduction.c \
  resultsini.c \
  results_se.c \
+--- a/ccx_2.23/src/mafillsmmain.c
++++ b/ccx_2.23/src/mafillsmmain.c
+@@ -398,6 +398,7 @@
+ 			fext,ipompc,nodempc,coefmpc,mi,rhsi,fnext,
+ 			nmethod,ntrans,inotr,trab,co));
+   if(*rhsi==1)fa_pointloads(*nforc,nodeforc,ndirforc,xforc);
++  if(*rhsi==1)bs_pointloads(*nforc,nodeforc,ndirforc,xforc,*nload,*nbody);
+   
+   return;
+ 
+--- a/ccx_2.23/src/resultsforc.c
++++ b/ccx_2.23/src/resultsforc.c
+@@ -45,6 +45,7 @@
+ 	    if(ndir>3) continue;
+ 	    forcempc=fn[mt*node+ndir]/coefmpc[ist];
+ 	    fmpc[i]=forcempc;
++            bs_mpc_term(i+1,node+1,ndir,coefmpc[ist],forcempc);
+ 	    fn[mt*node+ndir]=0.;
+ 	    index=nodempc[3*ist+2]-1;
+ 	    if(index==-1) continue;
+@@ -52,12 +53,16 @@
+ 		node=nodempc[3*index]-1;
+ 		ndir=nodempc[3*index+1];
+ 		fn[mt*node+ndir]-=coefmpc[index]*forcempc;
++                bs_mpc_term(i+1,node+1,ndir,coefmpc[index],forcempc);
+ 		index=nodempc[3*index+2]-1;
+ 		if(index==-1) break;
+ 	    }while(1);
+ 	}
+     }
+     
++/* Read-only observation of the native projected SPC vector. */
++    if(*calcul_fn==1)bs_projected_supports(*nk,mt,fn,nactdof);
++
+ //     calculating the system force vector
+ 
+     if(*calcul_f==1){
+--- a/ccx_2.23/src/springforc_n2f.f
++++ b/ccx_2.23/src/springforc_n2f.f
+@@ -128,6 +128,8 @@
+ !
+          idof=nint(elcon(3,1,imat))
+ !
++         call bs_spring_law(nelem,konl(1),idof,kode,
++     &        nelcon(2,imat),elcon(1,1,imat))
+          if(norien.gt.0) then
+             iorien=max(0,ielorien(1,nelem))
+          else
+@@ -158,6 +160,8 @@
+          do i=1,3
+             fnl(i,1)=fk*xn(i)
+          enddo
++         call bs_spring(nelem,konl(1),idof,kode,nelcon(2,imat),
++     &        elcon(1,1,imat),xn,fnl,vl(1,1))
+          return
+       elseif(lakonl(7:7).eq.'2') then
+ !
+@@ -174,6 +178,8 @@
+          endif
+ !
+          call fa_check_spring(nelem,idof1,idof2,iorien,kode,
++     &        nelcon(2,imat),elcon(1,1,imat))
++         call bs_spring2_law(nelem,konl,idof1,idof2,kode,
+      &        nelcon(2,imat),elcon(1,1,imat))
+ !
+          if(iorien.eq.0) then
+@@ -208,6 +214,8 @@
+             fnl(i,1)=fk*xn1(i)
+             fnl(i,2)=-fk*xn2(i)
+          enddo
++         call bs_spring2(nelem,konl,xn1,xn2,fnl,
++     &        vl(1,1),vl(1,2))
+          return
+       endif
+ !
+--- a/ccx_2.23/src/gen3dboun.f
++++ b/ccx_2.23/src/gen3dboun.f
+@@ -973,6 +973,7 @@
+ !     storing the index of the SPC with the angle
+ !     value in ilboun(id)
+ !     
++              call bs_record_angle(node,idirref,nk,a(1,idirref))
+               ilboun(id)=nboun
+             endif
+ !     
+--- a/ccx_2.23/src/gen3delem.f
++++ b/ccx_2.23/src/gen3delem.f
+@@ -74,6 +74,7 @@
+      &     1.d0,1.d0/
+ !     
+       iflagpl=0
++      call bs_input_mpcs(nmpc)
+       pi=4.d0*datan(1.d0)
+ !     
+ !     open file for 2d-information
+--- a/ccx_2.23/src/rigidmpc.f
++++ b/ccx_2.23/src/rigidmpc.f
+@@ -124,6 +124,7 @@
+          enddo
+          ikboun(id+1)=idof
+          ilboun(id+1)=nboun
++         call bs_record_rigid(node,irefnode,irotnode,nk,nmpc,j)
+        enddo
+ !
+        return

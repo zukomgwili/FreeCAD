@@ -888,8 +888,9 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         from femtools import beam_section_forces
 
         frd_result_file = os.path.splitext(self.inp_file_name)[0] + ".frd"
+        beam_result = None
         if beam_section_forces.enabled(self.solver):
-            beam_section_forces.validate_frd(self, frd_result_file)
+            beam_result = beam_section_forces.validate_frd(self, frd_result_file)
         if os.path.isfile(frd_result_file):
             importCcxFrdResults.importFrd(
                 frd_result_file,
@@ -897,6 +898,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
                 "CCX_",
                 self.solver.AnalysisType,
                 beam_section_forces=beam_section_forces.enabled(self.solver),
+                beam_result=beam_result,
                 trusted_stress_context=(
                     not beam_section_forces.enabled(self.solver)
                     and os.path.isfile(self.inp_file_name)

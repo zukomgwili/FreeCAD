@@ -1,0 +1,67 @@
+{
+  "schema": "FreeCAD-8rk-isolated-native-gate-v1",
+  "mode": "scripts",
+  "command": [
+    "/opt/homebrew/bin/pixi",
+    "run",
+    "--frozen",
+    "cmake",
+    "--build",
+    "build/release",
+    "--target",
+    "FemScriptsTarget",
+    "--parallel",
+    "8"
+  ],
+  "source_inputs_before": {
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/run_gate.py": "556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "/Users/zukomgwili/src/FreeCAD/pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "/Users/zukomgwili/src/FreeCAD/pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "/private/tmp/freecad-sv7-_7lscq7g/run_source.py": "ab02ffb5115c7bac55bb039a2b77523ac92b220e28b7bb7829954332a2b720c1",
+    "/private/tmp/freecad-sv7-_7lscq7g/Sv7Coupled.py": "c02b2d83028ed6d37a1cccf48f74660f4688baf1b2fbcd3213b6cc9101f9143b",
+    "/private/tmp/freecad-sv7-_7lscq7g/Sv7SpringBaseline.py": "f6a181da3089fb9f238faed0cd087b04766476ca2141a19226d01fbc9f0d24ae",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/CMakeLists.txt": "1693df400b51fd2bccf1853c639a4e1189b87cf615fbd42a13514fdb61f1f821",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/beam_coupling.py": "a0c796f6c7de171c4d84178b226e2432f31d4c3e6a25e4757f52383844dcc261",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/beam_section_forces.py": "688b9cc97b6ff141a68928fb803d5418e7d38a2fac5ca33ab844d16ac81bfe18",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_beam_section_forces_native.py": "fc171784ffd3ad75ef3ee7fe51c73767ca884c9a7975561bcdd82758bc2f9623"
+  },
+  "source_commit": "93f621202af73ac8369ad25ac8f42ff99068c8a6",
+  "isolated_temporary_directory": "/private/tmp/freecad-sv7-_7lscq7g/scripts-r03/dotted.parent",
+  "dot_free_substitution": false,
+  "installation_performed": false,
+  "returncode": 0,
+  "timed_out": false,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 0.733326124958694,
+  "source_inputs_after": {
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/run_gate.py": "556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "/Users/zukomgwili/src/FreeCAD/pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "/Users/zukomgwili/src/FreeCAD/pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "/private/tmp/freecad-sv7-_7lscq7g/run_source.py": "ab02ffb5115c7bac55bb039a2b77523ac92b220e28b7bb7829954332a2b720c1",
+    "/private/tmp/freecad-sv7-_7lscq7g/Sv7Coupled.py": "c02b2d83028ed6d37a1cccf48f74660f4688baf1b2fbcd3213b6cc9101f9143b",
+    "/private/tmp/freecad-sv7-_7lscq7g/Sv7SpringBaseline.py": "f6a181da3089fb9f238faed0cd087b04766476ca2141a19226d01fbc9f0d24ae",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/CMakeLists.txt": "1693df400b51fd2bccf1853c639a4e1189b87cf615fbd42a13514fdb61f1f821",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/beam_coupling.py": "a0c796f6c7de171c4d84178b226e2432f31d4c3e6a25e4757f52383844dcc261",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/beam_section_forces.py": "688b9cc97b6ff141a68928fb803d5418e7d38a2fac5ca33ab844d16ac81bfe18",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_beam_section_forces_native.py": "fc171784ffd3ad75ef3ee7fe51c73767ca884c9a7975561bcdd82758bc2f9623"
+  },
+  "source_and_supervisor_unchanged": true,
+  "protected_before": {
+    "/Applications/FreeCAD-27.1.0.app": "7a9939ca460cd34b1f25c71ab42d23c9f0a342f0c3c20b9b9e5784e9152b5df6",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "0c08ebce0e22ce44e3466de94bc88c5156c9e85ea9bcc6a8f10838e9e1cf672c",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "155239397481be1d341a4a40a415deb7e4674652668bf4494a67421209553395",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "protected_after": {
+    "/Applications/FreeCAD-27.1.0.app": "7a9939ca460cd34b1f25c71ab42d23c9f0a342f0c3c20b9b9e5784e9152b5df6",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "0c08ebce0e22ce44e3466de94bc88c5156c9e85ea9bcc6a8f10838e9e1cf672c",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "155239397481be1d341a4a40a415deb7e4674652668bf4494a67421209553395",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "app_and_three_profiles_unchanged": true,
+  "log_sha256": "eeb3b106c92288801d0b5503db06c291d3c4e2413befe3e17131583af755665d",
+  "passed": true
+}

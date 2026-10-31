@@ -1,0 +1,89 @@
+{
+  "application_installed": false,
+  "checks": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "/Users/zukomgwili/Library/Caches/rattler/cache/cached-envs-v0/black-41d69d4403e58f2e/bin/black",
+        "--check",
+        "--line-length",
+        "100",
+        "src/Mod/Fem/TestFemApp.py",
+        "src/Mod/Fem/femcommands/commands.py",
+        "src/Mod/Fem/feminout/importCcxFrdResults.py",
+        "src/Mod/Fem/femobjects/constraint_elastic_connector.py",
+        "src/Mod/Fem/femsolver/calculix/write_constraint_elastic_connector.py",
+        "src/Mod/Fem/femsolver/calculix/write_mesh.py",
+        "src/Mod/Fem/femsolver/calculix/write_step_output.py",
+        "src/Mod/Fem/femtest/app/beam_coupling_fixtures.py",
+        "src/Mod/Fem/femtest/app/test_beam_coupling_native.py",
+        "src/Mod/Fem/femtest/app/test_beam_solid_coupling_native.py",
+        "src/Mod/Fem/femtest/gui/test_beam_coupling.py",
+        "src/Mod/Fem/femtest/gui/test_beam_solid_coupling.py",
+        "src/Mod/Fem/femtools/beam_coupling.py",
+        "src/Mod/Fem/femtools/beam_section_forces.py",
+        "src/Mod/Fem/femtools/beam_solid_coupling.py",
+        "src/Mod/Fem/femtools/beam_solid_results.py",
+        "src/Mod/Fem/femtools/ccxtools.py",
+        "src/Mod/Fem/femtools/checksanalysis.py",
+        "src/Mod/Fem/femtools/elastic_connector.py",
+        "src/Mod/Fem/femviewprovider/view_beam_section_forces.py"
+      ],
+      "returncode": 0,
+      "stderr": "All done! \u2728 \ud83c\udf70 \u2728\n20 files would be left unchanged.\n",
+      "stdout": ""
+    }
+  ],
+  "coupled_inspector_tests": 2,
+  "coupled_native_tests": 11,
+  "ctest_disabled": 8,
+  "ctest_passed": 2267,
+  "ctest_reported": "100% tests passed out of 2269",
+  "ctest_skipped": 2,
+  "fem_failed": 0,
+  "fem_tests": 430,
+  "legacy_beam_inspector_tests": 3,
+  "native_contact_failed": 0,
+  "native_contact_tests": 14,
+  "pure_beam_regressions": 19,
+  "python_ast_parsed": 20,
+  "python_sources": {
+    "src/Mod/Fem/TestFemApp.py": "f6b5538a3c81c66b179c9984d3f00c335a58809c70921e8137acb8c06f0086eb",
+    "src/Mod/Fem/femcommands/commands.py": "ff4e1a44cdc3248f0be8d7542bcc0dd6ffc1093a1746df5f6b5942ad49e32372",
+    "src/Mod/Fem/feminout/importCcxFrdResults.py": "8adbdd2f38cc02e27d2abe8f51c4d54ff474b2322c1e646e99499f781d336a21",
+    "src/Mod/Fem/femobjects/constraint_elastic_connector.py": "c78394d7b8f7bc8e2ea1371fff96e1b2043eb2bf7a6d69af630a1c5cd02dcd78",
+    "src/Mod/Fem/femsolver/calculix/write_constraint_elastic_connector.py": "7ea62a4615f526f11b2bf8c54715a77b97f2ce45971b85dd08e48d1fab5970e7",
+    "src/Mod/Fem/femsolver/calculix/write_mesh.py": "a97e14303d9e4c1aad77aa5ba59e90e5c85e0ba687df851b4606c70ed65ba264",
+    "src/Mod/Fem/femsolver/calculix/write_step_output.py": "be202aa43a4388b9b0f366b4804a7bc8ec31c22f2c365e32a1be4dd14bca0db2",
+    "src/Mod/Fem/femtest/app/beam_coupling_fixtures.py": "dedcb4b88afc5539d761b934711bc44512d192a046a7a1604bc9a429dd9d8b59",
+    "src/Mod/Fem/femtest/app/test_beam_coupling_native.py": "082dcedf967c28a0077c3896830a1cae42ffef3153eb6c862eeea8d5e66739cf",
+    "src/Mod/Fem/femtest/app/test_beam_solid_coupling_native.py": "b04d71491d1ad92708f4ec0d24252fc4097b6e5a60f7c373f8f8cf8490f09436",
+    "src/Mod/Fem/femtest/gui/test_beam_coupling.py": "b2ff1295e80b9d87002eeeec38021a5404e61c1d6708072df9e607baafcb9624",
+    "src/Mod/Fem/femtest/gui/test_beam_solid_coupling.py": "88fdfdd727a738b1fabf458c6e19b3ecf6623049ec7ff88d69489d2f3f85de4d",
+    "src/Mod/Fem/femtools/beam_coupling.py": "a0c796f6c7de171c4d84178b226e2432f31d4c3e6a25e4757f52383844dcc261",
+    "src/Mod/Fem/femtools/beam_section_forces.py": "ae362eae85f1492ec72dad04da49472d853f47389751e6d71ed4372d4f11da7c",
+    "src/Mod/Fem/femtools/beam_solid_coupling.py": "fc8145c06d203483da9ca2461a2c29eb69da3a95355ad13e63addd21bcdb5246",
+    "src/Mod/Fem/femtools/beam_solid_results.py": "5f97db3d2154d2a088ae755cbfaad73ec503c333e731226ac078df61a737ea42",
+    "src/Mod/Fem/femtools/ccxtools.py": "2a460d92901048225a7d5da6e7f7f0be57d8d5d759d5a2f23c1e3f637a9d8b53",
+    "src/Mod/Fem/femtools/checksanalysis.py": "4bd0f7c8fa56e8373f5e32dbcecebc2805453ed684254034e92878a66a3dee38",
+    "src/Mod/Fem/femtools/elastic_connector.py": "22c994a9b0be981a0fd0b84f3dcde5ddcf8b28b3ff5d196a2a2b6d3418e21323",
+    "src/Mod/Fem/femviewprovider/view_beam_section_forces.py": "af09cef1b696629762b85812516b6c3998c32f7ef9792dc390669ffe38ee5830"
+  },
+  "reviews": {
+    "arithmetic": "freecad-sv7-independent-audit.json",
+    "gui": "Stable V2/V3 inspector and scope review passed",
+    "spec": "No remaining actionable findings after corrections",
+    "standards": "No remaining actionable findings"
+  },
+  "schema": "FreeCAD-sv7-final-quality-v1",
+  "source_base_commit": "93f621202af73ac8369ad25ac8f42ff99068c8a6"
+}

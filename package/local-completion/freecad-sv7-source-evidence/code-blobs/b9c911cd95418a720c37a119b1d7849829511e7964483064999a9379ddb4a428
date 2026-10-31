@@ -1,0 +1,84 @@
+"""Root-only source gates with immutable snapshots and installed-app custody."""
+import hashlib
+import importlib.util
+import os
+from pathlib import Path
+import shutil
+import sys
+
+sys.dont_write_bytecode = True
+ROOT = Path(__file__).resolve().parent
+REPO = Path('/Users/zukomgwili/src/FreeCAD')
+GUARD = REPO / 'package/local-completion/freecad-8rk-installation-evidence/run_gate.py'
+assert hashlib.sha256(GUARD.read_bytes()).hexdigest() == '556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e'
+spec = importlib.util.spec_from_file_location('_sv7_source_guard', GUARD)
+core = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(core)
+core.ROOT = ROOT
+core.SOURCE_FILES = tuple(map(str, (
+    Path(__file__).resolve(), ROOT/'Sv7Coupled.py', ROOT/'Sv7SpringBaseline.py',
+    REPO/'src/Mod/Fem/CMakeLists.txt', REPO/'src/Mod/Fem/femtools/beam_coupling.py',
+    REPO/'src/Mod/Fem/femtools/beam_section_forces.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_section_forces_native.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_coupling_native.py', REPO/'src/Mod/Fem/TestFemApp.py',
+    ROOT/'Sv7Cold.py',
+    ROOT/'Sv7Regressions.py',
+    ROOT/'Sv7Hybrid.py', REPO/'src/Mod/Fem/femtest/app/beam_coupling_fixtures.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_solid_coupling_native.py',
+    REPO/'src/Mod/Fem/femtest/gui/test_beam_solid_coupling.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_section_forces.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_section_forces_safety.py',
+    REPO/'src/Mod/Fem/femtest/app/test_beam_section_forces_lifecycle.py',
+    REPO/'src/Mod/Fem/femtest/gui/test_beam_coupling.py',
+    REPO/'src/Mod/Fem/femviewprovider/view_beam_section_forces.py',
+)))
+core.SOURCE_FILES += tuple(str(REPO/'src/Mod/Fem'/name) for name in (
+    'femtools/beam_solid_coupling.py', 'femtools/beam_solid_results.py',
+    'femtools/elastic_connector.py', 'femtools/checksanalysis.py', 'femtools/ccxtools.py',
+    'femobjects/constraint_elastic_connector.py', 'femcommands/commands.py',
+    'femsolver/calculix/write_constraint_elastic_connector.py',
+    'femsolver/calculix/write_mesh.py', 'femsolver/calculix/write_step_output.py',
+    'feminout/importCcxFrdResults.py',
+))
+core.SOURCE_FILES += tuple(str(REPO/'package/calculix/force-accounting'/name)
+                          for name in ('beamsection.c', 'beamsection.patch'))
+core.SOURCE_FILES += (str(ROOT/'Sv7Controls.py'),
+ str(ROOT/'hybrid-green-r03/cases/hybrid/HybridMesh.inp'),
+ str(ROOT/'hybrid-green-r03/cases/hybrid/HybridMesh.frd'),
+ '/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting')
+run = ROOT / sys.argv[1]
+os.environ['SV7_CASE_ROOT'] = str(run/'cases')
+os.environ['SV7_WITNESS_ROOT'] = str(run/'cases')
+if os.environ.get('SV7_TEST_SOLVER'):
+    core.SOURCE_FILES += (os.environ['SV7_TEST_SOLVER'],)
+    os.environ['B960_TEST_SOLVER'] = os.environ['SV7_TEST_SOLVER']
+prefix = ['/opt/homebrew/bin/pixi', 'run', '--frozen']
+core.COMMANDS = {
+    'scripts': prefix + ['cmake', '--build', 'build/release', '--target', 'FemScriptsTarget', 'FemGuiScriptsTarget', '--parallel', '8'],
+    'coupled': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-P', str(ROOT), '-t', 'Sv7Coupled'],
+    'formal': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-t', 'femtest.app.test_beam_coupling_native'],
+    'cold': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-P', str(ROOT), '-t', 'Sv7Cold'],
+    'gui': prefix + [str(REPO/'build/release/bin/FreeCAD'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-t', 'femtest.gui.test_beam_coupling'],
+    'beam-regressions': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-P', str(ROOT), '-t', 'Sv7Regressions'],
+    'hybrid': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-P', str(ROOT), '-t', 'Sv7Hybrid'],
+    'controls': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-P', str(ROOT), '-t', 'Sv7Controls'],
+    'solid-formal': prefix + [str(REPO/'build/release/bin/FreeCADCmd'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-t', 'femtest.app.test_beam_solid_coupling_native'],
+    'solid-gui': prefix + [str(REPO/'build/release/bin/FreeCAD'), '-u', str(run/'user.cfg'),
+                       '-s', str(run/'system.cfg'), '-t', 'femtest.gui.test_beam_solid_coupling'],
+}
+blobs = ROOT/'code-blobs'
+blobs.mkdir(exist_ok=True)
+for path in map(Path, core.SOURCE_FILES):
+    target = blobs/hashlib.sha256(path.read_bytes()).hexdigest()
+    if not target.exists():
+        shutil.copyfile(path, target)
+if __name__ == '__main__':
+    raise SystemExit(core.main())

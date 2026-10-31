@@ -1,0 +1,355 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Partition owned native beam/solid output without reinterpreting beam forces.
+
+The mixed MechanicalResult carries only physical-node displacements. A
+separate ordinary MechanicalResult carries the literal native solid stresses
+on its own Tet4 mesh. This module performs no force or stress recovery.
+"""
+
+import json
+import math
+from pathlib import Path
+
+import FreeCAD as App
+
+SCHEMA = "CCX_BEAM_SECTION_V3"
+ELEMENT_KEYS = (
+    "Seg2Elem",
+    "Seg3Elem",
+    "Tria3Elem",
+    "Tria6Elem",
+    "Quad4Elem",
+    "Quad8Elem",
+    "Tetra4Elem",
+    "Tetra10Elem",
+    "Hexa8Elem",
+    "Hexa20Elem",
+    "Penta6Elem",
+    "Penta15Elem",
+)
+
+
+def owned_source(filename, analysis, beam_result):
+    """Capture the exact current V3 source, or return None for legacy beams."""
+    from femtools import beam_section_forces
+
+    if beam_result is None:
+        return None
+    if (
+        analysis is None
+        or not isinstance(
+            getattr(beam_result, "Proxy", None), beam_section_forces.BeamSectionForceResult
+        )
+        or beam_result.Document != analysis.Document
+        or beam_result.Analysis != analysis
+        or beam_result not in analysis.Group
+    ):
+        raise ValueError(
+            "Mixed solid stresses require the actual native beam result in this analysis"
+        )
+    data = beam_result.Proxy.getSectionForces(beam_result)
+    if data["schema"] != SCHEMA:
+        return None
+    provenance = data["provenance"]
+    coupling = provenance.get("coupling")
+    if not isinstance(coupling, dict) or coupling.get("schema") != SCHEMA:
+        raise ValueError("Native mixed output has no qualified beam/solid owner catalogue")
+    frames = data["frames"]
+    if len(frames) != 1 or frames[0]["step"] != 1:
+        raise ValueError("Mixed solid result import requires one final static native frame")
+    frame = frames[0]
+    if not math.isclose(frame["time"], provenance["end_time"], rel_tol=1e-10, abs_tol=1e-12):
+        raise ValueError("Native mixed source frame is not the completed static state")
+    selected = Path(filename).resolve(strict=True)
+    source = provenance["frd"]
+    if str(selected) != source["path"]:
+        raise ValueError("Mixed result file is not the native beam run's exact FRD source")
+    literal, digest = beam_section_forces._read(selected)
+    if digest != source["sha256"]:
+        raise ValueError("Mixed result FRD changed after its owned native completion")
+    if Path(str(selected.with_suffix("")) + "_inout_nodes.txt").exists():
+        raise ValueError("Mixed beam/solid output does not admit 1D-flow node remapping")
+    solid_owner = analysis.Document.getObject(coupling.get("solid_owner", ""))
+    if solid_owner is None or not getattr(solid_owner, "Shape", None):
+        raise ValueError("Native solid result owner is unavailable in this document")
+    return {
+        "beam_result": beam_result,
+        "analysis": analysis,
+        "data": data,
+        "coupling": coupling,
+        "literal": literal,
+        "sha256": digest,
+        "solid_owner": solid_owner,
+        "frame": json.dumps(
+            {
+                "schema": SCHEMA,
+                "case": provenance["case"],
+                "step": frame["step"],
+                "increment": frame["increment"],
+                "frame": frame["frame"],
+                "time": frame["time"],
+                "units": data["units"],
+            },
+            sort_keys=True,
+            allow_nan=False,
+        ),
+    }
+
+
+def _labels(value, count=None):
+    if (
+        not isinstance(value, (list, tuple))
+        or not value
+        or any(type(node) is not int or node < 1 for node in value)
+        or len(set(value)) != len(value)
+        or count is not None
+        and len(value) != count
+    ):
+        raise ValueError("Native mixed node/element catalogue has invalid identities")
+    return list(value)
+
+
+def _finite_vector(value, count):
+    try:
+        return len(value) == count and all(
+            type(component) in (int, float) and math.isfinite(component) for component in value
+        )
+    except (TypeError, ValueError):
+        return False
+
+
+def _coordinate_matches(actual, expected):
+    # Native ASCII FRD casts to float and writes six significant digits.
+    # This checks coordinate identity within that reporting precision only.
+    for observed, original in zip(actual, expected):
+        decimal = 0.5 * 10 ** (math.floor(math.log10(abs(original))) - 5) if original else 0
+        bound = decimal + abs(original) * 2**-24 + 1e-12
+        if abs(observed - original) > bound:
+            return False
+    return True
+
+
+def _element_catalogue(rows, count):
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("Native mixed element owner catalogue is missing")
+    result = {}
+    for row in rows:
+        element = row.get("element") if isinstance(row, dict) else None
+        if type(element) is not int or element < 1 or element in result:
+            raise ValueError("Native mixed element owner identity is invalid or repeated")
+        result[element] = _labels(row.get("nodes"), count)
+    return result
+
+
+def _audit_declarations(literal, parsed):
+    """Reject unsupported or duplicate FRD entities hidden by a dict parser."""
+    mode, nodes, elements = "", set(), {}
+    for line in literal.decode("utf-8").splitlines():
+        if line[4:6] in ("2C", "3C"):
+            mode = line[4:6]
+        elif line[1:3] == "-3":
+            mode = ""
+        elif line[1:3] == "-1" and mode:
+            number = int(line[4:13])
+            if number < 1:
+                raise ValueError("Native FRD entity labels must be positive")
+            if mode == "2C":
+                if number in nodes:
+                    raise ValueError("Repeated original node in native mixed FRD")
+                nodes.add(number)
+            else:
+                kind = int(line[14:18])
+                if number in elements or kind not in (3, 11, 12):
+                    raise ValueError("Repeated or unsupported element in native mixed FRD")
+                elements[number] = kind
+    expected = {}
+    for key, kind in (("Tetra4Elem", 3), ("Seg2Elem", 11), ("Seg3Elem", 12)):
+        for element in parsed[key]:
+            if element in expected:
+                raise ValueError("Native mixed element has more than one topology")
+            expected[element] = kind
+    if nodes != set(parsed["Nodes"]) or elements != expected:
+        raise ValueError("Native mixed FRD declarations do not match the parsed mesh")
+
+
+def partition(parsed, context):
+    """Return displacement-only mixed data and exact solid-only native fields."""
+    coupling = context["coupling"]
+    beam_nodes = set(_labels(coupling.get("beam_nodes")))
+    solid_nodes = set(_labels(coupling.get("solid_nodes")))
+    if beam_nodes & solid_nodes:
+        raise ValueError("Native beam and solid result node owners must be disjoint")
+    physical_nodes = beam_nodes | solid_nodes
+    beam = _element_catalogue(context["data"]["provenance"]["elements"], 3)
+    solid = _element_catalogue(coupling.get("solid_elements"), 4)
+    if set(beam) & set(solid):
+        raise ValueError("Native beam and solid element owners overlap")
+    if {node for nodes in beam.values() for node in nodes} != beam_nodes or {
+        node for nodes in solid.values() for node in nodes
+    } != solid_nodes:
+        raise ValueError("Native physical node catalogue does not cover its exact element owners")
+    expected_beams = {element: (nodes[0], nodes[2], nodes[1]) for element, nodes in beam.items()}
+    # The stock FRD reader changes the original Tet4 first/second order into
+    # FreeCAD's native order. Preserve that canonical order in both meshes.
+    expected_solids = {
+        element: (nodes[1], nodes[0], nodes[2], nodes[3]) for element, nodes in solid.items()
+    }
+    if parsed["Seg3Elem"] != expected_beams or parsed["Tetra4Elem"] != expected_solids:
+        raise ValueError(
+            "Actual FRD beam/solid connectivity differs from the frozen owner catalogue"
+        )
+    spring = coupling["spring"]
+    spring_nodes = tuple(_labels(spring["nodes"], 2))
+    spring_element = spring["element"]
+    port = coupling["port"]
+    receivers = _labels(port["nodes"])
+    if (
+        type(spring_element) is not int
+        or spring_element < 1
+        or spring_element in set(beam) | set(solid)
+        or spring_nodes[0] not in beam_nodes
+        or type(port["reference"]) is not int
+        or port["reference"] < 1
+        or type(port["rotation"]) is not int
+        or port["rotation"] < 1
+        or port["reference"] == port["rotation"]
+        or spring_nodes[1] != port["reference"]
+        or port["reference"] in physical_nodes
+        or port["rotation"] in physical_nodes
+        or len(receivers) < 3
+        or not set(receivers).issubset(solid_nodes)
+        or parsed["Seg2Elem"] not in ({}, {spring_element: spring_nodes})
+    ):
+        raise ValueError(
+            "Native spring/rigid-port incidence differs from the qualified mixed topology"
+        )
+    if any(
+        parsed[key] for key in ELEMENT_KEYS if key not in ("Seg2Elem", "Seg3Elem", "Tetra4Elem")
+    ):
+        raise ValueError("Native mixed result contains an unqualified physical element type")
+    if parsed["Seg2Elem"] and not set(spring_nodes).issubset(parsed["Nodes"]):
+        raise ValueError("Native mixed FRD spring refers to an unavailable node")
+    _audit_declarations(context["literal"], parsed)
+    coordinates = {}
+    for row in coupling.get("nodes", ()):
+        node = row.get("node") if isinstance(row, dict) else None
+        position = row.get("position") if isinstance(row, dict) else None
+        if type(node) is not int or node in coordinates or not _finite_vector(position, 3):
+            raise ValueError("Native mixed physical coordinate catalogue is invalid")
+        coordinates[node] = position
+    if set(coordinates) != physical_nodes or not physical_nodes.issubset(parsed["Nodes"]):
+        raise ValueError("Native mixed FRD is missing original physical nodes")
+    for node in physical_nodes:
+        if not _finite_vector(parsed["Nodes"][node], 3) or not _coordinate_matches(
+            parsed["Nodes"][node], coordinates[node]
+        ):
+            raise ValueError("Native mixed FRD physical coordinates differ from the original mesh")
+    results = parsed["Results"]
+    if len(results) != 1:
+        raise ValueError("Native mixed import requires exactly one static FRD result frame")
+    result = results[0]
+    frame = context["data"]["frames"][0]
+    if (
+        not math.isfinite(result.get("time", float("nan")))
+        or not math.isclose(result["time"], frame["time"], rel_tol=1e-7, abs_tol=1e-10)
+        or result.get("number", 0) > 0
+        or not isinstance(result.get("disp"), dict)
+        or not isinstance(result.get("stress"), dict)
+    ):
+        raise ValueError("Native mixed FRD fields do not belong to the final static source frame")
+    for node in physical_nodes:
+        if node not in result["disp"] or not _finite_vector(result["disp"][node], 3):
+            raise ValueError("Native mixed displacement is missing a physical node")
+    for node in solid_nodes:
+        if node not in result["stress"] or not _finite_vector(result["stress"][node], 6):
+            raise ValueError("Native solid stress is missing or nonfinite on its exact owner nodes")
+
+    def subset(nodes, with_stress):
+        ordered = sorted(nodes)
+        values = {"time": result["time"], "disp": {node: result["disp"][node] for node in ordered}}
+        if with_stress:
+            values["stress"] = {node: result["stress"][node] for node in ordered}
+        mesh = {key: {} for key in ELEMENT_KEYS}
+        mesh["Nodes"] = {node: parsed["Nodes"][node] for node in ordered}
+        mesh["Tetra4Elem"] = dict(parsed["Tetra4Elem"])
+        if not with_stress:
+            mesh["Seg3Elem"] = dict(parsed["Seg3Elem"])
+        mesh["Results"] = [values]
+        return mesh
+
+    return subset(physical_nodes, False), subset(solid_nodes, True)
+
+
+def bind_provenance(result, context, *, solid=False):
+    """Save original node-array identity before the standard mesh compaction."""
+    values = (
+        (
+            "App::PropertyIntegerList",
+            "NativeSourceNodeNumbers",
+            list(result.NodeNumbers),
+            "Original native node IDs in the same order as the result arrays",
+        ),
+        (
+            "App::PropertyIntegerList",
+            "NativeSourceElementNumbers",
+            list(result.Mesh.FemMesh.Edges) + list(result.Mesh.FemMesh.Volumes),
+            "Original native element IDs in compacted mesh element order",
+        ),
+        (
+            "App::PropertyLink",
+            "NativeBeamSource",
+            context["beam_result"],
+            "Owned native beam result",
+        ),
+        (
+            "App::PropertyString",
+            "NativeSourceFileHash",
+            context["sha256"],
+            "Exact native FRD SHA256",
+        ),
+        (
+            "App::PropertyString",
+            "NativeSourceFrame",
+            context["frame"],
+            "Original native case and frame",
+        ),
+    )
+    if solid:
+        values += (
+            (
+                "App::PropertyLink",
+                "NativeSolidOwner",
+                context["solid_owner"],
+                "Original physical solid owner",
+            ),
+        )
+    for kind, name, value, description in values:
+        result.addProperty(kind, name, "Native source", description)
+        setattr(result, name, value)
+        result.setPropertyStatus(name, "LockDynamic")
+        result.setPropertyStatus(name, "Output")
+        result.setEditorMode(name, 1)
+
+
+def make_solid_result(parsed, context, result_name):
+    """Create a standard solid-only result from literal, already checked fields."""
+    import ObjectsFem
+    from feminout import importToolsFem
+    from femresult import resulttools
+
+    analysis = context["analysis"]
+    doc = analysis.Document
+    result = ObjectsFem.makeResultMechanical(doc, result_name)
+    mesh = ObjectsFem.makeMeshResult(doc, result_name + "_Mesh")
+    mesh.FemMesh = importToolsFem.make_femmesh(parsed)
+    result.Mesh = mesh
+    importToolsFem.fill_femresult_mechanical(result, parsed["Results"][0])
+    result.Time = parsed["Results"][0]["time"]
+    analysis.addObject(result)
+    bind_provenance(result, context, solid=True)
+    resulttools.compact_result(result)
+    resulttools.add_disp_apps(result)
+    resulttools.add_von_mises(result)
+    resulttools.add_principal_stress_std(result)
+    resulttools.fill_femresult_stats(result)
+    return result

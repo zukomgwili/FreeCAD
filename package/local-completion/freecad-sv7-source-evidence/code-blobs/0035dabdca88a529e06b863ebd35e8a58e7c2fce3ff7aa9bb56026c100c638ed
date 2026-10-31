@@ -1,0 +1,374 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Admission and wire validation for native beam/ground-spring observations.
+
+The first coupled domain is a straight uniform beam chain, one scalar ground
+spring, one zero five-DOF endpoint restraint and one opposite-end point load.
+All actions come from native observers; this module does not recover forces.
+"""
+
+import math
+import re
+
+import FreeCAD as App
+
+from femtools.elastic_connector import endpoint_node
+from femtools.elastic_connector import resolve_connector
+from femtools.membertools import AnalysisMember
+from femtools.membertools import get_member
+
+SCHEMA = "CCX_BEAM_SECTION_V2"
+
+
+def _vertex(obj, mesh):
+    refs = list(obj.References)
+    if len(refs) != 1 or len(refs[0][1]) != 1 or not refs[0][1][0].startswith("Vertex"):
+        raise ValueError("Coupled beam observations require a single vertex reference")
+    return endpoint_node(refs[0], mesh)
+
+
+def plan(analysis, solver, mesh):
+    """Admit only the separately qualified, ordinary vertex-spring domain."""
+    members = AnalysisMember(analysis)
+    connectors = members.cons_elasticconnector
+    if not connectors:
+        return None
+    allowed = {"cons_displacement", "cons_force", "cons_elasticconnector"}
+    if any(
+        value
+        for key, value in vars(members).items()
+        if key.startswith("cons_") and key not in allowed
+    ):
+        raise ValueError(
+            "Coupled beam observations do not support other constraints or cut/contact outputs"
+        )
+    if (
+        len(connectors) != 1
+        or len(members.cons_displacement) != 1
+        or len(members.cons_force) != 1
+        or len(members.geos_beamsection) != 1
+        or members.geos_beamrotation
+        or len(members.mats_linear) != 1
+        or members.mats_nonlinear
+    ):
+        raise ValueError(
+            "Coupled beam observations require one spring, restraint, force, section and material"
+        )
+    spring = connectors[0]["Object"]
+    support = members.cons_displacement[0]["Object"]
+    source = members.cons_force[0]["Object"]
+    if any(obj not in (support, source) for obj in get_member(analysis, "Fem::Constraint")):
+        raise ValueError("Coupled beam observations have an unsupported native constraint")
+    if any(
+        not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", obj.Name) for obj in (spring, support, source)
+    ):
+        raise ValueError("Coupled beam owner names require native ASCII identifiers")
+    if spring.Attachment != "Vertices" or spring.Kind != "Translational" or spring.Mode != "Ground":
+        raise ValueError(
+            "Coupled beam observations qualify only a grounded translational vertex spring"
+        )
+    data = resolve_connector(spring, mesh, analysis)
+    if data["rotation"].Angle > 1e-12 or spring.OrientationReference:
+        raise ValueError("Coupled beam observations require a spring along a global axis")
+    node = data["nodes"][0]
+    if _vertex(support, mesh) != node:
+        raise ValueError("The beam restraint and ground spring must share one endpoint")
+    source_node = _vertex(source, mesh)
+    if source_node == node:
+        raise ValueError("The source must be at the opposite beam endpoint")
+    direction = data["dof"]
+    directions = []
+    for index, axis in enumerate("xyz", 1):
+        if support.getPropertyByName(axis + "Free") != (index == direction):
+            raise ValueError("The beam restraint must leave only the spring translation free")
+        if support.getPropertyByName(axis + "Displacement").Value != 0:
+            raise ValueError("Coupled beam observations require zero prescribed displacement")
+        if index != direction:
+            directions.append(index)
+        if (
+            support.getPropertyByName("rot" + axis + "Free")
+            or support.getPropertyByName(axis + "Rotation").Value != 0
+        ):
+            raise ValueError("Coupled beam observations require three zero prescribed rotations")
+    directions.extend((4, 5, 6))
+    if any(getattr(obj, "EnableAmplitude", False) for obj in (support, source)):
+        raise ValueError("Coupled beam observations do not support amplitudes")
+    if list(getattr(solver, "NativeAccountingSupports", ())):
+        raise ValueError(
+            "Coupled beam observations have their own complete support catalogue; clear NativeAccountingSupports"
+        )
+    native = mesh.FemMesh
+    coordinates = native.Nodes
+    graph, midsides = {}, set()
+    for element in native.Edges:
+        first, last, middle = native.getElementNodes(element)
+        graph.setdefault(first, []).append(last)
+        graph.setdefault(last, []).append(first)
+        if middle in midsides:
+            raise ValueError("Coupled beam midside nodes must belong to one element")
+        midsides.add(middle)
+    if (
+        set(graph) & midsides
+        or set(coordinates) != set(graph) | midsides
+        or {key for key, neighbours in graph.items() if len(neighbours) == 1} != {node, source_node}
+        or any(len(neighbours) > 2 for neighbours in graph.values())
+    ):
+        raise ValueError("Coupled beam observations require one unbranched chain")
+    visited, pending = set(), [node]
+    while pending:
+        current = pending.pop()
+        if current not in visited:
+            visited.add(current)
+            pending.extend(graph[current])
+    if visited != set(graph):
+        raise ValueError("Coupled beam observations require a connected beam chain")
+    previous, current = None, node
+    reference = coordinates[source_node] - coordinates[node]
+    while current != source_node:
+        following = next(neighbour for neighbour in graph[current] if neighbour != previous)
+        if (coordinates[following] - coordinates[current]).dot(reference) <= 0:
+            raise ValueError(
+                "Coupled beam observations do not support overlapping/backtracking elements"
+            )
+        previous, current = current, following
+    components = [0, 0, 0]
+    components[direction - 1] = 1
+    axis = App.Vector(*components)
+    span = coordinates[source_node] - coordinates[node]
+    if (
+        span.Length <= 0
+        or span.cross(axis).Length > 1e-10 * span.Length
+        or any(
+            (point - coordinates[node]).cross(axis).Length > 1e-10 * span.Length
+            for point in coordinates.values()
+        )
+    ):
+        raise ValueError("Coupled beam observations require a straight chain along the spring axis")
+    return {
+        "source": {
+            "owner": source.Name,
+            "node": source_node,
+            "position": list(coordinates[source_node]),
+        },
+        "support": {
+            "owner": support.Name,
+            "node": node,
+            "directions": directions,
+            "position": list(coordinates[node]),
+        },
+        "spring": {
+            "owner": spring.Name,
+            "node": node,
+            "direction": direction,
+            "stiffness_N_per_mm": data["stiffness"],
+            "position": list(coordinates[node]),
+        },
+    }
+
+
+def catalogue(writer, literal, admitted):
+    """Bind the limited model to the actual stock-written scalar element."""
+    springs = list(getattr(writer, "native_accounting_springs", ()))
+    if len(springs) != 1:
+        raise ValueError("Coupled beam spring catalogue is incomplete")
+    row = springs[0]
+    spring = admitted["spring"]
+    if (
+        row["name"] != spring["owner"]
+        or row["kind"] != "SPRING1"
+        or list(row["nodes"]) != [spring["node"]]
+        or row["bodies"]
+        or row["angles"]
+    ):
+        raise ValueError("Coupled beam spring differs from the native writer")
+    result = {**admitted, "spring": {**spring, "element": row["element"]}}
+    forbidden = {
+        "*DLOAD",
+        "*DSLOAD",
+        "*CFLUX",
+        "*DFLUX",
+        "*TEMPERATURE",
+        "*INITIAL CONDITIONS",
+        "*AMPLITUDE",
+        "*TRANSFORM",
+        "*EQUATION",
+        "*RIGID BODY",
+        "*TIE",
+        "*CONTACT PAIR",
+    }
+    mode, load, boundaries, coordinates = "", [0.0, 0.0, 0.0], set(), {}
+    for raw in literal.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("**"):
+            continue
+        if line.startswith("*"):
+            mode = line.split(",", 1)[0].strip().upper()
+            if mode in forbidden or mode in {"*BOUNDARY", "*CLOAD"} and "," in line:
+                raise ValueError(
+                    "Unsupported native load, equation or boundary in coupled beam input"
+                )
+        elif mode == "*NODE":
+            values = line.split(",")
+            coordinates[int(values[0])] = list(map(float, values[1:]))
+        elif mode == "*CLOAD":
+            values = line.split(",")
+            node, direction, force = int(values[0]), int(values[1]), float(values[2])
+            if (
+                node != result["source"]["node"]
+                or direction not in (1, 2, 3)
+                or not math.isfinite(force)
+            ):
+                raise ValueError("Coupled beam input has an unexpected point-load identity")
+            load[direction - 1] += force
+        elif mode == "*BOUNDARY":
+            owner, first, last, value = line.split(",")
+            if owner.strip() != result["support"]["owner"] or float(value) != 0:
+                raise ValueError("Coupled beam input has an unexpected restraint")
+            for direction in range(int(first), int(last) + 1):
+                if direction in boundaries:
+                    raise ValueError("Repeated coupled beam boundary direction")
+                boundaries.add(direction)
+    if (
+        boundaries != set(result["support"]["directions"])
+        or not any(load)
+        or not all(map(math.isfinite, load))
+    ):
+        raise ValueError("Coupled beam input has incomplete source/restraint declarations")
+    result["source"] = {**result["source"], "force_global": load}
+    for name in ("source", "support", "spring"):
+        result[name] = {**result[name], "position": coordinates[result[name]["node"]]}
+    return result
+
+
+def request_lines(coupling):
+    source, support, spring = (coupling[name] for name in ("source", "support", "spring"))
+    return [
+        f"SPRING {spring['owner']} {spring['element']} {spring['node']} {spring['direction']}",
+        f"SOURCE {source['owner']} {source['node']}",
+        "SUPPORT {} {} {} {}".format(
+            support["owner"],
+            support["node"],
+            len(support["directions"]),
+            " ".join(map(str, support["directions"])),
+        ),
+    ]
+
+
+def validate(actions, coupling):
+    """Check identities and finite native actions without accepting equilibrium."""
+
+    def vector(value):
+        return (
+            isinstance(value, list)
+            and len(value) == 3
+            and all(type(item) in (int, float) and math.isfinite(item) for item in value)
+        )
+
+    def close(first, second):
+        return all(abs(a - b) <= 1e-12 * max(1, abs(a), abs(b)) for a, b in zip(first, second))
+
+    def transported(position, force):
+        return list(App.Vector(*position).cross(App.Vector(*force)))
+
+    if (
+        not isinstance(actions, dict)
+        or actions.get("position_frame") != "ORIGINAL_GLOBAL"
+        or actions.get("moment_reference") != "GLOBAL_ORIGIN"
+        or actions.get("force_action") != "ON_STRUCTURAL_MODEL"
+    ):
+        raise ValueError("Native coupled beam actions have an invalid frame or convention")
+    for name in ("source", "support", "spring"):
+        row, expected = actions.get(name, {}), coupling[name]
+        if not isinstance(row, dict):
+            raise ValueError("Native coupled beam action must be a record")
+        if any(
+            row.get(key) != expected[key] or type(row.get(key)) != type(expected[key])
+            for key in ("owner", "node")
+        ) or not all(vector(row.get(key)) for key in ("force_global", "moment_origin", "position")):
+            raise ValueError("Native coupled beam action identity or finite wrench is unavailable")
+        if not close(row["position"], expected["position"]):
+            raise ValueError("Native coupled action position differs from the original input")
+        if name != "support" and not close(
+            row["moment_origin"], transported(row["position"], row["force_global"])
+        ):
+            raise ValueError("Native source/spring origin transport is inconsistent")
+    if not close(actions["source"]["force_global"], coupling["source"]["force_global"]):
+        raise ValueError("Native point-load catalogue differs from the stock input")
+    spring = actions["spring"]
+    if (
+        type(spring.get("element")) is not int
+        or spring["element"] != coupling["spring"]["element"]
+        or not vector(spring.get("native_resisting_force"))
+        or not vector(spring.get("displacement"))
+    ):
+        raise ValueError("Native ground spring identity or observation is unavailable")
+    if any(a != -b for a, b in zip(spring["force_global"], spring["native_resisting_force"])):
+        raise ValueError("Native ground spring action has an inconsistent sign")
+    spcs = actions["support"].get("spcs")
+    if not isinstance(spcs, list) or not spcs:
+        raise ValueError("Native coupled beam support catalogue is missing")
+    seen, translations, angles, algebraic = set(), set(), {}, {}
+    support = coupling["support"]
+    force, couple = [0.0] * 3, [0.0] * 3
+    for row in spcs:
+        if not isinstance(row, dict):
+            raise ValueError("Native support degree of freedom must be a record")
+        node, direction, role, value = (
+            row.get(key) for key in ("node", "direction", "role", "value")
+        )
+        if (
+            type(node) is not int
+            or node < 1
+            or type(direction) is not int
+            or direction not in (1, 2, 3)
+            or (node, direction) in seen
+            or role not in {"TRANSLATION", "ANGLE", "ALGEBRAIC"}
+            or type(value) not in (int, float)
+            or not math.isfinite(value)
+        ):
+            raise ValueError("Native support degree of freedom is invalid or repeated")
+        seen.add((node, direction))
+        if role == "TRANSLATION":
+            if node != support["node"] or direction not in support["directions"]:
+                raise ValueError("Native translational support belongs to another restraint")
+            translations.add(direction)
+            force[direction - 1] += value
+        else:
+            original_direction = row.get("original_direction")
+            if (
+                row.get("original_node") != support["node"]
+                or type(row.get("original_node")) is not int
+                or type(original_direction) is not int
+                or original_direction not in (4, 5, 6)
+                or node in (support["node"], coupling["source"]["node"])
+                or direction != (1 if role == "ANGLE" else 2)
+            ):
+                raise ValueError("Native generalized support identity is invalid")
+            if role == "ANGLE":
+                expected_axis = [float(index == original_direction - 4) for index in range(3)]
+                if (
+                    original_direction in angles
+                    or not vector(row.get("axis"))
+                    or not close(row["axis"], expected_axis)
+                ):
+                    raise ValueError("Native rotational support axis is invalid or repeated")
+                angles[original_direction] = node
+                for index in range(3):
+                    couple[index] += value * row["axis"][index]
+            else:
+                if original_direction in algebraic:
+                    raise ValueError("Repeated native algebraic support term")
+                algebraic[original_direction] = node
+    if (
+        translations != {direction for direction in support["directions"] if direction < 4}
+        or set(angles) != {4, 5, 6}
+        or angles != algebraic
+        or len(set(angles.values())) != 3
+    ):
+        raise ValueError("Native support catalogue is incomplete or relabelled")
+    # These are wire-consistency checks of native values, never replacement
+    # reactions or a physical equilibrium/design acceptance criterion.
+    moment = [a + b for a, b in zip(transported(support["position"], force), couple)]
+    if not close(actions["support"]["force_global"], force) or not close(
+        actions["support"]["moment_origin"], moment
+    ):
+        raise ValueError("Native physical support wrench differs from its classified terms")

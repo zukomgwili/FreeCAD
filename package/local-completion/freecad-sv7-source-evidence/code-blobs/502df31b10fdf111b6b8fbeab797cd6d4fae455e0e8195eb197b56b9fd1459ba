@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Cold persistence of native mixed physical owners and separate solid fields."""
+import json
+from pathlib import Path
+import unittest
+
+import FreeCAD as App
+
+ROOT = Path(__file__).resolve().parent
+CASE = ROOT/'solid-formal-r01/cases/test_hybrid_actions_solid_patch_and_native_beam_component_control'
+
+
+class TestNativeSolidCold(unittest.TestCase):
+    def test_saved_hybrid_restores_historical_actions_and_separate_native_solid_fields(self):
+        expected = json.loads((CASE/'observed.json').read_text())
+        doc = App.openDocument(str(CASE/'hybrid.FCStd'))
+        try:
+            source = doc.BeamSectionForces
+            self.assertFalse(source.CompletedRun)
+            self.assertTrue(source.Status.startswith('Historical'),source.Status)
+            self.assertEqual(source.Proxy.getSectionForces(source,historical=True),expected)
+            self.assertEqual(doc.HybridSpring.Attachment,'Vertex to rigid body port')
+            self.assertEqual(doc.HybridSpring.RigidBody2,doc.HybridPort)
+            self.assertEqual(doc.HybridSpring.End1[0],doc.HybridBeam)
+            self.assertEqual(doc.HybridSpring.Mode,'Two points')
+            self.assertEqual(doc.HybridSpring.Stiffness.getValueAs('N/mm').Value,10000)
+            mechanical=[obj for obj in doc.HybridAnalysis.Group if obj.isDerivedFrom('Fem::FemResultObject')]
+            solids=[obj for obj in mechanical if set(obj.NativeSourceNodeNumbers)==set(range(101,107))]
+            mixed=[obj for obj in mechanical if set(obj.NativeSourceNodeNumbers)==set(range(1,6))|set(range(101,107))]
+            self.assertEqual(len(solids),1)
+            self.assertEqual(len(mixed),1)
+            solid=solids[0]
+            self.assertEqual(solid.NativeBeamSource,source)
+            self.assertEqual(solid.NativeSolidOwner,doc.HybridPrism)
+            self.assertEqual(solid.NativeSourceFileHash,expected['provenance']['frd']['sha256'])
+            self.assertEqual(solid.Mesh.FemMesh.VolumeCount,3)
+            self.assertEqual(solid.Mesh.FemMesh.EdgeCount,0)
+            self.assertEqual(len(solid.NodeStressXX),6)
+            for value in solid.NodeStressXX:
+                self.assertAlmostEqual(value,4/3,delta=.0001)
+            self.assertFalse(mixed[0].NodeStressXX)
+            self.assertTrue(doc.HybridPrism.Shape.isValid())
+            with self.assertRaises(ValueError):
+                source.Proxy.getSectionForces(source)
+            self.assertEqual(source.Proxy.getSectionForces(source,historical=True),expected)
+        finally:
+            App.closeDocument(doc.Name)

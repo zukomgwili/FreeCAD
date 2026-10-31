@@ -1,0 +1,16 @@
+"""Stage the qualified solver in build storage; no installation."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+source = Path('/private/tmp/freecad-sv7-_7lscq7g/native-build-r04/build/CalculiX/ccx_2.23/src/ccx_2.23_conda')
+expected = '1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e'
+assert hashlib.sha256(source.read_bytes()).hexdigest() == expected
+target = Path('/Users/zukomgwili/src/FreeCAD/build/native-solvers/beam-coupling-1f6281e8d779/ccx-force-accounting')
+target.parent.mkdir(parents=True, exist_ok=True)
+if target.exists():
+    assert hashlib.sha256(target.read_bytes()).hexdigest() == expected
+else:
+    shutil.copy2(source, target)
+assert hashlib.sha256(target.read_bytes()).hexdigest() == expected
+print(json.dumps({'source':str(source), 'target':str(target), 'sha256':expected, 'installed':False}))

@@ -1,0 +1,108 @@
+(qt.qpa.fonts) Populating font family aliases took 86 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +240 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate (femtest.gui.test_beam_solid_coupling.TestBeamSolidCouplingGui.test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate) ... 
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.004 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-sv7-_7lscq7g/solid-gui-green-r01/cases/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.007 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/solid-gui-green-r01/cases/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/solid-gui-green-r01/cases/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-sv7-_7lscq7g/solid-gui-green-r01/cases/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-sv7-_7lscq7g/solid-gui-green-r01/cases/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4.012s
+
+OK
+System exit
