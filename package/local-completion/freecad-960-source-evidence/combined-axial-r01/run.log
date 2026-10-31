@@ -1,0 +1,31 @@
+[BEAM960-QUALIFIED-ORIGINS] {"runtime": ["27", "1", "0", "49261 +239 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 08:18:02", "codex/fix-toroidal-self-cut", "9438900bfc6598ccb33472e639dff6e96eda7a5f"], "modules": {"femtools.beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", "sha256": "1939ec858a1c8dcb4e9233ce049d35808fc8c3bbba9d65e0f9e1790efa36f165"}, "femtools.ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", "sha256": "3fb1386214e20150621368aa0206d8ae579e55aeff85364a9b7cabc0053127db"}, "femobjects.solver_ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/solver_ccxtools.py", "sha256": "8364461868ef4c8e21ea9dba09153ad418399fb6c8d7b26f99cb0894cbcd884e"}, "femtest.app.test_beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", "sha256": "ef98d62dc64816b472d7d37019f2bdfbab50f68c6f01decf8898062384c9f034"}}}
+test_axial_member_ends_have_native_identity_units_and_signed_actions (femtest.app.test_beam_section_forces.TestBeamSectionForcesNative.test_axial_member_ends_have_native_identity_units_and_signed_actions) ... ERROR
+
+======================================================================
+ERROR: test_axial_member_ends_have_native_identity_units_and_signed_actions (femtest.app.test_beam_section_forces.TestBeamSectionForcesNative.test_axial_member_ends_have_native_identity_units_and_signed_actions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", line 77, in test_axial_member_ends_have_native_identity_units_and_signed_actions
+    self.assertFalse(fea.write_inp_file())
+                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", line 378, in write_inp_file
+    beam_export = beam_section_forces.begin_export(self)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", line 182, in begin_export
+    preflight(fea.analysis, fea.solver, fea.mesh)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", line 134, in preflight
+    raise ValueError(
+        "Beam section output requires an unsplit linear small-displacement static step"
+    )
+ValueError: Beam section output requires an unsplit linear small-displacement static step
+
+----------------------------------------------------------------------
+Ran 1 test in 0.265s
+
+FAILED (errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...

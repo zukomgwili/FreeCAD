@@ -112,16 +112,46 @@ def setupPipeline(doc, analysis, results_name, result_data):
         pipeline_obj.ViewObject.Visibility = pipeline_visibility
 
 
-def importFrd(filename, analysis=None, result_name_prefix="", result_analysis_type=""):
+def importFrd(
+    filename,
+    analysis=None,
+    result_name_prefix="",
+    result_analysis_type="",
+    *,
+    beam_section_forces=False,
+    trusted_stress_context=False,
+):
     import ObjectsFem
     from . import importToolsFem
+    from femtools import beam_section_forces as beam_output
 
     if analysis:
         doc = analysis.Document
     else:
         doc = FreeCAD.ActiveDocument
 
+    # SECTION FORCES reuses the FRD stress channel for N and N*mm. Never
+    # promote it to MPa, von Mises or principal stresses, including when a
+    # caller disabled the saved request after the completed solver run.
+    section_output = beam_output.is_section_output(filename)
+    if section_output and not beam_section_forces:
+        raise ValueError(
+            "Beam section-force output cannot be imported as mechanical stress; "
+            "use its bound native beam result"
+        )
     m = read_frd_result(filename)
+    if beam_section_forces:
+        for result_set in m["Results"]:
+            result_set.pop("stress", None)
+    elif (
+        not trusted_stress_context
+        and (m["Seg2Elem"] or m["Seg3Elem"])
+        and any("stress" in result_set for result_set in m["Results"])
+    ):
+        raise ValueError(
+            "Bare original-beam FRD stress channels cannot distinguish mean stress "
+            "from section forces; use a trusted stock solver input context"
+        )
     result_mesh_object = None
     res_obj = None
 

@@ -17,7 +17,6 @@ import subprocess
 import sys
 import tarfile
 
-
 SOURCE_SHA256 = "9c88385c10fb04f5dc6c4e98027a51bebdd8aee3920e05190d6c1dd08357d6e7"
 
 
@@ -47,14 +46,33 @@ def main():
     parser.add_argument("--patch", type=Path)
     parser.add_argument("--extra-source", type=Path)
     parser.add_argument("--contact-source", type=Path)
+    parser.add_argument("--beam-source", type=Path)
+    parser.add_argument("--beam-patch", type=Path)
     parser.add_argument("--runtime-prefix", type=Path)
     args = parser.parse_args()
-    if args.baseline and (args.patch or args.extra_source or args.contact_source):
+    if args.baseline and (
+        args.patch
+        or args.extra_source
+        or args.contact_source
+        or args.beam_source
+        or args.beam_patch
+    ):
         parser.error("baseline builds cannot contain a source extension")
     if args.contact_source and (
         not args.extra_source or args.contact_source.name != "contactstate.c"
     ):
         parser.error("contactstate.c requires the declared forceaccounting.c overlay")
+    if bool(args.beam_source) != bool(args.beam_patch):
+        parser.error("beam observation requires both --beam-source and --beam-patch")
+    if args.beam_source and (
+        args.beam_source.name != "beamsection.c"
+        or not args.patch
+        or not args.extra_source
+        or not args.contact_source
+    ):
+        parser.error(
+            "beamsection.c requires explicit accounting/contact overlays and its extra patch"
+        )
     here = Path(__file__).resolve().parent
     recipe = args.recipe.resolve()
     archive = args.source_archive.resolve()
@@ -85,9 +103,7 @@ def main():
         )
     if not args.baseline:
         selected_patch = (
-            args.patch.resolve()
-            if args.patch
-            else here / "experimental-accounting.patch"
+            args.patch.resolve() if args.patch else here / "experimental-accounting.patch"
         )
         run(
             [
@@ -103,12 +119,17 @@ def main():
         )
     if args.extra_source:
         if args.extra_source.name != "forceaccounting.c":
-            parser.error(
-                "only the declared forceaccounting.c source overlay is supported"
-            )
+            parser.error("only the declared forceaccounting.c source overlay is supported")
         shutil.copyfile(args.extra_source, src / args.extra_source.name)
     if args.contact_source:
         shutil.copyfile(args.contact_source, src / args.contact_source.name)
+    if args.beam_source:
+        run(
+            ["patch", "-p1", "--batch", "--forward", "-i", str(args.beam_patch.resolve())],
+            root,
+            target / "beam-section-patch.log",
+        )
+        shutil.copyfile(args.beam_source, src / args.beam_source.name)
     manifest = target / "pixi.toml"
     run(
         ["pixi", "install", "--locked", "--manifest-path", str(manifest)],
@@ -118,10 +139,9 @@ def main():
     prefix = target / ".pixi" / "envs" / "default"
     environment = dict(os.environ)
     environment.pop("CCX_9ZT_DIAGNOSTIC", None)
+    environment.pop("CCX_BEAM_SECTION_REQUEST", None)
     environment["PKG_VERSION"] = "2.23"
-    environment["CFLAGS"] = (
-        f"-I{prefix}/include -Wno-error=implicit-function-declaration"
-    )
+    environment["CFLAGS"] = f"-I{prefix}/include -Wno-error=implicit-function-declaration"
     environment["FFLAGS"] = "-fallow-argument-mismatch"
     runtime_prefix = args.runtime_prefix.resolve() if args.runtime_prefix else prefix
     environment["LDFLAGS"] = f"-L{prefix}/lib -Wl,-rpath,{runtime_prefix}/lib"
@@ -147,9 +167,7 @@ def main():
     binary = src / "ccx_2.23_conda"
     if args.runtime_prefix:
         listing = subprocess.check_output(["otool", "-l", str(binary)], text=True)
-        paths = re.findall(
-            r"cmd LC_RPATH\n\s+cmdsize \d+\n\s+path (.*?) \(offset", listing
-        )
+        paths = re.findall(r"cmd LC_RPATH\n\s+cmdsize \d+\n\s+path (.*?) \(offset", listing)
         for path in set(paths):
             if path.startswith(str(target)):
                 subprocess.run(
@@ -160,9 +178,7 @@ def main():
     tests = target / "functional-tests"
     tests.mkdir()
     for name in pins:
-        if "/" not in name and (
-            name.endswith((".inp", ".ref")) or name == "run_test.py"
-        ):
+        if "/" not in name and (name.endswith((".inp", ".ref")) or name == "run_test.py"):
             shutil.copyfile(recipe / name, tests / name)
     bin_dir = target / "bin"
     bin_dir.mkdir()
@@ -192,6 +208,18 @@ def main():
         "probe_patch_sha256": digest(selected_patch) if not args.baseline else None,
         "extra_source_sha256": digest(args.extra_source) if args.extra_source else None,
         "contact_source_sha256": digest(args.contact_source) if args.contact_source else None,
+        "beam_source_sha256": digest(args.beam_source) if args.beam_source else None,
+        "beam_patch_sha256": digest(args.beam_patch) if args.beam_patch else None,
+        "beam_channel": (
+            subprocess.check_output(
+                [str(binary), "--freecad-beam-section-version"],
+                env=environment,
+                text=True,
+                timeout=10,
+            ).strip()
+            if args.beam_source
+            else None
+        ),
         "toolchain_lock_sha256": digest(here / "pixi.lock"),
         "binary": str(binary),
         "binary_sha256": digest(binary),

@@ -506,9 +506,13 @@ def _is_result(obj):
         # still outputs and must never participate in the physical input digest.
         from femobjects.mesh_result import MeshResult
         from femobjects.result_contact_observation import ContactObservationResult
+        from femtools.beam_section_forces import BeamSectionForceResult
         from femtools.contact_state import ContactStateResult
 
-        return isinstance(obj.Proxy, (ContactObservationResult, MeshResult, ContactStateResult))
+        return isinstance(
+            obj.Proxy,
+            (ContactObservationResult, MeshResult, ContactStateResult, BeamSectionForceResult),
+        )
     return False
 
 

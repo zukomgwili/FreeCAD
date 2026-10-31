@@ -1,0 +1,46 @@
+test_native_solver_can_request_beam_section_forces (Beam960Baseline.Beam960Baseline.test_native_solver_can_request_beam_section_forces) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[BEAM960-STOCK-BASELINE] {"GuiUp": false, "Oomakhi_opened_or_mutated": false, "deck": "/private/tmp/freecad-960-vis6FvUB/installed-stock-baseline-r01/stock-default/Mesh.inp", "deck_sha256": "bbdf29293ff6518014beb0893ffb79e60727ca4b64a02e104d6d9a186b548f3f", "home_path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources//", "native_element_cards": ["*Element, TYPE=B32R, ELSET=Eedges"], "native_output_cards": ["*NODE FILE, OUTPUT=3d", "*EL FILE"], "no_deck_edits": true, "no_mesh_or_solve": true, "runtime": ["27", "1", "0", "49261 +238 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 01:13:12", "codex/fix-toroidal-self-cut", "1e3e53ed1fc916524ead89e594bf160d5421f84f"], "schema": "FreeCAD-960-stock-baseline-v1", "section_forces_written": false, "solver_properties": ["AnalysisType", "AutomaticIncrementation", "BucklingAccuracy", "BucklingFactors", "DisplaceMesh", "EigenmodeHighLimit", "EigenmodeLowLimit", "EigenmodesCount", "ExcludeBendingStiffness", "ExpressionEngine", "GeometricalNonlinearity", "IncrementsMaximum", "IterationsControlParameterCutb", "IterationsControlParameterField", "IterationsControlParameterIter", "IterationsControlParameterTimeUse", "Label", "Label2", "MaterialNonlinearity", "MatrixSolverType", "ModelSpace", "NativeAccountingSolver", "NativeAccountingSupports", "NativeContactOutputs", "NativeForceAccounting", "Output3d", "OutputFrequency", "PastixMixedPrecision", "Proxy", "ReducedIntegration", "Results", "SplitInputWriter", "ThermoMechSteadyState", "ThermoMechType", "TimeInitialIncrement", "TimeMaximumIncrement", "TimeMinimumIncrement", "TimePeriod", "Tool", "Visibility", "WorkingDir", "WorkingDirectory"]}
+FAIL
+
+======================================================================
+FAIL: test_native_solver_can_request_beam_section_forces (Beam960Baseline.Beam960Baseline.test_native_solver_can_request_beam_section_forces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-960-vis6FvUB/Beam960Baseline.py", line 46, in test_native_solver_can_request_beam_section_forces
+    self.assertIn('BeamSectionForces', solver.PropertiesList,
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  'Stock solver offers no native beam-section output request')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BeamSectionForces' not found in ['AnalysisType', 'AutomaticIncrementation', 'BucklingAccuracy', 'BucklingFactors', 'DisplaceMesh', 'EigenmodeHighLimit', 'EigenmodeLowLimit', 'EigenmodesCount', 'ExcludeBendingStiffness', 'ExpressionEngine', 'GeometricalNonlinearity', 'IncrementsMaximum', 'IterationsControlParameterCutb', 'IterationsControlParameterField', 'IterationsControlParameterIter', 'IterationsControlParameterTimeUse', 'Label', 'Label2', 'MaterialNonlinearity', 'MatrixSolverType', 'ModelSpace', 'NativeAccountingSolver', 'NativeAccountingSupports', 'NativeContactOutputs', 'NativeForceAccounting', 'Output3d', 'OutputFrequency', 'PastixMixedPrecision', 'Proxy', 'ReducedIntegration', 'Results', 'SplitInputWriter', 'ThermoMechSteadyState', 'ThermoMechType', 'TimeInitialIncrement', 'TimeMaximumIncrement', 'TimeMinimumIncrement', 'TimePeriod', 'Tool', 'Visibility', 'WorkingDir', 'WorkingDirectory'] : Stock solver offers no native beam-section output request
+
+----------------------------------------------------------------------
+Ran 1 test in 0.260s
+
+FAILED (failures=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +238 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/installed-stock-baseline-r01/stock-default/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.

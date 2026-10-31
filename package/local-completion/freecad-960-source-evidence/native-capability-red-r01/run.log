@@ -1,0 +1,20 @@
+test_native_beam_section_diagnostic_contract_is_available (Beam960Capability.Beam960Capability.test_native_beam_section_diagnostic_contract_is_available) ... [BEAM960-CAPABILITY] 201 '\n************************************************************\n\nCalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt\nCalculiX comes with ABSOLUTELY NO WARRANTY. This is free\nsoftware, and you are welcome to redistribute it under\ncertain conditions, see gpl.htm\n\n************************************************************\n\nYou are using an executable made on Wed Oct 21 14:20:43 2026\n *ERROR in readinput: cannot open file --freecad-beam-section-version.inp\n'
+FAIL
+
+======================================================================
+FAIL: test_native_beam_section_diagnostic_contract_is_available (Beam960Capability.Beam960Capability.test_native_beam_section_diagnostic_contract_is_available)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-960-vis6FvUB/Beam960Capability.py", line 17, in test_native_beam_section_diagnostic_contract_is_available
+    self.assertEqual(child.returncode, 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.011s
+
+FAILED (failures=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

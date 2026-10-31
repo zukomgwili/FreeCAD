@@ -1,0 +1,195 @@
+[BEAM960-QUALIFIED-ORIGINS] {"runtime": ["27", "1", "0", "49261 +239 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 08:18:02", "codex/fix-toroidal-self-cut", "9438900bfc6598ccb33472e639dff6e96eda7a5f"], "modules": {"femtools.beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", "sha256": "01d0428c98eb48b905c3771775b94932b781520e70446a8a484d9d3a6916489b"}, "femtools.ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", "sha256": "ccefec4e70d8a3d8f4e3e5c3ec9b5b65f51c4e5ebc27d000f7ebb070a54bba3a"}, "femobjects.solver_ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/solver_ccxtools.py", "sha256": "1c3e9d64becfef528f6d06d4c1d956035c6c5a5c43e730d5aec7fba180d84b32"}, "femtest.app.test_beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", "sha256": "d5dd3004a1a39af425b2d93927d886c72e49a0317e6932827f58b6a1fe8c367c"}}}
+test_altered_export_metadata_is_refused_before_native_solve (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_altered_export_metadata_is_refused_before_native_solve) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_bare_copied_beam_frd_cannot_be_imported_as_stress (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_bare_copied_beam_frd_cannot_be_imported_as_stress) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_physical_load_change_withdraws_current_but_preserves_saved_history (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_physical_load_change_withdraws_current_but_preserves_saved_history) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_altered_export_metadata_is_refused_before_native_solve/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_bare_copied_beam_frd_cannot_be_imported_as_stress/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_bare_copied_beam_frd_cannot_be_imported_as_stress/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_bare_copied_beam_frd_cannot_be_imported_as_stress/Mesh.dat
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_bare_copied_beam_frd_cannot_be_imported_as_stress/bare/unbound.frd
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_physical_load_change_withdraws_current_but_preserves_saved_history/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_physical_load_change_withdraws_current_but_preserves_saved_history/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_physical_load_change_withdraws_current_but_preserbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_preexisting_frd_alias_is_refused_without_changing_its_target (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_preexisting_frd_alias_is_refused_without_changing_its_target) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_unsupported_solver_settings_are_refused_without_silent_changes (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_unsupported_solver_settings_are_refused_without_silent_changes) ... ok
+test_warm_rerun_keeps_export_and_preserves_previous_native_output (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_warm_rerun_keeps_export_and_preserves_previous_native_output) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.661s
+
+OK
+ves_saved_history/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_preexisting_frd_alias_is_refused_without_changing_its_target/symlink/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_preexisting_frd_alias_is_refused_without_changing_its_target/hardlink/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_warm_rerun_keeps_export_and_preserves_previous_native_output/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_warm_rerun_keeps_export_and_preserves_previous_native_output/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_warm_rerun_keeps_export_and_preserves_previous_native_output/Mesh.dat
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_warm_rerun_keeps_export_and_preserves_previous_native_output/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/warm-custody-r01/test_warm_rerun_keeps_export_and_preserves_previous_native_output/Mesh.dat

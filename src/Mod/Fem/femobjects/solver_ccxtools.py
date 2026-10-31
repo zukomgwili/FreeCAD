@@ -48,6 +48,15 @@ class SolverCcxTools(SolverCalculiX):
         prop.extend(
             [
                 _PropHelper(
+                    type="App::PropertyBool",
+                    name="BeamSectionForces",
+                    group="Beam Section Forces",
+                    value=False,
+                    doc="Save native signed beam-end forces (N), moments (N*mm) and section axes. "
+                    "Requires the qualified solver and Output3d=False. "
+                    "Double-click the result to inspect each member end.",
+                ),
+                _PropHelper(
                     type="App::PropertyLinkList",
                     name="NativeContactOutputs",
                     group="Native Contact Output",
@@ -78,8 +87,8 @@ class SolverCcxTools(SolverCalculiX):
                     name="NativeAccountingSolver",
                     group="Native Force Accounting",
                     value="",
-                    doc="Qualified accounting/contact-diagnostics executable. Empty selects the "
-                    "bundled native solver when either is enabled; ordinary preferences are unchanged.",
+                    doc="Qualified accounting/contact/beam-diagnostics executable. Empty selects "
+                    "the bundled native solver when enabled; ordinary preferences are unchanged.",
                 ),
             ]
         )

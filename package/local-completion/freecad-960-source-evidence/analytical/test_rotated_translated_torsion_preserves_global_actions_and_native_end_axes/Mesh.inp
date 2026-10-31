@@ -1,0 +1,166 @@
+** written by FreeCAD inp file writer for CalculiX,Abaqus meshes
+** highest dimension mesh elements only.
+
+** Nodes
+*Node, NSET=Nall
+1, 37, -19, 11
+2, 45.67369636366, -14.66646182074, 8.553075759271
+3, 54.34739272732, -10.33292364148, 6.106151518542
+4, 63.02108909099, -5.999385462214, 3.659227277813
+5, 71.69478545465, -1.665847282952, 1.212303037085
+6, 80.36848181831, 2.66769089631, -1.234621203644
+7, 89.04217818197, 7.001229075572, -3.681545444373
+8, 97.71587454564, 11.33476725483, -6.128469685102
+9, 106.3895709093, 15.6683054341, -8.575393925831
+10, 115.063267273, 20.00184361336, -11.02231816656
+11, 123.7369636366, 24.33538179262, -13.46924240729
+12, 121.7742412603, 28.82526500941, -12.4749237597
+13, 119.8115188839, 33.31514822621, -11.48060511211
+14, 125.699686013, 19.84549857583, -14.46356105488
+15, 127.6624083893, 15.35561535903, -15.45787970246
+
+
+** Edge elements
+*Element, TYPE=B32R, ELSET=Eedges
+1, 1, 2, 3
+2, 3, 4, 5
+3, 5, 6, 7
+4, 7, 8, 9
+5, 9, 10, 11
+6, 11, 12, 13
+7, 11, 14, 15
+
+** Define element set Eall
+*ELSET, ELSET=Eall
+Eedges
+
+
+
+***********************************************************
+** Element sets for materials and FEM element type (solid, shell, beam, fluid)
+*ELSET,ELSET=M0B0RstdD0
+1,
+2,
+3,
+4,
+5,
+*ELSET,ELSET=M0B0RstdD1
+6,
+*ELSET,ELSET=M0B0RstdD2
+7,
+
+***********************************************************
+** constraints fixed node sets
+** Fixed
+*NSET,NSET=Fixed
+1,
+
+** Physical constants for SI(mm) unit system with Kelvins
+*PHYSICAL CONSTANTS, ABSOLUTE ZERO=0, STEFAN BOLTZMANN=5.670374419e-11
+
+***********************************************************
+** Materials
+** see information about units at file end
+** FreeCAD material name: Beam960LinearElastic
+** MechanicalMaterial
+*MATERIAL, NAME=MechanicalMaterial
+*ELASTIC
+100000,0.3
+*EXPANSION, ZERO=0
+0
+
+***********************************************************
+** Sections
+*BEAM SECTION, ELSET=M0B0RstdD0, MATERIAL=MechanicalMaterial, SECTION=RECT
+2,4
+0.4469404723424, -0.894563700461, 0
+*BEAM SECTION, ELSET=M0B0RstdD1, MATERIAL=MechanicalMaterial, SECTION=RECT
+2,4
+0.9162773115646, 0.4005444898036, 0
+*BEAM SECTION, ELSET=M0B0RstdD2, MATERIAL=MechanicalMaterial, SECTION=RECT
+2,4
+-0.9162773115646, -0.4005444898036, 0
+
+***********************************************************
+** At least one step is needed to run an CalculiX analysis of FreeCAD
+*STEP, INC=2000
+*STATIC
+1.0,1.0,1e-05,1.0
+
+***********************************************************
+** Fixed Constraints
+** Fixed
+*BOUNDARY
+Fixed,1
+Fixed,2
+Fixed,3
+Fixed,4
+Fixed,5
+Fixed,6
+
+
+***********************************************************
+** constraints force node loads
+** Force
+*CLOAD
+** node load on shape: PositiveArm:Vertex2
+13,1,0.003059064380577
+13,2,-0.0007643570154784
+13,3,0.009489883216793
+
+
+** NegativeForce
+*CLOAD
+** node load on shape: NegativeArm:Vertex2
+15,1,-0.003059064380577
+15,2,0.0007643570154784
+15,3,-0.009489883216793
+
+
+
+***********************************************************
+** Outputs --> frd file
+*NODE FILE, OUTPUT=2d
+U
+*EL FILE, OUTPUT=2D, SECTION FORCES
+S, NOE
+** outputs --> dat file
+** reaction forces for Constraint fixed
+*NODE PRINT, NSET=Fixed, TOTALS=ONLY
+RF
+
+*OUTPUT, FREQUENCY=1
+***********************************************************
+*END STEP
+
+***********************************************************
+** CalculiX Input file
+**   written by    --> FreeCAD 27.1.0
+**   written on    --> Sat Oct 31 12:21:54 2026
+**   file name     --> 
+**   analysis name --> Analysis
+**
+**
+***********************************************************
+**  About units:
+**  See ccx manual, ccx does not know about any unit.
+**  Golden rule: The user must make sure that the numbers they provide have consistent units.
+**  The user is the FreeCAD calculix writer module ;-)
+**
+**  The unit system which is used at Guido Dhondt's company: mm, N, s, K
+**  Since Length and Mass are connected by Force, if Length is mm the Mass is in t to get N
+**  The following units are used to write to inp file:
+**
+**  Length: mm (this includes the mesh geometry)
+**  Mass: t
+**  TimeSpan: s
+**  Temperature: K
+**
+**  This leads to:
+**  Force: N
+**  Pressure: N/mm^2 == MPa (Young's Modulus has unit Pressure)
+**  Density: t/mm^3
+**  Gravity: mm/s^2
+**  Thermal conductivity: t*mm/K/s^3 == as W/m/K == kW/mm/K
+**  Specific Heat: mm^2/s^2/K = J/kg/K == kJ/t/K
+**

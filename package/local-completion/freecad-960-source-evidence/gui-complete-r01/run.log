@@ -1,0 +1,97 @@
+(qt.qpa.fonts) Populating font family aliases took 85 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+[BEAM960-QUALIFIED-ORIGINS] {"runtime": ["27", "1", "0", "49261 +239 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 08:18:02", "codex/fix-toroidal-self-cut", "9438900bfc6598ccb33472e639dff6e96eda7a5f"], "modules": {"femtools.beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", "sha256": "01d0428c98eb48b905c3771775b94932b781520e70446a8a484d9d3a6916489b"}, "femtools.ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", "sha256": "ccefec4e70d8a3d8f4e3e5c3ec9b5b65f51c4e5ebc27d000f7ebb070a54bba3a"}, "femobjects.solver_ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/solver_ccxtools.py", "sha256": "1c3e9d64becfef528f6d06d4c1d956035c6c5a5c43e730d5aec7fba180d84b32"}, "femtest.app.test_beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", "sha256": "d5dd3004a1a39af425b2d93927d886c72e49a0317e6932827f58b6a1fe8c367c"}}}
+test_invalid_output_request_reports_error_and_clears_busy_cursor (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_invalid_output_request_reports_error_and_clears_busy_cursor) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_invalid_output_request_reports_error_and_clears_busy_cursor/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+Check prerequisites...
+ok
+test_stop_button_cancels_only_its_owned_beam_attempt (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_stop_button_cancels_only_its_owned_beam_attempt) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_stop_button_cancels_only_its_owned_beam_attempt/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+run CalculiX at: /private/tmp/freecad-960-vis6FvUB/native-build-r01/build/CalculiX/ccx_2.23/src/ccx_2.23_conda with: /private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_stop_button_cancels_only_its_owned_beam_attempt/Mesh.inp
+ok
+test_visible_solver_write_and_run_saves_current_native_beam_end_actions (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_visible_solver_write_and_run_saves_current_native_beam_end_actions) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+run CalculiX at: /private/tmp/freecad-960-vis6FvUB/native-build-r01/build/CalculiX/ccx_2.23/src/ccx_2.23_conda with: /private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/gui-complete-r01/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.dat
+ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 5.042s
+
+OK
+System exit

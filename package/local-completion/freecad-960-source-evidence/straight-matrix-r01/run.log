@@ -1,0 +1,138 @@
+[BEAM960-QUALIFIED-ORIGINS] {"runtime": ["27", "1", "0", "49261 +239 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 08:18:02", "codex/fix-toroidal-self-cut", "9438900bfc6598ccb33472e639dff6e96eda7a5f"], "modules": {"femtools.beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", "sha256": "db212fefa066417c59168fbe4a81de10a74b55a502a0be89440624e025f978e0"}, "femtools.ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", "sha256": "3fb1386214e20150621368aa0206d8ae579e55aeff85364a9b7cabc0053127db"}, "femobjects.solver_ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/solver_ccxtools.py", "sha256": "8364461868ef4c8e21ea9dba09153ad418399fb6c8d7b26f99cb0894cbcd884e"}, "femtest.app.test_beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", "sha256": "aaae51b1b6ce879c8c193b27878e9129762c9e672340a5a923f79e4d82dad137"}}}
+test_axial_compression_root_reverses_the_global_end_action (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_axial_compression_root_reverses_the_global_end_action) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_axial_tension_root_has_negative_global_end_action (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_axial_tension_root_has_negative_global_end_action) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_transverse_y_root_has_signed_shear_and_bending_equilibrium (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_transverse_y_root_has_signed_shear_and_bending_equilibrium) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/straight-matrixbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.482s
+
+OK
+-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/straight-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.dat

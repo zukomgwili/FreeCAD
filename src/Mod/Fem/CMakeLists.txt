@@ -415,6 +415,10 @@ SET(FemTests_SRCS
 SET(FemTestsApp_SRCS
     femtest/app/__init__.py
     femtest/app/support_utils.py
+    femtest/app/test_beam_section_forces.py
+    femtest/app/test_beam_section_forces_native.py
+    femtest/app/test_beam_section_forces_safety.py
+    femtest/app/test_beam_section_forces_lifecycle.py
     femtest/app/test_ccxtools.py
     femtest/app/test_force_accounting.py
     femtest/app/test_contact_observation.py
@@ -653,6 +657,7 @@ SET(FemTools_SRCS
     femtools/ccxtools.py
     femtools/force_accounting.py
     femtools/contact_state.py
+    femtools/beam_section_forces.py
     femtools/native_properties.py
     femtools/checksanalysis.py
     femtools/elastic_connector.py
@@ -812,6 +817,7 @@ SET(FemGuiTests_SRCS
     femtest/gui/test_open.py
     femtest/gui/test_contact_observation.py
     femtest/gui/test_contact_state.py
+    femtest/gui/test_beam_section_forces.py
 )
 
 SET(FemGuiUtils_SRCS
@@ -876,6 +882,7 @@ SET(FemGuiViewProvider_SRCS
     femviewprovider/view_result_mechanical.py
     femviewprovider/view_contact_observation.py
     femviewprovider/view_contact_state.py
+    femviewprovider/view_beam_section_forces.py
     femviewprovider/view_solver_calculix.py
     femviewprovider/view_solver_ccxtools.py
     femviewprovider/view_solver_elmer.py

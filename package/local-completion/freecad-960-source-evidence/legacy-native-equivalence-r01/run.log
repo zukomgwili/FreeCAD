@@ -1,0 +1,59 @@
+test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) ... 
+  test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) (case='axial') ... FAIL
+  test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) (case='bending') ... FAIL
+  test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) (case='torsion') ... FAIL
+[BEAM960-LEGACY] []
+
+======================================================================
+FAIL: test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) (case='axial')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-960-vis6FvUB/LegacyBeam.py", line 58, in test_disabled_observer_preserves_native_frd_and_dat
+    self.assertEqual(outputs[0], outputs[1])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (b'  [314 chars]     Wed Oct 21 14:20:43 2026                 [3731 chars]2\n') != (b'  [314 chars]     Sat Oct 31 11:35:28 2026                 [3731 chars]2\n')
+
+First differing element 0:
+b'   [313 chars]     Wed Oct 21 14:20:43 2026                 [3510 chars]9999'
+b'   [313 chars]     Sat Oct 31 11:35:28 2026                 [3510 chars]9999'
+
+Diff is 4675 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) (case='bending')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-960-vis6FvUB/LegacyBeam.py", line 58, in test_disabled_observer_preserves_native_frd_and_dat
+    self.assertEqual(outputs[0], outputs[1])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (b'  [314 chars]     Wed Oct 21 14:20:43 2026                 [3731 chars]2\n') != (b'  [314 chars]     Sat Oct 31 11:35:28 2026                 [3731 chars]2\n')
+
+First differing element 0:
+b'   [313 chars]     Wed Oct 21 14:20:43 2026                 [3510 chars]9999'
+b'   [313 chars]     Sat Oct 31 11:35:28 2026                 [3510 chars]9999'
+
+Diff is 4675 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_disabled_observer_preserves_native_frd_and_dat (LegacyBeam.TestLegacyBeam.test_disabled_observer_preserves_native_frd_and_dat) (case='torsion')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-960-vis6FvUB/LegacyBeam.py", line 58, in test_disabled_observer_preserves_native_frd_and_dat
+    self.assertEqual(outputs[0], outputs[1])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (b'  [314 chars]     Wed Oct 21 14:20:43 2026                 [4617 chars]3\n') != (b'  [314 chars]     Sat Oct 31 11:35:28 2026                 [4617 chars]3\n')
+
+First differing element 0:
+b'   [313 chars]     Wed Oct 21 14:20:43 2026                 [4396 chars]9999'
+b'   [313 chars]     Sat Oct 31 11:35:28 2026                 [4396 chars]9999'
+
+Diff is 5645 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.119s
+
+FAILED (failures=3)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

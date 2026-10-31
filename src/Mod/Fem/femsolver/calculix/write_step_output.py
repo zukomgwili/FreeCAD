@@ -29,7 +29,9 @@ __url__ = "https://www.freecad.org"
 
 
 def write_step_output(f, ccxwriter):
-
+    beam_section_forces = bool(getattr(ccxwriter.solver_obj, "BeamSectionForces", False))
+    if beam_section_forces and ccxwriter.solver_obj.Output3d:
+        raise ValueError("Beam section forces require Output3d=False")
     f.write("\n{}\n".format(59 * "*"))
     f.write("** Outputs --> frd file\n")
     if (
@@ -54,8 +56,14 @@ def write_step_output(f, ccxwriter):
     else:
         f.write("U\n")
     if not ccxwriter.member.geos_fluidsection:
-        f.write("*EL FILE\n")
-        variables = "S, E"
+        if beam_section_forces:
+            f.write("*EL FILE, OUTPUT=2D, SECTION FORCES\n")
+            # These are force/moment channels, not stresses. NOE suppresses
+            # the stress-error estimator, not native nodal averaging.
+            variables = "S, NOE"
+        else:
+            f.write("*EL FILE\n")
+            variables = "S, E"
         if ccxwriter.analysis_type == "thermomech":
             variables += ", HFL"
 

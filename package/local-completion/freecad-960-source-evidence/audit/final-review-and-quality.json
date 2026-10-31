@@ -1,0 +1,46 @@
+{
+  "installation": false,
+  "quality": {
+    "beam_default_bundle_19_tests": "production-native-r01",
+    "black": "16 current Python files pass pinned Black26.5.1 at100 columns",
+    "cold_reopen": [
+      "final-cold-app-r01",
+      "final-cold-gui-r01"
+    ],
+    "core_2269_passed_8_preexisting_disabled": "ctest-r01",
+    "fem_419_tests": "fem-all-r01",
+    "full_release_build": "production-build-r01",
+    "gui_3_tests": "production-gui-r01",
+    "native_contact_14_tests": "contact-native-regression-r01",
+    "rails_checks": "Not applicable; C++/Python FreeCAD, no Rails application/Gemfile. Only package.json is third-party documentation.",
+    "static": "16 ASTs and native contract JSON parse"
+  },
+  "resolved_runtime_findings": [
+    "Off/rewrite old FRD stress relabelling",
+    "Relative executable selection",
+    "Local/global projection inconsistency",
+    "Retained-frame ordering/time",
+    "Comment keyword false positive",
+    "Mutable export section identity",
+    "GUI invalid export busy cursor/stale Run action"
+  ],
+  "review_sources": {
+    "package/calculix/force-accounting/beamsection.c": "360a22558e769aac6259bb86c391e702bb928855c49a907733a0e9f4b97f10aa",
+    "package/calculix/force-accounting/beamsection.patch": "69725584c7cbcd927fe02c0c2986b0545e2078a44371ac0b5bbc5f51e94e4b0e",
+    "package/calculix/force-accounting/contract.json": "4f3859f919e6c765cc216aeca49a68cb7264e50c66d94a05ac1131e52448b46a",
+    "package/local-completion/calculix-9zt-probe/build_probe.py": "e297515769a5f538d7b9f4b89f54f1c5b5937e97cdd72db6e20bd9d155f618ec",
+    "src/Mod/Fem/feminout/importCcxFrdResults.py": "ab7ff7fce4d171f8e22c580bb44d0d1694002b005d2c9a9bc9230047dbe81acd",
+    "src/Mod/Fem/femtaskpanels/task_solver_ccxtools.py": "ec9b95a3c655b395a2aea58db0f5124e3907963db7c78545ff98491ae48eabf1",
+    "src/Mod/Fem/femtools/beam_section_forces.py": "225cc499f94b7d88119bc61d45bb0b5d5c31d01052f51e80b2a13f388fee5a97",
+    "src/Mod/Fem/femtools/ccxtools.py": "a268449c74f525434d8fb970ce487dcf039f2a59bbbc21efdb4e0935429db650",
+    "src/Mod/Fem/femviewprovider/view_beam_section_forces.py": "21c1f738f2dc761401fd07bc4d0291eb1df91d449fbf91ade93e0cf22b07fff0"
+  },
+  "reviewers": {
+    "lifecycle": "Separate lifecycle reviewer found metadata custody and GUI export-error defects; both reproduced RED, fixed, GREEN and reread closed.",
+    "native": "Separate native standards/spec reviewers; two prebuild findings fixed and reread.",
+    "production": "Fixture/audit agent reviewed production backend/integration/GUI/native code it did not author."
+  },
+  "schema": "FreeCAD-960-final-review-and-quality-v1",
+  "spec_remaining_P1_P2": 0,
+  "standards_remaining_P1_P2": 0
+}

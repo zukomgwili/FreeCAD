@@ -369,11 +369,13 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         self.set_inp_file_name()
 
     def write_inp_file(self):
+        from femtools import beam_section_forces
         from femtools import contact_state
         from femtools import force_accounting
 
         force_accounting.invalidate(self.analysis, "solver input rewrite attempted")
         contact_export = contact_state.begin_export(self)
+        beam_export = beam_section_forces.begin_export(self)
         # Count the complete active graph before any mesh-set resolution,
         # connector validation or deck writing can incur expensive work.
         self.native_accounting_capacity = force_accounting.capacity_preflight(
@@ -421,11 +423,13 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             )
             inp_writer.native_accounting_capacity = self.native_accounting_capacity
             inp_writer.native_contact_export_digest = contact_export
+            inp_writer.beam_section_export_digest = beam_export
             self.inp_file_name = inp_writer.write_solver_input()
             from femtools import force_accounting
 
             force_accounting.prepare_request(inp_writer)
             contact_state.prepare_request(inp_writer)
+            beam_section_forces.prepare_request(inp_writer)
         except Exception:
             FreeCAD.Console.PrintError(
                 f"Unexpected error when writing CalculiX input file: {sys.exc_info()[1]}\n"
@@ -445,11 +449,24 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
 
         """
         error_title = self.tr("No or wrong CalculiX binary ccx")
+        from femtools import beam_section_forces
         from femtools import contact_state
         from femtools import force_accounting
 
+        if beam_section_forces.enabled(self.solver):
+            selected = force_accounting.solver_binary(self.solver)
+            if not os.path.isabs(selected):
+                raise ValueError("Native beam output requires an absolute solver selection")
+            bound = os.path.realpath(selected, strict=True)
+            if ccx_binary is not None and (
+                not os.path.isabs(ccx_binary) or os.path.realpath(ccx_binary, strict=True) != bound
+            ):
+                raise ValueError("Native beam solver override differs from its saved selection")
+            ccx_binary = bound
         if ccx_binary is None and (
-            force_accounting.enabled(self.solver) or contact_state.enabled(self.solver)
+            force_accounting.enabled(self.solver)
+            or contact_state.enabled(self.solver)
+            or beam_section_forces.enabled(self.solver)
         ):
             ccx_binary = force_accounting.solver_binary(self.solver)
             if force_accounting.enabled(self.solver):
@@ -474,6 +491,8 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
                 "CalculiX binary not found\n"
                 "Install CalculiX or set path to binary in FEM user preferences"
             )
+        if beam_section_forces.enabled(self.solver):
+            self.ccx_binary = beam_section_forces.require_capability(self.ccx_binary)
 
         ccx_stdout = None
         ccx_stderr = None
@@ -483,6 +502,11 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 shell=False,
+                env={
+                    key: value
+                    for key, value in os.environ.items()
+                    if key != "CCX_BEAM_SECTION_REQUEST"
+                },
                 startupinfo=femutils.startProgramInfo(""),
             )
             ccx_stdout, ccx_stderr = p.communicate()
@@ -523,6 +547,7 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
     def start_ccx(self):
         import multiprocessing
         from femmesh import quality
+        from femtools import beam_section_forces
         from femtools import contact_state
         from femtools import force_accounting
 
@@ -535,10 +560,16 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         context = force_accounting.run_context(self, self.ccx_binary)
         environment = context[0] if context else dict(os.environ)
         environment.pop(contact_state.ENV, None)
+        environment.pop("CCX_BEAM_SECTION_REQUEST", None)
         environment.pop("CCX_9ZT_DIAGNOSTIC", None)
         contact_context = contact_state.run_context(self, self.ccx_binary, environment=environment)
         if contact_context:
             environment = contact_context["environment"]
+        beam_context = beam_section_forces.run_context(
+            self, self.ccx_binary, environment=environment
+        )
+        if beam_context:
+            environment = beam_context["environment"]
         # A per-process environment/cwd avoids leaking accounting activation,
         # thread settings or a temporary directory into another solver run.
         environment["OMP_NUM_THREADS"] = str(
@@ -574,6 +605,10 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             contact_state.finish_run(self, contact_context, p.returncode, self.ccx_stdout)
         except Exception as error:
             errors.append(error)
+        try:
+            beam_section_forces.finish_run(self, beam_context, p.returncode, self.ccx_stdout)
+        except Exception as error:
+            errors.append(error)
         if errors:
             raise ValueError("; ".join(str(error) for error in errors)) from errors[0]
         return p.returncode
@@ -590,6 +625,9 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             shell=False,
+            env={
+                key: value for key, value in os.environ.items() if key != "CCX_BEAM_SECTION_REQUEST"
+            },
             startupinfo=femutils.startProgramInfo(""),
         )
         ccx_stdout, ccx_stderr = p.communicate()
@@ -600,11 +638,13 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         return (int(m.group(1)), int(m.group(2)))
 
     def ccx_run(self):
+        from femtools import beam_section_forces
         from femtools import contact_state
         from femtools import force_accounting
 
         force_accounting.invalidate(self.analysis, "new solver run attempted")
         contact_state.invalidate(self.analysis, "new solver run attempted")
+        beam_section_forces.invalidate(self.analysis, "new solver run attempted")
         ret_code = None
         FreeCAD.Console.PrintMessage("\n")  # because of time print in separate line
         FreeCAD.Console.PrintMessage("CalculiX solver run...\n")
@@ -845,11 +885,23 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
     def load_results_ccxfrd(self):
         """Load results of ccx calculations from .frd file."""
         import feminout.importCcxFrdResults as importCcxFrdResults
+        from femtools import beam_section_forces
 
         frd_result_file = os.path.splitext(self.inp_file_name)[0] + ".frd"
+        if beam_section_forces.enabled(self.solver):
+            beam_section_forces.validate_frd(self, frd_result_file)
         if os.path.isfile(frd_result_file):
             importCcxFrdResults.importFrd(
-                frd_result_file, self.analysis, "CCX_", self.solver.AnalysisType
+                frd_result_file,
+                self.analysis,
+                "CCX_",
+                self.solver.AnalysisType,
+                beam_section_forces=beam_section_forces.enabled(self.solver),
+                trusted_stress_context=(
+                    not beam_section_forces.enabled(self.solver)
+                    and os.path.isfile(self.inp_file_name)
+                    and not os.path.islink(self.inp_file_name)
+                ),
             )
             for m in self.analysis.Group:
                 if m.isDerivedFrom("Fem::FemResultObject"):

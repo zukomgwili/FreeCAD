@@ -129,6 +129,9 @@ class FemInputWriterCcx(writerbase.FemInputWriter):
     # ********************************************************************************************
     # write calculix input
     def write_solver_input(self):
+        from femtools import beam_section_forces
+
+        beam_section_forces.preflight(self.analysis, self.solver_obj, self.mesh_object)
         # A writer may be used again after model edits. Never carry verified
         # port regions, mesh coordinates or allocated IDs into another export.
         self.port_resolution_context = (

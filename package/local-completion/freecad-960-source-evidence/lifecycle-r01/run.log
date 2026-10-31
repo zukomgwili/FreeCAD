@@ -1,0 +1,43 @@
+[BEAM960-QUALIFIED-ORIGINS] {"runtime": ["27", "1", "0", "49261 +239 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 08:18:02", "codex/fix-toroidal-self-cut", "9438900bfc6598ccb33472e639dff6e96eda7a5f"], "modules": {"femtools.beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", "sha256": "fb5da3575ff95f332e764b5eaf632534578de98d2758fb5c5230d85810157a5a"}, "femtools.ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", "sha256": "ccefec4e70d8a3d8f4e3e5c3ec9b5b65f51c4e5ebc27d000f7ebb070a54bba3a"}, "femobjects.solver_ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/solver_ccxtools.py", "sha256": "8364461868ef4c8e21ea9dba09153ad418399fb6c8d7b26f99cb0894cbcd884e"}, "femtest.app.test_beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", "sha256": "aaae51b1b6ce879c8c193b27878e9129762c9e672340a5a923f79e4d82dad137"}}}
+test_physical_load_change_withdraws_current_but_preserves_saved_history (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_physical_load_change_withdraws_current_but_preserves_saved_history) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_unsupported_solver_settings_are_refused_without_silent_changes (femtest.app.test_beam_section_forces_lifecycle.TestBeamSectionForcesLifecycle.test_unsupported_solver_settings_are_refused_without_silent_changes) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.213s
+
+OK
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/lifecycle-r01/test_physical_load_change_withdraws_current_but_preserves_saved_history/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/lifecycle-r01/test_physical_load_change_withdraws_current_but_preserves_saved_history/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/lifecycle-r01/test_physical_load_change_withdraws_current_but_preserves_saved_history/Mesh.dat

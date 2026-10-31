@@ -81,6 +81,7 @@ class _TaskPanel:
         self.Calculix = QtCore.QProcess()
         self._accounting_context = None
         self._contact_context = None
+        self._beam_context = None
         self._contact_stdout = b""
         self._run_cancelled = False
         self._skip_run_click = False
@@ -252,23 +253,28 @@ class _TaskPanel:
             self._withdraw_native_run("CalculiX process error; rerun required")
 
     def _withdraw_native_run(self, reason):
+        from femtools import beam_section_forces
         from femtools import contact_state
         from femtools import force_accounting
 
         accounting, self._accounting_context = self._accounting_context, None
         self._contact_context = None
+        self._beam_context = None
         force_accounting.invalidate(self.fea.analysis, reason)
         contact_state.invalidate(self.fea.analysis, reason)
+        beam_section_forces.invalidate(self.fea.analysis, reason)
         # Error/cancel/prelaunch failure is not a successful child completion,
         # even if a later finished signal happens to carry a zero exit code.
         force_accounting.finish_run(accounting, -1, self._contact_stdout)
 
     def _finish_native_run(self, returncode):
+        from femtools import beam_section_forces
         from femtools import contact_state
         from femtools import force_accounting
 
         accounting, self._accounting_context = self._accounting_context, None
         contact, self._contact_context = self._contact_context, None
+        beam, self._beam_context = self._beam_context, None
         try:
             force_accounting.finish_run(accounting, returncode, self._contact_stdout)
             if returncode == 0 and accounting is not None:
@@ -281,6 +287,11 @@ class _TaskPanel:
         except Exception as error:
             contact_state.invalidate(self.fea.analysis, "Contact output import failed")
             self.femConsoleMessage(f"Native contact output unavailable: {error}", "Error")
+        try:
+            beam_section_forces.finish_run(self.fea, beam, returncode, self._contact_stdout)
+        except Exception as error:
+            beam_section_forces.invalidate(self.fea.analysis, "Beam-end output import failed")
+            self.femConsoleMessage(f"Native beam-end output unavailable: {error}", "Error")
 
     def calculixNoError(self):
         print("CalculiX done without error!")
@@ -357,23 +368,31 @@ class _TaskPanel:
         self.form.le_working_dir.setText(self.fea.working_dir)
 
     def write_input_file_handler(self):
+        from femtools import beam_section_forces
         from femtools import force_accounting
 
         self.Start = time.time()
         force_accounting.invalidate(self.fea.analysis, "Solver input rewrite attempted")
+        beam_section_forces.invalidate(self.fea.analysis, "Solver input rewrite attempted")
+        self.form.pb_edit_inp.setEnabled(False)
+        self.form.pb_run_ccx.setEnabled(False)
         self.form.l_time.setText(f"Time: {time.time() - self.Start:4.1f}: ")
         QApplication.restoreOverrideCursor()
-        if self.check_prerequisites_helper():
-            QApplication.setOverrideCursor(Qt.WaitCursor)
-            self.fea.write_inp_file()
-            if self.fea.inp_file_name != "":
-                self.femConsoleMessage("Write completed.")
-                self.form.pb_edit_inp.setEnabled(True)
-                self.form.pb_run_ccx.setEnabled(True)
-            else:
-                self.femConsoleMessage("Write .inp file failed!", "Error")
+        try:
+            if self.check_prerequisites_helper():
+                QApplication.setOverrideCursor(Qt.WaitCursor)
+                failed = self.fea.write_inp_file()
+                if not failed and self.fea.inp_file_name:
+                    self.femConsoleMessage("Write completed.")
+                    self.form.pb_edit_inp.setEnabled(True)
+                    self.form.pb_run_ccx.setEnabled(True)
+                else:
+                    self.femConsoleMessage("Write .inp file failed!", "Error")
+        except Exception as error:
+            self.femConsoleMessage(f"Write .inp file failed: {error}", "Error")
+        finally:
             QApplication.restoreOverrideCursor()
-        self.form.l_time.setText(f"Time: {time.time() - self.Start:4.1f}: ")
+            self.form.l_time.setText(f"Time: {time.time() - self.Start:4.1f}: ")
 
     def check_prerequisites_helper(self):
         self.Start = time.time()
@@ -413,6 +432,7 @@ class _TaskPanel:
             self._skip_run_click = False
             return
         if self.Calculix.state() == QtCore.QProcess.ProcessState.NotRunning:
+            from femtools import beam_section_forces
             from femtools import contact_state
             from femtools import force_accounting
 
@@ -420,7 +440,11 @@ class _TaskPanel:
             self._contact_stdout = b""
             self._run_cancelled = False
             self._withdraw_native_run("Solver rerun started")
-            if contact_state.enabled(self.fea.solver) or force_accounting.enabled(self.fea.solver):
+            if (
+                contact_state.enabled(self.fea.solver)
+                or force_accounting.enabled(self.fea.solver)
+                or beam_section_forces.enabled(self.fea.solver)
+            ):
                 try:
                     # The saved request may have changed since this task
                     # panel opened. Select and qualify its actual executable.
@@ -461,6 +485,7 @@ class _TaskPanel:
                 # Ambient requests must never activate either native observer
                 # or point this child at another solver attempt's output.
                 environment.pop(contact_state.ENV, None)
+                environment.pop(beam_section_forces.ENV, None)
                 environment.pop("CCX_9ZT_DIAGNOSTIC", None)
                 if self._accounting_context is None:
                     environment.pop("CCX_FORCE_ACCOUNTING_REQUEST", None)
@@ -476,6 +501,11 @@ class _TaskPanel:
                 )
                 if self._contact_context is not None:
                     environment = self._contact_context["environment"]
+                self._beam_context = beam_section_forces.run_context(
+                    self.fea, self.fea.ccx_binary, environment=environment
+                )
+                if self._beam_context is not None:
+                    environment = self._beam_context["environment"]
                 env = QtCore.QProcessEnvironment()
                 for key, value in environment.items():
                     env.insert(key, value)
@@ -503,7 +533,10 @@ class _TaskPanel:
 
     def _cancel_calculix(self, reason):
         active = self.Calculix.state() != QtCore.QProcess.ProcessState.NotRunning
-        pending = self._accounting_context is not None or self._contact_context is not None
+        pending = any(
+            context is not None
+            for context in (self._accounting_context, self._contact_context, self._beam_context)
+        )
         self.Timer.stop()
         if active or pending:
             self._run_cancelled = True

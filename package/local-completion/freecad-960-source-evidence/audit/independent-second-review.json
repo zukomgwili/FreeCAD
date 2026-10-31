@@ -1,0 +1,866 @@
+{
+  "schema": "FreeCAD-960-independent-second-static-equilibrium-review-v1",
+  "reviewer": "/root/beam960_lifecycle",
+  "authorship_disclosure": "Reviewer authored safety/lifecycle tests only, not the analytical physics fixtures, production implementation, native observer, or first arithmetic audit.",
+  "method": "Independent 60-digit Decimal summation from literal stock NODE/CLOAD and BOUNDARY/NSET records. Root force=-sum(CLOAD); root moment=-sum((original loaded-node position-original fixed-root position) cross CLOAD). Compare to literal native final element1/node1/end1 wrench; shift its current-centroid moment to the fixed-root point using its observed force and centroid offset. No test-oracle constants or recovered stresses supply references.",
+  "frozen_zero_scales": {
+    "pure_couple_force_N": 0.02,
+    "axial_moment_Nmm": 10000.0
+  },
+  "script_sha256": "04c3dc16b5e14dca5ef81fe5f11c348bd237dacb47ffec143f0a04d09bc84130",
+  "source_gate_receipt_sha256": "91e5eb8951734255cd300c622d3f9e99da90bdf20c08e777b781d26d9b7fc089",
+  "native_execution_performed": false,
+  "FreeCAD_import_performed": false,
+  "engineering_limit_changed": false,
+  "cases": [
+    {
+      "case": "test_axial_compression_root_reverses_the_global_end_action",
+      "inputs_sha256": {
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.inp": "83a94ffc07b2b1a430ec953edad7851fcdb8b57273095e8d2126ed6e6a741e91",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.beam-section.run-be096175864644d7a5404c7b4c29d40b.out": "96188e45092e0840e1f546ad82fd914230aeb401abe43452dd1b2d22224a54cc",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.beam-section.run-be096175864644d7a5404c7b4c29d40b": "56da21fbcd82e3698ef793484cd72bf3b33f4d89313e440bc42821a1f3cec7a2",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.beam-section": "b9c7007d796e34546f328e47c4429c4c09e32c4b707dc980643f67d04b3a3db0",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_compression_root_reverses_the_global_end_action/Mesh.beam-section.json": "3d70c8d59a9bf50b96ad81f96ac3758fee9da3ba17354e4b999ed519071aa984"
+      },
+      "declared_units": "Stock writer footer: mm, N, MPa=N/mm^2; raw diagnostic mm/N/N*mm agrees",
+      "root_node": 1,
+      "root_position_mm": [
+        "0",
+        "0",
+        "0"
+      ],
+      "fixed_dofs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stem_endpoint_path": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "stem_length_mm": 100.0,
+      "rectangular_dimensions_mm": [
+        2,
+        4
+      ],
+      "young_modulus_MPa": 100000,
+      "poisson_ratio": 0.3,
+      "cload_terms": [
+        {
+          "node": 11,
+          "dof": 1,
+          "force_N": [
+            "-100",
+            "0",
+            "0"
+          ],
+          "position_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "lever_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "moment_Nmm": [
+            "0",
+            "-0",
+            "0"
+          ]
+        }
+      ],
+      "reference_force_N_decimal": [
+        "100",
+        "0",
+        "0"
+      ],
+      "reference_moment_about_root_Nmm_decimal": [
+        "0",
+        "0",
+        "0"
+      ],
+      "native_force_N": [
+        99.99600000004791,
+        8.168132836772202e-12,
+        -1.0335066136235582e-12
+      ],
+      "native_moment_about_section_centroid_Nmm": [
+        2.1158214069672e-12,
+        6.063771706976695e-11,
+        6.542695274447397e-10
+      ],
+      "native_moment_about_fixed_root_Nmm": [
+        2.1158214069672e-12,
+        6.063771706976695e-11,
+        6.542695274447397e-10
+      ],
+      "root_centroid_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "root_centroid_offset_norm_mm": 0.0,
+      "force_denominator_N": 100.0,
+      "moment_denominator_Nmm": 10000.0,
+      "force_error_fraction": 3.999999952085886e-05,
+      "moment_error_fraction": 6.570768782832206e-14,
+      "physical_tolerance_fraction": 0.01,
+      "frame": {
+        "step": 1,
+        "increment": 1,
+        "frame": 2,
+        "time": 1
+      },
+      "end_sample_count": 10,
+      "maximum_end_incidence_at_one_original_node": 2,
+      "basis_handedness_counts": {
+        "negative": 5,
+        "positive": 5
+      },
+      "maximum_axis_consistency_error": 0.0,
+      "maximum_local_projection_wire_error": 0.0,
+      "passed": true
+    },
+    {
+      "case": "test_axial_tension_root_has_negative_global_end_action",
+      "inputs_sha256": {
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.inp": "90ab928130f131b77a761c1170ac02e203ff2dfe20285a2c4c1520f2f0a7e604",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.beam-section.run-5053fedbf7ea48f1a6c4c7dcff4d8486.out": "e3b8a73ab172dea41339d7b9fb1c13b118ef29eb74459bbc5cadd64fbaff0473",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.beam-section.run-5053fedbf7ea48f1a6c4c7dcff4d8486": "418992dced75a51b9553cdb2ee82c4901da6b2c6340137f8589807a69c928615",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.beam-section": "595e50039f317f907dc055e43b4482f133ae78d28b21af2ebc4c2fbc3d0547fb",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_axial_tension_root_has_negative_global_end_action/Mesh.beam-section.json": "392c0e5200becda5fc27e9e73b44709c9f470c51eed037012136be15b8c6e0dd"
+      },
+      "declared_units": "Stock writer footer: mm, N, MPa=N/mm^2; raw diagnostic mm/N/N*mm agrees",
+      "root_node": 1,
+      "root_position_mm": [
+        "0",
+        "0",
+        "0"
+      ],
+      "fixed_dofs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stem_endpoint_path": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "stem_length_mm": 100.0,
+      "rectangular_dimensions_mm": [
+        2,
+        4
+      ],
+      "young_modulus_MPa": 100000,
+      "poisson_ratio": 0.3,
+      "cload_terms": [
+        {
+          "node": 11,
+          "dof": 1,
+          "force_N": [
+            "100",
+            "0",
+            "0"
+          ],
+          "position_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "lever_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "moment_Nmm": [
+            "0",
+            "0",
+            "0"
+          ]
+        }
+      ],
+      "reference_force_N_decimal": [
+        "-100",
+        "0",
+        "0"
+      ],
+      "reference_moment_about_root_Nmm_decimal": [
+        "0",
+        "0",
+        "0"
+      ],
+      "native_force_N": [
+        -99.99600000004791,
+        -8.168132836772202e-12,
+        1.0335066136235582e-12
+      ],
+      "native_moment_about_section_centroid_Nmm": [
+        -2.1158214069672e-12,
+        -6.063771706976695e-11,
+        -6.542695274447397e-10
+      ],
+      "native_moment_about_fixed_root_Nmm": [
+        -2.1158214069672e-12,
+        -6.063771706976695e-11,
+        -6.542695274447397e-10
+      ],
+      "root_centroid_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "root_centroid_offset_norm_mm": 0.0,
+      "force_denominator_N": 100.0,
+      "moment_denominator_Nmm": 10000.0,
+      "force_error_fraction": 3.999999952085886e-05,
+      "moment_error_fraction": 6.570768782832206e-14,
+      "physical_tolerance_fraction": 0.01,
+      "frame": {
+        "step": 1,
+        "increment": 1,
+        "frame": 2,
+        "time": 1
+      },
+      "end_sample_count": 10,
+      "maximum_end_incidence_at_one_original_node": 2,
+      "basis_handedness_counts": {
+        "negative": 5,
+        "positive": 5
+      },
+      "maximum_axis_consistency_error": 0.0,
+      "maximum_local_projection_wire_error": 0.0,
+      "passed": true
+    },
+    {
+      "case": "test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes",
+      "inputs_sha256": {
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes/Mesh.inp": "35c568b2fa8a920fbbdb2e64b502c86f3564d453c923203bb7cb9a1457a30751",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes/Mesh.beam-section.run-62a13692b6ea4674a643ccbe28faa9d6.out": "c5297ad46efedfb8fa2310b852930ab0117dae3d308a4c4ab7e30920bdb33f07",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes/Mesh.beam-section.run-62a13692b6ea4674a643ccbe28faa9d6": "4648020798ec96d82e903dc3781c518a9c4a92e0b316f6d45dc523d43f186daa",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes/Mesh.beam-section": "d8152a8662b0fc42264f7b8ae1eb486514d8d56c5c82ae87392a59f62ecf8f95",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes/Mesh.beam-section.json": "5381c69d58bceb0aae75e83c33f4f055e089f0fa976b7d13b9bfbbc16b4cf4f2"
+      },
+      "declared_units": "Stock writer footer: mm, N, MPa=N/mm^2; raw diagnostic mm/N/N*mm agrees",
+      "root_node": 1,
+      "root_position_mm": [
+        "37",
+        "-19",
+        "11"
+      ],
+      "fixed_dofs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stem_endpoint_path": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "stem_length_mm": 99.99999999997866,
+      "rectangular_dimensions_mm": [
+        2,
+        4
+      ],
+      "young_modulus_MPa": 100000,
+      "poisson_ratio": 0.3,
+      "cload_terms": [
+        {
+          "node": 13,
+          "dof": 1,
+          "force_N": [
+            "0.003059064380577",
+            "0",
+            "0"
+          ],
+          "position_mm": [
+            "119.8115188839",
+            "33.31514822621",
+            "-11.48060511211"
+          ],
+          "lever_mm": [
+            "82.8115188839",
+            "52.31514822621",
+            "-22.48060511211"
+          ],
+          "moment_Nmm": [
+            "0E-11",
+            "-0.06876961835227291679148747",
+            "-0.16003540650340503392632317"
+          ]
+        },
+        {
+          "node": 13,
+          "dof": 2,
+          "force_N": [
+            "0",
+            "-0.0007643570154784",
+            "0"
+          ],
+          "position_mm": [
+            "119.8115188839",
+            "33.31514822621",
+            "-11.48060511211"
+          ],
+          "lever_mm": [
+            "82.8115188839",
+            "52.31514822621",
+            "-22.48060511211"
+          ],
+          "moment_Nmm": [
+            "-0.017183208229640861437283424",
+            "-0E-11",
+            "-0.06329756542133096619255776"
+          ]
+        },
+        {
+          "node": 13,
+          "dof": 3,
+          "force_N": [
+            "0",
+            "0",
+            "0.009489883216793"
+          ],
+          "position_mm": [
+            "119.8115188839",
+            "33.31514822621",
+            "-11.48060511211"
+          ],
+          "lever_mm": [
+            "82.8115188839",
+            "52.31514822621",
+            "-22.48060511211"
+          ],
+          "moment_Nmm": [
+            "0.49646464713594836283474453",
+            "-0.7858716432134591970973327",
+            "0E-11"
+          ]
+        },
+        {
+          "node": 15,
+          "dof": 1,
+          "force_N": [
+            "-0.003059064380577",
+            "0",
+            "0"
+          ],
+          "position_mm": [
+            "127.6624083893",
+            "15.35561535903",
+            "-15.45787970246"
+          ],
+          "lever_mm": [
+            "90.6624083893",
+            "34.35561535903",
+            "-26.45787970246"
+          ],
+          "moment_Nmm": [
+            "0E-11",
+            "0.08093635738338658096311942",
+            "0.10509603921761277441356031"
+          ]
+        },
+        {
+          "node": 15,
+          "dof": 2,
+          "force_N": [
+            "0",
+            "0.0007643570154784",
+            "0"
+          ],
+          "position_mm": [
+            "127.6624083893",
+            "15.35561535903",
+            "-15.45787970246"
+          ],
+          "lever_mm": [
+            "90.6624083893",
+            "34.35561535903",
+            "-26.45787970246"
+          ],
+          "moment_Nmm": [
+            "0.020223265965258863406556864",
+            "-0E-11",
+            "0.06929844789252920211294112"
+          ]
+        },
+        {
+          "node": 15,
+          "dof": 3,
+          "force_N": [
+            "0",
+            "0",
+            "-0.009489883216793"
+          ],
+          "position_mm": [
+            "127.6624083893",
+            "15.35561535903",
+            "-15.45787970246"
+          ],
+          "lever_mm": [
+            "90.6624083893",
+            "34.35561535903",
+            "-26.45787970246"
+          ],
+          "moment_Nmm": [
+            "-0.32603077759825461402019079",
+            "0.8603756677676509538415149",
+            "0E-11"
+          ]
+        }
+      ],
+      "reference_force_N_decimal": [
+        "0E-15",
+        "0E-16",
+        "0E-15"
+      ],
+      "reference_moment_about_root_Nmm_decimal": [
+        "-0.173473927273311750783827180",
+        "-0.08667076358530542091581415",
+        "0.04893848481459402359237950"
+      ],
+      "native_force_N": [
+        2.6203605257846263e-13,
+        -3.242024704253055e-13,
+        -1.354402701103652e-13
+      ],
+      "native_moment_about_section_centroid_Nmm": [
+        -0.1734728448426447,
+        -0.08667022277531844,
+        0.04893817943104882
+      ],
+      "native_moment_about_fixed_root_Nmm": [
+        -0.1734728448426447,
+        -0.08667022277531844,
+        0.04893817943104882
+      ],
+      "root_centroid_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "root_centroid_offset_norm_mm": 0.0,
+      "force_denominator_N": 0.02,
+      "moment_denominator_Nmm": 0.20000000000008605,
+      "force_error_fraction": 2.1915417030502897e-11,
+      "moment_error_fraction": 6.23977303417268e-06,
+      "physical_tolerance_fraction": 0.01,
+      "frame": {
+        "step": 1,
+        "increment": 1,
+        "frame": 2,
+        "time": 1
+      },
+      "end_sample_count": 14,
+      "maximum_end_incidence_at_one_original_node": 3,
+      "basis_handedness_counts": {
+        "negative": 7,
+        "positive": 7
+      },
+      "maximum_axis_consistency_error": 2.220446049250313e-16,
+      "maximum_local_projection_wire_error": 2.7755575615628914e-17,
+      "passed": true
+    },
+    {
+      "case": "test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint",
+      "inputs_sha256": {
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint/Mesh.inp": "4fcf72bc3e2bc9a56a4c334649965cf5d6e27969c6f7a5baba268386fc0225e7",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint/Mesh.beam-section.run-4777cb77c0484fb3a7be4e6a82d3ae52.out": "84e42ec5db829f2fb04e55970b853fb9a905d787b6dbfab2115ebc48a17058e7",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint/Mesh.beam-section.run-4777cb77c0484fb3a7be4e6a82d3ae52": "85ce2ce0225dd84a652e2d43ee66f3be5d7083257c69c5b0aabc9572c5226610",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint/Mesh.beam-section": "a1343e828fbab4c5b64f3b31df7ef4abff36a03f5eef797586c31599205f695e",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint/Mesh.beam-section.json": "0b50cba139ad7c9306586e9b47bf73e1cd6dfd040a3ad6df648b6127ec84d8cf"
+      },
+      "declared_units": "Stock writer footer: mm, N, MPa=N/mm^2; raw diagnostic mm/N/N*mm agrees",
+      "root_node": 1,
+      "root_position_mm": [
+        "0",
+        "0",
+        "0"
+      ],
+      "fixed_dofs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stem_endpoint_path": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "stem_length_mm": 100.0,
+      "rectangular_dimensions_mm": [
+        2,
+        4
+      ],
+      "young_modulus_MPa": 100000,
+      "poisson_ratio": 0.3,
+      "cload_terms": [
+        {
+          "node": 13,
+          "dof": 3,
+          "force_N": [
+            "0",
+            "0",
+            "0.01"
+          ],
+          "position_mm": [
+            "100",
+            "10",
+            "0"
+          ],
+          "lever_mm": [
+            "100",
+            "10",
+            "0"
+          ],
+          "moment_Nmm": [
+            "0.10",
+            "-1.00",
+            "0"
+          ]
+        },
+        {
+          "node": 15,
+          "dof": 3,
+          "force_N": [
+            "0",
+            "0",
+            "-0.01"
+          ],
+          "position_mm": [
+            "100",
+            "-10",
+            "0"
+          ],
+          "lever_mm": [
+            "100",
+            "-10",
+            "0"
+          ],
+          "moment_Nmm": [
+            "0.10",
+            "1.00",
+            "0"
+          ]
+        }
+      ],
+      "reference_force_N_decimal": [
+        "0",
+        "0",
+        "0.00"
+      ],
+      "reference_moment_about_root_Nmm_decimal": [
+        "-0.20",
+        "0.00",
+        "0"
+      ],
+      "native_force_N": [
+        -3.9442147464763266e-13,
+        -4.638650574761982e-13,
+        -8.89018025862498e-13
+      ],
+      "native_moment_about_section_centroid_Nmm": [
+        -0.19999875203992623,
+        9.284665050679486e-11,
+        -3.2652964967322395e-11
+      ],
+      "native_moment_about_fixed_root_Nmm": [
+        -0.19999875203992623,
+        9.284665050679486e-11,
+        -3.2652964967322395e-11
+      ],
+      "root_centroid_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "root_centroid_offset_norm_mm": 0.0,
+      "force_denominator_N": 0.02,
+      "moment_denominator_Nmm": 0.2,
+      "force_error_fraction": 5.38769928058133e-11,
+      "moment_error_fraction": 6.239800388306362e-06,
+      "physical_tolerance_fraction": 0.01,
+      "frame": {
+        "step": 1,
+        "increment": 1,
+        "frame": 2,
+        "time": 1
+      },
+      "end_sample_count": 14,
+      "maximum_end_incidence_at_one_original_node": 3,
+      "basis_handedness_counts": {
+        "negative": 7,
+        "positive": 7
+      },
+      "maximum_axis_consistency_error": 0.0,
+      "maximum_local_projection_wire_error": 0.0,
+      "passed": true
+    },
+    {
+      "case": "test_transverse_y_root_has_signed_shear_and_bending_equilibrium",
+      "inputs_sha256": {
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.inp": "bb3ca9f79694bf34d181f9b1a74f38d77f4186ea1bf0ef1dce2d551edfbe9ded",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.beam-section.run-d9f67e434a8b43d7927bd136e325b87f.out": "3da7316936f69af37f9f8f31b8622b9ba0857877c38a44134651353d8faf1b57",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.beam-section.run-d9f67e434a8b43d7927bd136e325b87f": "1fb15b7ebc94e3bc42bbc192f35c4a5f6b664316b671deb4212c160de54cd04c",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.beam-section": "fcb90b1f460e347079d6797ed5afcefcda06f15751541430aee171935bb6e8a7",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_y_root_has_signed_shear_and_bending_equilibrium/Mesh.beam-section.json": "dc9f3679dc0e96c203271aa5be756b2570d86b4d5733d7c35513ce04ad48590a"
+      },
+      "declared_units": "Stock writer footer: mm, N, MPa=N/mm^2; raw diagnostic mm/N/N*mm agrees",
+      "root_node": 1,
+      "root_position_mm": [
+        "0",
+        "0",
+        "0"
+      ],
+      "fixed_dofs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stem_endpoint_path": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "stem_length_mm": 100.0,
+      "rectangular_dimensions_mm": [
+        2,
+        4
+      ],
+      "young_modulus_MPa": 100000,
+      "poisson_ratio": 0.3,
+      "cload_terms": [
+        {
+          "node": 11,
+          "dof": 2,
+          "force_N": [
+            "0",
+            "0.1",
+            "0"
+          ],
+          "position_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "lever_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "moment_Nmm": [
+            "0.0",
+            "0",
+            "10.0"
+          ]
+        }
+      ],
+      "reference_force_N_decimal": [
+        "0",
+        "-0.1",
+        "0"
+      ],
+      "reference_moment_about_root_Nmm_decimal": [
+        "0.0",
+        "0",
+        "-10.0"
+      ],
+      "native_force_N": [
+        -5.5283777555814595e-11,
+        -0.09999600063193692,
+        -9.879498261144981e-12
+      ],
+      "native_moment_about_section_centroid_Nmm": [
+        -1.1707938889216063e-09,
+        1.2604379762137796e-09,
+        -9.999930533128392
+      ],
+      "native_moment_about_fixed_root_Nmm": [
+        -1.1707938889216063e-09,
+        1.2604379762137796e-09,
+        -9.999930533128392
+      ],
+      "root_centroid_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "root_centroid_offset_norm_mm": 0.0,
+      "force_denominator_N": 0.1,
+      "moment_denominator_Nmm": 10.0,
+      "force_error_fraction": 3.99936806347884e-05,
+      "moment_error_fraction": 6.946687162921623e-06,
+      "physical_tolerance_fraction": 0.01,
+      "frame": {
+        "step": 1,
+        "increment": 1,
+        "frame": 2,
+        "time": 1
+      },
+      "end_sample_count": 10,
+      "maximum_end_incidence_at_one_original_node": 2,
+      "basis_handedness_counts": {
+        "negative": 5,
+        "positive": 5
+      },
+      "maximum_axis_consistency_error": 0.0,
+      "maximum_local_projection_wire_error": 0.0,
+      "passed": true
+    },
+    {
+      "case": "test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium",
+      "inputs_sha256": {
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.inp": "0435c3798612047a12654b216f9111eb5bae3b362c9287fbc85289620cd3d179",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.beam-section.run-26f12d3a344e44d2bddcb4667cc240b8.out": "498bb5ba41706d2dee3edfd5175fc930fe94d1469ef1ac8eb7ad6026b77b9abc",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.beam-section.run-26f12d3a344e44d2bddcb4667cc240b8": "d48da8d9e63e991d1a9596182ea24b44f93567afa1cf00a50ddad098597bcecf",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.beam-section": "a338061af36a9385284b421571b120e9bfb2912f2044b15d6805a89b733cbb0c",
+        "/private/tmp/freecad-960-vis6FvUB/rotated-matrix-r01/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium/Mesh.beam-section.json": "048d08e9554935d564d6507acec1a1a5a40e6609270e2da75c5b1f672ab15d55"
+      },
+      "declared_units": "Stock writer footer: mm, N, MPa=N/mm^2; raw diagnostic mm/N/N*mm agrees",
+      "root_node": 1,
+      "root_position_mm": [
+        "0",
+        "0",
+        "0"
+      ],
+      "fixed_dofs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stem_endpoint_path": [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "stem_length_mm": 100.0,
+      "rectangular_dimensions_mm": [
+        2,
+        4
+      ],
+      "young_modulus_MPa": 100000,
+      "poisson_ratio": 0.3,
+      "cload_terms": [
+        {
+          "node": 11,
+          "dof": 3,
+          "force_N": [
+            "0",
+            "0",
+            "0.2"
+          ],
+          "position_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "lever_mm": [
+            "100",
+            "0",
+            "0"
+          ],
+          "moment_Nmm": [
+            "0.0",
+            "-20.0",
+            "0"
+          ]
+        }
+      ],
+      "reference_force_N_decimal": [
+        "0",
+        "0",
+        "-0.2"
+      ],
+      "reference_moment_about_root_Nmm_decimal": [
+        "0.0",
+        "20.0",
+        "0"
+      ],
+      "native_force_N": [
+        -4.293454480830405e-12,
+        3.7881041185794384e-11,
+        -0.19999200006195644
+      ],
+      "native_moment_about_section_centroid_Nmm": [
+        -1.317781786469574e-10,
+        19.999861020979054,
+        3.309052587496808e-09
+      ],
+      "native_moment_about_fixed_root_Nmm": [
+        -1.317781786469574e-10,
+        19.999861020979054,
+        3.309052587496808e-09
+      ],
+      "root_centroid_offset_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "root_centroid_offset_norm_mm": 0.0,
+      "force_denominator_N": 0.2,
+      "moment_denominator_Nmm": 20.0,
+      "force_error_fraction": 3.9999690218294304e-05,
+      "moment_error_fraction": 6.948951049264799e-06,
+      "physical_tolerance_fraction": 0.01,
+      "frame": {
+        "step": 1,
+        "increment": 1,
+        "frame": 2,
+        "time": 1
+      },
+      "end_sample_count": 10,
+      "maximum_end_incidence_at_one_original_node": 2,
+      "basis_handedness_counts": {
+        "negative": 5,
+        "positive": 5
+      },
+      "maximum_axis_consistency_error": 0.0,
+      "maximum_local_projection_wire_error": 0.0,
+      "passed": true
+    }
+  ],
+  "findings": [],
+  "passed": true,
+  "limitations": "This independently checks six software-fixture free bodies and literal labels/bases. It does not independently re-solve mechanics, repair native expanded-node stress averaging, qualify general meshes/constitutive accuracy, or grant Oomakhi/building acceptance."
+}

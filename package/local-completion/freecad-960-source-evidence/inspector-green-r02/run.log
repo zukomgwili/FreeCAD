@@ -1,0 +1,44 @@
+(qt.qpa.fonts) Populating font family aliases took 86 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+[BEAM960-QUALIFIED-ORIGINS] {"runtime": ["27", "1", "0", "49261 +239 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/10/23 08:18:02", "codex/fix-toroidal-self-cut", "9438900bfc6598ccb33472e639dff6e96eda7a5f"], "modules": {"femtools.beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", "sha256": "d582b707a30faff0ebb10668f55519e6c6542292e020dbcead94bc7f76e03ada"}, "femtools.ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", "sha256": "3fb1386214e20150621368aa0206d8ae579e55aeff85364a9b7cabc0053127db"}, "femobjects.solver_ccxtools": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femobjects/solver_ccxtools.py", "sha256": "8364461868ef4c8e21ea9dba09153ad418399fb6c8d7b26f99cb0894cbcd884e"}, "femtest.app.test_beam_section_forces": {"path": "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces.py", "sha256": "aaae51b1b6ce879c8c193b27878e9129762c9e672340a5a923f79e4d82dad137"}}}
+test_visible_solver_write_and_run_saves_current_native_beam_end_actions (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_visible_solver_write_and_run_saves_current_native_beam_end_actions) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/inspector-green-r02/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+run CalculiX at: /private/tmp/freecad-960-vis6FvUB/native-build-r01/build/CalculiX/ccx_2.23/src/ccx_2.23_conda with: /private/tmp/freecad-960-vis6FvUB/inspector-green-r02/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/inspector-green-r02/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/inspector-green-r02/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.dat
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.406s
+
+OK
+System exit

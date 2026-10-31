@@ -1,0 +1,50 @@
+test_axial_member_ends_have_native_identity_units_and_signed_actions (Beam960AxialPublicTracer.TestBeamSectionForcesNative.test_axial_member_ends_have_native_identity_units_and_signed_actions) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+FAIL
+
+======================================================================
+FAIL: test_axial_member_ends_have_native_identity_units_and_signed_actions (Beam960AxialPublicTracer.TestBeamSectionForcesNative.test_axial_member_ends_have_native_identity_units_and_signed_actions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_beam_section_forces.py", line 75, in test_axial_member_ends_have_native_identity_units_and_signed_actions
+    self.assertEqual(len(results), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.328s
+
+FAILED (failures=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +239 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-960-vis6FvUB/native-axial-red-r01/dotted.parent/freecad-beam-axial-qgo8dim_/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-960-vis6FvUB/native-axial-red-r01/dotted.parent/freecad-beam-axial-qgo8dim_/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-960-vis6FvUB/native-axial-red-r01/dotted.parent/freecad-beam-axial-qgo8dim_/Mesh.dat
