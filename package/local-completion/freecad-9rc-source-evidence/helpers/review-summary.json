@@ -1,0 +1,69 @@
+{
+  "schema": "FreeCAD-9rc-independent-review-summary-v1",
+  "recorded_by": "/root",
+  "source": "Review messages in this chat, summarized rather than a verbatim transcript",
+  "final_source_sha256": {
+    "package/calculix/force-accounting/beamsection.c": "6bc49ce379ae9d592db2f559dd33b078a6aac57ca898d9eb11fd53740a06f773",
+    "package/calculix/force-accounting/beamsection.patch": "70d9d54e51e710dac6b802a5fe9b1a2037016d99846e6d3fb5b0e861e378523a",
+    "package/calculix/force-accounting/contactstate.c": "17b4269723398cde1b38d1a88413b9efdac6b0e676d95eb32e00d62e278c7d14",
+    "src/Mod/Fem/CMakeLists.txt": "9741c3159768295c8cd615d06af28d001c19813608f885252a685cbd4669f8e9",
+    "src/Mod/Fem/TestFemApp.py": "91bc5a9797839ceef4c3560c36c744c32ee6c772de74525cf72c7eacb4deb605",
+    "src/Mod/Fem/TestFemGui.py": "5fa2a885f04fb877f6d9381df10f10081d222bcab170a28dd4272d27608489bb",
+    "src/Mod/Fem/feminout/importCcxFrdResults.py": "26f8aa1fbce247a774bad40d13a5fd6f2f2c45c48d296a5317e1b0a4cf628d99",
+    "src/Mod/Fem/femtest/app/beam_contact_fixtures.py": "701485a0d819a0469b1ea4e03eb622e178bde123ea088bcf30a343ad847f9789",
+    "src/Mod/Fem/femtest/app/test_beam_contact_lifecycle.py": "2c1887d9a7e11efdd95d1e00156e77135c3b092fdfa0d8cfa42e498c3c1fc963",
+    "src/Mod/Fem/femtest/app/test_beam_contact_native.py": "d09eb72f475402dd0ae6e8994e22aa48b823fd9a579cc28e9d051352c9c30fa8",
+    "src/Mod/Fem/femtest/app/test_beam_contact_rejections.py": "4a0291572923121b96c01bb6c3e94ad557702b00fd650140cbb0126fea9c7a7b",
+    "src/Mod/Fem/femtest/gui/test_beam_contact_coupling.py": "b785cb6cdaa04708fac9f56e37a3ac36424179c7119e4e1288d3e98bb2cc6bc6",
+    "src/Mod/Fem/femtools/beam_contact_coupling.py": "ba385a5785e5f72a26c3311aa0c296834f3bff96208c66b6682e846725a36010",
+    "src/Mod/Fem/femtools/beam_contact_results.py": "a5cff8de9683ff743fef7aaff77969ad963e3fa570092c7d00939db175f9f39d",
+    "src/Mod/Fem/femtools/beam_section_forces.py": "5f27a0b6fae8c581cc7b498e6d745c5154fcbd09b68acc486708a3e2b84e12c0",
+    "src/Mod/Fem/femtools/beam_solid_results.py": "3eb8fba5803aaecc670cfda6525f36e08146e5ce053f522970a5bd3d5ad92c6e",
+    "src/Mod/Fem/femtools/ccxtools.py": "d144ab3ec1ac6d7bd737fab8b4dd4b20cd3d517c44992303307ee0a7caf60017",
+    "src/Mod/Fem/femtools/contact_state.py": "7b45e33a4aaf2730953e550b58601398bfa804f8a6a0b855be9a03ea08d36c97",
+    "src/Mod/Fem/femviewprovider/view_beam_section_forces.py": "02dabbb988f1fbb77c52de4982be3817521f94667332d11558c052c60d6e9de0"
+  },
+  "reviews": [
+    {
+      "reviewer": "/root/contact9rc_research",
+      "scope": "Pinned primary-source semantics, native C/patch preservation and thread safety, direct native owner-force/origin-moment arithmetic",
+      "result": "clear",
+      "native_binary_sha256": "f494702b78138099d4e526862113e382e0ce863d5aa2ad023e7c15f7c7928925",
+      "runtime_gates_reviewed": [
+        "compression-green-r05",
+        "formal-r01"
+      ]
+    },
+    {
+      "reviewer": "/root/contact9rc_integration",
+      "scope": "Shared child/case/frame provenance, paired lifecycle and multiowner raw-FRD ownership",
+      "result": "clear after corrections",
+      "findings_addressed": [
+        "Retire previous pair before repeat-run child allocation; RED reproduced in lifecycle-r02, fixed and GREEN in lifecycle-r03",
+        "Match rejection test class registration"
+      ],
+      "native_execution_performed": false
+    },
+    {
+      "reviewer": "/root/contact9rc_oracles",
+      "scope": "Independent frozen statics, GUI ownership/units, exact field equivalence, request refusals and final Spec/persistence claims",
+      "result": "clear after corrections",
+      "findings_addressed": [
+        "Withdraw actual cached companions after detachment/corruption/partial publication",
+        "Opening remains explicitly unqualified in diagnostic and oracle status",
+        "Separate-process cold ownership/settings/source-map/stress-array coverage including nonempty arrays"
+      ],
+      "runtime_gates_reviewed": [
+        "formal-r01",
+        "lifecycle-r03",
+        "rejections-r01",
+        "gui-r02",
+        "cold-r04",
+        "regressions-r02"
+      ],
+      "native_execution_performed": false
+    }
+  ],
+  "root_was_sole_native_executor": true,
+  "reviews_replace_required_runtime_gates": false
+}

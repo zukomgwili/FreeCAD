@@ -42,7 +42,8 @@ class VPBeamSectionForces(VPBaseFemObject):
         dialog = QtWidgets.QDialog(Gui.getMainWindow())
         dialog.setObjectName("NativeBeamSectionInspector")
         dialog.setWindowTitle("Native beam-end forces and moments — " + obj.Label)
-        hybrid = data["schema"] == "CCX_BEAM_SECTION_V3"
+        contact_coupled = data["schema"] == "CCX_BEAM_SECTION_V4"
+        hybrid = contact_coupled or data["schema"] == "CCX_BEAM_SECTION_V3"
         coupled = hybrid or data["schema"] == "CCX_BEAM_SECTION_V2"
         dialog.resize(1200, 900 if coupled else 650)
         layout = QtWidgets.QVBoxLayout(dialog)
@@ -70,6 +71,15 @@ class VPBeamSectionForces(VPBaseFemObject):
         frames = QtWidgets.QComboBox()
         frames.setObjectName("NativeBeamSectionFrames")
         layout.addWidget(frames)
+        if contact_coupled:
+            explanation = QtWidgets.QLabel(
+                "The paired native contact result shares this step, increment and time. "
+                "Its local samples, pressure, traction and state remain separate from beam "
+                "actions and the FRD stress dataset identity."
+            )
+            explanation.setObjectName("NativeBeamContactPair")
+            explanation.setWordWrap(True)
+            layout.addWidget(explanation)
         table = QtWidgets.QTableWidget()
         table.setObjectName("NativeBeamSectionSamples")
         table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -79,14 +89,23 @@ class VPBeamSectionForces(VPBaseFemObject):
         layout.addWidget(table, 2 if hybrid else 3)
         tables = [table]
         if coupled:
-            explanation = QtWidgets.QLabel(
+            action_explanation = (
                 "Actions use original global axes and moments about the global origin. "
-                "Beam guide and solid fixed are physical supports; spring ends and moving "
-                "RBE sides are internal transfer, not additional external ground supports."
-                if hybrid
-                else "Source, spring and support actions act on the structural model in original "
-                "global axes. Their moments are about the global origin."
+                "Beam guide, solid fixed and RBE physical guide are physical supports. "
+                "Spring ends, moving RBE sides and the two named solid contact sides are "
+                "internal transfer, not additional external ground supports. Contact-side "
+                "resultants do not replace native local contact samples."
+                if contact_coupled
+                else (
+                    "Actions use original global axes and moments about the global origin. "
+                    "Beam guide and solid fixed are physical supports; spring ends and moving "
+                    "RBE sides are internal transfer, not additional external ground supports."
+                    if hybrid
+                    else "Source, spring and support actions act on the structural model in original "
+                    "global axes. Their moments are about the global origin."
+                )
             )
+            explanation = QtWidgets.QLabel(action_explanation)
             explanation.setWordWrap(True)
             layout.addWidget(explanation)
             actions_table = QtWidgets.QTableWidget()
@@ -163,6 +182,10 @@ class VPBeamSectionForces(VPBaseFemObject):
             headers = [
                 "Action",
                 "Owner",
+            ]
+            if contact_coupled:
+                headers += ["Solid owner", "Contact side"]
+            headers += [
                 "Node / region" if hybrid else "Node",
                 "Spring element",
                 "Original position (mm)",
@@ -174,7 +197,7 @@ class VPBeamSectionForces(VPBaseFemObject):
                 spring = actions["spring"]
                 first, second = spring["ends"]
                 port = actions["port"]
-                catalogue = (
+                catalogue = [
                     (
                         "source",
                         actions["source"]["owner"],
@@ -231,10 +254,47 @@ class VPBeamSectionForces(VPBaseFemObject):
                         source["coupling"]["port"]["position"],
                         port["reference_action"],
                     ),
-                )
+                ]
+                extra_columns = {}
+                if contact_coupled:
+                    coupling = source["coupling"]
+                    extra_columns = {
+                        "solid fixed": (coupling["anchored_solid_owner"], "—"),
+                        "RBE receiving": (coupling["loaded_solid_owner"], "—"),
+                        "RBE reference": (coupling["loaded_solid_owner"], "—"),
+                        "RBE physical guide": (coupling["loaded_solid_owner"], "—"),
+                    }
+                    guide = actions["port_guide"]
+                    catalogue.append(
+                        (
+                            "RBE physical guide",
+                            guide["owner"],
+                            [guide["reference_node"], guide["rotation_node"]],
+                            "—",
+                            "—",
+                            guide,
+                        )
+                    )
+                    for side in actions["contact_sides"]:
+                        name = "contact on " + side["side"]
+                        extra_columns[name] = (side["solid_owner"], side["side"])
+                        catalogue.append(
+                            (
+                                name,
+                                side["owner"],
+                                coupling["contact"][side["side"].lower() + "_surface"],
+                                "—",
+                                "—",
+                                side,
+                            )
+                        )
                 for name, owner, nodes, element, position, row in catalogue:
+                    values = [name, owner]
+                    if contact_coupled:
+                        values += extra_columns.get(name, ("—", "—"))
                     rows.append(
-                        [name, owner, nodes, element, position]
+                        values
+                        + [nodes, element, position]
                         + row["force_global"]
                         + row["moment_origin"]
                     )
@@ -270,6 +330,11 @@ class VPBeamSectionForces(VPBaseFemObject):
                     (actions["solid_support"]["owner"], row)
                     for row in actions["solid_support"]["spcs"]
                 )
+                if contact_coupled:
+                    terms.extend(
+                        (actions["port_guide"]["owner"], row)
+                        for row in actions["port_guide"]["spcs"]
+                    )
                 terms.extend((port["owner"], row) for row in port["algebraic_spcs"])
             rows = []
             for owner, row in terms:

@@ -718,14 +718,24 @@ class ContactStateResult(BaseFemPythonObject):
         native = _validate_output(_json(literal), metadata)
         if native != {key: value for key, value in data.items() if key != "provenance"}:
             raise ValueError("Saved native contact frames differ from the bound native output")
+        if metadata.get("joint") or getattr(obj.Solver, "BeamSectionForces", False):
+            from femtools.beam_contact_results import require_current
+
+            require_current(obj, data)
         return data
 
     def getContactStates(self, obj):
         if not obj.Status.startswith("Current"):
+            from femtools.beam_contact_results import withdraw_result
+
+            withdraw_result(obj, "paired contact availability was withdrawn")
             raise ValueError(obj.Status)
         try:
             return self._validated(obj)
         except Exception as error:
+            from femtools.beam_contact_results import withdraw_result
+
+            withdraw_result(obj, str(error))
             self._set_status(obj, "Stale: " + str(error))
             raise ValueError(obj.Status) from error
 
@@ -734,6 +744,9 @@ class ContactStateResult(BaseFemPythonObject):
             self._validated(obj)
             self._set_status(obj, "Current native contact output; not design acceptance")
         except Exception as error:
+            from femtools.beam_contact_results import withdraw_result
+
+            withdraw_result(obj, str(error))
             self._set_status(obj, "Unavailable: " + str(error))
 
     def execute(self, obj):
@@ -751,6 +764,16 @@ class ContactStateResult(BaseFemPythonObject):
 
     def onDocumentRestored(self, obj):
         _reports.setdefault(obj.Document.Name, set()).add(obj.Name)
+        try:
+            coupled = bool(_json(obj.ContactData).get("provenance", {}).get("joint"))
+        except (ValueError, KeyError, TypeError):
+            coupled = False
+        if coupled:
+            self._updating = True
+            try:
+                obj.CompletedRun = False
+            finally:
+                self._updating = False
         self._set_status(obj, "Historical after restore; explicit validation required")
 
 

@@ -72,6 +72,9 @@ from femtest.app.test_moving_port_accounting_native import (
 from femtest.app.test_beam_section_forces import TestBeamSectionForces as FemTest46
 from femtest.app.test_beam_coupling_native import TestBeamCouplingNative as FemTest47
 from femtest.app.test_beam_solid_coupling_native import TestBeamSolidCouplingNative as FemTest48
+from femtest.app.test_beam_contact_native import TestBeamContactNative as FemTest49
+from femtest.app.test_beam_contact_lifecycle import TestBeamContactLifecycle as FemTest50
+from femtest.app.test_beam_contact_rejections import TestBeamContactRejections as FemTest51
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26
@@ -124,3 +127,6 @@ False if FemTest45.__name__ else True
 False if FemTest46.__name__ else True
 False if FemTest47.__name__ else True
 False if FemTest48.__name__ else True
+False if FemTest49.__name__ else True
+False if FemTest50.__name__ else True
+False if FemTest51.__name__ else True

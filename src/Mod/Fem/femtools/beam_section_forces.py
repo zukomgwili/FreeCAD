@@ -78,6 +78,7 @@ def require_capability(binary, *, coupled=False, schema=None):
         SCHEMA: "--freecad-beam-section-version",
         "CCX_BEAM_SECTION_V2": "--freecad-beam-coupling-version",
         "CCX_BEAM_SECTION_V3": "--freecad-beam-solid-version",
+        "CCX_BEAM_SECTION_V4": "--freecad-beam-contact-version",
     }[wanted]
     try:
         binary = str(selected.resolve(strict=True))
@@ -95,6 +96,10 @@ def require_capability(binary, *, coupled=False, schema=None):
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ValueError("Qualified native beam-end observer is unavailable") from error
     if result.returncode != 0 or result.stdout.strip() != wanted:
+        if wanted == "CCX_BEAM_SECTION_V4":
+            raise ValueError(
+                "Solver lacks native coupled beam/contact output V4; select the qualified solver"
+            )
         if wanted == "CCX_BEAM_SECTION_V3":
             raise ValueError(
                 "Solver lacks native beam-to-solid output V3; select the qualified solver"
@@ -176,9 +181,7 @@ def preflight(analysis, solver, mesh):
         raise ValueError(
             "Beam section output requires native B32R beams, not trusses or full integration"
         )
-    if getattr(solver, "NativeForceAccounting", False) or getattr(
-        solver, "NativeContactOutputs", ()
-    ):
+    if getattr(solver, "NativeForceAccounting", False):
         raise ValueError(
             "Beam section output is separate from solid accounting/contact diagnostics"
         )
@@ -189,6 +192,14 @@ def preflight(analysis, solver, mesh):
     end = solver.TimePeriod.Value
     if not math.isfinite(end) or end <= 0:
         raise ValueError("Beam section output requires a finite positive step period")
+    if getattr(solver, "NativeContactOutputs", ()):
+        from femtools import beam_contact_coupling
+
+        if beam_contact_coupling.requested(analysis, mesh):
+            return beam_contact_coupling.plan(analysis, solver, mesh)
+        raise ValueError(
+            "Beam section output is separate from solid accounting/contact diagnostics"
+        )
     from femtools import beam_solid_coupling
 
     if beam_solid_coupling.requested(analysis):
@@ -233,7 +244,7 @@ def _deck_sections(writer, literal, coupling=None):
     mode, options, rows = "", {}, []
     steps = 0
     spring_elements, solid_elements = {}, {}
-    mixed = coupling and coupling.get("schema") == "CCX_BEAM_SECTION_V3"
+    mixed = coupling and coupling.get("schema") in ("CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
 
     def section():
         if mode == "*BEAM SECTION":
@@ -421,10 +432,16 @@ def _retire_request(deck):
     for path in paths:
         literal = _read(path)[0]
         valid = (
-            _json(literal).get("schema") in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
+            _json(literal).get("schema")
+            in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
             if path.suffix == ".json"
             else literal.startswith(
-                ((SCHEMA + "\n").encode(), b"CCX_BEAM_SECTION_V2\n", b"CCX_BEAM_SECTION_V3\n")
+                (
+                    (SCHEMA + "\n").encode(),
+                    b"CCX_BEAM_SECTION_V2\n",
+                    b"CCX_BEAM_SECTION_V3\n",
+                    b"CCX_BEAM_SECTION_V4\n",
+                )
             )
         )
         if not valid:
@@ -455,12 +472,16 @@ def prepare_request(writer):
     text = literal.decode("utf-8")
     if "SECTION FORCES" not in text.upper():
         raise ValueError("The stock writer did not request native beam section forces")
-    from femtools import beam_coupling, beam_solid_coupling
+    from femtools import beam_contact_coupling, beam_coupling, beam_solid_coupling
 
     coupling_module = (
-        beam_solid_coupling
-        if coupling and coupling.get("schema") == beam_solid_coupling.SCHEMA
-        else beam_coupling
+        beam_contact_coupling
+        if coupling and coupling.get("schema") == beam_contact_coupling.SCHEMA
+        else (
+            beam_solid_coupling
+            if coupling and coupling.get("schema") == beam_solid_coupling.SCHEMA
+            else beam_coupling
+        )
     )
     if coupling:
         coupling = coupling_module.catalogue(writer, text, coupling)
@@ -564,6 +585,7 @@ def _current(fea, metadata):
         "output_sha256",
         "stdout_sha256",
         "completed_owned_run",
+        "joint",
     }
     if {name: value for name, value in metadata.items() if name not in runtime_fields} != original:
         _exports.pop((fea.analysis.Document.Name, fea.analysis.Name), None)
@@ -576,12 +598,26 @@ def _current(fea, metadata):
             or _sha(run["path"]) != run["sha256"]
         ):
             return False
+        if metadata["schema"] == "CCX_BEAM_SECTION_V4":
+            binding = run.get("contact_binding", {})
+            exported = metadata["coupling"]["contact_export"]
+            contact_token = binding.get("token")
+            if (
+                not isinstance(contact_token, str)
+                or not re.fullmatch(r"[0-9a-f]{32}", contact_token)
+                or binding.get("path") != exported["path"] + ".run-" + contact_token
+                or binding.get("sha256") != _sha(binding["path"])
+                or _sha(exported["path"]) != exported["sha256"]
+                or _sha(exported["metadata_path"]) != exported["metadata_sha256"]
+            ):
+                return False
     if "frd" in metadata:
         frd = metadata["frd"]
         if frd["path"] != str(Path(deck).with_suffix(".frd")) or _sha(frd["path"]) != frd["sha256"]:
             return False
     return (
-        metadata["schema"] in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
+        metadata["schema"]
+        in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
         and _model(fea.analysis, fea.mesh) == metadata["model_hash"]
         and _binary(fea.solver) == metadata["binary"]
         and _sha(metadata["binary"]) == metadata["binary_sha256"]
@@ -610,9 +646,45 @@ def run_context(fea, binary, environment=None):
     output = Path(str(child) + ".out")
     if child.exists() or child.is_symlink() or output.exists() or output.is_symlink():
         raise ValueError("Native beam child output already exists")
+    child_literal = literal.replace(old, "REQUEST " + token + "\n")
+    contact_binding = None
+    if metadata["schema"] == "CCX_BEAM_SECTION_V4":
+        from femtools import contact_state
+
+        contact_path = (os.environ if environment is None else environment).get(contact_state.ENV)
+        if not contact_path:
+            raise ValueError("Coupled beam output requires the owned contact child request")
+        selected_contact = Path(contact_path).resolve(strict=True)
+        contact_literal, contact_digest = _read(selected_contact)
+        matches = re.findall(r"^REQUEST ([0-9a-f]{32})$", contact_literal.decode("utf-8"), re.M)
+        exported = metadata["coupling"]["contact_export"]
+        if len(matches) != 1 or str(selected_contact) != exported["path"] + ".run-" + matches[0]:
+            raise ValueError("The coupled contact child nonce or request path is invalid")
+        exported_literal, exported_digest = _read(exported["path"])
+        if (
+            exported_digest != exported["sha256"]
+            or _sha(exported["metadata_path"]) != exported["metadata_sha256"]
+            or contact_literal
+            != exported_literal.replace(
+                ("REQUEST " + exported["token"] + "\n").encode(),
+                ("REQUEST " + matches[0] + "\n").encode(),
+            )
+        ):
+            raise ValueError("The coupled contact child differs from its exact owned export")
+        old_contact = "CONTACT_REQUEST " + exported["token"] + "\n"
+        if child_literal.count(old_contact) != 1:
+            raise ValueError("The beam request has an invalid contact export nonce")
+        child_literal = child_literal.replace(old_contact, "CONTACT_REQUEST " + matches[0] + "\n")
+        contact_binding = {
+            "token": matches[0],
+            "path": str(selected_contact),
+            "sha256": contact_digest,
+        }
     with child.open("x") as stream:
-        stream.write(literal.replace(old, "REQUEST " + token + "\n"))
+        stream.write(child_literal)
     metadata["run"] = {"token": token, "path": str(child), "sha256": _sha(child)}
+    if contact_binding:
+        metadata["run"]["contact_binding"] = contact_binding
     # Preserve a previous ordinary result recoverably, and refuse unsafe
     # output aliases before letting the native child open its FRD sibling.
     frd = _prepare_movement_run(fea.inp_file_name)
@@ -638,12 +710,17 @@ def _validate_output(data, metadata):
     def vector(value):
         return isinstance(value, list) and len(value) == 3 and all(map(finite, value))
 
-    coupled = data.get("schema") in ("CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
+    coupled = data.get("schema") in (
+        "CCX_BEAM_SECTION_V2",
+        "CCX_BEAM_SECTION_V3",
+        "CCX_BEAM_SECTION_V4",
+    )
     geometry_source = "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT"
 
     if (
         data.get("schema") != metadata.get("schema", SCHEMA)
-        or data.get("schema") not in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3")
+        or data.get("schema")
+        not in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
         or data.get("request") != metadata["run"]["token"]
         or data.get("units") != UNITS
         or data.get("complete") is not True
@@ -670,6 +747,15 @@ def _validate_output(data, metadata):
     frames = data.get("frames")
     if not isinstance(frames, list) or not frames:
         raise ValueError("Native beam output has no retained frames")
+    if data["schema"] == "CCX_BEAM_SECTION_V4":
+        binding = metadata.get("run", {}).get("contact_binding", {})
+        contact_token = binding.get("token")
+        if (
+            not isinstance(contact_token, str)
+            or not re.fullmatch(r"[0-9a-f]{32}", contact_token)
+            or data.get("contact_request") != contact_token
+        ):
+            raise ValueError("Native beam/contact output has a different contact child nonce")
     identities = set()
     previous = None
     for frame in frames:
@@ -692,7 +778,13 @@ def _validate_output(data, metadata):
             raise ValueError("Native beam frame identities or times are not monotonic")
         previous = (frame["frame"], frame["increment"], frame["time"])
         identities.add(tuple(values))
-        if data["schema"] == "CCX_BEAM_SECTION_V3":
+        if data["schema"] == "CCX_BEAM_SECTION_V4":
+            from femtools.beam_contact_coupling import validate
+
+            if frame.get("contact_request") != contact_token:
+                raise ValueError("Native beam/contact frame has a different contact child nonce")
+            validate(frame.get("native_actions"), metadata["coupling"])
+        elif data["schema"] == "CCX_BEAM_SECTION_V3":
             from femtools.beam_solid_coupling import validate
 
             validate(frame.get("native_actions"), metadata["coupling"])
@@ -938,9 +1030,16 @@ class BeamSectionForceResult(BaseFemPythonObject):
                 or _validate_output(_json(raw), metadata) != native
             ):
                 raise ValueError("Saved beam frames differ from the owned native output")
+            if data["schema"] == "CCX_BEAM_SECTION_V4":
+                from femtools.beam_contact_results import require_current
+
+                require_current(obj, data)
             return data
         except Exception as error:
             if not historical:
+                from femtools.beam_contact_results import withdraw_result
+
+                withdraw_result(obj, str(error))
                 self._status(obj, "Stale: " + str(error))
             raise ValueError(str(error)) from error
 

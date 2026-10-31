@@ -1,5 +1,9 @@
 # FreeCAD-sv7: using native coupled beam results
 
+The later [FreeCAD-9rc workflow](freecad-9rc-usage.md) adds a separately
+qualified V4 contact composition. The V2/V3 contracts described here retain
+their original contact refusals.
+
 The CalculiX solver's saved `BeamSectionForces` property enables native member-end forces, moments and section axes. It defaults to `False`. Enable it in the solver's **Data → Beam Section Forces** group, then write and run through the ordinary CalculiX solver panel. An empty `NativeAccountingSolver` selects the bundled qualified solver; an external solver must support the same diagnostics contract.
 
 Use a linear, small-displacement `static` analysis in `ModelSpace = 3D`, with `ReducedIntegration = True`, `ExcludeBendingStiffness = False`, `Output3d = False` and `SplitInputWriter = False`. Set a finite positive `TimePeriod`. Keep `NativeForceAccounting = False` and `NativeContactOutputs` empty. The coupled workflows below also require an empty `NativeAccountingSupports` list: their own native observations identify every admitted physical support.

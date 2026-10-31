@@ -1,0 +1,394 @@
+"""Collect only completed FreeCAD-9rc evidence; never run FreeCAD or a solver.
+
+The root agent reviews and runs this after every required gate completes.
+Profiles, CAD bodies, binaries, dependency environments and archives are omitted.
+Historical code inputs are preserved by their exact pre-run SHA256, not relabelled
+as the final implementation. Failed prototypes remain explicitly nonqualifying.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import stat
+import tempfile
+
+ROOT = Path('/private/tmp/freecad-9rc-9im9ovtw')
+REPO = Path('/Users/zukomgwili/src/FreeCAD')
+OUT = REPO / 'package/local-completion/freecad-9rc-source-evidence'
+VALIDATION = REPO / 'package/local-completion/freecad-9rc-validation.json'
+SOURCE_BASE = '54b924391c01e33e9538be15801df851a14f8243'
+NATIVE = 'f494702b78138099d4e526862113e382e0ce863d5aa2ad023e7c15f7c7928925'
+BASELINE_NATIVE = '1f6281e8d779deeeb0f6a587d2cdcb5a7fc935e95f90b394cb28e761b22a603e'
+ORIGINAL_ORACLE = '3991663c76cd9798a153442811f81727ebc62f4950cac7a2d9e145c0e8e5f714'
+NATIVE_SOURCES = {
+    'beamsection.c': '6bc49ce379ae9d592db2f559dd33b078a6aac57ca898d9eb11fd53740a06f773',
+    'beamsection.patch': '70d9d54e51e710dac6b802a5fe9b1a2037016d99846e6d3fb5b0e861e378523a',
+    'contactstate.c': '17b4269723398cde1b38d1a88413b9efdac6b0e676d95eb32e00d62e278c7d14',
+}
+REQUIRED = {
+    'production-build-r01', 'regressions-r01', 'fem-all-r01', 'ctest-r01',
+    'formal-r01', 'lifecycle-r03', 'rejections-r01', 'gui-r02', 'cold-r02',
+}
+FAILED = {
+    'compression-red-r01': ('EXPECTED_RED', 'Public compression tracer observed the unsupported preflight before implementation changed; the separately retained installed GUI baseline preceded implementation reading.',
+                            'Beam section output is separate from solid accounting/contact diagnostics'),
+    'compression-green-r01': ('NONQUALIFYING_PROTOTYPE', 'Frontend passed different FemMesh wrappers to the ownership context; corrected to canonical facts.femmesh.',
+                              'invalid mesh ownership context'),
+    'compression-green-r02': ('NONQUALIFYING_PROTOTYPE', 'Native observer incorrectly compared stock LINEAR law2.5 with2; corrected to the exact native integer dispatch [2,3).',
+                              'contact child identity, pair, law or time differs'),
+    'compression-green-r03': ('NONQUALIFYING_PROTOTYPE', 'Generic observer refusal of tiny converged physical SPC displacement despite an exact zero native prescription.',
+                              'unexpected native SPC identity, nonzero prescription or residual'),
+    'compression-green-r04': ('NONQUALIFYING_PROTOTYPE', 'Instrumented the same SPC refusal; native row24/node1/dir2 v8.47e-22 with prescribed zero. Fixed by exact current boundary identity/type/prescription authentication.',
+                              'native SPC row=24 node=1 direction=2 role=1'),
+    'lifecycle-r01': ('NONQUALIFYING_PROTOTYPE', 'NaN-containing generic-reader dictionary comparison and accessing a closed document were test issues; no qualification from this run.',
+                      'test_save_reopen_preserves_both_literals_as_historical'),
+    'lifecycle-r02': ('NONQUALIFYING_PROTOTYPE', 'Exposed the real getter race during repeat-run withdrawal, plus an overly broad compile-time-header equality assertion. Both corrected; lifecycle-r03 qualifies.',
+                      'test_getting_withdrawn_data_during_repeat_run_cannot_cancel_new_child'),
+}
+STATUS_AMENDMENT = (
+    'Qualification status: this section records an independently derived candidate,\n'
+    'not an implemented or executed V4 workflow. FreeCAD-9rc qualifies the bounded\n'
+    'force-controlled compressive path below its existing admission guards.\n'
+    'Prescribed opening and sliding remain outside that qualification. This status\n'
+    'clarification changes no geometry, load or predeclared numerical budget.\n\n'
+)
+MAX_SMALL = 32 * 1024 * 1024
+MAX_TEXT_INPUT = 16 * 1024 * 1024
+TEXT_SUFFIXES = {'.py', '.c', '.h', '.f', '.f90', '.cpp', '.hpp', '.patch', '.diff',
+                 '.md', '.txt', '.json', '.toml', '.lock', '.yaml', '.yml', '.cmake'}
+CASE_SUFFIXES = {'.json', '.frd', '.dat', '.inp', '.out', '.txt', '.log', '.csv',
+                 '.png', '.sta', '.cvg', '.12d', '.request', '.xml', '.equ', '.nam'}
+REQUEST_NAME = re.compile(r'.*\.(?:beam-section|contact-state|force-accounting)(?:\.run-[0-9a-f]{32})?(?:\.out)?$')
+PROFILE_PARTS = {'freecad_user_home', 'freecad_user_data', 'xdg_data_home',
+                 'xdg_config_home', 'xdg_cache_home', '__pycache__', '.pixi',
+                 '.git', '.config', 'profiles', 'profile'}
+FORBIDDEN_SUFFIXES = {'.fcstd', '.fcstd1', '.cfg', '.conf', '.ini', '.pyc', '.pyo',
+                      '.so', '.dylib', '.dll', '.exe', '.o', '.a', '.zip', '.bz2',
+                      '.gz', '.xz', '.7z', '.tar', '.step', '.stp', '.iges', '.igs', '.brep'}
+SECRET_NAMES = {'.env', 'credentials', 'credentials.json', 'token', 'tokens.json',
+                'user.cfg', 'system.cfg', 'config', 'config.json'}
+HEAVY_GATES = {'regressions-r01', 'fem-all-r01'}
+
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+
+def sha(path):
+    digest = hashlib.sha256()
+    with Path(path).open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def regular(path):
+    path = Path(path)
+    return path.is_file() and not path.is_symlink() and stat.S_ISREG(path.stat().st_mode)
+
+
+def safe_name(path):
+    path = Path(path)
+    return (path.suffix.lower() not in FORBIDDEN_SUFFIXES
+            and path.name.lower() not in SECRET_NAMES
+            and not any(part.lower() in PROFILE_PARTS for part in path.parts)
+            and 'Library' not in path.parts and 'Applications' not in path.parts)
+
+
+def text_input(path):
+    path = Path(path)
+    return safe_name(path) and (path.suffix.lower() in TEXT_SUFFIXES
+                                or path.name in {'CMakeLists.txt', 'COPYING', 'LICENSE', 'Makefile'})
+
+
+def json_write(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + '\n')
+
+
+def get_json(path):
+    return json.loads(Path(path).read_text())
+
+
+def resolve_input(original, expected):
+    require(re.fullmatch('[0-9a-f]{64}', expected) is not None, f'Invalid input SHA: {original}')
+    candidates = [ROOT / 'code-blobs' / expected, Path(original)]
+    for candidate in candidates:
+        if regular(candidate) and sha(candidate) == expected:
+            return candidate
+    raise RuntimeError(f'Missing exact historical text input {original} at SHA {expected}')
+
+
+def classify(name, receipt, log):
+    passed = receipt.get('passed') is True and receipt.get('returncode') == 0
+    if name in FAILED:
+        cls, reason, marker = FAILED[name]
+        require(not passed and receipt.get('passed') is False
+                and isinstance(receipt.get('returncode'), int) and receipt['returncode'] != 0,
+                f'Expected historical failed gate changed status: {name}')
+        require(marker in log, f'Historical failure marker absent: {name}')
+        return cls, reason
+    require(passed, f'UNKNOWN FAILED RECEIPT; refusing qualification: {name}')
+    if name in REQUIRED:
+        return 'QUALIFYING_PASS', 'Required final acceptance gate passed with complete custody.'
+    if name.startswith('native-build-r') and name != 'native-build-r04':
+        return 'NONQUALIFYING_PROTOTYPE', 'Successful prototype build; superseded by final native-build-r04.'
+    if name == 'cold-r01':
+        return 'SUPPORTING_PASS', 'Earlier cold reopen; superseded by cold-r02 with explicit restored ownership/source-map and selection assertions.'
+    return 'SUPPORTING_PASS', 'Passed supporting reproduction, build, script-sync or intermediate verification gate.'
+
+
+def verify_receipt(path):
+    receipt = get_json(path)
+    name = path.parent.name
+    require(receipt.get('source_commit') == SOURCE_BASE, f'Unexpected source base: {name}')
+    require(receipt.get('source_inputs_before') == receipt.get('source_inputs_after'),
+            f'Source input custody changed: {name}')
+    require(receipt.get('source_and_supervisor_unchanged') is True, f'Source custody failed: {name}')
+    require(receipt.get('protected_before') == receipt.get('protected_after'),
+            f'Protected application/profile custody changed: {name}')
+    require(receipt.get('app_and_three_profiles_unchanged') is True, f'Protected custody failed: {name}')
+    require(receipt.get('installation_performed') is False, f'Installation claimed by source gate: {name}')
+    require(receipt.get('timed_out') is False and receipt.get('child_reaped') is True
+            and receipt.get('process_group_gone') is True, f'Unclean child termination: {name}')
+    log = path.parent / 'run.log'
+    require(regular(log) and sha(log) == receipt.get('log_sha256'), f'Log custody failed: {name}')
+    cls, reason = classify(name, receipt, log.read_text(errors='replace'))
+    return receipt, cls, reason
+
+
+def filtered_frd(path):
+    return [line for line in path.read_bytes().splitlines()
+            if line[4:10] not in (b'1UDATE', b'1UTIME')
+            and not line.startswith(b'    1UCOMPILETIME')]
+
+
+def mechanics_equivalence():
+    base = ROOT / 'lifecycle-r03/cases/test_observers_preserve_the_ordinary_native_fields_on_the_same_stock_deck'
+    proof = get_json(base / 'mechanics-equivalence.json')
+    require(set(proof) == {'candidate_inactive', 'previous_inactive'}, 'Missing old/new inactive native comparison')
+    observed_frd = list((base / 'observed').glob('*.frd'))
+    observed_inp = list((base / 'observed').glob('*.inp'))
+    require(len(observed_frd) == 1, 'Ambiguous observed FRD')
+    # stock-input.inp is also retained; the actual solver deck is named by the FRD stem.
+    deck = observed_frd[0].with_suffix('.inp')
+    require(deck in observed_inp, 'Observed native deck missing')
+    literal = filtered_frd(observed_frd[0])
+    result = {'exclusions_only': ['1UDATE', '1UTIME', '1UCOMPILETIME'],
+              'comparison': 'Exact byte lines of native FRD mesh and fields; no numeric tolerance.',
+              'observed_frd_sha256': sha(observed_frd[0]), 'stock_deck_sha256': sha(deck), 'cases': {}}
+    for label, binary_hash in [('candidate_inactive', NATIVE), ('previous_inactive', BASELINE_NATIVE)]:
+        row = proof[label]
+        require(row.get('binary_sha256') == binary_hash and row.get('literal_native_mesh_and_fields_equal') is True,
+                f'Inactive comparison receipt changed: {label}')
+        frds = list((base / label).glob('*.frd'))
+        require(len(frds) == 1, f'Ambiguous inactive FRD: {label}')
+        inactive_deck = frds[0].with_suffix('.inp')
+        require(inactive_deck.read_bytes() == deck.read_bytes(), f'Inactive stock deck changed: {label}')
+        require(sha(inactive_deck) == row.get('deck_sha256'), f'Inactive deck receipt hash mismatch: {label}')
+        require(filtered_frd(frds[0]) == literal, f'Literal native physical fields changed: {label}')
+        result['cases'][label] = {'binary_sha256': binary_hash, 'frd_sha256': sha(frds[0]),
+                                  'deck_sha256': sha(inactive_deck), 'exact_equal': True}
+    return result
+
+
+def oracle_amendment():
+    path = REPO / 'package/local-completion/freecad-9rc-oracles.md'
+    original_path = resolve_input(str(path), ORIGINAL_ORACLE)
+    original = original_path.read_text()
+    current = path.read_text()
+    require(current.count(STATUS_AMENDMENT) == 1 and current.replace(STATUS_AMENDMENT, '', 1) == original,
+            'Oracle changed beyond the reviewed status-only amendment; cannot claim unchanged budgets')
+    return {'original_sha256': ORIGINAL_ORACLE, 'current_sha256': sha(path),
+            'amendment': 'Status-only clarification that prescribed opening/sliding are candidate, unimplemented and unqualified.',
+            'geometry_loads_and_all_predeclared_budgets_unchanged': True}
+
+
+def walk_owned(base):
+    """Never follow symlinks or enter any isolated profile/environment body."""
+    if not base.is_dir() or base.is_symlink():
+        return
+    for current, directories, files in os.walk(base, followlinks=False):
+        directories[:] = sorted(d for d in directories
+                                if d.lower() not in PROFILE_PARTS
+                                and not (Path(current) / d).is_symlink())
+        for name in sorted(files):
+            path = Path(current) / name
+            if regular(path) and path.name.lower() not in SECRET_NAMES:
+                yield path
+
+
+def collect():
+    receipts = sorted(ROOT.glob('*/execution.json'))
+    names = {p.parent.name for p in receipts}
+    require(REQUIRED <= names, 'Required final gates missing: ' + ', '.join(sorted(REQUIRED - names)))
+    verified = {p.parent.name: (p, *verify_receipt(p)) for p in receipts}
+    require(set(FAILED) <= names, 'Historical red/prototype receipts missing')
+    for name in REQUIRED:
+        require(verified[name][1]['passed'] is True, f'Final gate is not passed: {name}')
+    static_checks = get_json(ROOT / 'static-checks.json')
+    require(static_checks.get('black_returncode') == 0 and static_checks.get('ast_files', 0) > 0,
+            'Static checks did not pass')
+    native_stage = get_json(ROOT / 'native-stage.json')
+    require(native_stage.get('sha256') == NATIVE and native_stage.get('installation_performed') is False,
+            'Native stage identity/installation scope changed')
+    require(native_stage.get('previous_solver_replaced') is False, 'Previous solver was replaced')
+    require(sha(Path(native_stage['source'])) == NATIVE and sha(Path(native_stage['target'])) == NATIVE,
+            'Final native source/stage binary identity changed')
+    for name, expected in NATIVE_SOURCES.items():
+        require(sha(REPO / 'package/calculix/force-accounting' / name) == expected, f'Final native source changed: {name}')
+    mechanics = mechanics_equivalence()
+    amendment = oracle_amendment()
+    all_inputs = {}
+    for _, receipt, _, _ in verified.values():
+        for path, expected in receipt['source_inputs_before'].items():
+            all_inputs.setdefault(path, set()).add(expected)
+    final_paths = {Path(path) for path in all_inputs if Path(path).is_relative_to(REPO)
+                   and text_input(path) and (path.startswith(str(REPO / 'src/Mod/Fem') + '/')
+                   or path.startswith(str(REPO / 'package/calculix/force-accounting') + '/'))}
+    final_paths.update(REPO / 'package/local-completion' / ('freecad-9rc-' + name + '.md')
+                       for name in ('oracles', 'research', 'usage'))
+    final_hashes = {str(path.relative_to(REPO)): sha(path) for path in sorted(final_paths)}
+    # All assertions above precede creation or replacement of repository evidence.
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='.freecad-9rc-collect-', dir=OUT.parent) as temporary:
+        stage = Path(temporary) / 'evidence'
+        stage.mkdir()
+        artifacts = []
+        omissions = []
+
+        def copy_file(source, relative, expected=None):
+            source = Path(source)
+            require(regular(source), f'Non-regular source refused: {source}')
+            digest = sha(source)
+            require(expected is None or digest == expected, f'Copy input changed: {source}')
+            relative = Path(relative)
+            require(not relative.is_absolute() and '..' not in relative.parts, 'Unsafe archive path')
+            target = stage / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if target.exists():
+                require(sha(target) == digest, f'Conflicting evidence destination: {relative}')
+            else:
+                shutil.copyfile(source, target)
+            artifacts.append({'path': relative.as_posix(), 'sha256': digest, 'size': source.stat().st_size,
+                              'original': str(source)})
+            return relative.as_posix()
+
+        gate_map = {}
+        for name, (receipt_path, receipt, cls, reason) in verified.items():
+            archived_receipt = copy_file(receipt_path, Path('runs') / name / 'execution.json')
+            archived_log = copy_file(receipt_path.parent / 'run.log', Path('runs') / name / 'run.log', receipt['log_sha256'])
+            input_map = {}
+            for original, expected in sorted(receipt['source_inputs_before'].items()):
+                record = {'sha256_before': expected, 'sha256_after': receipt['source_inputs_after'][original]}
+                if text_input(original):
+                    exact = resolve_input(original, expected)
+                    require(exact.stat().st_size <= MAX_TEXT_INPUT, f'Unusually large pinned text input: {original}')
+                    body = exact.read_bytes()
+                    require(b'\x00' not in body, f'Binary body disguised as text input: {original}')
+                    body.decode('utf-8')
+                    record['body'] = copy_file(exact, Path('code-blobs') / expected, expected)
+                else:
+                    record['body_omitted'] = 'Binary, archive, CAD, profile/config or non-code input; hash only.'
+                input_map[original] = record
+            map_relative = Path('runs') / name / 'input-snapshots.json'
+            json_write(stage / map_relative, input_map)
+            gate_map[name] = {'class': cls, 'reason': reason, 'required': name in REQUIRED,
+                              'passed': receipt['passed'], 'returncode': receipt['returncode'],
+                              'receipt': archived_receipt, 'log': archived_log,
+                              'input_snapshots': map_relative.as_posix(), 'custody_and_log_sha_verified': True}
+            # Build source trees and environments are deliberately not traversed.
+            for native_receipt in sorted(receipt_path.parent.glob('build/build-receipt.json')):
+                native = get_json(native_receipt)
+                if name == 'native-build-r04':
+                    require(native.get('binary_sha256') == NATIVE and native.get('beam_source_sha256') == NATIVE_SOURCES['beamsection.c']
+                            and native.get('beam_patch_sha256') == NATIVE_SOURCES['beamsection.patch']
+                            and native.get('contact_source_sha256') == NATIVE_SOURCES['contactstate.c'], 'Final native build receipt mismatch')
+                    require(native.get('installed') is False and native.get('physical_duty_qualified') is False,
+                            'Native build receipt scope mismatch')
+                copy_file(native_receipt, Path('runs') / name / 'native-build-receipt.json')
+            for tree_name in ('cases', 'run', 'legacy', 'legacy-coupled', 'dotted.parent'):
+                tree = receipt_path.parent / tree_name
+                heavy = name in HEAVY_GATES or tree_name in {'legacy', 'legacy-coupled', 'dotted.parent'}
+                for path in walk_owned(tree):
+                    relative = Path('runs') / name / path.relative_to(receipt_path.parent)
+                    size = path.stat().st_size
+                    allowed = (safe_name(path) and (path.suffix.lower() in CASE_SUFFIXES
+                               or REQUEST_NAME.fullmatch(path.name) is not None))
+                    log_file = path.suffix.lower() == '.log' or path.name in {'stdout.txt', 'stderr.txt'}
+                    if allowed and size <= MAX_SMALL and (not heavy or log_file):
+                        if path.suffix.lower() == '.png':
+                            require(path.read_bytes().startswith(b'\x89PNG\r\n\x1a\n'), f'Invalid screenshot body: {path}')
+                        else:
+                            body = path.read_bytes()
+                            require(b'\x00' not in body, f'Non-text analytical artifact refused: {path}')
+                            body.decode('utf-8')
+                        copy_file(path, relative)
+                    else:
+                        omissions.append({'original': str(path), 'sha256': sha(path), 'size': size,
+                                          'reason': 'Heavy legacy/dotted tree, oversized artifact, or excluded CAD/binary/archive/config body; hash only.'})
+        for source in sorted(ROOT.glob('*.py')):
+            copy_file(source, Path('helpers') / source.name)
+        for name in ('static-checks.json', 'native-stage.json', 'beamsection-v4-review.diff'):
+            if regular(ROOT / name):
+                copy_file(ROOT / name, Path('helpers') / name)
+        # Preserve the original predeclared oracle even though its current file has a status-only amendment.
+        copy_file(resolve_input(str(REPO / 'package/local-completion/freecad-9rc-oracles.md'), ORIGINAL_ORACLE),
+                  Path('code-blobs') / ORIGINAL_ORACLE, ORIGINAL_ORACLE)
+        for path in sorted(final_paths):
+            copy_file(path, Path('final-source') / path.relative_to(REPO), final_hashes[str(path.relative_to(REPO))])
+        scope = {
+            'qualified': 'V4 bounded axial force-controlled compression through a straight B32R chain, scalar SPRING2, detached genuine-solid rigid port and two genuine Tet4 contact owners.',
+            'contact_states': ['FRICTIONLESS compression', 'Actual native STICK with zero tangential demand'],
+            'local_contact_schema': 'CCX_CONTACT_STATE_V1 unchanged',
+            'native_action_sources': 'Actual native unaveraged beam ends, point source, projected SPC/MPC and distributed contact -FNL; no Python force/stress recovery.',
+            'not_qualified': ['prescribed opening', 'sliding', 'generic joint stiffness', 'beam-face contact', 'beam Tie',
+                              'building design', 'Oomakhi geometry/load acceptance', 'Oomakhi solve', 'installation'],
+            'installation_performed': False,
+        }
+        validation = {'schema': 'FreeCAD-9rc-validation-v1', 'bead': 'FreeCAD-9rc',
+                      'source_base': SOURCE_BASE, 'required_gates': sorted(REQUIRED), 'all_required_gates_passed': True,
+                      'gates': gate_map, 'scope': scope, 'final_source_sha256': final_hashes,
+                      'native_binary_sha256': NATIVE, 'native_source_sha256': NATIVE_SOURCES,
+                      'original_oracle_and_status_amendment': amendment,
+                      'ordinary_native_field_equivalence': mechanics,
+                      'evidence_directory': str(OUT.relative_to(REPO)),
+                      'excluded_bodies': 'No application, profile, CAD, config, bytecode, executable, archive or dependency environment bodies copied; analytical PNG screenshots are explicitly permitted.',
+                      'collector_executed_native_commands': False}
+        json_write(stage / 'artifact-index.json', sorted(artifacts, key=lambda row: (row['path'], row['original'])))
+        json_write(stage / 'hash-only-artifacts.json', omissions)
+        json_write(stage / 'validation.json', validation)
+        json_write(stage / 'manifest.json', {'schema': 'FreeCAD-9rc-source-evidence-v1',
+                   'source_base': SOURCE_BASE, 'artifact_index': 'artifact-index.json',
+                   'hash_only_index': 'hash-only-artifacts.json', 'validation': 'validation.json',
+                   'copied_artifact_records': len(artifacts), 'omitted_body_hash_records': len(omissions)})
+        # Deterministic replacement of collector-owned output only.
+        backup = OUT.with_name('.freecad-9rc-source-evidence.previous')
+        require(not OUT.is_symlink() and not backup.exists(), 'Unsafe existing evidence output or leftover backup')
+        if OUT.exists():
+            require(get_json(OUT / 'manifest.json').get('schema') == 'FreeCAD-9rc-source-evidence-v1',
+                    'Refusing to replace non-collector-owned output')
+            OUT.rename(backup)
+        try:
+            stage.rename(OUT)
+        except BaseException:
+            if backup.exists() and not OUT.exists():
+                backup.rename(OUT)
+            raise
+        if backup.exists():
+            shutil.rmtree(backup)
+        temporary_validation = VALIDATION.with_name('.' + VALIDATION.name + '.tmp')
+        json_write(temporary_validation, validation)
+        temporary_validation.replace(VALIDATION)
+    print(json.dumps({'evidence': str(OUT), 'validation': str(VALIDATION),
+                      'required_gates_passed': sorted(REQUIRED), 'native_binary_sha256': NATIVE}, indent=2))
+
+
+if __name__ == '__main__':
+    collect()

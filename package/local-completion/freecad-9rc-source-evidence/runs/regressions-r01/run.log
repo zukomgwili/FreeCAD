@@ -1,0 +1,1588 @@
+test_axial_compression_root_reverses_the_global_end_action (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_axial_compression_root_reverses_the_global_end_action) ... ERROR
+test_axial_tension_root_has_negative_global_end_action (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_axial_tension_root_has_negative_global_end_action) ... ERROR
+test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes) ... ERROR
+test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint) ... ERROR
+test_transverse_y_root_has_signed_shear_and_bending_equilibrium (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_transverse_y_root_has_signed_shear_and_bending_equilibrium) ... ERROR
+test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium) ... ERROR
+test_series_beam_ground_spring_and_restraints_share_one_owned_frame (femtest.app.test_beam_coupling_native.TestBeamCouplingNative.test_series_beam_ground_spring_and_restraints_share_one_owned_frame) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history (femtest.app.test_beam_coupling_native.TestBeamCouplingNative.test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history) ... beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_transverse_components_observe_nonzero_physical_rotation_reactions (femtest.app.test_beam_coupling_native.TestBeamCouplingNative.test_transverse_components_observe_nonzero_physical_rotation_reactions) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +243 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history/Mesh.dat
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_transverse_components_observe_nonzero_physical_rotation_reactions/Mesh.inp
+One mobeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_unqualified_couplings_and_restraints_are_refused_before_export (femtest.app.test_beam_coupling_native.TestBeamCouplingNative.test_unqualified_couplings_and_restraints_are_refused_before_export) ... ok
+test_changed_frd_custody_withdraws_current_before_result_partition (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_changed_frd_custody_withdraws_current_before_result_partition) ... nster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_transverse_components_observe_nonzero_physical_rotation_reactions/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_transverse_components_observe_nonzero_physical_rotation_reactions/Mesh.dat
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_changed_frd_custody_withdraws_current_before_result_partition/mixed/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+ok
+test_contact_and_contact_output_requests_are_refused_before_export (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_contact_and_contact_output_requests_are_refused_before_export) ... ok
+test_hybrid_actions_solid_patch_and_native_beam_component_control (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_hybrid_actions_solid_patch_and_native_beam_component_control) ... ing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_changed_frd_custody_withdraws_current_before_result_partition/mixed/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_changed_frd_custody_withdraws_current_before_result_partition/mixed/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis) ... ry1D, Name: BeamCrossSection
+PrescribedRoot:
+    Type: Fem::ConstraintDisplacement, Name: PrescribedRoot
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.0 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/Mesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrismbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+ok
+test_moving_port_and_physical_support_ownership_are_not_interchangeable (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_moving_port_and_physical_support_ownership_are_not_interchangeable) ... ok
+test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers) ... , Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/mixed/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/mixed/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/mixed/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/unbound/copied.frd
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/unbound/copied.frd
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.003 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.006 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+ok
+test_zero_period_is_refused_before_native_export (femtest.app.test_beam_solid_coupling_native.TestBeamSolidCouplingNative.test_zero_period_is_refused_before_native_export) ... ok
+test_diagnostics_on_off_preserves_native_mechanics_and_v3_accounting (femtest.app.test_contact_state_native.TestContactStateNative.test_diagnostics_on_off_preserves_native_mechanics_and_v3_accounting) ... Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy-coupled/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_failed_rerun_cannot_resurrect_a_previous_completed_run (femtest.app.test_contact_state_native.TestContactStateNative.test_failed_rerun_cannot_resurrect_a_previous_completed_run) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/Mesh.dat
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-atpwflel/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_inconsistent_native_frame_and_sample_contracts_are_refused (femtest.app.test_contact_state_native.TestContactStateNative.test_inconsistent_native_frame_and_sample_contracts_are_refused) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/Mesh.dat
+
+CalculiX solver run...
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-u8sce753/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-amt24s24/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-amt24s24/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-amt24s24/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_native_compression_preserves_local_identity_and_actual_stick (femtest.app.test_contact_state_native.TestContactStateNative.test_native_compression_preserves_local_identity_and_actual_stick) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-amt24s24/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.004 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-amt24s24/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-amt24s24/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-vr0n50yb/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-vr0n50yb/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-vr0n50yb/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_nonzero_elastic_tangential_motion_is_stick_not_sliding (femtest.app.test_contact_state_native.TestContactStateNative.test_nonzero_elastic_tangential_motion_is_stick_not_sliding) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-vr0n50yb/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-vr0n50yb/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-vr0n50yb/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-4083v81i/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-4083v81i/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-4083v81i/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_only_retained_increments_are_reported_with_native_frame_identity (femtest.app.test_contact_state_native.TestContactStateNative.test_only_retained_increments_are_reported_with_native_frame_identity) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-4083v81i/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-4083v81i/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-4083v81i/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bjta83jx/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bjta83jx/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bjta83jx/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_opening_is_measured_at_native_projection_without_invented_traction (femtest.app.test_contact_state_native.TestContactStateNative.test_opening_is_measured_at_native_projection_without_invented_traction) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bjta83jx/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bjta83jx/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bjta83jx/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-e9oa7zxo/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-e9oa7zxo/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-e9oa7zxo/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_retargeted_selected_solver_symlink_withdraws_old_binary_binding (femtest.app.test_contact_state_native.TestContactStateNative.test_retargeted_selected_solver_symlink_withdraws_old_binary_binding) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-e9oa7zxo/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-e9oa7zxo/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-e9oa7zxo/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_rotated_sliding_basis_retains_native_global_normal_and_plastic_vector (femtest.app.test_contact_state_native.TestContactStateNative.test_rotated_sliding_basis_retains_native_global_normal_and_plastic_vector) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/Mesh.dat
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-y4eflo7h/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-oxgydt5m/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-oxgydt5m/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-oxgydt5m/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_saved_native_labels_stay_historical_until_a_fresh_stock_run (femtest.app.test_contact_state_native.TestContactStateNative.test_saved_native_labels_stay_historical_until_a_fresh_stock_run) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-oxgydt5m/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-oxgydt5m/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-oxgydt5m/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_sliding_reports_actual_native_branch_and_positive_plastic_increment (femtest.app.test_contact_state_native.TestContactStateNative.test_sliding_reports_actual_native_branch_and_positive_plastic_increment) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/Mesh.dat
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/after-restore/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/after-restore/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-_klwc19l/after-restore/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-marbytbf/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-marbytbf/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-marbytbf/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_source_bytes_and_physical_edits_withdraw_but_preserve_literal_history (femtest.app.test_contact_state_native.TestContactStateNative.test_source_bytes_and_physical_edits_withdraw_but_preserve_literal_history) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-marbytbf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-marbytbf/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-marbytbf/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+Unexpected error when writing CalculiX input file: Native contact output requires an absolute solver executable path
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_superseded_owned_completion_cannot_republish_over_a_new_attempt (femtest.app.test_contact_state_native.TestContactStateNative.test_superseded_owned_completion_cannot_republish_over_a_new_attempt) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/Mesh.dat
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.025 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-9xc6l_t6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bkzyiq23/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bkzyiq23/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bkzyiq23/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+test_tet4_frictionless_output_does_not_invent_tangential_state (femtest.app.test_contact_state_native.TestContactStateNative.test_tet4_frictionless_output_does_not_invent_tangential_state) ... 
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.026 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bkzyiq23/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.003 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bkzyiq23/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-bkzyiq23/Mesh.dat
+  ElementDimension: 3
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-x1rou2fv/Geometry_Geometry.brep
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-x1rou2fv/Geometry_Mesh.vtk
+  /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-x1rou2fv/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 54
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 55
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 56
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 57
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 58
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 59
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 60
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 61
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 62
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 63
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 64
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 65
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 66
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 67
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 68
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 69
+AddGroupElements: num elements: 1 sizeof: 8
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'MaterialSolidSolid', 'mat_obj_name': 'MaterialSolid', 'ccx_mat_name': 'Analytical elastic solid'}]
+ok
+
+======================================================================
+ERROR: test_axial_compression_root_reverses_the_global_end_action (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_axial_compression_root_reverses_the_global_end_action)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 347, in test_axial_compression_root_reverses_the_global_end_action
+    case = self.solve_straight_case((-100.0, 0.0, 0.0))
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 201, in solve_straight_case
+    return self.solve_model(model, expected_loads, expected_ends, expected_axes)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 214, in solve_model
+    directory.mkdir()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy/test_axial_compression_root_reverses_the_global_end_action'
+
+======================================================================
+ERROR: test_axial_tension_root_has_negative_global_end_action (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_axial_tension_root_has_negative_global_end_action)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 341, in test_axial_tension_root_has_negative_global_end_action
+    case = self.solve_straight_case((100.0, 0.0, 0.0))
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 201, in solve_straight_case
+    return self.solve_model(model, expected_loads, expected_ends, expected_axes)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 214, in solve_model
+    directory.mkdir()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy/test_axial_tension_root_has_negative_global_end_action'
+
+======================================================================
+ERROR: test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 431, in test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes
+    case = self.solve_model(model, expected_loads, expected_ends, expected_axes=None)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 214, in solve_model
+    directory.mkdir()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy/test_rotated_translated_torsion_preserves_global_actions_and_native_end_axes'
+
+======================================================================
+ERROR: test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 368, in test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint
+    case = self.solve_model(
+        model,
+    ...<2 lines>...
+        expected_axes,
+    )
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 214, in solve_model
+    directory.mkdir()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy/test_torsion_couple_preserves_distinct_native_ends_at_a_shared_joint'
+
+======================================================================
+ERROR: test_transverse_y_root_has_signed_shear_and_bending_equilibrium (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_transverse_y_root_has_signed_shear_and_bending_equilibrium)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 331, in test_transverse_y_root_has_signed_shear_and_bending_equilibrium
+    case = self.solve_straight_case((0.0, 0.1, 0.0))
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 201, in solve_straight_case
+    return self.solve_model(model, expected_loads, expected_ends, expected_axes)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 214, in solve_model
+    directory.mkdir()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy/test_transverse_y_root_has_signed_shear_and_bending_equilibrium'
+
+======================================================================
+ERROR: test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium (femtest.app.test_beam_section_forces_native.TestBeamSectionForcesNative.test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 337, in test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium
+    case = self.solve_straight_case((0.0, 0.0, 0.2))
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 201, in solve_straight_case
+    return self.solve_model(model, expected_loads, expected_ends, expected_axes)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_section_forces_native.py", line 214, in solve_model
+    directory.mkdir()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default/lib/python3.13/pathlib/_local.py", line 722, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/legacy/test_transverse_z_root_has_signed_shear_and_orthogonal_bending_equilibrium'
+
+----------------------------------------------------------------------
+Ran 31 tests in 12.371s
+
+FAILED (errors=6)
+
+Get mesh data for constraints, materials and element geometry...
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Left, Object label: Left, Element name: Face1
+Displacement:
+    Type: Fem::ConstraintDisplacement, Name: Displacement
+    ReferenceShape ... Type: Face, Object name: Right, Object label: Right, Element name: Face2
+Interface:
+    Type: Fem::ConstraintContact, Name: Interface
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face2
+    ReferenceShape ... Type: Face, Object name: Geometry, Object label: Geometry, Element name: Face7
+Getting mesh data time: 0.015 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-x1rou2fv/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.002 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-x1rou2fv/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/regressions-r01/dotted.parent/freecad-contact-state-native-x1rou2fv/Mesh.dat

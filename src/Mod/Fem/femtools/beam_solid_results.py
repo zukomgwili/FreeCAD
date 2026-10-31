@@ -13,6 +13,7 @@ from pathlib import Path
 import FreeCAD as App
 
 SCHEMA = "CCX_BEAM_SECTION_V3"
+CONTACT_SCHEMA = "CCX_BEAM_SECTION_V4"
 ELEMENT_KEYS = (
     "Seg2Elem",
     "Seg3Elem",
@@ -30,7 +31,7 @@ ELEMENT_KEYS = (
 
 
 def owned_source(filename, analysis, beam_result):
-    """Capture the exact current V3 source, or return None for legacy beams."""
+    """Capture an exact current mixed source, or return None for legacy beams."""
     from femtools import beam_section_forces
 
     if beam_result is None:
@@ -48,11 +49,11 @@ def owned_source(filename, analysis, beam_result):
             "Mixed solid stresses require the actual native beam result in this analysis"
         )
     data = beam_result.Proxy.getSectionForces(beam_result)
-    if data["schema"] != SCHEMA:
+    if data["schema"] not in (SCHEMA, CONTACT_SCHEMA):
         return None
     provenance = data["provenance"]
     coupling = provenance.get("coupling")
-    if not isinstance(coupling, dict) or coupling.get("schema") != SCHEMA:
+    if not isinstance(coupling, dict) or coupling.get("schema") != data["schema"]:
         raise ValueError("Native mixed output has no qualified beam/solid owner catalogue")
     frames = data["frames"]
     if len(frames) != 1 or frames[0]["step"] != 1:
@@ -69,9 +70,27 @@ def owned_source(filename, analysis, beam_result):
         raise ValueError("Mixed result FRD changed after its owned native completion")
     if Path(str(selected.with_suffix("")) + "_inout_nodes.txt").exists():
         raise ValueError("Mixed beam/solid output does not admit 1D-flow node remapping")
-    solid_owner = analysis.Document.getObject(coupling.get("solid_owner", ""))
-    if solid_owner is None or not getattr(solid_owner, "Shape", None):
-        raise ValueError("Native solid result owner is unavailable in this document")
+    groups = (
+        coupling.get("solids")
+        if data["schema"] == CONTACT_SCHEMA
+        else [
+            {
+                "owner": coupling.get("solid_owner"),
+                "nodes": coupling.get("solid_nodes"),
+                "elements": coupling.get("solid_elements"),
+            }
+        ]
+    )
+    if not isinstance(groups, list) or len(groups) != (
+        2 if data["schema"] == CONTACT_SCHEMA else 1
+    ):
+        raise ValueError("Native solid result has no complete physical owner catalogue")
+    owners = []
+    for group in groups:
+        owner = analysis.Document.getObject(group.get("owner", ""))
+        if owner is None or not getattr(owner, "Shape", None) or owner in owners:
+            raise ValueError("Native solid result owner is unavailable or repeated")
+        owners.append(owner)
     return {
         "beam_result": beam_result,
         "analysis": analysis,
@@ -79,10 +98,11 @@ def owned_source(filename, analysis, beam_result):
         "coupling": coupling,
         "literal": literal,
         "sha256": digest,
-        "solid_owner": solid_owner,
+        "solid_owners": owners,
+        "solid_groups": groups,
         "frame": json.dumps(
             {
-                "schema": SCHEMA,
+                "schema": data["schema"],
                 "case": provenance["case"],
                 "step": frame["step"],
                 "increment": frame["increment"],
@@ -307,7 +327,7 @@ def _audit_fields(literal, parsed, context):
 
 
 def partition(parsed, context):
-    """Return displacement-only mixed data and exact solid-only native fields."""
+    """Return mixed displacement and literal stress partitions for each owner."""
     coupling = context["coupling"]
     beam_nodes = set(_labels(coupling.get("beam_nodes")))
     solid_nodes = set(_labels(coupling.get("solid_nodes")))
@@ -399,20 +419,41 @@ def partition(parsed, context):
         if node not in result["stress"] or not _finite_vector(result["stress"][node], 6):
             raise ValueError("Native solid stress is missing or nonfinite on its exact owner nodes")
 
-    def subset(nodes, with_stress):
+    def subset(nodes, elements, with_stress):
         ordered = sorted(nodes)
         values = {"time": result["time"], "disp": {node: result["disp"][node] for node in ordered}}
         if with_stress:
             values["stress"] = {node: result["stress"][node] for node in ordered}
         mesh = {key: {} for key in ELEMENT_KEYS}
         mesh["Nodes"] = {node: parsed["Nodes"][node] for node in ordered}
-        mesh["Tetra4Elem"] = dict(parsed["Tetra4Elem"])
+        mesh["Tetra4Elem"] = {
+            element: parsed["Tetra4Elem"][element] for element in sorted(elements)
+        }
         if not with_stress:
             mesh["Seg3Elem"] = dict(parsed["Seg3Elem"])
         mesh["Results"] = [values]
         return mesh
 
-    return subset(physical_nodes, False), subset(solid_nodes, True)
+    partitions, covered_nodes, covered_elements = [], set(), set()
+    for owner, group in zip(context["solid_owners"], context["solid_groups"]):
+        nodes = set(_labels(group.get("nodes")))
+        elements = _element_catalogue(group.get("elements"), 4)
+        if (
+            nodes & covered_nodes
+            or set(elements) & covered_elements
+            or not nodes.issubset(solid_nodes)
+            or any(solid.get(element) != connectivity for element, connectivity in elements.items())
+            or {node for connectivity in elements.values() for node in connectivity} != nodes
+        ):
+            raise ValueError(
+                "Native solid result owners overlap or disagree with actual tetrahedra"
+            )
+        covered_nodes.update(nodes)
+        covered_elements.update(elements)
+        partitions.append((subset(nodes, elements, True), {**context, "solid_owner": owner}))
+    if covered_nodes != solid_nodes or covered_elements != set(solid):
+        raise ValueError("Native solid results do not cover every original physical solid owner")
+    return subset(physical_nodes, solid, False), partitions
 
 
 def bind_provenance(result, context, *, solid=False):

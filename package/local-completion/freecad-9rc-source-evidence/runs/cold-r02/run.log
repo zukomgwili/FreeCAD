@@ -1,0 +1,30 @@
+test_both_contact_states_reopen_without_minting_a_current_run (Rc9Cold.TestPairedColdHistory.test_both_contact_states_reopen_without_minting_a_current_run) ... 
+  test_both_contact_states_reopen_without_minting_a_current_run (Rc9Cold.TestPairedColdHistory.test_both_contact_states_reopen_without_minting_a_current_run) (case='test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case') ... FAIL
+  test_both_contact_states_reopen_without_minting_a_current_run (Rc9Cold.TestPairedColdHistory.test_both_contact_states_reopen_without_minting_a_current_run) (case='test_zero_tangential_compression_reports_actual_native_stick') ... FAIL
+
+======================================================================
+FAIL: test_both_contact_states_reopen_without_minting_a_current_run (Rc9Cold.TestPairedColdHistory.test_both_contact_states_reopen_without_minting_a_current_run) (case='test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-9rc-9im9ovtw/Rc9Cold.py", line 101, in test_both_contact_states_reopen_without_minting_a_current_run
+    self.assertEqual(connector.Stiffness.Value, 10000)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 10000000.0 != 10000
+
+======================================================================
+FAIL: test_both_contact_states_reopen_without_minting_a_current_run (Rc9Cold.TestPairedColdHistory.test_both_contact_states_reopen_without_minting_a_current_run) (case='test_zero_tangential_compression_reports_actual_native_stick')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-9rc-9im9ovtw/Rc9Cold.py", line 101, in test_both_contact_states_reopen_without_minting_a_current_run
+    self.assertEqual(connector.Stiffness.Value, 10000)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 10000000.0 != 10000
+
+----------------------------------------------------------------------
+Ran 1 test in 1.250s
+
+FAILED (failures=2)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +243 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

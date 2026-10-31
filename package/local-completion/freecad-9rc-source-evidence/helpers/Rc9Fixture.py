@@ -1,0 +1,53 @@
+"""Public native authoring only; no recovery, deck edits or mesher."""
+from collections import Counter
+import FreeCAD as App
+import Fem
+import ObjectsFem
+import Part
+from femtest.app.beam_coupling_fixtures import make_hybrid_series
+
+def end_face(solid,x):
+ return next('Face'+str(i) for i,f in enumerate(solid.Shape.Faces,1) if all(abs(v.Point.x-x)<1e-10 for v in f.Vertexes))
+
+def make_case(doc):
+ model=make_hybrid_series(doc)
+ yz=((12.,-28.),(22.,-28.),(17.,-13.))
+ points=[App.Vector(-50.,y,z) for y,z in yz]
+ backing=doc.addObject('Part::Feature','ContactBacking')
+ backing.Shape=Part.Face(Part.makePolygon(points+[points[0]])).extrude(App.Vector(20,0,0))
+ doc.HybridGeometry.Links=[model.geometry,model.solid,backing]
+ doc.recompute()
+ model.fixed.References=[(backing,[end_face(backing,-50.)])]
+ model.force.Reversed=True
+ for axis in 'YZ':setattr(model.rbe,'TranslationalMode'+axis,'Constraint')
+ for axis in 'XYZ':setattr(model.rbe,'RotationalMode'+axis,'Constraint')
+ model.rbe.Displacement=App.Vector()
+ model.rbe.Rotation=App.Rotation()
+ old=model.mesh.FemMesh
+ native=Fem.FemMesh()
+ for n,p in old.Nodes.items():native.addNode(p.x,p.y,p.z,n)
+ for eid in model.beam_elements:native.addEdge(list(old.getElementNodes(eid)),eid)
+ tets=[tuple(old.getElementNodes(eid)) for eid in model.solid_elements]
+ for eid,nodes in zip(model.solid_elements,tets):native.addVolume(list(nodes),eid)
+ for n,(y,z) in zip((301,302,303),yz):native.addNode(-50.,y,z,n)
+ for n,(y,z) in zip((304,305,306),yz):native.addNode(-30.,y,z,n)
+ more=((302,301,303,304),(303,302,304,305),(304,303,305,306))
+ for eid,nodes in zip((301,302,303),more):native.addVolume(list(nodes),eid)
+ tets+=list(more)
+ faces=[(n[a],n[b],n[c]) for n in tets for a,b,c in ((0,2,1),(0,1,3),(1,2,3),(0,3,2))]
+ counts=Counter(tuple(sorted(f)) for f in faces)
+ for eid,nodes in enumerate((f for f in faces if counts[tuple(sorted(f))]==1),501):native.addFace(list(nodes),eid)
+ model.mesh.FemMesh=native
+ contact=ObjectsFem.makeConstraintContact(doc,'BeamSolidContact')
+ contact.SurfaceBehavior='Linear'
+ contact.Slope='100000 MPa/mm'
+ contact.Friction=True
+ contact.FrictionCoefficient=0.3
+ contact.StickSlope='10000 MPa/mm'
+ contact.Adjust='0 mm'
+ contact.References=[(model.solid,[end_face(model.solid,-30.)]),(backing,[end_face(backing,-30.)])]
+ model.analysis.addObject(contact)
+ model.solver.NativeContactOutputs=[contact]
+ model.backing=backing;model.contact=contact
+ doc.recompute()
+ return model

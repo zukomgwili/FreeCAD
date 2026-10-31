@@ -1,0 +1,56 @@
+test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case (femtest.app.test_beam_contact_native.TestBeamContactNative.test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +242 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Added Group: Name: 'Solid1' Type: 'Volume' id: 0
+AddGroupElements: num elements: 3 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 2
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 3
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Solid2' Type: 'Volume' id: 6
+AddGroupElements: num elements: 3 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 7
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face7' Type: 'Face' id: 8
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face8' Type: 'Face' id: 9
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face9' Type: 'Face' id: 10
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Face10' Type: 'Face' id: 11
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge1' Type: 'Edge' id: 12
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Vertex1' Type: 'Node' id: 13
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 14
+AddGroupElements: num elements: 1 sizeof: 8
+FAIL
+
+======================================================================
+FAIL: test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case (femtest.app.test_beam_contact_native.TestBeamContactNative.test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_contact_native.py", line 125, in test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case
+    beam, contact, data, local, deck = self._solve(model)
+                                       ~~~~~~~~~~~^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_contact_native.py", line 85, in _solve
+    self.assertFalse(fea.check_prerequisites())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BeamSolidContact: invalid mesh ownership context.\nBeam sections defined but FEM mesh has volume or shell elements.\n' is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.224s
+
+FAILED (failures=1)
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5

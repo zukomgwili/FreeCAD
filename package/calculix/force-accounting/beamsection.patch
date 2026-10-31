@@ -1,14 +1,20 @@
 --- a/ccx_2.23/src/CalculiX.h
 +++ b/ccx_2.23/src/CalculiX.h
-@@ -88,6 +88,16 @@
+@@ -88,6 +88,22 @@
  void cs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,char*,ITG,char*,double*,ITG,ITG,ITG,double*);
  void cs_begin_results(ITG,ITG,ITG,ITG,double*,double*,ITG*,ITG*,char*,ITG*,ITG*,double*,double*,double*,double*,double);
  void cs_emit(ITG,ITG,double);
++#define CCX_FREECAD_BEAM_CONTACT_V4 1
 +void bs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,ITG,
 +                ITG*,ITG*,char*,char*,double*,ITG,ITG*,ITG*,double*,
 +                ITG*,char*,ITG,char*,ITG,ITG,ITG,ITG,ITG,ITG*,
-+                ITG*,ITG*,double*,ITG);
-+void bs_begin_actions(ITG,ITG,ITG,double,double*);
++                ITG*,ITG*,double*,ITG,ITG,char*,ITG*,ITG*,ITG*,ITG);
++void bs_begin_actions(ITG,ITG,ITG,double,double*,ITG,ITG*,ITG*,double*,char*);
++void bs_begin_contacts(ITG,ITG*,ITG*,char*);
++int bs_contact_mesh_authorized(ITG,const char*);
++void bs_contact_authorize(const char*,const char*,const char*,const char*,ITG,ITG,double,double);
++void bs_contact_sample(ITG,ITG,ITG,ITG,ITG,ITG);
++void bs_contact_frame(ITG,ITG,double,const char*);
 +void bs_pointloads(ITG,ITG*,ITG*,double*,ITG,ITG);
 +void bs_projected_supports(ITG,ITG,double*,ITG*);
 +void bs_mpc_term(ITG,ITG,ITG,double,double);
@@ -19,7 +25,7 @@
                           ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
 --- a/ccx_2.23/src/ccx_2.23.c
 +++ b/ccx_2.23/src/ccx_2.23.c
-@@ -123,6 +123,15 @@
+@@ -123,6 +123,18 @@
    if(argc==2&&strcmp(argv[1],"--freecad-contact-state-version")==0){
      printf("CCX_CONTACT_STATE_V1\n");return 0;
    }
@@ -32,44 +38,51 @@
 +  if(argc==2&&strcmp(argv[1],"--freecad-beam-solid-version")==0){
 +    printf("CCX_BEAM_SECTION_V3\n");return 0;
 +  }
++  if(argc==2&&strcmp(argv[1],"--freecad-beam-contact-version")==0){
++    printf("CCX_BEAM_SECTION_V4\n");return 0;
++  }
    if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
    else{
      for(i=1;i<argc;i++){
-@@ -1254,6 +1263,10 @@
+@@ -1252,6 +1264,11 @@
+     fa_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,kon,lakon,
+                nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
      fa_check_contact_domain(ntie,tieset,tietol,mortar);
-     cs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,lakon,
-                ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
 +    bs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,nkon,
 +               ipkon,kon,lakon,filab,co,nboun,nodeboun,ndirboun,xboun,
 +               nam>0?iamboun:NULL,typeboun,nmpc,labmpc,nload,nbody,ntie,
-+               iprestr,mi[2],ielmat,ipompc,nodempc,coefmpc,memmpc_);
++               iprestr,mi[2],ielmat,ipompc,nodempc,coefmpc,memmpc_,
++               nset,set,istartset,iendset,ialset,nalset);
+     cs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,lakon,
+                ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
      if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
-       {
- 	if(iperturb[0]<2){
 --- a/ccx_2.23/src/ccx_2.23step.c
 +++ b/ccx_2.23/src/ccx_2.23step.c
-@@ -1396,6 +1396,10 @@
+@@ -1394,6 +1394,11 @@
+     fa_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,kon,lakon,
+                *nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
      fa_check_contact_domain(ntie,tieset,tietol,mortar);
-     cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
-                ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
 +    bs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,nkon,
 +               ipkon,kon,lakon,filab,co,*nboun,nodeboun,ndirboun,xboun,
 +               nam>0?iamboun:NULL,typeboun,nmpc,labmpc,*nload,nbody,ntie,
-+               iprestr,mi[2],ielmat,ipompc,nodempc,coefmpc,memmpc_);
++               iprestr,mi[2],ielmat,ipompc,nodempc,coefmpc,memmpc_,
++               nset,set,istartset,iendset,ialset,nalset);
+     cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
+                ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
      if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
-       {
- 	if(iperturb[0]<2){
 --- a/ccx_2.23/src/results.c
 +++ b/ccx_2.23/src/results.c
-@@ -174,6 +174,7 @@
+@@ -174,6 +174,9 @@
  	     &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
  	     &ikin,&intpointvart,typeboun,&num_cpus,mortar,nener,iponoeln,
  	     network);
-+  bs_begin_actions(*iout,*istep,*iinc,*ttime+*time,v);
++  bs_begin_actions(*iout,*istep,*iinc,*ttime+*time,v,*nboun,nodeboun,ndirboun,
++                   xboun,typeboun);
++  bs_begin_contacts(*ne,ipkon,kon,lakon);
    fa_begin_results(*ne,ipkon,kon,lakon,co);
    cs_begin_results(*iout,*nk,*ne,mt,co,v,ipkon,kon,lakon,itiefac,islavsurf,
                     pslavsurf,pmastsurf,clearini,springarea,*reltime);
-@@ -465,6 +466,7 @@
+@@ -465,6 +468,7 @@
       interpolation of 3d results for 1d/2d elements */
  
    if(*mortartrafoflag==0){
@@ -260,3 +273,13 @@
         enddo
  !
         return
+--- a/ccx_2.23/src/resultsmech.f
++++ b/ccx_2.23/src/resultsmech.f
+@@ -436,6 +436,7 @@
+      &             clearini,venergy,kscale,konl,iout,i,
+      &             smscale,mscalmethod)
+               call fa_contact(i,nope,konl,fnl,lakonl)
++              call bs_contact(i,nope,konl,fnl,lakonl,igauss)
+               if(nener.eq.1) then
+                 ener(1,1,ne0+igauss)=senergy
+                 ener(2,1,ne0+igauss)=venergy

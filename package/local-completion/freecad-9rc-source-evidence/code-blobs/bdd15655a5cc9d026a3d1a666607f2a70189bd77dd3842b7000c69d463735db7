@@ -1,0 +1,49 @@
+"""Separate-process public restore, retaining exact paired historical literals."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import unittest
+
+import FreeCAD as App
+
+class TestPairedColdHistory(unittest.TestCase):
+    def test_both_contact_states_reopen_without_minting_a_current_run(self):
+        root=Path(os.environ['R9_COLD_SOURCE_ROOT'])
+        reports=[]
+        for name in ('test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case',
+                     'test_zero_tangential_compression_reports_actual_native_stick'):
+            with self.subTest(case=name):
+                case=root/name
+                path=case/'coupled-contact.FCStd'
+                original=path.read_bytes()
+                expected=(case/'section-data.json').read_text(),(case/'contact-data.json').read_text()
+                doc=App.openDocument(str(path))
+                try:
+                    beam=next(o for o in doc.Objects if getattr(getattr(o,'Proxy',None),'Type','')=='Fem::BeamSectionForceResult')
+                    contact=next(o for o in doc.Objects if getattr(getattr(o,'Proxy',None),'Type','')=='Fem::ContactStateResult')
+                    self.assertEqual((beam.SectionData,contact.ContactData),expected)
+                    self.assertEqual((beam.SectionHash,contact.ContactHash),tuple(hashlib.sha256(x.encode()).hexdigest() for x in expected))
+                    for obj in (beam,contact):
+                        self.assertFalse(obj.CompletedRun)
+                        self.assertTrue(obj.Status.startswith('Historical'),obj.Status)
+                    historical=beam.Proxy.getSectionForces(beam,historical=True)
+                    local=json.loads(contact.ContactData)
+                    self.assertEqual(historical['provenance']['joint'],local['provenance']['joint'])
+                    self.assertEqual(historical['provenance']['joint']['frames'],[[1,1,1]])
+                    self.assertEqual((beam.Mesh.FemMesh.NodeCount,beam.Mesh.FemMesh.VolumeCount),(17,6))
+                    for getter,obj in ((beam.Proxy.getSectionForces,beam),(contact.Proxy.getContactStates,contact)):
+                        with self.assertRaises(ValueError):getter(obj)
+                    contact.Proxy.refresh(contact)
+                    self.assertEqual((beam.SectionData,contact.ContactData),expected)
+                    self.assertFalse(beam.CompletedRun or contact.CompletedRun)
+                    self.assertFalse(beam.Status.startswith('Current') or contact.Status.startswith('Current'))
+                    self.assertEqual(path.read_bytes(),original)
+                    reports.append({'case':name,'document_sha256':hashlib.sha256(original).hexdigest(),
+                                    'literal_hashes':[beam.SectionHash,contact.ContactHash],
+                                    'states':sorted({r['state'] for r in local['frames'][0]['samples']}),
+                                    'statuses':[beam.Status,contact.Status],
+                                    'current_available':False,'solver_executed':False})
+                finally:App.closeDocument(doc.Name)
+        target=Path(os.environ['R9_CASE_ROOT']);target.mkdir()
+        (target/'cold-observation.json').write_text(json.dumps(reports,indent=2))

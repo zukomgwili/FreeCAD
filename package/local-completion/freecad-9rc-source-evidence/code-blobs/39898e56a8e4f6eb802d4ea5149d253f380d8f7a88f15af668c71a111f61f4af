@@ -1,0 +1,400 @@
+--- a/ccx_2.23/src/CalculiX.h
++++ b/ccx_2.23/src/CalculiX.h
+@@ -70,6 +70,24 @@
+ #define ITG int
+ #define ITGFORMAT "d"
+ #endif
++
++/* Versioned opt-in native accounting; standard channels are unchanged. */
++extern double *fa_nodal_loads;
++int fa_capacity_query(void);
++void fa_capture_mpcs(ITG,ITG,ITG*,ITG*,double*,char*,ITG);
++void FORTRAN(fa_check_spring,(ITG*,ITG*,ITG*,ITG*,ITG*,ITG*,double*));
++void fa_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,ITG*,char*,ITG,ITG*,ITG*,double*,ITG*,char*,ITG,ITG*,ITG*,ITG);
++void fa_set_mpc_capacity(ITG);
++void fa_check_contact_domain(ITG,char*,double*,ITG);
++int fa_active(void);
++void fa_reset_loads(void);
++void fa_pointloads(ITG,ITG*,ITG*,double*);
++void fa_begin_results(ITG,ITG*,ITG*,char*,double*);
++void fa_emit(double*,double*,ITG,ITG,ITG*,ITG,ITG*,ITG*,double*,double*,ITG,ITG,double);
++ITG FORTRAN(fa_collect_loads,());
++void cs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,char*,ITG,char*,double*,ITG,ITG,ITG,double*);
++void cs_begin_results(ITG,ITG,ITG,ITG,double*,double*,ITG*,ITG*,char*,ITG*,ITG*,double*,double*,double*,double*,double);
++void cs_emit(ITG,ITG,double);
+ 
+ void FORTRAN(actideacti,(char *set,ITG *nset,ITG *istartset,ITG *iendset,
+                          ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
+--- a/ccx_2.23/src/ccx_2.23.c
++++ b/ccx_2.23/src/ccx_2.23.c
+@@ -114,6 +114,15 @@
+ 
+   // clock_gettime(CLOCK_MONOTONIC, &totalCalculixTimeStart);
+ 
++  if(argc==2&&strcmp(argv[1],"--freecad-force-accounting-version")==0){
++    printf("CCX_FORCE_ACCOUNTING_V3\n");return 0;
++  }
++  if(argc==2&&strcmp(argv[1],"--freecad-force-accounting-capacity")==0){
++    return fa_capacity_query();
++  }
++  if(argc==2&&strcmp(argv[1],"--freecad-contact-state-version")==0){
++    printf("CCX_CONTACT_STATE_V1\n");return 0;
++  }
+   if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
+   else{
+     for(i=1;i<argc;i++){
+@@ -166,7 +169,7 @@
+   printf("software, and you are welcome to redistribute it under\n");
+   printf("certain conditions, see gpl.htm\n\n");
+   printf("************************************************************\n\n");
+-  printf("You are using an executable made on Sun Oct 19 18:23:34 CEST 2025\n");
++  printf("You are using an executable made on Sun Oct 18 23:36:41 2026\n");
+   fflush(stdout);
+ 
+   NNEW(ipoinp,ITG,2*nentries);
+@@ -1169,6 +1172,7 @@
+     }
+  
+     /* decascading MPC's only necessary if MPC's changed */
++    fa_capture_mpcs(nk,nmpc,ipompc,nodempc,coefmpc,labmpc,memmpc_);
+ 
+     if(((istep==1)||(ntrans>0)||(mpcend<0)||(nk!=nkold)||(nmpc!=nmpcold))&&(icascade==0)){
+ 
+@@ -1239,6 +1243,11 @@
+     /* nmethod=15: Crack propagation */
+     /* nmethod=16: Feasible direction based on sensitivity information */
+ 
++    fa_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,kon,lakon,
++               nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
++    fa_check_contact_domain(ntie,tieset,tietol,mortar);
++    cs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,lakon,
++               ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
+     if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
+       {
+ 	if(iperturb[0]<2){
+--- a/ccx_2.23/src/ccx_2.23step.c
++++ b/ccx_2.23/src/ccx_2.23step.c
+@@ -309,7 +309,7 @@
+     printf("software, and you are welcome to redistribute it under\n");
+     printf("certain conditions, see gpl.htm\n\n");
+     printf("************************************************************\n\n");
+-    printf("You are using an executable made on Sun Oct 19 18:23:34 CEST 2025\n");
++    printf("You are using an executable made on Sun Oct 18 23:36:41 2026\n");
+     fflush(stdout);
+ 
+     NNEW(ipoinp,ITG,2*nentries);
+@@ -1318,6 +1318,7 @@
+     }
+  
+     /* decascading MPC's only necessary if MPC's changed */
++    fa_capture_mpcs(*nk,nmpc,ipompc,nodempc,coefmpc,labmpc,memmpc_);
+ 
+     if(((istep==1)||(ntrans>0)||(mpcend<0)||(*nk!=nkold)||(nmpc!=nmpcold))&&(icascade==0)) {
+       //  if(icascade==0) {
+@@ -1390,6 +1391,11 @@
+     /* nmethod=13: Green function calculation */
+     /* nmethod=14: Robustness w.r.t. to geometric tolerances */
+ 
++    fa_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,kon,lakon,
++               *nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
++    fa_check_contact_domain(ntie,tieset,tietol,mortar);
++    cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
++               ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
+     if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
+       {
+ 	if(iperturb[0]<2){
+--- a/ccx_2.23/src/linstatic.c
++++ b/ccx_2.23/src/linstatic.c
+@@ -174,6 +174,7 @@
+   /* contact conditions */
+   
++  if(fa_active())memmpc_=mpcinfo[0];
+   if(*mortar>-2){
+ 
+     memmpc_=mpcinfo[0];mpcfree=mpcinfo[1];icascade=mpcinfo[2];
+     maxlenmpc=mpcinfo[3];
+@@ -348,6 +349,7 @@
+   NNEW(fn,double,mt**nk);
+   NNEW(stx,double,6*mi[0]**ne);
+   NNEW(inum,ITG,*nk);
++  if(fa_active())fa_set_mpc_capacity(memmpc_);
+   results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+ 	  elcon,nelcon,rhcon,nrhcon,alcon,nalcon,alzero,ielmat,
+ 	  ielorien,norien,orab,ntmat_,t0,t1act,ithermal,
+@@ -380,6 +382,10 @@
+ 
+   NNEW(ad,double,*neq);
+   NNEW(fext,double,*neq);
++  if(fa_active()){
++    NNEW(fnext,double,mt**nk);
++    fa_nodal_loads=fnext;
++  }
+ 
+   if(*nmethod==11){
+       
+@@ -584,1 +590,2 @@
++      if(fa_active())fa_set_mpc_capacity(memmpc_);
+       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -810,1 +817,2 @@
++    if(fa_active())fa_set_mpc_capacity(memmpc_);
+     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -976,6 +984,7 @@
+   (*ttime)+=(*tper);
+   
+   SFREE(iponoel);
++  if(fa_nodal_loads){fa_nodal_loads=NULL;SFREE(fnext);}
+  
+   return;
+ }
+--- a/ccx_2.23/src/mafillsm.f
++++ b/ccx_2.23/src/mafillsm.f
+@@ -40,6 +40,7 @@
+       implicit none
+ !     
+       integer mass(2),stiffness,buckling,rhsi,stiffonly(2),coriolis
++      integer fa_collect_loads
+ !     
+       character*8 lakon(*)
+       character*20 sideload(*)
+@@ -315,6 +316,9 @@
+           endif
+ !
+ !         treatment of substructure (superelement)
++          if((rhsi.eq.1).and.(idist.ne.0)) then
++            call fa_elementload(i,nope,kon(indexe+1),ff)
++          endif
+ !
+           if(nope.eq.-1) then
+             nope=ichar(lakon(i)(8:8))
+@@ -585,7 +589,8 @@
+ !     updating the external force vector for dynamic
+ !     calculations
+ !     
+-                if(nmethod.eq.4) fnext(k,node1)=fnext(k,node1)+ff(jj)
++                if((nmethod.eq.4).or.(fa_collect_loads().eq.1))
++     &               fnext(k,node1)=fnext(k,node1)+ff(jj)
+ !     
+                 if(jdof1.le.0) then
+                   if(nmpc.ne.0) then
+--- a/ccx_2.23/src/mafillsmforc.f
++++ b/ccx_2.23/src/mafillsmforc.f
+@@ -23,6 +23,7 @@
+ !     including point forces into the external force vector
+ !
+       implicit none
++      integer fa_collect_loads
+ !
+       integer nforc,ndirforc(*),nodeforc(2,*),mi(*),nactdof(0:mi(2),*),
+      &  ipompc(*),nodempc(3,*),i,jdof,id,ist,
+@@ -55,7 +56,8 @@
+ !              updating the external force vector for dynamic
+ !              calculations
+ !
+-               if(nmethod.eq.4) fnext(ndirforc(i),nodeforc(1,i))=
++               if((nmethod.eq.4).or.(fa_collect_loads().eq.1))
++     &              fnext(ndirforc(i),nodeforc(1,i))=
+      &              fnext(ndirforc(i),nodeforc(1,i))+xforc(i)
+ !     
+                jdof=nactdof(ndirforc(i),nodeforc(1,i))
+@@ -94,7 +96,7 @@
+ !     updating the external force vector for dynamic
+ !     calculations
+ !     
+-               if(nmethod.eq.4) then
++               if((nmethod.eq.4).or.(fa_collect_loads().eq.1)) then
+                   do j=1,3
+                      fnext(j,node)=fnext(j,node)+a(j,idir)*xforc(i)
+                   enddo
+--- a/ccx_2.23/src/mafillsmmain.c
++++ b/ccx_2.23/src/mafillsmmain.c
+@@ -87,6 +87,7 @@
+      Matrix */
+   
+   ITG i,j,mt=mi[1]+1;
++  if(*rhsi==1)fa_reset_loads();
+       
+   /* variables for multithreading procedure */
+     
+@@ -191,7 +192,7 @@
+     NNEW(aub1,double,(long long)num_cpus*nzs[1]);
+   }
+ 
+-  if(*nmethod==4){
++  if((*nmethod==4)||(fa_nodal_loads!=NULL)){
+     NNEW(fnext1,double,num_cpus*mt**nk);
+   }
+ 
+@@ -371,7 +372,7 @@
+     SFREE(adb1);SFREE(aub1);
+   }
+ 
+-  if(*nmethod==4){
++  if((*nmethod==4)||(fa_nodal_loads!=NULL)){
+     for(i=0;i<mt**nk;i++){
+       fnext[i]=fnext1[i];
+     }
+@@ -396,6 +397,7 @@
+   FORTRAN(mafillsmforc,(nforc,ndirforc,nodeforc,xforc,nactdof,
+ 			fext,ipompc,nodempc,coefmpc,mi,rhsi,fnext,
+ 			nmethod,ntrans,inotr,trab,co));
++  if(*rhsi==1)fa_pointloads(*nforc,nodeforc,ndirforc,xforc);
+   
+   return;
+ 
+@@ -428,7 +430,7 @@
+     indexadb=*i*neq1[0];
+     indexaub=(long long)*i*nzs1[0];
+   }
+-  if(nmethod1[0]==4){
++  if((nmethod1[0]==4)||(fa_nodal_loads!=NULL)){
+     indexfnext=*i*(mi1[1]+1)**nk1;
+   }
+ 
+--- a/ccx_2.23/src/results.c
++++ b/ccx_2.23/src/results.c
+@@ -174,6 +174,9 @@
+ 	     &intpointvarm,&calcul_fn,&calcul_f,&calcul_qa,&calcul_cauchy,
+ 	     &ikin,&intpointvart,typeboun,&num_cpus,mortar,nener,iponoeln,
+ 	     network);
++  fa_begin_results(*ne,ipkon,kon,lakon,co);
++  cs_begin_results(*iout,*nk,*ne,mt,co,v,ipkon,kon,lakon,itiefac,islavsurf,
++                   pslavsurf,pmastsurf,clearini,springarea,*reltime);
+ 
+   /* next statement allows for storing the displacements in each
+      iteration: for debugging purposes */
+@@ -389,6 +390,11 @@
+   }
+ 
+   /* calculating the matrix system internal force vector */
++  if(fa_active()&&(*iout>0)){
++    if(calcul_fn!=1){fprintf(stderr,"*ERROR CCX force accounting V1: RF output must be requested\n");exit(201);}
++    fa_emit(fn,fa_nodal_loads,*nk,mt,nactdof,*nmpc,ipompc,nodempc,coefmpc,v,*istep,*iinc,*ttime+*time);
++  }
++  if(*iout==2)cs_emit(*istep,*iinc,*ttime+*time);
+ 
+   resultsforc(nk,f,fn,nactdof,ipompc,nodempc,
+ 	      coefmpc,labmpc,nmpc,mi,fmpc,&calcul_fn,&calcul_f,
+--- a/ccx_2.23/src/nonlingeo.c
++++ b/ccx_2.23/src/nonlingeo.c
+@@ -806,6 +806,10 @@
+   NNEW(fini,double,neq[1]);
+   
+   /* allocating fields for nonlinear dynamics */
++  if(fa_active()){
++    NNEW(fnext,double,mt**nk);
++    fa_nodal_loads=fnext;
++  }
+   
+   if(*nmethod==4){
+     mass[0]=1;
+@@ -985,1 +989,2 @@
++    fa_set_mpc_capacity(memmpc_);
+     results(co,nk,kon,ipkon,lakon,ne,vold,stn,inum,stx,
+@@ -1424,1 +1429,2 @@
++      fa_set_mpc_capacity(memmpc_);
+       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2123,1 +2129,2 @@
++      fa_set_mpc_capacity(memmpc_);
+       results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2157,1 +2164,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2415,1 +2423,2 @@
++	  fa_set_mpc_capacity(memmpc_);
+ 	  results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -2488,7 +2497,7 @@
+ 	NNEW(ad,double,neq[1]);
+ 	NNEW(au,double,nzs[1]);
+ 
+-	if(*nmethod==4){
++	if((*nmethod==4)||fa_active()){
+ 	  DOUMEMSET(fnext,0,mt**nk,0.);
+ 	}
+ 
+@@ -3162,1 +3171,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -3258,1 +3268,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -3667,1 +3678,2 @@
++	fa_set_mpc_capacity(memmpc_);
+ 	results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -3816,1 +3828,2 @@
++    fa_set_mpc_capacity(memmpc_);
+     results(co,nk,kon,ipkon,lakon,ne,v,stn,inum,stx,
+@@ -4249,6 +4262,7 @@
+   (*ttime)+=(*tper);
+ 
+   SFREE(iponoel);
++  if(fa_active()){fa_nodal_loads=NULL;SFREE(fnext);}
+   
+   return;
+ }
+--- a/ccx_2.23/src/resultsmech.f
++++ b/ccx_2.23/src/resultsmech.f
+@@ -435,6 +435,7 @@
+      &             ielas,jfaces,igauss,pslavsurf,pmastsurf,
+      &             clearini,venergy,kscale,konl,iout,i,
+      &             smscale,mscalmethod)
++              call fa_contact(i,nope,konl,fnl,lakonl)
+               if(nener.eq.1) then
+                 ener(1,1,ne0+igauss)=senergy
+                 ener(2,1,ne0+igauss)=venergy
+--- a/ccx_2.23/src/Makefile.inc
++++ b/ccx_2.23/src/Makefile.inc
+@@ -1126,6 +1126,7 @@
+ resforccont.c \
+ results.c \
+ resultsforc.c \
++forceaccounting.c \
+ resultsinduction.c \
+ resultsini.c \
+ results_se.c \
+--- a/ccx_2.23/src/springforc_n2f.f
++++ b/ccx_2.23/src/springforc_n2f.f
+@@ -173,6 +173,9 @@
+             iorien=0
+          endif
+ !
++         call fa_check_spring(nelem,idof1,idof2,iorien,kode,
++     &        nelcon(2,imat),elcon(1,1,imat))
++!
+          if(iorien.eq.0) then
+             do i=1,3
+                xn1(i)=0.d0
+--- a/ccx_2.23/src/springforc_f2f.f
++++ b/ccx_2.23/src/springforc_f2f.f
+@@ -251,6 +251,8 @@
+          fnl(i,nopep)=-stiff(1)*xn(i)
+       enddo
+       cstr(4)=stiff(1)/springarea(1)
++      call cs_normal(igauss,pl(1,nopep),pproj,xn,cstr(1),cstr(4),
++     &     springarea(1))
+ !
+ !     Coulomb friction for static calculations
+ !
+@@ -380,6 +382,7 @@
+                   fnl(i,nopep)=fnl(i,nopep)+ftrial(i)
+                   xstate(i,1,ne0+igauss)=tp(i)
+                enddo
++               call cs_stick(igauss,ielas)
+                cstr(5)=(ftrial(1)*t1(1)+ftrial(2)*t1(2)+
+      &              ftrial(3)*t1(3))/springarea(1)
+                cstr(6)=(ftrial(1)*t2(1)+ftrial(2)*t2(2)+
+@@ -398,6 +401,7 @@
+                   fnl(i,nopep)=fnl(i,nopep)+dfshear*ftrial(i)
+                   xstate(i,1,ne0+igauss)=tp(i)+dg*ftrial(i)
+                enddo
++               call cs_slip(igauss,dg,ftrial)
+                cstr(5)=(dfshear*ftrial(1)*t1(1)+
+      &              dfshear*ftrial(2)*t1(2)+
+      &              dfshear*ftrial(3)*t1(3))/springarea(1)
+@@ -420,6 +424,7 @@
+          if(um.gt.0.d0) then
+             cstr(2)=t(1)*t1(1)+t(2)*t1(2)+t(3)*t1(3)
+             cstr(3)=t(1)*t2(1)+t(2)*t2(2)+t(3)*t2(3)
++            call cs_tangent(igauss,um,t1,t2,cstr(2),cstr(5))
+          else
+ !     
+ !     without friction t, t1 and t2 were never calculated

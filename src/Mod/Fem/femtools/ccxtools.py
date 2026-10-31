@@ -374,6 +374,9 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         from femtools import force_accounting
 
         force_accounting.invalidate(self.analysis, "solver input rewrite attempted")
+        from femtools import beam_contact_results
+
+        beam_contact_results.begin_export(self)
         contact_export = contact_state.begin_export(self)
         beam_export = beam_section_forces.begin_export(self)
         # Count the complete active graph before any mesh-set resolution,
@@ -557,6 +560,9 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
         self.ccx_stderr = ""
         self.ccx_prefs = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/Ccx")
         num_cpu_pref = self.ccx_prefs.GetInt("AnalysisNumCPUs", 1)
+        from femtools import beam_contact_results
+
+        beam_contact_results.begin_run(self)
         context = force_accounting.run_context(self, self.ccx_binary)
         environment = context[0] if context else dict(os.environ)
         environment.pop(contact_state.ENV, None)
@@ -602,13 +608,21 @@ class FemToolsCcx(QtCore.QRunnable, QtCore.QObject):
             except Exception as error:
                 errors.append(error)
         try:
-            contact_state.finish_run(self, contact_context, p.returncode, self.ccx_stdout)
+            paired = beam_contact_results.finish_run(
+                self, beam_context, contact_context, p.returncode, self.ccx_stdout
+            )
         except Exception as error:
+            paired = True
             errors.append(error)
-        try:
-            beam_section_forces.finish_run(self, beam_context, p.returncode, self.ccx_stdout)
-        except Exception as error:
-            errors.append(error)
+        if not paired:
+            try:
+                contact_state.finish_run(self, contact_context, p.returncode, self.ccx_stdout)
+            except Exception as error:
+                errors.append(error)
+            try:
+                beam_section_forces.finish_run(self, beam_context, p.returncode, self.ccx_stdout)
+            except Exception as error:
+                errors.append(error)
         if errors:
             raise ValueError("; ".join(str(error) for error in errors)) from errors[0]
         return p.returncode

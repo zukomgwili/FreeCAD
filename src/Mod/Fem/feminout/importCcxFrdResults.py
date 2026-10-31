@@ -364,17 +364,19 @@ def importFrd(
                 analysis.addObject(res_obj)
 
         if solid_data is not None:
-            solid_results_name = f"{result_name_prefix}SolidResults"
-            solid_result = beam_solid_results.make_solid_result(
-                solid_data, mixed_source, solid_results_name
-            )
-            setupPipeline(
-                doc,
-                analysis,
-                solid_results_name,
-                [solid_result],
-                exact_result_role=True,
-            )
+            for owner_data, owner_context in solid_data:
+                owner_prefix = owner_context["solid_owner"].Name if len(solid_data) > 1 else ""
+                solid_results_name = f"{result_name_prefix}{owner_prefix}SolidResults"
+                solid_result = beam_solid_results.make_solid_result(
+                    owner_data, owner_context, solid_results_name
+                )
+                setupPipeline(
+                    doc,
+                    analysis,
+                    solid_results_name,
+                    [solid_result],
+                    exact_result_role=True,
+                )
 
         if FreeCAD.GuiUp:
             if analysis:

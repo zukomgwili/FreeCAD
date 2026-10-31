@@ -4,6 +4,7 @@
  * native result arrays, output selections, convergence or ordinary files.
  */
 #include <errno.h>
+#include <ctype.h>
 #include <limits.h>
 #include <math.h>
 #include <stdint.h>
@@ -24,8 +25,22 @@ typedef struct
 typedef struct
 {
     ITG nodes[4];
-    int declared;
+    int declared, owner;
 } BSSolid;
+
+typedef struct
+{
+    ITG element, face, nodes[3];
+    int side, exterior;
+    double normal[3];
+} BSContactFace;
+
+typedef struct
+{
+    ITG point, faces[2];
+    int declared, seen, matched;
+    double force[2][3], moment[2][3];
+} BSContactSlot;
 
 typedef struct
 {
@@ -35,8 +50,14 @@ typedef struct
 typedef struct
 {
     ITG node, direction, receiving_node;
-    double value;
+    double value, prescribed, displacement;
 } BSRigidSPC;
+
+typedef struct
+{
+    ITG node, direction;
+    char type;
+} BSBoundary;
 
 typedef struct
 {
@@ -49,7 +70,7 @@ typedef struct
 typedef struct
 {
     ITG node, direction, original_direction, role;
-    double value, axis[3];
+    double value, axis[3], prescribed, displacement;
 } BSSPC;
 
 typedef struct
@@ -66,6 +87,11 @@ typedef struct
     BSRigidSPC* rigid_spcs;
     unsigned char* rigid_terms;
     BSSPC spcs[9];
+    size_t guide_spc_count;
+    BSSPC guide_spcs[5];
+    double guide_force[3], guide_moment[3];
+    double contact_force[2][3], contact_moment[2][3];
+    int contact_seen;
 } BSActions;
 
 typedef struct
@@ -98,6 +124,19 @@ static struct
     int support_directions[6], pointloads_seen;
     char spring_owner[81], source_owner[81], support_owner[81];
     char solid_owner[81], fixed_owner[81], port_owner[81];
+    char second_solid_owner[81], guide_owner[81], contact_owner[81];
+    char contact_solid_owner[2][81], contact_surface[2][81], contact_request[33];
+    int solid_owner_count, guide_directions[6], contact_authorized;
+    size_t contact_face_count, contact_capacity, contact_count;
+    BSContactFace* contact_faces;
+    BSContactSlot* contact_slots;
+    ITG* contact_point_index;
+    size_t contact_point_capacity;
+    ITG boundary_count, current_boundary_count;
+    BSBoundary* boundaries;
+    ITG *current_boundary_nodes, *current_boundary_directions;
+    double* current_boundary_values;
+    char* current_boundary_types;
     double *coordinates, *frame_displacements, pointload[3];
     BSActions actions;
     BSElement* elements;
@@ -136,7 +175,8 @@ static int bs_early_enabled(void)
         if (stream) {
             if (fscanf(stream, "%80s", schema) == 1) {
                 bs_early.enabled = !strcmp(schema, "CCX_BEAM_SECTION_V2") ? 2 :
-                                   !strcmp(schema, "CCX_BEAM_SECTION_V3") ? 3 : 0;
+                                   !strcmp(schema, "CCX_BEAM_SECTION_V3") ? 3 :
+                                   !strcmp(schema, "CCX_BEAM_SECTION_V4") ? 4 : 0;
             }
             fclose(stream);
         }
@@ -202,7 +242,7 @@ void FORTRAN(bs_record_rigid, (ITG* receiver, ITG* reference, ITG* rotation,
 {
     BSRigid* records;
     size_t capacity;
-    if (bs_early_enabled() != 3) {
+    if (bs_early_enabled() < 3) {
         return;
     }
     if (bs_early.rigid_count == bs_early.rigid_capacity) {
@@ -330,6 +370,49 @@ static void bs_cross(double* result, const double* position, const double* force
     if (!isfinite(result[0]) || !isfinite(result[1]) || !isfinite(result[2])) {
         bs_fail("nonfinite native origin-moment transport");
     }
+}
+
+static int bs_same_name(const char* left, const char* right)
+{
+    while (*left && *right) {
+        if (toupper((unsigned char)*left++) != toupper((unsigned char)*right++)) {
+            return 0;
+        }
+    }
+    return *left == *right;
+}
+
+static int bs_solid_owner_id(const char* name)
+{
+    return !strcmp(name, bs.solid_owner) ? 1 :
+           !strcmp(name, bs.second_solid_owner) ? 2 : 0;
+}
+
+static void bs_sort_nodes(ITG nodes[3])
+{
+    ITG i, j, value;
+    for (i = 0; i < 3; ++i) {
+        for (j = i + 1; j < 3; ++j) {
+            if (nodes[j] < nodes[i]) {
+                value = nodes[i]; nodes[i] = nodes[j]; nodes[j] = value;
+            }
+        }
+    }
+}
+
+static int bs_contact_face_order(const void* left, const void* right)
+{
+    const BSContactFace *a = left, *b = right;
+    size_t i;
+    if (a->side != b->side) {
+        return a->side - b->side;
+    }
+    for (i = 0; i < 3; ++i) {
+        if (a->nodes[i] != b->nodes[i]) {
+            return (a->nodes[i] > b->nodes[i]) - (a->nodes[i] < b->nodes[i]);
+        }
+    }
+    return 0;
 }
 
 typedef struct
@@ -475,7 +558,7 @@ static void bs_coupled_geometry(ITG* ipkon, ITG* kon, char* lakon,
 
 typedef struct
 {
-    ITG nodes[3], element;
+    ITG nodes[3], element, face;
 } BSTetFace;
 
 static int bs_face_order(const void* left, const void* right)
@@ -506,10 +589,12 @@ static ITG bs_component(ITG* parents, ITG element)
 
 static void bs_mixed_geometry(ITG* ipkon, ITG* kon)
 {
-    static const int faces[4][3] = {{0, 1, 2}, {0, 1, 3}, {0, 2, 3}, {1, 2, 3}};
+    static const int faces[4][3] = {{0, 2, 1}, {0, 1, 3}, {1, 2, 3}, {0, 3, 2}};
     BSTetFace* catalogue = bs_allocate(bs_product(bs.solid_count, 4), sizeof(BSTetFace));
     ITG* parents = bs_allocate((size_t)bs.ne, sizeof(ITG));
-    ITG element, node, i, j, k, temporary, component = -1;
+    ITG* contact_index = bs_allocate(bs_product((size_t)bs.ne, 4), sizeof(ITG));
+    ITG element, node, i, j, k, temporary, components[2] = {-1, -1}, owner;
+    int fixed_owner = 0, port_owner = 0;
     size_t face_count = 0, first, last, r;
     double origin[3], direction[3], vector[3], cross[3], scale = 0., length, maximum = 0.;
     if (!bs.receiver_count || bs.receiver_count < 3 || !bs.fixed_count ||
@@ -517,6 +602,14 @@ static void bs_mixed_geometry(ITG* ipkon, ITG* kon)
         bs.rotation_node < 1 || bs.rotation_node > bs.nk ||
         bs.reference_node == bs.rotation_node || !bs.solid_count) {
         bs_fail("mixed domain requires a real solid, physical support and finite rigid port");
+    }
+    for (r = 0; r < bs.contact_face_count; ++r) {
+        BSContactFace* face = bs.contact_faces + r;
+        size_t slot = 4 * (size_t)(face->element - 1) + face->face - 1;
+        if (contact_index[slot]) {
+            bs_fail("repeated native contact face declaration");
+        }
+        contact_index[slot] = (ITG)r + 1;
     }
     bs.beam_nodes = bs_allocate((size_t)bs.nk, 1);
     bs.fixed_index = bs_allocate((size_t)bs.nk, sizeof(ITG));
@@ -537,6 +630,7 @@ static void bs_mixed_geometry(ITG* ipkon, ITG* kon)
         for (i = 0; i < 4; ++i) {
             BSTetFace* face = catalogue + face_count++;
             face->element = element;
+            face->face = i + 1;
             for (j = 0; j < 3; ++j) {
                 face->nodes[j] = bs.solids[element].nodes[faces[i][j]];
             }
@@ -561,25 +655,46 @@ static void bs_mixed_geometry(ITG* ipkon, ITG* kon)
             bs_fail("mixed tetrahedral body has a non-manifold native face");
         }
         if (last - first == 2) {
+            if (bs.solids[catalogue[first].element].owner !=
+                bs.solids[catalogue[first + 1].element].owner) {
+                bs_fail("two contact body owners must not share a structural face");
+            }
             parents[bs_component(parents, catalogue[first].element)] =
                 bs_component(parents, catalogue[first + 1].element);
+        }
+        else {
+            BSTetFace* face = catalogue + first;
+            ITG declared = contact_index[4 * (size_t)face->element + face->face - 1];
+            if (declared) {
+                bs.contact_faces[declared - 1].exterior = 1;
+            }
         }
     }
     for (element = 0; element < bs.ne; ++element) {
         if (!bs.solids[element].declared) {
             continue;
         }
-        if (component < 0) {
-            component = bs_component(parents, element);
+        owner = bs.solids[element].owner - 1;
+        if (owner < 0 || owner >= bs.solid_owner_count) {
+            bs_fail("tetrahedron has no declared physical owner");
         }
-        if (bs_component(parents, element) != component) {
-            bs_fail("mixed tetrahedral catalogue must be one face-connected physical body");
+        if (components[owner] < 0) {
+            components[owner] = bs_component(parents, element);
+        }
+        if (bs_component(parents, element) != components[owner]) {
+            bs_fail("each mixed tetrahedral owner must be one face-connected physical body");
         }
     }
     for (r = 0; r < bs.fixed_count; ++r) {
         node = bs.fixed_nodes[r];
         if (!bs.solid_nodes[node - 1] || bs.beam_nodes[node - 1]) {
             bs_fail("physical solid supports require true tetrahedral structural nodes");
+        }
+        if (!fixed_owner) {
+            fixed_owner = bs.solid_nodes[node - 1];
+        }
+        if (bs.solid_nodes[node - 1] != fixed_owner) {
+            bs_fail("physical solid support must belong to one body owner");
         }
         bs.fixed_index[node - 1] = (ITG)r + 1;
     }
@@ -589,6 +704,16 @@ static void bs_mixed_geometry(ITG* ipkon, ITG* kon)
             bs.beam_nodes[node - 1]) {
             bs_fail("rigid receivers must be solid-only nodes disjoint from physical supports");
         }
+        if (!port_owner) {
+            port_owner = bs.solid_nodes[node - 1];
+        }
+        if (bs.solid_nodes[node - 1] != port_owner) {
+            bs_fail("rigid receiving region must belong to one physical body");
+        }
+    }
+    if (bs.coupled == 3 && (bs.solid_owner_count != 2 || fixed_owner == port_owner ||
+                           components[0] < 0 || components[1] < 0)) {
+        bs_fail("contact requires two separate genuine bodies joined by their declared interface");
     }
     if (bs.solid_nodes[bs.reference_node - 1] || bs.beam_nodes[bs.reference_node - 1] ||
         bs.solid_nodes[bs.rotation_node - 1] || bs.beam_nodes[bs.rotation_node - 1]) {
@@ -628,6 +753,7 @@ static void bs_mixed_geometry(ITG* ipkon, ITG* kon)
     }
     free(parents);
     free(catalogue);
+    free(contact_index);
 }
 
 static ITG bs_graph_term(ITG identity, ITG capacity)
@@ -758,6 +884,7 @@ static void bs_coupled_supports(ITG nboun, ITG* nodes, ITG* directions,
 {
     ITG i, j, node, dir;
     int found[6] = {0}, angle_found[3] = {0}, algebraic_found[3] = {0};
+    int guide_found[6] = {0};
     size_t a, r;
     unsigned char* fixed_found = bs_allocate(bs_product(bs.fixed_count, 3), 1);
     unsigned char* rigid_found = bs_allocate(bs_early.rigid_count, 1);
@@ -788,6 +915,15 @@ static void bs_coupled_supports(ITG nboun, ITG* nodes, ITG* directions,
             values[i] != 0. || (amplitudes && amplitudes[i])) {
             bs_fail("coupled supports require finite zero unamplified mechanical constraints");
         }
+        if (bs.coupled == 3 && dir <= 3 &&
+            ((node == bs.reference_node && bs.guide_directions[dir - 1]) ||
+             (node == bs.rotation_node && bs.guide_directions[dir + 2]))) {
+            int logical = node == bs.reference_node ? dir - 1 : dir + 2;
+            if (types[i] == 'R' || types[i] == 'U' || ++guide_found[logical] != 1) {
+                bs_fail("physical port guide has a duplicate or algebraic native prescription");
+            }
+            continue;
+        }
         if (node == bs.support_node && bs.support_directions[dir - 1]) {
             if (++found[dir - 1] != 1) {
                 bs_fail("repeated original coupled support DOF");
@@ -809,14 +945,14 @@ static void bs_coupled_supports(ITG nboun, ITG* nodes, ITG* directions,
             }
         }
         if (a == bs_early.count) {
-            if (bs.coupled == 2 && dir <= 3 && bs.fixed_index[node - 1]) {
+            if (bs.coupled >= 2 && dir <= 3 && bs.fixed_index[node - 1]) {
                 r = 3 * (size_t)(bs.fixed_index[node - 1] - 1) + dir - 1;
                 if (fixed_found[r]++) {
                     bs_fail("repeated physical tetrahedral support degree of freedom");
                 }
                 continue;
             }
-            if (bs.coupled == 2 && types[i] == 'R') {
+            if (bs.coupled >= 2 && types[i] == 'R') {
                 for (r = 0; r < bs_early.rigid_count; ++r) {
                     BSRigid* rigid = bs_early.rigids + r;
                     if (node == rigid->auxiliary && dir == rigid->direction) {
@@ -836,6 +972,9 @@ static void bs_coupled_supports(ITG nboun, ITG* nodes, ITG* directions,
     for (j = 0; j < 6; ++j) {
         if (found[j] != bs.support_directions[j]) {
             bs_fail("declared original support DOF is missing from the native problem");
+        }
+        if (bs.coupled == 3 && guide_found[j] != bs.guide_directions[j]) {
+            bs_fail("declared physical rigid port guide is incomplete");
         }
     }
     for (a = 0; a < bs_early.count; ++a) {
@@ -860,6 +999,156 @@ static void bs_coupled_supports(ITG nboun, ITG* nodes, ITG* directions,
     free(rigid_found);
 }
 
+static void bs_contact_catalogue(ITG count, char* sets, ITG* start, ITG* end,
+                                  ITG* members, ITG capacity)
+{
+    static const int local[4][3] = {{0, 2, 1}, {0, 1, 3}, {1, 2, 3}, {0, 3, 2}};
+    static const int opposite[4] = {3, 2, 0, 1};
+    size_t r, k, receiver;
+    ITG side, set, selected, first, last, entry, encoded;
+    int normals_seen[2] = {0, 0};
+    double normals[2][3] = {{0.}}, edge1[3], edge2[3], inward[3], norm, orientation;
+    size_t requested[2] = {0, 0};
+    unsigned char* seen = bs_allocate(bs.contact_face_count, 1);
+    const char* contact_path = getenv("CCX_CONTACT_STATE_REQUEST");
+    if (!bs.contact_owner[0] || !bs.contact_request[0] || !bs.guide_owner[0] ||
+        strcmp(bs.guide_owner, bs.port_owner) || !contact_path || !*contact_path ||
+        !bs_solid_owner_id(bs.contact_solid_owner[0]) ||
+        !bs_solid_owner_id(bs.contact_solid_owner[1]) ||
+        !strcmp(bs.contact_solid_owner[0], bs.contact_solid_owner[1]) ||
+        !strcmp(bs.contact_surface[0], bs.contact_surface[1]) || count < 1 ||
+        count > INT_MAX / 81 || capacity < 1 || !sets || !start || !end || !members) {
+        bs_fail("contact composition requires a complete physical guide and authenticated native pair");
+    }
+    for (k = 0; k < 6; ++k) {
+        if (bs.guide_directions[k] != (k != (size_t)bs.spring_direction - 1)) {
+            bs_fail("physical rigid port guide must leave only the scalar translation free");
+        }
+    }
+    for (r = 0; r < bs.contact_face_count; ++r) {
+        BSContactFace* face = bs.contact_faces + r;
+        BSSolid* solid = bs.solids + face->element - 1;
+        if (!face->exterior || !solid->declared ||
+            solid->owner != bs_solid_owner_id(bs.contact_solid_owner[face->side])) {
+            bs_fail("selected contact face is not an exterior face of its declared true solid owner");
+        }
+        for (k = 0; k < 3; ++k) {
+            ITG node = solid->nodes[local[face->face - 1][k]];
+            if (bs.fixed_index[node - 1]) {
+                bs_fail("physical fixed support cannot overlap a selected contact face");
+            }
+            for (receiver = 0; receiver < bs.receiver_count; ++receiver) {
+                if (node == bs.receivers[receiver]) {
+                    bs_fail("rigid receiving region cannot overlap a selected contact face");
+                }
+            }
+            face->nodes[k] = node;
+        }
+        /* Derive outward geometry from this actual Tet4 and its opposite
+         * vertex, independently of input winding or request-side names.
+         * This bounded slice admits opposing axial interfaces only. */
+        for (k = 0; k < 3; ++k) {
+            double origin = bs.coordinates[3 * (size_t)(face->nodes[0] - 1) + k];
+            edge1[k] = bs.coordinates[3 * (size_t)(face->nodes[1] - 1) + k] - origin;
+            edge2[k] = bs.coordinates[3 * (size_t)(face->nodes[2] - 1) + k] - origin;
+            inward[k] = bs.coordinates[3 * (size_t)(
+                solid->nodes[opposite[face->face - 1]] - 1) + k] - origin;
+        }
+        bs_cross(face->normal, edge1, edge2);
+        norm = orientation = 0.;
+        for (k = 0; k < 3; ++k) {
+            norm += face->normal[k] * face->normal[k];
+            orientation += face->normal[k] * inward[k];
+        }
+        norm = sqrt(norm);
+        if (!isfinite(norm) || norm <= 0. || !isfinite(orientation) || orientation == 0.) {
+            bs_fail("selected native contact face has zero area or degenerate tetrahedral geometry");
+        }
+        for (k = 0; k < 3; ++k) {
+            face->normal[k] /= orientation > 0. ? -norm : norm;
+            if ((k == (size_t)bs.spring_direction - 1 &&
+                 fabs(fabs(face->normal[k]) - 1.) > 1.e-10) ||
+                (k != (size_t)bs.spring_direction - 1 && fabs(face->normal[k]) > 1.e-10)) {
+                bs_fail("contact composition requires native outward normals along the scalar axis");
+            }
+            if (normals_seen[face->side] &&
+                fabs(normals[face->side][k] - face->normal[k]) > 1.e-10) {
+                bs_fail("each native contact side must have one consistent outward normal");
+            }
+            normals[face->side][k] = face->normal[k];
+        }
+        normals_seen[face->side] = 1;
+        bs_sort_nodes(face->nodes);
+        ++requested[face->side];
+    }
+    for (k = 0; k < 3; ++k) {
+        if (!normals_seen[0] || !normals_seen[1] ||
+            fabs(normals[0][k] + normals[1][k]) > 1.e-10) {
+            bs_fail("selected native contact owner faces must have opposing outward normals");
+        }
+    }
+    for (side = 0; side < 2; ++side) {
+        selected = -1;
+        for (set = 0; set < count; ++set) {
+            char name[81];
+            size_t length = 0;
+            while (length < 81 && sets[81 * (size_t)set + length] != ' ') {
+                ++length;
+            }
+            if (length < 2 || length > 80 || sets[81 * (size_t)set + length - 1] != 'T') {
+                continue;
+            }
+            memcpy(name, sets + 81 * (size_t)set, length - 1);
+            name[length - 1] = '\0';
+            if (bs_same_name(name, bs.contact_surface[side])) {
+                if (selected >= 0) {
+                    bs_fail("selected native contact surface name is ambiguous");
+                }
+                selected = set;
+            }
+        }
+        if (selected < 0 || !requested[side]) {
+            bs_fail("selected native contact surface is missing or empty");
+        }
+        first = start[selected]; last = end[selected];
+        if (first < 1 || last < first || last > capacity ||
+            (size_t)(last - first + 1) != requested[side]) {
+            bs_fail("native contact surface differs from its complete declared face catalogue");
+        }
+        for (entry = first; entry <= last; ++entry) {
+            encoded = members[entry - 1];
+            if (encoded < 1) {
+                bs_fail("native contact surface requires explicit original face identities");
+            }
+            for (r = 0; r < bs.contact_face_count; ++r) {
+                BSContactFace* face = bs.contact_faces + r;
+                if (face->side == side && face->element == encoded / 10 &&
+                    face->face == encoded % 10) {
+                    if (seen[r]++) {
+                        bs_fail("native selected contact face is repeated");
+                    }
+                    break;
+                }
+            }
+            if (r == bs.contact_face_count) {
+                bs_fail("native selected contact surface contains an undeclared face");
+            }
+        }
+    }
+    for (r = 0; r < bs.contact_face_count; ++r) {
+        if (seen[r] != 1) {
+            bs_fail("declared contact face is absent from its actual native surface");
+        }
+    }
+    free(seen);
+    qsort(bs.contact_faces, bs.contact_face_count, sizeof(BSContactFace), bs_contact_face_order);
+    for (r = 1; r < bs.contact_face_count; ++r) {
+        if (!bs_contact_face_order(bs.contact_faces + r - 1, bs.contact_faces + r)) {
+            bs_fail("native contact face nodes have ambiguous selected ownership");
+        }
+    }
+}
+
 void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
                 ITG cyclic, ITG step, ITG nk, ITG ne, ITG nkon,
                 ITG* ipkon, ITG* kon, char* lakon, char* filab, double* co,
@@ -867,7 +1156,9 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
                 ITG* iamboun, char* typeboun, ITG nmpc, char* labmpc,
                 ITG nload, ITG nbody, ITG ntie, ITG prestress,
                 ITG material_stride, ITG* materials, ITG* ipompc,
-                ITG* nodempc, double* coefficients, ITG mpc_capacity)
+                ITG* nodempc, double* coefficients, ITG mpc_capacity,
+                ITG nset, char* sets, ITG* set_start, ITG* set_end, ITG* set_members,
+                ITG set_capacity)
 {
     const char* path = getenv("CCX_BEAM_SECTION_REQUEST");
     FILE* stream;
@@ -919,8 +1210,9 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
     if (!strcmp(token, "CCX_BEAM_SECTION_V2")) {
         bs.coupled = 1;
     }
-    else if (!strcmp(token, "CCX_BEAM_SECTION_V3")) {
-        bs.coupled = 2;
+    else if (!strcmp(token, "CCX_BEAM_SECTION_V3") ||
+             !strcmp(token, "CCX_BEAM_SECTION_V4")) {
+        bs.coupled = !strcmp(token, "CCX_BEAM_SECTION_V4") ? 3 : 2;
         bs.solids = bs_allocate((size_t)ne, sizeof(BSSolid));
         bs.solid_nodes = bs_allocate((size_t)nk, 1);
     }
@@ -932,13 +1224,13 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
             continue;
         }
         if (bs.coupled && !strncmp(lakon + 8 * (size_t)element,
-                                    bs.coupled == 2 ? "ESPRNG21" : "ESPRNG10", 8)) {
-            if (ipkon[element] > nkon - bs.coupled || ++springs != 1) {
+                                    bs.coupled >= 2 ? "ESPRNG21" : "ESPRNG10", 8)) {
+            if (ipkon[element] > nkon - (bs.coupled >= 2 ? 2 : 1) || ++springs != 1) {
                 bs_fail("coupled beam request requires exactly one declared native scalar spring");
             }
             continue;
         }
-        if (bs.coupled == 2 && !strncmp(lakon + 8 * (size_t)element, "C3D4    ", 8)) {
+        if (bs.coupled >= 2 && !strncmp(lakon + 8 * (size_t)element, "C3D4    ", 8)) {
             if (ipkon[element] > nkon - 4) {
                 bs_fail("native mixed tetrahedral connectivity exceeds its actual storage");
             }
@@ -951,7 +1243,7 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
         }
         ++count;
     }
-    if (!count || (bs.coupled && springs != 1) || (bs.coupled == 2 && !solids)) {
+    if (!count || (bs.coupled && springs != 1) || (bs.coupled >= 2 && !solids)) {
         bs_fail("missing active B32R chain or native grounded spring");
     }
     bs_expect(stream, "REQUEST");
@@ -982,14 +1274,14 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
         if (!strcmp(token, "END")) {
             break;
         }
-        if (bs.coupled && !strcmp(token, bs.coupled == 2 ? "SPRING2" : "SPRING")) {
+        if (bs.coupled && !strcmp(token, bs.coupled >= 2 ? "SPRING2" : "SPRING")) {
             if (bs.spring_element) {
                 bs_fail("repeated coupled spring declaration");
             }
             bs_owner(stream, bs.spring_owner);
             bs.spring_element = bs_integer(stream);
             bs.spring_node = bs_integer(stream);
-            if (bs.coupled == 2) {
+            if (bs.coupled >= 2) {
                 ITG reference = bs_integer(stream);
                 if (bs.reference_node && reference != bs.reference_node) {
                     bs_fail("mixed spring and rigid port reference identities differ");
@@ -1000,23 +1292,31 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
             element = bs.spring_element - 1;
             if (element >= ne || ipkon[element] < 0 ||
                 strncmp(lakon + 8 * (size_t)element,
-                        bs.coupled == 2 ? "ESPRNG21" : "ESPRNG10", 8) ||
+                        bs.coupled >= 2 ? "ESPRNG21" : "ESPRNG10", 8) ||
                 bs.spring_direction > 3 || bs.spring_node > nk ||
                 kon[ipkon[element]] != bs.spring_node ||
-                (bs.coupled == 2 && (bs.reference_node > nk ||
+                (bs.coupled >= 2 && (bs.reference_node > nk ||
                  kon[(size_t)ipkon[element] + 1] != bs.reference_node))) {
                 bs_fail("coupled scalar spring declaration differs from its native element");
             }
             continue;
         }
-        if (bs.coupled == 2 && !strcmp(token, "SOLID")) {
+        if (bs.coupled >= 2 && !strcmp(token, "SOLID")) {
             char owner[81];
+            int owner_id;
             bs_owner(stream, owner);
             if (!bs.solid_owner[0]) {
                 memcpy(bs.solid_owner, owner, strlen(owner) + 1);
+                bs.solid_owner_count = 1;
             }
-            if (strcmp(owner, bs.solid_owner)) {
-                bs_fail("mixed beam domain requires one explicit tetrahedral body owner");
+            owner_id = bs_solid_owner_id(owner);
+            if (!owner_id && bs.coupled == 3 && bs.solid_owner_count == 1) {
+                memcpy(bs.second_solid_owner, owner, strlen(owner) + 1);
+                bs.solid_owner_count = 2;
+                owner_id = 2;
+            }
+            if (!owner_id) {
+                bs_fail("mixed beam domain has an undeclared additional tetrahedral body owner");
             }
             element = bs_integer(stream);
             if (element > ne || bs.solids[element - 1].declared || ipkon[element - 1] < 0 ||
@@ -1035,13 +1335,17 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
                     }
                 }
                 bs.solids[element - 1].nodes[k] = node;
-                bs.solid_nodes[node - 1] = 1;
+                if (bs.solid_nodes[node - 1] && bs.solid_nodes[node - 1] != owner_id) {
+                    bs_fail("contact body owners require disjoint structural node identities");
+                }
+                bs.solid_nodes[node - 1] = (unsigned char)owner_id;
             }
             bs.solids[element - 1].declared = 1;
+            bs.solids[element - 1].owner = owner_id;
             ++bs.solid_count;
             continue;
         }
-        if (bs.coupled == 2 && !strcmp(token, "SPC_SUPPORT")) {
+        if (bs.coupled >= 2 && !strcmp(token, "SPC_SUPPORT")) {
             if (bs.fixed_nodes) {
                 bs_fail("repeated physical tetrahedral support declaration");
             }
@@ -1049,7 +1353,7 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
             bs.fixed_nodes = bs_node_list(stream, &bs.fixed_count);
             continue;
         }
-        if (bs.coupled == 2 && !strcmp(token, "PORT")) {
+        if (bs.coupled >= 2 && !strcmp(token, "PORT")) {
             ITG reference;
             if (bs.receivers) {
                 bs_fail("repeated mixed rigid port declaration");
@@ -1060,8 +1364,105 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
                 bs_fail("mixed spring and rigid port reference identities differ");
             }
             bs.reference_node = reference;
-            bs.rotation_node = bs_integer(stream);
+            reference = bs_integer(stream);
+            if (bs.rotation_node && bs.rotation_node != reference) {
+                bs_fail("mixed port rotation identities differ");
+            }
+            bs.rotation_node = reference;
             bs.receivers = bs_node_list(stream, &bs.receiver_count);
+            continue;
+        }
+        if (bs.coupled == 3 && !strcmp(token, "PORT_GUIDE")) {
+            ITG reference, rotation, directions, direction;
+            if (bs.guide_owner[0]) {
+                bs_fail("repeated physical rigid port guide");
+            }
+            bs_owner(stream, bs.guide_owner);
+            reference = bs_integer(stream);
+            rotation = bs_integer(stream);
+            if ((bs.reference_node && reference != bs.reference_node) ||
+                (bs.rotation_node && rotation != bs.rotation_node)) {
+                bs_fail("physical guide differs from the declared rigid reference/rotation port");
+            }
+            bs.reference_node = reference;
+            bs.rotation_node = rotation;
+            directions = bs_integer(stream);
+            if (directions != 2) {
+                bs_fail("physical port guide requires two transverse zero translations");
+            }
+            for (k = 0; k < directions; ++k) {
+                direction = bs_integer(stream);
+                if (direction > 3 || bs.guide_directions[direction - 1]) {
+                    bs_fail("invalid or repeated physical port guide translation");
+                }
+                bs.guide_directions[direction - 1] = 1;
+            }
+            if (bs_integer(stream) != 3) {
+                bs_fail("physical port guide requires three zero rotations");
+            }
+            for (k = 0; k < 3; ++k) {
+                direction = bs_integer(stream);
+                if (direction > 3 || bs.guide_directions[direction + 2]) {
+                    bs_fail("invalid or repeated physical port guide rotation");
+                }
+                bs.guide_directions[direction + 2] = 1;
+            }
+            continue;
+        }
+        if (bs.coupled == 3 && !strcmp(token, "CONTACT")) {
+            if (bs.contact_owner[0]) {
+                bs_fail("one complete ordinary contact pair is required");
+            }
+            bs_owner(stream, bs.contact_owner);
+            bs_owner(stream, bs.contact_solid_owner[0]);
+            bs_owner(stream, bs.contact_solid_owner[1]);
+            bs_owner(stream, bs.contact_surface[0]);
+            bs_owner(stream, bs.contact_surface[1]);
+            continue;
+        }
+        if (bs.coupled == 3 && !strcmp(token, "CONTACT_FACE")) {
+            BSContactFace* replacement;
+            BSContactFace face = {0};
+            bs_token(stream, token);
+            if (!strcmp(token, "SLAVE")) {
+                face.side = 0;
+            }
+            else if (!strcmp(token, "MASTER")) {
+                face.side = 1;
+            }
+            else {
+                bs_fail("contact face requires an explicit master/slave side");
+            }
+            face.element = bs_integer(stream);
+            face.face = bs_integer(stream);
+            if (face.element > bs.ne || face.face > 4 ||
+                bs.contact_face_count >= bs_product((size_t)bs.ne, 4)) {
+                bs_fail("contact face declaration is outside the tetrahedral catalogue");
+            }
+            replacement = realloc(bs.contact_faces,
+                bs_product(bs.contact_face_count + 1, sizeof(BSContactFace)));
+            if (!replacement) {
+                bs_fail("cannot retain native contact face declarations");
+            }
+            bs.contact_faces = replacement;
+            bs.contact_faces[bs.contact_face_count++] = face;
+            continue;
+        }
+        if (bs.coupled == 3 && !strcmp(token, "CONTACT_REQUEST")) {
+            if (bs.contact_request[0]) {
+                bs_fail("repeated contact request binding");
+            }
+            bs_token(stream, token);
+            if (strlen(token) != 32) {
+                bs_fail("contact child request identity must have 32 hexadecimal characters");
+            }
+            for (i = 0; i < 32; ++i) {
+                if (!(token[i] >= '0' && token[i] <= '9') &&
+                    !(token[i] >= 'a' && token[i] <= 'f')) {
+                    bs_fail("contact child request identity must be lowercase hexadecimal");
+                }
+            }
+            memcpy(bs.contact_request, token, 33);
             continue;
         }
         if (bs.coupled && !strcmp(token, "SOURCE")) {
@@ -1123,7 +1524,8 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
     if (bs.coupled) {
         if (!bs.spring_element || !bs.source_node || !bs.support_node ||
             bs.support_directions[bs.spring_direction - 1] ||
-            nload || nbody || ntie || prestress || thermal || iamboun ||
+            nload || nbody || (bs.coupled == 3 ? ntie != 1 : ntie != 0) ||
+            prestress || thermal || iamboun ||
             nk > INT_MAX / 3 || nmpc < 0 || !materials ||
             !bs_early.input_seen || (bs.coupled == 1 && bs_early.input_mpcs != 0)) {
             bs_fail("coupled domain requires one point source and zero prescribed supports");
@@ -1131,7 +1533,7 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
         for (element = 0; element < nmpc; ++element) {
             if (strncmp(labmpc + 20 * (size_t)element, "                    ", 20) &&
                 strncmp(labmpc + 20 * (size_t)element, "MEANROT", 7) &&
-                (bs.coupled != 2 ||
+                (bs.coupled < 2 ||
                  strncmp(labmpc + 20 * (size_t)element, "RIGID               ", 20))) {
                 bs_fail("coupled beam domain does not support knots or user-defined couplings");
             }
@@ -1144,17 +1546,271 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
             bs.coordinates[i] = co[i];
         }
         bs_coupled_geometry(ipkon, kon, lakon, material_stride, materials);
-        if (bs.coupled == 2) {
+        if (bs.coupled >= 2) {
             bs_mixed_geometry(ipkon, kon);
             bs_mixed_graph(nmpc, ipompc, nodempc, coefficients, labmpc, mpc_capacity);
         }
+        if (bs.coupled == 3) {
+            bs_contact_catalogue(nset, sets, set_start, set_end, set_members, set_capacity);
+        }
         bs_coupled_supports(nboun, nodeboun, ndirboun, xboun, iamboun, typeboun);
+        if (bs.coupled == 3) {
+            if (nboun < 1 || nboun > INT_MAX / 2) {
+                bs_fail("native boundary catalogue exceeds its encoded SPC capacity");
+            }
+            bs.boundary_count = nboun;
+            bs.boundaries = bs_allocate((size_t)nboun, sizeof(BSBoundary));
+            for (element = 0; element < nboun; ++element) {
+                bs.boundaries[element] = (BSBoundary){nodeboun[element],
+                    ndirboun[element], typeboun[element]};
+            }
+        }
     }
     bs.samples = bs_allocate(bs_product((size_t)ne, 2), sizeof(BSSample));
     if (atexit(bs_finish)) {
         bs_fail("cannot register final-frame validation");
     }
     bs.active = 1;
+}
+
+int bs_contact_mesh_authorized(ITG element, const char* label)
+{
+    if (!bs.active || bs.coupled != 3 || element < 1 || element > bs.ne) {
+        return 0;
+    }
+    return (bs.elements[element - 1].declared && !strncmp(label, "C3D20RB", 7)) ||
+           (element == bs.spring_element && !strncmp(label, "ESPRNG21", 8));
+}
+
+void bs_contact_authorize(const char* request, const char* owner,
+                          const char* slave, const char* master,
+                          ITG pairs, ITG native_pair, double end_time, double law)
+{
+    if (!bs.active || bs.coupled != 3) {
+        return;
+    }
+    if (bs.contact_authorized || pairs != 1 || native_pair != 0 ||
+        !isfinite(law) || law < 2. || law >= 3. ||
+        end_time != bs.end_time || strcmp(request, bs.contact_request) ||
+        strcmp(owner, bs.contact_owner) ||
+        !bs_same_name(slave, bs.contact_surface[0]) ||
+        !bs_same_name(master, bs.contact_surface[1])) {
+        bs_fail("contact child identity, pair, law or time differs from the validated mixed request");
+    }
+    bs.contact_authorized = 1;
+}
+
+/* Only retained result evaluations own these slots. Each worker writes its
+ * own native contact element, then the serial contact-frame handoff reduces
+ * the observed values. No shared nodal or owner += occurs in a worker. */
+void bs_begin_contacts(ITG ne, ITG* ipkon, ITG* kon, char* lakon)
+{
+    ITG element, point, side, j, index, total;
+    size_t maximum = 0;
+    if (!bs.active || bs.coupled != 3 || !bs.actions_capturing) {
+        return;
+    }
+    if (!bs.contact_authorized || ne < bs.ne || ne > INT_MAX / 12) {
+        bs_fail("invalid retained contact element capacity");
+    }
+    free(bs.contact_slots);
+    free(bs.contact_point_index);
+    bs.contact_slots = bs_allocate((size_t)ne, sizeof(BSContactSlot));
+    bs.contact_capacity = (size_t)ne;
+    bs.contact_count = 0;
+    for (element = bs.ne; element < ne; ++element) {
+        BSContactSlot* slot = bs.contact_slots + element;
+        if (ipkon[element] < 1 || strncmp(lakon + 8 * (size_t)element, "ESPRNGC3", 8)) {
+            bs_fail("mixed results contain an undeclared generated non-Tet4 contact element");
+        }
+        index = ipkon[element];
+        total = kon[index - 1];
+        if (total != 6 || index > INT_MAX - total - 3) {
+            bs_fail("mixed contact requires actual three-node master and slave faces");
+        }
+        point = kon[(size_t)index + total];
+        if (point < 1 || point > INT_MAX / 6) {
+            bs_fail("mixed contact has an invalid native point identity");
+        }
+        slot->point = point;
+        for (side = 0; side < 2; ++side) {
+            BSContactFace key = {0};
+            BSContactFace* face;
+            key.side = side;
+            for (j = 0; j < 3; ++j) {
+                /* Native connectivity stores master first, then slave. */
+                key.nodes[j] = kon[(size_t)index + (side ? 0 : 3) + j];
+            }
+            bs_sort_nodes(key.nodes);
+            face = bsearch(&key, bs.contact_faces, bs.contact_face_count,
+                           sizeof(BSContactFace), bs_contact_face_order);
+            if (!face) {
+                bs_fail("generated native contact side is outside its selected true-solid face");
+            }
+            slot->faces[side] = (ITG)(face - bs.contact_faces);
+        }
+        slot->declared = 1;
+        ++bs.contact_count;
+        maximum = maximum > (size_t)point ? maximum : (size_t)point;
+    }
+    bs.contact_point_capacity = maximum;
+    bs.contact_point_index = bs_allocate(maximum, sizeof(ITG));
+    for (element = bs.ne; element < ne; ++element) {
+        BSContactSlot* slot = bs.contact_slots + element;
+        if (bs.contact_point_index[slot->point - 1]) {
+            bs_fail("two generated contact elements share one native sample identity");
+        }
+        bs.contact_point_index[slot->point - 1] = element + 1;
+    }
+}
+
+void FORTRAN(bs_contact, (ITG* element, ITG* count, ITG* nodes,
+                           double* fnl, char* label, ITG* point))
+{
+    BSContactSlot* slot;
+    ITG side, j, k;
+    if (!bs.active || bs.coupled != 3 || !bs.actions_capturing) {
+        return;
+    }
+    if (*element < 1 || (size_t)*element > bs.contact_capacity || *count != 6 ||
+        strncmp(label, "ESPRNGC3", 8)) {
+        bs_fail("actual native contact callback is outside its declared catalogue");
+    }
+    slot = bs.contact_slots + *element - 1;
+    if (!slot->declared || slot->seen || slot->point != *point) {
+        bs_fail("actual native contact sample is missing, repeated or mismatched");
+    }
+    for (side = 0; side < 2; ++side) {
+        BSContactFace key = {0};
+        const BSContactFace* expected = bs.contact_faces + slot->faces[side];
+        key.side = side;
+        for (j = 0; j < 3; ++j) {
+            ITG index = (side ? 0 : 3) + j;
+            ITG node = nodes[index];
+            double force[3], moment[3];
+            if (node < 1 || node > bs.nk) {
+                bs_fail("actual native contact node is outside original structural coordinates");
+            }
+            key.nodes[j] = node;
+            for (k = 0; k < 3; ++k) {
+                force[k] = -fnl[3 * (size_t)index + k];
+                if (!isfinite(force[k])) {
+                    bs_fail("nonfinite native contact nodal force");
+                }
+            }
+            bs_cross(moment, bs.coordinates + 3 * (size_t)(node - 1), force);
+            for (k = 0; k < 3; ++k) {
+                slot->force[side][k] += force[k];
+                slot->moment[side][k] += moment[k];
+            }
+        }
+        bs_sort_nodes(key.nodes);
+        if (bs_contact_face_order(&key, expected)) {
+            bs_fail("native contact callback changed original face connectivity");
+        }
+    }
+    slot->seen = 1;
+}
+
+void bs_contact_sample(ITG point, ITG slave_element, ITG slave_face,
+                       ITG master_element, ITG master_face, ITG generated)
+{
+    ITG element = 0;
+    BSContactSlot* slot;
+    const BSContactFace *slave, *master;
+    if (!bs.active || bs.coupled != 3) {
+        return;
+    }
+    if (!bs.actions_capturing || point < 1) {
+        bs_fail("native contact sample handoff is outside its retained action evaluation");
+    }
+    if ((size_t)point <= bs.contact_point_capacity) {
+        element = bs.contact_point_index[point - 1];
+    }
+    if (!generated) {
+        if (element) {
+            bs_fail("native inactive contact sample unexpectedly has an assembled contact element");
+        }
+        return;
+    }
+    if (!element || (size_t)element > bs.contact_capacity) {
+        bs_fail("native active contact sample has no matching mechanical contact element");
+    }
+    slot = bs.contact_slots + element - 1;
+    slave = bs.contact_faces + slot->faces[0];
+    master = bs.contact_faces + slot->faces[1];
+    if (!slot->seen || slot->matched || slave_element != slave->element ||
+        slave_face != slave->face || master_element != master->element ||
+        master_face != master->face) {
+        bs_fail("native contact state and assembled force have different sample/face identities");
+    }
+    slot->matched = 1;
+}
+
+void bs_contact_frame(ITG step, ITG increment, double time, const char* request)
+{
+    size_t element, side, k, observed = 0;
+    if (!bs.active || bs.coupled != 3) {
+        return;
+    }
+    if (!bs.actions_capturing || bs.actions.contact_seen ||
+        step != bs.action_step || increment != bs.action_increment ||
+        time != bs.action_time || strcmp(request, bs.contact_request)) {
+        bs_fail("native contact state frame differs from the mechanical action evaluation");
+    }
+    for (element = (size_t)bs.ne; element < bs.contact_capacity; ++element) {
+        const BSContactSlot* slot = bs.contact_slots + element;
+        if (!slot->declared || !slot->seen || !slot->matched) {
+            bs_fail("native contact mechanical/sample catalogue is incomplete");
+        }
+        ++observed;
+        for (side = 0; side < 2; ++side) {
+            for (k = 0; k < 3; ++k) {
+                bs.actions.contact_force[side][k] += slot->force[side][k];
+                bs.actions.contact_moment[side][k] += slot->moment[side][k];
+                if (!isfinite(bs.actions.contact_force[side][k]) ||
+                    !isfinite(bs.actions.contact_moment[side][k])) {
+                    bs_fail("native contact side action overflow");
+                }
+            }
+        }
+    }
+    if (observed != bs.contact_count) {
+        bs_fail("native contact mechanical catalogue count changed");
+    }
+    bs.actions.contact_seen = 1;
+}
+
+static void bs_compression_source(int retained)
+{
+    size_t face, k, observed = 0;
+    int owner = bs.solid_nodes[bs.receivers[0] - 1];
+    double dot;
+    if (bs.pointload[0] == 0. && bs.pointload[1] == 0. && bs.pointload[2] == 0.) {
+        /* Native preliminary evaluations can precede application of load.
+         * A retained compression result must contain its actual load. */
+        if (retained) {
+            bs_fail("retained contact compression requires a nonzero native point source");
+        }
+        return;
+    }
+    for (face = 0; face < bs.contact_face_count; ++face) {
+        const BSContactFace* selected = bs.contact_faces + face;
+        if (bs.solids[selected->element - 1].owner != owner) {
+            continue;
+        }
+        ++observed;
+        dot = 0.;
+        for (k = 0; k < 3; ++k) {
+            dot += bs.pointload[k] * selected->normal[k];
+        }
+        if (!isfinite(dot) || dot <= 0.) {
+            bs_fail("actual native point source must compress the loaded solid contact interface");
+        }
+    }
+    if (!observed) {
+        bs_fail("rigid receiving owner has no selected native contact interface");
+    }
 }
 
 void bs_pointloads(ITG count, ITG* nodes, ITG* directions, double* values,
@@ -1177,10 +1833,19 @@ void bs_pointloads(ITG count, ITG* nodes, ITG* directions, double* values,
         }
         bs.pointload[direction - 1] += values[i];
     }
+    if (bs.coupled == 3) {
+        for (direction = 1; direction <= 3; ++direction) {
+            if (direction != bs.spring_direction && bs.pointload[direction - 1] != 0.) {
+                bs_fail("contact composition supports only its declared axial point source");
+            }
+        }
+        bs_compression_source(0);
+    }
     bs.pointloads_seen = 1;
 }
 
-void bs_begin_actions(ITG iout, ITG step, ITG increment, double time, double* v)
+void bs_begin_actions(ITG iout, ITG step, ITG increment, double time, double* v,
+                       ITG nboun, ITG* nodes, ITG* directions, double* values, char* types)
 {
     if (!bs.active || !bs.coupled) {
         return;
@@ -1189,12 +1854,29 @@ void bs_begin_actions(ITG iout, ITG step, ITG increment, double time, double* v)
     if (iout != 1 && iout != 2) {
         return;
     }
+    if (bs.coupled == 3 && (iout != 2 || !bs.contact_authorized)) {
+        if (!bs.contact_authorized) {
+            bs_fail("contact composition has no authenticated native contact request");
+        }
+        return;
+    }
     if (step != 1 || increment < 1 || !isfinite(time) || time <= 0. ||
         time > bs.end_time || !bs.pointloads_seen) {
         bs_fail("invalid retained native mechanical action frame");
     }
+    if (bs.coupled == 3) {
+        bs_compression_source(1);
+        if (nboun != bs.boundary_count || !nodes || !directions || !values || !types) {
+            bs_fail("retained native boundary catalogue changed size or is unavailable");
+        }
+        bs.current_boundary_count = nboun;
+        bs.current_boundary_nodes = nodes;
+        bs.current_boundary_directions = directions;
+        bs.current_boundary_values = values;
+        bs.current_boundary_types = types;
+    }
     memset(&bs.actions, 0, sizeof(bs.actions));
-    if (bs.coupled == 2) {
+    if (bs.coupled >= 2) {
         bs.actions.solid_spcs = bs_allocate(bs_product(bs.fixed_count, 3), sizeof(BSSPC));
         bs.actions.rigid_spcs = bs_allocate(bs_early.rigid_count, sizeof(BSRigidSPC));
         bs.actions.rigid_terms = bs_allocate(bs_early.rigid_count, 1);
@@ -1263,7 +1945,7 @@ void FORTRAN(bs_spring, (ITG* element, ITG* node, ITG* direction, ITG* kind,
 void FORTRAN(bs_spring2_law, (ITG* element, ITG* nodes, ITG* first, ITG* second,
                               ITG* kind, ITG* tables, double* stiffness))
 {
-    if (!bs.active || bs.coupled != 2) {
+    if (!bs.active || bs.coupled < 2) {
         return;
     }
     if (*element != bs.spring_element || nodes[0] != bs.spring_node ||
@@ -1278,7 +1960,7 @@ void FORTRAN(bs_spring2, (ITG* element, ITG* nodes, double* first_axis, double* 
                           double* force, double* first_displacement, double* second_displacement))
 {
     size_t k;
-    if (!bs.active || bs.coupled != 2) {
+    if (!bs.active || bs.coupled < 2) {
         return;
     }
     if (*element != bs.spring_element || nodes[0] != bs.spring_node ||
@@ -1319,7 +2001,7 @@ void bs_mpc_term(ITG row, ITG node, ITG direction, double coefficient, double mu
     BSRigid* rigid;
     double force[3] = {0.}, moment[3], value;
     size_t r, k;
-    if (!bs.active || bs.coupled != 2 || !bs.actions_capturing) {
+    if (!bs.active || bs.coupled < 2 || !bs.actions_capturing) {
         return;
     }
     if (row < 1 || row > bs.nmpc) {
@@ -1364,6 +2046,41 @@ void bs_mpc_term(ITG row, ITG node, ITG direction, double coefficient, double mu
     }
 }
 
+static double bs_native_prescription(ITG node, ITG direction, ITG active,
+                                      ITG index, char algebraic_type)
+{
+    ITG row, original;
+    char type;
+    if (active >= 0 || active % 2 || !bs.current_boundary_count) {
+        bs_fail("native projected SPC has no encoded current boundary identity");
+    }
+    row = -(active / 2) - 1;
+    if (row < 0 || row >= bs.current_boundary_count ||
+        bs.current_boundary_nodes[row] != node ||
+        bs.current_boundary_directions[row] != direction) {
+        bs_fail("native projected SPC differs from its actual current boundary row");
+    }
+    type = bs.current_boundary_types[row];
+    for (original = 0; original < bs.boundary_count; ++original) {
+        const BSBoundary* boundary = bs.boundaries + original;
+        if (boundary->node == node && boundary->direction == direction) {
+            if (type != boundary->type) {
+                bs_fail("native boundary type differs from its validated generated provenance");
+            }
+            break;
+        }
+    }
+    if (original == bs.boundary_count ||
+        (algebraic_type && type != algebraic_type) ||
+        (!algebraic_type && (type == 'U' || type == 'R' || type == 'F')) ||
+        !isfinite(bs.current_boundary_values[row]) ||
+        !isfinite(bs.frame_displacements[index]) ||
+        (!algebraic_type && bs.current_boundary_values[row] != 0.)) {
+        bs_fail("native SPC prescription differs from its declared physical/algebraic role");
+    }
+    return bs.current_boundary_values[row];
+}
+
 /* Called at the native resultsforc boundary after its existing MPC force
  * elimination and before its ordinary result restoration. The observer
  * neither projects a force vector nor modifies fn. The admitted point loads
@@ -1374,7 +2091,7 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
     ITG node, direction, index, role, active;
     size_t a, k, r;
     BSSPC* spc;
-    double force[3], moment[3], value;
+    double force[3], moment[3], value, prescribed;
     if (!bs.active || !bs.coupled || !bs.actions_capturing) {
         return;
     }
@@ -1392,6 +2109,10 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
              nactdof[mt * (size_t)(bs.rotation_node - 1) + direction] <= 0)) {
             bs_fail("mixed rigid reference and rotation modes must remain fully free native ports");
         }
+        if (bs.coupled == 3 && direction == bs.spring_direction &&
+            nactdof[mt * (size_t)(bs.reference_node - 1) + direction] <= 0) {
+            bs_fail("contact scalar reference translation must remain a free native port");
+        }
     }
     for (node = 1; node <= nk; ++node) {
         for (direction = 1; direction <= 3; ++direction) {
@@ -1400,14 +2121,52 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
             if (active >= 0 || active % 2) {
                 continue;
             }
-            if (bs.coupled == 2 && bs.fixed_index[node - 1]) {
+            if (bs.coupled == 3 &&
+                ((node == bs.reference_node && bs.guide_directions[direction - 1]) ||
+                 (node == bs.rotation_node && bs.guide_directions[direction + 2]))) {
+                int angle = node == bs.rotation_node;
+                prescribed = bs_native_prescription(node, direction, active, index, 0);
+                if (bs.actions.guide_spc_count >= 5 ||
+                    !isfinite(fn[index])) {
+                    bs_fail("invalid physical rigid port guide output");
+                }
+                spc = bs.actions.guide_spcs + bs.actions.guide_spc_count++;
+                *spc = (BSSPC){.node = node, .direction = direction,
+                    .original_direction = direction + (angle ? 3 : 0),
+                    .role = angle ? 2 : 1, .value = fn[index], .prescribed = prescribed,
+                    .displacement = bs.frame_displacements[index]};
+                memset(force, 0, sizeof(force));
+                memset(moment, 0, sizeof(moment));
+                if (angle) {
+                    moment[direction - 1] = fn[index];
+                }
+                else {
+                    force[direction - 1] = fn[index];
+                    bs_cross(moment, bs.coordinates + 3 * (size_t)(bs.reference_node - 1), force);
+                }
+                for (k = 0; k < 3; ++k) {
+                    bs.actions.guide_force[k] += force[k];
+                    bs.actions.guide_moment[k] += moment[k];
+                    if (!isfinite(bs.actions.guide_force[k]) ||
+                        !isfinite(bs.actions.guide_moment[k])) {
+                        bs_fail("physical rigid guide wrench overflow");
+                    }
+                }
+                continue;
+            }
+            if (bs.coupled >= 2 && bs.fixed_index[node - 1]) {
+                prescribed = bs.coupled == 3 ?
+                    bs_native_prescription(node, direction, active, index, 0) : 0.;
                 if (bs.actions.solid_spc_count >= 3 * bs.fixed_count ||
-                    bs.frame_displacements[index] != 0. || !isfinite(fn[index])) {
+                    (bs.coupled != 3 && bs.frame_displacements[index] != 0.) ||
+                    !isfinite(fn[index])) {
                     bs_fail("invalid actual physical tetrahedral support state");
                 }
                 value = fn[index];
                 spc = bs.actions.solid_spcs + bs.actions.solid_spc_count++;
-                *spc = (BSSPC){.node = node, .direction = direction, .role = 1, .value = value};
+                *spc = (BSSPC){.node = node, .direction = direction, .role = 1,
+                    .value = value, .prescribed = prescribed,
+                    .displacement = bs.frame_displacements[index]};
                 memset(force, 0, sizeof(force));
                 force[direction - 1] = value;
                 bs_cross(moment, bs.coordinates + 3 * (size_t)(node - 1), force);
@@ -1421,16 +2180,22 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
                 }
                 continue;
             }
-            if (bs.coupled == 2) {
+            if (bs.coupled >= 2) {
                 for (r = 0; r < bs_early.rigid_count; ++r) {
                     BSRigid* rigid = bs_early.rigids + r;
                     if (node == rigid->auxiliary && direction == rigid->direction) {
+                        prescribed = bs.coupled == 3 ?
+                            bs_native_prescription(node, direction, active, index, 'R') : 0.;
                         if (bs.actions.rigid_spc_count >= bs_early.rigid_count ||
-                            bs.frame_displacements[index] != 0. || !isfinite(fn[index])) {
+                            (bs.coupled != 3 && bs.frame_displacements[index] != 0.) ||
+                            !isfinite(fn[index])) {
                             bs_fail("invalid actual rigid algebraic prescription state");
                         }
                         bs.actions.rigid_spcs[bs.actions.rigid_spc_count++] =
-                            (BSRigidSPC){node, direction, rigid->receiver, fn[index]};
+                            (BSRigidSPC){.node = node, .direction = direction,
+                                .receiving_node = rigid->receiver, .value = fn[index],
+                                .prescribed = prescribed,
+                                .displacement = bs.frame_displacements[index]};
                         break;
                     }
                 }
@@ -1451,8 +2216,19 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
                     }
                 }
             }
-            if (!role || bs.actions.spc_count == 9 || bs.frame_displacements[index] != 0. ||
+            prescribed = bs.coupled == 3 && role ?
+                bs_native_prescription(node, direction, active, index, role == 3 ? 'U' : 0) : 0.;
+            if (!role || bs.actions.spc_count == 9 ||
+                (bs.coupled != 3 && bs.frame_displacements[index] != 0.) ||
                 !isfinite(fn[index])) {
+                fprintf(stderr, "*DIAGNOSTIC CCX beam section V%d: native SPC row=%d "
+                        "node=%d direction=%d role=%d active=%d displacement=%.17g "
+                        "residual=%.17g beam_rows=%zu solid_rows=%zu guide_rows=%zu "
+                        "rigid_algebraic_rows=%zu\n", bs.coupled + 1, -active / 2,
+                        node, direction, role, active, bs.frame_displacements[index],
+                        fn[index], bs.actions.spc_count, bs.actions.solid_spc_count,
+                        bs.actions.guide_spc_count, bs.actions.rigid_spc_count);
+                fflush(stderr);
                 bs_fail("unexpected native SPC identity, nonzero prescription or residual");
             }
             value = fn[index];
@@ -1462,6 +2238,8 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
             spc->original_direction = role == 1 ? direction : bs_early.angles[a].direction;
             spc->role = role;
             spc->value = value;
+            spc->prescribed = prescribed;
+            spc->displacement = bs.frame_displacements[index];
             memset(force, 0, sizeof(force));
             memset(moment, 0, sizeof(moment));
             if (role == 1) {
@@ -1489,7 +2267,10 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
     if (bs.actions.spc_count != 8) {
         bs_fail("native output must retain two translations and three angle/algebraic pairs");
     }
-    if (bs.coupled == 2) {
+    if (bs.coupled == 3 && bs.actions.guide_spc_count != 5) {
+        bs_fail("physical rigid guide requires all five actual native reactions");
+    }
+    if (bs.coupled >= 2) {
         if (bs.actions.solid_spc_count != 3 * bs.fixed_count ||
             bs.actions.rigid_spc_count != bs_early.rigid_count) {
             bs_fail("actual native mixed physical/algebraic support catalogue is incomplete");
@@ -1533,8 +2314,15 @@ void bs_begin_results(ITG iout, ITG step, ITG increment, double time)
                        bs.action_increment != increment || bs.action_time != time)) {
         bs_fail("native beam and physical-action observations do not share one retained frame");
     }
+    if (bs.coupled == 3 && !bs.actions.contact_seen) {
+        bs_fail("native beam and contact diagnostics do not share one retained frame");
+    }
     bs.actions_capturing = 0;
     bs.frame_displacements = NULL;
+    bs.current_boundary_count = 0;
+    bs.current_boundary_nodes = bs.current_boundary_directions = NULL;
+    bs.current_boundary_values = NULL;
+    bs.current_boundary_types = NULL;
     memset(bs.samples, 0, bs_product(bs_product((size_t)bs.ne, 2), sizeof(BSSample)));
     bs.step = step;
     bs.increment = increment;
@@ -1683,6 +2471,14 @@ static void bs_vector(FILE* stream, const double* value)
     fprintf(stream, "[%.17g,%.17g,%.17g]", value[0], value[1], value[2]);
 }
 
+static void bs_write_boundary_state(FILE* stream, double prescribed, double displacement)
+{
+    if (bs.coupled == 3) {
+        fprintf(stream, ",\"native_prescribed_value\":%.17g,\"native_displacement\":%.17g",
+                prescribed, displacement);
+    }
+}
+
 static void bs_write_spring2(FILE* stream, const BSActions* actions)
 {
     ITG end, node;
@@ -1734,6 +2530,7 @@ static void bs_write_mixed_extra(FILE* stream, const BSActions* actions)
                 "\"value\":%.17g,\"position\":", row ? "," : "", spc->node,
                 spc->direction, spc->value);
         bs_vector(stream, bs.coordinates + 3 * (size_t)(spc->node - 1));
+        bs_write_boundary_state(stream, spc->prescribed, spc->displacement);
         fprintf(stream, "}");
     }
     fprintf(stream, "]},\"port\":{\"owner\":\"%s\",\"reference_node\":%d,"
@@ -1756,10 +2553,43 @@ static void bs_write_mixed_extra(FILE* stream, const BSActions* actions)
     for (row = 0; row < actions->rigid_spc_count; ++row) {
         const BSRigidSPC* spc = actions->rigid_spcs + row;
         fprintf(stream, "%s{\"node\":%d,\"direction\":%d,\"receiving_node\":%d,"
-                "\"role\":\"ALGEBRAIC\",\"value\":%.17g}", row ? "," : "",
+                "\"role\":\"ALGEBRAIC\",\"value\":%.17g", row ? "," : "",
                 spc->node, spc->direction, spc->receiving_node, spc->value);
+        bs_write_boundary_state(stream, spc->prescribed, spc->displacement);
+        fprintf(stream, "}");
     }
     fprintf(stream, "]}");
+}
+
+static void bs_write_contact_extra(FILE* stream, const BSActions* actions)
+{
+    size_t row, side;
+    fprintf(stream, ",\"port_guide\":{\"owner\":\"%s\",\"reference_node\":%d,"
+            "\"rotation_node\":%d,\"force_global\":", bs.guide_owner,
+            bs.reference_node, bs.rotation_node);
+    bs_vector(stream, actions->guide_force);
+    fprintf(stream, ",\"moment_origin\":");
+    bs_vector(stream, actions->guide_moment);
+    fprintf(stream, ",\"spcs\":[");
+    for (row = 0; row < actions->guide_spc_count; ++row) {
+        const BSSPC* spc = actions->guide_spcs + row;
+        fprintf(stream, "%s{\"node\":%d,\"direction\":%d,\"role\":\"%s\","
+                "\"value\":%.17g", row ? "," : "", spc->node, spc->direction,
+                spc->role == 1 ? "TRANSLATION" : "ANGLE", spc->value);
+        bs_write_boundary_state(stream, spc->prescribed, spc->displacement);
+        fprintf(stream, "}");
+    }
+    fprintf(stream, "]},\"contact_sides\":[");
+    for (side = 0; side < 2; ++side) {
+        fprintf(stream, "%s{\"owner\":\"%s\",\"solid_owner\":\"%s\","
+                "\"side\":\"%s\",\"force_global\":", side ? "," : "",
+                bs.contact_owner, bs.contact_solid_owner[side], side ? "MASTER" : "SLAVE");
+        bs_vector(stream, actions->contact_force[side]);
+        fprintf(stream, ",\"moment_origin\":");
+        bs_vector(stream, actions->contact_moment[side]);
+        fprintf(stream, "}");
+    }
+    fprintf(stream, "]");
 }
 
 static void bs_write_actions(FILE* stream, const BSActions* actions)
@@ -1772,11 +2602,14 @@ static void bs_write_actions(FILE* stream, const BSActions* actions)
             "\"source\":{\"owner\":\"%s\",\"node\":%d,\"position\":",
             bs.source_owner, bs.source_node);
     bs_vector(stream, bs.coordinates + 3 * (size_t)(bs.source_node - 1));
+    if (bs.coupled == 3) {
+        fprintf(stream, ",\"kind\":\"POINT_FORCE\"");
+    }
     fprintf(stream, ",\"force_global\":");
     bs_vector(stream, actions->source);
     fprintf(stream, ",\"moment_origin\":");
     bs_vector(stream, actions->source_moment);
-    if (bs.coupled == 2) {
+    if (bs.coupled >= 2) {
         bs_write_spring2(stream, actions);
     }
     else {
@@ -1814,11 +2647,15 @@ static void bs_write_actions(FILE* stream, const BSActions* actions)
             fprintf(stream, ",\"axis\":");
             bs_vector(stream, spc->axis);
         }
+        bs_write_boundary_state(stream, spc->prescribed, spc->displacement);
         fprintf(stream, "}");
     }
     fprintf(stream, "]}");
-    if (bs.coupled == 2) {
+    if (bs.coupled >= 2) {
         bs_write_mixed_extra(stream, actions);
+    }
+    if (bs.coupled == 3) {
+        bs_write_contact_extra(stream, actions);
     }
     fprintf(stream, "}");
 }
@@ -1843,17 +2680,25 @@ static void bs_write(void)
             "\"moment_reference\":\"NATIVE_SECTION_CENTROID\","
             "\"force_action\":\"OUTWARD_NATIVE_ELEMENT_END_FACE\","
             "\"native_channels_method\":\"PROJECTED_NATIVE_FORCE_AND_MOMENT_INCREMENT_SUM\","
-            "\"completion_requires_successful_child\":true,\"frames\":[",
+            "\"completion_requires_successful_child\":true",
             bs.coupled + 1, bs.request,
             bs.frames[bs.frame_count - 1].time == bs.end_time ? "true" : "false",
             bs.coupled ? "NATIVE_MAP_EXPANDED_SECTION" : "CURRENT_EXPANDED_SECTION",
             bs.coupled ? "NATIVE_MAP_FACE_BASIS" : "NATIVE_CURRENT_FACE_BASIS");
+    if (bs.coupled == 3) {
+        fprintf(stream, ",\"contact_request\":\"%s\"", bs.contact_request);
+    }
+    fprintf(stream, ",\"frames\":[");
     for (frame = 0; frame < bs.frame_count; ++frame) {
         BSFrame* item = bs.frames + frame;
         int first = 1;
         fprintf(stream, "%s{\"step\":%d,\"increment\":%d,\"frame\":%d,\"time\":%.17g,"
-                "\"complete\":true,\"samples\":[", frame ? "," : "",
+                "\"complete\":true", frame ? "," : "",
                 item->step, item->increment, item->dataset, item->time);
+        if (bs.coupled == 3) {
+            fprintf(stream, ",\"contact_request\":\"%s\"", bs.contact_request);
+        }
+        fprintf(stream, ",\"samples\":[");
         for (row = 0; row < 2 * (size_t)bs.ne; ++row) {
             BSSample* sample = item->samples + row;
             if (!sample->seen) {

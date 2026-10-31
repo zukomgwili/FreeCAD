@@ -1,0 +1,180 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Authenticate both native observations as one live, owned completion."""
+
+import hashlib
+import json
+from pathlib import Path
+from unittest.mock import patch
+
+import FreeCAD as App
+
+from femtest.app.beam_contact_fixtures import make_contact_series
+from femtest.app.test_beam_contact_native import BeamContactNativeCase
+from femtools import beam_section_forces as bs
+from femtools.ccxtools import FemToolsCcx
+
+
+class TestBeamContactLifecycle(BeamContactNativeCase):
+    def _fresh(self, label):
+        if not hasattr(self, "base_directory"):
+            self.base_directory = self.directory
+        self.directory = self.base_directory / label
+        self.directory.mkdir()
+        doc = App.newDocument("PairedContactLifecycle")
+        self.documents.append(doc)
+        model = make_contact_series(doc, friction=False)
+        return doc, model
+
+    def _withdrawn(self, beam, contact, literals):
+        self.assertFalse(beam.CompletedRun)
+        self.assertFalse(contact.CompletedRun)
+        self.assertFalse(beam.Status.startswith("Current"), beam.Status)
+        self.assertFalse(contact.Status.startswith("Current"), contact.Status)
+        self.assertEqual((beam.SectionData, contact.ContactData), literals)
+        with self.assertRaises(ValueError):
+            beam.Proxy.getSectionForces(beam)
+        with self.assertRaises(ValueError):
+            contact.Proxy.getContactStates(contact)
+        self.assertEqual(
+            beam.Proxy.getSectionForces(beam, historical=True)["schema"], "CCX_BEAM_SECTION_V4"
+        )
+
+    def test_each_owned_source_withdraws_both_without_rewriting_history(self):
+        for channel in (
+            "beam_request",
+            "contact_request",
+            "beam_output",
+            "contact_output",
+            "deck",
+            "frd",
+        ):
+            with self.subTest(source=channel):
+                doc, model = self._fresh(channel)
+                beam, contact, data, local, deck = self._solve(model)
+                joint = data["provenance"]["joint"]
+                literals = beam.SectionData, contact.ContactData
+                if channel in ("deck", "frd"):
+                    source = joint[channel]["path"]
+                else:
+                    owner, kind = channel.split("_")
+                    source = joint[owner]["path" if kind == "request" else "output"]
+                path = Path(source)
+                original = path.read_bytes()
+                try:
+                    path.write_bytes(original + b"\n")
+                    # Either getter must detect corruption in either channel.
+                    if channel.startswith("contact"):
+                        with self.assertRaises(ValueError):
+                            beam.Proxy.getSectionForces(beam)
+                    else:
+                        with self.assertRaises(ValueError):
+                            contact.Proxy.getContactStates(contact)
+                    self._withdrawn(beam, contact, literals)
+                finally:
+                    path.write_bytes(original)
+                self._withdrawn(beam, contact, literals)
+
+    def test_physical_edits_and_detached_links_withdraw_both(self):
+        for mutation in (
+            "force",
+            "contact_law",
+            "analysis_link",
+            "mesh_link",
+            "solver_link",
+            "membership",
+        ):
+            with self.subTest(mutation=mutation):
+                doc, model = self._fresh(mutation)
+                beam, contact, data, local, deck = self._solve(model)
+                literals = beam.SectionData, contact.ContactData
+                if mutation == "force":
+                    model.force.Force = "101 N"
+                elif mutation == "contact_law":
+                    model.contact.Slope = "90000 MPa/mm"
+                elif mutation == "analysis_link":
+                    beam.Analysis = None
+                elif mutation == "mesh_link":
+                    contact.Mesh = None
+                elif mutation == "solver_link":
+                    beam.Solver = None
+                else:
+                    model.analysis.removeObject(contact)
+                self._withdrawn(beam, contact, literals)
+
+    def test_invalid_literal_or_hash_withdraws_its_companion(self):
+        for channel in ("beam", "contact"):
+            with self.subTest(channel=channel):
+                doc, model = self._fresh(channel)
+                beam, contact, data, local, deck = self._solve(model)
+                literal, digest = (
+                    ("SectionData", "SectionHash")
+                    if channel == "beam"
+                    else ("ContactData", "ContactHash")
+                )
+                result = beam if channel == "beam" else contact
+                # Rehashing an edited literal must not mint a fresh solver run.
+                changed = json.loads(getattr(result, literal))
+                changed["provenance"]["stdout_sha256"] = "0" * 64
+                encoded = json.dumps(changed, sort_keys=True, allow_nan=False)
+                setattr(result, literal, encoded)
+                setattr(result, digest, hashlib.sha256(encoded.encode()).hexdigest())
+                self._withdrawn(beam, contact, (beam.SectionData, contact.ContactData))
+
+    def test_new_export_withdraws_both_before_a_failed_input_capture(self):
+        doc, model = self._fresh("export")
+        beam, contact, data, local, deck = self._solve(model)
+        literals = beam.SectionData, contact.ContactData
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        from femtools import contact_state
+
+        with patch.object(contact_state, "begin_export", side_effect=ValueError("capture failed")):
+            with self.assertRaisesRegex(ValueError, "capture failed"):
+                fea.write_inp_file()
+        self._withdrawn(beam, contact, literals)
+
+    def test_partial_publication_keeps_no_single_current_observation(self):
+        doc, model = self._fresh("partial")
+        if self.explicit_binary:
+            model.solver.NativeAccountingSolver = self.explicit_binary
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        self.assertFalse(fea.check_prerequisites())
+        self.assertFalse(fea.write_inp_file())
+        deck = Path(fea.inp_file_name).read_bytes()
+        with patch.object(bs, "finish_run", side_effect=ValueError("beam publication failed")):
+            with self.assertRaisesRegex(ValueError, "beam publication failed"):
+                fea.ccx_run()
+        self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+        contacts = [
+            o
+            for o in model.analysis.Group
+            if getattr(getattr(o, "Proxy", None), "Type", "") == "Fem::ContactStateResult"
+        ]
+        self.assertEqual(len(contacts), 1)
+        result = contacts[0]
+        self.assertTrue(result.ContactData)
+        self.assertFalse(result.CompletedRun)
+        self.assertFalse(result.Status.startswith("Current"))
+        with self.assertRaises(ValueError):
+            result.Proxy.getContactStates(result)
+
+    def test_save_reopen_preserves_both_literals_as_historical(self):
+        doc, model = self._fresh("reopen")
+        beam, contact, data, local, deck = self._solve(model)
+        literals = beam.SectionData, contact.ContactData
+        hashes = beam.SectionHash, contact.ContactHash
+        names = beam.Name, contact.Name
+        path = self.directory / "paired-history.FCStd"
+        doc.recompute()
+        doc.saveAs(str(path))
+        App.closeDocument(doc.Name)
+        reopened = App.openDocument(str(path))
+        self.documents.append(reopened)
+        beam, contact = (reopened.getObject(name) for name in names)
+        self.assertEqual((beam.SectionHash, contact.ContactHash), hashes)
+        self._withdrawn(beam, contact, literals)
+        self.assertTrue(beam.Status.startswith(("Historical", "Stale")))
+        self.assertTrue(contact.Status.startswith(("Historical", "Stale")))

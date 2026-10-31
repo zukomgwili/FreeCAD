@@ -1,0 +1,163 @@
+(qt.qpa.fonts) Populating font family aliases took 82 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +242 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation (femtest.gui.test_beam_contact_coupling.TestBeamContactCouplingGui.test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation) ... 
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: ContactBacking, Object label: ContactBacking, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+BeamSolidContact:
+    Type: Fem::ConstraintContact, Name: BeamSolidContact
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.016 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/gui-r01/cases/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Writing time CalculiX input file: 0.018 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/gui-r01/cases/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/gui-r01/cases/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.218s
+
+OK
+System exit

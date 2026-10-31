@@ -1,0 +1,25 @@
+"""Root-only serial native gates with app/profile custody and exact source pins."""
+import hashlib
+import importlib.util
+import os
+from pathlib import Path
+import shutil
+import sys
+sys.dont_write_bytecode=True
+ROOT=Path(__file__).resolve().parent
+REPO=Path('/Users/zukomgwili/src/FreeCAD')
+GUARD=REPO/'package/local-completion/freecad-8rk-installation-evidence/run_gate.py'
+assert hashlib.sha256(GUARD.read_bytes()).hexdigest()=='556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e'
+spec=importlib.util.spec_from_file_location('_9rc_gate_core',GUARD)
+core=importlib.util.module_from_spec(spec);spec.loader.exec_module(core)
+core.ROOT=ROOT
+core.SOURCE_FILES=tuple(str(ROOT/n) for n in ('run_gate.py','Rc9Fixture.py','Rc9Baseline.py','Rc9Tracer.py'))+(str(REPO/'src/Mod/Fem/femtest/app/beam_coupling_fixtures.py'),)
+run=ROOT/sys.argv[1]
+os.environ['R9_CASE_ROOT']=str(run/'cases')
+app=Path('/Applications/FreeCAD-27.1.0.app')
+core.COMMANDS={'baseline':[str(app/'Contents/MacOS/FreeCAD'),'-u',str(run/'user.cfg'),'-s',str(run/'system.cfg'),'-P',str(ROOT),'-t','Rc9Baseline'], 'tracer':['/opt/homebrew/bin/pixi','run','--frozen',str(REPO/'build/release/bin/FreeCADCmd'),'-u',str(run/'user.cfg'),'-s',str(run/'system.cfg'),'-P',str(ROOT),'-t','Rc9Tracer']}
+blobs=ROOT/'code-blobs';blobs.mkdir(exist_ok=True)
+for path in map(Path,core.SOURCE_FILES):
+ dest=blobs/hashlib.sha256(path.read_bytes()).hexdigest()
+ if not dest.exists():shutil.copyfile(path,dest)
+if __name__=='__main__':raise SystemExit(core.main())

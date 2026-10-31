@@ -1,0 +1,434 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""A native guided beam/solid/contact series against independent frozen statics."""
+
+import hashlib
+import json
+import math
+import os
+from pathlib import Path
+import tempfile
+from types import SimpleNamespace
+import unittest
+
+import FreeCAD as App
+import ObjectsFem
+
+from femtest.app.beam_contact_fixtures import make_contact_series
+from femtools.beam_section_forces import require_capability
+from femtools.ccxtools import FemToolsCcx
+from femtools.force_accounting import solver_binary
+
+
+class BeamContactNativeCase(unittest.TestCase):
+    """Shared public author/write/solve/import harness, without physical tests."""
+
+    def setUp(self):
+        previous = App.activeDocument()
+        self.previous_document = previous.Name if previous is not None else None
+        self.previous_analysis = None
+        if App.GuiUp:
+            import FemGui
+
+            self.previous_analysis = FemGui.getActiveAnalysis()
+        self.documents = []
+        self.temporary = None
+        self.addCleanup(self._restore_session)
+        self.explicit_binary = os.environ.get("R9_TEST_SOLVER")
+        self.binary = self.explicit_binary or solver_binary(
+            SimpleNamespace(NativeAccountingSolver="")
+        )
+        try:
+            require_capability(self.binary, schema="CCX_BEAM_SECTION_V4")
+        except (OSError, ValueError) as error:
+            if self.explicit_binary:
+                raise
+            self.skipTest("Qualified native beam/contact observer required: " + str(error))
+        retained = os.environ.get("R9_WITNESS_ROOT")
+        if retained:
+            self.directory = Path(retained) / self._testMethodName
+            self.directory.mkdir(parents=True)
+        else:
+            self.temporary = tempfile.TemporaryDirectory(prefix="freecad-beam-contact-")
+            self.directory = Path(self.temporary.name)
+
+    def _restore_session(self):
+        try:
+            if App.GuiUp:
+                import FemGui
+
+                FemGui.setActiveAnalysis()
+            for doc in reversed(self.documents):
+                if doc.Name in App.listDocuments():
+                    App.closeDocument(doc.Name)
+        finally:
+            if self.previous_document in App.listDocuments():
+                App.setActiveDocument(self.previous_document)
+            if App.GuiUp and self.previous_analysis is not None:
+                if self.previous_analysis.Document.Name in App.listDocuments():
+                    FemGui.setActiveAnalysis(self.previous_analysis)
+            if self.temporary is not None:
+                self.temporary.cleanup()
+
+    def vector(self, actual, expected, limit):
+        actual = tuple(actual)
+        self.assertEqual(len(actual), 3)
+        self.assertTrue(all(math.isfinite(value) for value in actual))
+        self.assertLessEqual((App.Vector(*actual) - App.Vector(*expected)).Length, limit)
+
+    def wrench(self, action, force, moment):
+        self.vector(action["force_global"], force, 0.01)
+        self.vector(action["moment_origin"], moment, 1)
+
+    def _solve(self, model):
+        if self.explicit_binary:
+            model.solver.NativeAccountingSolver = self.explicit_binary
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        self.assertFalse(fea.check_prerequisites())
+        self.assertFalse(fea.write_inp_file())
+        deck = Path(fea.inp_file_name).read_bytes()
+        (self.directory / "stock-input.inp").write_bytes(deck)
+        self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+        self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+        fea.load_results()
+        beams = [
+            obj
+            for obj in model.analysis.Group
+            if getattr(getattr(obj, "Proxy", None), "Type", "") == "Fem::BeamSectionForceResult"
+        ]
+        contacts = [
+            obj
+            for obj in model.analysis.Group
+            if getattr(getattr(obj, "Proxy", None), "Type", "") == "Fem::ContactStateResult"
+        ]
+        self.assertEqual((len(beams), len(contacts)), (1, 1))
+        beam, contact = beams[0], contacts[0]
+        data = beam.Proxy.getSectionForces(beam)
+        local = contact.Proxy.getContactStates(contact)
+        self.assertEqual(data["schema"], "CCX_BEAM_SECTION_V4")
+        self.assertEqual(local["schema"], "CCX_CONTACT_STATE_V1")
+        self.assertTrue(beam.Status.startswith("Current"), beam.Status)
+        self.assertTrue(contact.Status.startswith("Current"), contact.Status)
+        self.assertTrue(beam.CompletedRun and contact.CompletedRun)
+        self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+        return beam, contact, data, local, deck
+
+
+class TestBeamContactNative(BeamContactNativeCase):
+    def test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case(self):
+        self._assert_compression(friction=False)
+
+    def test_zero_tangential_compression_reports_actual_native_stick(self):
+        self._assert_compression(friction=True)
+
+    def _assert_compression(self, *, friction):
+        doc = App.newDocument("NativeBeamContactCompression")
+        self.documents.append(doc)
+        model = make_contact_series(doc, friction=friction)
+        for body in (model.solid, model.backing):
+            self.assertTrue(body.Shape.isValid())
+            self.assertAlmostEqual(body.Shape.Volume, 1500, delta=1e-9)
+        self.assertEqual(model.mesh.FemMesh.NodeCount, 17)
+        self.assertEqual(model.mesh.FemMesh.VolumeCount, 6)
+        self.assertTrue(set(model.solid_nodes).isdisjoint(model.backing_nodes))
+        self.assertTrue(set(model.beam_nodes).isdisjoint(model.all_solid_nodes))
+        beam, contact, data, local, deck = self._solve(model)
+        for kind in (b"B32R", b"C3D4", b"SPRING2"):
+            self.assertIn(b"TYPE=" + kind, deck.upper())
+        self.assertIn(b"TYPE=SURFACE TO SURFACE", deck.upper())
+        self.assertNotIn(b"SMALL SLIDING", deck.upper())
+        self.assertEqual(data["units"], {"length": "mm", "force": "N", "moment": "N*mm"})
+        self.assertEqual(local["units"], {"length": "mm", "force": "N", "stress": "MPa"})
+        self.assertEqual(data["position_frame"], "NATIVE_MAP_EXPANDED_SECTION")
+        self.assertEqual(data["basis_frame"], "NATIVE_MAP_FACE_BASIS")
+        self.assertEqual(data["geometry_source"], "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT")
+        self.assertEqual(local["position_frame"], "CURRENT_WITH_NATIVE_CLEARANCE_ADJUSTMENT")
+        self.assertEqual(local["basis_frame"], "NATIVE_MASTER_NORMAL")
+        beam_frames = [(row["step"], row["increment"], row["time"]) for row in data["frames"]]
+        contact_frames = [(row["step"], row["increment"], row["time"]) for row in local["frames"]]
+        self.assertEqual(beam_frames, contact_frames)
+        self.assertTrue(beam_frames)
+        self.assertEqual((beam_frames[-1][0], beam_frames[-1][2]), (1, 1))
+        # Dataset counters are field-specific. The retained physical case and
+        # increment are shared, without inventing a common S/CONTACT dataset ID.
+        frame, contact_frame = data["frames"][-1], local["frames"][-1]
+        for key in ("deck_sha256", "binary_sha256", "stdout_sha256"):
+            self.assertEqual(data["provenance"][key], local["provenance"][key])
+        self.assertEqual(data["provenance"]["model_hash"], local["provenance"]["model_digest"])
+        self.assertTrue(data["provenance"]["completed_owned_run"])
+        self.assertTrue(local["provenance"]["completed_owned_run"])
+        for name in ("analysis", "solver", "mesh"):
+            self.assertEqual(data["provenance"]["case"][name], local["provenance"][name])
+
+        actions = frame["native_actions"]
+        self.assertEqual(actions["position_frame"], "ORIGINAL_GLOBAL")
+        self.assertEqual(actions["moment_reference"], "GLOBAL_ORIGIN")
+        self.assertEqual(actions["force_action"], "ON_STRUCTURAL_MODEL")
+        for key, owner, force, moment in (
+            ("source", model.force.Name, (-100, 0, 0), (0, 2300, 1700)),
+            ("support", model.stabilizer.Name, (0, 0, 0), (0, 0, 0)),
+            ("solid_support", model.fixed.Name, (100, 0, 0), (0, -2300, -1700)),
+            ("port_guide", model.rbe.Name, (0, 0, 0), (0, 0, 0)),
+        ):
+            self.assertEqual(actions[key]["owner"], owner)
+            self.wrench(actions[key], force, moment)
+        spring = actions["spring"]
+        self.assertEqual(spring["owner"], model.connector.Name)
+        self.assertEqual(len(spring["ends"]), 2)
+        first, second = spring["ends"]
+        self.assertEqual((first["node"], first["role"]), (1, "BEAM_VERTEX"))
+        self.assertEqual(second["role"], "RBE_REFERENCE")
+        self.wrench(first, (100, 0, 0), (0, -2300, -1700))
+        self.wrench(second, (-100, 0, 0), (0, 2300, 1700))
+        self.vector(first["native_resisting_force"], (-100, 0, 0), 0.01)
+        self.vector(second["native_resisting_force"], (100, 0, 0), 0.01)
+        self.vector(second["displacement"], (-0.00028, 0, 0), 1e-7)
+        self.vector(first["displacement"], (-0.01028, 0, 0), 1e-6)
+        relative = first["displacement"][0] - second["displacement"][0]
+        self.assertAlmostEqual(relative, -0.01, delta=1e-6)
+        self.assertAlmostEqual(10000 * relative, -100, delta=0.01)
+        port = actions["port"]
+        self.assertEqual(port["owner"], model.rbe.Name)
+        self.assertEqual(port["reference_node"], second["node"])
+        self.assertEqual(set(port["receiving_nodes"]), set(model.near_nodes))
+        self.wrench(port["receiving_action"], (-100, 0, 0), (0, 2300, 1700))
+        self.wrench(port["reference_action"], (100, 0, 0), (0, -2300, -1700))
+        self.vector(port["reference_action"]["couple_global"], (0, 0, 0), 1)
+        guide = actions["port_guide"]
+        self.assertEqual(guide["reference_node"], port["reference_node"])
+        self.assertEqual(guide["rotation_node"], port["rotation_node"])
+        spcs = guide["spcs"]
+        self.assertEqual(len(spcs), 5)
+        self.assertEqual(
+            {(row["node"], row["direction"]) for row in spcs if row["role"] == "TRANSLATION"},
+            {(port["reference_node"], 2), (port["reference_node"], 3)},
+        )
+        self.assertEqual(
+            {(row["node"], row["direction"]) for row in spcs if row["role"] == "ANGLE"},
+            {(port["rotation_node"], direction) for direction in (1, 2, 3)},
+        )
+        self.assertEqual(len(actions["support"]["spcs"]), 8)
+        self.assertEqual(len(port["algebraic_spcs"]), 9)
+        self.assertEqual(len(actions["solid_support"]["spcs"]), 9)
+        sides = actions["contact_sides"]
+        self.assertEqual(len(sides), 2)
+        by_owner = {(row["side"], row["solid_owner"]): row for row in sides}
+        self.assertEqual(
+            set(by_owner), {("SLAVE", model.solid.Name), ("MASTER", model.backing.Name)}
+        )
+        loaded = by_owner["SLAVE", model.solid.Name]
+        backing = by_owner["MASTER", model.backing.Name]
+        for row in sides:
+            self.assertEqual(row["owner"], model.contact.Name)
+        self.wrench(loaded, (100, 0, 0), (0, -2300, -1700))
+        self.wrench(backing, (-100, 0, 0), (0, 2300, 1700))
+        for rows in (
+            (actions["source"], first, actions["support"]),
+            (second, port["reference_action"], guide),
+            (port["receiving_action"], loaded),
+            (backing, actions["solid_support"]),
+            (first, second),
+            (port["receiving_action"], port["reference_action"]),
+            (loaded, backing),
+            (actions["source"], actions["support"], guide, actions["solid_support"]),
+        ):
+            for field, limit in (("force_global", 0.01), ("moment_origin", 1)):
+                self.vector(
+                    [sum(row[field][i] for row in rows) for i in range(3)], (0, 0, 0), limit
+                )
+        self.assertEqual(
+            {(row["element"], row["node"], row["end"]) for row in frame["samples"]},
+            {(1, 1, 1), (1, 3, 3), (2, 3, 1), (2, 5, 3)},
+        )
+        for row in frame["samples"]:
+            self.vector(row["force_global"], (100 if row["end"] == 1 else -100, 0, 0), 0.1)
+            self.vector(row["moment_global"], (0, 0, 0), 0.4)
+            self.assertAlmostEqual(row["native_channels"]["axial"], -100, delta=0.1)
+            for channel in ("shear1", "shear2"):
+                self.assertAlmostEqual(row["native_channels"][channel], 0, delta=0.1)
+            for channel in ("torque", "bend1", "bend2"):
+                self.assertAlmostEqual(row["native_channels"][channel], 0, delta=0.4)
+
+        samples = contact_frame["samples"]
+        self.assertTrue(samples)
+        self.assertEqual(len({row["native_point"] for row in samples}), len(samples))
+        for row in samples:
+            self.assertEqual(row["contact"], model.contact.Name)
+            self.assertEqual(row["availability"], "ACTIVE")
+            self.assertEqual(row["state"], "STICK" if friction else "FRICTIONLESS")
+            self.assertIn(row["slave_element"], model.solid_elements)
+            self.assertIn(row["master_element"], model.backing_elements)
+            for key in ("native_pair", "slave_face", "master_face", "native_point", "local_point"):
+                self.assertGreater(row[key], 0)
+            self.assertAlmostEqual(row["pressure"], 4 / 3, delta=0.001)
+            self.assertAlmostEqual(row["clearance"], -1 / 75000, delta=1e-8)
+            self.vector(row["normal"], (1, 0, 0), 1e-10)
+            self.assertGreater(row["area"], 0)
+            self.assertGreater(row["weight"], 0)
+            if friction:
+                # The same frozen pressure and displacement zero-channel
+                # budgets apply; finite elastic motion is not plastic slip.
+                self.assertLessEqual(math.hypot(*row["shear"]), 0.001)
+                self.assertLessEqual(math.hypot(*row["tangential_displacement"]), 1e-8)
+                self.assertEqual(row["plastic_slip_increment"], 0)
+                self.assertEqual(row["plastic_slip_vector"], [0, 0, 0])
+            else:
+                for key in (
+                    "shear",
+                    "tangential_displacement",
+                    "plastic_slip_increment",
+                    "plastic_slip_vector",
+                ):
+                    self.assertIsNone(row[key])
+        # Native area already includes its quadrature weight. Multiplying by
+        # the separately recorded weight again would invent another measure.
+        self.assertAlmostEqual(sum(row["area"] for row in samples), 75, delta=0.001)
+
+        mechanical = [
+            obj for obj in model.analysis.Group if obj.isDerivedFrom("Fem::FemResultObject")
+        ]
+        self.assertEqual(len(mechanical), 3)
+        solids = {
+            obj.NativeSolidOwner.Name: obj for obj in mechanical if hasattr(obj, "NativeSolidOwner")
+        }
+        self.assertEqual(set(solids), {model.solid.Name, model.backing.Name})
+        mixed = next(obj for obj in mechanical if not hasattr(obj, "NativeSolidOwner"))
+        self.assertEqual(
+            set(mixed.NativeSourceNodeNumbers), set(model.beam_nodes + model.all_solid_nodes)
+        )
+        self.assertEqual((mixed.Mesh.FemMesh.NodeCount, mixed.Mesh.FemMesh.EdgeCount), (17, 2))
+        self.assertEqual((mixed.Mesh.FemMesh.VolumeCount, mixed.Mesh.FemMesh.FaceCount), (6, 0))
+        for owner, nodes, elements in (
+            (model.solid, model.solid_nodes, model.solid_elements),
+            (model.backing, model.backing_nodes, model.backing_elements),
+        ):
+            result = solids[owner.Name]
+            self.assertEqual(result.NativeSolidOwner, owner)
+            self.assertEqual(set(result.NativeSourceNodeNumbers), set(nodes))
+            self.assertEqual(set(result.NativeSourceElementNumbers), set(elements))
+            self.assertEqual((result.Mesh.FemMesh.NodeCount, result.Mesh.FemMesh.EdgeCount), (6, 0))
+            self.assertEqual(
+                (result.Mesh.FemMesh.VolumeCount, result.Mesh.FemMesh.FaceCount), (3, 0)
+            )
+            self.assertEqual(len(result.NodeStressXX), 6)
+            for value in result.NodeStressXX:
+                self.assertAlmostEqual(value, -4 / 3, delta=0.0001)
+        for name in (
+            "NodeStressXX",
+            "NodeStressYY",
+            "NodeStressZZ",
+            "NodeStressXY",
+            "NodeStressXZ",
+            "NodeStressYZ",
+        ):
+            self.assertFalse(getattr(mixed, name))
+        for result in mechanical:
+            self.assertEqual(result.NativeBeamSource, beam)
+            self.assertEqual(result.NativeSourceFileHash, data["provenance"]["frd"]["sha256"])
+            self.assertEqual(
+                json.loads(result.NativeSourceFrame)["case"], data["provenance"]["case"]
+            )
+            self.assertEqual(len(result.NativeSourceNodeNumbers), len(result.NodeNumbers))
+        for result in solids.values():
+            for name in (
+                "NodeStressYY",
+                "NodeStressZZ",
+                "NodeStressXY",
+                "NodeStressXZ",
+                "NodeStressYZ",
+            ):
+                self.assertEqual(len(getattr(result, name)), 6)
+                for value in getattr(result, name):
+                    self.assertAlmostEqual(value, 0, delta=0.0001)
+        displacement = dict(zip(mixed.NativeSourceNodeNumbers, mixed.DisplacementVectors))
+        for node in model.backing_far_nodes:
+            self.vector(displacement[node], (0, 0, 0), 1e-7)
+        for node in model.backing_interface_nodes:
+            self.vector(displacement[node], (-1 / 7500, 0, 0), 1e-7)
+        for node in model.loaded_interface_nodes:
+            self.vector(displacement[node], (-11 / 75000, 0, 0), 1e-7)
+        for node in model.near_nodes:
+            self.vector(displacement[node], (-7 / 25000, 0, 0), 1e-7)
+        self.vector(displacement[model.beam_nodes[0]], (-257 / 25000, 0, 0), 1e-6)
+
+        (self.directory / "observed-beam.json").write_text(json.dumps(data, indent=2))
+        (self.directory / "observed-contact.json").write_text(json.dumps(local, indent=2))
+        (self.directory / "section-data.json").write_text(beam.SectionData)
+        (self.directory / "contact-data.json").write_text(contact.ContactData)
+        self.assertEqual(hashlib.sha256(beam.SectionData.encode()).hexdigest(), beam.SectionHash)
+        self.assertEqual(
+            hashlib.sha256(contact.ContactData.encode()).hexdigest(), contact.ContactHash
+        )
+        doc.recompute()
+        doc.saveAs(str(self.directory / "coupled-contact.FCStd"))
+        self.assertEqual(beam.Proxy.getSectionForces(beam), data)
+        self.assertEqual(contact.Proxy.getContactStates(contact), local)
+        self.assertEqual(Path(data["provenance"]["deck"]).read_bytes(), deck)
+
+    def _refused_model(self):
+        doc = App.newDocument("NativeBeamContactRefusal")
+        self.documents.append(doc)
+        model = make_contact_series(doc)
+        if self.explicit_binary:
+            model.solver.NativeAccountingSolver = self.explicit_binary
+        return model
+
+    def _assert_refused_before_native_run(self, model, message):
+        model.doc.recompute()
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        with self.assertRaisesRegex(ValueError, message):
+            fea.write_inp_file()
+        self.assertFalse(list(self.directory.glob("*.beam-section")))
+        for obj in model.analysis.Group:
+            self.assertNotIn(
+                getattr(getattr(obj, "Proxy", None), "Type", ""),
+                ("Fem::BeamSectionForceResult", "Fem::ContactStateResult"),
+            )
+
+    def test_force_controlled_opening_is_refused_before_native_run(self):
+        model = self._refused_model()
+        model.force.Reversed = False
+        self._assert_refused_before_native_run(
+            model, "dead load pulling the free solid away from unilateral contact"
+        )
+
+    def test_explicit_contact_face_reversal_is_refused_before_native_run(self):
+        model = self._refused_model()
+        model.contact.ReversedMaster = [True]
+        self._assert_refused_before_native_run(model, "original face directions")
+
+    def test_beam_edge_cannot_become_a_solid_contact_side(self):
+        model = self._refused_model()
+        model.contact.References = [
+            (model.geometry, ["Edge1"]),
+            model.contact.References[-1],
+        ]
+        self._assert_refused_before_native_run(model, "one actual CAD face")
+
+    def test_malformed_contact_face_count_is_refused_before_native_run(self):
+        model = self._refused_model()
+        owner, names = model.contact.References[0]
+        other = next(
+            "Face" + str(index)
+            for index in range(1, len(owner.Shape.Faces) + 1)
+            if "Face" + str(index) not in names
+        )
+        model.contact.References = [(owner, [names[0], other]), model.contact.References[-1]]
+        self._assert_refused_before_native_run(model, "one actual CAD face")
+
+    def test_multiple_active_contacts_are_refused_before_native_run(self):
+        model = self._refused_model()
+        other = ObjectsFem.makeConstraintContact(model.doc, "SecondActiveContact")
+        other.References = model.contact.References
+        model.analysis.addObject(other)
+        self._assert_refused_before_native_run(model, "Coupled contact needs one beam")
+
+    def test_selected_contact_must_be_the_active_contact(self):
+        model = self._refused_model()
+        other = ObjectsFem.makeConstraintContact(model.doc, "UnanalysedSelectedContact")
+        other.References = model.contact.References
+        model.solver.NativeContactOutputs = [other]
+        self._assert_refused_before_native_run(model, "Select exactly the one coupled Contact")

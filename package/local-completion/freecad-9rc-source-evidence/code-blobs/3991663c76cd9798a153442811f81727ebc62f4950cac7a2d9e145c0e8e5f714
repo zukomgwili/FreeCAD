@@ -1,0 +1,273 @@
+# FreeCAD-9rc independent analytical oracles
+
+These are software qualification benchmarks for the new coupled contact
+domain. They are not an Oomakhi model, a contact-law recommendation, or building
+design acceptance. The signed references and numerical budgets below are
+derived before a successful native candidate run. Only the root agent runs
+FreeCAD, OCC, CalculiX, GUI tests or builds. The existing FreeCAD-960 and
+FreeCAD-sv7 domains remain independently qualified and unchanged.
+
+The first installed-app refusal is a baseline, not numerical qualification.
+This document does not infer contact sample count or identity from a mesh face.
+Ordinary beam FRD `S` values remain section forces/moments, never MPa.
+
+## Stable, physically connected normal-contact specimen
+
+The reference geometry is a straight chain, ordered from the physical support
+to the applied beam load:
+
+`Fixed anchored prism -> genuine Tet contact -> guided loaded prism -> detached
+solid RBE reference -> scalar SPRING2 -> original beam vertex -> beam tip`.
+
+The two solids are real CAD triangular prisms, not receiving-node padding.
+Their common undeformed interface consists of geometrically coincident faces
+with distinct node identities and distinct solid owners. No beam node belongs
+to the RBE, a contact face, or a Tie surface.
+
+| Quantity | Frozen value |
+| --- | --- |
+| Cross-section triangle `(Y,Z)` | `(12,-28)`, `(22,-28)`, `(17,-13)` mm |
+| Triangle area and centroid | `A=75 mm²`; `(Y,Z)=(17,-23)` mm |
+| Anchored prism | `X=-50..-30 mm`; three positive-Jacobian C3D4s |
+| Loaded prism | `X=-30..-10 mm`; three positive-Jacobian C3D4s |
+| Contact interface | Real Tet boundary faces at `X=-30 mm` |
+| Beam root and tip | `(0,17,-23)`, `(40,17,-23)` mm |
+| Beam section and mesh | Uniform `4 by 4 mm` RECT; two B32R elements |
+| Material | One isotropic linear material, `E=200000 MPa`, `nu=0` |
+| Scalar connector | Existing `Vertex to rigid body port`; X, `k=10000 N/mm` |
+| RBE receiving region/reference | Loaded prism near face at `X=-10`; reference at `(-10,17,-23)` mm |
+| RBE physical guide | X free; Y/Z and all three rotations constrained to zero |
+| Beam physical guide | Root X free; Y/Z and all three rotations constrained to zero |
+| Physical solid support | All translations zero on the anchored prism far face `X=-50` |
+| Compression source | One beam-tip Force `(-100,0,0) N` |
+| Contact normal law | Stock face-to-face penalty `LINEAR`, `K_n=100000 MPa/mm`, `Adjust=0 mm` |
+| Normal-only companions | Frictionless, and friction `mu=0.3` with zero imposed tangent motion |
+| Analysis | One small-displacement static 3D step; actual retained frame identities preserved |
+
+Public RigidBody examples spell its constrained mode `Constraint`; descriptive
+wording such as “fixed guide” is not an instruction to invent a `Fixed` enum
+value. The guide is a declared physical support. Observe its actual native
+forces and couples separately from the internal RBE transfer and from native
+algebraic equation terms, even when statics predicts every guide action zero.
+
+The new guide is necessary. A fully free loaded-solid RBE, scalar X spring and
+frictionless planar contact leave two tangential translations and rotation
+about X unrestrained. Opening also removes normal contact stiffness. Neither a
+singular solve nor artificial weak stabilization is a qualification control.
+This is a new bounded support domain, not a claim that old sv7's fully free RBE
+automatically supplies those missing physical constraints.
+
+Beam, solid and volume-owned boundary-face element IDs must be globally
+disjoint. The actual authored candidate uses beam elements `1..2`, loaded-solid
+elements `101..103`, backing-solid elements `301..303`, backing original nodes
+`301..306`, and boundary faces `501+`. These avoid the collision that would arise by
+reusing sv7's old boundary face IDs `201..208`. Bind these real structural IDs
+to the actual stock export; detached reference and spring labels remain
+writer-allocated and must not be guessed.
+
+After the native export's documented first-two-node Tet4 permutation, each
+prism's three tetrahedra have determinant `3000 mm³` and volume `500 mm³`.
+Their sum is the real `1500 mm³` prism volume. A standard-library rational
+arithmetic check of the authored coordinates gives these values exactly;
+the actual emitted deck still has to retain that positive orientation.
+
+The public stock interface assigns every Contact reference except the last to
+the slave side and the last reference to the master side
+([meshsetsgetter.py](/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femmesh/meshsetsgetter.py:525)).
+The installed-refusal candidate's order `[backing face, loaded face]` therefore
+means backing **slave**, loaded prism **master**. The physical free-body values
+below do not depend on swapping those roles, but sample/element/face ownership
+and normal direction do. Bind the actual stock-exported side order explicitly;
+never rename it from the physical loading direction or a sorted owner list.
+
+## Independent signed forces and original-global origin moments
+
+All forces below act **on the named owner** and use original global XYZ axes.
+Moments are about the global origin. The loading line passes through both
+triangle centroids and the beam centroid, so no physical local couple is
+applied. Translating the specimen off the global axes makes force transport
+observable.
+
+| Action | Force `(Fx,Fy,Fz)` N | Origin moment `(Mx,My,Mz)` N mm |
+| --- | --- | --- |
+| Source on beam tip | `(-100,0,0)` | `(0,2300,1700)` |
+| Spring on beam root | `(100,0,0)` | `(0,-2300,-1700)` |
+| Spring on RBE reference | `(-100,0,0)` | `(0,2300,1700)` |
+| RBE on detached reference | `(100,0,0)` | `(0,-2300,-1700)` |
+| RBE on loaded-solid receiving nodes | `(-100,0,0)` | `(0,2300,1700)` |
+| Contact on loaded solid | `(100,0,0)` | `(0,-2300,-1700)` |
+| Contact on anchored solid | `(-100,0,0)` | `(0,2300,1700)` |
+| Physical Fixed support on anchored solid | `(100,0,0)` | `(0,-2300,-1700)` |
+| Beam physical guide | `(0,0,0)` | `(0,0,0)` |
+| Loaded-solid physical guide | `(0,0,0)` | `(0,0,0)` |
+
+Check five independently selected free bodies: beam (source/spring/guide),
+detached reference (spring/RBE/guide), loaded solid (RBE/contact), anchored
+solid (contact/Fixed), and whole model (source/physical supports). The paired
+spring, RBE and contact actions must cancel internally; none is an additional
+external ground support. Native rotation-reference actions are physical
+couples. An algebraic dummy coordinate is not a physical force arm.
+
+Every beam element has outward first-end force `(100,0,0) N` and last-end force
+`(-100,0,0) N`, zero centroid-relative moments and compressive axial channel
+`-100 N`. Both shear channels, both bending channels and torque are zero.
+Project on the actual reported native face axes; do not assume the first-end
+basis is right handed. Keep all six signed components and explicit element,
+original node, end, material, section, owner, units and same-case frame identity.
+
+## Conditional affine patch and penalty-compliance references
+
+The source is statically determinate: each prism carries `P=100 N` in
+compression. At `nu=0`, uniform axial strain with zero other displacement
+components satisfies free lateral faces, the anchored prism far clamp, rigid loaded
+near-face motion and the symmetric planar contact patch. Each C3D4 represents
+that affine field exactly. Therefore every genuine solid stress row has:
+
+```
+Sxx = -P/A = -4/3 MPa
+Syy = Szz = Sxy = Sxz = Syz = 0 MPa
+```
+
+For face-to-face LINEAR contact only, the official manual establishes a linear
+pressure/overclosure relation through the origin using only the slope. It does
+not use the node-to-face regularization parameters. The references, independently
+read after the installed baseline, are CalculiX 2.23 manual
+§6.7.7 p244 and §7.130 pp615–616
+([official manual](https://www.dhondt.de/ccx_2.23.pdf)). These normal-law and
+sign assumptions must be checked against the actual stock written law and
+native output before using the following displacement values as acceptance
+references; they do not apply to regularized node-to-face LINEAR contact.
+
+```
+pressure                         = P/A = 1.3333333333333333 MPa
+contact clearance                = -P/(A*K_n) = -0.000013333333333333333 mm
+compression of either prism      = P*20/(E*A) = 0.00013333333333333333 mm
+anchored interface Ux              = -0.00013333333333333333 mm
+loaded interface Ux               = -0.00014666666666666667 mm
+loaded RBE reference Ux          = -0.00028 mm
+beam root minus RBE reference Ux = -P/k = -0.01 mm
+beam root Ux                     = -0.01028 mm
+```
+
+The exact rational references are `p=4/3`, clearance `-1/75000`, anchored
+interface `-1/7500`, loaded interface `-11/75000`, RBE reference `-7/25000`
+and beam root `-257/25000`, in the respective MPa/mm units above.
+
+Contact pressure is positive, while compressive solid `Sxx` is negative.
+Native sample normals and tangents are authoritative. A face-to-face contact
+sample is an actual overlap integration point: three interface corner nodes
+do not imply three samples. Preserve native pair/owner/element/face/sample and
+master projection identities within their documented frame-local scope.
+
+The elementary uniform-traction beam extension `PL/(EA_beam)` is not an exact
+native B32R endpoint-displacement reference: stock vertex point loading uses
+expanded corner-mean work-conjugate loading. That sv7 limitation remains
+unqualified. If beam-displacement equivalence is checked, use a separate public
+native beam with the same mesh, section, material and negative source, but root
+motion independently prescribed to `-0.01028 mm`; do not fit its root or tip to
+the coupled result. A match qualifies composition equivalence, not continuum
+beam end compliance.
+
+## Frozen compression numerical budgets
+
+These are fixture-specific absolute requirements, not Oomakhi's 1%/5% project
+limits and not a universal solver guarantee. Full-precision native observer
+values should dominate comparison; ordinary FRD displacement/stress printing
+may use only six or seven significant digits.
+
+| Check | Absolute budget | Independent scale |
+| --- | --- | --- |
+| Each physical/internal action force and free-body force closure | `0.01 N` | `10^-4` of the declared 100-N source |
+| Original-global action-moment and free-body moment closure | `1 N mm` | Force budget transported through a 100-mm characteristic length |
+| Each beam-end force/local force channel | `0.1 N` | `10^-3` constant-force patch budget, preserving sv7's separate native section-integration allowance |
+| Each beam-end centroid-relative moment/local moment channel | `0.4 N mm` | `10^-3 * P * 4-mm` section depth, including expected-zero channels |
+| Every genuine solid stress component | `0.0001 MPa` | Affine C3D4 stress patch and printed-value budget |
+| Every active local normal pressure | `0.001 MPa` | `0.075%` of independent `P/A`; no averaging of duplicate identities |
+| Native normal-law clearance | `0.00000001 mm` | The same pressure budget divided by `K_n` |
+| Contact representative area sum, if exposed | `0.001 mm²` | `1.34e-5` of the exact 75-mm² planar overlap |
+| Anchored/loaded interface and RBE-reference displacement | `0.0000001 mm` | More than ten times the ordinary printed displacement rounding bound |
+| Spring relative displacement and beam-root displacement | `0.000001 mm` | `10^-4` of the exact spring compression |
+| Independently prescribed pure/coupled beam displacement equivalence | `0.0000002 mm` | Same native discretization and conservative printed-value addition budget |
+
+Expected-zero tangential pressure/state channels must not be inferred from a
+global normal-force agreement. In frictionless contact, preserve the actual
+`FRICTIONLESS` state and unavailable tangential history. With friction enabled
+and no tangent demand, require actual native `STICK` and zero plastic increment.
+Do not infer stick merely because a printed tangential displacement is small.
+
+## Stable prescribed-opening companion
+
+Keep geometry, material, mesh, contact, connector, physical anchored-solid support and
+both five-DOF guides. Replace the beam-tip Force by one actual X-displacement
+source `+0.002 mm`; other tip DOFs remain free. There is no zero Force
+placeholder and no nonzero dead load applied to an unsupported open body.
+
+The tip displacement anchors the previously free axial rigid motion. At the
+completed state, beam and loaded prism translate `+0.002 mm` in X without
+strain; the spring has zero extension and the anchored prism remains at rest.
+All beam, spring, RBE, source-reaction, guide, contact and Fixed-support forces
+and moments are zero. All solid stress components are zero. At every retained
+native preserved interface projection, measured clearance is `+0.002 mm`.
+Pressure, shear and plastic/total tangential quantities are unavailable for
+inactive native contact, not invented measured zeros. Use `UNAVAILABLE` with
+the actual native open-projection availability/engagement labels.
+
+Freeze opening displacement/clearance budget `1e-8 mm`, solid stress budget
+`1e-5 MPa`, physical/internal force budget `0.001 N` and moment budget
+`0.1 N mm`. These are absolute near-zero requirements chosen before observing
+the open solve. A missing projection is not evidence of measured opening;
+absence, native inactive projection and malformed/truncated output remain
+distinct outcomes.
+
+## Tangential-state companions are a distinct loading domain
+
+The scalar X spring and its beam do not deliver a Y/Z shear source to the solid.
+To test nonzero elastic sticking or irreversible sliding, author a real
+tangential actuator, for example prescribed Y motion of the loaded RBE guide,
+and report its external reaction separately from the internal port transfer.
+Never hide it as a zero support or infer friction demand from a global force
+that is absent from that load path.
+
+An initial tiny prescribed Y motion (candidate `1e-6 mm`) can target elastic
+stick; a larger motion (candidate `0.005 mm`) can target slip with `mu=0.3`.
+These are proposals, not executed or qualified fixtures. Free-sided three-
+dimensional prisms under tangent loading do not have a generally exact uniform
+simple-shear stress/displacement field, so `q=G*Delta/(L1+L2)` is not a valid
+unqualified oracle. For confirmed full same-direction sliding, Coulomb gives
+the integrated bound `|T|=mu*P=30 N`; this equality requires actual local slip
+direction/state and positive normal contact at the same completed frame, not
+an assumption that all samples slide. Partial slip or stick instead requires
+state-appropriate inequalities and independent owner/free-body closure. The
+root agent must freeze any adopted tangential fixture and its bounds before
+running it; no tangent response is accepted from this proposal alone.
+
+## Ownership, refusal and history controls
+
+The admitted contact surfaces must consist solely of genuine Tet boundary
+faces from the two declared solid owners. Original beam, spring, RBE reference,
+rotation and algebraic helper IDs cannot masquerade as contact material nodes.
+Repeated pair/sample labels cannot be collapsed, assigned by coordinate order
+or treated as persistent material points between frames. Same-time output is
+insufficient to join cases without step/increment/case and owned-run custody.
+
+Meaningful negative controls include a direct beam contact face; a beam node
+added to the RBE's genuine receiving face; contact faces that cross owners or
+overlap a physical support; duplicate/shared contact slave declarations; a
+missing physical guide causing an inadmissible mechanism; opening with a
+nonzero dead load and no axial anchor; mixed beam-resultant `S` interpreted as
+solid MPa; mismatched or incomplete beam/contact frame identities; altered
+input, output or native executable; and failed/cancelled/superseded reruns.
+Refusals must withdraw Current data without erasing saved literal history.
+
+Saving and opening in a separate process must preserve the exact beam and
+contact data strings, their hashes, case/owner/sample identities, solver
+requests, connector and support settings, solid-only stress ownership and
+source maps. Restored results are Historical and not CompletedRun. An explicit
+Current query may change the status to the documented historical/withdrawn
+Stale reason; it must not promote history, repair source paths, run the solver,
+or rewrite the saved observation. Both results must refer to the same original
+case; no late rebinding of an old contact record to a newer beam run is allowed.
+
+No failed response criterion may be weakened using observed numerical error.
+An invalid oracle, authoring mistake or unsupported subdomain is retained
+explicitly and distinguished from the successful qualification record.

@@ -1,0 +1,905 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Bounded native beam/spring/guided-solid/contact composition.
+
+All result actions are literal native observations. This module binds the
+ordinary model and written deck to explicit owners; it recovers no forces or
+stresses. V3's free, single-solid port remains a separate contract.
+"""
+
+import math
+import re
+from types import SimpleNamespace
+
+import FreeCAD as App
+import Part
+
+from femmesh import meshtools
+from femtools import beam_coupling
+from femtools import beam_solid_coupling
+from femtools.elastic_connector import PortResolutionContext
+from femtools.elastic_connector import resolve_connector
+from femtools.membertools import AnalysisMember
+from femtools.membertools import get_member
+
+SCHEMA = "CCX_BEAM_SECTION_V4"
+ATTACHMENT = "Vertex to rigid body port"
+
+
+def requested(analysis, mesh):
+    """Recognize the separate two-solid opt-in, retaining old refusal paths."""
+    return bool(
+        mesh is not None
+        and getattr(mesh, "Shape", None)
+        and len(mesh.Shape.Shape.Solids) == 2
+        and any(
+            obj.Attachment == ATTACHMENT
+            for obj in get_member(analysis, "Fem::ConstraintElasticConnector")
+        )
+    )
+
+
+def _region(native, mesh, owner, names, context, label):
+    region = SimpleNamespace(Name=label, References=[(owner, names)])
+    return meshtools._get_mesh_region_by_owned_references(native, region, mesh, context)
+
+
+def _connected(elements):
+    """Require a genuine facet-connected Tet region, without extra islands."""
+    remaining = {row["element"]: set(row["nodes"]) for row in elements}
+    if not remaining:
+        return False
+    component = [remaining.pop(next(iter(remaining)))]
+    while component:
+        nodes = component.pop()
+        adjacent = [element for element, other in remaining.items() if len(nodes & other) == 3]
+        component.extend(remaining.pop(element) for element in adjacent)
+    return not remaining
+
+
+def plan(analysis, solver, mesh):
+    """Admit the separate, physically guided two-solid contact domain."""
+    members = AnalysisMember(analysis)
+    allowed = {
+        "cons_force",
+        "cons_displacement",
+        "cons_fixed",
+        "cons_rigidbody",
+        "cons_rigidbody_step",
+        "cons_elasticconnector",
+        "cons_contact",
+    }
+    if any(
+        value
+        for key, value in vars(members).items()
+        if key.startswith("cons_") and key not in allowed
+    ):
+        raise ValueError("Coupled contact output does not support other constraints, cuts or ties")
+    counts = (
+        members.cons_force,
+        members.cons_displacement,
+        members.cons_fixed,
+        members.cons_rigidbody,
+        members.cons_elasticconnector,
+        members.cons_contact,
+        members.geos_beamsection,
+        members.mats_linear,
+    )
+    if (
+        any(len(rows) != 1 for rows in counts)
+        or members.geos_beamrotation
+        or members.geos_shellthickness
+        or members.mats_nonlinear
+    ):
+        raise ValueError(
+            "Coupled contact needs one beam, scalar connector, guided RBE, contact, physical fixed region, beam guide, source and material"
+        )
+    force, guide, fixed, rbe, connector, contact = (rows[0]["Object"] for rows in counts[:6])
+    if (
+        list(solver.NativeContactOutputs) != [contact]
+        or solver.NativeForceAccounting
+        or list(solver.NativeAccountingSupports)
+    ):
+        raise ValueError(
+            "Select exactly the one coupled Contact, without separate solid accounting/support output"
+        )
+    if any(
+        obj not in (force, guide, fixed, rbe, contact)
+        for obj in get_member(analysis, "Fem::Constraint")
+    ):
+        raise ValueError("Unexpected native constraint in the coupled contact domain")
+    if (
+        connector.Attachment != ATTACHMENT
+        or connector.Mode != "Two points"
+        or connector.Kind != "Translational"
+        or connector.RigidBody2 != rbe
+    ):
+        raise ValueError(
+            "Coupled contact needs the explicit beam vertex to solid RBE scalar connector"
+        )
+    if any(getattr(obj, "EnableAmplitude", False) for obj in (force, guide, rbe)):
+        raise ValueError("Coupled contact does not support amplitudes")
+    if rbe.Displacement.Length != 0 or rbe.Rotation.Angle != 0:
+        raise ValueError("Coupled contact currently requires a zero physical RBE guide motion")
+    if (
+        contact.EnableThermalContact
+        or contact.SurfaceBehavior != "Linear"
+        or contact.Adjust.Value != 0
+    ):
+        raise ValueError(
+            "Coupled contact currently requires unadjusted mechanical linear face-to-face contact"
+        )
+    slope = contact.Slope.getValueAs("MPa/mm").Value
+    if (
+        not math.isfinite(slope)
+        or slope <= 0
+        or any(contact.ReversedSlave)
+        or any(contact.ReversedMaster)
+    ):
+        raise ValueError(
+            "Coupled contact requires a positive finite normal slope and original face directions"
+        )
+    if contact.Friction:
+        friction, stick = contact.FrictionCoefficient, contact.StickSlope.getValueAs("MPa/mm").Value
+        if not math.isfinite(friction) or friction < 0 or not math.isfinite(stick) or stick <= 0:
+            raise ValueError(
+                "Coupled friction needs a nonnegative finite coefficient and positive stick slope"
+            )
+    native = mesh.FemMesh
+    if not native.Volumes or not native.EdgesOnly or native.FacesOnly:
+        raise ValueError(
+            "Coupled contact requires standalone B32R edges and genuine Tet4 volumes without shells"
+        )
+    coordinates = native.Nodes
+    if not all(math.isfinite(value) for point in coordinates.values() for value in point):
+        raise ValueError("Coupled contact coordinates must be finite")
+    context = PortResolutionContext(mesh, analysis)
+    facts = context._owned_facts()
+    if facts is None:
+        raise ValueError(
+            "Coupled contact requires native CAD entity-group ownership; remesh or author complete owned groups"
+        )
+    native = facts.femmesh
+    coordinates = facts.nodes
+    resolved = resolve_connector(connector, mesh, analysis, context)
+    if (
+        not resolved.get("hybrid")
+        or resolved["rotation"].Angle > 1e-12
+        or connector.OrientationReference
+    ):
+        raise ValueError(
+            "Coupled contact requires a translational scalar connector in a global frame"
+        )
+    direction = resolved["dof"]
+    if any(
+        getattr(rbe, "TranslationalMode" + axis) != ("Free" if index == direction else "Constraint")
+        for index, axis in enumerate("XYZ", 1)
+    ) or any(getattr(rbe, "RotationalMode" + axis) != "Constraint" for axis in "XYZ"):
+        raise ValueError(
+            "The contact-side RBE needs a physical five-DOF guide, free only along the scalar spring"
+        )
+    root, tip = resolved["nodes"][0], beam_coupling._vertex(force, mesh)
+    if beam_coupling._vertex(guide, mesh) != root:
+        raise ValueError("The coupled beam guide must act at its scalar spring endpoint")
+    graph, midsides, beam_nodes = {}, set(), set()
+    for element in native.EdgesOnly:
+        nodes = tuple(native.getElementNodes(element))
+        if len(nodes) != 3 or len(set(nodes)) != 3:
+            raise ValueError("Coupled contact requires three distinct B32R nodes")
+        first, last, middle = nodes
+        length = (coordinates[last] - coordinates[first]).Length
+        if (
+            middle in midsides
+            or length <= 0
+            or (coordinates[middle] - (coordinates[first] + coordinates[last]) * 0.5).Length
+            > 1e-10 * length
+        ):
+            raise ValueError(
+                "Coupled contact requires straight quadratic beam segments with unique midsides"
+            )
+        midsides.add(middle)
+        graph.setdefault(first, []).append(last)
+        graph.setdefault(last, []).append(first)
+        beam_nodes.update(nodes)
+    if (
+        {node for node, adjacent in graph.items() if len(adjacent) == 1} != {root, tip}
+        or any(len(adjacent) > 2 for adjacent in graph.values())
+        or midsides & set(graph)
+    ):
+        raise ValueError("Coupled contact requires one unbranched beam chain")
+    span = coordinates[tip] - coordinates[root]
+    axis_values = [0.0] * 3
+    axis_values[direction - 1] = 1.0
+    axis = App.Vector(*axis_values)
+    if span.Length <= 0 or span.cross(axis).Length > 1e-10 * span.Length:
+        raise ValueError("The coupled beam and scalar connector must share one global axis")
+    previous, current, visited = None, root, {root}
+    while current != tip:
+        following = [node for node in graph[current] if node != previous]
+        if (
+            len(following) != 1
+            or following[0] in visited
+            or (coordinates[following[0]] - coordinates[current]).dot(span) <= 0
+        ):
+            raise ValueError("Disconnected, overlapping or reversed beam paths are unsupported")
+        visited.add(following[0])
+        previous, current = current, following[0]
+    if visited != set(graph) or any(
+        (coordinates[node] - coordinates[root]).cross(axis).Length > 1e-10 * span.Length
+        for node in beam_nodes
+    ):
+        raise ValueError("The coupled beam catalogue is not one connected straight chain")
+    if (rbe.ReferenceNode - coordinates[root]).cross(axis).Length > 1e-10 * max(1.0, span.Length):
+        raise ValueError(
+            "The scalar connector cannot transmit an unmodelled transverse offset moment"
+        )
+    directions = []
+    for index, letter in enumerate("xyz", 1):
+        if (
+            getattr(guide, letter + "Free") != (index == direction)
+            or getattr(guide, letter + "Displacement").Value != 0
+        ):
+            raise ValueError("The beam guide must leave only the scalar spring translation free")
+        if index != direction:
+            directions.append(index)
+        if (
+            getattr(guide, "rot" + letter + "Free")
+            or getattr(guide, letter + "Rotation").Value != 0
+        ):
+            raise ValueError("The coupled beam guide must prescribe three zero rotations")
+    directions.extend((4, 5, 6))
+    refs = list(contact.References)
+    if len(refs) != 2 or any(
+        len(names) != 1 or not names[0].startswith("Face") for owner, names in refs
+    ):
+        raise ValueError("Coupled contact requires one actual CAD face on each of two solid owners")
+    owners = [owner for owner, _names in refs]
+    if owners[0] == owners[1] or len(mesh.Shape.Shape.Solids) != 2:
+        raise ValueError("Coupled contact requires exactly two distinct genuine solid owners")
+    solids, solid_nodes, solid_elements = [], set(), []
+    for owner in owners:
+        if (
+            owner.Document != analysis.Document
+            or len(owner.Shape.Solids) != 1
+            or not owner.Shape.isValid()
+        ):
+            raise ValueError("Each coupled contact side must own one valid same-document solid")
+        nodes, entities = _region(native, mesh, owner, ["Solid1"], facts, contact.Name)
+        if entities is None or len(entities) != 1:
+            raise ValueError("Each contact solid needs one independently owned native volume group")
+        ids = {element for members in entities.values() for element in members}
+        if not ids or not ids.issubset(native.Volumes) or solid_nodes.intersection(nodes):
+            raise ValueError("Coupled contact solid node and element ownership must be disjoint")
+        volumes = []
+        for element in sorted(ids):
+            nodes_of_element = list(native.getElementNodes(element))
+            if len(nodes_of_element) != 4 or len(set(nodes_of_element)) != 4:
+                raise ValueError("Coupled contact currently qualifies C3D4 tetrahedra only")
+            volumes.append(
+                {
+                    "element": element,
+                    "nodes": [nodes_of_element[1], nodes_of_element[0], *nodes_of_element[2:]],
+                }
+            )
+        if not _connected(volumes) or {node for row in volumes for node in row["nodes"]} != set(
+            nodes
+        ):
+            raise ValueError("Each contact side must be one complete connected Tet region")
+        solids.append({"owner": owner.Name, "nodes": sorted(nodes), "elements": volumes})
+        solid_nodes.update(nodes)
+        solid_elements.extend({"owner": owner.Name, **row} for row in volumes)
+    if (
+        {row["element"] for row in solid_elements} != set(native.Volumes)
+        or len({row["element"] for row in solid_elements}) != len(solid_elements)
+        or beam_nodes & solid_nodes
+        or set(coordinates) != beam_nodes | solid_nodes
+    ):
+        raise ValueError(
+            "The complete beam and two solid catalogues must be disjoint without stray nodes"
+        )
+    port = resolved["port"]
+    loaded = {owner for owner, _names in rbe.References}
+    anchored = {owner for owner, _names in fixed.References}
+    if (
+        len(loaded) != 1
+        or len(anchored) != 1
+        or loaded == anchored
+        or loaded | anchored != set(owners)
+    ):
+        raise ValueError(
+            "The RBE receiving region and fixed region must belong to opposite contact owners"
+        )
+    loaded_owner, anchored_owner = next(iter(loaded)), next(iter(anchored))
+    by_owner = {row["owner"]: row for row in solids}
+    support_nodes = sorted(
+        meshtools._get_mesh_region_by_owned_references(native, fixed, mesh, facts)[0]
+    )
+    if (
+        not set(port["nodes"]).issubset(by_owner[loaded_owner.Name]["nodes"])
+        or not support_nodes
+        or not set(support_nodes).issubset(by_owner[anchored_owner.Name]["nodes"])
+    ):
+        raise ValueError(
+            "The physical guide and fixed support must preserve their exact solid owners"
+        )
+    face_nodes = []
+    contact_faces = []
+    outward_normals = {}
+    for owner, names in refs:
+        nodes, entities = _region(native, mesh, owner, list(names), facts, contact.Name)
+        if entities is None or not nodes or not set(nodes).issubset(by_owner[owner.Name]["nodes"]):
+            raise ValueError("Contact faces require independent genuine solid-face ownership")
+        face = owner.getSubObject(names[0])
+        if not isinstance(face.Surface, Part.Plane):
+            raise ValueError("Coupled contact currently requires genuine planar CAD faces")
+        normal = face.normalAt(0, 0)
+        axial_positions = [coordinates[node].dot(axis) for node in nodes]
+        if (
+            normal.cross(axis).Length > 1e-10 * normal.Length
+            or max(axial_positions) - min(axial_positions) > 1e-10 * span.Length
+        ):
+            raise ValueError("Coupled contact faces must be normal to the scalar beam axis")
+        contact_faces.append(face)
+        outward_normals[owner.Name] = list(normal)
+        face_nodes.append(set(nodes))
+    if (
+        not meshtools._same_occurrence_geometry(*contact_faces)
+        or (
+            App.Vector(*outward_normals[owners[0].Name])
+            + App.Vector(*outward_normals[owners[1].Name])
+        ).Length
+        > 1e-10
+    ):
+        raise ValueError("Coupled contact currently requires matching original opposing faces")
+    if (
+        face_nodes[0] & face_nodes[1]
+        or set(port["nodes"]) & set.union(*face_nodes)
+        or set(support_nodes) & set.union(*face_nodes)
+    ):
+        raise ValueError(
+            "Contact sides, RBE receiving face and physical fixed region must be separate"
+        )
+    context.validate_unchanged()
+    return {
+        "schema": SCHEMA,
+        "source": {
+            "kind": "POINT_FORCE",
+            "owner": force.Name,
+            "node": tip,
+            "position": list(coordinates[tip]),
+        },
+        "support": {
+            "owner": guide.Name,
+            "node": root,
+            "directions": directions,
+            "position": list(coordinates[root]),
+        },
+        "solid_support": {"owner": fixed.Name, "nodes": support_nodes},
+        "spring": {
+            "owner": connector.Name,
+            "nodes": list(resolved["nodes"]),
+            "direction": direction,
+            "stiffness_N_per_mm": resolved["stiffness"],
+        },
+        "port": {**port, "position": list(rbe.ReferenceNode)},
+        "port_guide": {
+            "owner": rbe.Name,
+            "reference": port["reference"],
+            "rotation": port["rotation"],
+            "reference_directions": [index for index in (1, 2, 3) if index != direction],
+            "rotation_directions": [1, 2, 3],
+            "prescribed": [0.0] * 5,
+        },
+        "solids": solids,
+        "loaded_solid_owner": loaded_owner.Name,
+        "anchored_solid_owner": anchored_owner.Name,
+        "contact": {
+            "owner": contact.Name,
+            "slave_owner": owners[0].Name,
+            "master_owner": owners[1].Name,
+            "slave_surface": "DEP" + contact.Name,
+            "master_surface": "IND" + contact.Name,
+            "loaded_outward_normal": outward_normals[loaded_owner.Name],
+            "anchored_outward_normal": outward_normals[anchored_owner.Name],
+            "slope_MPa_per_mm": slope,
+            "friction": bool(contact.Friction),
+            "friction_coefficient": float(contact.FrictionCoefficient) if contact.Friction else 0.0,
+            "stick_slope_MPa_per_mm": (
+                contact.StickSlope.getValueAs("MPa/mm").Value if contact.Friction else 0.0
+            ),
+        },
+        "solid_elements": sorted(solid_elements, key=lambda row: row["element"]),
+        "solid_nodes": sorted(solid_nodes),
+        "beam_nodes": sorted(beam_nodes),
+        "nodes": [
+            {"node": node, "position": list(coordinates[node])} for node in sorted(coordinates)
+        ],
+    }
+
+
+def catalogue(writer, literal, expected):
+    """Bind the complete actual stock-written topology, law and boundary set."""
+    from femtools import beam_section_forces
+    from femtools import contact_state
+
+    springs = list(getattr(writer, "native_accounting_springs", ()))
+    if len(springs) != 1:
+        raise ValueError("The coupled contact scalar connector catalogue is incomplete")
+    spring = springs[0]
+    if (
+        not spring.get("hybrid")
+        or spring["name"] != expected["spring"]["owner"]
+        or spring["kind"] != "SPRING2"
+        or list(spring["nodes"]) != expected["spring"]["nodes"]
+        or spring["angles"]
+        or spring.get("port")
+        != {key: expected["port"][key] for key in ("name", "reference", "rotation", "nodes")}
+    ):
+        raise ValueError("The written scalar connector differs from its explicit beam/solid owners")
+    result = {**expected, "spring": {**expected["spring"], "element": spring["element"]}}
+    blocks = beam_solid_coupling._blocks(literal)
+    nodes, sets, solids, boundaries, loads, surfaces = {}, {}, {}, {}, [0.0] * 3, {}
+    forbidden = {
+        "*DLOAD",
+        "*DSLOAD",
+        "*TEMPERATURE",
+        "*INITIAL CONDITIONS",
+        "*AMPLITUDE",
+        "*TRANSFORM",
+        "*EQUATION",
+        "*TIE",
+    }
+    for mode, options, rows in blocks:
+        if mode in forbidden:
+            raise ValueError(
+                "Unsupported load, equation or transformation in coupled contact input"
+            )
+        if mode == "*NODE":
+            for values in rows:
+                node = int(values[0])
+                if node in nodes or len(values) != 4:
+                    raise ValueError("Repeated or malformed coupled contact node")
+                nodes[node] = list(map(float, values[1:]))
+        elif mode == "*NSET":
+            target = sets.setdefault(options["NSET"], [])
+            for values in rows:
+                if options.get("GENERATE"):
+                    start, stop, stride = map(int, values)
+                    if (
+                        stride <= 0
+                        or stop < start
+                        or len(range(start, stop + 1, stride)) > len(nodes)
+                    ):
+                        raise ValueError("Invalid generated coupled contact node set")
+                    target.extend(range(start, stop + 1, stride))
+                else:
+                    target.extend(
+                        int(value) if value.isdecimal() else value.upper() for value in values
+                    )
+        elif mode == "*ELEMENT" and options.get("TYPE") == "C3D4":
+            for values in rows:
+                element = int(values[0])
+                if len(values) != 5 or element in solids:
+                    raise ValueError("Malformed or repeated coupled contact tetrahedron")
+                solids[element] = list(map(int, values[1:]))
+        elif mode == "*CLOAD":
+            if options:
+                raise ValueError("The coupled source does not support load options or amplitudes")
+            for values in rows:
+                if len(values) != 3:
+                    raise ValueError("Malformed coupled contact source")
+                node, direction, value = int(values[0]), int(values[1]), float(values[2])
+                if (
+                    node != result["source"]["node"]
+                    or direction != result["spring"]["direction"]
+                    or not math.isfinite(value)
+                ):
+                    raise ValueError("Coupled contact currently requires one axial beam-tip source")
+                loads[direction - 1] += value
+        elif mode == "*SURFACE":
+            if set(options) != {"NAME"} or options["NAME"] in surfaces:
+                raise ValueError("Ambiguous native coupled contact surface")
+            values = []
+            for row in rows:
+                if (
+                    len(row) != 2
+                    or not row[0].isdecimal()
+                    or not re.fullmatch(r"S[1-4]", row[1].upper())
+                ):
+                    raise ValueError("Coupled contact surfaces must list literal Tet4 faces")
+                values.append([int(row[0]), int(row[1][1:])])
+            surfaces[options["NAME"]] = sorted(values)
+
+    def expand(name, visiting=()):
+        if isinstance(name, int):
+            return [name]
+        if name not in sets or name in visiting:
+            raise ValueError("Unknown or recursive coupled contact node set")
+        return [node for value in sets[name] for node in expand(value, (*visiting, name))]
+
+    for mode, options, rows in blocks:
+        if mode != "*BOUNDARY":
+            continue
+        if options:
+            raise ValueError("Coupled contact requires plain zero physical guide boundaries")
+        for values in rows:
+            if not 2 <= len(values) <= 4:
+                raise ValueError("Malformed coupled contact boundary")
+            target = int(values[0]) if values[0].isdecimal() else values[0].upper()
+            first = int(values[1])
+            last = int(values[2]) if len(values) > 2 else first
+            value = float(values[3]) if len(values) > 3 else 0.0
+            if value != 0 or first < 1 or last > 6 or first > last:
+                raise ValueError(
+                    "Coupled contact currently requires zero guide and support motions"
+                )
+            for node in expand(target):
+                for direction in range(first, last + 1):
+                    if (node, direction) in boundaries:
+                        raise ValueError("Repeated coupled contact physical boundary")
+                    boundaries[node, direction] = value
+    beam, fixed, port, physical = (
+        result[name] for name in ("support", "solid_support", "port", "port_guide")
+    )
+    expected_boundaries = {(beam["node"], direction) for direction in beam["directions"]}
+    expected_boundaries.update(
+        (node, direction) for node in fixed["nodes"] for direction in (1, 2, 3)
+    )
+    expected_boundaries.update(
+        (physical["reference"], direction) for direction in physical["reference_directions"]
+    )
+    expected_boundaries.update(
+        (physical["rotation"], direction) for direction in physical["rotation_directions"]
+    )
+    if (
+        set(boundaries) != expected_boundaries
+        or not any(loads)
+        or solids != {row["element"]: row["nodes"] for row in result["solid_elements"]}
+    ):
+        raise ValueError(
+            "The complete coupled contact source/support/solid catalogue differs from the stock input"
+        )
+    if App.Vector(*loads).dot(App.Vector(*result["contact"]["loaded_outward_normal"])) <= 0:
+        raise ValueError(
+            "A nonzero dead load pulling the free solid away from unilateral contact is unsupported; prescribed opening is outside this qualified output domain"
+        )
+    rigid = [(options, rows) for mode, options, rows in blocks if mode == "*RIGID BODY"]
+    if (
+        len(rigid) != 1
+        or rigid[0][1]
+        or rigid[0][0]
+        != {
+            "NSET": port["name"].upper(),
+            "REF NODE": str(port["reference"]),
+            "ROT NODE": str(port["rotation"]),
+        }
+        or sorted(expand(port["name"].upper())) != port["nodes"]
+    ):
+        raise ValueError("The actual rigid body differs from its contact-side receiving region")
+    laws = [(options, rows) for mode, options, rows in blocks if mode == "*SPRING"]
+    orientations = [(options, rows) for mode, options, rows in blocks if mode == "*ORIENTATION"]
+    if len(laws) != 1 or len(orientations) != 1:
+        raise ValueError("One native coupled contact scalar spring law and frame are required")
+    options, rows = laws[0]
+    frame, axes = orientations[0]
+    if (
+        len(rows) != 2
+        or rows[0] != [str(result["spring"]["direction"])] * 2
+        or len(rows[1]) != 1
+        or not math.isclose(
+            float(rows[1][0]), result["spring"]["stiffness_N_per_mm"], rel_tol=5e-13, abs_tol=0
+        )
+        or options.get("ORIENTATION") != frame.get("NAME")
+        or len(axes) != 1
+        or list(map(float, axes[0])) != [1, 0, 0, 0, 1, 0]
+    ):
+        raise ValueError("The actual coupled scalar law or frame differs from its model")
+    contact = result["contact"]
+    pairs = [(options, rows) for mode, options, rows in blocks if mode == "*CONTACT PAIR"]
+    interactions = [
+        (options, rows) for mode, options, rows in blocks if mode == "*SURFACE INTERACTION"
+    ]
+    normal_laws = [(options, rows) for mode, options, rows in blocks if mode == "*SURFACE BEHAVIOR"]
+    friction_laws = [(options, rows) for mode, options, rows in blocks if mode == "*FRICTION"]
+    if pairs != [
+        (
+            {"INTERACTION": "INT" + contact["owner"].upper(), "TYPE": "SURFACE TO SURFACE"},
+            [[contact["slave_surface"], contact["master_surface"]]],
+        )
+    ] or interactions != [({"NAME": "INT" + contact["owner"].upper()}, [])]:
+        raise ValueError(
+            "The actual face-to-face pair/interaction differs from the selected Contact"
+        )
+    if (
+        len(normal_laws) != 1
+        or normal_laws[0][0] != {"PRESSURE-OVERCLOSURE": "LINEAR"}
+        or len(normal_laws[0][1]) != 1
+        or len(normal_laws[0][1][0]) != 1
+        or not math.isclose(
+            float(normal_laws[0][1][0][0]), contact["slope_MPa_per_mm"], rel_tol=5e-13
+        )
+    ):
+        raise ValueError("The actual native contact normal law differs from the model")
+    if contact["friction"]:
+        if (
+            len(friction_laws) != 1
+            or friction_laws[0][0]
+            or len(friction_laws[0][1]) != 1
+            or len(friction_laws[0][1][0]) != 2
+            or any(
+                not math.isclose(float(value), expected_value, rel_tol=5e-13, abs_tol=0)
+                for value, expected_value in zip(
+                    friction_laws[0][1][0],
+                    (contact["friction_coefficient"], contact["stick_slope_MPa_per_mm"]),
+                )
+            )
+        ):
+            raise ValueError("The native contact friction law differs from the model")
+    elif friction_laws:
+        raise ValueError("An unrequested contact friction law appeared in the stock input")
+    available = {row["Object"].Name: row for row in writer.member.cons_contact}
+    selected = available.get(contact["owner"])
+    if selected is None:
+        raise ValueError("The coupled Contact writer owner is unavailable")
+    by_owner = {
+        row["owner"]: {item["element"] for item in row["elements"]} for row in result["solids"]
+    }
+    contact = dict(contact)
+    for side, field, native_key in (
+        ("slave", "slave_faces", "ContactSlaveFaces"),
+        ("master", "master_faces", "ContactMasterFaces"),
+    ):
+        faces = []
+        for _refs, patch, is_solid in selected[native_key]:
+            if not is_solid:
+                raise ValueError("Coupled Contact faces must be genuine Tet4 volume facets")
+            for element, face in patch:
+                if (
+                    element not in by_owner[contact[side + "_owner"]]
+                    or type(face) is not int
+                    or face not in (1, 2, 3, 4)
+                ):
+                    raise ValueError("Coupled Contact face crossed its independent solid owner")
+                faces.append([element, face])
+        if not faces or len({tuple(face) for face in faces}) != len(faces):
+            raise ValueError("Missing or repeated coupled Contact native faces")
+        contact[field] = sorted(faces)
+    if surfaces != {
+        contact["slave_surface"].upper(): contact["slave_faces"],
+        contact["master_surface"].upper(): contact["master_faces"],
+    }:
+        raise ValueError(
+            "The stock-written contact faces differ from the exact selected owner catalogue"
+        )
+    for row in result["nodes"]:
+        point = nodes.get(row["node"])
+        if point is None or (
+            App.Vector(*point) - App.Vector(*row["position"])
+        ).Length > 1e-10 * max(1.0, App.Vector(*point).Length):
+            raise ValueError("The original coupled contact physical coordinates changed")
+    for kind in ("reference", "rotation"):
+        point = nodes.get(port[kind])
+        if (
+            point is None
+            or not all(map(math.isfinite, point))
+            or (App.Vector(*point) - App.Vector(*port["position"])).Length
+            > 1e-10 * max(1.0, App.Vector(*point).Length)
+        ):
+            raise ValueError(
+                "The written rigid reference or rotation coordinates differ from the model"
+            )
+    path = contact_state._request_path(writer.file_name).resolve(strict=True)
+    metadata_path = type(path)(str(path) + ".json")
+    captured, request_sha = beam_section_forces._read(path)
+    captured_metadata, metadata_sha = beam_section_forces._read(metadata_path)
+    contact_metadata = beam_section_forces._json(captured_metadata)
+    if (
+        contact_metadata.get("schema") != contact_state.SCHEMA
+        or contact_metadata.get("deck_sha256") != beam_section_forces._sha(writer.file_name)
+        or contact_metadata.get("model_digest") != writer.native_contact_export_digest
+        or len(contact_metadata.get("contacts", ())) != 1
+    ):
+        raise ValueError("The coupled contact export has no matching owned contact-state request")
+    declaration = contact_metadata["contacts"][0]
+    if (
+        any(
+            declaration.get(key) != contact[key]
+            for key in ("slave_surface", "master_surface", "slave_faces", "master_faces")
+        )
+        or declaration.get("contact") != contact["owner"]
+        or contact_metadata.get("request_path") != str(path)
+        or contact_metadata.get("request_sha256") != request_sha
+    ):
+        raise ValueError(
+            "The native contact-state request differs from the beam/contact owner catalogue"
+        )
+    token = contact_metadata.get("request")
+    if (
+        not isinstance(token, str)
+        or not re.fullmatch(r"[0-9a-f]{32}", token)
+        or captured.decode().count("REQUEST " + token + "\n") != 1
+    ):
+        raise ValueError("The coupled contact-state export nonce is invalid")
+    result["source"] = {**result["source"], "force_global": loads}
+    result["contact"] = contact
+    result["contact_export"] = {
+        "token": token,
+        "path": str(path),
+        "sha256": request_sha,
+        "metadata_path": str(metadata_path),
+        "metadata_sha256": metadata_sha,
+    }
+    return result
+
+
+def request_lines(coupling):
+    # V4 retains the V3 declarations and adds independently identified contact
+    # and physical guide records. The two SOLID owners are never coalesced.
+    spring, source, support, fixed, port, guide, contact = (
+        coupling[name]
+        for name in (
+            "spring",
+            "source",
+            "support",
+            "solid_support",
+            "port",
+            "port_guide",
+            "contact",
+        )
+    )
+    lines = [
+        "SOLID {} {} {}".format(row["owner"], row["element"], " ".join(map(str, row["nodes"])))
+        for row in coupling["solid_elements"]
+    ]
+    lines.extend(
+        (
+            "SPRING2 {} {} {} {} {}".format(
+                spring["owner"], spring["element"], *spring["nodes"], spring["direction"]
+            ),
+            f"SOURCE {source['owner']} {source['node']}",
+            "SUPPORT {} {} {} {}".format(
+                support["owner"],
+                support["node"],
+                len(support["directions"]),
+                " ".join(map(str, support["directions"])),
+            ),
+            "SPC_SUPPORT {} {} {}".format(
+                fixed["owner"], len(fixed["nodes"]), " ".join(map(str, fixed["nodes"]))
+            ),
+            "PORT {} {} {} {} {}".format(
+                port["name"],
+                port["reference"],
+                port["rotation"],
+                len(port["nodes"]),
+                " ".join(map(str, port["nodes"])),
+            ),
+            "PORT_GUIDE {} {} {} {} {} {} {}".format(
+                guide["owner"],
+                guide["reference"],
+                guide["rotation"],
+                len(guide["reference_directions"]),
+                " ".join(map(str, guide["reference_directions"])),
+                len(guide["rotation_directions"]),
+                " ".join(map(str, guide["rotation_directions"])),
+            ),
+            "CONTACT {} {} {} {} {}".format(
+                contact["owner"],
+                contact["slave_owner"],
+                contact["master_owner"],
+                contact["slave_surface"],
+                contact["master_surface"],
+            ),
+        )
+    )
+    for side in ("SLAVE", "MASTER"):
+        lines.extend(
+            f"CONTACT_FACE {side} {element} {face}"
+            for element, face in contact[side.lower() + "_faces"]
+        )
+    lines.append("CONTACT_REQUEST " + coupling["contact_export"]["token"])
+    return lines
+
+
+def validate(actions, coupling):
+    """Validate wire identities and native aggregates, never accept mechanics."""
+    if (
+        not isinstance(actions, dict)
+        or not isinstance(actions.get("source"), dict)
+        or actions["source"].get("kind") != coupling["source"]["kind"]
+    ):
+        raise ValueError("Native coupled contact source kind differs from the owned request")
+    # Existing beam/spring, physical Fixed and RIGID MPC action contracts are
+    # unchanged; the five physical port-guide terms remain a separate owner.
+    beam_solid_coupling.validate(actions, coupling)
+
+    def vector(value):
+        return (
+            isinstance(value, list)
+            and len(value) == 3
+            and all(type(v) in (int, float) and math.isfinite(v) for v in value)
+        )
+
+    def close(first, second):
+        return all(abs(a - b) <= 1e-12 * max(1.0, abs(a), abs(b)) for a, b in zip(first, second))
+
+    expected = coupling["port_guide"]
+    guide = actions.get("port_guide")
+    if (
+        not isinstance(guide, dict)
+        or guide.get("owner") != expected["owner"]
+        or type(guide.get("reference_node")) is not int
+        or guide["reference_node"] != expected["reference"]
+        or type(guide.get("rotation_node")) is not int
+        or guide["rotation_node"] != expected["rotation"]
+        or not all(vector(guide.get(key)) for key in ("force_global", "moment_origin"))
+        or not isinstance(guide.get("spcs"), list)
+    ):
+        raise ValueError("Native coupled contact physical port-guide identity or wrench is invalid")
+    wanted = {
+        (expected["reference"], direction, "TRANSLATION")
+        for direction in expected["reference_directions"]
+    } | {
+        (expected["rotation"], direction, "ANGLE") for direction in expected["rotation_directions"]
+    }
+    seen, force, couple = set(), [0.0] * 3, [0.0] * 3
+    for row in guide["spcs"]:
+        if not isinstance(row, dict):
+            raise ValueError("Native port-guide term must be a record")
+        key = tuple(row.get(name) for name in ("node", "direction", "role"))
+        value = row.get("value")
+        if (
+            type(key[0]) is not int
+            or type(key[1]) is not int
+            or key not in wanted
+            or key in seen
+            or type(value) not in (int, float)
+            or not math.isfinite(value)
+        ):
+            raise ValueError("Native physical port-guide SPC is invalid, repeated or algebraic")
+        seen.add(key)
+        (force if key[2] == "TRANSLATION" else couple)[key[1] - 1] += value
+    moment = list(App.Vector(*coupling["port"]["position"]).cross(App.Vector(*force)))
+    moment = [a + b for a, b in zip(moment, couple)]
+    if (
+        seen != wanted
+        or not close(guide["force_global"], force)
+        or not close(guide["moment_origin"], moment)
+    ):
+        raise ValueError("Native port-guide aggregate differs from its complete physical SPC terms")
+    contact = coupling["contact"]
+    sides = actions.get("contact_sides")
+    if not isinstance(sides, list) or len(sides) != 2:
+        raise ValueError("Native coupled contact requires both independently owned side actions")
+    seen = set()
+    for row in sides:
+        side = row.get("side") if isinstance(row, dict) else None
+        if (
+            side not in ("SLAVE", "MASTER")
+            or side in seen
+            or row.get("owner") != contact["owner"]
+            or row.get("solid_owner") != contact[side.lower() + "_owner"]
+            or not all(vector(row.get(key)) for key in ("force_global", "moment_origin"))
+        ):
+            raise ValueError("Native contact-side owner, identity or finite wrench is invalid")
+        seen.add(side)
+    if any(
+        abs(a + b) > 1e-10 * max(1.0, abs(a), abs(b))
+        for a, b in zip(sides[0]["force_global"], sides[1]["force_global"])
+    ):
+        raise ValueError("Native contact-side forces are not equal and opposite")
+    # Contact invokes the native nonlinear equation updates even for a small-
+    # displacement mechanical step. A converged value can contain round-off;
+    # the actual boundary prescription identifies a zero physical restraint.
+    # U/R equation helpers retain finite native prescriptions of their own and
+    # stay algebraic, never an additional physical reaction.
+    for rows in (
+        actions["support"]["spcs"],
+        actions["solid_support"]["spcs"],
+        actions["port_guide"]["spcs"],
+        actions["port"]["algebraic_spcs"],
+    ):
+        for row in rows:
+            if any(
+                type(row.get(key)) not in (int, float) or not math.isfinite(row[key])
+                for key in ("native_prescribed_value", "native_displacement")
+            ) or (row["role"] != "ALGEBRAIC" and row["native_prescribed_value"] != 0):
+                raise ValueError("Native coupled contact boundary prescription is invalid")

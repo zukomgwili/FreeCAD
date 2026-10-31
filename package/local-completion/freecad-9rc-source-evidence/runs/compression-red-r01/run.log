@@ -1,0 +1,28 @@
+test_native_beam_solid_contact_and_local_state_share_one_completed_case (Rc9Tracer.TestCoupledCompression.test_native_beam_solid_contact_and_local_state_share_one_completed_case) ... ERROR
+
+======================================================================
+ERROR: test_native_beam_solid_contact_and_local_state_share_one_completed_case (Rc9Tracer.TestCoupledCompression.test_native_beam_solid_contact_and_local_state_share_one_completed_case)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-9rc-9im9ovtw/Rc9Tracer.py", line 19, in test_native_beam_solid_contact_and_local_state_share_one_completed_case
+    self.assertFalse(fea.write_inp_file())
+                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/ccxtools.py", line 378, in write_inp_file
+    beam_export = beam_section_forces.begin_export(self)
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", line 226, in begin_export
+    preflight(fea.analysis, fea.solver, fea.mesh)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtools/beam_section_forces.py", line 182, in preflight
+    raise ValueError(
+        "Beam section output is separate from solid accounting/contact diagnostics"
+    )
+ValueError: Beam section output is separate from solid accounting/contact diagnostics
+
+----------------------------------------------------------------------
+Ran 1 test in 0.318s
+
+FAILED (errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +242 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

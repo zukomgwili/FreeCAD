@@ -1,0 +1,208 @@
+test_native_request_mismatches_cannot_authorize_beam_contact_composition (femtest.app.test_beam_contact_rejections.TestBeamContactRejections.test_native_request_mismatches_cannot_authorize_beam_contact_composition) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +242 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Added Group: Name: 'Solid1' Type: 'Volume' id: 0
+AddGroupElements: num elements: 3 sizeof: 8
+Added Group: Name: 'Face1' Type: 'Face' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face2' Type: 'Face' id: 2
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face3' Type: 'Face' id: 3
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face4' Type: 'Face' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Face5' Type: 'Face' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Solid2' Type: 'Volume' id: 6
+AddGroupElements: num elements: 3 sizeof: 8
+Added Group: Name: 'Face6' Type: 'Face' id: 7
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face7' Type: 'Face' id: 8
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face8' Type: 'Face' id: 9
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Face9' Type: 'Face' id: 10
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Face10' Type: 'Face' id: 11
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Edge1' Type: 'Edge' id: 12
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Vertex1' Type: 'Node' id: 13
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 14
+AddGroupElements: num elements: 1 sizeof: 8
+
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: ContactBacking, Object label: ContactBacking, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+BeamSolidContact:
+    Type: Fem::ConstraintContact, Name: BeamSolidContact
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.016 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-9rc-9im9ovtw/rejections-r01/cases/test_native_request_mismatches_cannot_authorize_beam_contact_composition/accepted/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Writing time CalculiX input file: 0.016 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Read ccx results from frd file: /private/tmp/freecad-9rc-9im9ovtw/rejections-r01/cases/test_native_request_mismatches_cannot_authorize_beam_contact_composition/accepted/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-9rc-9im9ovtw/rejections-r01/cases/test_native_request_mismatches_cannot_authorize_beam_contact_composition/accepted/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    Referenbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.183s
+
+OK
+ceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10

@@ -144,6 +144,11 @@ void cs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms, ITG cycli
         }
         if (strncmp(&lakon[8 * (size_t)tie], "C3D4", 4) &&
             strncmp(&lakon[8 * (size_t)tie], "C3D10", 5)) {
+#ifdef CCX_FREECAD_BEAM_CONTACT_V4
+            if (bs_contact_mesh_authorized(tie + 1, &lakon[8 * (size_t)tie])) {
+                continue;
+            }
+#endif
             cs_fail("only tetrahedral structural elements are supported");
         }
     }
@@ -245,6 +250,16 @@ void cs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms, ITG cycli
     if (!cs.pair_count || fscanf(f, "%80s", token) != EOF || ferror(f) || fclose(f)) {
         cs_fail("empty request, trailing data or request read failure");
     }
+#ifdef CCX_FREECAD_BEAM_CONTACT_V4
+    /* The V1 tetrahedral catalogue remains unchanged. Only an already
+     * validated V4 beam/solid/contact graph can authorize unrelated native
+     * beam and connector elements, bound to this exact child request/pair. */
+    material = (ITG)tietol[4 * (size_t)cs.pairs[0].tie + 1];
+    i = (size_t)(ncmat + 1) * ntmat * (material - 1);
+    bs_contact_authorize(cs.request, cs.pairs[0].name, cs.pairs[0].slave,
+                         cs.pairs[0].master, (ITG)cs.pair_count,
+                         cs.pairs[0].tie, cs.end_time, elcon[i + 3]);
+#endif
     cs.nk = nk;
     cs.ne = ne;
     cs.ntie = ntie;
@@ -696,6 +711,12 @@ void cs_emit(ITG step, ITG increment, double time)
     for (p = 0; p < cs.point_count; p++) {
         if (cs.points[p].pair) {
             frame->samples[n++] = cs.points[p];
+#ifdef CCX_FREECAD_BEAM_CONTACT_V4
+            sample = &cs.points[p];
+            bs_contact_sample(sample->point, sample->slave_element, sample->slave_face,
+                              sample->master_element, sample->master_face,
+                              sample->generated);
+#endif
         }
     }
     output = cs_allocate(strlen(cs.path) + 5, 1);
@@ -803,6 +824,9 @@ void cs_emit(ITG step, ITG increment, double time)
     if (ferror(f) || fclose(f) || rename(temporary, output)) {
         cs_fail("diagnostic output write or atomic publication failed");
     }
+#ifdef CCX_FREECAD_BEAM_CONTACT_V4
+    bs_contact_frame(step, increment, time, cs.request);
+#endif
     free(output);
     free(temporary);
 }

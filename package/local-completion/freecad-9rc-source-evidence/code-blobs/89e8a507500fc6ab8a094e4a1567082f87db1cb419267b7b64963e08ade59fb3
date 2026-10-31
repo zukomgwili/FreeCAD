@@ -1,0 +1,16 @@
+# Isolated development toolchain, never the application's dependency prefix.
+[workspace]
+name = "freecad-9zt-calculix-qualification"
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[dependencies]
+c-compiler = "*"
+fortran-compiler = "*"
+make = "*"
+perl = "*"
+spooles = ">=2.2"
+arpack = "3.9.*"
+libblas = "*"
+liblapack = "*"
+llvm-openmp = "*"
