@@ -1,0 +1,97 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Public availability and refusal controls for genuine native beam networks."""
+
+from pathlib import Path
+
+import FreeCAD as App
+
+from femtest.app.beam_network_fixtures import make_connected_trees
+from femtest.app.test_beam_network_native import BeamNetworkNativeCase
+from femtools.ccxtools import FemToolsCcx
+
+
+class TestBeamNetworkIntegrity(BeamNetworkNativeCase):
+    def _completed_network(self):
+        doc = App.newDocument("NativeNetworkIntegrity")
+        self.document_names.append(doc.Name)
+        model = make_connected_trees(doc)
+        result, data, deck = self.solve(model)
+        self.assertEqual(len(data["frames"][0]["samples"]), 36)
+        self.assertEqual(len(data["frames"][0]["native_actions"]["springs"]), 2)
+        return model, result, data, deck
+
+    @staticmethod
+    def _owned_files(data):
+        provenance = data["provenance"]
+        paths = (
+            provenance["deck"],
+            provenance["request_path"],
+            provenance["run"]["path"],
+            provenance["output"],
+            provenance["frd"]["path"],
+        )
+        return {Path(path): Path(path).read_bytes() for path in paths}
+
+    def _unchanged_history(self, result, data, literal, digest, files):
+        self.assertFalse(result.Status.startswith("Current"), result.Status)
+        self.assertEqual((result.SectionData, result.SectionHash), (literal, digest))
+        self.assertEqual(result.Proxy.getSectionForces(result, historical=True), data)
+        self.assertEqual({path: path.read_bytes() for path in files}, files)
+
+    def test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history(self):
+        model, result, data, deck = self._completed_network()
+        literal, digest = result.SectionData, result.SectionHash
+        files = self._owned_files(data)
+        self.assertEqual(Path(data["provenance"]["deck"]).read_bytes(), deck)
+        rejected = self.directory / "rejected-export"
+        rejected.mkdir()
+        model.solver.GeometricalNonlinearity = True
+        model.doc.recompute()
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(rejected))
+        with self.assertRaisesRegex(ValueError, "linear small-displacement"):
+            fea.write_inp_file()
+        self.assertTrue(model.solver.GeometricalNonlinearity)
+        self.assertTrue(model.solver.BeamSectionForces)
+        self.assertFalse(result.CompletedRun)
+        with self.assertRaises(ValueError):
+            result.Proxy.getSectionForces(result)
+        self._unchanged_history(result, data, literal, digest, files)
+        self.assertFalse(list(rejected.glob("*.beam-section*")))
+        self.assertFalse(list(rejected.glob("*.dat")))
+        self.assertFalse(list(rejected.glob("*.sta")))
+        model.solver.GeometricalNonlinearity = False
+        model.doc.recompute()
+        with self.assertRaises(ValueError):
+            result.Proxy.getSectionForces(result)
+        self._unchanged_history(result, data, literal, digest, files)
+
+    def test_internal_spring_edit_preserves_literal_history_through_save_and_reopen(self):
+        model, result, data, _ = self._completed_network()
+        literal, digest = result.SectionData, result.SectionHash
+        files = self._owned_files(data)
+        model.springs[1].Stiffness = "2600 N/mm"
+        model.doc.recompute()
+        with self.assertRaises(ValueError):
+            result.Proxy.getSectionForces(result)
+        self._unchanged_history(result, data, literal, digest, files)
+        model.springs[1].Stiffness = "2500 N/mm"
+        model.doc.recompute()
+        with self.assertRaises(ValueError):
+            result.Proxy.getSectionForces(result)
+        self._unchanged_history(result, data, literal, digest, files)
+        filename = self.directory / "network-history.FCStd"
+        result_name = result.Name
+        model.doc.saveAs(str(filename))
+        App.closeDocument(model.doc.Name)
+        reopened = App.openDocument(str(filename))
+        self.document_names.append(reopened.Name)
+        restored = reopened.getObject(result_name)
+        self.assertIsNotNone(restored)
+        self.assertTrue(restored.Status.startswith("Historical"), restored.Status)
+        self.assertFalse(restored.CompletedRun)
+        self.assertEqual(restored.Proxy.getSectionForces(restored, historical=True), data)
+        with self.assertRaises(ValueError):
+            restored.Proxy.getSectionForces(restored)
+        self._unchanged_history(restored, data, literal, digest, files)

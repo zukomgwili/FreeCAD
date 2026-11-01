@@ -1,0 +1,374 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Inspect real branching beam owners and typed native equation observations."""
+
+import os
+from pathlib import Path
+import tempfile
+from types import SimpleNamespace
+import unittest
+
+import FreeCAD as App
+
+from femtest.app.beam_network_fixtures import make_connected_trees
+from femtest.app.beam_network_fixtures import make_grounded_tree
+from femtest.gui import test_beam_coupling as coupling_gui
+from femtools.beam_section_forces import require_capability
+from femtools.ccxtools import FemToolsCcx
+from femtools.force_accounting import solver_binary
+
+if App.GuiUp:
+    from PySide import QtCore
+    from PySide import QtWidgets
+
+    import FreeCADGui as Gui
+    import FemGui
+
+
+@unittest.skipUnless(App.GuiUp, "A native FreeCAD GUI is required")
+class TestBeamNetworkCouplingGui(unittest.TestCase):
+    # Keep the existing V2 TestCase out of this module's discovery namespace.
+    _drain_deferred_deletes = staticmethod(coupling_gui.TestBeamCouplingGui._drain_deferred_deletes)
+    _headers = staticmethod(coupling_gui.TestBeamCouplingGui._headers)
+    _text = staticmethod(coupling_gui.TestBeamCouplingGui._text)
+    _restore_session = coupling_gui.TestBeamCouplingGui._restore_session
+
+    def setUp(self):
+        previous = App.activeDocument()
+        self.previous_document = previous.Name if previous is not None else None
+        self.previous_analysis = FemGui.getActiveAnalysis()
+        workbench = Gui.activeWorkbench()
+        self.previous_workbench = workbench.name() if workbench is not None else None
+        window = Gui.getMainWindow()
+        self.previous_window_visible = window.isVisible()
+        self.previous_window_state = window.windowState()
+        self.mdi = window.findChild(QtWidgets.QMdiArea)
+        self.previous_mdi_window = self.mdi.activeSubWindow() if self.mdi is not None else None
+        self.previous_mdi_state = (
+            self.previous_mdi_window.windowState() if self.previous_mdi_window is not None else None
+        )
+        self.general = App.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/General")
+        self.overwrite_key = "OverwriteSolverWorkingDirectory"
+        self.overwrite_value = self.general.GetBool(self.overwrite_key, True)
+        self.overwrite_present = self.general.GetBool(
+            self.overwrite_key, True
+        ) == self.general.GetBool(self.overwrite_key, False)
+        self.ccx_preferences = App.ParamGet("User parameter:BaseApp/Preferences/Mod/Fem/Ccx")
+        self.cpu_key = "AnalysisNumCPUs"
+        self.cpu_value = self.ccx_preferences.GetInt(self.cpu_key, 1)
+        self.cpu_present = self.ccx_preferences.GetInt(
+            self.cpu_key, 1
+        ) == self.ccx_preferences.GetInt(self.cpu_key, 2)
+        self.doc = None
+        self.temporary = None
+        self.addCleanup(self._restore_session)
+        self._drain_deferred_deletes()
+        Gui.showMainWindow()
+        window.showNormal()
+        Gui.activateWorkbench("FemWorkbench")
+        self.general.SetBool(self.overwrite_key, False)
+        self.ccx_preferences.SetInt(self.cpu_key, 2)
+        explicit = os.environ.get("BJH_TEST_SOLVER")
+        selected = explicit or solver_binary(SimpleNamespace(NativeAccountingSolver=""))
+        try:
+            require_capability(selected, schema="CCX_BEAM_SECTION_V5")
+        except (OSError, ValueError) as error:
+            if explicit:
+                raise
+            self.skipTest("Qualified native beam network observer required: " + str(error))
+        retained = os.environ.get("BJH_WITNESS_ROOT")
+        if retained:
+            self.directory = Path(retained) / self._testMethodName
+            self.directory.mkdir(parents=True)
+        else:
+            self.temporary = tempfile.TemporaryDirectory(prefix="freecad-beam-network-gui-")
+            self.directory = Path(self.temporary.name)
+        self.doc = App.newDocument("BeamNetworkInspectorGui")
+        self.connected = self._testMethodName.startswith("test_connected_")
+        self.model = (make_connected_trees if self.connected else make_grounded_tree)(self.doc)
+        self.model.solver.NativeAccountingSolver = selected
+        self.model.solver.WorkingDir = str(self.directory)
+        FemGui.setActiveAnalysis(self.model.analysis)
+        self.doc.recompute()
+        view = Gui.getDocument(self.doc.Name).activeView()
+        view.viewAxonometric()
+        view.fitAll()
+        Gui.updateGui()
+
+    def _expect_cell(self, table, row, header, expected):
+        text = self._text(table, row, self._headers(table).index(header))
+        if type(expected) in (int, float):
+            self.assertAlmostEqual(
+                float(text), expected, delta=1e-8 * max(1.0, abs(expected)), msg=header
+            )
+        else:
+            self.assertEqual(text, str(expected), header)
+
+    def test_network_inspector_preserves_owners_and_withdraws_every_typed_table(self):
+        self._inspect_network_result_and_withdraw()
+
+    def test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends(
+        self,
+    ):
+        self._inspect_network_result_and_withdraw()
+
+    def _inspect_network_result_and_withdraw(self):
+        fea = FemToolsCcx(analysis=self.model.analysis, solver=self.model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        self.assertFalse(fea.check_prerequisites())
+        self.assertFalse(fea.write_inp_file())
+        deck = Path(fea.inp_file_name).read_bytes()
+        self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+        self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+        fea.load_results()
+        results = [
+            obj
+            for obj in self.model.analysis.Group
+            if getattr(getattr(obj, "Proxy", None), "Type", "") == "Fem::BeamSectionForceResult"
+        ]
+        self.assertEqual(len(results), 1)
+        result = results[0]
+        data = result.Proxy.getSectionForces(result)
+        self.assertEqual(data["schema"], "CCX_BEAM_SECTION_V5")
+        self.assertTrue(result.Status.startswith("Current"), result.Status)
+        frame = data["frames"][-1]
+        actions = frame["native_actions"]
+        catalogue = {row["element"]: row for row in data["provenance"]["elements"]}
+        self.assertEqual(len(actions["sources"]), 4 if self.connected else 2)
+        self.assertEqual(len(actions["supports"]), 2 if self.connected else 1)
+        self.assertEqual(
+            [spring["mode"] for spring in actions["springs"]],
+            ["GROUND", "TWO_POINTS"] if self.connected else ["GROUND"],
+        )
+        self.assertEqual(
+            sum(len(spring["ends"]) for spring in actions["springs"]), 3 if self.connected else 1
+        )
+        for key in ("component", "section", "material_owner"):
+            self.assertEqual(
+                len({row[key] for row in catalogue.values()}), 2 if self.connected else 1
+            )
+        existing = {
+            id(dialog)
+            for dialog in Gui.getMainWindow().findChildren(
+                QtWidgets.QDialog, "NativeBeamSectionInspector"
+            )
+        }
+        inspected, timers = {}, []
+
+        def own_dialogs():
+            return [
+                dialog
+                for dialog in Gui.getMainWindow().findChildren(
+                    QtWidgets.QDialog, "NativeBeamSectionInspector"
+                )
+                if id(dialog) not in existing
+            ]
+
+        def fail_callback(error):
+            inspected.setdefault("error", error)
+            for dialog in own_dialogs():
+                dialog.reject()
+
+        def check_withdrawal():
+            try:
+                dialog = inspected["dialog"]
+                for table in inspected["tables"]:
+                    self.assertEqual(table.rowCount(), 0, table.objectName())
+                availability = dialog.findChild(QtWidgets.QLabel, "NativeBeamSectionAvailability")
+                self.assertIn("Unavailable", availability.text())
+                frames = dialog.findChild(QtWidgets.QComboBox, "NativeBeamSectionFrames")
+                self.assertFalse(frames.isEnabled())
+                self.assertFalse(result.Status.startswith("Current"), result.Status)
+                inspected["withdrawn"] = True
+                if os.environ.get("BJH_WITNESS_ROOT"):
+                    self.assertTrue(
+                        dialog.grab().save(str(self.directory / "withdrawn-inspector.png"))
+                    )
+                dialog.accept()
+            except Exception as error:
+                fail_callback(error)
+
+        def inspect_dialog():
+            try:
+                dialogs = own_dialogs()
+                self.assertEqual(len(dialogs), 1)
+                dialog = dialogs[0]
+                inspected["dialog"] = dialog
+                samples = dialog.findChild(QtWidgets.QTableWidget, "NativeBeamSectionSamples")
+                displayed_actions = dialog.findChild(
+                    QtWidgets.QTableWidget, "NativeCoupledBeamActions"
+                )
+                supports = dialog.findChild(QtWidgets.QTableWidget, "NativeCoupledBeamSupportDofs")
+                knots = dialog.findChild(QtWidgets.QTableWidget, "NativeBeamNetworkKnotDofs")
+                self.assertIsNotNone(
+                    displayed_actions,
+                    "Plural native network source/guide/spring actions are missing",
+                )
+                self.assertIsNotNone(supports, "Typed native physical guide DOFs are missing")
+                self.assertIsNotNone(knots, "Separate generated knot equation catalogue is missing")
+                self.assertEqual(samples.rowCount(), 36 if self.connected else 18)
+                for index, sample in enumerate(frame["samples"]):
+                    # A sample has native end identity; ownership comes from
+                    # the exact written-element catalogue, never a guessed end owner.
+                    owner = catalogue[sample["element"]]
+                    for header, expected in (
+                        ("Element", sample["element"]),
+                        ("Node", sample["node"]),
+                        ("End", sample["end"]),
+                        ("Member", owner["member"]),
+                        ("Component", owner["component"]),
+                        ("Section", owner["section"]),
+                        ("Material", owner["material"]),
+                        ("Material owner", owner["material_owner"]),
+                    ):
+                        self._expect_cell(samples, index, header, expected)
+
+                expected_actions = [
+                    ("source", source["owner"], source, "—", "—", "—", "—", "—", "—", "—")
+                    for source in actions["sources"]
+                ]
+                expected_actions.extend(
+                    ("beam guide", support["owner"], support, "—", "—", "—", "—", "—", "—", "—")
+                    for support in actions["supports"]
+                )
+                expected_actions.extend(
+                    (
+                        "ground spring" if spring["mode"] == "GROUND" else "internal spring",
+                        spring["owner"],
+                        end,
+                        spring["element"],
+                        spring["mode"],
+                        end["end"],
+                        spring["direction"],
+                        spring["stiffness_N_per_mm"],
+                        end["displacement"],
+                        end["native_resisting_force"],
+                    )
+                    for spring in actions["springs"]
+                    for end in spring["ends"]
+                )
+                self.assertEqual(displayed_actions.rowCount(), len(expected_actions))
+                for index, (name, owner, row, *spring_fields) in enumerate(expected_actions):
+                    for header, expected in (
+                        ("Action", name),
+                        ("Owner", owner),
+                        ("Node", row["node"]),
+                        ("Original position (mm)", row["position"]),
+                        *zip(
+                            (
+                                "Spring element",
+                                "Spring mode",
+                                "Spring end",
+                                "Global DOF",
+                                "Stiffness (N/mm)",
+                                "Displacement (mm)",
+                                "Native resisting force (N)",
+                            ),
+                            spring_fields,
+                        ),
+                    ):
+                        self._expect_cell(displayed_actions, index, header, expected)
+                    for field, names in (
+                        ("force_global", [f"F{axis} (N)" for axis in "xyz"]),
+                        ("moment_origin", [f"M{axis} about origin (N*mm)" for axis in "xyz"]),
+                    ):
+                        for header, expected in zip(names, row[field]):
+                            self._expect_cell(displayed_actions, index, header, expected)
+
+                expected_dofs = [
+                    (support["owner"], row)
+                    for support in actions["supports"]
+                    for row in support["spcs"]
+                ]
+                self.assertEqual(supports.rowCount(), len(expected_dofs))
+                contributions = {"TRANSLATION": "Force", "ANGLE": "Couple", "ALGEBRAIC": "Excluded"}
+                for index, (owner, row) in enumerate(expected_dofs):
+                    for header, expected in (
+                        ("Owner", owner),
+                        ("Role", row["role"]),
+                        ("Node", row["node"]),
+                        ("DOF", row["direction"]),
+                        ("Original node", row["original_node"]),
+                        ("Original DOF", row["original_direction"]),
+                        ("Axis", row.get("axis", "—")),
+                        ("Physical contribution", contributions[row["role"]]),
+                    ):
+                        self._expect_cell(supports, index, header, expected)
+                    check_typed_values(supports, index, row)
+                knot_rows = actions["knot_algebraic_spcs"]
+                self.assertGreater(len(knot_rows), 0)
+                self.assertEqual(knots.rowCount(), len(knot_rows))
+                for index, row in enumerate(knot_rows):
+                    for header, key in (
+                        ("Role", "role"),
+                        ("Original beam node", "original_node"),
+                        ("Rotation node", "rotation_node"),
+                        ("Expansion node", "expansion_node"),
+                        ("Receiving node", "receiving_node"),
+                        ("Algebraic node", "node"),
+                        ("DOF", "direction"),
+                        ("MPC row", "mpc_row"),
+                        ("Knot formulation", "knot_dimension"),
+                    ):
+                        self._expect_cell(knots, index, header, row[key])
+                    self._expect_cell(knots, index, "Physical contribution", "Excluded")
+                    check_typed_values(knots, index, row)
+                labels = " ".join(label.text() for label in dialog.findChildren(QtWidgets.QLabel))
+                self.assertIn("Current", labels)
+                self.assertIn("global origin", labels.lower())
+                self.assertIn("internal", labels.lower())
+                self.assertIn("uninterpreted", labels.lower())
+                self.assertIn("excluded", labels.lower())
+                self.assertNotIn("MPa", labels)
+                for table in (samples, displayed_actions, supports, knots):
+                    self.assertNotIn("MPa", " ".join(self._headers(table)))
+                inspected["tables"] = (samples, displayed_actions, supports, knots)
+                inspected["rows"] = tuple(table.rowCount() for table in inspected["tables"])
+                if os.environ.get("BJH_WITNESS_ROOT"):
+                    self.assertTrue(dialog.grab().save(str(self.directory / "inspector.png")))
+                # The inspector's periodic public-result validation must
+                # withdraw member, physical and algebraic rows together.
+                self.model.spring.Stiffness = "10001 N/mm"
+                self.doc.recompute()
+                withdrawal_timer.start(1000)
+            except Exception as error:
+                fail_callback(error)
+
+        def check_typed_values(table, index, row):
+            for header, key in (
+                ("Native value", "value"),
+                ("Value units", "value_unit"),
+                ("Native prescribed value", "native_prescribed_value"),
+                ("Prescription units", "prescription_unit"),
+                ("Native displacement", "native_displacement"),
+                ("Displacement units", "displacement_unit"),
+            ):
+                self._expect_cell(table, index, header, row[key])
+
+        inspection_timer = QtCore.QTimer()
+        inspection_timer.setSingleShot(True)
+        inspection_timer.timeout.connect(inspect_dialog)
+        withdrawal_timer = QtCore.QTimer()
+        withdrawal_timer.setSingleShot(True)
+        withdrawal_timer.timeout.connect(check_withdrawal)
+        watchdog = QtCore.QTimer()
+        watchdog.setSingleShot(True)
+        watchdog.timeout.connect(
+            lambda: fail_callback(AssertionError("Native beam network inspector timed out"))
+        )
+        timers.extend((inspection_timer, withdrawal_timer, watchdog))
+        inspection_timer.start(100)
+        watchdog.start(15000)
+        try:
+            self.assertTrue(result.ViewObject.Proxy.doubleClicked(result.ViewObject))
+        finally:
+            for timer in timers:
+                timer.stop()
+            for dialog in own_dialogs():
+                dialog.reject()
+        if "error" in inspected:
+            raise inspected["error"]
+        self.assertTrue(inspected.get("rows"))
+        self.assertTrue(
+            inspected.get("withdrawn"), "A physical edit left native network rows visible"
+        )

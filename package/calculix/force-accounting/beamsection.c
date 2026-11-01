@@ -100,6 +100,7 @@ typedef struct
     double time;
     BSSample* samples;
     BSActions actions;
+    struct BNFrame* network;
 } BSFrame;
 
 typedef struct
@@ -156,6 +157,118 @@ static struct
     BSRigid* rigids;
 } bs_early;
 
+/* V5 has its own catalogues and frame storage. The legacy V1--V4 admission,
+ * action records and serialization remain separate. */
+typedef struct
+{
+    char owner[81];
+    ITG node;
+    int seen;
+    double force[3];
+} BNSource;
+
+typedef struct
+{
+    char owner[81];
+    ITG element, kind, nodes[2], direction;
+    double stiffness;
+} BNSpring;
+
+typedef struct
+{
+    char owner[81];
+    ITG node;
+    int directions[6];
+} BNSupport;
+
+typedef struct
+{
+    ITG reference, rotation, expansion, receiver, auxiliary, row, direction, dimension;
+} BNKnot;
+
+typedef struct
+{
+    ITG node, direction;
+    char type;
+    int role;
+    size_t support, angle, knot;
+} BNBoundary;
+
+typedef struct
+{
+    int seen;
+    double force[2][3], displacement[2][3];
+} BNSpringAction;
+
+typedef struct
+{
+    size_t count;
+    BSSPC spcs[8];
+    double force[3], moment[3];
+} BNSupportAction;
+
+typedef struct
+{
+    int seen, visited;
+    double value, prescribed, displacement;
+} BNKnotAction;
+
+typedef struct BNFrame
+{
+    double (*sources)[3];
+    BNSpringAction* springs;
+    BNSupportAction* supports;
+    BNKnotAction* knots;
+    int support_seen;
+} BNFrame;
+
+typedef struct
+{
+    ITG nkon, nboun, nmpc, nload, nbody, ntie, thermal, prestress;
+    ITG material_stride, mpc_capacity;
+    ITG *ipkon, *kon, *boundary_nodes, *boundary_directions, *amplitudes;
+    ITG *materials, *ipompc, *mpc_nodes;
+    char *lakon, *boundary_types, *mpc_labels;
+    double *coordinates, *boundary_values, *mpc_coefficients;
+} BNInput;
+
+static struct
+{
+    size_t source_count, spring_count, support_count, angle_count, knot_count, component_count;
+    BNSource* sources;
+    BNSpring* springs;
+    BNSupport* supports;
+    BSAngle* angles;
+    BNKnot* knots;
+    BNBoundary* boundaries;
+    ITG boundary_count, current_boundary_count, direction;
+    ITG *current_nodes, *current_directions;
+    double* current_values;
+    char* current_types;
+    ITG *spring_index, *beam_roles, *expanded_owner, *component, *knot_row_index;
+    int raw_captured;
+    ITG raw_nk, raw_nmpc, raw_capacity;
+    ITG *raw_ipompc, *raw_nodes, *row_owner;
+    double* raw_coefficients;
+    char* raw_labels;
+    BNFrame* frame;
+    int pointloads_seen;
+} bn;
+
+static void bn_record_angle(ITG, ITG, ITG, const double*);
+static void bn_prepare(FILE*, const BNInput*);
+static void bn_pointloads(ITG, ITG*, ITG*, double*, ITG, ITG);
+static void bn_begin_actions(ITG, ITG, ITG, double, double*, ITG, ITG*, ITG*, double*, char*);
+static void bn_spring_law(ITG, ITG, ITG, ITG, ITG, double);
+static void bn_spring(ITG, ITG, ITG, const double*, const double*, const double*);
+static void bn_spring2_law(ITG, const ITG*, ITG, ITG, ITG, ITG, double);
+static void bn_spring2(ITG, const ITG*, const double*, const double*, const double*, const double*, const double*);
+static void bn_mpc_term(ITG, ITG, ITG, double, double);
+static void bn_projected_supports(ITG, ITG, double*, ITG*);
+static void bn_seal_actions(ITG, ITG, double);
+static void bn_write_actions(FILE*, const BNFrame*);
+static void bn_current_graph(const BNInput*, const BNInput*);
+
 static void bs_fail(const char* message)
 {
     fprintf(stderr, "*ERROR CCX beam section V%d: %s\n", bs.coupled + 1, message);
@@ -176,7 +289,8 @@ static int bs_early_enabled(void)
             if (fscanf(stream, "%80s", schema) == 1) {
                 bs_early.enabled = !strcmp(schema, "CCX_BEAM_SECTION_V2") ? 2 :
                                    !strcmp(schema, "CCX_BEAM_SECTION_V3") ? 3 :
-                                   !strcmp(schema, "CCX_BEAM_SECTION_V4") ? 4 : 0;
+                                   !strcmp(schema, "CCX_BEAM_SECTION_V4") ? 4 :
+                                   !strcmp(schema, "CCX_BEAM_SECTION_V5") ? 5 : 0;
             }
             fclose(stream);
         }
@@ -204,6 +318,10 @@ void FORTRAN(bs_record_angle, (ITG* original, ITG* direction, ITG* auxiliary, do
     size_t k;
     BSAngle* angle;
     if (!bs_early_enabled()) {
+        return;
+    }
+    if (bs_early_enabled() == 5) {
+        bn_record_angle(*original, *direction + 3, *auxiliary, axis);
         return;
     }
     if (bs_early.count == 3) {
@@ -1207,6 +1325,30 @@ void bs_prepare(ITG method, ITG* perturb, ITG thermal, ITG transforms,
         bs_fail("cannot inspect or rewind request");
     }
     bs_token(stream, token);
+    if (!strcmp(token, "CCX_BEAM_SECTION_V5")) {
+        const BNInput input = {
+            .nkon = nkon, .nboun = nboun, .nmpc = nmpc, .nload = nload,
+            .nbody = nbody, .ntie = ntie, .thermal = thermal, .prestress = prestress,
+            .material_stride = material_stride, .mpc_capacity = mpc_capacity,
+            .ipkon = ipkon, .kon = kon, .boundary_nodes = nodeboun,
+            .boundary_directions = ndirboun, .amplitudes = iamboun,
+            .materials = materials, .ipompc = ipompc, .mpc_nodes = nodempc,
+            .lakon = lakon, .boundary_types = typeboun, .mpc_labels = labmpc,
+            .coordinates = co, .boundary_values = xboun,
+            .mpc_coefficients = coefficients
+        };
+        bs.coupled = 4;
+        if (perturb[0] >= 2) {
+            bs_fail("network observations require native small-displacement linear static mechanics");
+        }
+        bn_prepare(stream, &input);
+        bs.samples = bs_allocate(bs_product((size_t)ne, 2), sizeof(BSSample));
+        if (atexit(bs_finish)) {
+            bs_fail("cannot register final-frame validation");
+        }
+        bs.active = 1;
+        return;
+    }
     if (!strcmp(token, "CCX_BEAM_SECTION_V2")) {
         bs.coupled = 1;
     }
@@ -1820,6 +1962,10 @@ void bs_pointloads(ITG count, ITG* nodes, ITG* directions, double* values,
     if (!bs.active || !bs.coupled) {
         return;
     }
+    if (bs.coupled == 4) {
+        bn_pointloads(count, nodes, directions, values, nload, nbody);
+        return;
+    }
     if (nload || nbody || count < 1) {
         bs_fail("coupled beam accounting supports actual native point loads only");
     }
@@ -1848,6 +1994,10 @@ void bs_begin_actions(ITG iout, ITG step, ITG increment, double time, double* v,
                        ITG nboun, ITG* nodes, ITG* directions, double* values, char* types)
 {
     if (!bs.active || !bs.coupled) {
+        return;
+    }
+    if (bs.coupled == 4) {
+        bn_begin_actions(iout, step, increment, time, v, nboun, nodes, directions, values, types);
         return;
     }
     bs.actions_capturing = 0;
@@ -1899,6 +2049,10 @@ void FORTRAN(bs_spring_law, (ITG* element, ITG* node, ITG* direction, ITG* kind,
     if (!bs.active || !bs.coupled) {
         return;
     }
+    if (bs.coupled == 4) {
+        bn_spring_law(*element, *node, *direction, *kind, *tables, *stiffness);
+        return;
+    }
     if (*element != bs.spring_element || *node != bs.spring_node ||
         *direction < 1 || *direction > 3 || *direction != bs.spring_direction ||
         *kind != 2 || *tables != 1 || !isfinite(*stiffness) || *stiffness <= 0.) {
@@ -1912,6 +2066,11 @@ void FORTRAN(bs_spring, (ITG* element, ITG* node, ITG* direction, ITG* kind,
 {
     size_t k;
     if (!bs.active || !bs.coupled) {
+        return;
+    }
+    if (bs.coupled == 4) {
+        bn_spring_law(*element, *node, *direction, *kind, *tables, *stiffness);
+        bn_spring(*element, *node, *direction, axis, force, displacement);
         return;
     }
     if (*element != bs.spring_element || *node != bs.spring_node ||
@@ -1948,6 +2107,10 @@ void FORTRAN(bs_spring2_law, (ITG* element, ITG* nodes, ITG* first, ITG* second,
     if (!bs.active || bs.coupled < 2) {
         return;
     }
+    if (bs.coupled == 4) {
+        bn_spring2_law(*element, nodes, *first, *second, *kind, *tables, *stiffness);
+        return;
+    }
     if (*element != bs.spring_element || nodes[0] != bs.spring_node ||
         nodes[1] != bs.reference_node || *first < 1 || *first > 3 ||
         *first != bs.spring_direction || *second != *first || *kind != 2 ||
@@ -1961,6 +2124,11 @@ void FORTRAN(bs_spring2, (ITG* element, ITG* nodes, double* first_axis, double* 
 {
     size_t k;
     if (!bs.active || bs.coupled < 2) {
+        return;
+    }
+    if (bs.coupled == 4) {
+        bn_spring2(*element, nodes, first_axis, second_axis, force,
+                   first_displacement, second_displacement);
         return;
     }
     if (*element != bs.spring_element || nodes[0] != bs.spring_node ||
@@ -1998,6 +2166,10 @@ void FORTRAN(bs_spring2, (ITG* element, ITG* nodes, double* first_axis, double* 
  * this callback neither solves nor projects any force vector. */
 void bs_mpc_term(ITG row, ITG node, ITG direction, double coefficient, double multiplier)
 {
+    if (bs.active && bs.coupled == 4) {
+        bn_mpc_term(row, node, direction, coefficient, multiplier);
+        return;
+    }
     BSRigid* rigid;
     double force[3] = {0.}, moment[3], value;
     size_t r, k;
@@ -2093,6 +2265,10 @@ void bs_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
     BSSPC* spc;
     double force[3], moment[3], value, prescribed;
     if (!bs.active || !bs.coupled || !bs.actions_capturing) {
+        return;
+    }
+    if (bs.coupled == 4) {
+        bn_projected_supports(nk, mt, fn, nactdof);
         return;
     }
     if (bs.actions.support_seen || nk != bs.nk || mt < 4 || nk > INT_MAX / mt ||
@@ -2309,7 +2485,10 @@ void bs_begin_results(ITG iout, ITG step, ITG increment, double time)
         !isfinite(time) || time <= 0. || time > bs.end_time) {
         bs_fail("invalid or unconsumed retained native result evaluation");
     }
-    if (bs.coupled && (!bs.actions_capturing || !bs.actions.spring_seen ||
+    if (bs.coupled == 4) {
+        bn_seal_actions(step, increment, time);
+    }
+    else if (bs.coupled && (!bs.actions_capturing || !bs.actions.spring_seen ||
                        !bs.actions.support_seen || bs.action_step != step ||
                        bs.action_increment != increment || bs.action_time != time)) {
         bs_fail("native beam and physical-action observations do not share one retained frame");
@@ -2724,7 +2903,10 @@ static void bs_write(void)
                     sample->channels[3], sample->channels[4], sample->channels[5]);
         }
         fprintf(stream, "]");
-        if (bs.coupled) {
+        if (bs.coupled == 4) {
+            bn_write_actions(stream, item->network);
+        }
+        else if (bs.coupled) {
             bs_write_actions(stream, &item->actions);
         }
         fprintf(stream, "}");
@@ -2775,6 +2957,1617 @@ void bs_frd_frame(ITG dataset, ITG step, ITG increment, double time)
     memcpy(frame->samples, bs.samples,
            bs_product(bs_product((size_t)bs.ne, 2), sizeof(BSSample)));
     frame->actions = bs.actions;
+    frame->network = bs.coupled == 4 ? bn.frame : NULL;
+    if (bs.coupled == 4) {
+        bn.frame = NULL;
+    }
     bs.pending = 0;
     bs_write();
+}
+
+/* The network observer below consumes only native identities and already
+ * evaluated mechanical values. None of these helpers solves an equation,
+ * evaluates a constitutive law, or changes a native array. */
+static void* bn_grow(void* old, size_t count, size_t size)
+{
+    void* result = realloc(old, bs_product(count, size));
+    if (!result) {
+        bs_fail("cannot retain native network catalogue");
+    }
+    return result;
+}
+
+/* Snapshot the actual complete post-generation graph before native cascade
+ * changes its independent lists. Keep no solver pointer across reallocation.
+ * This V5-only hook neither authenticates nor changes the mechanical graph. */
+void bs_capture_mpcs(ITG nk, ITG nmpc, ITG* ipompc, ITG* nodes,
+                      double* coefficients, char* labels, ITG capacity)
+{
+    if (bs_early_enabled() != 5) {
+        return;
+    }
+    if (bn.raw_captured || nk < 1 || nmpc < 1 || capacity < nmpc ||
+        capacity > INT_MAX / 3 || !ipompc || !nodes || !coefficients || !labels) {
+        bs_fail("network requires one complete native graph capture before decascading");
+    }
+    bn.raw_captured = 1;
+    bn.raw_nk = nk;
+    bn.raw_nmpc = nmpc;
+    bn.raw_capacity = capacity;
+    bn.raw_ipompc = bs_allocate((size_t)nmpc, sizeof(ITG));
+    bn.raw_nodes = bs_allocate(bs_product(3, (size_t)capacity), sizeof(ITG));
+    bn.raw_coefficients = bs_allocate((size_t)capacity, sizeof(double));
+    bn.raw_labels = bs_allocate(bs_product(20, (size_t)nmpc), 1);
+    memcpy(bn.raw_ipompc, ipompc, bs_product((size_t)nmpc, sizeof(ITG)));
+    memcpy(bn.raw_nodes, nodes, bs_product(bs_product(3, (size_t)capacity), sizeof(ITG)));
+    memcpy(bn.raw_coefficients, coefficients, bs_product((size_t)capacity, sizeof(double)));
+    memcpy(bn.raw_labels, labels, bs_product(20, (size_t)nmpc));
+}
+
+static void bn_record_angle(ITG original, ITG direction, ITG auxiliary, const double* axis)
+{
+    BSAngle* record;
+    size_t k;
+    if (bn.angle_count == SIZE_MAX) {
+        bs_fail("network angle count overflow");
+    }
+    bn.angles = bn_grow(bn.angles, bn.angle_count + 1, sizeof(BSAngle));
+    record = bn.angles + bn.angle_count++;
+    *record = (BSAngle){.original = original, .direction = direction, .auxiliary = auxiliary};
+    for (k = 0; k < 3; ++k) {
+        record->axis[k] = axis[k];
+    }
+}
+
+void FORTRAN(bs_record_knot, (ITG* reference, ITG* rotation, ITG* expansion,
+                              ITG* receiver, ITG* auxiliary, ITG* row, ITG* direction))
+{
+    if (bs_early_enabled() != 5) {
+        return;
+    }
+    if (bn.knot_count == SIZE_MAX) {
+        bs_fail("network knot count overflow");
+    }
+    bn.knots = bn_grow(bn.knots, bn.knot_count + 1, sizeof(BNKnot));
+    bn.knots[bn.knot_count++] = (BNKnot){.reference = *reference, .rotation = *rotation,
+        .expansion = *expansion, .receiver = *receiver, .auxiliary = *auxiliary,
+        .row = *row, .direction = *direction};
+}
+
+static double bn_number(FILE* stream)
+{
+    char token[81], *tail;
+    double result;
+    bs_token(stream, token);
+    errno = 0;
+    result = strtod(token, &tail);
+    if (errno || *tail || !isfinite(result)) {
+        bs_fail("network request requires finite real values");
+    }
+    return result;
+}
+
+static ITG bn_find(ITG* parents, ITG node)
+{
+    ITG root = node, next;
+    while (parents[root - 1] != root) {
+        root = parents[root - 1];
+    }
+    while (parents[node - 1] != node) {
+        next = parents[node - 1];
+        parents[node - 1] = root;
+        node = next;
+    }
+    return root;
+}
+
+static int bn_named_before(const char* owner, int kind, size_t last)
+{
+    size_t i;
+    for (i = 0; i < last; ++i) {
+        const char* other = kind == 1 ? bn.sources[i].owner :
+                            kind == 2 ? bn.supports[i].owner : bn.springs[i].owner;
+        if (!strcmp(owner, other)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static void bn_geometry(const BNInput* input)
+{
+    static const int corners[3][4] = {{0, 4, 7, 3}, {8, 12, 14, 10}, {1, 5, 6, 2}};
+    static const int section_nodes[3][8] = {
+        {0, 3, 4, 7, 11, 15, 16, 19}, {8, 10, 12, 14, -1, -1, -1, -1},
+        {1, 2, 5, 6, 9, 13, 17, 18}
+    };
+    ITG *parents = bs_allocate((size_t)bs.nk, sizeof(ITG));
+    ITG *ids = bs_allocate((size_t)bs.nk, sizeof(ITG));
+    ITG *degree = bs_allocate((size_t)bs.nk, sizeof(ITG));
+    ITG *material;
+    unsigned char* branched;
+    double (*dimensions)[2];
+    ITG element, node, end, k, a, c, first, last;
+    size_t component;
+    for (node = 1; node <= bs.nk; ++node) {
+        parents[node - 1] = node;
+    }
+    bn.beam_roles = bs_allocate((size_t)bs.nk, sizeof(ITG));
+    bn.component = bs_allocate((size_t)bs.nk, sizeof(ITG));
+    bn.expanded_owner = bs_allocate((size_t)bs.nk, sizeof(ITG));
+    for (element = 0; element < bs.ne; ++element) {
+        BSElement* beam = bs.elements + element;
+        double tangent[3], length2 = 0., error2 = 0.;
+        if (!beam->declared) {
+            continue;
+        }
+        first = beam->nodes[0];
+        last = beam->nodes[2];
+        for (k = 0; k < 3; ++k) {
+            tangent[k] = bs.coordinates[3 * (size_t)(last - 1) + k] -
+                         bs.coordinates[3 * (size_t)(first - 1) + k];
+            length2 += tangent[k] * tangent[k];
+            double error = bs.coordinates[3 * (size_t)(beam->nodes[1] - 1) + k] -
+                .5 * (bs.coordinates[3 * (size_t)(first - 1) + k] +
+                      bs.coordinates[3 * (size_t)(last - 1) + k]);
+            error2 += error * error;
+        }
+        if (!isfinite(length2) || length2 <= 0. || !isfinite(error2) ||
+            error2 > 1.e-16 * fmax(1., length2)) {
+            bs_fail("network elements require straight positive-length centered B32R geometry");
+        }
+        for (end = 0; end < 3; ++end) {
+            node = beam->nodes[end];
+            if (bn.beam_roles[node - 1] == 2 || (end == 1 && bn.beam_roles[node - 1])) {
+                bs_fail("network reuses a midside identity or aliases it to an endpoint");
+            }
+            bn.beam_roles[node - 1] = end == 1 ? 2 : 1;
+            if (end != 1) {
+                ++degree[node - 1];
+            }
+            for (a = 0; a < 8; ++a) {
+                int offset = section_nodes[end][a];
+                if (offset < 0) {
+                    continue;
+                }
+                ITG expanded = input->kon[(size_t)input->ipkon[element] + offset];
+                if (expanded < 1 || expanded > bs.nk ||
+                    (bn.expanded_owner[expanded - 1] && bn.expanded_owner[expanded - 1] != node)) {
+                    bs_fail("network expanded node has ambiguous original beam ownership");
+                }
+                bn.expanded_owner[expanded - 1] = node;
+            }
+        }
+        first = bn_find(parents, first);
+        last = bn_find(parents, last);
+        if (first == last) {
+            bs_fail("network beam components must be acyclic genuine member trees");
+        }
+        parents[last - 1] = first;
+    }
+    for (node = 1; node <= bs.nk; ++node) {
+        if (bn.beam_roles[node - 1] && bn.expanded_owner[node - 1]) {
+            bs_fail("network generated section node aliases an original beam identity");
+        }
+        if (bn.beam_roles[node - 1] == 1) {
+            ITG root = bn_find(parents, node);
+            if (!ids[root - 1]) {
+                ids[root - 1] = (ITG)++bn.component_count;
+            }
+        }
+    }
+    material = bs_allocate(bn.component_count, sizeof(ITG));
+    dimensions = bs_allocate(bn.component_count, sizeof(*dimensions));
+    branched = bs_allocate(bn.component_count, 1);
+    for (element = 0; element < bs.ne; ++element) {
+        BSElement* beam = bs.elements + element;
+        double tangent[3], length2 = 0.;
+        if (!beam->declared) {
+            continue;
+        }
+        component = (size_t)ids[bn_find(parents, beam->nodes[0]) - 1] - 1;
+        if (input->lakon[8 * (size_t)element + 7] != 'R' || input->material_stride < 1) {
+            bs_fail("network components require native rectangular sections");
+        }
+        ITG actual_material = input->materials[(size_t)input->material_stride * element];
+        if (actual_material < 1 || (material[component] && material[component] != actual_material)) {
+            bs_fail("each network beam component requires one actual native material");
+        }
+        material[component] = actual_material;
+        for (end = 0; end < 3; ++end) {
+            node = beam->nodes[end];
+            bn.component[node - 1] = (ITG)component + 1;
+            if (degree[node - 1] >= 3) {
+                branched[component] = 1;
+            }
+        }
+        for (k = 0; k < 3; ++k) {
+            tangent[k] = bs.coordinates[3 * (size_t)(beam->nodes[2] - 1) + k] -
+                         bs.coordinates[3 * (size_t)(beam->nodes[0] - 1) + k];
+            length2 += tangent[k] * tangent[k];
+        }
+        for (end = 0; end < 3; ++end) {
+            double centroid[3] = {0.}, edges[2][3], square[2] = {0.}, dot = 0.;
+            double tolerance = 1.e-8 * fmax(1., sqrt(length2));
+            ITG native[4];
+            for (a = 0; a < 4; ++a) {
+                native[a] = input->kon[(size_t)input->ipkon[element] + corners[end][a]];
+                for (k = 0; k < 3; ++k) {
+                    centroid[k] += .25 * bs.coordinates[3 * (size_t)(native[a] - 1) + k];
+                }
+            }
+            for (k = 0; k < 3; ++k) {
+                edges[0][k] = bs.coordinates[3 * (size_t)(native[1] - 1) + k] -
+                              bs.coordinates[3 * (size_t)(native[0] - 1) + k];
+                edges[1][k] = bs.coordinates[3 * (size_t)(native[3] - 1) + k] -
+                              bs.coordinates[3 * (size_t)(native[0] - 1) + k];
+                if (fabs(centroid[k] - bs.coordinates[3 * (size_t)(beam->nodes[end] - 1) + k]) > tolerance ||
+                    fabs(bs.coordinates[3 * (size_t)(native[2] - 1) + k] -
+                         bs.coordinates[3 * (size_t)(native[0] - 1) + k] -
+                         edges[0][k] - edges[1][k]) > tolerance) {
+                    bs_fail("network native sections require zero offsets and rectangular corners");
+                }
+                for (c = 0; c < 2; ++c) {
+                    square[c] += edges[c][k] * edges[c][k];
+                }
+                dot += edges[0][k] * edges[1][k];
+            }
+            if (!isfinite(dot) || square[0] <= 0. || square[1] <= 0. ||
+                fabs(dot) > 1.e-8 * sqrt(square[0] * square[1])) {
+                bs_fail("network native section edges are not finite orthogonal dimensions");
+            }
+            for (c = 0; c < 2; ++c) {
+                double normal = 0.;
+                for (k = 0; k < 3; ++k) {
+                    normal += tangent[k] * edges[c][k];
+                }
+                if (!isfinite(square[c]) ||
+                    fabs(normal) > 1.e-8 * sqrt(length2 * square[c])) {
+                    bs_fail("network native section is not normal to its straight element");
+                }
+                if (!dimensions[component][c]) {
+                    dimensions[component][c] = square[c];
+                }
+                if (fabs(square[c] - dimensions[component][c]) >
+                    1.e-8 * fmax(1., dimensions[component][c])) {
+                    bs_fail("each network beam component requires uniform native section dimensions");
+                }
+            }
+        }
+    }
+    for (component = 0; component < bn.component_count; ++component) {
+        if (!branched[component]) {
+            bs_fail("each network beam component requires a genuine branch");
+        }
+    }
+    for (component = 0; component < bn.support_count; ++component) {
+        node = bn.supports[component].node;
+        if (degree[node - 1] != 1) {
+            bs_fail("network physical guides must be genuine beam endpoint ports");
+        }
+        for (element = 0; element < bs.ne; ++element) {
+            BSElement* beam = bs.elements + element;
+            if (!beam->declared || (beam->nodes[0] != node && beam->nodes[2] != node)) {
+                continue;
+            }
+            double length2 = 0., transverse2 = 0.;
+            for (k = 0; k < 3; ++k) {
+                double delta = bs.coordinates[3 * (size_t)(beam->nodes[2] - 1) + k] -
+                               bs.coordinates[3 * (size_t)(beam->nodes[0] - 1) + k];
+                length2 += delta * delta;
+                if (k + 1 != bn.direction) {
+                    transverse2 += delta * delta;
+                }
+            }
+            if (!isfinite(transverse2) || transverse2 > 1.e-16 * length2) {
+                bs_fail("network guided incident member must follow its free scalar translation axis");
+            }
+        }
+    }
+    for (component = 0; component < bn.source_count; ++component) {
+        node = bn.sources[component].node;
+        if (degree[node - 1] != 1) {
+            bs_fail("network point sources must be genuine original beam endpoints");
+        }
+    }
+    for (component = 0; component < bn.spring_count; ++component) {
+        BNSpring* spring = bn.springs + component;
+        for (end = 0; end < spring->kind; ++end) {
+            if (degree[spring->nodes[end] - 1] != 1) {
+                bs_fail("network spring ends must be genuine original beam endpoints");
+            }
+        }
+    }
+    free(material);
+    free(dimensions);
+    free(branched);
+    free(parents);
+    free(ids);
+    free(degree);
+}
+
+static ITG bn_nonnegative(FILE* stream)
+{
+    char token[81], *tail;
+    long value;
+    bs_token(stream, token);
+    errno = 0;
+    value = strtol(token, &tail, 10);
+    if (errno || *tail || value < 0 || value > INT_MAX) {
+        bs_fail("network request requires a nonnegative native integer");
+    }
+    return (ITG)value;
+}
+
+static void bn_connection_tree(void)
+{
+    ITG *parents = bs_allocate(bn.component_count, sizeof(ITG));
+    ITG *guides = bs_allocate(bn.component_count, sizeof(ITG));
+    unsigned char* reached = bs_allocate(bn.component_count, 1);
+    size_t i, j, grounds = 0;
+    ITG ground = 0;
+    if (bn.support_count != bn.component_count || bn.spring_count != bn.component_count) {
+        bs_fail("network requires one physical guide per component and one grounded scalar tree");
+    }
+    for (i = 0; i < bn.component_count; ++i) {
+        parents[i] = (ITG)i + 1;
+    }
+    for (i = 0; i < bn.support_count; ++i) {
+        BNSupport* support = bn.supports + i;
+        ITG component = bn.component[support->node - 1];
+        if (component < 1 || guides[component - 1]) {
+            bs_fail("network physical guide is outside its unique genuine beam component");
+        }
+        guides[component - 1] = support->node;
+        for (j = 0; j < 6; ++j) {
+            if (support->directions[j] != ((ITG)j + 1 != bn.direction)) {
+                bs_fail("network physical guides must leave only the common scalar translation free");
+            }
+        }
+    }
+    for (i = 0; i < bn.source_count; ++i) {
+        for (j = 0; j < bn.support_count; ++j) {
+            if (bn.sources[i].node == bn.supports[j].node) {
+                bs_fail("network point sources must be distinct from physical guided ports");
+            }
+        }
+    }
+    for (i = 0; i < bn.spring_count; ++i) {
+        BNSpring* spring = bn.springs + i;
+        ITG first = bn.component[spring->nodes[0] - 1], second;
+        if (first < 1 || spring->direction != bn.direction) {
+            bs_fail("network spring has no genuine beam component or common global axis");
+        }
+        if (spring->kind == 1) {
+            ++grounds;
+            ground = first;
+            if (guides[first - 1] != spring->nodes[0]) {
+                bs_fail("network ground spring requires its declared physical guided port");
+            }
+            continue;
+        }
+        second = bn.component[spring->nodes[1] - 1];
+        if (second < 1 || first == second) {
+            bs_fail("network internal spring must join distinct beam components");
+        }
+        double distance2 = 0.;
+        for (j = 0; j < 3; ++j) {
+            double delta = bs.coordinates[3 * (size_t)(spring->nodes[1] - 1) + j] -
+                           bs.coordinates[3 * (size_t)(spring->nodes[0] - 1) + j];
+            distance2 += delta * delta;
+        }
+        if (!isfinite(distance2) || distance2 <= 0.) {
+            bs_fail("network internal spring requires distinct finite physical positions");
+        }
+        for (j = 0; j < 3; ++j) {
+            if ((ITG)j + 1 != bn.direction &&
+                fabs(bs.coordinates[3 * (size_t)(spring->nodes[1] - 1) + j] -
+                     bs.coordinates[3 * (size_t)(spring->nodes[0] - 1) + j]) >
+                1.e-8 * fmax(1., sqrt(distance2))) {
+                bs_fail("network internal spring ends must follow their actual global force axis");
+            }
+        }
+        first = bn_find(parents, first);
+        second = bn_find(parents, second);
+        if (first == second) {
+            bs_fail("network scalar connections form a redundant cycle");
+        }
+        parents[second - 1] = first;
+    }
+    if (grounds != 1) {
+        bs_fail("network scalar tree requires exactly one actual ground spring");
+    }
+    for (i = 0; i < bn.component_count; ++i) {
+        if (!guides[i] || bn_find(parents, (ITG)i + 1) != bn_find(parents, ground)) {
+            bs_fail("network scalar connection graph is disconnected or missing a physical guide");
+        }
+    }
+    reached[ground - 1] = 1;
+    size_t count = 1;
+    while (count < bn.component_count) {
+        size_t before = count;
+        for (i = 0; i < bn.spring_count; ++i) {
+            BNSpring* spring = bn.springs + i;
+            if (spring->kind != 2) {
+                continue;
+            }
+            ITG first = bn.component[spring->nodes[0] - 1] - 1;
+            ITG second = bn.component[spring->nodes[1] - 1] - 1;
+            if (reached[first] == reached[second]) {
+                continue;
+            }
+            ITG child = reached[first] ? second : first;
+            ITG child_node = reached[first] ? spring->nodes[1] : spring->nodes[0];
+            if (child_node != guides[child]) {
+                bs_fail("network downstream spring end must be its component's physical guided port");
+            }
+            reached[child] = 1;
+            ++count;
+        }
+        if (before == count) {
+            bs_fail("network scalar rooted tree cannot reach every physical guided component");
+        }
+    }
+    free(parents);
+    free(guides);
+    free(reached);
+}
+
+static void bn_parse(FILE* stream, const BNInput* input)
+{
+    char token[81];
+    size_t i, beams = 0, springs = 0;
+    ITG element, k;
+    bs_expect(stream, "REQUEST");
+    bs_token(stream, token);
+    if (strlen(token) != 32) {
+        bs_fail("network request requires a lowercase hexadecimal child identity");
+    }
+    for (i = 0; i < 32; ++i) {
+        if (!((token[i] >= '0' && token[i] <= '9') || (token[i] >= 'a' && token[i] <= 'f'))) {
+            bs_fail("network request requires a lowercase hexadecimal child identity");
+        }
+    }
+    memcpy(bs.request, token, 33);
+    bs_expect(stream, "END_TIME");
+    bs.end_time = bn_number(stream);
+    if (bs.end_time <= 0.) {
+        bs_fail("network step period must be positive");
+    }
+    bs_expect(stream, "UNITS");
+    bs_expect(stream, "MM");
+    bs_expect(stream, "N");
+    bs_expect(stream, "NMM");
+    bn.spring_index = bs_allocate((size_t)bs.ne, sizeof(ITG));
+    for (element = 0; element < bs.ne; ++element) {
+        if (input->ipkon[element] < 0) {
+            continue;
+        }
+        const char* label = input->lakon + 8 * (size_t)element;
+        if (!strncmp(label, "C3D20RB", 7) && input->ipkon[element] <= input->nkon - 23) {
+            ++beams;
+        }
+        else if ((!strncmp(label, "ESPRNG10", 8) && input->ipkon[element] < input->nkon) ||
+                 (!strncmp(label, "ESPRNG21", 8) && input->ipkon[element] <= input->nkon - 2)) {
+            ++springs;
+        }
+        else {
+            bs_fail("network permits only genuine B32R and declared translational SPRING1/2 elements");
+        }
+    }
+    for (;;) {
+        bs_token(stream, token);
+        if (!strcmp(token, "END")) {
+            break;
+        }
+        if (!strcmp(token, "ELEMENT")) {
+            element = bs_integer(stream);
+            if (element > bs.ne || input->ipkon[element - 1] < 0 || bs.elements[element - 1].declared ||
+                strncmp(input->lakon + 8 * (size_t)(element - 1), "C3D20RB", 7)) {
+                bs_fail("network B32R element is unknown, repeated or not actually expanded");
+            }
+            BSElement* beam = bs.elements + element - 1;
+            for (k = 0; k < 3; ++k) {
+                beam->nodes[k] = bs_integer(stream);
+                if (beam->nodes[k] > bs.nk || beam->nodes[k] !=
+                    input->kon[(size_t)input->ipkon[element - 1] + 20 + k]) {
+                    bs_fail("network original B32R connectivity differs from native expansion");
+                }
+            }
+            if (beam->nodes[0] == beam->nodes[1] || beam->nodes[0] == beam->nodes[2] ||
+                beam->nodes[1] == beam->nodes[2]) {
+                bs_fail("network beam repeats an original node identity");
+            }
+            beam->declared = 1;
+            ++bs.count;
+        }
+        else if (!strcmp(token, "SOURCE")) {
+            if (bn.source_count >= (size_t)bs.nk) {
+                bs_fail("network source catalogue exceeds actual nodes");
+            }
+            bn.sources = bn_grow(bn.sources, bn.source_count + 1, sizeof(BNSource));
+            BNSource* source = bn.sources + bn.source_count;
+            memset(source, 0, sizeof(*source));
+            bs_owner(stream, source->owner);
+            source->node = bs_integer(stream);
+            if (source->node > bs.nk || bn_named_before(source->owner, 1, bn.source_count)) {
+                bs_fail("network source owner or node is invalid or repeated");
+            }
+            for (i = 0; i < bn.source_count; ++i) {
+                if (bn.sources[i].node == source->node) {
+                    bs_fail("network sources require distinct original nodes");
+                }
+            }
+            ++bn.source_count;
+        }
+        else if (!strcmp(token, "SUPPORT")) {
+            if (bn.support_count >= (size_t)bs.nk) {
+                bs_fail("network support catalogue exceeds actual nodes");
+            }
+            bn.supports = bn_grow(bn.supports, bn.support_count + 1, sizeof(BNSupport));
+            BNSupport* support = bn.supports + bn.support_count;
+            memset(support, 0, sizeof(*support));
+            bs_owner(stream, support->owner);
+            support->node = bs_integer(stream);
+            if (support->node > bs.nk || bn_named_before(support->owner, 2, bn.support_count) ||
+                bs_integer(stream) != 5) {
+                bs_fail("network support requires a unique original node and five zero guides");
+            }
+            for (i = 0; i < bn.support_count; ++i) {
+                if (bn.supports[i].node == support->node) {
+                    bs_fail("network supports require distinct physical ports");
+                }
+            }
+            for (k = 0; k < 5; ++k) {
+                ITG direction = bs_integer(stream);
+                if (direction > 6 || support->directions[direction - 1]++) {
+                    bs_fail("network support direction is invalid or repeated");
+                }
+            }
+            ++bn.support_count;
+        }
+        else if (!strcmp(token, "SPRING")) {
+            if (bn.spring_count >= (size_t)bs.ne) {
+                bs_fail("network spring catalogue exceeds actual elements");
+            }
+            bn.springs = bn_grow(bn.springs, bn.spring_count + 1, sizeof(BNSpring));
+            BNSpring* spring = bn.springs + bn.spring_count;
+            memset(spring, 0, sizeof(*spring));
+            bs_owner(stream, spring->owner);
+            spring->element = bs_integer(stream);
+            spring->kind = bs_integer(stream);
+            spring->nodes[0] = bs_integer(stream);
+            spring->nodes[1] = bn_nonnegative(stream);
+            spring->direction = bs_integer(stream);
+            spring->stiffness = bn_number(stream);
+            if (spring->element > bs.ne || spring->nodes[0] > bs.nk ||
+                spring->nodes[1] > bs.nk || spring->direction > 3 || spring->kind > 2 ||
+                spring->stiffness <= 0. || (spring->kind == 1 && spring->nodes[1]) ||
+                (spring->kind == 2 && (!spring->nodes[1] || spring->nodes[0] == spring->nodes[1])) ||
+                bn_named_before(spring->owner, 3, bn.spring_count)) {
+                bs_fail("network spring owner, nodes, direction or positive law is invalid");
+            }
+            element = spring->element - 1;
+            if (bn.spring_index[element] || input->ipkon[element] < 0 ||
+                strncmp(input->lakon + 8 * (size_t)element,
+                        spring->kind == 1 ? "ESPRNG10" : "ESPRNG21", 8) ||
+                input->kon[input->ipkon[element]] != spring->nodes[0] ||
+                (spring->kind == 2 && input->kon[(size_t)input->ipkon[element] + 1] != spring->nodes[1])) {
+                bs_fail("network spring declaration differs from its actual native element");
+            }
+            bn.spring_index[element] = (ITG)++bn.spring_count;
+            if (!bn.direction) {
+                bn.direction = spring->direction;
+            }
+        }
+        else {
+            bs_fail("unexpected network declaration");
+        }
+    }
+    if (fscanf(stream, "%80s", token) != EOF || ferror(stream) || fclose(stream) ||
+        !beams || !springs || bs.count != beams || bn.spring_count != springs ||
+        !bn.source_count || !bn.support_count) {
+        bs_fail("network request must declare every active beam, spring, source and physical guide");
+    }
+}
+
+typedef struct
+{
+    ITG node, direction;
+    double coefficient;
+} BNTerm;
+
+static size_t bn_terms(const BNInput* input, ITG row, BNTerm* terms, unsigned char* visited)
+{
+    size_t count = 0;
+    ITG link = input->ipompc[row];
+    memset(visited, 0, (size_t)input->mpc_capacity);
+    while (link) {
+        ITG index = bs_graph_term(link, input->mpc_capacity);
+        if (visited[index] || count >= (size_t)input->mpc_capacity) {
+            bs_fail("network native MPC has repeated or cyclic term storage");
+        }
+        visited[index] = 1;
+        ITG node = input->mpc_nodes[3 * (size_t)index];
+        ITG direction = input->mpc_nodes[3 * (size_t)index + 1];
+        double coefficient = input->mpc_coefficients[index];
+        if (node < 1 || node > bs.nk || direction < 0 || direction > 3 || !isfinite(coefficient)) {
+            bs_fail("network native MPC has an unsupported node, direction or coefficient");
+        }
+        terms[count++] = (BNTerm){node, direction, coefficient};
+        link = input->mpc_nodes[3 * (size_t)index + 2];
+    }
+    if (!count) {
+        bs_fail("network native MPC has no actual terms");
+    }
+    return count;
+}
+
+static int bn_support_for(ITG original)
+{
+    size_t i;
+    for (i = 0; i < bn.support_count; ++i) {
+        if (bn.supports[i].node == original) {
+            return (int)i;
+        }
+    }
+    return -1;
+}
+
+static int bn_port_or_source(ITG original)
+{
+    size_t i;
+    if (bn_support_for(original) >= 0) {
+        return 1;
+    }
+    for (i = 0; i < bn.source_count; ++i) {
+        if (bn.sources[i].node == original) {
+            return 1;
+        }
+    }
+    for (i = 0; i < bn.spring_count; ++i) {
+        if (bn.springs[i].nodes[0] == original || bn.springs[i].nodes[1] == original) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int bn_section_corner(const BNInput* input, ITG original, ITG expanded)
+{
+    static const int corners[3][4] = {{0, 4, 7, 3}, {8, 12, 14, 10}, {1, 5, 6, 2}};
+    ITG element, side, k;
+    for (element = 0; element < bs.ne; ++element) {
+        if (!bs.elements[element].declared) {
+            continue;
+        }
+        for (side = 0; side < 3; ++side) {
+            if (bs.elements[element].nodes[side] == original) {
+                for (k = 0; k < 4; ++k) {
+                    if (input->kon[(size_t)input->ipkon[element] + corners[side][k]] == expanded) {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+static ITG bn_blank_equation(const BNInput* input, ITG row, const BNTerm* terms,
+                              size_t count, unsigned char* temperature_rows)
+{
+    size_t i, j;
+    ITG original;
+    /* gen3dnor and gen3dboun retain native temperature-identity equations
+     * even in a mechanical mesh. Authenticate this exact inactive-DOF
+     * family against actual expansion ownership; never treat it as a
+     * physical constraint or as permission for arbitrary blank MPCs. */
+    if (count == 2 && terms[0].direction == 0 && terms[1].direction == 0 &&
+        terms[0].coefficient == 1. && terms[1].coefficient == -1.) {
+        original = terms[1].node;
+        if (!bn.beam_roles[original - 1] || bn.beam_roles[terms[0].node - 1] ||
+            bn.expanded_owner[terms[0].node - 1] != original ||
+            temperature_rows[terms[0].node - 1]++) {
+            bs_fail("network native temperature identity has an unknown or repeated expanded owner");
+        }
+        return original;
+    }
+    if (count == 5 && terms[4].coefficient == -4.) {
+        original = terms[4].node;
+        if (bn.beam_roles[original - 1] != 1 || !bn_port_or_source(original)) {
+            bs_fail("network mean-translation MPC has no declared original port or source");
+        }
+        for (i = 0; i < 4; ++i) {
+            if (terms[i].direction != terms[4].direction || terms[i].coefficient != 1. ||
+                bn.expanded_owner[terms[i].node - 1] != original ||
+                !bn_section_corner(input, original, terms[i].node)) {
+                bs_fail("network mean-translation MPC differs from its native section corners");
+            }
+            for (j = 0; j < i; ++j) {
+                if (terms[j].node == terms[i].node) {
+                    bs_fail("network mean-translation MPC repeats a native corner");
+                }
+            }
+        }
+        return original;
+    }
+    if (count == 3 && terms[0].coefficient == 2. &&
+        terms[1].coefficient == -1. && terms[2].coefficient == -1.) {
+        original = bn.expanded_owner[terms[0].node - 1];
+        if (!original || bn_support_for(original) < 0) {
+            bs_fail("network midside equation has no actual guided section owner");
+        }
+        for (i = 0; i < 3; ++i) {
+            if (terms[i].direction != terms[0].direction ||
+                bn.expanded_owner[terms[i].node - 1] != original) {
+                bs_fail("network midside equation crosses original section owners");
+            }
+        }
+        for (i = 0; i < 3; ++i) {
+            double expected = .5 * (bs.coordinates[3 * (size_t)(terms[1].node - 1) + i] +
+                                      bs.coordinates[3 * (size_t)(terms[2].node - 1) + i]);
+            if (fabs(bs.coordinates[3 * (size_t)(terms[0].node - 1) + i] - expected) >
+                1.e-8 * fmax(1., fabs(expected))) {
+                bs_fail("network native midside equation has inconsistent section geometry");
+            }
+        }
+        return original;
+    }
+    fprintf(stderr, "*DETAIL CCX beam network blank MPC row=%d terms=%zu\n", row + 1, count);
+    for (i = 0; i < count; ++i) {
+        fprintf(stderr, "*DETAIL term=%zu node=%d direction=%d coefficient=%.17g original_role=%d expanded_owner=%d\n",
+                i + 1, terms[i].node, terms[i].direction, terms[i].coefficient,
+                bn.beam_roles[terms[i].node - 1], bn.expanded_owner[terms[i].node - 1]);
+    }
+    bs_fail("network contains an unauthenticated blank-label native equation");
+    return 0;
+}
+
+static void bn_knot_equation(const BNTerm* terms, size_t count, BNKnot* knot, ITG dimension)
+{
+    ITG nodes[9], directions[9];
+    size_t i, expected;
+    if (dimension == 2) {
+        expected = 9;
+        ITG n[9] = {knot->receiver, knot->reference, knot->expansion, knot->expansion,
+                    knot->expansion, knot->rotation, knot->rotation, knot->rotation,
+                    knot->auxiliary};
+        ITG d[9] = {knot->direction, knot->direction, 2, 2, 3, 1, 2, 3, knot->direction};
+        memcpy(nodes, n, sizeof(n));
+        memcpy(directions, d, sizeof(d));
+    }
+    else {
+        expected = 7;
+        ITG n[7] = {knot->receiver, knot->reference, knot->expansion,
+                    knot->rotation, knot->rotation, knot->rotation, knot->auxiliary};
+        ITG d[7] = {knot->direction, knot->direction, 1, 1, 2, 3, knot->direction};
+        memcpy(nodes, n, sizeof(n));
+        memcpy(directions, d, sizeof(d));
+    }
+    if (count != expected || terms[0].coefficient != 1. || terms[1].coefficient != -1. ||
+        terms[count - 1].coefficient != 1. || (dimension == 2 && terms[2].coefficient != 0.)) {
+        bs_fail("network actual knot formulation differs from its complete native graph");
+    }
+    for (i = 0; i < count; ++i) {
+        if (terms[i].node != nodes[i] || terms[i].direction != directions[i]) {
+            bs_fail("network actual knot graph differs from its recorded generation identities");
+        }
+    }
+    /* This is the native KNOT formulation code, not geometric cloud rank.
+     * fillknotmpc can select isotropic KNOT1 for a three-dimensional cloud. */
+    knot->dimension = dimension;
+}
+
+static void bn_graph(const BNInput* input)
+{
+    size_t i, j;
+    ITG row;
+    unsigned char* angle_rows = bs_allocate(bn.angle_count, 1);
+    unsigned char* temperature_rows = bs_allocate((size_t)bs.nk, 1);
+    unsigned char* visited = bs_allocate((size_t)input->mpc_capacity, 1);
+    BNTerm* terms = bs_allocate((size_t)input->mpc_capacity, sizeof(BNTerm));
+    bn.knot_row_index = bs_allocate((size_t)input->nmpc, sizeof(ITG));
+    bn.row_owner = bs_allocate((size_t)input->nmpc, sizeof(ITG));
+    if (!bn.knot_count || bn.angle_count != 3 * bn.support_count) {
+        bs_fail("network requires actual branch knots and three native rotations per guided port");
+    }
+    for (i = 0; i < bn.angle_count; ++i) {
+        BSAngle* angle = bn.angles + i;
+        if (angle->original < 1 || angle->original > bs.nk ||
+            bn_support_for(angle->original) < 0 || angle->direction < 4 || angle->direction > 6 ||
+            angle->auxiliary < 1 || angle->auxiliary > bs.nk ||
+            bn.beam_roles[angle->auxiliary - 1] || bn.expanded_owner[angle->auxiliary - 1]) {
+            bs_fail("network angle mapping has no unique physical guided port");
+        }
+        for (j = 0; j < 3; ++j) {
+            if (!isfinite(angle->axis[j]) || angle->axis[j] != (j == (size_t)(angle->direction - 4))) {
+                bs_fail("network physical angle axis differs from its original global direction");
+            }
+        }
+        for (j = 0; j < i; ++j) {
+            if (bn.angles[j].auxiliary == angle->auxiliary ||
+                (bn.angles[j].original == angle->original && bn.angles[j].direction == angle->direction)) {
+                bs_fail("network angle mapping repeats a native or original degree of freedom");
+            }
+        }
+    }
+    for (i = 0; i < bn.knot_count; ++i) {
+        BNKnot* knot = bn.knots + i;
+        ITG nodes[5] = {knot->rotation, knot->expansion, knot->receiver, knot->auxiliary, knot->reference};
+        for (j = 0; j < 5; ++j) {
+            if (nodes[j] < 1 || nodes[j] > bs.nk) {
+                bs_fail("network knot generation has an out-of-range native identity");
+            }
+        }
+        if (bn.beam_roles[knot->reference - 1] != 1 ||
+            bn.expanded_owner[knot->receiver - 1] != knot->reference ||
+            knot->direction < 1 || knot->direction > 3 || knot->row < 1 || knot->row > input->nmpc ||
+            bn.knot_row_index[knot->row - 1] || knot->rotation == knot->expansion ||
+            knot->auxiliary == knot->rotation || knot->auxiliary == knot->expansion) {
+            bs_fail("network knot generation is ambiguous or outside its actual beam owner");
+        }
+        for (j = 0; j < 5; ++j) {
+            if (j == 2 || j == 4) {
+                continue;
+            }
+            if (bn.beam_roles[nodes[j] - 1] || bn.expanded_owner[nodes[j] - 1]) {
+                bs_fail("network knot equation helper aliases a physical or expanded beam node");
+            }
+        }
+        for (j = 0; j < bn.angle_count; ++j) {
+            if (bn.angles[j].auxiliary == knot->rotation || bn.angles[j].auxiliary == knot->expansion ||
+                bn.angles[j].auxiliary == knot->auxiliary) {
+                bs_fail("network knot equation helper aliases a physical angle helper");
+            }
+        }
+        int directions = 0;
+        for (j = 0; j < bn.knot_count; ++j) {
+            BNKnot* other = bn.knots + j;
+            if (knot->rotation == other->expansion || knot->rotation == other->receiver ||
+                knot->rotation == other->auxiliary || knot->expansion == other->rotation ||
+                knot->expansion == other->receiver || knot->expansion == other->auxiliary ||
+                knot->receiver == other->rotation || knot->receiver == other->expansion ||
+                knot->receiver == other->auxiliary || knot->auxiliary == other->rotation ||
+                knot->auxiliary == other->expansion || knot->auxiliary == other->receiver ||
+                (other->reference != knot->reference &&
+                 (knot->rotation == other->rotation || knot->expansion == other->expansion)) ||
+                (knot->receiver == other->receiver && knot->auxiliary != other->auxiliary)) {
+                bs_fail("network generated knot roles alias incompatible native identities");
+            }
+            if (other->auxiliary == knot->auxiliary) {
+                if (other->reference != knot->reference || other->receiver != knot->receiver ||
+                    other->rotation != knot->rotation || other->expansion != knot->expansion ||
+                    other->direction < 1 || other->direction > 3 ||
+                    (directions & (1 << other->direction))) {
+                    bs_fail("network knot dummy node has inconsistent or repeated directional rows");
+                }
+                directions |= 1 << other->direction;
+            }
+            if (other->reference == knot->reference &&
+                (other->rotation != knot->rotation || other->expansion != knot->expansion)) {
+                bs_fail("network original knot has inconsistent rotation or expansion identities");
+            }
+        }
+        if (directions != 14) {
+            bs_fail("network knot dummy requires its three complete native directional rows");
+        }
+        bn.knot_row_index[knot->row - 1] = (ITG)i + 1;
+    }
+    for (row = 0; row < input->nmpc; ++row) {
+        const char* label = input->mpc_labels + 20 * (size_t)row;
+        size_t count = bn_terms(input, row, terms, visited);
+        if (!strncmp(label, "KNOT", 4)) {
+            ITG index = bn.knot_row_index[row];
+            if (!index || label[4] < '1' || label[4] > '3' ||
+                strncmp(label + 5, "               ", 15)) {
+                bs_fail("network has an unrecorded or unsupported native knot equation");
+            }
+            bn_knot_equation(terms, count, bn.knots + index - 1, label[4] - '0');
+            bn.row_owner[row] = bn.knots[index - 1].reference;
+        }
+        else if (!strncmp(label, "MEANROTBS           ", 20)) {
+            size_t angle = bn.angle_count;
+            int angle_term = 0, algebraic_term = 0;
+            for (i = 0; i < count; ++i) {
+                for (j = 0; j < bn.angle_count; ++j) {
+                    if (terms[i].node == bn.angles[j].auxiliary) {
+                        if (angle != bn.angle_count && angle != j) {
+                            bs_fail("network mean-rotation equation crosses physical supports");
+                        }
+                        angle = j;
+                        if (terms[i].direction == 1) {
+                            ++angle_term;
+                        }
+                        else if (terms[i].direction == 2) {
+                            ++algebraic_term;
+                        }
+                        else {
+                            bs_fail("network mean-rotation helper uses an unsupported native direction");
+                        }
+                        break;
+                    }
+                }
+            }
+            if (angle == bn.angle_count || angle_term != 1 || algebraic_term != 1 || angle_rows[angle]++) {
+                bs_fail("network mean-rotation equation lacks its unique angle/algebraic pair");
+            }
+            bn.row_owner[row] = bn.angles[angle].original;
+            for (i = 0; i < count; ++i) {
+                if (terms[i].node != bn.angles[angle].auxiliary &&
+                    bn.expanded_owner[terms[i].node - 1] != bn.angles[angle].original) {
+                    bs_fail("network mean-rotation equation has an undeclared expanded section owner");
+                }
+            }
+        }
+        else if (!strncmp(label, "                    ", 20)) {
+            bn.row_owner[row] = bn_blank_equation(input, row, terms, count, temperature_rows);
+        }
+        else {
+            bs_fail("network has an unsupported native/user equation class");
+        }
+    }
+    for (i = 0; i < bn.angle_count; ++i) {
+        if (angle_rows[i] != 1) {
+            bs_fail("network actual physical angle catalogue is incomplete");
+        }
+    }
+    for (i = 0; i < bn.knot_count; ++i) {
+        for (j = 0; j < i; ++j) {
+            if (bn.knots[i].reference == bn.knots[j].reference &&
+                bn.knots[i].dimension != bn.knots[j].dimension) {
+                bs_fail("network original knot has inconsistent final native formulations");
+            }
+        }
+    }
+    free(terms);
+    free(visited);
+    free(angle_rows);
+    free(temperature_rows);
+}
+
+/* Native cascade preserves row indices, labels and dependent identities;
+ * it substitutes independent lists using only existing graph identities.
+ * Authenticate that provenance by reachability in the captured, already
+ * typed graph. No coefficient algebra or native elimination is repeated. */
+static void bn_current_graph(const BNInput* input, const BNInput* raw)
+{
+    ITG row;
+    size_t i, pending, dofs = bs_product(4, (size_t)bs.nk);
+    ITG* dependent = bs_allocate(dofs, sizeof(ITG));
+    ITG* work = bs_allocate((size_t)raw->nmpc, sizeof(ITG));
+    BNTerm* heads = bs_allocate((size_t)raw->nmpc, sizeof(BNTerm));
+    BNTerm* terms = bs_allocate((size_t)input->mpc_capacity, sizeof(BNTerm));
+    BNTerm* original = bs_allocate((size_t)raw->mpc_capacity, sizeof(BNTerm));
+    unsigned char* visited = bs_allocate((size_t)input->mpc_capacity, 1);
+    unsigned char* raw_visited = bs_allocate((size_t)raw->mpc_capacity, 1);
+    unsigned char* rows = bs_allocate((size_t)raw->nmpc, 1);
+    unsigned char* allowed = bs_allocate(dofs, 1);
+    if (input->nmpc != raw->nmpc || bn.raw_nk != bs.nk) {
+        bs_fail("network native decascading changed its captured node or equation count");
+    }
+    for (row = 0; row < raw->nmpc; ++row) {
+        bn_terms(raw, row, original, raw_visited);
+        heads[row] = original[0];
+        size_t key = 4 * (size_t)(original[0].node - 1) + original[0].direction;
+        if (dependent[key]) {
+            bs_fail("network captured generated rows repeat a dependent native degree of freedom");
+        }
+        dependent[key] = row + 1;
+    }
+    for (row = 0; row < input->nmpc; ++row) {
+        size_t count = bn_terms(input, row, terms, visited);
+        if (memcmp(input->mpc_labels + 20 * (size_t)row,
+                   raw->mpc_labels + 20 * (size_t)row, 20) ||
+            terms[0].node != heads[row].node || terms[0].direction != heads[row].direction ||
+            !bn.row_owner[row]) {
+            bs_fail("network current equation lost its captured row, label or dependent identity");
+        }
+        if (bn.knot_row_index[row]) {
+            BNKnot* knot = bn.knots + bn.knot_row_index[row] - 1;
+            bn_knot_equation(terms, count, knot, knot->dimension);
+            continue;
+        }
+        memset(rows, 0, (size_t)raw->nmpc);
+        memset(allowed, 0, dofs);
+        rows[row] = 1;
+        work[0] = row;
+        pending = 1;
+        while (pending) {
+            ITG current = work[--pending];
+            size_t raw_count = bn_terms(raw, current, original, raw_visited);
+            if (bn.row_owner[current] != bn.row_owner[row]) {
+                bs_fail("network captured equation dependency crosses generated section owners");
+            }
+            for (i = 1; i < raw_count; ++i) {
+                size_t key = 4 * (size_t)(original[i].node - 1) + original[i].direction;
+                ITG next = dependent[key];
+                if (!next) {
+                    allowed[key] = 1;
+                }
+                else if (!rows[next - 1]) {
+                    rows[next - 1] = 1;
+                    work[pending++] = next - 1;
+                }
+            }
+        }
+        for (i = 1; i < count; ++i) {
+            size_t key = 4 * (size_t)(terms[i].node - 1) + terms[i].direction;
+            if (!allowed[key]) {
+                fprintf(stderr, "*DETAIL CCX beam network current MPC row=%d term=%zu node=%d direction=%d\n",
+                        row + 1, i + 1, terms[i].node, terms[i].direction);
+                bs_fail("network current independent term is outside its authenticated native generation closure");
+            }
+        }
+    }
+    free(dependent);
+    free(work);
+    free(heads);
+    free(terms);
+    free(original);
+    free(visited);
+    free(raw_visited);
+    free(rows);
+    free(allowed);
+}
+
+static void bn_boundary_catalogue(const BNInput* input)
+{
+    size_t i, j;
+    ITG row;
+    unsigned char* originals = bs_allocate(bs_product(bn.support_count, 6), 1);
+    unsigned char* angles = bs_allocate(bs_product(bn.angle_count, 2), 1);
+    unsigned char* knots = bs_allocate(bn.knot_count, 1);
+    bn.boundary_count = input->nboun;
+    bn.boundaries = bs_allocate((size_t)input->nboun, sizeof(BNBoundary));
+    for (row = 0; row < input->nboun; ++row) {
+        ITG node = input->boundary_nodes[row], direction = input->boundary_directions[row];
+        char type = input->boundary_types[row];
+        BNBoundary* boundary = bn.boundaries + row;
+        if (node < 1 || node > bs.nk || direction < 1 || direction > 6 ||
+            !isfinite(input->boundary_values[row]) || input->boundary_values[row] != 0. ||
+            (input->amplitudes && input->amplitudes[row])) {
+            bs_fail("network boundary catalogue requires zero unamplified mechanical prescriptions");
+        }
+        *boundary = (BNBoundary){.node = node, .direction = direction, .type = type};
+        for (i = 0; i < bn.support_count; ++i) {
+            if (bn.supports[i].node == node && bn.supports[i].directions[direction - 1]) {
+                if (type == 'R' || type == 'U' || originals[6 * i + direction - 1]++) {
+                    bs_fail("network original physical guide is repeated or algebraic");
+                }
+                boundary->support = i + 1;
+                boundary->role = direction <= 3 ? 1 : 0;
+                break;
+            }
+        }
+        if (i < bn.support_count) {
+            continue;
+        }
+        for (i = 0; i < bn.angle_count; ++i) {
+            if (bn.angles[i].auxiliary == node && direction <= 2) {
+                if ((direction == 2 ? type != 'U' : (type == 'U' || type == 'R')) ||
+                    angles[2 * i + direction - 1]++) {
+                    bs_fail("network physical angle/algebraic boundary identity is repeated or invalid");
+                }
+                boundary->angle = i + 1;
+                boundary->support = (size_t)bn_support_for(bn.angles[i].original) + 1;
+                boundary->role = direction == 1 ? 2 : 3;
+                break;
+            }
+        }
+        if (i < bn.angle_count) {
+            continue;
+        }
+        for (i = 0; i < bn.knot_count; ++i) {
+            if (bn.knots[i].auxiliary == node && bn.knots[i].direction == direction) {
+                if (type != 'R' || knots[i]++) {
+                    bs_fail("network knot algebraic boundary identity is repeated or invalid");
+                }
+                boundary->knot = i + 1;
+                boundary->role = 4;
+                break;
+            }
+        }
+        if (i == bn.knot_count) {
+            bs_fail("network SPC is outside its complete native physical/algebraic catalogue");
+        }
+    }
+    for (i = 0; i < bn.support_count; ++i) {
+        for (j = 0; j < 6; ++j) {
+            if (originals[6 * i + j] != bn.supports[i].directions[j]) {
+                bs_fail("network declared original physical guide is incomplete");
+            }
+        }
+    }
+    for (i = 0; i < 2 * bn.angle_count; ++i) {
+        if (angles[i] != 1) {
+            bs_fail("network physical angle/algebraic SPC pairs are incomplete");
+        }
+    }
+    for (i = 0; i < bn.knot_count; ++i) {
+        if (knots[i] != 1) {
+            bs_fail("network knot algebraic SPC catalogue is incomplete");
+        }
+    }
+    free(originals);
+    free(angles);
+    free(knots);
+}
+
+static void bn_prepare(FILE* stream, const BNInput* input)
+{
+    size_t i;
+    if (bs_early_enabled() != 5 || !bs_early.input_seen || bs_early.input_mpcs || bs_early.rigid_count ||
+        input->nload || input->nbody || input->ntie || input->thermal || input->prestress ||
+        input->amplitudes || input->nmpc < 1 || input->mpc_capacity < 1 ||
+        input->nboun < 1 || input->nboun > INT_MAX / 2 || bs.nk > INT_MAX / 3 ||
+        !input->materials || !input->mpc_coefficients) {
+        bs_fail("network requires one native scalar beam tree without user couplings or additional mechanics");
+    }
+    bn_parse(stream, input);
+    bs.coordinates = bs_allocate(3 * (size_t)bs.nk, sizeof(double));
+    for (i = 0; i < 3 * (size_t)bs.nk; ++i) {
+        if (!isfinite(input->coordinates[i])) {
+            bs_fail("network native coordinate catalogue contains a nonfinite value");
+        }
+        bs.coordinates[i] = input->coordinates[i];
+    }
+    bn_geometry(input);
+    bn_connection_tree();
+    if (!bn.raw_captured || bn.raw_nmpc != input->nmpc || bn.raw_nk != bs.nk) {
+        bs_fail("network requires its immutable complete pre-decascade native graph");
+    }
+    BNInput raw = *input;
+    raw.nmpc = bn.raw_nmpc;
+    raw.mpc_capacity = bn.raw_capacity;
+    raw.ipompc = bn.raw_ipompc;
+    raw.mpc_nodes = bn.raw_nodes;
+    raw.mpc_coefficients = bn.raw_coefficients;
+    raw.mpc_labels = bn.raw_labels;
+    bn_graph(&raw);
+    bn_current_graph(input, &raw);
+    bn_boundary_catalogue(input);
+    bs.nmpc = input->nmpc;
+}
+
+static void bn_pointloads(ITG count, ITG* nodes, ITG* directions, double* values,
+                          ITG nload, ITG nbody)
+{
+    ITG row;
+    size_t i;
+    if (nload || nbody || count < 1) {
+        bs_fail("network supports only its actual declared native point sources");
+    }
+    for (i = 0; i < bn.source_count; ++i) {
+        bn.sources[i].seen = 0;
+        memset(bn.sources[i].force, 0, sizeof(bn.sources[i].force));
+    }
+    for (row = 0; row < count; ++row) {
+        ITG node = nodes[2 * (size_t)row], direction = directions[row];
+        if (nodes[2 * (size_t)row + 1] || direction < 1 || direction > 3 || !isfinite(values[row])) {
+            bs_fail("network point source has an unsupported actual native identity or direction");
+        }
+        for (i = 0; i < bn.source_count; ++i) {
+            if (bn.sources[i].node == node) {
+                double* value = bn.sources[i].force + direction - 1;
+                if (!isfinite(*value + values[row])) {
+                    bs_fail("network actual point-source accumulation overflow");
+                }
+                *value += values[row];
+                bn.sources[i].seen = 1;
+                break;
+            }
+        }
+        if (i == bn.source_count) {
+            bs_fail("actual native point source is absent from the complete network owner catalogue");
+        }
+    }
+    for (i = 0; i < bn.source_count; ++i) {
+        if (!bn.sources[i].seen) {
+            bs_fail("declared network source is absent from actual native point loads");
+        }
+    }
+    bn.pointloads_seen = 1;
+}
+
+static void bn_begin_actions(ITG iout, ITG step, ITG increment, double time, double* v,
+                             ITG nboun, ITG* nodes, ITG* directions, double* values, char* types)
+{
+    size_t i;
+    bs.actions_capturing = 0;
+    if (iout != 1 && iout != 2) {
+        return;
+    }
+    if (bn.frame || step != 1 || increment < 1 || !isfinite(time) || time <= 0. ||
+        time > bs.end_time || !bn.pointloads_seen || nboun != bn.boundary_count ||
+        !nodes || !directions || !values || !types || !v) {
+        bs_fail("network retained native action frame is invalid, repeated or unavailable");
+    }
+    for (i = 0; i < (size_t)nboun; ++i) {
+        const BNBoundary* boundary = bn.boundaries + i;
+        if (nodes[i] != boundary->node || directions[i] != boundary->direction ||
+            types[i] != boundary->type || !isfinite(values[i]) ||
+            (boundary->role <= 2 && values[i] != 0.)) {
+            bs_fail("network current native boundary identity, type or physical prescription changed");
+        }
+    }
+    bn.frame = bs_allocate(1, sizeof(BNFrame));
+    bn.frame->sources = bs_allocate(bn.source_count, sizeof(*bn.frame->sources));
+    bn.frame->springs = bs_allocate(bn.spring_count, sizeof(BNSpringAction));
+    bn.frame->supports = bs_allocate(bn.support_count, sizeof(BNSupportAction));
+    bn.frame->knots = bs_allocate(bn.knot_count, sizeof(BNKnotAction));
+    for (i = 0; i < bn.source_count; ++i) {
+        memcpy(bn.frame->sources[i], bn.sources[i].force, sizeof(bn.sources[i].force));
+    }
+    bn.current_boundary_count = nboun;
+    bn.current_nodes = nodes;
+    bn.current_directions = directions;
+    bn.current_values = values;
+    bn.current_types = types;
+    bs.action_step = step;
+    bs.action_increment = increment;
+    bs.action_time = time;
+    bs.frame_displacements = v;
+    bs.actions_capturing = 1;
+}
+
+static BNSpring* bn_actual_spring(ITG element, ITG kind)
+{
+    if (element < 1 || element > bs.ne || !bn.spring_index[element - 1]) {
+        bs_fail("actual native spring is absent from the network catalogue");
+    }
+    BNSpring* spring = bn.springs + bn.spring_index[element - 1] - 1;
+    if (spring->kind != kind) {
+        bs_fail("actual native spring kind differs from the network catalogue");
+    }
+    return spring;
+}
+
+static void bn_spring_law(ITG element, ITG node, ITG direction, ITG kind, ITG tables, double stiffness)
+{
+    BNSpring* spring = bn_actual_spring(element, 1);
+    if (node != spring->nodes[0] || direction != spring->direction || direction < 1 || direction > 3 ||
+        kind != 2 || tables != 1 || !isfinite(stiffness) || stiffness <= 0. || stiffness != spring->stiffness) {
+        bs_fail("native network SPRING1 law differs from its positive global translational declaration");
+    }
+}
+
+static void bn_spring2_law(ITG element, const ITG* nodes, ITG first, ITG second,
+                          ITG kind, ITG tables, double stiffness)
+{
+    BNSpring* spring = bn_actual_spring(element, 2);
+    if (nodes[0] != spring->nodes[0] || nodes[1] != spring->nodes[1] ||
+        first < 1 || first > 3 || first != spring->direction || second != first ||
+        kind != 2 || tables != 1 || !isfinite(stiffness) || stiffness <= 0. || stiffness != spring->stiffness) {
+        bs_fail("native network SPRING2 law differs from its positive matching global translation declaration");
+    }
+}
+
+static void bn_axis(const BNSpring* spring, const double* axis)
+{
+    size_t k;
+    for (k = 0; k < 3; ++k) {
+        if (!isfinite(axis[k]) || axis[k] != (k == (size_t)(spring->direction - 1))) {
+            bs_fail("native network scalar spring axis differs from its declared global direction");
+        }
+    }
+}
+
+static void bn_spring(ITG element, ITG node, ITG direction, const double* axis,
+                      const double* force, const double* displacement)
+{
+    size_t k;
+    BNSpring* spring = bn_actual_spring(element, 1);
+    if (node != spring->nodes[0] || direction != spring->direction) {
+        bs_fail("native network SPRING1 force identity changed");
+    }
+    bn_axis(spring, axis);
+    if (!bs.actions_capturing) {
+        return;
+    }
+    BNSpringAction* action = bn.frame->springs + bn.spring_index[element - 1] - 1;
+    if (action->seen++) {
+        bs_fail("repeated native network spring force in one retained frame");
+    }
+    for (k = 0; k < 3; ++k) {
+        if (!isfinite(force[k]) || !isfinite(displacement[k])) {
+            bs_fail("native network spring force or displacement is not finite");
+        }
+        action->force[0][k] = force[k];
+        action->displacement[0][k] = displacement[k];
+    }
+}
+
+static void bn_spring2(ITG element, const ITG* nodes, const double* first_axis,
+                       const double* second_axis, const double* force,
+                       const double* first_displacement, const double* second_displacement)
+{
+    size_t k;
+    BNSpring* spring = bn_actual_spring(element, 2);
+    if (nodes[0] != spring->nodes[0] || nodes[1] != spring->nodes[1]) {
+        bs_fail("native network SPRING2 force identity changed");
+    }
+    bn_axis(spring, first_axis);
+    bn_axis(spring, second_axis);
+    if (!bs.actions_capturing) {
+        return;
+    }
+    BNSpringAction* action = bn.frame->springs + bn.spring_index[element - 1] - 1;
+    if (action->seen++) {
+        bs_fail("repeated native network internal spring in one retained frame");
+    }
+    for (k = 0; k < 3; ++k) {
+        if (!isfinite(force[k]) || !isfinite(force[k + 3]) ||
+            !isfinite(first_displacement[k]) || !isfinite(second_displacement[k])) {
+            bs_fail("native network internal spring force or displacement is not finite");
+        }
+        action->force[0][k] = force[k];
+        action->force[1][k] = force[k + 3];
+        action->displacement[0][k] = first_displacement[k];
+        action->displacement[1][k] = second_displacement[k];
+    }
+}
+
+static void bn_mpc_term(ITG row, ITG node, ITG direction, double coefficient, double multiplier)
+{
+    if (!bs.actions_capturing) {
+        return;
+    }
+    if (!bn.frame || row < 1 || row > bs.nmpc || node < 1 || node > bs.nk ||
+        direction < 0 || direction > 3 || !isfinite(coefficient) || !isfinite(multiplier)) {
+        bs_fail("network native projected MPC observation has an invalid identity or value");
+    }
+    ITG index = bn.knot_row_index[row - 1];
+    if (index) {
+        const BNKnot* knot = bn.knots + index - 1;
+        if (node == knot->auxiliary && direction == knot->direction) {
+            if (coefficient != 1. || bn.frame->knots[index - 1].visited++) {
+                bs_fail("network actual knot algebraic projection is repeated or changed");
+            }
+        }
+    }
+}
+
+static void bn_projected_supports(ITG nk, ITG mt, double* fn, ITG* nactdof)
+{
+    ITG node, direction;
+    size_t i, k, expected = 0;
+    if (!bn.frame || bn.frame->support_seen || nk != bs.nk || mt < 4 || nk > INT_MAX / mt ||
+        !bs.frame_displacements || bn.current_boundary_count != bn.boundary_count) {
+        bs_fail("network actual projected support frame is missing or repeated");
+    }
+    unsigned char* seen = bs_allocate((size_t)bn.boundary_count, 1);
+    for (i = 0; i < bn.source_count; ++i) {
+        for (direction = 1; direction <= 3; ++direction) {
+            if (bn.frame->sources[i][direction - 1] != 0. &&
+                nactdof[mt * (size_t)(bn.sources[i].node - 1) + direction] <= 0) {
+                bs_fail("network point sources require free independent native translations");
+            }
+        }
+    }
+    for (i = 0; i < bn.spring_count; ++i) {
+        for (direction = 0; direction < bn.springs[i].kind; ++direction) {
+            if (nactdof[mt * (size_t)(bn.springs[i].nodes[direction] - 1) + bn.direction] <= 0) {
+                bs_fail("network scalar spring ports require free independent native translations");
+            }
+        }
+    }
+    for (node = 1; node <= nk; ++node) {
+        for (direction = 1; direction <= 3; ++direction) {
+            size_t offset = mt * (size_t)(node - 1) + direction;
+            ITG active = nactdof[offset];
+            if (active >= 0 || active % 2) {
+                continue;
+            }
+            if (active == INT_MIN || -active / 2 < 1 || -active / 2 > bn.boundary_count) {
+                bs_fail("network actual encoded SPC index is outside its boundary catalogue");
+            }
+            size_t row = (size_t)(-active / 2 - 1);
+            BNBoundary* binding = bn.boundaries + row;
+            double prescribed = bn.current_values[row], displacement = bs.frame_displacements[offset];
+            if (seen[row]++ || binding->node != node || binding->direction != direction ||
+                bn.current_nodes[row] != node || bn.current_directions[row] != direction ||
+                bn.current_types[row] != binding->type || !binding->role ||
+                !isfinite(prescribed) || !isfinite(displacement) || !isfinite(fn[offset]) ||
+                (binding->role <= 2 && prescribed != 0.)) {
+                bs_fail("network actual SPC identity, type, prescription or finite native value differs");
+            }
+            if (binding->role == 4) {
+                BNKnotAction* action = bn.frame->knots + binding->knot - 1;
+                if (action->seen++ || action->visited != 1) {
+                    bs_fail("network knot SPC lacks its actual unique native equation projection");
+                }
+                action->value = fn[offset];
+                action->prescribed = prescribed;
+                action->displacement = displacement;
+                continue;
+            }
+            if (!binding->support || binding->support > bn.support_count) {
+                bs_fail("network actual physical/algebraic guide has no owner");
+            }
+            BNSupportAction* action = bn.frame->supports + binding->support - 1;
+            if (action->count >= 8) {
+                bs_fail("network physical guide has extra projected native degrees of freedom");
+            }
+            BSSPC* spc = action->spcs + action->count++;
+            *spc = (BSSPC){.node = node, .direction = direction, .role = binding->role,
+                .original_direction = binding->role == 1 ? direction :
+                    bn.angles[binding->angle - 1].direction,
+                .value = fn[offset], .prescribed = prescribed, .displacement = displacement};
+            double force[3] = {0.}, moment[3] = {0.};
+            if (binding->role == 1) {
+                force[direction - 1] = fn[offset];
+                bs_cross(moment, bs.coordinates + 3 * (size_t)(bn.supports[binding->support - 1].node - 1), force);
+            }
+            else if (binding->role == 2) {
+                for (k = 0; k < 3; ++k) {
+                    spc->axis[k] = bn.angles[binding->angle - 1].axis[k];
+                    moment[k] = fn[offset] * spc->axis[k];
+                }
+            }
+            for (k = 0; k < 3; ++k) {
+                action->force[k] += force[k];
+                action->moment[k] += moment[k];
+                if (!isfinite(action->force[k]) || !isfinite(action->moment[k])) {
+                    bs_fail("network actual physical support wrench overflow");
+                }
+            }
+        }
+    }
+    for (i = 0; i < (size_t)bn.boundary_count; ++i) {
+        if (bn.boundaries[i].role) {
+            ++expected;
+            if (seen[i] != 1) {
+                bs_fail("network actual projected physical/algebraic SPC catalogue is incomplete");
+            }
+        }
+    }
+    if (expected != 8 * bn.support_count + bn.knot_count) {
+        bs_fail("network physical/algebraic boundary counts differ from the authenticated graph");
+    }
+    for (i = 0; i < bn.support_count; ++i) {
+        if (bn.frame->supports[i].count != 8) {
+            bs_fail("network physical guide lacks two translations and three angle/algebraic pairs");
+        }
+    }
+    free(seen);
+    bn.frame->support_seen = 1;
+}
+
+static void bn_seal_actions(ITG step, ITG increment, double time)
+{
+    size_t i;
+    if (!bn.frame || !bs.actions_capturing || !bn.frame->support_seen ||
+        bs.action_step != step || bs.action_increment != increment || bs.action_time != time) {
+        bs_fail("network beam ends and native actions do not share one completed physical frame");
+    }
+    for (i = 0; i < bn.spring_count; ++i) {
+        if (bn.frame->springs[i].seen != 1) {
+            bs_fail("network retained frame is missing an actual native spring action");
+        }
+    }
+    for (i = 0; i < bn.knot_count; ++i) {
+        if (bn.frame->knots[i].seen != 1 || bn.frame->knots[i].visited != 1) {
+            bs_fail("network retained frame is missing an actual native knot algebraic observation");
+        }
+    }
+    bn.current_boundary_count = 0;
+    bn.current_nodes = bn.current_directions = NULL;
+    bn.current_values = NULL;
+    bn.current_types = NULL;
+}
+
+static void bn_vector(FILE* stream, const double* values)
+{
+    size_t k;
+    for (k = 0; k < 3; ++k) {
+        if (!isfinite(values[k])) {
+            bs_fail("network output vector contains a nonfinite value");
+        }
+    }
+    bs_vector(stream, values);
+}
+
+static void bn_units(FILE* stream, int role)
+{
+    const char* value = role == 1 ? "N" : role == 2 ? "N*mm" : "NATIVE_EQUATION_VALUE";
+    const char* motion = role == 1 ? "mm" : role == 2 ? "rad" : "NATIVE_EQUATION_VALUE";
+    fprintf(stream, ",\"value_unit\":\"%s\",\"prescription_unit\":\"%s\","
+            "\"displacement_unit\":\"%s\"", value, motion, motion);
+}
+
+static void bn_write_actions(FILE* stream, const BNFrame* frame)
+{
+    size_t i, j, k;
+    double force[3], moment[3];
+    const char* roles[] = {"", "TRANSLATION", "ANGLE", "ALGEBRAIC"};
+    if (!frame) {
+        bs_fail("network FRD frame has no sealed native action observations");
+    }
+    fprintf(stream, ",\"native_actions\":{\"position_frame\":\"ORIGINAL_GLOBAL\","
+            "\"moment_reference\":\"GLOBAL_ORIGIN\",\"force_action\":\"ON_STRUCTURAL_MODEL\","
+            "\"sources\":[");
+    for (i = 0; i < bn.source_count; ++i) {
+        const BNSource* source = bn.sources + i;
+        const double* position = bs.coordinates + 3 * (size_t)(source->node - 1);
+        fprintf(stream, "%s{\"owner\":\"%s\",\"node\":%d,\"position\":", i ? "," : "", source->owner, source->node);
+        bn_vector(stream, position);
+        fprintf(stream, ",\"force_global\":");
+        bn_vector(stream, frame->sources[i]);
+        bs_cross(moment, position, frame->sources[i]);
+        fprintf(stream, ",\"moment_origin\":");
+        bn_vector(stream, moment);
+        fprintf(stream, "}");
+    }
+    fprintf(stream, "],\"springs\":[");
+    for (i = 0; i < bn.spring_count; ++i) {
+        const BNSpring* spring = bn.springs + i;
+        const BNSpringAction* action = frame->springs + i;
+        fprintf(stream, "%s{\"owner\":\"%s\",\"element\":%d,\"mode\":\"%s\","
+                "\"direction\":%d,\"stiffness_N_per_mm\":%.17g,\"ends\":[",
+                i ? "," : "", spring->owner, spring->element,
+                spring->kind == 1 ? "GROUND" : "TWO_POINTS", spring->direction, spring->stiffness);
+        for (j = 0; j < (size_t)spring->kind; ++j) {
+            const double* position = bs.coordinates + 3 * (size_t)(spring->nodes[j] - 1);
+            fprintf(stream, "%s{\"end\":%zu,\"node\":%d,\"role\":\"BEAM_VERTEX\",\"position\":",
+                    j ? "," : "", j + 1, spring->nodes[j]);
+            bn_vector(stream, position);
+            fprintf(stream, ",\"native_resisting_force\":");
+            bn_vector(stream, action->force[j]);
+            for (k = 0; k < 3; ++k) {
+                force[k] = -action->force[j][k];
+            }
+            bs_cross(moment, position, force);
+            fprintf(stream, ",\"force_global\":");
+            bn_vector(stream, force);
+            fprintf(stream, ",\"moment_origin\":");
+            bn_vector(stream, moment);
+            fprintf(stream, ",\"displacement\":");
+            bn_vector(stream, action->displacement[j]);
+            fprintf(stream, "}");
+        }
+        fprintf(stream, "]}");
+    }
+    fprintf(stream, "],\"supports\":[");
+    for (i = 0; i < bn.support_count; ++i) {
+        const BNSupport* support = bn.supports + i;
+        const BNSupportAction* action = frame->supports + i;
+        fprintf(stream, "%s{\"owner\":\"%s\",\"node\":%d,\"position\":", i ? "," : "", support->owner, support->node);
+        bn_vector(stream, bs.coordinates + 3 * (size_t)(support->node - 1));
+        fprintf(stream, ",\"force_global\":");
+        bn_vector(stream, action->force);
+        fprintf(stream, ",\"moment_origin\":");
+        bn_vector(stream, action->moment);
+        fprintf(stream, ",\"spcs\":[");
+        for (j = 0; j < action->count; ++j) {
+            const BSSPC* spc = action->spcs + j;
+            fprintf(stream, "%s{\"node\":%d,\"direction\":%d,\"role\":\"%s\","
+                    "\"original_node\":%d,\"original_direction\":%d,\"value\":%.17g,"
+                    "\"native_prescribed_value\":%.17g,\"native_displacement\":%.17g",
+                    j ? "," : "", spc->node, spc->direction, roles[spc->role], support->node,
+                    spc->original_direction, spc->value, spc->prescribed, spc->displacement);
+            if (spc->role == 2) {
+                fprintf(stream, ",\"axis\":");
+                bn_vector(stream, spc->axis);
+            }
+            bn_units(stream, spc->role);
+            fprintf(stream, "}");
+        }
+        fprintf(stream, "]}");
+    }
+    fprintf(stream, "],\"knot_algebraic_spcs\":[");
+    for (i = 0; i < bn.knot_count; ++i) {
+        const BNKnot* knot = bn.knots + i;
+        const BNKnotAction* action = frame->knots + i;
+        fprintf(stream, "%s{\"original_node\":%d,\"rotation_node\":%d,\"expansion_node\":%d,"
+                "\"receiving_node\":%d,\"node\":%d,\"direction\":%d,\"mpc_row\":%d,"
+                "\"knot_dimension\":%d,\"role\":\"ALGEBRAIC\",\"value\":%.17g,"
+                "\"native_prescribed_value\":%.17g,\"native_displacement\":%.17g",
+                i ? "," : "", knot->reference, knot->rotation, knot->expansion, knot->receiver,
+                knot->auxiliary, knot->direction, knot->row, knot->dimension,
+                action->value, action->prescribed, action->displacement);
+        bn_units(stream, 3);
+        fprintf(stream, "}");
+    }
+    fprintf(stream, "]}");
 }

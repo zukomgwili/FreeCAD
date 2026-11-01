@@ -79,6 +79,7 @@ def require_capability(binary, *, coupled=False, schema=None):
         "CCX_BEAM_SECTION_V2": "--freecad-beam-coupling-version",
         "CCX_BEAM_SECTION_V3": "--freecad-beam-solid-version",
         "CCX_BEAM_SECTION_V4": "--freecad-beam-contact-version",
+        "CCX_BEAM_SECTION_V5": "--freecad-beam-network-version",
     }[wanted]
     try:
         binary = str(selected.resolve(strict=True))
@@ -96,6 +97,10 @@ def require_capability(binary, *, coupled=False, schema=None):
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ValueError("Qualified native beam-end observer is unavailable") from error
     if result.returncode != 0 or result.stdout.strip() != wanted:
+        if wanted == "CCX_BEAM_SECTION_V5":
+            raise ValueError(
+                "Solver lacks native branching beam network output V5; select the qualified solver"
+            )
         if wanted == "CCX_BEAM_SECTION_V4":
             raise ValueError(
                 "Solver lacks native coupled beam/contact output V4; select the qualified solver"
@@ -224,6 +229,10 @@ def preflight(analysis, solver, mesh):
             raise ValueError(
                 "Beam section output currently requires straight quadratic beam segments"
             )
+    from femtools import beam_network_coupling
+
+    if beam_network_coupling.requested(analysis, mesh):
+        return beam_network_coupling.plan(analysis, solver, mesh)
     from femtools.beam_coupling import plan
 
     return plan(analysis, solver, mesh)
@@ -245,6 +254,7 @@ def _deck_sections(writer, literal, coupling=None):
     steps = 0
     spring_elements, solid_elements = {}, {}
     mixed = coupling and coupling.get("schema") in ("CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
+    network = coupling and coupling.get("schema") == "CCX_BEAM_SECTION_V5"
 
     def section():
         if mode == "*BEAM SECTION":
@@ -285,7 +295,9 @@ def _deck_sections(writer, literal, coupling=None):
             if mode == "*STEP":
                 steps += 1
             allowed = {"B32R"} | (
-                {"SPRING2", "C3D4"} if mixed else {"SPRING1"} if coupling else set()
+                {"SPRING1", "SPRING2"}
+                if network
+                else {"SPRING2", "C3D4"} if mixed else {"SPRING1"} if coupling else set()
             )
             if mode == "*ELEMENT" and options.get("TYPE") not in allowed:
                 raise ValueError("Beam-end diagnostics require an exclusively B32R input deck")
@@ -338,11 +350,21 @@ def _deck_sections(writer, literal, coupling=None):
         elif mode == "*BEAM SECTION":
             rows.append(values)
     section()
-    if coupling and spring_elements != {
-        coupling["spring"]["element"]: (
-            coupling["spring"]["nodes"] if mixed else coupling["spring"]["node"]
-        )
+    if network and spring_elements != {
+        row["element"]: row["nodes"][0] if row["kind"] == "SPRING1" else row["nodes"]
+        for row in coupling["springs"]
     }:
+        raise ValueError("Native network spring connectivity differs from its owner catalogue")
+    if (
+        coupling
+        and not network
+        and spring_elements
+        != {
+            coupling["spring"]["element"]: (
+                coupling["spring"]["nodes"] if mixed else coupling["spring"]["node"]
+            )
+        }
+    ):
         raise ValueError("Native ground spring connectivity differs from its owner catalogue")
     if mixed and solid_elements != {
         row["element"]: row["nodes"] for row in coupling["solid_elements"]
@@ -401,6 +423,7 @@ def _deck_sections(writer, literal, coupling=None):
         raise ValueError("Native beam sections do not cover the complete element catalogue")
     if (
         coupling
+        and not network
         and len(
             {
                 (
@@ -433,7 +456,13 @@ def _retire_request(deck):
         literal = _read(path)[0]
         valid = (
             _json(literal).get("schema")
-            in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
+            in (
+                SCHEMA,
+                "CCX_BEAM_SECTION_V2",
+                "CCX_BEAM_SECTION_V3",
+                "CCX_BEAM_SECTION_V4",
+                "CCX_BEAM_SECTION_V5",
+            )
             if path.suffix == ".json"
             else literal.startswith(
                 (
@@ -441,6 +470,7 @@ def _retire_request(deck):
                     b"CCX_BEAM_SECTION_V2\n",
                     b"CCX_BEAM_SECTION_V3\n",
                     b"CCX_BEAM_SECTION_V4\n",
+                    b"CCX_BEAM_SECTION_V5\n",
                 )
             )
         )
@@ -472,21 +502,32 @@ def prepare_request(writer):
     text = literal.decode("utf-8")
     if "SECTION FORCES" not in text.upper():
         raise ValueError("The stock writer did not request native beam section forces")
-    from femtools import beam_contact_coupling, beam_coupling, beam_solid_coupling
+    from femtools import (
+        beam_contact_coupling,
+        beam_coupling,
+        beam_network_coupling,
+        beam_solid_coupling,
+    )
 
     coupling_module = (
         beam_contact_coupling
         if coupling and coupling.get("schema") == beam_contact_coupling.SCHEMA
         else (
-            beam_solid_coupling
-            if coupling and coupling.get("schema") == beam_solid_coupling.SCHEMA
-            else beam_coupling
+            beam_network_coupling
+            if coupling and coupling.get("schema") == beam_network_coupling.SCHEMA
+            else (
+                beam_solid_coupling
+                if coupling and coupling.get("schema") == beam_solid_coupling.SCHEMA
+                else beam_coupling
+            )
         )
     )
     if coupling:
         coupling = coupling_module.catalogue(writer, text, coupling)
     schema = coupling_module.SCHEMA if coupling else SCHEMA
     elements = _deck_sections(writer, text, coupling)
+    if schema == beam_network_coupling.SCHEMA:
+        beam_network_coupling.bind_elements(elements, coupling)
     binary = _binary(solver)
     binary_sha = _sha(binary)
     require_capability(binary, schema=schema)
@@ -617,7 +658,13 @@ def _current(fea, metadata):
             return False
     return (
         metadata["schema"]
-        in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
+        in (
+            SCHEMA,
+            "CCX_BEAM_SECTION_V2",
+            "CCX_BEAM_SECTION_V3",
+            "CCX_BEAM_SECTION_V4",
+            "CCX_BEAM_SECTION_V5",
+        )
         and _model(fea.analysis, fea.mesh) == metadata["model_hash"]
         and _binary(fea.solver) == metadata["binary"]
         and _sha(metadata["binary"]) == metadata["binary_sha256"]
@@ -714,13 +761,20 @@ def _validate_output(data, metadata):
         "CCX_BEAM_SECTION_V2",
         "CCX_BEAM_SECTION_V3",
         "CCX_BEAM_SECTION_V4",
+        "CCX_BEAM_SECTION_V5",
     )
     geometry_source = "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT"
 
     if (
         data.get("schema") != metadata.get("schema", SCHEMA)
         or data.get("schema")
-        not in (SCHEMA, "CCX_BEAM_SECTION_V2", "CCX_BEAM_SECTION_V3", "CCX_BEAM_SECTION_V4")
+        not in (
+            SCHEMA,
+            "CCX_BEAM_SECTION_V2",
+            "CCX_BEAM_SECTION_V3",
+            "CCX_BEAM_SECTION_V4",
+            "CCX_BEAM_SECTION_V5",
+        )
         or data.get("request") != metadata["run"]["token"]
         or data.get("units") != UNITS
         or data.get("complete") is not True
@@ -778,7 +832,11 @@ def _validate_output(data, metadata):
             raise ValueError("Native beam frame identities or times are not monotonic")
         previous = (frame["frame"], frame["increment"], frame["time"])
         identities.add(tuple(values))
-        if data["schema"] == "CCX_BEAM_SECTION_V4":
+        if data["schema"] == "CCX_BEAM_SECTION_V5":
+            from femtools.beam_network_coupling import validate
+
+            validate(frame.get("native_actions"), metadata["coupling"])
+        elif data["schema"] == "CCX_BEAM_SECTION_V4":
             from femtools.beam_contact_coupling import validate
 
             if frame.get("contact_request") != contact_token:

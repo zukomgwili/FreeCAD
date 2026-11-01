@@ -424,6 +424,10 @@ SET(FemTestsApp_SRCS
     femtest/app/test_beam_contact_native.py
     femtest/app/test_beam_contact_lifecycle.py
     femtest/app/test_beam_contact_rejections.py
+    femtest/app/beam_network_fixtures.py
+    femtest/app/test_beam_network_native.py
+    femtest/app/test_beam_network_integrity.py
+    femtest/app/test_beam_network_fork.py
     femtest/app/test_beam_section_forces_safety.py
     femtest/app/test_beam_section_forces_lifecycle.py
     femtest/app/test_ccxtools.py
@@ -670,6 +674,7 @@ SET(FemTools_SRCS
     femtools/beam_solid_results.py
     femtools/beam_contact_coupling.py
     femtools/beam_contact_results.py
+    femtools/beam_network_coupling.py
     femtools/native_properties.py
     femtools/checksanalysis.py
     femtools/elastic_connector.py
@@ -833,6 +838,7 @@ SET(FemGuiTests_SRCS
     femtest/gui/test_beam_coupling.py
     femtest/gui/test_beam_solid_coupling.py
     femtest/gui/test_beam_contact_coupling.py
+    femtest/gui/test_beam_network_coupling.py
 )
 
 SET(FemGuiUtils_SRCS

@@ -1,0 +1,133 @@
+test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct (femtest.app.test_beam_network_native.TestBeamNetworkNative.test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +243 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Vertex1' Type: 'Node' id: 3
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 6
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 7
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 8
+AddGroupElements: num elements: 1 sizeof: 8
+Only one material object, but this one has a reference shape. The reference shape will be ignored.
+
+Check prerequisites...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 40.0, 0.0), 'ids': [6, 7], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -40.0, 0.0), 'ids': [8, 9], 'beam_axis_m': Vector (1.0, 0.0, -0.0)}]
+NetworkMaterial:
+    Type: Fem::MaterialCommon, Name: NetworkMaterial
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkSection:
+    Type: Fem::ElementGeometry1D, Name: NetworkSection
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkGuide:
+    Type: Fem::ConstraintDisplacement, Name: NetworkGuide
+    ReferenceShape ... Type: Vertex, Object name: NetworkStem, Object label: NetworkStem, Element name: Vertex1
+NetworkUpperForce:
+    Type: Fem::ConstraintForce, Name: NetworkUpperForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Vertex2
+NetworkLowerForce:
+    Type: Fem::ConstraintForce, Name: NetworkLowerForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-I0l3dCyo/grounded-branch-green-r05/cases/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/NetworkMesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+Read ccx results from frd file: /private/tmp/freecad-bjh-I0l3dCyo/grounded-branch-green-r05/cases/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/NetworkMesh.frd
+Read cbeam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.402s
+
+OK
+cx results from dat file: /private/tmp/freecad-bjh-I0l3dCyo/grounded-branch-green-r05/cases/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/NetworkMesh.dat
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4

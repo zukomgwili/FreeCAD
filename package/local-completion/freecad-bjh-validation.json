@@ -1,0 +1,480 @@
+{
+  "all_required_gates_passed": true,
+  "bead": "FreeCAD-bjh",
+  "collector_executed_native_commands": false,
+  "evidence_directory": "package/local-completion/freecad-bjh-source-evidence",
+  "excluded_bodies": "No application/profile/CAD/config/executable/archive/dependency bodies copied; analytical screenshots explicitly permitted.",
+  "final_source_sha256": {
+    "package/calculix/force-accounting/beamsection.c": "07f26b04523fc1eacb9904a0d22cb4bafbf00beb428bc21450ae66321b90b636",
+    "package/calculix/force-accounting/beamsection.patch": "1f2c2f2f5b50b7acc3c5a0b878fafa3f23a744e00e30bd4eebd9fd9968c20a71",
+    "package/local-completion/freecad-bjh-connected-oracles.md": "c8c15042a8abb3fc7a27e5ed490c27be1b94ec8a4921d4e2c4aa3ff8be64f4dc",
+    "package/local-completion/freecad-bjh-fork-oracles.md": "53342c7585e80a3a324e6efd08727119eb0ea1ef9bb675dc305d0c1e2bc1f378",
+    "package/local-completion/freecad-bjh-oracles.md": "5fa2860dbe013d119c9b471376e88ab77fa1e09af0140df5c2525a1a652cf43b",
+    "package/local-completion/freecad-bjh-research.md": "fb32f62feb493ae14404320f14c9284c3cf8ff6ffda4fc993164d720bb92d33b",
+    "package/local-completion/freecad-bjh-usage.md": "7906ee4d15ee1f3355367d4dc9f0dfbc28809daa982b3c8808b06aad58bd97e3",
+    "src/Mod/Fem/CMakeLists.txt": "7636100259e5c3028cab325becb85476c9f6eba1293f91a46008c00b7c3bff94",
+    "src/Mod/Fem/TestFemApp.py": "7f4b6c7478e66ce43f08c893ee42932f99dff1b364e0b6b50b6756a749884350",
+    "src/Mod/Fem/TestFemGui.py": "b377b557fdcf3ff67ee146affc1b75d955d9fbc39e3bed841f0611c6d44786ee",
+    "src/Mod/Fem/femtest/app/beam_network_fixtures.py": "98a67611f2044e8ee4b3bc12766d7e5d1b1b3cbade290ea95f606c3683f47308",
+    "src/Mod/Fem/femtest/app/test_beam_network_fork.py": "b91fdb65002a59f28c6472102d8ee1e56fbfee81eba068c65a7df4008cd8696e",
+    "src/Mod/Fem/femtest/app/test_beam_network_integrity.py": "f70ec83e9c9b75e24f2774aeb5d3018ffd3943327ffc7a326a94a64192d83882",
+    "src/Mod/Fem/femtest/app/test_beam_network_native.py": "bf09caa564c18a01eb1cf301577471d7026cd78d059ecc1fc5e85cace629b7b1",
+    "src/Mod/Fem/femtest/app/test_beam_section_forces_native.py": "fc171784ffd3ad75ef3ee7fe51c73767ca884c9a7975561bcdd82758bc2f9623",
+    "src/Mod/Fem/femtest/gui/test_beam_network_coupling.py": "b696079c795da288e66bbf7af19ec107e39728c1912384a5fe0d60e1c2a16d2d",
+    "src/Mod/Fem/femtools/beam_network_coupling.py": "1cbc0266172d592a8e906df39e1fbefbb0a5bf6fe0b2be9a9fff2b7b467c3ac6",
+    "src/Mod/Fem/femtools/beam_section_forces.py": "93934bab4a02e3e034858fd43e7e7fa8499071feb584e8d1296789a3c9c8a0d2",
+    "src/Mod/Fem/femviewprovider/view_beam_section_forces.py": "1ff49da95557989acbd0fc47ba238be194501242fd19b868eeb9280c44c084b6"
+  },
+  "gates": {
+    "bounded-mechanics-r01": {
+      "classification": "SUPPORTING_REQUIRED_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/bounded-mechanics-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/bounded-mechanics-r01/execution.json",
+      "returncode": 0
+    },
+    "bounded-mechanics-r02": {
+      "classification": "SUPPORTING_REQUIRED_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/bounded-mechanics-r02/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/bounded-mechanics-r02/execution.json",
+      "returncode": 0
+    },
+    "cold-final-r01": {
+      "classification": "QUALIFYING_FINAL_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/cold-final-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/cold-final-r01/execution.json",
+      "returncode": 0
+    },
+    "cold-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/cold-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/cold-r01/execution.json",
+      "returncode": 0
+    },
+    "component-control-r01": {
+      "classification": "SUPPORTING_REQUIRED_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/component-control-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/component-control-r01/execution.json",
+      "returncode": 0
+    },
+    "connected-branches-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/connected-branches-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/connected-branches-r01/execution.json",
+      "returncode": 0
+    },
+    "ctest-r01": {
+      "classification": "QUALIFYING_FINAL_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/ctest-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/ctest-r01/execution.json",
+      "returncode": 0
+    },
+    "current-gui-baseline-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/current-gui-baseline-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/current-gui-baseline-r01/execution.json",
+      "returncode": 0
+    },
+    "fem-all-r01": {
+      "classification": "QUALIFYING_FINAL_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/fem-all-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/fem-all-r01/execution.json",
+      "returncode": 0
+    },
+    "fork-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/fork-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/fork-r01/execution.json",
+      "returncode": 0
+    },
+    "grounded-branch-green-r01": {
+      "classification": "NONQUALIFYING_PROTOTYPE",
+      "custody_and_log_verified": true,
+      "log": "runs/grounded-branch-green-r01/run.log",
+      "passed": false,
+      "reason": "Native generated blank equation not authenticated; no Current output qualified.",
+      "receipt": "runs/grounded-branch-green-r01/execution.json",
+      "returncode": 1
+    },
+    "grounded-branch-green-r02": {
+      "classification": "NONQUALIFYING_PROTOTYPE",
+      "custody_and_log_verified": true,
+      "log": "runs/grounded-branch-green-r02/run.log",
+      "passed": false,
+      "reason": "Diagnostic identified the exact native two-term temperature equation.",
+      "receipt": "runs/grounded-branch-green-r02/execution.json",
+      "returncode": 1
+    },
+    "grounded-branch-green-r03": {
+      "classification": "NONQUALIFYING_PROTOTYPE",
+      "custody_and_log_verified": true,
+      "log": "runs/grounded-branch-green-r03/run.log",
+      "passed": false,
+      "reason": "Native cascade changed the raw mean-translation equation representation; added authenticated raw graph bridge.",
+      "receipt": "runs/grounded-branch-green-r03/execution.json",
+      "returncode": 1
+    },
+    "grounded-branch-green-r04": {
+      "classification": "NONQUALIFYING_FORMAL_TEST",
+      "custody_and_log_verified": true,
+      "log": "runs/grounded-branch-green-r04/run.log",
+      "passed": false,
+      "reason": "Owned native Current result existed, but test looked for section/material fields on each sample instead of joining the immutable element catalogue. Corrected test lookup only; fixed numeric budgets unchanged.",
+      "receipt": "runs/grounded-branch-green-r04/execution.json",
+      "returncode": 1
+    },
+    "grounded-branch-green-r05": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/grounded-branch-green-r05/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/grounded-branch-green-r05/execution.json",
+      "returncode": 0
+    },
+    "grounded-branch-red-r01": {
+      "classification": "EXPECTED_RED",
+      "custody_and_log_verified": true,
+      "log": "runs/grounded-branch-red-r01/run.log",
+      "passed": false,
+      "reason": "Original single-source coupled admission refused the native branching tracer.",
+      "receipt": "runs/grounded-branch-red-r01/execution.json",
+      "returncode": 1
+    },
+    "gui-final-r01": {
+      "classification": "QUALIFYING_FINAL_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/gui-final-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/gui-final-r01/execution.json",
+      "returncode": 0
+    },
+    "gui-green-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/gui-green-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/gui-green-r01/execution.json",
+      "returncode": 0
+    },
+    "gui-red-r01": {
+      "classification": "EXPECTED_RED",
+      "custody_and_log_verified": true,
+      "log": "runs/gui-red-r01/run.log",
+      "passed": false,
+      "reason": "Actual native result inspector lacked the plural V5 action table before the provider implementation.",
+      "receipt": "runs/gui-red-r01/execution.json",
+      "returncode": 1
+    },
+    "installed-gui-baseline-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/installed-gui-baseline-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/installed-gui-baseline-r01/execution.json",
+      "returncode": 0
+    },
+    "integrity-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/integrity-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/integrity-r01/execution.json",
+      "returncode": 0
+    },
+    "integrity-r02": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/integrity-r02/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/integrity-r02/execution.json",
+      "returncode": 0
+    },
+    "native-build-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/native-build-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/native-build-r01/execution.json",
+      "returncode": 0
+    },
+    "native-build-r02": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/native-build-r02/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/native-build-r02/execution.json",
+      "returncode": 0
+    },
+    "native-build-r03": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/native-build-r03/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/native-build-r03/execution.json",
+      "returncode": 0
+    },
+    "native-build-r04": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/native-build-r04/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/native-build-r04/execution.json",
+      "returncode": 0
+    },
+    "native-build-r05": {
+      "classification": "QUALIFYING_FINAL_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/native-build-r05/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/native-build-r05/execution.json",
+      "returncode": 0
+    },
+    "ordinary-mechanics-r01": {
+      "classification": "SUPPORTING_REQUIRED_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/ordinary-mechanics-r01/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/ordinary-mechanics-r01/execution.json",
+      "returncode": 0
+    },
+    "ordinary-mechanics-r02": {
+      "classification": "NONQUALIFYING_EXACT_COMPARISON",
+      "custody_and_log_verified": true,
+      "log": "runs/ordinary-mechanics-r02/run.log",
+      "passed": false,
+      "reason": "Additional two-T exact comparison failed on near-null ordinary fields. Retained failure; separate pre-reviewed bounded comparison and inactive repeats used, never a bit-identity claim.",
+      "receipt": "runs/ordinary-mechanics-r02/execution.json",
+      "returncode": 1
+    },
+    "ordinary-mechanics-r03": {
+      "classification": "NONQUALIFYING_EXACT_COMPARISON",
+      "custody_and_log_verified": true,
+      "log": "runs/ordinary-mechanics-r03/run.log",
+      "passed": false,
+      "reason": "Additional three-T exact comparison failed on near-null ordinary fields. Retained failure; separate pre-reviewed bounded comparison and inactive repeats used, never a bit-identity claim.",
+      "receipt": "runs/ordinary-mechanics-r03/execution.json",
+      "returncode": 1
+    },
+    "production-build-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/production-build-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/production-build-r01/execution.json",
+      "returncode": 0
+    },
+    "production-build-r02": {
+      "classification": "QUALIFYING_FINAL_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/production-build-r02/run.log",
+      "passed": true,
+      "reason": "Required final gate with complete custody.",
+      "receipt": "runs/production-build-r02/execution.json",
+      "returncode": 0
+    },
+    "production-configure-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/production-configure-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/production-configure-r01/execution.json",
+      "returncode": 0
+    },
+    "scripts-r01": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r01/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r01/execution.json",
+      "returncode": 0
+    },
+    "scripts-r02": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r02/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r02/execution.json",
+      "returncode": 0
+    },
+    "scripts-r03": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r03/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r03/execution.json",
+      "returncode": 0
+    },
+    "scripts-r04": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r04/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r04/execution.json",
+      "returncode": 0
+    },
+    "scripts-r05": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r05/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r05/execution.json",
+      "returncode": 0
+    },
+    "scripts-r06": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r06/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r06/execution.json",
+      "returncode": 0
+    },
+    "scripts-r07": {
+      "audited_execution_receipt": false,
+      "classification": "NONQUALIFYING_SUPERVISOR_FAILURE",
+      "passed": false,
+      "reason": "source_inputs_after raised FileNotFoundError for private fork-fixture-append.py after the agent renamed its unexecuted draft to .pending"
+    },
+    "scripts-r08": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r08/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r08/execution.json",
+      "returncode": 0
+    },
+    "scripts-r09": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r09/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r09/execution.json",
+      "returncode": 0
+    },
+    "scripts-r10": {
+      "classification": "SUPPORTING_PASS",
+      "custody_and_log_verified": true,
+      "log": "runs/scripts-r10/run.log",
+      "passed": true,
+      "reason": "Supporting reproduction, build, or intermediate verification; not a claim about the final version by itself.",
+      "receipt": "runs/scripts-r10/execution.json",
+      "returncode": 0
+    }
+  },
+  "installation_performed": false,
+  "native_binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+  "production_default_observations": {
+    "test_bare_network_frd_cannot_be_imported_as_mechanical_stress": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 36
+    },
+    "test_connected_branches_keep_two_materials_and_both_active_spring_ports": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 36
+    },
+    "test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 18
+    },
+    "test_internal_spring_edit_preserves_literal_history_through_save_and_reopen": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 36
+    },
+    "test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 36
+    },
+    "test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 54
+    },
+    "test_three_branches_keep_both_child_links_and_all_native_owners": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "samples": 54
+    }
+  },
+  "required_gates": [
+    "bounded-mechanics-r01",
+    "bounded-mechanics-r02",
+    "cold-final-r01",
+    "component-control-r01",
+    "ctest-r01",
+    "fem-all-r01",
+    "gui-final-r01",
+    "native-build-r05",
+    "ordinary-mechanics-r01",
+    "production-build-r02"
+  ],
+  "schema": "FreeCAD-bjh-validation-v1",
+  "scope": {
+    "benchmarks": "One T, two connected Ts, three-component fork; frozen independently reviewed signed ends, physical supports, actual spring ends, geometry/axes/origin and case controls.",
+    "excluded": [
+      "rotational/general joints",
+      "contact composition with V5",
+      "cycles",
+      "nonlinear modes",
+      "building design or Oomakhi acceptance",
+      "installation"
+    ],
+    "mechanics_comparison": "Original one-T exact comparison passed. Extra two-T/three-T exact controls failed and remain nonqualifying. Separate reviewed bounded comparisons including inactive candidate repeats and old binary passed without changing frozen equilibrium budgets.",
+    "qualified": "V5 connected acyclic branching B32R component trees with one common global scalar axis, one grounded SPRING1, acyclic SPRING2 links, one physical five-zero guide per component, multiple point sources and per-component material/section ownership."
+  },
+  "source_base": "d63cefd11f7d95d6b6ff12d836e820007c51b456"
+}

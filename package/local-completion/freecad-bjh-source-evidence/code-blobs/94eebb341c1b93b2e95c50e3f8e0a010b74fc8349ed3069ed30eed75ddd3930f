@@ -1,0 +1,989 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Owned admission and wire validation for native branching beam networks.
+
+The network contains genuine B32R beam trees joined by global translational
+scalar springs. One grounded spring anchors the spring tree. Each beam tree
+has its own physical five-DOF zero guide. This module binds native observations;
+it neither solves a network nor recovers member or connector actions.
+"""
+
+import math
+import re
+from types import SimpleNamespace
+
+import FreeCAD as App
+
+from femmesh import meshtools
+from femtools.elastic_connector import PortResolutionContext
+from femtools.elastic_connector import resolve_connector
+from femtools.membertools import AnalysisMember
+from femtools.membertools import get_member
+
+SCHEMA = "CCX_BEAM_SECTION_V5"
+NATIVE_EQUATION = "NATIVE_EQUATION_VALUE"
+
+
+def requested(analysis, mesh):
+    """Select actual coupled branching, leaving the old scalar chain intact."""
+    if mesh is None:
+        return False
+    connectors = get_member(analysis, "Fem::ConstraintElasticConnector")
+    if not connectors or any(obj.Attachment != "Vertices" for obj in connectors):
+        return False
+    degree = {}
+    for element in mesh.FemMesh.Edges:
+        nodes = mesh.FemMesh.getElementNodes(element)
+        if len(nodes) != 3:
+            return False
+        for node in nodes[:2]:
+            degree[node] = degree.get(node, 0) + 1
+    return any(value > 2 for value in degree.values())
+
+
+def _identifier(obj):
+    if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", obj.Name):
+        raise ValueError("Beam network owners require native ASCII identifiers")
+    return obj.Name
+
+
+def _region(native, mesh, context, obj):
+    return meshtools._get_mesh_region_by_owned_references(native, obj, mesh, context)
+
+
+def _vertex(native, mesh, context, obj):
+    refs = list(obj.References)
+    if len(refs) != 1 or len(refs[0][1]) != 1:
+        raise ValueError("Beam network point owners require one native CAD vertex")
+    owner, names = refs[0]
+    selected = owner.getSubObject(names[0]) if owner is not None else None
+    if selected is None or selected.ShapeType != "Vertex":
+        raise ValueError("Beam network point owners require one native CAD vertex")
+    nodes, groups = _region(native, mesh, context, obj)
+    if len(nodes) != 1 or groups is None:
+        raise ValueError("Beam network vertex requires one explicitly owned mesh node")
+    return nodes[0]
+
+
+def _components(elements):
+    adjacency, incident = {}, {}
+    for element, (first, last, _middle) in elements.items():
+        adjacency.setdefault(first, set()).add(last)
+        adjacency.setdefault(last, set()).add(first)
+        incident.setdefault(first, set()).add(element)
+        incident.setdefault(last, set()).add(element)
+    remaining, result = set(adjacency), []
+    while remaining:
+        pending, corners, members = [min(remaining)], set(), set()
+        while pending:
+            node = pending.pop()
+            if node in corners:
+                continue
+            corners.add(node)
+            remaining.discard(node)
+            members.update(incident[node])
+            pending.extend(adjacency[node] - corners)
+        if len(members) != len(corners) - 1:
+            raise ValueError("Beam network currently qualifies acyclic beam components only")
+        result.append({"elements": sorted(members), "corners": sorted(corners)})
+    result.sort(key=lambda row: row["elements"][0])
+    return adjacency, result
+
+
+def _edge_assignments(objects, native, mesh, context, all_elements, label):
+    assignments = {}
+    for obj in objects:
+        _identifier(obj)
+        if not obj.References:
+            if len(objects) != 1:
+                raise ValueError("Multiple beam network " + label + " require explicit CAD edges")
+            elements = set(all_elements)
+        else:
+            for owner, names in obj.References:
+                if (
+                    owner is None
+                    or not names
+                    or any(owner.getSubObject(name).ShapeType != "Edge" for name in names)
+                ):
+                    raise ValueError(
+                        "Beam network " + label + " require native CAD edge references"
+                    )
+            _nodes, groups = _region(native, mesh, context, obj)
+            if groups is None:
+                raise ValueError("Beam network " + label + " require owned native edge groups")
+            elements = {element for group in groups.values() for element in group}
+        if not elements or not elements.issubset(all_elements) or set(assignments) & elements:
+            raise ValueError(
+                "Beam network " + label + " ownership is empty, overlapping or invalid"
+            )
+        assignments.update((element, obj.Name) for element in elements)
+    if set(assignments) != set(all_elements):
+        raise ValueError("Beam network " + label + " do not cover all beam elements")
+    return assignments
+
+
+def plan(analysis, solver, mesh):
+    """Admit the bounded beam-component/scalar-spring tree, with native owners."""
+    members = AnalysisMember(analysis)
+    allowed = {"cons_force", "cons_displacement", "cons_elasticconnector"}
+    if any(
+        rows
+        for key, rows in vars(members).items()
+        if key.startswith("cons_") and key not in allowed
+    ):
+        raise ValueError("Beam networks do not qualify other constraints, cuts, RBEs or contact")
+    if (
+        not members.cons_force
+        or not members.cons_displacement
+        or not members.cons_elasticconnector
+        or not members.geos_beamsection
+        or not members.mats_linear
+        or members.geos_beamrotation
+        or members.geos_shellthickness
+        or members.mats_nonlinear
+        or solver.MaterialNonlinearity
+        or list(solver.NativeAccountingSupports)
+    ):
+        raise ValueError(
+            "Beam networks require linear beam sections, point sources and scalar guides"
+        )
+    sources = [row["Object"] for row in members.cons_force]
+    guides = [row["Object"] for row in members.cons_displacement]
+    connectors = [row["Object"] for row in members.cons_elasticconnector]
+    sections = [row["Object"] for row in members.geos_beamsection]
+    materials = [row["Object"] for row in members.mats_linear]
+    if any(obj not in sources + guides for obj in get_member(analysis, "Fem::Constraint")):
+        raise ValueError("Beam network contains an unsupported native constraint")
+    if any(getattr(obj, "EnableAmplitude", False) for obj in sources + guides):
+        raise ValueError("Beam networks do not qualify amplitudes or nonzero guide motions")
+    for obj in sources + guides + connectors + sections + materials:
+        _identifier(obj)
+        if obj.Document != analysis.Document or obj not in analysis.Group:
+            raise ValueError("Every beam network owner must belong to the selected analysis")
+    context = PortResolutionContext(mesh, analysis)
+    facts = context._owned_facts()
+    if facts is None:
+        raise ValueError("Beam networks require complete native CAD edge and vertex mesh groups")
+    native, coordinates = facts.femmesh, facts.nodes
+    if not native.EdgeCount or native.FaceCount or native.VolumeCount:
+        raise ValueError("Beam networks require a pure native B32R mesh without shells or solids")
+    elements, midsides, pairs = {}, set(), set()
+    for element in native.Edges:
+        connected = tuple(native.getElementNodes(element))
+        if len(connected) != 3 or len(set(connected)) != 3:
+            raise ValueError("Beam networks require three distinct nodes in every B32R element")
+        first, last, middle = connected
+        length = (coordinates[last] - coordinates[first]).Length
+        pair = frozenset((first, last))
+        if (
+            pair in pairs
+            or middle in midsides
+            or not math.isfinite(length)
+            or length <= 0
+            or (coordinates[middle] - (coordinates[first] + coordinates[last]) * 0.5).Length
+            > 1e-10 * length
+        ):
+            raise ValueError("Beam networks require straight, nonduplicate quadratic elements")
+        pairs.add(pair)
+        midsides.add(middle)
+        elements[element] = connected
+    graph, components = _components(elements)
+    if (
+        set(graph) & midsides
+        or set(coordinates) != set(graph) | midsides
+        or not all(math.isfinite(value) for point in coordinates.values() for value in point)
+        or not any(len(neighbours) > 2 for neighbours in graph.values())
+    ):
+        raise ValueError(
+            "Beam networks require complete, disjoint corner/midside nodes and branching"
+        )
+    component_of, component_records, element_component = {}, [], {}
+    for index, component in enumerate(components, 1):
+        if not any(len(graph[node]) > 2 for node in component["corners"]):
+            raise ValueError("Every qualified beam network component must contain branching")
+        component_records.append(
+            {
+                "id": index,
+                **component,
+                "nodes": sorted(
+                    {node for element in component["elements"] for node in elements[element]}
+                ),
+            }
+        )
+        component_of.update((node, index) for node in component["corners"])
+        element_component.update((element, index) for element in component["elements"])
+    # Every CAD edge is a real member owner; its native elements form the
+    # complete disjoint mesh, rather than an aggregate material node cloud.
+    part, member_records, element_owner = mesh.Shape, [], {}
+    if part is None or not part.Shape.Edges or part.Shape.Faces or part.Shape.Solids:
+        raise ValueError("Beam network mesh geometry must contain only genuine CAD edges")
+    for index, _edge in enumerate(part.Shape.Edges, 1):
+        name = "Edge" + str(index)
+        region = SimpleNamespace(Name="BeamNetworkMember", References=[(part, [name])])
+        _nodes, groups = _region(native, mesh, facts, region)
+        if groups is None or set(groups) != {name}:
+            raise ValueError("Every beam network member requires its exact native CAD edge group")
+        owned = set(groups[name])
+        if not owned or not owned.issubset(elements) or set(element_owner) & owned:
+            raise ValueError("Beam network member edge ownership is incomplete or overlapping")
+        member_graph, member_components = _components(
+            {element: elements[element] for element in owned}
+        )
+        ends = [node for node, neighbours in member_graph.items() if len(neighbours) == 1]
+        edge = meshtools.sub_shape_at_global_placement(part, name)
+        length = math.fsum(
+            (coordinates[elements[element][1]] - coordinates[elements[element][0]]).Length
+            for element in owned
+        )
+        bound = 1e-10 * max(1.0, edge.Length)
+        if (
+            len(member_components) != 1
+            or len(ends) != 2
+            or any(len(neighbours) > 2 for neighbours in member_graph.values())
+            or abs(length - edge.Length) > bound
+            or len(edge.Vertexes) != 2
+            or not all(
+                any((coordinates[node] - vertex.Point).Length <= bound for node in ends)
+                for vertex in edge.Vertexes
+            )
+        ):
+            raise ValueError(
+                "Each native CAD member must be a complete straight quadratic beam chain"
+            )
+        label = part.Name + "." + name
+        member_records.append(
+            {
+                "geometry_owner": part.Name,
+                "subelement": name,
+                "member": label,
+                "elements": sorted(owned),
+                "component": element_component[min(owned)],
+            }
+        )
+        element_owner.update((element, label) for element in owned)
+    if set(element_owner) != set(elements):
+        raise ValueError("Native CAD members do not cover every beam network element")
+    section_of = _edge_assignments(sections, native, mesh, facts, elements, "sections")
+    material_of = _edge_assignments(materials, native, mesh, facts, elements, "materials")
+    section_records, material_records = {}, {}
+    for section in sections:
+        dimensions = [
+            section.RectWidth.getValueAs("mm").Value,
+            section.RectHeight.getValueAs("mm").Value,
+        ]
+        if section.SectionType != "Rectangular" or any(
+            not math.isfinite(value) or value <= 0 for value in dimensions
+        ):
+            raise ValueError("Beam networks currently qualify finite positive rectangular sections")
+        section_records[section.Name] = {"owner": section.Name, "dimensions_mm": dimensions}
+    from femtools.material_orthotropic import is_orthotropic
+
+    for material in materials:
+        young = App.Units.Quantity(material.Material["YoungsModulus"]).getValueAs("MPa").Value
+        poisson = float(material.Material["PoissonRatio"])
+        if (
+            is_orthotropic(material)
+            or not math.isfinite(young)
+            or young <= 0
+            or not (math.isfinite(poisson) and -1 < poisson < 0.5)
+        ):
+            raise ValueError("Beam networks qualify finite positive isotropic linear elasticity")
+        material_records[material.Name] = {
+            "owner": material.Name,
+            "youngs_modulus_MPa": young,
+            "poisson_ratio": poisson,
+        }
+    for component in component_records:
+        pairs = {(section_of[element], material_of[element]) for element in component["elements"]}
+        if len(pairs) != 1:
+            raise ValueError("Each connected beam component requires one section and material")
+        component["section"], component["material_owner"] = next(iter(pairs))
+    spring_records, direction = [], None
+    for connector in sorted(connectors, key=lambda obj: obj.Name):
+        if connector.Attachment != "Vertices" or connector.Kind != "Translational":
+            raise ValueError("Beam networks qualify translational vertex springs only")
+        data = resolve_connector(connector, mesh, analysis, context)
+        if data["rotation"].Angle > 1e-12 or connector.OrientationReference:
+            raise ValueError("Beam network scalar springs require a common global axis")
+        if direction is None:
+            direction = data["dof"]
+        if data["dof"] != direction or any(node not in graph for node in data["nodes"]):
+            raise ValueError("Beam network springs require one common global corner-node direction")
+        refs = [connector.End1] + ([connector.End2] if connector.Mode == "Two points" else [])
+        owned_nodes = [
+            _vertex(native, mesh, facts, SimpleNamespace(References=[ref], Name=connector.Name))
+            for ref in refs
+        ]
+        if owned_nodes != list(data["nodes"]) or any(len(graph[node]) != 1 for node in owned_nodes):
+            raise ValueError("Beam network springs require explicitly owned beam endpoint vertices")
+        if len(owned_nodes) == 2:
+            span = coordinates[owned_nodes[1]] - coordinates[owned_nodes[0]]
+            axis = App.Vector(*(float(index == direction - 1) for index in range(3)))
+            if span.Length <= 0 or span.cross(axis).Length > 1e-10 * span.Length:
+                raise ValueError("Beam network two-point spring gap must follow its global axis")
+        spring_records.append(
+            {
+                "owner": connector.Name,
+                "nodes": owned_nodes,
+                "kind": "SPRING1" if len(owned_nodes) == 1 else "SPRING2",
+                "mode": "GROUND" if len(owned_nodes) == 1 else "TWO_POINTS",
+                "direction": direction,
+                "stiffness_N_per_mm": data["stiffness"],
+            }
+        )
+    support_records, roots = [], {}
+    for guide in sorted(guides, key=lambda obj: obj.Name):
+        node = _vertex(native, mesh, facts, guide)
+        if node not in graph or len(graph[node]) != 1 or component_of[node] in roots:
+            raise ValueError("Each beam component requires one distinct endpoint guide")
+        span = coordinates[next(iter(graph[node]))] - coordinates[node]
+        axis_vector = App.Vector(*(float(index == direction - 1) for index in range(3)))
+        if span.cross(axis_vector).Length > 1e-10 * span.Length:
+            raise ValueError("The guided beam endpoint must follow the common spring axis")
+        for index, axis in enumerate("xyz", 1):
+            if (
+                getattr(guide, axis + "Free") != (index == direction)
+                or getattr(guide, axis + "Displacement").getValueAs("mm").Value != 0
+                or getattr(guide, "rot" + axis + "Free")
+                or getattr(guide, axis + "Rotation").getValueAs("rad").Value != 0
+            ):
+                raise ValueError(
+                    "Beam network guides require five zero DOFs, free only along the spring axis"
+                )
+        roots[component_of[node]] = node
+        support_records.append(
+            {
+                "owner": guide.Name,
+                "node": node,
+                "position": list(coordinates[node]),
+                "directions": [d for d in (1, 2, 3) if d != direction] + [4, 5, 6],
+            }
+        )
+    if set(roots) != {component["id"] for component in component_records}:
+        raise ValueError("Every beam component needs its own five-DOF physical guide")
+    ground = [spring for spring in spring_records if spring["kind"] == "SPRING1"]
+    internal = [spring for spring in spring_records if spring["kind"] == "SPRING2"]
+    if len(ground) != 1 or len(internal) != len(component_records) - 1:
+        raise ValueError(
+            "Beam network spring tree requires one ground and no redundant connections"
+        )
+    root_component = component_of[ground[0]["nodes"][0]]
+    if roots[root_component] != ground[0]["nodes"][0]:
+        raise ValueError("The grounded spring must act at its beam component guide")
+    links = {component["id"]: [] for component in component_records}
+    for spring in internal:
+        first, last = spring["nodes"]
+        a, b = component_of[first], component_of[last]
+        if a == b:
+            raise ValueError("Internal scalar springs must join distinct beam components")
+        links[a].append((b, first, last))
+        links[b].append((a, last, first))
+    visited, pending = {root_component}, [root_component]
+    while pending:
+        parent = pending.pop()
+        for child, _parent_node, child_node in links[parent]:
+            if child in visited:
+                continue
+            if roots[child] != child_node:
+                raise ValueError(
+                    "Every downstream spring port must use that component's physical guide"
+                )
+            visited.add(child)
+            pending.append(child)
+    if len(visited) != len(component_records):
+        raise ValueError("Beam network spring graph must be connected and acyclic")
+    source_records, source_nodes = [], set()
+    for source in sorted(sources, key=lambda obj: obj.Name):
+        node = _vertex(native, mesh, facts, source)
+        magnitude = source.Force.getValueAs("N").Value
+        vector = source.DirectionVector
+        if (
+            node not in graph
+            or node in source_nodes
+            or node in roots.values()
+            or not math.isfinite(magnitude)
+            or magnitude <= 0
+            or not all(math.isfinite(value) for value in vector)
+            or abs(vector.Length - 1) > 1e-10
+        ):
+            raise ValueError(
+                "Beam network sources require distinct free owned vertices and finite point forces"
+            )
+        source_nodes.add(node)
+        source_records.append(
+            {
+                "owner": source.Name,
+                "node": node,
+                "position": list(coordinates[node]),
+                "force_global": list(vector * magnitude),
+            }
+        )
+    context.validate_unchanged()
+    return {
+        "schema": SCHEMA,
+        "nodes": {str(node): list(point) for node, point in coordinates.items()},
+        "members": member_records,
+        "components": component_records,
+        "element_owners": {
+            str(element): {
+                "member": element_owner[element],
+                "component": element_component[element],
+                "section": section_of[element],
+                "material_owner": material_of[element],
+            }
+            for element in sorted(elements)
+        },
+        "sections": section_records,
+        "materials": material_records,
+        "sources": source_records,
+        "supports": support_records,
+        "springs": spring_records,
+    }
+
+
+def _blocks(literal):
+    blocks, keyword, options, rows = [], "", {}, []
+    for raw in literal.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("**"):
+            continue
+        if line.startswith("*"):
+            if keyword:
+                blocks.append((keyword, options, rows))
+            tokens = [token.strip().upper() for token in line.split(",")]
+            keyword, options, rows = tokens[0], {}, []
+            for token in tokens[1:]:
+                key, separator, value = token.partition("=")
+                if not key or key in options:
+                    raise ValueError("Repeated or empty native beam network keyword option")
+                options[key] = value if separator else True
+        else:
+            rows.append([value.strip() for value in line.split(",") if value.strip()])
+    if keyword:
+        blocks.append((keyword, options, rows))
+    return blocks
+
+
+def _close(first, second):
+    return all(abs(a - b) <= 1e-12 * max(1.0, abs(a), abs(b)) for a, b in zip(first, second))
+
+
+def catalogue(writer, literal, admitted):
+    """Bind complete owners to actual ordinary element, load and support rows."""
+    from femtools.elastic_connector import identifier
+
+    blocks = _blocks(literal)
+    forbidden = {
+        "*DLOAD",
+        "*DSLOAD",
+        "*CFLUX",
+        "*DFLUX",
+        "*TEMPERATURE",
+        "*INITIAL CONDITIONS",
+        "*AMPLITUDE",
+        "*TRANSFORM",
+        "*EQUATION",
+        "*MPC",
+        "*RIGID BODY",
+        "*TIE",
+        "*CONTACT PAIR",
+        "*PRE-TENSION SECTION",
+    }
+    if any(keyword in forbidden for keyword, _options, _rows in blocks):
+        raise ValueError("Native beam network input contains an unqualified action or connection")
+    coordinates, sets, spring_elements = {}, {}, {}
+    for keyword, options, rows in blocks:
+        if keyword == "*NODE":
+            for row in rows:
+                node = int(row[0])
+                if len(row) != 4 or node <= 0 or node in coordinates:
+                    raise ValueError("Invalid or repeated native network node declaration")
+                point = list(map(float, row[1:]))
+                if not all(map(math.isfinite, point)):
+                    raise ValueError("Native network coordinates must be finite")
+                coordinates[node] = point
+        elif keyword == "*NSET":
+            name = options.get("NSET")
+            if not isinstance(name, str):
+                raise ValueError("Native beam network node set has no identity")
+            target = sets.setdefault(name, [])
+            for row in rows:
+                if options.get("GENERATE"):
+                    if len(row) != 3:
+                        raise ValueError("Invalid generated native beam network node set")
+                    first, last, stride = map(int, row)
+                    if stride <= 0 or last < first or (last - first) // stride > 1000000:
+                        raise ValueError("Invalid native beam network node-set range")
+                    target.extend(range(first, last + 1, stride))
+                else:
+                    target.extend(
+                        int(value) if value.isdecimal() else value.upper() for value in row
+                    )
+        elif keyword == "*ELEMENT" and options.get("TYPE") in ("SPRING1", "SPRING2"):
+            for row in rows:
+                element = int(row[0])
+                if element in spring_elements or len(row) != (
+                    2 if options["TYPE"] == "SPRING1" else 3
+                ):
+                    raise ValueError("Invalid or repeated native scalar spring element")
+                spring_elements[element] = (
+                    options["TYPE"],
+                    list(map(int, row[1:])),
+                    options.get("ELSET"),
+                )
+    if set(coordinates) != {int(node) for node in admitted["nodes"]} or any(
+        not _close(point, admitted["nodes"][str(node)]) for node, point in coordinates.items()
+    ):
+        raise ValueError("Written network nodes differ from the owned physical beam mesh")
+
+    def expand(name, pending=()):
+        if name in pending or name not in sets:
+            raise ValueError("Unknown or recursive native beam network node set")
+        result = []
+        for value in sets[name]:
+            result.extend([value] if isinstance(value, int) else expand(value, (*pending, name)))
+        if len(result) != len(set(result)) or not set(result).issubset(coordinates):
+            raise ValueError("Repeated or foreign node in native beam network node set")
+        return result
+
+    declared = {row["name"]: row for row in getattr(writer, "native_accounting_springs", ())}
+    if set(declared) != {spring["owner"] for spring in admitted["springs"]}:
+        raise ValueError("Native beam network spring owner catalogue is incomplete")
+    result = {
+        **admitted,
+        "nodes": {str(node): point for node, point in coordinates.items()},
+        "springs": [],
+        "sources": [],
+        "supports": [],
+    }
+    orientation_blocks = {
+        options.get("NAME"): rows for keyword, options, rows in blocks if keyword == "*ORIENTATION"
+    }
+    spring_blocks = [(options, rows) for keyword, options, rows in blocks if keyword == "*SPRING"]
+    if len(spring_blocks) != len(admitted["springs"]) or len(spring_elements) != len(
+        admitted["springs"]
+    ):
+        raise ValueError("Native beam network has extra or missing spring laws")
+    for expected in admitted["springs"]:
+        descriptor = declared[expected["owner"]]
+        if (
+            descriptor["kind"] != expected["kind"]
+            or list(descriptor["nodes"]) != expected["nodes"]
+            or descriptor["bodies"]
+            or descriptor["angles"]
+        ):
+            raise ValueError("Native beam network connector differs from its authored vertex owner")
+        obj = writer.analysis.Document.getObject(expected["owner"])
+        elset = identifier("EC_", obj).upper()
+        orientation = identifier("EC_ORIENT_", obj).upper()
+        actual = spring_elements.get(descriptor["element"])
+        matching = [
+            (options, rows) for options, rows in spring_blocks if options.get("ELSET") == elset
+        ]
+        if actual != (expected["kind"], expected["nodes"], elset) or len(matching) != 1:
+            raise ValueError("Native beam network spring identity or connectivity changed")
+        options, rows = matching[0]
+        if (
+            set(options) != {"ELSET", "ORIENTATION"}
+            or options["ORIENTATION"] != orientation
+            or orientation_blocks.get(orientation) != [["1", "0", "0", "0", "1", "0"]]
+            or len(rows) != 2
+            or list(map(int, rows[0])) != [expected["direction"]] * len(expected["nodes"])
+            or len(rows[1]) != 1
+            or not math.isclose(
+                float(rows[1][0]), expected["stiffness_N_per_mm"], rel_tol=5e-13, abs_tol=0
+            )
+        ):
+            raise ValueError("Actual native network spring law, units, DOFs or global axes differ")
+        result["springs"].append(
+            {
+                **expected,
+                "element": descriptor["element"],
+                "authored_stiffness_N_per_mm": expected["stiffness_N_per_mm"],
+                "stiffness_N_per_mm": float(rows[1][0]),
+            }
+        )
+    loads = {source["node"]: [0.0, 0.0, 0.0] for source in admitted["sources"]}
+    load_dofs = set()
+    boundaries = set()
+    for keyword, options, rows in blocks:
+        if keyword == "*CLOAD":
+            if options:
+                raise ValueError(
+                    "Beam network point loads cannot use amplitudes or local transforms"
+                )
+            for row in rows:
+                if len(row) != 3 or not row[0].isdecimal():
+                    raise ValueError(
+                        "Native beam network loads require original point-node identities"
+                    )
+                node, dof, value = int(row[0]), int(row[1]), float(row[2])
+                if (
+                    node not in loads
+                    or dof not in (1, 2, 3)
+                    or (node, dof) in load_dofs
+                    or not math.isfinite(value)
+                ):
+                    raise ValueError("Unexpected or repeated native beam network point load")
+                load_dofs.add((node, dof))
+                loads[node][dof - 1] = value
+        elif keyword == "*BOUNDARY":
+            if options:
+                raise ValueError("Native beam network guides cannot use amplitudes")
+            for row in rows:
+                if len(row) not in (3, 4):
+                    raise ValueError("Native beam network boundary row is malformed")
+                nodes = [int(row[0])] if row[0].isdecimal() else expand(row[0].upper())
+                first, last = int(row[1]), int(row[2])
+                value = float(row[3]) if len(row) == 4 else 0.0
+                if not 1 <= first <= last <= 6 or value != 0:
+                    raise ValueError("Native beam network guides require exact zero prescriptions")
+                for node in nodes:
+                    for dof in range(first, last + 1):
+                        if (node, dof) in boundaries:
+                            raise ValueError("Repeated native beam network physical guide")
+                        boundaries.add((node, dof))
+    expected_boundaries = {
+        (support["node"], dof) for support in admitted["supports"] for dof in support["directions"]
+    }
+    if boundaries != expected_boundaries:
+        raise ValueError("Actual native beam network supports differ from their physical owners")
+    for source in admitted["sources"]:
+        actual = loads[source["node"]]
+        if not any(actual) or not _close(actual, source["force_global"]):
+            raise ValueError("Actual native point force differs from its authored network source")
+        result["sources"].append(
+            {**source, "force_global": actual, "position": coordinates[source["node"]]}
+        )
+    for support in admitted["supports"]:
+        result["supports"].append({**support, "position": coordinates[support["node"]]})
+    # Bind each ordinary material declaration to its actual elastic pair.
+    elastic, material = {}, None
+    for keyword, options, rows in blocks:
+        if keyword == "*MATERIAL":
+            material = options.get("NAME")
+        elif keyword == "*ELASTIC":
+            if material in elastic or options or len(rows) != 1 or len(rows[0]) != 2:
+                raise ValueError("Beam network material must have one scalar linear elastic pair")
+            elastic[material] = list(map(float, rows[0]))
+    if set(elastic) != {name.upper() for name in admitted["materials"]}:
+        raise ValueError("Native beam network material declarations have missing or foreign owners")
+    for name, expected in admitted["materials"].items():
+        if not _close(
+            elastic[name.upper()], [expected["youngs_modulus_MPa"], expected["poisson_ratio"]]
+        ):
+            raise ValueError("Native elastic constants differ from their actual material owner")
+    return result
+
+
+def bind_elements(elements, coupling):
+    """Check stock-written section/material bindings against native CAD owners."""
+    owners = coupling["element_owners"]
+    if {row["element"] for row in elements} != {int(element) for element in owners}:
+        raise ValueError("Written network members do not cover the owned beam catalogue")
+    for row in elements:
+        owner = owners[str(row["element"])]
+        if (
+            row["section"] != owner["section"]
+            or row["material"] != owner["material_owner"].upper()
+            or not _close(
+                row["dimensions_mm"], coupling["sections"][owner["section"]]["dimensions_mm"]
+            )
+        ):
+            raise ValueError("Written native network section/material differs from its CAD member")
+        row.update(owner)
+
+
+def request_lines(coupling):
+    lines = []
+    for spring in coupling["springs"]:
+        nodes = spring["nodes"]
+        lines.append(
+            "SPRING {} {} {} {} {} {} {:.17g}".format(
+                spring["owner"],
+                spring["element"],
+                len(nodes),
+                nodes[0],
+                nodes[1] if len(nodes) == 2 else 0,
+                spring["direction"],
+                spring["stiffness_N_per_mm"],
+            )
+        )
+    lines.extend(f"SOURCE {source['owner']} {source['node']}" for source in coupling["sources"])
+    lines.extend(
+        "SUPPORT {} {} {} {}".format(
+            support["owner"],
+            support["node"],
+            len(support["directions"]),
+            " ".join(map(str, support["directions"])),
+        )
+        for support in coupling["supports"]
+    )
+    return lines
+
+
+def validate(actions, coupling):
+    """Validate literal owner/DOF records, never accept a structural design."""
+
+    def finite(value):
+        return type(value) in (int, float) and math.isfinite(value)
+
+    def vector(value):
+        return isinstance(value, list) and len(value) == 3 and all(map(finite, value))
+
+    def rows(name, expected):
+        values = actions.get(name)
+        if not isinstance(values, list) or len(values) != len(expected):
+            raise ValueError("Native beam network has missing or extra " + name)
+        indexed = {}
+        for row in values:
+            owner = row.get("owner") if isinstance(row, dict) else None
+            if owner not in expected or owner in indexed:
+                raise ValueError("Native beam network has repeated or foreign " + name + " owners")
+            indexed[owner] = row
+        return indexed
+
+    def wrench(row, expected):
+        if any(
+            row.get(key) != expected[key] or type(row.get(key)) != type(expected[key])
+            for key in ("owner", "node")
+        ) or not all(vector(row.get(key)) for key in ("position", "force_global", "moment_origin")):
+            raise ValueError("Native beam network action has invalid identity or finite wrench")
+        if not _close(row["position"], expected["position"]):
+            raise ValueError("Native beam network action position differs from the written input")
+
+    def transport(position, force):
+        return list(App.Vector(*position).cross(App.Vector(*force)))
+
+    def units(row, role):
+        value, motion = {
+            "TRANSLATION": ("N", "mm"),
+            "ANGLE": ("N*mm", "rad"),
+            "ALGEBRAIC": (NATIVE_EQUATION, NATIVE_EQUATION),
+        }[role]
+        if (
+            row.get("value_unit") != value
+            or row.get("prescription_unit") != motion
+            or row.get("displacement_unit") != motion
+            or not all(
+                finite(row.get(key))
+                for key in ("value", "native_prescribed_value", "native_displacement")
+            )
+            or role != "ALGEBRAIC"
+            and row["native_prescribed_value"] != 0
+        ):
+            raise ValueError("Native beam network SPC units or actual prescription are invalid")
+
+    if (
+        not isinstance(actions, dict)
+        or actions.get("position_frame") != "ORIGINAL_GLOBAL"
+        or actions.get("moment_reference") != "GLOBAL_ORIGIN"
+        or actions.get("force_action") != "ON_STRUCTURAL_MODEL"
+    ):
+        raise ValueError("Native beam network actions have an invalid frame or convention")
+    source_owners = {source["owner"]: source for source in coupling["sources"]}
+    for name, row in rows("sources", source_owners).items():
+        expected = source_owners[name]
+        wrench(row, expected)
+        if not _close(row["force_global"], expected["force_global"]) or not _close(
+            row["moment_origin"], transport(row["position"], row["force_global"])
+        ):
+            raise ValueError("Native beam network source differs from its actual point-load owner")
+    physical_nodes = {int(node) for node in coupling["nodes"]}
+    maximum_input_node = max(physical_nodes)
+    support_owners = {support["owner"]: support for support in coupling["supports"]}
+    helper_nodes, all_spcs = set(), set()
+    for name, row in rows("supports", support_owners).items():
+        expected = support_owners[name]
+        wrench(row, expected)
+        spcs = row.get("spcs")
+        if not isinstance(spcs, list):
+            raise ValueError("Native beam network physical support has no SPC catalogue")
+        translations, angles, algebraic = set(), {}, {}
+        force, couple = [0.0] * 3, [0.0] * 3
+        for spc in spcs:
+            if not isinstance(spc, dict):
+                raise ValueError("Native network SPC must be a record")
+            node, direction, original, dof, role = (
+                spc.get(key)
+                for key in ("node", "direction", "original_node", "original_direction", "role")
+            )
+            if (
+                any(
+                    type(value) is not int or value <= 0
+                    for value in (node, direction, original, dof)
+                )
+                or original != expected["node"]
+                or direction not in (1, 2, 3)
+                or role not in ("TRANSLATION", "ANGLE", "ALGEBRAIC")
+                or (node, direction) in all_spcs
+            ):
+                raise ValueError("Native beam network SPC identity is invalid, foreign or repeated")
+            all_spcs.add((node, direction))
+            units(spc, role)
+            if role == "TRANSLATION":
+                if (
+                    node != original
+                    or dof != direction
+                    or dof not in expected["directions"]
+                    or dof in translations
+                ):
+                    raise ValueError("Native network translation belongs to another physical guide")
+                translations.add(dof)
+                force[dof - 1] += spc["value"]
+            else:
+                target = angles if role == "ANGLE" else algebraic
+                if (
+                    node <= maximum_input_node
+                    or dof not in (4, 5, 6)
+                    or dof in target
+                    or direction != (1 if role == "ANGLE" else 2)
+                ):
+                    raise ValueError("Native beam network generalized support identity is invalid")
+                target[dof] = node
+                if role == "ANGLE":
+                    axis = [float(index == dof - 4) for index in range(3)]
+                    if not vector(spc.get("axis")) or not _close(spc["axis"], axis):
+                        raise ValueError("Native beam network physical angle axis is invalid")
+                    for index in range(3):
+                        couple[index] += spc["value"] * axis[index]
+        if (
+            translations != {dof for dof in expected["directions"] if dof < 4}
+            or set(angles) != {4, 5, 6}
+            or angles != algebraic
+            or len(set(angles.values())) != 3
+            or helper_nodes & set(angles.values())
+        ):
+            raise ValueError("Native network physical/algebraic support catalogue is incomplete")
+        helper_nodes.update(angles.values())
+        moment = [a + b for a, b in zip(transport(row["position"], force), couple)]
+        if not _close(row["force_global"], force) or not _close(row["moment_origin"], moment):
+            raise ValueError(
+                "Native network physical support wrench differs from its classified terms"
+            )
+    spring_owners = {spring["owner"]: spring for spring in coupling["springs"]}
+    for name, row in rows("springs", spring_owners).items():
+        expected = spring_owners[name]
+        if (
+            any(
+                row.get(key) != expected[key] or type(row.get(key)) != type(expected[key])
+                for key in ("owner", "element", "mode", "direction")
+            )
+            or not finite(row.get("stiffness_N_per_mm"))
+            or row["stiffness_N_per_mm"] != expected["stiffness_N_per_mm"]
+            or not isinstance(row.get("ends"), list)
+            or len(row["ends"]) != len(expected["nodes"])
+        ):
+            raise ValueError("Native network spring has a different owner, kind, DOF or stiffness")
+        seen = set()
+        for end in row["ends"]:
+            number = end.get("end") if isinstance(end, dict) else None
+            if (
+                type(number) is not int
+                or number not in range(1, len(expected["nodes"]) + 1)
+                or number in seen
+                or type(end.get("node")) is not int
+                or end["node"] != expected["nodes"][number - 1]
+                or end.get("role") != "BEAM_VERTEX"
+                or not all(
+                    vector(end.get(key))
+                    for key in (
+                        "position",
+                        "displacement",
+                        "native_resisting_force",
+                        "force_global",
+                        "moment_origin",
+                    )
+                )
+            ):
+                raise ValueError("Native network spring end identity or observation is invalid")
+            seen.add(number)
+            if (
+                not _close(end["position"], coupling["nodes"][str(end["node"])])
+                or any(a != -b for a, b in zip(end["force_global"], end["native_resisting_force"]))
+                or any(
+                    value != 0
+                    for index, value in enumerate(end["force_global"], 1)
+                    if index != expected["direction"]
+                )
+                or not _close(end["moment_origin"], transport(end["position"], end["force_global"]))
+            ):
+                raise ValueError(
+                    "Native network spring end has inconsistent sign, axis or origin transport"
+                )
+        if len(row["ends"]) == 2 and not _close(
+            row["ends"][0]["force_global"], [-value for value in row["ends"][1]["force_global"]]
+        ):
+            raise ValueError("Native two-point spring actions are not equal and opposite")
+    knots = actions.get("knot_algebraic_spcs")
+    if not isinstance(knots, list) or not knots:
+        raise ValueError("Native branching network has no authenticated knot algebraic catalogue")
+    corner_nodes = {node for component in coupling["components"] for node in component["corners"]}
+    auxiliary, mpcs, knot_signatures = {}, set(), {}
+    # Native gen3dnor allocates one rotation/expansion pair after the input
+    # nodes; knotmpc appends one R auxiliary per already-expanded receiving
+    # node. Reuse within a knot is meaningful, but distinct generated roles
+    # cannot alias one another, a physical node, or a support-angle helper.
+    generated_roles = {node: ("support_angle_helper", None) for node in helper_nodes}
+    for row in knots:
+        if not isinstance(row, dict):
+            raise ValueError("Native knot algebraic term must be a record")
+        names = (
+            "original_node",
+            "rotation_node",
+            "expansion_node",
+            "receiving_node",
+            "node",
+            "direction",
+            "mpc_row",
+            "knot_dimension",
+        )
+        if (
+            any(type(row.get(key)) is not int or row[key] <= 0 for key in names)
+            or row["original_node"] not in corner_nodes
+            or row["direction"] not in (1, 2, 3)
+            or row["knot_dimension"] not in (1, 2, 3)
+            or row.get("role") != "ALGEBRAIC"
+            or any(
+                row[key] <= maximum_input_node
+                for key in ("rotation_node", "expansion_node", "receiving_node", "node")
+            )
+            or (row["node"], row["direction"]) in all_spcs
+            or row["mpc_row"] in mpcs
+            or "axis" in row
+            or "original_direction" in row
+        ):
+            raise ValueError("Native knot algebraic identity is invalid, repeated or relabelled")
+        original = row["original_node"]
+        # knot_dimension is the actual final native KNOT formulation code,
+        # not an inferred rank of the expanded point cloud.
+        knot_signature = (row["rotation_node"], row["expansion_node"], row["knot_dimension"])
+        if knot_signatures.setdefault(original, knot_signature) != knot_signature:
+            raise ValueError("One original native knot has inconsistent generated identities")
+        for field, binding in (
+            ("rotation_node", original),
+            ("expansion_node", original),
+            ("receiving_node", (original, row["node"])),
+            ("node", (original, row["receiving_node"])),
+        ):
+            identity = (field, binding)
+            if generated_roles.setdefault(row[field], identity) != identity:
+                raise ValueError("Native knot generated node aliases another algebraic role")
+        units(row, "ALGEBRAIC")
+        all_spcs.add((row["node"], row["direction"]))
+        mpcs.add(row["mpc_row"])
+        signature = tuple(
+            row[key]
+            for key in (
+                "original_node",
+                "rotation_node",
+                "expansion_node",
+                "receiving_node",
+                "knot_dimension",
+            )
+        )
+        record = auxiliary.setdefault(row["node"], (signature, set()))
+        if record[0] != signature:
+            raise ValueError("Native knot algebraic node changed its owning expansion")
+        record[1].add(row["direction"])
+    if any(directions != {1, 2, 3} for _signature, directions in auxiliary.values()):
+        raise ValueError("Native knot algebraic catalogue is incomplete")

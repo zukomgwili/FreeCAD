@@ -1,0 +1,383 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""Publicly authored analytical branching beams, never generated solver decks."""
+
+import math
+from types import SimpleNamespace
+
+import FreeCAD as App
+import Fem
+import ObjectsFem
+
+from femmesh import meshtools
+
+
+def _line(doc, name, first, last):
+    line = doc.addObject("Part::Line", name)
+    line.X1, line.Y1, line.Z1 = first
+    line.X2, line.Y2, line.Z2 = last
+    return line
+
+
+def _force(doc, analysis, name, owner, vector):
+    magnitude = math.sqrt(sum(value * value for value in vector))
+    direction = _line(
+        doc, name + "Direction", (0, 0, 0), tuple(value / magnitude for value in vector)
+    )
+    force = ObjectsFem.makeConstraintForce(doc, name)
+    force.References = [(owner, ["Vertex2"])]
+    force.Direction = (direction, ["Edge1"])
+    force.Force = f"{magnitude:.17g} N"
+    force.Reversed = False
+    analysis.addObject(force)
+    if App.GuiUp:
+        direction.ViewObject.Visibility = False
+    return force
+
+
+def _groups(mesh, compound, native, declarations):
+    """Bind constructed edge/endpoint IDs to their genuine public CAD owners."""
+    groups = {}
+    for owner, entity, kind, members in declarations:
+        reference = SimpleNamespace(Name="AnalyticalNetworkEntity", References=[(owner, [entity])])
+        names = meshtools.get_reference_group_elements(reference, compound)[1]
+        if len(names) != 1 or names[0] in groups:
+            raise ValueError("Analytical network entity has no unique compound owner")
+        group = native.addGroup(names[0], kind)
+        native.addGroupElements(group, list(members))
+        groups[names[0]] = group
+    for index, vertex in enumerate(compound.Shape.Vertexes, 1):
+        name = "Vertex" + str(index)
+        members = [
+            node for node, point in native.Nodes.items() if (point - vertex.Point).Length <= 1e-10
+        ]
+        if name in groups or len(members) != 1:
+            raise ValueError("Analytical CAD vertex must own exactly one physical mesh node")
+        group = native.addGroup(name, "Node")
+        native.addGroupElements(group, members)
+        groups[name] = group
+    mesh.FemMesh = native
+    names = list(groups)
+    mesh.ElementGroupNames = names
+    mesh.ElementGroupReferences = [(compound, names)]
+    mesh.ElementGroupGeometry = meshtools.get_mesh_geometry_signature(compound)
+
+
+def make_grounded_tree(doc):
+    """Create the frozen 100/40/40 mm T and real 10000 N/mm root spring.
+
+    The original joint is a shared B32R node, hence a native stiff beam knot,
+    not a hinge. Five physical zero guides at the root leave only the actual
+    spring translation free. Two independent tip forces give net (5,0,-.01) N.
+    No beam node is an explicit RigidBody receiving node. The mesh is manually
+    authored through FemMesh, with truthful CAD edge and external vertex groups.
+    """
+    a, joint = (0.0, 17.0, -23.0), (100.0, 17.0, -23.0)
+    b, c = (100.0, 57.0, -23.0), (100.0, -23.0, -23.0)
+    stem = _line(doc, "NetworkStem", a, joint)
+    upper = _line(doc, "NetworkUpperArm", joint, b)
+    lower = _line(doc, "NetworkLowerArm", joint, c)
+    geometry = doc.addObject("Part::Compound", "NetworkGeometry")
+    geometry.Links = [stem, upper, lower]
+    doc.recompute()
+
+    analysis = ObjectsFem.makeAnalysis(doc, "NetworkAnalysis")
+    solver = ObjectsFem.makeSolverCalculiXCcxTools(doc, "NetworkSolver")
+    solver.AnalysisType = "static"
+    solver.GeometricalNonlinearity = False
+    solver.MaterialNonlinearity = False
+    solver.ModelSpace = "3D"
+    solver.ReducedIntegration = True
+    solver.ExcludeBendingStiffness = False
+    solver.Output3d = False
+    solver.SplitInputWriter = False
+    solver.BeamSectionForces = True
+    solver.NativeForceAccounting = False
+    solver.NativeContactOutputs = []
+    solver.NativeAccountingSupports = []
+    solver.TimePeriod = "1 s"
+    solver.WorkingDir = ""
+    analysis.addObject(solver)
+    section = ObjectsFem.makeElementGeometry1D(
+        doc, sectiontype="Rectangular", width=4.0, height=8.0, name="NetworkSection"
+    )
+    section.References = [(line, ["Edge1"]) for line in (stem, upper, lower)]
+    analysis.addObject(section)
+    material = ObjectsFem.makeMaterialSolid(doc, "NetworkMaterial")
+    material.Material = {
+        "Name": "NetworkLeftLinearElastic",
+        "YoungsModulus": "200000 MPa",
+        "PoissonRatio": "0",
+        "Density": "7850 kg/m^3",
+    }
+    material.References = [(line, ["Edge1"]) for line in (stem, upper, lower)]
+    analysis.addObject(material)
+    guide = ObjectsFem.makeConstraintDisplacement(doc, "NetworkGuide")
+    guide.References = [(stem, ["Vertex1"])]
+    guide.xFree = True
+    guide.yFree = guide.zFree = False
+    guide.rotxFree = guide.rotyFree = guide.rotzFree = False
+    guide.yDisplacement = guide.zDisplacement = "0 mm"
+    guide.xRotation = guide.yRotation = guide.zRotation = "0 rad"
+    analysis.addObject(guide)
+    spring = ObjectsFem.makeConstraintElasticConnector(doc, "NetworkGroundSpring")
+    spring.Attachment = "Vertices"
+    spring.Kind = "Translational"
+    spring.Mode = "Ground"
+    spring.Axis = "X"
+    spring.End1 = (stem, ["Vertex1"])
+    spring.Orientation = App.Rotation()
+    spring.Stiffness = "10000 N/mm"
+    analysis.addObject(spring)
+    forces = (
+        _force(doc, analysis, "NetworkUpperForce", upper, (1.0, 0.0, 0.01)),
+        _force(doc, analysis, "NetworkLowerForce", lower, (4.0, 0.0, -0.02)),
+    )
+    doc.recompute()
+
+    nodes = {node: (10.0 * (node - 1), 17.0, -23.0) for node in range(1, 12)}
+    nodes.update({node: (100.0, 17.0 + 10.0 * (node - 11), -23.0) for node in range(12, 16)})
+    nodes.update({node: (100.0, 17.0 - 10.0 * (node - 15), -23.0) for node in range(16, 20)})
+    elements = {element: (2 * element - 1, 2 * element + 1, 2 * element) for element in range(1, 6)}
+    elements.update({6: (11, 13, 12), 7: (13, 15, 14), 8: (11, 17, 16), 9: (17, 19, 18)})
+    native = Fem.FemMesh()
+    for node, point in nodes.items():
+        native.addNode(*point, node)
+    for element, connected in elements.items():
+        native.addEdge(list(connected), element)
+    mesh = ObjectsFem.makeMeshGmsh(doc, "NetworkMesh")
+    mesh.Shape = geometry
+    mesh.Label = "Manually authored analytical branching mesh"
+    mesh.SecondOrderLinear = False
+    mesh.ElementDimension = "1D"
+    mesh.CharacteristicLengthMin = mesh.CharacteristicLengthMax = "20 mm"
+    _groups(
+        mesh,
+        geometry,
+        native,
+        [
+            (stem, "Edge1", "Edge", range(1, 6)),
+            (upper, "Edge1", "Edge", (6, 7)),
+            (lower, "Edge1", "Edge", (8, 9)),
+        ],
+    )
+    analysis.addObject(mesh)
+    doc.recompute()
+    return SimpleNamespace(
+        doc=doc,
+        analysis=analysis,
+        solver=solver,
+        mesh=mesh,
+        geometry=geometry,
+        stem=stem,
+        upper=upper,
+        lower=lower,
+        section=section,
+        material=material,
+        guide=guide,
+        spring=spring,
+        forces=forces,
+        force_nodes=(15, 19),
+        nodes=nodes,
+        elements=elements,
+        root_node=1,
+        junction_node=11,
+    )
+
+
+def make_connected_trees(doc):
+    """Join two genuinely branching beam bodies by one active native SPRING2.
+
+    The second T is translated by (110,40,0) mm, has its own 6x6 mm section,
+    material and five-mode physical guide, and remains free in global X.
+    Only the first tree is grounded. The internal X spring joins the first
+    upper tip to the second root across a 10 mm gap, making the real elastic
+    graph a tree. Four distinct tip sources load every CAD member and both
+    spring connections. The first fixture's geometry and loads are retained.
+    """
+    model = make_grounded_tree(doc)
+    shift = (110.0, 40.0, 0.0)
+
+    def translated(point):
+        return tuple(value + offset for value, offset in zip(point, shift))
+
+    right_stem = _line(
+        doc, "NetworkRightStem", translated(model.nodes[1]), translated(model.nodes[11])
+    )
+    right_upper = _line(
+        doc, "NetworkRightUpperArm", translated(model.nodes[11]), translated(model.nodes[15])
+    )
+    right_lower = _line(
+        doc, "NetworkRightLowerArm", translated(model.nodes[11]), translated(model.nodes[19])
+    )
+    model.geometry.Links = [
+        model.stem,
+        model.upper,
+        model.lower,
+        right_stem,
+        right_upper,
+        right_lower,
+    ]
+    doc.recompute()
+    right_section = ObjectsFem.makeElementGeometry1D(
+        doc, sectiontype="Rectangular", width=6.0, height=6.0, name="NetworkRightSection"
+    )
+    right_section.References = [
+        (line, ["Edge1"]) for line in (right_stem, right_upper, right_lower)
+    ]
+    model.analysis.addObject(right_section)
+    right_material = ObjectsFem.makeMaterialSolid(doc, "NetworkRightMaterial")
+    right_material.Material = {
+        "Name": "NetworkRightLinearElastic",
+        "YoungsModulus": "100000 MPa",
+        "PoissonRatio": "0",
+        "Density": "7850 kg/m^3",
+    }
+    right_material.References = [
+        (line, ["Edge1"]) for line in (right_stem, right_upper, right_lower)
+    ]
+    model.analysis.addObject(right_material)
+    right_guide = ObjectsFem.makeConstraintDisplacement(doc, "NetworkRightGuide")
+    right_guide.References = [(right_stem, ["Vertex1"])]
+    right_guide.xFree = True
+    right_guide.yFree = right_guide.zFree = False
+    right_guide.rotxFree = right_guide.rotyFree = right_guide.rotzFree = False
+    right_guide.yDisplacement = right_guide.zDisplacement = "0 mm"
+    right_guide.xRotation = right_guide.yRotation = right_guide.zRotation = "0 rad"
+    model.analysis.addObject(right_guide)
+    internal_spring = ObjectsFem.makeConstraintElasticConnector(doc, "NetworkInternalSpring")
+    internal_spring.Attachment = "Vertices"
+    internal_spring.Kind = "Translational"
+    internal_spring.Mode = "Two points"
+    internal_spring.Axis = "X"
+    internal_spring.End1 = (model.upper, ["Vertex2"])
+    internal_spring.End2 = (right_stem, ["Vertex1"])
+    internal_spring.Orientation = App.Rotation()
+    internal_spring.Stiffness = "2500 N/mm"
+    model.analysis.addObject(internal_spring)
+    right_forces = (
+        _force(doc, model.analysis, "NetworkRightUpperForce", right_upper, (1.0, 0.0, 0.03)),
+        _force(doc, model.analysis, "NetworkRightLowerForce", right_lower, (2.0, 0.0, -0.01)),
+    )
+    for node, point in tuple(model.nodes.items()):
+        model.nodes[node + 19] = translated(point)
+    for element, connected in tuple(model.elements.items()):
+        model.elements[element + 9] = tuple(node + 19 for node in connected)
+    native = Fem.FemMesh()
+    for node, point in model.nodes.items():
+        native.addNode(*point, node)
+    for element, connected in model.elements.items():
+        native.addEdge(list(connected), element)
+    _groups(
+        model.mesh,
+        model.geometry,
+        native,
+        [
+            (model.stem, "Edge1", "Edge", range(1, 6)),
+            (model.upper, "Edge1", "Edge", (6, 7)),
+            (model.lower, "Edge1", "Edge", (8, 9)),
+            (right_stem, "Edge1", "Edge", range(10, 15)),
+            (right_upper, "Edge1", "Edge", (15, 16)),
+            (right_lower, "Edge1", "Edge", (17, 18)),
+        ],
+    )
+    model.right_stem, model.right_upper, model.right_lower = right_stem, right_upper, right_lower
+    model.materials = (model.material, right_material)
+    model.sections = (model.section, right_section)
+    model.guides = (model.guide, right_guide)
+    model.springs = (model.spring, internal_spring)
+    model.forces += right_forces
+    model.force_nodes = (15, 19, 34, 38)
+    model.root_nodes = (1, 20)
+    model.junction_nodes = (11, 30)
+    doc.recompute()
+    return model
+
+
+def make_forked_trees(doc):
+    """Add a second SPRING2 child to the existing two-T scalar support tree.
+
+    All earlier factories are unchanged. The third T starts at (220,-23,-23)
+    and shares the right material/section through real CAD references. Its
+    5000 N/mm X spring joins the parent's lower tip to the third root; both
+    child links carry independently nonzero loads. The component connection
+    graph branches at the parent instead of forming another scalar chain.
+    """
+    model = make_connected_trees(doc)
+    shift = (220.0, -40.0, 0.0)
+
+    def translated(point):
+        return tuple(value + offset for value, offset in zip(point, shift))
+
+    third_stem = _line(
+        doc, "NetworkThirdStem", translated(model.nodes[1]), translated(model.nodes[11])
+    )
+    third_upper = _line(
+        doc, "NetworkThirdUpperArm", translated(model.nodes[11]), translated(model.nodes[15])
+    )
+    third_lower = _line(
+        doc, "NetworkThirdLowerArm", translated(model.nodes[11]), translated(model.nodes[19])
+    )
+    model.geometry.Links = [*model.geometry.Links, third_stem, third_upper, third_lower]
+    doc.recompute()
+    right_section, right_material = model.sections[1], model.materials[1]
+    third_references = [(line, ["Edge1"]) for line in (third_stem, third_upper, third_lower)]
+    right_section.References = [*right_section.References, *third_references]
+    right_material.References = [*right_material.References, *third_references]
+    third_guide = ObjectsFem.makeConstraintDisplacement(doc, "NetworkThirdGuide")
+    third_guide.References = [(third_stem, ["Vertex1"])]
+    third_guide.xFree = True
+    third_guide.yFree = third_guide.zFree = False
+    third_guide.rotxFree = third_guide.rotyFree = third_guide.rotzFree = False
+    third_guide.yDisplacement = third_guide.zDisplacement = "0 mm"
+    third_guide.xRotation = third_guide.yRotation = third_guide.zRotation = "0 rad"
+    model.analysis.addObject(third_guide)
+    third_spring = ObjectsFem.makeConstraintElasticConnector(doc, "NetworkThirdSpring")
+    third_spring.Attachment = "Vertices"
+    third_spring.Kind = "Translational"
+    third_spring.Mode = "Two points"
+    third_spring.Axis = "X"
+    third_spring.End1 = (model.lower, ["Vertex2"])
+    third_spring.End2 = (third_stem, ["Vertex1"])
+    third_spring.Orientation = App.Rotation()
+    third_spring.Stiffness = "5000 N/mm"
+    model.analysis.addObject(third_spring)
+    third_forces = (
+        _force(doc, model.analysis, "NetworkThirdUpperForce", third_upper, (2.0, 0.0, 0.02)),
+        _force(doc, model.analysis, "NetworkThirdLowerForce", third_lower, (3.0, 0.0, -0.01)),
+    )
+    for node in range(1, 20):
+        model.nodes[node + 38] = translated(model.nodes[node])
+    for element in range(1, 10):
+        model.elements[element + 18] = tuple(node + 38 for node in model.elements[element])
+    native = Fem.FemMesh()
+    for node, point in model.nodes.items():
+        native.addNode(*point, node)
+    for element, connected in model.elements.items():
+        native.addEdge(list(connected), element)
+    _groups(
+        model.mesh,
+        model.geometry,
+        native,
+        [
+            (model.stem, "Edge1", "Edge", range(1, 6)),
+            (model.upper, "Edge1", "Edge", (6, 7)),
+            (model.lower, "Edge1", "Edge", (8, 9)),
+            (model.right_stem, "Edge1", "Edge", range(10, 15)),
+            (model.right_upper, "Edge1", "Edge", (15, 16)),
+            (model.right_lower, "Edge1", "Edge", (17, 18)),
+            (third_stem, "Edge1", "Edge", range(19, 24)),
+            (third_upper, "Edge1", "Edge", (24, 25)),
+            (third_lower, "Edge1", "Edge", (26, 27)),
+        ],
+    )
+    model.third_stem, model.third_upper, model.third_lower = third_stem, third_upper, third_lower
+    model.component_materials = (model.material, right_material, right_material)
+    model.component_sections = (model.section, right_section, right_section)
+    model.guides += (third_guide,)
+    model.springs += (third_spring,)
+    model.forces += third_forces
+    model.force_nodes = (15, 19, 34, 38, 53, 57)
+    model.root_nodes = (1, 20, 39)
+    model.junction_nodes = (11, 30, 49)
+    doc.recompute()
+    return model

@@ -27,8 +27,10 @@
 from femtest.gui.test_open import TestObjectOpen as FemGuiTest01
 from femtest.gui.test_contact_observation import TestContactObservationGui as FemGuiTest02
 from femtest.gui.test_beam_contact_coupling import TestBeamContactCouplingGui as FemGuiTest03
+from femtest.gui.test_beam_network_coupling import TestBeamNetworkCouplingGui as FemGuiTest04
 
 # dummy usage to get flake8 and lgtm quiet
 False if FemGuiTest01.__name__ else True
 False if FemGuiTest02.__name__ else True
 False if FemGuiTest03.__name__ else True
+False if FemGuiTest04.__name__ else True

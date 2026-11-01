@@ -1,0 +1,231 @@
+{
+  "type": "ADDITIONAL_BOUNDED_COMPARISON_NOT_EXACT_QUALIFICATION",
+  "observed_frd_sha256": "7a0a9f64c44d7dd0707c4c1f94f8850621fee67849f4a5c863d2c5615bd181f9",
+  "observed_native_binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+  "OMP_NUM_THREADS": "8",
+  "exclusions_only": [
+    "1UDATE",
+    "1UTIME",
+    "1UCOMPILETIME"
+  ],
+  "runs": {
+    "candidate_inactive_1": {
+      "binary": "/private/tmp/freecad-bjh-I0l3dCyo/native-build-r05/build/CalculiX/ccx_2.23/src/ccx_2.23_conda",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "deck_sha256": "4808624fc02d08a79c37d80c7b9e6f4be45dd05d7caa82fff9f16b19ba3a1f20",
+      "frd_sha256": "e524d806692c3cf32de3e53d732f010c1f12b6d7b0c9d0a2c2be7511d3cdcf6b"
+    },
+    "candidate_inactive_2": {
+      "binary": "/private/tmp/freecad-bjh-I0l3dCyo/native-build-r05/build/CalculiX/ccx_2.23/src/ccx_2.23_conda",
+      "binary_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+      "deck_sha256": "4808624fc02d08a79c37d80c7b9e6f4be45dd05d7caa82fff9f16b19ba3a1f20",
+      "frd_sha256": "e5ce8f5333091b3caa61ec6a65251ec2ce7cdae84c822e020f9b026395ae3888"
+    },
+    "previous_inactive": {
+      "binary": "/Users/zukomgwili/src/FreeCAD/build/native-solvers/beam-contact-f494702b7813/ccx-force-accounting",
+      "binary_sha256": "f494702b78138099d4e526862113e382e0ce863d5aa2ad023e7c15f7c7928925",
+      "deck_sha256": "4808624fc02d08a79c37d80c7b9e6f4be45dd05d7caa82fff9f16b19ba3a1f20",
+      "frd_sha256": "245642dbc006c944088a024cdc8180c6446bad4b981cfee68147f82393a8b830"
+    }
+  },
+  "comparisons": {
+    "observed__candidate_inactive_1": {
+      "maximum_component_difference": {
+        "DISP": [
+          0.0,
+          1.54074e-33,
+          1.32349e-23
+        ],
+        "STRESS": [
+          1.67265e-11,
+          0.0,
+          3.50835e-11,
+          2.2744e-10,
+          2.8999999999953474e-11,
+          0.0
+        ]
+      },
+      "maximum_budget_fraction": {
+        "DISP": [
+          0.0,
+          1.54074e-26,
+          1.32349e-16
+        ],
+        "STRESS": [
+          1.6726499998273455e-05,
+          0.0,
+          3.508349999799704e-05,
+          2.2743999997695378e-06,
+          2.8999999685466584e-07,
+          0.0
+        ]
+      },
+      "literal_native_mesh_and_fields_equal": false
+    },
+    "observed__candidate_inactive_2": {
+      "maximum_component_difference": {
+        "DISP": [
+          0.0,
+          6.61744e-24,
+          7.70372e-33
+        ],
+        "STRESS": [
+          1.6337000000000005e-11,
+          0.0,
+          3.6525000000000037e-11,
+          1.1668000000000006e-10,
+          1.0899999999993831e-10,
+          1.0000000000157452e-09
+        ]
+      },
+      "maximum_budget_fraction": {
+        "DISP": [
+          0.0,
+          6.617440000000001e-17,
+          7.703720000000001e-26
+        ],
+        "STRESS": [
+          1.6336999983428122e-05,
+          0.0,
+          3.652499996094023e-05,
+          1.1667999998816932e-06,
+          1.0899999881790658e-06,
+          9.999892390726177e-06
+        ]
+      },
+      "literal_native_mesh_and_fields_equal": false
+    },
+    "observed__previous_inactive": {
+      "maximum_component_difference": {
+        "DISP": [
+          0.0,
+          1.54074e-33,
+          1.32349e-23
+        ],
+        "STRESS": [
+          1.9333e-11,
+          0.0,
+          2.3401999999999957e-11,
+          2.1696000000000004e-10,
+          5.999999999996216e-11,
+          1.0000000000157452e-09
+        ]
+      },
+      "maximum_budget_fraction": {
+        "DISP": [
+          0.0,
+          1.54074e-26,
+          1.32349e-16
+        ],
+        "STRESS": [
+          1.9332999980361198e-05,
+          0.0,
+          2.3401999974992173e-05,
+          2.169599999780144e-06,
+          5.999999389844939e-07,
+          9.999892390726177e-06
+        ]
+      },
+      "literal_native_mesh_and_fields_equal": false
+    },
+    "candidate_inactive_1__candidate_inactive_2": {
+      "maximum_component_difference": {
+        "DISP": [
+          0.0,
+          6.61744e-24,
+          1.32349e-23
+        ],
+        "STRESS": [
+          1.5282000000000015e-11,
+          0.0,
+          1.9478000000000002e-11,
+          1.1075999999999994e-10,
+          7.999999999998483e-11,
+          1.0000000000157452e-09
+        ]
+      },
+      "maximum_budget_fraction": {
+        "DISP": [
+          0.0,
+          6.617440000000001e-17,
+          1.32349e-16
+        ],
+        "STRESS": [
+          1.528199998439958e-05,
+          0.0,
+          1.94779999796756e-05,
+          1.1075999998878446e-06,
+          7.999999913244e-07,
+          9.999892390726177e-06
+        ]
+      },
+      "literal_native_mesh_and_fields_equal": false
+    },
+    "candidate_inactive_1__previous_inactive": {
+      "maximum_component_difference": {
+        "DISP": [
+          0.0,
+          0.0,
+          3.081488e-32
+        ],
+        "STRESS": [
+          1.8206000000000025e-11,
+          0.0,
+          1.5472000000000016e-11,
+          3.851999999999999e-11,
+          4.999999999989788e-11,
+          1.0000000000157452e-09
+        ]
+      },
+      "maximum_budget_fraction": {
+        "DISP": [
+          0.0,
+          0.0,
+          3.0814880000000002e-25
+        ],
+        "STRESS": [
+          1.8205999981507273e-05,
+          0.0,
+          1.5471999984201335e-05,
+          3.8519999996065366e-07,
+          4.99999949153042e-07,
+          9.999892390726177e-06
+        ]
+      },
+      "literal_native_mesh_and_fields_equal": false
+    },
+    "candidate_inactive_2__previous_inactive": {
+      "maximum_component_difference": {
+        "DISP": [
+          0.0,
+          6.61744e-24,
+          1.32349e-23
+        ],
+        "STRESS": [
+          1.8357000000000015e-11,
+          0.0,
+          2.393999999999997e-11,
+          1.0027999999999999e-10,
+          8.79999999999939e-11,
+          0.0
+        ]
+      },
+      "maximum_budget_fraction": {
+        "DISP": [
+          0.0,
+          6.617440000000001e-17,
+          1.32349e-16
+        ],
+        "STRESS": [
+          1.83569999813813e-05,
+          0.0,
+          2.393999997501331e-05,
+          1.0027999998984509e-06,
+          8.799999904569418e-07,
+          0.0
+        ]
+      },
+      "literal_native_mesh_and_fields_equal": false
+    }
+  }
+}

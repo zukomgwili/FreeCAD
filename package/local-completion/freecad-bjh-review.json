@@ -1,0 +1,65 @@
+{
+  "Oomakhi_opened_or_solved": false,
+  "audit": {
+    "CTest_disabled": 8,
+    "CTest_passed": 2267,
+    "CTest_skipped": 2,
+    "FEM_skips": 0,
+    "FEM_tests_passed": 460,
+    "GUI_tests_passed": 2,
+    "audited_execution_receipts": 42,
+    "default_positive_signed_end_counts": [
+      18,
+      36,
+      54
+    ],
+    "derived_files": 46,
+    "failed_attempts": "Expected RED, prototype/formal failures, original extra exact-comparison failures, incomplete supervisor attempt and prelaunch errors remain preserved; none relabelled as qualifying.",
+    "hash_only_records": 656,
+    "independent_reviews": "Native C/patch; Python integration/GUI; independent frozen statics; integrity tests; all12 bounded mechanics comparisons; collector and collected artifacts. All CLEAR after source cross-pinning correction.",
+    "indexed_records_verified": 2039,
+    "protected_application_and_three_profiles": "Each path has one unchanged digest across every audited gate.",
+    "total_evidence_bytes": 33265331,
+    "total_evidence_files": 1198,
+    "unique_indexed_files": 1152
+  },
+  "bead": "FreeCAD-bjh",
+  "cold_report_field_clarification": {
+    "distinct_original_knot_nodes_by_components": {
+      "1": [
+        11
+      ],
+      "2": [
+        11,
+        30
+      ],
+      "3": [
+        11,
+        30,
+        49
+      ]
+    },
+    "executed_report": "Preserved byte-for-byte. Public schema, GUI and usage documentation already identify the rows and their native roles correctly.",
+    "field": "cold-observation.json: native_knots",
+    "meaning": "Count of generated-knot ALGEBRAIC SPC rows, not the number of distinct physical knots.",
+    "row_counts_by_components": {
+      "1": 72,
+      "2": 144,
+      "3": 216
+    }
+  },
+  "collector_sha256": "10a962138f0f4dd92ee3866e03d6d78c0e99333a7c4bb591ca3d9ac220abb530",
+  "evidence_edited_by_reviewer": false,
+  "evidence_hashes": {
+    "artifact-index.json": "9ca715553018c00eea2dca398a09af7fbec7099c021bf58d4aa4ce54924ce124",
+    "hash-only-artifacts.json": "0708b8f1664e9b41b113634b70802ac20d32ecb4227b43f54fdc6a93d6d4b1d5",
+    "manifest.json": "895b61b92146df2d68460ee064897025678c3bebe55532ab47e87e4a2d2edf5e",
+    "validation.json": "0f279ea5b84d381cf260609d6e533f72866f17048b7259603eba9b80e4ddfcdb"
+  },
+  "installation_performed": false,
+  "mechanics_scope": "One-T exact preservation control passed. Additional two-T/three-T exact checks failed; separate pre-reviewed bounded comparisons and same-candidate repetitions passed with unchanged independent equilibrium criteria. Bit identity and an OpenMP cause are not claimed.",
+  "native_execution_by_reviewer": false,
+  "result": "CLEAR",
+  "reviewer": "Independent bjh_semantics subagent",
+  "schema": "FreeCAD-bjh-postcollection-review-v1"
+}

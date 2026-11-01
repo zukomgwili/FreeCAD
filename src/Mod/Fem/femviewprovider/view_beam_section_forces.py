@@ -42,10 +42,11 @@ class VPBeamSectionForces(VPBaseFemObject):
         dialog = QtWidgets.QDialog(Gui.getMainWindow())
         dialog.setObjectName("NativeBeamSectionInspector")
         dialog.setWindowTitle("Native beam-end forces and moments — " + obj.Label)
+        network = data["schema"] == "CCX_BEAM_SECTION_V5"
         contact_coupled = data["schema"] == "CCX_BEAM_SECTION_V4"
         hybrid = contact_coupled or data["schema"] == "CCX_BEAM_SECTION_V3"
-        coupled = hybrid or data["schema"] == "CCX_BEAM_SECTION_V2"
-        dialog.resize(1200, 900 if coupled else 650)
+        coupled = network or hybrid or data["schema"] == "CCX_BEAM_SECTION_V2"
+        dialog.resize(1200, 1000 if network else 900 if coupled else 650)
         layout = QtWidgets.QVBoxLayout(dialog)
         layout.addWidget(
             QtWidgets.QLabel(
@@ -90,19 +91,27 @@ class VPBeamSectionForces(VPBaseFemObject):
         tables = [table]
         if coupled:
             action_explanation = (
-                "Actions use original global axes and moments about the global origin. "
-                "Beam guide, solid fixed and RBE physical guide are physical supports. "
-                "Spring ends, moving RBE sides and the two named solid contact sides are "
-                "internal transfer, not additional external ground supports. Contact-side "
-                "resultants do not replace native local contact samples."
-                if contact_coupled
+                "Actions act on the structural model in original global axes, with moments "
+                "about the global origin. Beam guides and the ground spring are physical "
+                "supports. Two-point spring ends are internal transfer actions. Spring "
+                "resisting forces remain literal native values, separate from the action "
+                "on each beam vertex."
+                if network
                 else (
                     "Actions use original global axes and moments about the global origin. "
-                    "Beam guide and solid fixed are physical supports; spring ends and moving "
-                    "RBE sides are internal transfer, not additional external ground supports."
-                    if hybrid
-                    else "Source, spring and support actions act on the structural model in original "
-                    "global axes. Their moments are about the global origin."
+                    "Beam guide, solid fixed and RBE physical guide are physical supports. "
+                    "Spring ends, moving RBE sides and the two named solid contact sides are "
+                    "internal transfer, not additional external ground supports. Contact-side "
+                    "resultants do not replace native local contact samples."
+                    if contact_coupled
+                    else (
+                        "Actions use original global axes and moments about the global origin. "
+                        "Beam guide and solid fixed are physical supports; spring ends and moving "
+                        "RBE sides are internal transfer, not additional external ground supports."
+                        if hybrid
+                        else "Source, spring and support actions act on the structural model in original "
+                        "global axes. Their moments are about the global origin."
+                    )
                 )
             )
             explanation = QtWidgets.QLabel(action_explanation)
@@ -130,6 +139,22 @@ class VPBeamSectionForces(VPBaseFemObject):
                 support_table.verticalHeader().setDefaultSectionSize(24)
             layout.addWidget(support_table, 3)
             tables.extend((actions_table, support_table))
+            if network:
+                explanation = QtWidgets.QLabel(
+                    "Generated beam-knot ALGEBRAIC observations are native equation values. "
+                    "Their value, prescription and displacement units remain uninterpreted; "
+                    "they are excluded from physical force and moment balances. Rotation, "
+                    "expansion, receiving and equation nodes identify native equations, "
+                    "not additional physical supports."
+                )
+                explanation.setWordWrap(True)
+                layout.addWidget(explanation)
+                knot_table = QtWidgets.QTableWidget()
+                knot_table.setObjectName("NativeBeamNetworkKnotDofs")
+                knot_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+                knot_table.setAlternatingRowColors(True)
+                layout.addWidget(knot_table, 3)
+                tables.append(knot_table)
         status = QtWidgets.QLabel("Saved solver observations; not design acceptance")
         status.setObjectName("NativeBeamSectionAvailability")
         layout.addWidget(status)
@@ -160,6 +185,8 @@ class VPBeamSectionForces(VPBaseFemObject):
 
         owners = {row["element"]: row for row in source["elements"]}
         columns = ["Element", "Node", "End", "Section", "Material"]
+        if network:
+            columns += ["Member", "Component", "Material owner"]
         columns += [f"F{axis} (N)" for axis in "xyz"]
         columns += [f"M{axis} (N*mm)" for axis in "xyz"]
         channels = ("shear1", "shear2", "axial", "torque", "bend2", "bend1")
@@ -177,7 +204,128 @@ class VPBeamSectionForces(VPBaseFemObject):
                     displayed.setItem(i, j, QtWidgets.QTableWidgetItem(text))
             displayed.resizeColumnsToContents()
 
+        def show_network_actions(frame):
+            actions = frame["native_actions"]
+            headers = [
+                "Action",
+                "Owner",
+                "Node",
+                "Original position (mm)",
+                "Spring element",
+                "Spring mode",
+                "Spring end",
+                "Global DOF",
+                "Stiffness (N/mm)",
+                "Displacement (mm)",
+                "Native resisting force (N)",
+            ]
+            headers += [f"F{axis} (N)" for axis in "xyz"]
+            headers += [f"M{axis} about origin (N*mm)" for axis in "xyz"]
+            rows = []
+            for name, values in (
+                ("source", actions["sources"]),
+                ("beam guide", actions["supports"]),
+            ):
+                for row in values:
+                    rows.append(
+                        [name, row["owner"], row["node"], row["position"]]
+                        + ["—"] * 7
+                        + row["force_global"]
+                        + row["moment_origin"]
+                    )
+            for spring in actions["springs"]:
+                for end in spring["ends"]:
+                    rows.append(
+                        [
+                            "ground spring" if spring["mode"] == "GROUND" else "internal spring",
+                            spring["owner"],
+                            end["node"],
+                            end["position"],
+                            spring["element"],
+                            spring["mode"],
+                            end["end"],
+                            spring["direction"],
+                            spring["stiffness_N_per_mm"],
+                            end["displacement"],
+                            end["native_resisting_force"],
+                        ]
+                        + end["force_global"]
+                        + end["moment_origin"]
+                    )
+            fill_table(actions_table, headers, rows)
+            typed_headers = [
+                "Native value",
+                "Value units",
+                "Native prescribed value",
+                "Prescription units",
+                "Native displacement",
+                "Displacement units",
+            ]
+
+            def typed_values(row):
+                return [
+                    row["value"],
+                    row["value_unit"],
+                    row["native_prescribed_value"],
+                    row["prescription_unit"],
+                    row["native_displacement"],
+                    row["displacement_unit"],
+                ]
+
+            headers = ["Role", "Owner", "Node", "DOF", "Original node", "Original DOF"]
+            headers += typed_headers + ["Axis", "Physical contribution"]
+            contribution = {"TRANSLATION": "Force", "ANGLE": "Couple", "ALGEBRAIC": "Excluded"}
+            rows = []
+            for support in actions["supports"]:
+                for row in support["spcs"]:
+                    rows.append(
+                        [
+                            row["role"],
+                            support["owner"],
+                            row["node"],
+                            row["direction"],
+                            row["original_node"],
+                            row["original_direction"],
+                        ]
+                        + typed_values(row)
+                        + [row.get("axis", "—"), contribution[row["role"]]]
+                    )
+            fill_table(support_table, headers, rows)
+            headers = [
+                "Role",
+                "Original beam node",
+                "Rotation node",
+                "Expansion node",
+                "Receiving node",
+                "Algebraic node",
+                "DOF",
+                "MPC row",
+                "Knot formulation",
+            ]
+            headers += typed_headers + ["Physical contribution"]
+            rows = []
+            for row in actions["knot_algebraic_spcs"]:
+                rows.append(
+                    [
+                        row["role"],
+                        row["original_node"],
+                        row["rotation_node"],
+                        row["expansion_node"],
+                        row["receiving_node"],
+                        row["node"],
+                        row["direction"],
+                        row["mpc_row"],
+                        row["knot_dimension"],
+                    ]
+                    + typed_values(row)
+                    + ["Excluded"]
+                )
+            fill_table(knot_table, headers, rows)
+
         def show_coupled_actions(frame):
+            if network:
+                show_network_actions(frame)
+                return
             actions = frame["native_actions"]
             headers = [
                 "Action",
@@ -373,6 +521,8 @@ class VPBeamSectionForces(VPBaseFemObject):
                     owner["section"],
                     owner["material"],
                 ]
+                if network:
+                    values += [owner["member"], owner["component"], owner["material_owner"]]
                 values += row["force_global"] + row["moment_global"]
                 values += [row["native_channels"][name] for name in channels]
                 values += [row["basis"][name] for name in ("e1", "e2", "normal")]

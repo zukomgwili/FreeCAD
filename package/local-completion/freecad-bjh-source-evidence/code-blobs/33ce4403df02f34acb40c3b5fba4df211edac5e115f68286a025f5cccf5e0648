@@ -1,0 +1,198 @@
+# FreeCAD-bjh: native branching beam and scalar-connection observations
+
+Research began on 2026-10-31 against the official CalculiX 2.23 documentation.
+The coordinating agent remains the sole executor of FreeCAD, OpenCascade,
+CalculiX, compilers and GUI checks. This research does not open or change
+Oomakhi, execute a solver, edit an input deck, or install an application.
+
+## Reproduction and source boundary
+
+Affected implementation inspection began only after the coordinator reproduced
+the refusal in actual GUI sessions using both the current 9rc source build and
+the installed sv7 application. The retained private cases are
+`/private/tmp/freecad-bjh-I0l3dCyo/current-gui-baseline-r01` and
+`/private/tmp/freecad-bjh-I0l3dCyo/installed-gui-baseline-r01`. Each contains
+an observation, screenshot and private analytical FCStd. The public authoring
+path created a genuine 15-node, seven-element B32R T, two tip Forces, one root
+SPRING1 and five zero physical guides. Prerequisites were empty; the stock
+writer refused the coupled request with the existing single spring/restraint/
+force/section/material restriction. No child solve or Current result existed.
+The application and three real profiles remained unchanged.
+
+This is a separately bounded capability investigation. Pure V1 branching is
+already supported: the earlier 960 shared-node T torsion specimen is an
+important preservation control. The new question concerns composition with
+multiple sources and scalar connections, not whether every native branching
+or determinate free-body route is impossible. FreeCAD-9rc remains its separate
+qualified contact composition; it is not a dependency that this work reopens.
+
+## Primary documentation
+
+The [official distribution](https://www.dhondt.de/) identifies 2.23 as the
+available solver. The [2.23 manual](https://www.dhondt.de/ccx_2.23.pdf)
+identifies its date as 19 October 2025. Its relevant rules are:
+
+- Shared beam nodes provide stiff connections. Different normals, sections,
+  dimensions or offsets can create automatic knots; internal hinges need
+  doubled nodes and MPCs (§6.2.33, pp121–124).
+- Static prescribed rotations use mean-rotation equations. Older general
+  program-structure wording about rotation-triggered knots needs checking
+  against the actual implementation (§6.2.33; §10.3.5–8, pp695–698).
+- Beam section-force output replaces ordinary stress slots with local forces
+  and moments. Original-node output averages expanded quantities, so it is
+  insufficient to identify distinct incident element ends (§6.2.33).
+- SPRING1 acts in one declared direction; SPRING2 couples declared nodal
+  directions. Their scalar laws do not establish a six-component joint
+  (§6.2.40–42, pp128–130).
+- Beam/shell member nodes cannot belong to an explicit Rigid Body receiving
+  set (§7.113, pp589–590).
+
+## Pinned native source and observed seams
+
+The official [2.23 source archive](https://www.dhondt.de/ccx_2.23.src.tar.bz2)
+is retained at
+`/private/tmp/freecad-960-semantics-gdfoMero/ccx_2.23.src.tar.bz2`, SHA-256
+`9c88385c10fb04f5dc6c4e98027a51bebdd8aee3920e05190d6c1dd08357d6e7`.
+Its bytes were rehashed. Native file references below mean
+`./CalculiX/ccx_2.23/src/` within that archive. Selected unmodified members
+are retained under the private `semantics-source` directory. No native code
+was imported or executed while inspecting them.
+
+The repository observer at inspection starts with `beamsection.c` SHA-256
+`6bc49ce379ae9d592db2f559dd33b078a6aac57ca898d9eb11fd53740a06f773`,
+`beamsection.patch`
+`70d9d54e51e710dac6b802a5fe9b1a2037016d99846e6d3fb5b0e861e378523a`.
+These are the preserved 9rc implementation, not a later network candidate.
+Its V2–V4 coupled admission requires one source, one spring, one straight
+uniform chain and a special support catalogue. It rejects automatic KNOT
+labels. Pure V1 already retains each actual element/end integration before
+nodal averaging, so that observation seam can be reused without computing
+another force or stress recovery.
+
+### Actual automatic knot identities
+
+`knotmpc.f:176–284, 292–407` creates a separate dummy SPC node for a native
+expanded receiving node. Each generated directional equation receives a
+`KNOT1`, `KNOT2` or `KNOT3` label and a corresponding type-R prescribed term.
+The equation identifies the expanded receiver, original translational
+reference, generated rotational and expansion nodes, and dummy term.
+Final native `KNOT1`/`KNOT3` rows contain seven terms; `KNOT2` rows
+contain nine, including a deliberate zero/duplicate expansion term.
+
+These type-R rows are not the same construction as an explicit RBE's
+`rigidmpc.f` rows. The current `bs_record_rigid` hook therefore cannot
+authenticate automatic knots. A new observer must retain identities at the
+actual `knotmpc` branch, validate the complete generated graph, and distinguish
+those algebraic values from physical world supports. Accepting every KNOT
+label or every R-type SPC would not establish that distinction.
+
+`gen3delem.f:414–425` fills the newly generated knot coefficients once the
+expanded coordinates exist. The catalogue must be inspected after that
+native step. The observer must tolerate the native representation, including
+its expansion terms, rather than replace it with a hand-written rigid-joint
+model. In particular, `fillknotmpc.f:158–194` selects isotropic `KNOT1` for
+a fully three-dimensional receiving cloud; the geometric rank-three branch
+is disabled in this pinned version. The recorded `knot_dimension` denotes
+the final native formulation code, not the geometric cloud rank. One
+original reference has a single final formulation and one generated
+rotation/expansion pair; its receiving and auxiliary nodes remain distinct
+from those roles, authored nodes and physical angle helpers.
+
+### Physical rotations and projected support values
+
+`gen3dboun.f:110–123` transfers an original rotational prescription on an
+existing knot to its generated rotational node. Its non-knot static branch
+instead creates the existing mean-rotation construction near the current
+`bs_record_angle` seam. The first specimen's guided trunk root is a one-beam
+endpoint; its internal fork remains a separate automatic knot. A second
+component requires a second genuine root mapping, not another alias to the
+first support's helper nodes.
+
+`resultsforc.c` observes the native equation multiplier and distributes its
+coefficient contributions before the projected SPC vector is final. An
+authenticated knot dummy value may be retained for audit, but it is excluded
+from the physical force/moment sum. Physical translations contribute force
+at the original application node; prescribed physical rotations contribute
+couples about their declared axes. The current boundary index, node,
+direction, type and actual prescription must remain bound to the native row.
+Finite round-off in a converged value is distinct from a nonzero authored
+prescription, as already established for V4.
+
+### Native decascading and the graph bridge
+
+The first native candidates stopped before the mechanical solve at strict
+graph guards. The retained r02 diagnostic identified an exact native
+two-term direction-zero temperature identity, matching
+`gen3dnor.f:924–959` and `gen3dboun.f:1235–1275`. It binds an actual expanded
+receiving node to its actual original reference with coefficients +1/−1.
+Such rows are not physical mechanical supports. The r03 diagnostic then
+showed a root mean-translation equation whose four-corner representation
+had been rewritten through its native mean-rotation helper. These failed
+attempts do not qualify any physical result or change the frozen oracle.
+
+`ccx_2.23.c` provides the complete post-fill graph immediately before native
+`cascade`, at the existing accounting-capture site. `cascade.c:34–382`
+substitutes independent lists and coalesces their coefficients; it does not
+change the equation count, row indices or dependent node/direction. Its sole
+label rewrite is blank to `SUBCYCLIC` on a `CYCLIC` dependency, which this
+bounded family excludes. Comparing a final list directly with the raw
+four-corner template therefore confuses native representation changes with
+new mechanics.
+
+The V5 seam copies that actual graph before decascading and authenticates
+every raw generated template against the mesh. It then binds each current
+row by count, label and dependent identity and checks its independent
+node/direction identities against the raw graph's transitive dependency
+closure. The traversal visits each reachable row once and tolerates cycles;
+it does no coefficient algebra, constraint elimination or force evaluation.
+Actual knot templates, current encoded SPC identities and native projection
+visits remain separate checks. An unknown raw blank row, label, owner or
+current identity still fails.
+
+### Mapper geometry and moment reference
+
+`map3dto1d2d.f:328–335` supplies section geometry from `co + vold`, averaging
+the native section corners for its centroid. The force and centroid-relative
+moment increments already exist at the current observer seam. They must be
+copied with their original element/end identity and literal basis.
+
+`linstatic.c:810–836` calls retained `results` before copying solved `v` into
+`vold`. For the first zero-initial, single linear step, reference-state mapper
+geometry is an explicit specimen expectation that can be checked separately.
+The general output convention remains `CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT`;
+it must not be renamed as guaranteed final displaced geometry.
+
+For an origin-wrench comparison, the oracle can transport the observed native
+centroid-relative moment by the observed centroid and independently check the
+force against fixed source statics. The origin target is independently derived
+from declared load positions; it is not recovered from beam stresses or fitted
+to a beam-tip displacement. A disagreement of geometry conventions must not
+be hidden by altering the benchmark limit.
+
+## Proposed bounded network seam
+
+The separate V5 investigation uses count-based source, support and spring
+catalogues and the unchanged native element/end mapper. Each beam component
+is a connected acyclic branching B32R component with straight centered
+elements, zero-offset rectangular sections, and one uniform material/section
+per component. Different components may have genuinely different assignments.
+One physical zero guide per component leaves the common scalar translation
+free. A single grounded SPRING1 and an acyclic set of real SPRING2 connections
+form the connected scalar support path. SPRING2 endpoints must lie on their
+actual common global force axis; coordinate coincidence does not substitute
+for original node identity.
+
+The first vertical slice has one T, one grounded scalar connection and two
+distinct point sources. The next proposed slice connects two genuine T
+components with one internal SPRING2 and retains one ground spring and two
+physical guides. This avoids inventing a second redundant ground path solely
+to satisfy a catalogue. Source and support wrenches, individual actual spring
+ends, typed knot algebraic rows, element/section/material identities and the
+single physical frame remain separate observations.
+
+These are source-supported implementation seams and proposed safeguards.
+Runtime qualification and numerical budgets belong to the independent oracle
+and coordinator's retained validation. Rotational springs, arbitrary releases,
+RBE beam receiving sets, contact, nonlinear laws and Oomakhi design acceptance
+are not established by this proposal. Native mechanics and ordinary output
+remain unchanged throughout the investigation.

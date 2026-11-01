@@ -1,0 +1,505 @@
+# SPDX-License-Identifier: LGPL-2.1-or-later
+"""A branching native beam/spring network against independent frozen statics."""
+
+import json
+import math
+import os
+from pathlib import Path
+import tempfile
+import unittest
+
+import FreeCAD as App
+
+from femtest.app.beam_network_fixtures import make_connected_trees, make_grounded_tree
+from femtools.beam_section_forces import require_capability
+from femtools.ccxtools import FemToolsCcx
+from femtools.force_accounting import solver_binary
+
+
+class BeamNetworkNativeCase(unittest.TestCase):
+    def setUp(self):
+        previous = App.activeDocument()
+        self.previous_document = previous.Name if previous is not None else None
+        self.previous_analysis = None
+        if App.GuiUp:
+            import FemGui
+
+            self.previous_analysis = FemGui.getActiveAnalysis()
+        self.document_names = []
+        self.temporary = None
+        self.addCleanup(self._restore_session)
+        self.explicit_binary = os.environ.get("BJH_TEST_SOLVER")
+        retained = os.environ.get("BJH_WITNESS_ROOT")
+        if retained:
+            self.directory = Path(retained) / self._testMethodName
+            self.directory.mkdir(parents=True)
+        else:
+            self.temporary = tempfile.TemporaryDirectory(prefix="freecad-beam-network-")
+            self.directory = Path(self.temporary.name)
+
+    def _restore_session(self):
+        try:
+            if App.GuiUp:
+                import FemGui
+
+                FemGui.setActiveAnalysis()
+            for name in reversed(self.document_names):
+                if name in App.listDocuments():
+                    App.closeDocument(name)
+        finally:
+            if self.previous_document in App.listDocuments():
+                App.setActiveDocument(self.previous_document)
+            if App.GuiUp and self.previous_analysis is not None:
+                if self.previous_analysis.Document.Name in App.listDocuments():
+                    FemGui.setActiveAnalysis(self.previous_analysis)
+            if self.temporary is not None:
+                self.temporary.cleanup()
+
+    def components(self, actual, expected, budgets):
+        actual = list(actual)
+        self.assertEqual(len(actual), 3)
+        self.assertTrue(
+            all(type(value) in (int, float) and math.isfinite(value) for value in actual)
+        )
+        for axis, (value, reference, budget) in enumerate(zip(actual, expected, budgets)):
+            self.assertLessEqual(
+                abs(value - reference), budget, f"component {axis}: {actual} versus {expected}"
+            )
+
+    def wrench(self, row, force, moment):
+        self.components(row["force_global"], force, (1e-5,) * 3)
+        self.components(row["moment_origin"], moment, (1e-3,) * 3)
+
+    def solve(self, model):
+        if self.explicit_binary:
+            model.solver.NativeAccountingSolver = self.explicit_binary
+        else:
+            try:
+                require_capability(solver_binary(model.solver), schema="CCX_BEAM_SECTION_V5")
+            except (OSError, ValueError) as error:
+                self.skipTest("Qualified native beam network observer required: " + str(error))
+        fea = FemToolsCcx(analysis=model.analysis, solver=model.solver)
+        fea.update_objects()
+        fea.setup_working_dir(str(self.directory))
+        self.assertFalse(fea.check_prerequisites())
+        self.assertFalse(fea.write_inp_file())
+        # An explicitly selected old writer/observer must fail qualification.
+        require_capability(solver_binary(model.solver), schema="CCX_BEAM_SECTION_V5")
+        deck = Path(fea.inp_file_name).read_bytes()
+        (self.directory / "stock-input.inp").write_bytes(deck)
+        try:
+            returncode = fea.ccx_run()
+        finally:
+            for name in ("ccx_stdout", "ccx_stderr"):
+                value = getattr(fea, name, "") or ""
+                literal = value.encode("utf-8") if isinstance(value, str) else bytes(value)
+                (self.directory / (name + ".txt")).write_bytes(literal)
+        self.assertEqual(returncode, 0, fea.ccx_stdout + fea.ccx_stderr)
+        self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+        fea.load_results()
+        results = [
+            o
+            for o in model.analysis.Group
+            if getattr(getattr(o, "Proxy", None), "Type", "") == "Fem::BeamSectionForceResult"
+        ]
+        self.assertEqual(len(results), 1)
+        result = results[0]
+        data = result.Proxy.getSectionForces(result)
+        (self.directory / "observed.json").write_text(json.dumps(data, indent=2))
+        (self.directory / "section-data.json").write_text(result.SectionData)
+        self.assertTrue(result.Status.startswith("Current"), result.Status)
+        self.assertTrue(result.CompletedRun)
+        self.assertEqual(data["schema"], "CCX_BEAM_SECTION_V5")
+        self.assertEqual(data["units"], {"length": "mm", "force": "N", "moment": "N*mm"})
+        self.assertEqual(
+            data["provenance"]["case"],
+            {"analysis": model.analysis.Name, "solver": model.solver.Name, "mesh": model.mesh.Name},
+        )
+        self.assertEqual(len(data["frames"]), 1)
+        self.assertEqual(
+            (data["frames"][0]["step"], data["frames"][0]["increment"], data["frames"][0]["time"]),
+            (1, 1, 1),
+        )
+        self.assertEqual(Path(fea.inp_file_name).read_bytes(), deck)
+        return result, data, deck
+
+
+class TestBeamNetworkNative(BeamNetworkNativeCase):
+    def test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct(self):
+        doc = App.newDocument("NativeGroundedBranch")
+        self.document_names.append(doc.Name)
+        model = make_grounded_tree(doc)
+        self.assertEqual((model.mesh.FemMesh.NodeCount, model.mesh.FemMesh.EdgeCount), (19, 9))
+        self.assertEqual((model.mesh.FemMesh.VolumeCount, model.mesh.FemMesh.FaceCount), (0, 0))
+        self.assertEqual(model.spring.Stiffness.getValueAs("N/mm").Value, 10000)
+        for force, vector in zip(model.forces, ((1, 0, 0.01), (4, 0, -0.02))):
+            self.assertAlmostEqual(
+                force.Force.getValueAs("N").Value,
+                math.sqrt(sum(component**2 for component in vector)),
+                delta=1e-12,
+            )
+        result, data, deck = self.solve(model)
+        self.assertIn(b"TYPE=B32R", deck.upper())
+        self.assertIn(b"TYPE=SPRING1", deck.upper())
+        self.assertNotIn(b"TYPE=SPRING2", deck.upper())
+        self.assertEqual(data["position_frame"], "NATIVE_MAP_EXPANDED_SECTION")
+        self.assertEqual(data["basis_frame"], "NATIVE_MAP_FACE_BASIS")
+        self.assertEqual(data["geometry_source"], "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT")
+        self.assertEqual(data["moment_reference"], "NATIVE_SECTION_CENTROID")
+        catalogue = {row["element"]: row for row in data["provenance"]["elements"]}
+        self.assertEqual(set(catalogue), set(range(1, 10)))
+        for element, entry in catalogue.items():
+            self.assertEqual(entry["section"], model.section.Name)
+            self.assertEqual(entry["material"], model.material.Name.upper())
+            self.assertEqual(entry["dimensions_mm"], [4.0, 8.0])
+            self.assertEqual(
+                entry["reference_n1"],
+                (
+                    [0.0, 1.0, 0.0]
+                    if element <= 5
+                    else [-1.0, 0.0, 0.0] if element <= 7 else [1.0, 0.0, 0.0]
+                ),
+            )
+        frame = data["frames"][0]
+        actions = frame["native_actions"]
+        self.assertEqual(actions["position_frame"], "ORIGINAL_GLOBAL")
+        self.assertEqual(actions["moment_reference"], "GLOBAL_ORIGIN")
+        self.assertEqual(actions["force_action"], "ON_STRUCTURAL_MODEL")
+        sources = {row["owner"]: row for row in actions["sources"]}
+        self.assertEqual(set(sources), {force.Name for force in model.forces})
+        for owner, node, force, moment in (
+            (model.forces[0].Name, 15, (1, 0, 0.01), (0.57, -24, -57)),
+            (model.forces[1].Name, 19, (4, 0, -0.02), (0.46, -90, 92)),
+        ):
+            self.assertEqual(sources[owner]["node"], node)
+            self.wrench(sources[owner], force, moment)
+        self.assertEqual(len(actions["supports"]), 1)
+        support = actions["supports"][0]
+        self.assertEqual((support["owner"], support["node"]), (model.guide.Name, 1))
+        self.wrench(support, (0, 0, 0.01), (-1.03, -1, -120))
+        self.assertEqual(len(actions["springs"]), 1)
+        spring = actions["springs"][0]
+        self.assertEqual(spring["owner"], model.spring.Name)
+        self.assertEqual(spring["mode"], "GROUND")
+        self.assertEqual(spring["direction"], 1)
+        self.assertEqual(spring["stiffness_N_per_mm"], 10000)
+        self.assertEqual(len(spring["ends"]), 1)
+        end = spring["ends"][0]
+        self.assertEqual((end["node"], end["role"]), (1, "BEAM_VERTEX"))
+        self.wrench(end, (-5, 0, 0), (0, 115, 85))
+        self.components(end["native_resisting_force"], (5, 0, 0), (1e-5,) * 3)
+        self.assertAlmostEqual(end["displacement"][0], 0.0005, delta=1e-8)
+        for field, budget in (("force_global", 1e-5), ("moment_origin", 1e-3)):
+            self.components(
+                [sum(row[field][i] for row in (*sources.values(), support, end)) for i in range(3)],
+                (0, 0, 0),
+                (budget,) * 3,
+            )
+
+        expected = self._grounded_ends()
+        actual = {(row["element"], row["node"], row["end"]): row for row in frame["samples"]}
+        self.assertEqual(set(actual), set(expected))
+        self.assertEqual(len(frame["samples"]), len(expected))
+        for key, (force, moment, moment_budget) in expected.items():
+            row = actual[key]
+            ownership = catalogue[row["element"]]
+            self.assertEqual(ownership["section"], model.section.Name)
+            self.assertEqual(ownership["material"], model.material.Name.upper())
+            point = model.nodes[key[1]]
+            self.components(row["position"], point, (1e-8,) * 3)
+            force_budget = (0.005, 1e-5, 1e-4)
+            self.components(row["force_global"], force, force_budget)
+            self.components(row["moment_global"], moment, moment_budget)
+            expected_origin = App.Vector(*point).cross(App.Vector(*force)) + App.Vector(*moment)
+            observed_origin = App.Vector(*row["position"]).cross(
+                App.Vector(*row["force_global"])
+            ) + App.Vector(*row["moment_global"])
+            transport_budget = [
+                moment_budget[i]
+                + abs(point[(i + 1) % 3]) * force_budget[(i + 2) % 3]
+                + abs(point[(i + 2) % 3]) * force_budget[(i + 1) % 3]
+                for i in range(3)
+            ]
+            self.components(observed_origin, expected_origin, transport_budget)
+            axes = {name: App.Vector(*vector) for name, vector in row["basis"].items()}
+            for axis in axes.values():
+                self.assertAlmostEqual(axis.Length, 1, delta=1e-8)
+            determinant = axes["e1"].cross(axes["e2"]).dot(axes["normal"])
+            self.assertAlmostEqual(determinant, -1 if key[2] == 1 else 1, delta=1e-8)
+        # Three distinct original member ends coexist at the real fork.
+        self.assertEqual(
+            {key for key in actual if key[1] == 11}, {(5, 11, 3), (6, 11, 1), (8, 11, 1)}
+        )
+        mechanical = [o for o in model.analysis.Group if o.isDerivedFrom("Fem::FemResultObject")]
+        self.assertEqual(len(mechanical), 1)
+        for field in (
+            "NodeStressXX",
+            "NodeStressYY",
+            "NodeStressZZ",
+            "NodeStressXY",
+            "NodeStressXZ",
+            "NodeStressYZ",
+        ):
+            self.assertFalse(getattr(mechanical[0], field))
+        doc.recompute()
+        doc.saveAs(str(self.directory / "grounded-branch.FCStd"))
+        self.assertEqual(result.Proxy.getSectionForces(result), data)
+
+    @staticmethod
+    def _grounded_ends():
+        """Independent original-reference cuts: sum only prescribed downstream loads."""
+        expected = {}
+        for element in range(1, 6):
+            first, last = 2 * element - 1, 2 * element + 1
+            x0, x1 = 20 * (element - 1), 20 * element
+            expected[element, first, 1] = (
+                (-5, 0, 0.01),
+                (-1.2, -0.01 * (100 - x0), -120),
+                (0.012, 0.01, 1.2),
+            )
+            expected[element, last, 3] = (
+                (5, 0, -0.01),
+                (1.2, 0.01 * (100 - x1), 120),
+                (0.012, 0.01, 1.2),
+            )
+        for element, first, last, d0, d1 in ((6, 11, 13, 40, 20), (7, 13, 15, 20, 0)):
+            expected[element, first, 1] = ((-1, 0, -0.01), (-0.01 * d0, 0, d0), (0.004, 0.001, 0.4))
+            expected[element, last, 3] = ((1, 0, 0.01), (0.01 * d1, 0, -d1), (0.004, 0.001, 0.4))
+        for element, first, last, d0, d1 in ((8, 11, 17, 40, 20), (9, 17, 19, 20, 0)):
+            expected[element, first, 1] = (
+                (-4, 0, 0.02),
+                (-0.02 * d0, 0, -4 * d0),
+                (0.008, 0.001, 1.6),
+            )
+            expected[element, last, 3] = (
+                (4, 0, -0.02),
+                (0.02 * d1, 0, 4 * d1),
+                (0.008, 0.001, 1.6),
+            )
+        return expected
+
+    def test_connected_branches_keep_two_materials_and_both_active_spring_ports(self):
+        doc = App.newDocument("NativeConnectedBranches")
+        self.document_names.append(doc.Name)
+        model = make_connected_trees(doc)
+        self.assertEqual((model.mesh.FemMesh.NodeCount, model.mesh.FemMesh.EdgeCount), (38, 18))
+        self.assertEqual((model.mesh.FemMesh.VolumeCount, model.mesh.FemMesh.FaceCount), (0, 0))
+        self.assertEqual(len(model.geometry.Shape.Edges), 6)
+        self.assertEqual(
+            [spring.Stiffness.getValueAs("N/mm").Value for spring in model.springs], [10000, 2500]
+        )
+        result, data, deck = self.solve(model)
+        self.assertIn(b"TYPE=B32R", deck.upper())
+        self.assertIn(b"TYPE=SPRING1", deck.upper())
+        self.assertIn(b"TYPE=SPRING2", deck.upper())
+        self.assertEqual(data["position_frame"], "NATIVE_MAP_EXPANDED_SECTION")
+        self.assertEqual(data["basis_frame"], "NATIVE_MAP_FACE_BASIS")
+        self.assertEqual(data["geometry_source"], "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT")
+        self.assertEqual(data["moment_reference"], "NATIVE_SECTION_CENTROID")
+        catalogue = {row["element"]: row for row in data["provenance"]["elements"]}
+        self.assertEqual(set(catalogue), set(range(1, 19)))
+        for element, entry in catalogue.items():
+            component = 0 if element <= 9 else 1
+            local = (element - 1) % 9 + 1
+            member = 1 if local <= 5 else 2 if local <= 7 else 3
+            self.assertEqual(entry["component"], component + 1)
+            self.assertEqual(entry["member"], f"{model.geometry.Name}.Edge{member + 3 * component}")
+            self.assertEqual(entry["section"], model.sections[component].Name)
+            self.assertEqual(entry["material"], model.materials[component].Name.upper())
+            self.assertEqual(entry["material_owner"], model.materials[component].Name)
+            self.assertEqual(entry["dimensions_mm"], [4.0, 8.0] if component == 0 else [6.0, 6.0])
+            self.assertEqual(
+                entry["reference_n1"],
+                (
+                    [0.0, 1.0, 0.0]
+                    if member == 1
+                    else [-1.0, 0.0, 0.0] if member == 2 else [1.0, 0.0, 0.0]
+                ),
+            )
+        frame = data["frames"][0]
+        actions = frame["native_actions"]
+        self.assertEqual(actions["position_frame"], "ORIGINAL_GLOBAL")
+        self.assertEqual(actions["moment_reference"], "GLOBAL_ORIGIN")
+        self.assertEqual(actions["force_action"], "ON_STRUCTURAL_MODEL")
+        sources = {row["owner"]: row for row in actions["sources"]}
+        self.assertEqual(set(sources), {force.Name for force in model.forces})
+        for owner, node, force, moment in (
+            (model.forces[0].Name, 15, (1, 0, 0.01), (0.57, -24, -57)),
+            (model.forces[1].Name, 19, (4, 0, -0.02), (0.46, -90, 92)),
+            (model.forces[2].Name, 34, (1, 0, 0.03), (2.91, -29.3, -97)),
+            (model.forces[3].Name, 38, (2, 0, -0.01), (-0.17, -43.9, -34)),
+        ):
+            self.assertEqual(sources[owner]["node"], node)
+            self.components(sources[owner]["position"], model.nodes[node], (1e-8,) * 3)
+            self.wrench(sources[owner], force, moment)
+        supports = {row["owner"]: row for row in actions["supports"]}
+        self.assertEqual(set(supports), {guide.Name for guide in model.guides})
+        left_guide, right_guide = [supports[guide.Name] for guide in model.guides]
+        self.assertEqual((left_guide["node"], right_guide["node"]), (1, 20))
+        self.wrench(left_guide, (0, 0, 0.01), (-1.03, -1, 0))
+        self.wrench(right_guide, (0, 0, -0.02), (-2.74, 4.2, -40))
+        for guide in (left_guide, right_guide):
+            self.components(guide["position"], model.nodes[guide["node"]], (1e-8,) * 3)
+            self.assertEqual(
+                sorted(row["role"] for row in guide["spcs"]),
+                ["ALGEBRAIC"] * 3 + ["ANGLE"] * 3 + ["TRANSLATION"] * 2,
+            )
+        springs = {row["owner"]: row for row in actions["springs"]}
+        self.assertEqual(set(springs), {spring.Name for spring in model.springs})
+        ground, internal = [springs[spring.Name] for spring in model.springs]
+        self.assertEqual((ground["mode"], internal["mode"]), ("GROUND", "TWO_POINTS"))
+        self.assertEqual((ground["direction"], internal["direction"]), (1, 1))
+        self.assertEqual(
+            (ground["stiffness_N_per_mm"], internal["stiffness_N_per_mm"]), (10000, 2500)
+        )
+        self.assertEqual((len(ground["ends"]), len(internal["ends"])), (1, 2))
+        ground_end = ground["ends"][0]
+        internal_ends = {row["end"]: row for row in internal["ends"]}
+        self.assertEqual(set(internal_ends), {1, 2})
+        port_b, port_r = internal_ends[1], internal_ends[2]
+        self.assertEqual((ground_end["end"], ground_end["node"]), (1, 1))
+        self.assertEqual((port_b["node"], port_r["node"]), (15, 20))
+        for end in (ground_end, port_b, port_r):
+            self.assertEqual(end["role"], "BEAM_VERTEX")
+            self.components(end["position"], model.nodes[end["node"]], (1e-8,) * 3)
+        self.wrench(ground_end, (-8, 0, 0), (0, 184, 136))
+        self.wrench(port_b, (3, 0, 0), (0, -69, -171))
+        self.wrench(port_r, (-3, 0, 0), (0, 69, 171))
+        for end, resisting in ((ground_end, (8, 0, 0)), (port_b, (-3, 0, 0)), (port_r, (3, 0, 0))):
+            self.components(end["native_resisting_force"], resisting, (1e-5,) * 3)
+        self.assertAlmostEqual(ground_end["displacement"][0], 0.0008, delta=1e-8)
+        self.assertAlmostEqual(
+            port_r["displacement"][0] - port_b["displacement"][0], 0.0012, delta=1e-8
+        )
+        # Separate physical free bodies determine both nonzero spring actions.
+        left_sources = [sources[force.Name] for force in model.forces[:2]]
+        right_sources = [sources[force.Name] for force in model.forces[2:]]
+        for rows in (
+            (port_b, port_r),
+            (*left_sources, port_b, left_guide, ground_end),
+            (*right_sources, port_r, right_guide),
+            (*sources.values(), left_guide, right_guide, ground_end),
+        ):
+            for field, budget in (("force_global", 1e-5), ("moment_origin", 1e-3)):
+                self.components(
+                    [sum(row[field][i] for row in rows) for i in range(3)],
+                    (0, 0, 0),
+                    (budget,) * 3,
+                )
+        expected = self._connected_ends()
+        actual = {(row["element"], row["node"], row["end"]): row for row in frame["samples"]}
+        self.assertEqual(set(actual), set(expected))
+        self.assertEqual(len(frame["samples"]), 36)
+        for key, (force, moment, moment_budget) in expected.items():
+            row = actual[key]
+            ownership = catalogue[row["element"]]
+            component = 0 if key[0] <= 9 else 1
+            self.assertEqual(ownership["section"], model.sections[component].Name)
+            self.assertEqual(ownership["material"], model.materials[component].Name.upper())
+            point = model.nodes[key[1]]
+            self.components(row["position"], point, (1e-8,) * 3)
+            force_budget = (0.005, 1e-5, 1e-4)
+            self.components(row["force_global"], force, force_budget)
+            self.components(row["moment_global"], moment, moment_budget)
+            expected_origin = App.Vector(*point).cross(App.Vector(*force)) + App.Vector(*moment)
+            observed_origin = App.Vector(*row["position"]).cross(
+                App.Vector(*row["force_global"])
+            ) + App.Vector(*row["moment_global"])
+            transport_budget = [
+                moment_budget[i]
+                + abs(point[(i + 1) % 3]) * force_budget[(i + 2) % 3]
+                + abs(point[(i + 2) % 3]) * force_budget[(i + 1) % 3]
+                for i in range(3)
+            ]
+            self.components(observed_origin, expected_origin, transport_budget)
+            axes = {name: App.Vector(*vector) for name, vector in row["basis"].items()}
+            for axis in axes.values():
+                self.assertAlmostEqual(axis.Length, 1, delta=1e-8)
+            determinant = axes["e1"].cross(axes["e2"]).dot(axes["normal"])
+            self.assertAlmostEqual(determinant, -1 if key[2] == 1 else 1, delta=1e-8)
+        self.assertEqual(
+            {key for key in actual if key[1] in (11, 30)},
+            {(5, 11, 3), (6, 11, 1), (8, 11, 1), (14, 30, 3), (15, 30, 1), (17, 30, 1)},
+        )
+        mechanical = [o for o in model.analysis.Group if o.isDerivedFrom("Fem::FemResultObject")]
+        self.assertEqual(len(mechanical), 1)
+        for field in (
+            "NodeStressXX",
+            "NodeStressYY",
+            "NodeStressZZ",
+            "NodeStressXY",
+            "NodeStressXZ",
+            "NodeStressYZ",
+        ):
+            self.assertFalse(getattr(mechanical[0], field))
+        doc.recompute()
+        doc.saveAs(str(self.directory / "connected-branches.FCStd"))
+        self.assertEqual(result.Proxy.getSectionForces(result), data)
+
+    @staticmethod
+    def _connected_ends():
+        """Independent body balances fix the internal port before section cuts."""
+        expected = {}
+        for element in range(1, 6):
+            first, last = 2 * element - 1, 2 * element + 1
+            x0, x1 = 20 * (element - 1), 20 * element
+            expected[element, first, 1] = (
+                (-8, 0, 0.01),
+                (-1.2, -0.01 * (100 - x0), 0),
+                (0.012, 0.01, 0.001),
+            )
+            expected[element, last, 3] = (
+                (8, 0, -0.01),
+                (1.2, 0.01 * (100 - x1), 0),
+                (0.012, 0.01, 0.001),
+            )
+        for element, first, last, d0, d1 in ((6, 11, 13, 40, 20), (7, 13, 15, 20, 0)):
+            expected[element, first, 1] = (
+                (-4, 0, -0.01),
+                (-0.01 * d0, 0, 4 * d0),
+                (0.004, 0.001, 1.6),
+            )
+            expected[element, last, 3] = (
+                (4, 0, 0.01),
+                (0.01 * d1, 0, -4 * d1),
+                (0.004, 0.001, 1.6),
+            )
+        for element, first, last, d0, d1 in ((8, 11, 17, 40, 20), (9, 17, 19, 20, 0)):
+            expected[element, first, 1] = (
+                (-4, 0, 0.02),
+                (-0.02 * d0, 0, -4 * d0),
+                (0.008, 0.001, 1.6),
+            )
+            expected[element, last, 3] = (
+                (4, 0, -0.02),
+                (0.02 * d1, 0, 4 * d1),
+                (0.008, 0.001, 1.6),
+            )
+        for element in range(10, 15):
+            first, last = 2 * element, 2 * element + 2
+            x0, x1 = 110 + 20 * (element - 10), 110 + 20 * (element - 9)
+            expected[element, first, 1] = (
+                (-3, 0, -0.02),
+                (-1.6, 0.02 * (210 - x0), -40),
+                (0.016, 0.02, 0.4),
+            )
+            expected[element, last, 3] = (
+                (3, 0, 0.02),
+                (1.6, -0.02 * (210 - x1), 40),
+                (0.016, 0.02, 0.4),
+            )
+        for element, first, last, d0, d1 in ((15, 30, 32, 40, 20), (16, 32, 34, 20, 0)):
+            expected[element, first, 1] = ((-1, 0, -0.03), (-0.03 * d0, 0, d0), (0.012, 0.001, 0.4))
+            expected[element, last, 3] = ((1, 0, 0.03), (0.03 * d1, 0, -d1), (0.012, 0.001, 0.4))
+        for element, first, last, d0, d1 in ((17, 30, 36, 40, 20), (18, 36, 38, 20, 0)):
+            expected[element, first, 1] = (
+                (-2, 0, 0.01),
+                (-0.01 * d0, 0, -2 * d0),
+                (0.004, 0.001, 0.8),
+            )
+            expected[element, last, 3] = (
+                (2, 0, -0.01),
+                (0.01 * d1, 0, 2 * d1),
+                (0.004, 0.001, 0.8),
+            )
+        return expected

@@ -1,0 +1,247 @@
+test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct (femtest.app.test_beam_network_native.TestBeamNetworkNative.test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +243 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Added Group: Name: 'Edge1' Type: 'Edge' id: 0
+AddGroupElements: num elements: 5 sizeof: 8
+Added Group: Name: 'Edge2' Type: 'Edge' id: 1
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Edge3' Type: 'Edge' id: 2
+AddGroupElements: num elements: 2 sizeof: 8
+Added Group: Name: 'Vertex1' Type: 'Node' id: 3
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 4
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 5
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 6
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 7
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 8
+AddGroupElements: num elements: 1 sizeof: 8
+Only one material object, but this one has a reference shape. The reference shape will be ignored.
+
+Check prerequisites...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 40.0, 0.0), 'ids': [6, 7], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -40.0, 0.0), 'ids': [8, 9], 'beam_axis_m': Vector (1.0, 0.0, -0.0)}]
+NetworkMaterial:
+    Type: Fem::MaterialCommon, Name: NetworkMaterial
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkSection:
+    Type: Fem::ElementGeometry1D, Name: NetworkSection
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkGuide:
+    Type: Fem::ConstraintDisplacement, Name: NetworkGuide
+    ReferenceShape ... Type: Vertex, Object name: NetworkStem, Object label: NetworkStem, Element name: Vertex1
+NetworkUpperForce:
+    Type: Fem::ConstraintForce, Name: NetworkUpperForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Vertex2
+NetworkLowerForce:
+    Type: Fem::ConstraintForce, Name: NetworkLowerForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-I0l3dCyo/grounded-branch-green-r02/cases/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/NetworkMesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetwCalculiX failed with exit code 201
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+FAIL
+
+======================================================================
+FAIL: test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct (femtest.app.test_beam_network_native.TestBeamNetworkNative.test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_network_native.py", line 127, in test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct
+    result, data, deck = self.solve(model)
+                         ~~~~~~~~~~^^^^^^^
+  File "/Users/zukomgwili/src/FreeCAD/build/release/Mod/Fem/femtest/app/test_beam_network_native.py", line 85, in solve
+    self.assertEqual(fea.ccx_run(), 0, fea.ccx_stdout + fea.ccx_stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 0 : 
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sun Nov  1 00:33:54 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:          505
+   elements:           10
+   one-dimensional elements:            9
+   two-dimensional elements:            0
+   integration points per element:           50
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            0
+   concentrated loads:           36
+   single point constraints:          693
+   multiple point constraints:         1081
+   terms in all multiple point constraints:         6913
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:            9
+   terms in all sets:           68
+
+   materials:            2
+   constants per material and temperature:            3
+   temperature points per material:            2
+   plastic data points per material:            0
+
+   orientations:            1
+   amplitudes:            3
+   data points in all amplitudes:            3
+   print requests:            3
+   transformations:            0
+   property cards:            0
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Decascading the MPC's
+
+ Determining the structure of the matrix:
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 314
+ number of nonzero lower triangular matrix elements
+ 10764
+
+*DETAIL CCX beam network blank MPC row=73 terms=2
+*DETAIL term=1 node=20 direction=0 coefficient=1 original_role=0 expanded_owner=1
+*DETAIL term=2 node=1 direction=0 coefficient=-1 original_role=1 expanded_owner=0
+*ERROR CCX beam section V5: network contains an unauthenticated blank-label native equation
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.307s
+
+FAILED (failures=1)
+orkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+--------start of stderr-------
+*DETAIL CCX beam network blank MPC row=73 terms=2
+*DETAIL term=1 node=20 direction=0 coefficient=1 original_role=0 expanded_owner=1
+*DETAIL term=2 node=1 direction=0 coefficient=-1 original_role=1 expanded_owner=0
+*ERROR CCX beam section V5: network contains an unauthenticated blank-label native equation
+--------end of stderr---------
+--------start of stdout-------
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sun Nov  1 00:33:54 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:          505
+   elements:           10
+   one-dimensional elements:            9
+   two-dimensional elements:            0
+   integration points per element:           50
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            0
+   concentrated loads:           36
+   single point constraints:          693
+   multiple point constraints:         1081
+   terms in all multiple point constraints:         6913
+   tie constraints:            0
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:            9
+   terms in all sets:           68
+
+   materials:            2
+   constants per material and temperature:            3
+   temperature points per material:            2
+   plastic data points per material:            0
+
+   orientations:            1
+   amplitudes:            3
+   data points in all amplitudes:            3
+   print requests:            3
+   transformations:            0
+   property cards:            0
+
+
+ STEP            1
+
+ Static analysis was selected
+
+ Decascading the MPC's
+
+ Determining the structure of the matrix:
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 314
+ number of nonzero lower triangular matrix elements
+ 10764
+
+
+--------end of stdout---------
+--------start problems---------
+
+--------end problems---------

@@ -1,10 +1,11 @@
 --- a/ccx_2.23/src/CalculiX.h
 +++ b/ccx_2.23/src/CalculiX.h
-@@ -88,6 +88,22 @@
+@@ -88,6 +88,23 @@
  void cs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,char*,ITG,char*,double*,ITG,ITG,ITG,double*);
  void cs_begin_results(ITG,ITG,ITG,ITG,double*,double*,ITG*,ITG*,char*,ITG*,ITG*,double*,double*,double*,double*,double);
  void cs_emit(ITG,ITG,double);
 +#define CCX_FREECAD_BEAM_CONTACT_V4 1
++void bs_capture_mpcs(ITG,ITG,ITG*,ITG*,double*,char*,ITG);
 +void bs_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,ITG,
 +                ITG*,ITG*,char*,char*,double*,ITG,ITG*,ITG*,double*,
 +                ITG*,char*,ITG,char*,ITG,ITG,ITG,ITG,ITG,ITG*,
@@ -25,7 +26,7 @@
                           ITG *ialset,char *objectset,ITG *ipkon,ITG *ibject,
 --- a/ccx_2.23/src/ccx_2.23.c
 +++ b/ccx_2.23/src/ccx_2.23.c
-@@ -123,6 +123,18 @@
+@@ -123,6 +123,21 @@
    if(argc==2&&strcmp(argv[1],"--freecad-contact-state-version")==0){
      printf("CCX_CONTACT_STATE_V1\n");return 0;
    }
@@ -41,10 +42,21 @@
 +  if(argc==2&&strcmp(argv[1],"--freecad-beam-contact-version")==0){
 +    printf("CCX_BEAM_SECTION_V4\n");return 0;
 +  }
++  if(argc==2&&strcmp(argv[1],"--freecad-beam-network-version")==0){
++    printf("CCX_BEAM_SECTION_V5\n");return 0;
++  }
    if(argc==1){printf("Usage: CalculiX.exe -i jobname\n");FORTRAN(stop,());}
    else{
      for(i=1;i<argc;i++){
-@@ -1252,6 +1264,11 @@
+@@ -1188,6 +1203,7 @@
+ 
+     /* decascading MPC's only necessary if MPC's changed */
+     fa_capture_mpcs(nk,nmpc,ipompc,nodempc,coefmpc,labmpc,memmpc_);
++    bs_capture_mpcs(nk,nmpc,ipompc,nodempc,coefmpc,labmpc,memmpc_);
+ 
+     if(((istep==1)||(ntrans>0)||(mpcend<0)||(nk!=nkold)||(nmpc!=nmpcold))&&(icascade==0)){
+ 
+@@ -1252,6 +1268,11 @@
      fa_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,kon,lakon,
                 nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
      fa_check_contact_domain(ntie,tieset,tietol,mortar);
@@ -58,7 +70,15 @@
      if((nmethod<=1)||(nmethod==11)||((iperturb[0]>1)&&(nmethod<8)))
 --- a/ccx_2.23/src/ccx_2.23step.c
 +++ b/ccx_2.23/src/ccx_2.23step.c
-@@ -1394,6 +1394,11 @@
+@@ -1320,6 +1320,7 @@
+ 
+     /* decascading MPC's only necessary if MPC's changed */
+     fa_capture_mpcs(*nk,nmpc,ipompc,nodempc,coefmpc,labmpc,memmpc_);
++    bs_capture_mpcs(*nk,nmpc,ipompc,nodempc,coefmpc,labmpc,memmpc_);
+ 
+     if(((istep==1)||(ntrans>0)||(mpcend<0)||(*nk!=nkold)||(nmpc!=nmpcold))&&(icascade==0)) {
+       //  if(icascade==0) {
+@@ -1394,6 +1395,11 @@
      fa_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,kon,lakon,
                 *nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
      fa_check_contact_domain(ntie,tieset,tietol,mortar);
@@ -70,6 +90,26 @@
      cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
                 ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
      if((*nmethod<=1)||(*nmethod==11)||((iperturb[0]>1)&&(*nmethod<8)))
+--- a/ccx_2.23/src/knotmpc.f
++++ b/ccx_2.23/src/knotmpc.f
+@@ -282,6 +282,8 @@
+             enddo
+             ikboun(id+1)=idof
+             ilboun(id+1)=nboun
++            call bs_record_knot(irefnode,irotnode,iexpnode,
++     &           inode,ispcnode,nmpc,j)
+          enddo
+       elseif(idim.eq.2) then
+ !
+@@ -405,6 +407,8 @@
+             enddo
+             ikboun(id+1)=idof
+             ilboun(id+1)=nboun
++            call bs_record_knot(irefnode,irotnode,iexpnode,
++     &           inode,ispcnode,nmpc,j)
+          enddo
+       else
+ !
 --- a/ccx_2.23/src/results.c
 +++ b/ccx_2.23/src/results.c
 @@ -174,6 +174,9 @@
