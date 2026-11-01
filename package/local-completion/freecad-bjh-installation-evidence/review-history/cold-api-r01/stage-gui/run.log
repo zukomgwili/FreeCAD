@@ -1,0 +1,761 @@
+(qt.qpa.fonts) Populating font family aliases took 80 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +245 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_exact_application_identity_native_origins_and_default_solver (AppBeamBjh.AppBeamIdentity.test_exact_application_identity_native_origins_and_default_solver) ... ok
+test_invalid_output_request_reports_error_and_clears_busy_cursor (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_invalid_output_request_reports_error_and_clears_busy_cursor) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_invalid_output_request_reports_error_and_clears_busy_cursor/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+Check prerequisites...
+ok
+test_stop_button_cancels_only_its_owned_beam_attempt (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_stop_button_cancels_only_its_owned_beam_attempt) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.0 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_stop_button_cancels_only_its_owned_beam_attempt/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+run CalculiX at: /private/tmp/freecad-bjh-install-4X8KjpF5/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_stop_button_cancels_only_its_owned_beam_attempt/Mesh.inp
+ok
+test_visible_solver_write_and_run_saves_current_native_beam_end_actions (femtest.gui.test_beam_section_forces.TestBeamSectionForcesGui.test_visible_solver_write_and_run_saves_current_native_beam_end_actions) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (8000.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: CantileverLine, Object label: CantileverLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+run CalculiX at: /private/tmp/freecad-bjh-install-4X8KjpF5/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/Mesh.dat
+ok
+test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit (femtest.gui.test_beam_coupling.TestBeamCouplingGui.test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit) ... 
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}]
+MechanicalMaterial:
+    Type: Fem::MaterialCommon, Name: MechanicalMaterial
+BeamCrossSection:
+    Type: Fem::ElementGeometry1D, Name: BeamCrossSection
+Stabilizer:
+    Type: Fem::ConstraintDisplacement, Name: Stabilizer
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex1
+Force:
+    Type: Fem::ConstraintForce, Name: Force
+    ReferenceShape ... Type: Vertex, Object name: BeamLine, Object label: BeamLine, Element name: Vertex2
+Getting mesh data time: 0.001 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/Mesh.dat
+ok
+test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate (femtest.gui.test_beam_solid_coupling.TestBeamSolidCouplingGui.test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate) ... 
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+HybridMaterial:
+    Type: Fem::MaterialCommon, Name: HybridMaterial
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.005 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Writing time CalculiX input file: 0.008 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridPrism, Object label: HybridPrism, Element name: Face4
+ok
+test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation (femtest.gui.test_beam_contact_coupling.TestBeamContactCouplingGui.test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation) ... 
+Check prerequisites...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (40.0, 0.0, 0.0), 'ids': [1, 2], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (20.0, 0.0, 0.0), 'ids': [], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 10.0, 0.0), 'ids': [], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -5.0, 15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, 0.0, 0.0)}, {'direction': Vector (0.0, -5.0, -15.0), 'ids': [], 'beam_axis_m': Vector (-0.9999999999999999, -0.0, 0.0)}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'HybridMaterialSolid', 'mat_obj_name': 'HybridMaterial', 'ccx_mat_name': 'HybridSeriesLinearElastic'}]
+HybridBeamSection:
+    Type: Fem::ElementGeometry1D, Name: HybridBeamSection
+    ReferenceShape ... Type: Edge, Object name: HybridBeam, Object label: HybridBeam, Element name: Edge1
+HybridFixed:
+    Type: Fem::ConstraintFixed, Name: HybridFixed
+    ReferenceShape ... Type: Face, Object name: ContactBacking, Object label: ContactBacking, Element name: Face4
+We need to find the solid nodes.
+HybridStabilizer:
+    Type: Fem::ConstraintDisplacement, Name: HybridStabilizer
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex1
+HybridPort:
+    Type: Fem::ConstraintRigidBody, Name: HybridPort
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+BeamSolidContact:
+    Type: Fem::ConstraintContact, Name: BeamSolidContact
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+HybridForce:
+    Type: Fem::ConstraintForce, Name: HybridForce
+    ReferenceShape ... Type: Vertex, Object name: HybridBeam, Object label: HybridBeam, Element name: Vertex2
+Getting mesh data time: 0.016 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.inp
+One monster input file.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Writing time CalculiX input file: 0.017 seconds.
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+CalculiX solver run...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+
+CalculiX read results...
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/HybridMesh.dat
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face5
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid1
+    ReferenceShape ... Type: Solid, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Solid2
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face9
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face4
+    ReferenceShape ... Type: Face, Object name: HybridGeometry, Object label: HybridGeometry, Element name: Face10
+ok
+test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends (femtest.gui.test_beam_network_coupling.TestBeamNetworkCouplingGui.test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends) ... 
+Check prerequisites...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5, 10, 11, 12, 13, 14], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 40.0, 0.0), 'ids': [6, 7, 15, 16], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -40.0, 0.0), 'ids': [8, 9, 17, 18], 'beam_axis_m': Vector (1.0, 0.0, -0.0)}]
+Beam sections
+Constraint: NetworkSection --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+Constraint: NetworkRightSection --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Edge, Object name: NetworkRightStem, Object label: NetworkRightStem, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkRightUpperArm, Object label: NetworkRightUpperArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkRightLowerArm, Object label: NetworkRightLowerArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+Count finite elements as sum of constraints:   18
+Count finite elements of the finite element mesh: 18
+Materials
+Constraint: NetworkMaterial --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+Constraint: NetworkRightMaterial --> We're going to search in the mesh for the element ID's.
+    ReferenceShape ... Type: Edge, Object name: NetworkRightStem, Object label: NetworkRightStem, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkRightUpperArm, Object label: NetworkRightUpperArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+    ReferenceShape ... Type: Edge, Object name: NetworkRightLowerArm, Object label: NetworkRightLowerArm, Element name: Edge1
+std search: get_femelements_by_femnodes_std
+Count finite elements as sum of constraints:   18
+Count finite elements of the finite element mesh: 18
+NetworkMaterial:
+    Type: Fem::MaterialCommon, Name: NetworkMaterial
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkRightMaterial:
+    Type: Fem::MaterialCommon, Name: NetworkRightMaterial
+    ReferenceShape ... Type: Edge, Object name: NetworkRightStem, Object label: NetworkRightStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkRightUpperArm, Object label: NetworkRightUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkRightLowerArm, Object label: NetworkRightLowerArm, Element name: Edge1
+NetworkSection:
+    Type: Fem::ElementGeometry1D, Name: NetworkSection
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkRightSection:
+    Type: Fem::ElementGeometry1D, Name: NetworkRightSection
+    ReferenceShape ... Type: Edge, Object name: NetworkRightStem, Object label: NetworkRightStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkRightUpperArm, Object label: NetworkRightUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkRightLowerArm, Object label: NetworkRightLowerArm, Element name: Edge1
+NetworkGuide:
+    Type: Fem::ConstraintDisplacement, Name: NetworkGuide
+    ReferenceShape ... Type: Vertex, Object name: NetworkStem, Object label: NetworkStem, Element name: Vertex1
+NetworkRightGuide:
+    Type: Fem::ConstraintDisplacement, Name: NetworkRightGuide
+    ReferenceShape ... Type: Vertex, Object name: NetworkRightStem, Object label: NetworkRightStem, Element name: Vertex1
+NetworkUpperForce:
+    Type: Fem::ConstraintForce, Name: NetworkUpperForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Vertex2
+NetworkLowerForce:
+    Type: Fem::ConstraintForce, Name: NetworkLowerForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Vertex2
+NetworkRightUpperForce:
+    Type: Fem::ConstraintForce, Name: NetworkRightUpperForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkRightUpperArm, Object label: NetworkRightUpperArm, Element name: Vertex2
+NetworkRightLowerForce:
+    Type: Fem::ConstraintForce, Name: NetworkRightLowerForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkRightLowerArm, Object label: NetworkRightLowerArm, Element name: Vertex2
+Getting mesh data time: 0.005 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/NetworkMesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+
+CalculiX solver run...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/NetworkMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/NetworkMesh.dat
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: VOnly one material object, but this one has a reference shape. The reference shape will be ignored.
+ertex10
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge5
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex7
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex12
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex10
+ok
+test_network_inspector_preserves_owners_and_withdraws_every_typed_table (femtest.gui.test_beam_network_coupling.TestBeamNetworkCouplingGui.test_network_inspector_preserves_owners_and_withdraws_every_typed_table) ... 
+Check prerequisites...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+Get mesh data for constraints, materials and element geometry...
+Beam rotations
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+std search: get_femelements_by_femnodes_std
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+beam_axis_m is retrieved from the geometry but we could get if from mesh edge too
+[{'direction': Vector (100.0, 0.0, 0.0), 'ids': [1, 2, 3, 4, 5], 'beam_axis_m': Vector (0.0, 1.0, -0.0)}, {'direction': Vector (0.0, 40.0, 0.0), 'ids': [6, 7], 'beam_axis_m': Vector (-1.0, 0.0, -0.0)}, {'direction': Vector (0.0, -40.0, 0.0), 'ids': [8, 9], 'beam_axis_m': Vector (1.0, 0.0, -0.0)}]
+NetworkMaterial:
+    Type: Fem::MaterialCommon, Name: NetworkMaterial
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkSection:
+    Type: Fem::ElementGeometry1D, Name: NetworkSection
+    ReferenceShape ... Type: Edge, Object name: NetworkStem, Object label: NetworkStem, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Edge1
+NetworkGuide:
+    Type: Fem::ConstraintDisplacement, Name: NetworkGuide
+    ReferenceShape ... Type: Vertex, Object name: NetworkStem, Object label: NetworkStem, Element name: Vertex1
+NetworkUpperForce:
+    Type: Fem::ConstraintForce, Name: NetworkUpperForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkUpperArm, Object label: NetworkUpperArm, Element name: Vertex2
+NetworkLowerForce:
+    Type: Fem::ConstraintForce, Name: NetworkLowerForce
+    ReferenceShape ... Type: Vertex, Object name: NetworkLowerArm, Object label: NetworkLowerArm, Element name: Vertex2
+Getting mesh data time: 0.002 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/NetworkMesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.001 seconds.
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+
+CalculiX solver run...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+CalculiX finished without error.
+
+CalculiX read results...
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+Read ccx results from frd file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/NetworkMesh.frd
+Read ccx results from dat file: /private/tmp/freecad-bjh-install-4X8KjpF5/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/NetworkMesh.dat
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge1
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge2
+    ReferenceShape ... Type: Edge, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Edge3
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex1
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex6
+    ReferenceShape ... Type: Vertex, Object name: NetworkGeometry, Object label: NetworkGeometry, Element name: Vertex4
+ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 21.155s
+
+OK
+System exit

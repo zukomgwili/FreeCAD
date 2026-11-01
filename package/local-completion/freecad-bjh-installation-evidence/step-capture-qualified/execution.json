@@ -1,0 +1,55 @@
+{
+  "schema": "FreeCAD-8rk-install-step-v1",
+  "mode": "capture",
+  "command": [
+    "/opt/homebrew/bin/pixi",
+    "run",
+    "--frozen",
+    "python",
+    "-B",
+    "-c",
+    "import sys;sys.path.insert(0,'/private/tmp/freecad-bjh-install-4X8KjpF5');import critical_pins;critical_pins.capture()"
+  ],
+  "source_commit": "f87fabb9340177691d4bcea22f6014cab692bde7",
+  "returncode": 0,
+  "timed_out": false,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 2.063146082975436,
+  "inputs_before": {
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/AppBeamBjh.py": "5cdf795613e3a287f2ec4d9038044576e5b05d8a32228ed6e32fd180950d0f11",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/ColdBeamBjh.py": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/audit_payload_stage.py": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/critical_pins.py": "536c80d3a1ceb11796c1844530627d32ac218acac5e5706b5ebb14c9c9ae6e34",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/run_application.py": "1050343b2d335d213735562677f108f5043b24e33368c21a68a04c12705072da",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/run_gate.py": "05ab91d0c695718d59f1e50154f9396c9f44254330f0bfe55f415a43a9d8dc60",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/run_step.py": "7ccc4579670d46dd6c849717ba97f6653c7a5b993f95ce9bfc9dddf832a847aa",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/stage_install.py": "325f76005bc597ef006eb5f9994a07a1a8d7439bf8f6443ad712983f6f714011"
+  },
+  "inputs_after": {
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/AppBeamBjh.py": "5cdf795613e3a287f2ec4d9038044576e5b05d8a32228ed6e32fd180950d0f11",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/ColdBeamBjh.py": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/audit_payload_stage.py": "82f9e5ba571599b06a6df87811bb9384a28f3661c9e563820e93e11988ccf3e3",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/critical_pins.py": "536c80d3a1ceb11796c1844530627d32ac218acac5e5706b5ebb14c9c9ae6e34",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/run_application.py": "1050343b2d335d213735562677f108f5043b24e33368c21a68a04c12705072da",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/run_gate.py": "05ab91d0c695718d59f1e50154f9396c9f44254330f0bfe55f415a43a9d8dc60",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/run_step.py": "7ccc4579670d46dd6c849717ba97f6653c7a5b993f95ce9bfc9dddf832a847aa",
+    "/private/tmp/freecad-bjh-install-4X8KjpF5/stage_install.py": "325f76005bc597ef006eb5f9994a07a1a8d7439bf8f6443ad712983f6f714011"
+  },
+  "protected_before": {
+    "/Applications/FreeCAD-27.1.0.app": "f32924418d7edf1634b89c06f7aa2f5b497d97571eed2eb58173cf10c1900a27",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "6badf95606663242456d505a7c7b03ddc58e8169426298ba574091f377395456",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "0380fea2830dbe39545c2a203bc696ddb68d121af6945c600383ef350c19e5c6",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "1b72daebc9c9b390deed22f7b7a33ac56e8a500b35921d739111361809694efd"
+  },
+  "protected_after": {
+    "/Applications/FreeCAD-27.1.0.app": "f32924418d7edf1634b89c06f7aa2f5b497d97571eed2eb58173cf10c1900a27",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "6badf95606663242456d505a7c7b03ddc58e8169426298ba574091f377395456",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "0380fea2830dbe39545c2a203bc696ddb68d121af6945c600383ef350c19e5c6",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "1b72daebc9c9b390deed22f7b7a33ac56e8a500b35921d739111361809694efd"
+  },
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "inputs_unchanged": true,
+  "protected_unchanged": true,
+  "passed": true
+}

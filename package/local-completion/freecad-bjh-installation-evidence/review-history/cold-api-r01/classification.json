@@ -1,0 +1,18 @@
+{
+  "classification": "NONQUALIFYING_COLD_HARNESS_API_ERROR",
+  "error": "Two historical=True calls to ContactStateResult.getContactStates, which supports only Current data; use immutable saved ContactData+ContactHash for historical contact evidence. No product source, geometry, load, acceptance limit or application payload changed.",
+  "old_helper_sha256": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b",
+  "failed_phase": "stage-cold",
+  "supporting_superseded_phases": [
+    "stage-cmd",
+    "stage-gui"
+  ],
+  "supporting_superseded_review": "stage-independent-review.json",
+  "executed_receipts_and_cases_preserved_byte_for_byte": true,
+  "rerun_required": [
+    "stage-cmd",
+    "stage-gui",
+    "stage-cold"
+  ],
+  "current_app_and_profiles_unchanged": true
+}

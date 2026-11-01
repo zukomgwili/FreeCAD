@@ -1,0 +1,144 @@
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sun Nov  1 00:49:41 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:          435
+   elements:          517
+   one-dimensional elements:            2
+   two-dimensional elements:            0
+   integration points per element:           50
+   degrees of freedom per node:            3
+   layers per element:            2
+
+   distributed facial loads:            0
+   distributed volumetric loads:            0
+   concentrated loads:            9
+   single point constraints:          396
+   multiple point constraints:          250
+   terms in all multiple point constraints:         1591
+   tie constraints:            1
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           20
+   terms in all sets:           72
+
+   materials:            3
+   constants per material and temperature:            4
+   temperature points per material:            2
+   plastic data points per material:            0
+
+   orientations:            1
+   amplitudes:            8
+   data points in all amplitudes:            8
+   print requests:           15
+   transformations:            0
+   property cards:            0
+
+ *INFO reading *SURFACE BEHAVIOR: the tension
+       value at large clearances
+       (only relevant for node-to-surface contact)
+       must be strictly positive
+       the following default will be used:   2.8571428571428572     
+       the user is advised to analyze the results
+       carefully
+
+ STEP            1
+
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 328 in direction 1
+
+ increment 1 attempt 1 
+ increment size= 1.000000e+00
+ sum of previous increments=0.000000e+00
+ actual step time=1.000000e+00
+ actual total time=1.000000e+00
+
+ iteration 1
+
+ Number of contact spring elements=7
+
+ Decascading the MPC's
+
+ *INFO in cascade: linear MPCs and
+       nonlinear MPCs depend on each other
+       common node: 328 in direction 1
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 98
+ number of nonzero lower triangular matrix elements
+ 2560
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 5.252330
+ time avg. forc= 5.252330
+ largest residual force= 0.000000 in node 101 and dof 1
+ largest increment of disp= 1.156489e-02
+ largest correction to disp= 1.156489e-02 in node 5 and dof 1
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=7
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the symmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.996235
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 5.252330
+ time avg. forc= 5.252330
+ largest residual force= 0.000000 in node 102 and dof 1
+ largest increment of disp= 1.156489e-02
+ largest correction to disp= 5.717051e-15 in node 5 and dof 2
+
+ convergence
+
+ the increment size exceeds the remainder of the step and is decreased to 0.000000e+00
+
+ pressure ratio (smallest/largest pressure over all contact areas) =0.000000e+00
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+
+ Job finished
+

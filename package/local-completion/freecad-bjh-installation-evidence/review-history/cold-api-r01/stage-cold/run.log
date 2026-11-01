@@ -1,0 +1,32 @@
+test_saved_literal_axes_case_and_output_request_survive_cold_restore (ColdBeamBjh.ColdBeamBjh.test_saved_literal_axes_case_and_output_request_survive_cold_restore) ... 
+  test_saved_literal_axes_case_and_output_request_survive_cold_restore (ColdBeamBjh.ColdBeamBjh.test_saved_literal_axes_case_and_output_request_survive_cold_restore) (schema='CCX_BEAM_SECTION_V4') ... ERROR
+test_saved_literal_axes_case_and_output_request_survive_cold_restore (ColdBeamBjh.ColdBeamBjh.test_saved_literal_axes_case_and_output_request_survive_cold_restore) ... FAIL
+
+======================================================================
+ERROR: test_saved_literal_axes_case_and_output_request_survive_cold_restore (ColdBeamBjh.ColdBeamBjh.test_saved_literal_axes_case_and_output_request_survive_cold_restore) (schema='CCX_BEAM_SECTION_V4')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-bjh-install-4X8KjpF5/ColdBeamBjh.py", line 330, in test_saved_literal_axes_case_and_output_request_survive_cold_restore
+    mechanical_observation = check_contact_case(self, doc, result, data, case)
+  File "/private/tmp/freecad-bjh-install-4X8KjpF5/ColdBeamBjh.py", line 37, in check_contact_case
+    test.assertEqual(contact.Proxy.getContactStates(contact, historical=True), local)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ContactStateResult.getContactStates() got an unexpected keyword argument 'historical'
+
+======================================================================
+FAIL: test_saved_literal_axes_case_and_output_request_survive_cold_restore (ColdBeamBjh.ColdBeamBjh.test_saved_literal_axes_case_and_output_request_survive_cold_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-bjh-install-4X8KjpF5/ColdBeamBjh.py", line 364, in test_saved_literal_axes_case_and_output_request_survive_cold_restore
+    self.assertEqual(len(observations), 7)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 6 != 7
+
+----------------------------------------------------------------------
+Ran 1 test in 0.898s
+
+FAILED (failures=1, errors=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +245 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+

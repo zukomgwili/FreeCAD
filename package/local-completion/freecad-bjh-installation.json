@@ -1,0 +1,1284 @@
+{
+  "ad_hoc_signed": true,
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "application_tests": {
+    "cold_cases_per_location": [
+      "v1",
+      "v2",
+      "v3",
+      "v4",
+      "v5-ground",
+      "v5-connected",
+      "v5-fork"
+    ],
+    "cold_member_end_counts_per_location": [
+      10,
+      10,
+      4,
+      4,
+      18,
+      36,
+      54
+    ],
+    "cold_schemas_per_location": [
+      "CCX_BEAM_SECTION_V1",
+      "CCX_BEAM_SECTION_V2",
+      "CCX_BEAM_SECTION_V3",
+      "CCX_BEAM_SECTION_V4",
+      "CCX_BEAM_SECTION_V5",
+      "CCX_BEAM_SECTION_V5",
+      "CCX_BEAM_SECTION_V5"
+    ],
+    "installed": {
+      "cmd": 61,
+      "cold": 1,
+      "gui": 9
+    },
+    "native_solver_override": false,
+    "skipped": [],
+    "source_or_build_import_override": false,
+    "stage": {
+      "cmd": 61,
+      "cold": 1,
+      "gui": 9
+    },
+    "total_executed": 142
+  },
+  "archived_failed_pipeline_phases": [
+    {
+      "execution_sha256": "45cbc7d1cbac396b480953adc737074c6fb94b2dd68cc208f55c7cc424257eea",
+      "label": "stage-cold",
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cold/execution.json",
+      "passed": false
+    }
+  ],
+  "archived_superseded_passed_pipeline_phases": [
+    {
+      "execution_sha256": "66664bbca92a98509f9d48f8fc70cb0c63d6e5333111fb9d5a9831ce3ae58cf9",
+      "label": "stage-cmd",
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/execution.json",
+      "passed": true
+    },
+    {
+      "execution_sha256": "802a69bbba418c4ef91606a6d903298e92e3723986a5cf2d053529ada5d395c4",
+      "label": "stage-gui",
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/execution.json",
+      "passed": true
+    }
+  ],
+  "build": {
+    "clean_from_scratch_claimed": false,
+    "full_incremental_Release": true
+  },
+  "ctest": {
+    "catalogue": 2277,
+    "disabled": 8,
+    "failed": 0,
+    "passed": 2267,
+    "skipped": 2
+  },
+  "date": "2026-11-01T02:08:02.970230+00:00",
+  "deployment_bead": "FreeCAD-4bu",
+  "evidence": {
+    "directory": "package/local-completion/freecad-bjh-installation-evidence",
+    "files": 252,
+    "index_sha256": "2621a8e6c37d834f622c22696fe475ee1a45bd7a18e42c1087e9eb789e5e4ba3",
+    "private_directory": "/private/tmp/freecad-bjh-install-4X8KjpF5"
+  },
+  "fix_bead": "FreeCAD-bjh",
+  "historical_helper_input_snapshots": [
+    {
+      "original_input_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/ColdBeamBjh.py",
+      "published_snapshot": "review-history/cold-api-r01/ColdBeamBjh.py",
+      "required_sha256": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b",
+      "retained_private_snapshot": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/ColdBeamBjh.py"
+    }
+  ],
+  "metadata_note": "Later deployment-tracking commits do not change the compiled f87fabb934/+245 application identity.",
+  "modified_local_time": "2026-11-01T02:04:29.581999+00:00",
+  "native_capabilities": [
+    "CCX_BEAM_SECTION_V1",
+    "CCX_BEAM_SECTION_V2",
+    "CCX_BEAM_SECTION_V3",
+    "CCX_BEAM_SECTION_V4",
+    "CCX_BEAM_SECTION_V5",
+    "CCX_CONTACT_STATE_V1",
+    "CCX_FORCE_ACCOUNTING_V3"
+  ],
+  "native_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+  "nonqualifying_pipeline_phases": 1,
+  "nonqualifying_review_harness_attempts": 2,
+  "nonqualifying_review_harness_history": [
+    {
+      "classification": "NONQUALIFYING_COLD_HARNESS_API_ERROR",
+      "failed_phase": {
+        "execution_sha256": "45cbc7d1cbac396b480953adc737074c6fb94b2dd68cc208f55c7cc424257eea",
+        "label": "stage-cold",
+        "passed": false
+      },
+      "helper": "review-history/cold-api-r01/ColdBeamBjh.py",
+      "helper_sha256": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b",
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/classification.json",
+      "original_sha256": "5470c1ee9cac23658d4b884b13d51286e5147ea0f302d113c4443b115b11f8b2",
+      "supporting_superseded_passes": [
+        {
+          "execution_sha256": "66664bbca92a98509f9d48f8fc70cb0c63d6e5333111fb9d5a9831ce3ae58cf9",
+          "label": "stage-cmd",
+          "passed": true
+        },
+        {
+          "execution_sha256": "802a69bbba418c4ef91606a6d903298e92e3723986a5cf2d053529ada5d395c4",
+          "label": "stage-gui",
+          "passed": true
+        }
+      ],
+      "supporting_superseded_review": {
+        "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-independent-review.json",
+        "passed": true,
+        "sha256": "a580f6398ec0df24d59498879752387b88d11c24e12b3f55dac443610dcb7b40"
+      }
+    },
+    {
+      "classification": "NONQUALIFYING_REVIEW_HELPER_ERROR",
+      "helper": "review-history/independent_stage_review.r01.py",
+      "helper_sha256": "98abb76d40ecf4ceb7be76f83d9074b39d82646501bb04dcafcc9d8d0410842b",
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/independent-stage-attempt-r01.json",
+      "original_sha256": "b462b90e328b4caf79239c2755d8be65c28306fd982d4b15c984c178b09a7fe1"
+    }
+  ],
+  "notarized": false,
+  "passed": true,
+  "payload": {
+    "exact_backup_inventory_sha256": "f32924418d7edf1634b89c06f7aa2f5b497d97571eed2eb58173cf10c1900a27",
+    "full_DESTDIR_leaf_set_audited": true,
+    "native_images": 61,
+    "sealed_stage_and_installed_inventory_sha256": "06d689ed5ff8c8f19533cb548d1111f9399790239713d6a1d74ee9ee073a125f",
+    "strict_signatures_QuickLook_entitlements_readonly_cachefree": true
+  },
+  "phases": [
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "b983f48f8071bd7fa4b24e2f1f037912e1d286decc0d50e5098186ed6c4751f9",
+      "label": "build-latest",
+      "log_sha256": "701629fe249513823f5beeab1862bd14cf1571e65ba54303aeb8f69c5e7a6b16"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "ac06dc7691da9d9e382585c25d29a1feeb43c7724257c06f4cb97c7011f1291b",
+      "label": "ctest-latest",
+      "log_sha256": "097eae85dff9f8a8caaca5e403f4dfc2099ebe7befcc26e17ea30adbaae5773d"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "a4d4973a21cd14250307f4f8d056c3eea05cdffc370e38d40df4454d02a5dfc1",
+      "label": "installed-cmd",
+      "log_sha256": "98a46ec8f434a4d638959359074532040b2b6104f95ada82dae29ff5c0e05713"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "5d5bb99a3ab02ac35af23aca21f6ae9bbcde4e8bc6e8b3557f40ad239d4bc32c",
+      "label": "installed-cold",
+      "log_sha256": "ccb5b9eb3da035741bac5cb294f531a9449ede078aff45ea0e9750f1a28188a6"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "012f33e92eca0b93c1535645a53b091266fc2f6b8087022f4bba1272a597fc2c",
+      "label": "installed-gui",
+      "log_sha256": "ed683e84786ccbe4a32ae1deb35621e37890f036efb3c200523428e6a57f1593"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "54feb35c5adccf077c4be6d89d736f334e19af065b0b894254f199aad1a95811",
+      "label": "stage-cmd",
+      "log_sha256": "6436dfadfd582e666b198cb15fa3e47992964f7219fccb8da42d72b5be0c31d2"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "13d778a9d6397a1003e4fd21f74fca3560328fc53027fcdcb1ceb2c230777ee3",
+      "label": "stage-cold",
+      "log_sha256": "d55b5219dc6417780a56522c3290c81370de5bbac45963fedeb209c572745502"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "5ab4f2fc25f0f239dc2853a9f3f8f221f30e0397efd4832d3ec031a07d7e0157",
+      "label": "stage-gui",
+      "log_sha256": "50cb63197023e803a8b58f096339b4b30c724642c4bd3474db46f85c2416b3d3"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "13548edbc6541c7f2c8d9597e87600303bf18dd183c8d50400351548d39950fa",
+      "label": "step-audit-custody",
+      "log_sha256": "ec20185c16380cef0c054b7913be668bf51403b7c943dea53a04ff90e4436686"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "43a1c009c5c7a8efe3415cc74025fad7776a5f4a79497c2a1fba89d146ee9958",
+      "label": "step-audit-payload",
+      "log_sha256": "0270fe06103a1f5f1dd9fc6748792643d77caf0dfc589a8d7ce923cb15b8d24d"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "c79aa15cb6cb575acc6bff2bbbb68033846de14b04b813590927dfbb29f73630",
+      "label": "step-audit-stage",
+      "log_sha256": "b01030c73e17ff9953f0d0da7c1d715ff46a1bd2d9646b5ebef8301f4baff0f1"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "27450ee2029188b1dbd97285ae244ed2a9bf11349dfca9ce622c8a1b0ae213f4",
+      "label": "step-capture-qualified",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "92bacfd6b7d3acf6451d7cf3abd1728d0a0ea30b51c31d1a723fa154c4e2c1d4",
+      "label": "step-payload",
+      "log_sha256": "1ca6843e072c71e118d8f037b680ae04b22fbd97c0b81c162ab8a66ac458af0c"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "80a8009fabd85464ec3fcd7376885dcb7b8a789545319fd4249b8e0404c885fa",
+      "label": "step-stage",
+      "log_sha256": "5373a230432d7c910332d9ac0dd87f6ef9c34011a60efbe136f8b9d9290dc625"
+    },
+    {
+      "classification": "QUALIFYING_PASS",
+      "execution_sha256": "894b8f2a1080a94d46ed24a15666c7016ffc6335bcc9eb163ad73b61e2beca43",
+      "label": "step-swap",
+      "log_sha256": "fa7cf4777a04b4064fa1291b121702aa44ff57862e99399c516d7aabcf1467cb"
+    }
+  ],
+  "preservation": {
+    "external_namespace_files_unchanged": 11,
+    "profiles_unchanged": 3,
+    "selected_critical_files_unchanged": 17,
+    "whole_dependency_environment_inventory_claimed": false
+  },
+  "privacy": {
+    "bulk_app_and_profile_inventories_published": false,
+    "independent_review_publications_are_labelled_derivatives": true,
+    "native_executables_CAD_config_profiles_or_archives_published": false,
+    "original_absolute_provenance_preserved": true,
+    "original_executed_receipts_rewritten": false
+  },
+  "qualifying_pipeline_phase_count": 15,
+  "review_history_files": [
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/ColdBeamBjh.py",
+      "original_sha256": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b",
+      "publication": "review-history/cold-api-r01/ColdBeamBjh.py",
+      "published_sha256": "2c1f3f6dd454fe118651ac25dc043a3a4d88891e9abcbb3dde34b3d7fad9f74b"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/classification.json",
+      "original_sha256": "5470c1ee9cac23658d4b884b13d51286e5147ea0f302d113c4443b115b11f8b2",
+      "publication": "review-history/cold-api-r01/classification.json",
+      "published_sha256": "5470c1ee9cac23658d4b884b13d51286e5147ea0f302d113c4443b115b11f8b2"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/contact-data.json",
+      "original_sha256": "5b702b1e5c2387206c51c8d12ad836f2c2fbe3cd4a8974a98a5790cf01751ef7",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/contact-data.json",
+      "published_sha256": "5b702b1e5c2387206c51c8d12ad836f2c2fbe3cd4a8974a98a5790cf01751ef7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/observed-beam.json",
+      "original_sha256": "daab02c6beed470c9d4c31870f726c067b4a618e2fb3d710014c72942adad112",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/observed-beam.json",
+      "published_sha256": "daab02c6beed470c9d4c31870f726c067b4a618e2fb3d710014c72942adad112"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/observed-contact.json",
+      "original_sha256": "8caa3aaa47b9306a97334ac25edc375cf9902cb56e3f34924e455f0472b390ae",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/observed-contact.json",
+      "published_sha256": "8caa3aaa47b9306a97334ac25edc375cf9902cb56e3f34924e455f0472b390ae"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/section-data.json",
+      "original_sha256": "735a41956f2a217eeeee1bbc7e25a12574739dda7b4b5b059c4194d828b96669",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_frictionless_compression_keeps_beam_contact_and_solid_owners_in_one_case/section-data.json",
+      "published_sha256": "735a41956f2a217eeeee1bbc7e25a12574739dda7b4b5b059c4194d828b96669"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/aliased_contact_solid_owner/stderr.txt",
+      "original_sha256": "5cf4c64eb589ede6c38179cd0d84fb8b91973f54bbea4c22aa0ad4dc8913725e",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/aliased_contact_solid_owner/stderr.txt",
+      "published_sha256": "5cf4c64eb589ede6c38179cd0d84fb8b91973f54bbea4c22aa0ad4dc8913725e"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/aliased_contact_solid_owner/stdout.txt",
+      "original_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/aliased_contact_solid_owner/stdout.txt",
+      "published_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/beam_element_as_contact_face/stderr.txt",
+      "original_sha256": "17975ba3da124fd702291619e8121f3e90f4d308fcd02eda8ccc24b4c9384d6a",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/beam_element_as_contact_face/stderr.txt",
+      "published_sha256": "17975ba3da124fd702291619e8121f3e90f4d308fcd02eda8ccc24b4c9384d6a"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/beam_element_as_contact_face/stdout.txt",
+      "original_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/beam_element_as_contact_face/stdout.txt",
+      "published_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_child_nonce/stderr.txt",
+      "original_sha256": "61d7253c71ecb9585de4bb6b030cd0607f2e9728fb8b5ae2b8fc2da343e86446",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_child_nonce/stderr.txt",
+      "published_sha256": "61d7253c71ecb9585de4bb6b030cd0607f2e9728fb8b5ae2b8fc2da343e86446"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_child_nonce/stdout.txt",
+      "original_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_child_nonce/stdout.txt",
+      "published_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_surface_identity/stderr.txt",
+      "original_sha256": "b771154f7c86f56d42c70aaebac25007347ebbe91a3639ec2ffd6c5a7f8382cd",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_surface_identity/stderr.txt",
+      "published_sha256": "b771154f7c86f56d42c70aaebac25007347ebbe91a3639ec2ffd6c5a7f8382cd"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_surface_identity/stdout.txt",
+      "original_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/contact_surface_identity/stdout.txt",
+      "published_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/omitted_physical_port_guide/stderr.txt",
+      "original_sha256": "5cf4c64eb589ede6c38179cd0d84fb8b91973f54bbea4c22aa0ad4dc8913725e",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/omitted_physical_port_guide/stderr.txt",
+      "published_sha256": "5cf4c64eb589ede6c38179cd0d84fb8b91973f54bbea4c22aa0ad4dc8913725e"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/omitted_physical_port_guide/stdout.txt",
+      "original_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_native_request_mismatches_cannot_authorize_beam_contact_composition/omitted_physical_port_guide/stdout.txt",
+      "published_sha256": "98090ad40105c097ec2f93eaeac537460f05b5c42517ee45b4693dc05f84c119"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_observers_preserve_the_ordinary_native_fields_on_the_same_stock_deck/candidate_inactive/stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_observers_preserve_the_ordinary_native_fields_on_the_same_stock_deck/candidate_inactive/stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_observers_preserve_the_ordinary_native_fields_on_the_same_stock_deck/candidate_inactive/stdout.txt",
+      "original_sha256": "ab82cfdce99c5d62b02df3333ed642ebec9399157ba50a1e20525cd33a3e62b1",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_observers_preserve_the_ordinary_native_fields_on_the_same_stock_deck/candidate_inactive/stdout.txt",
+      "published_sha256": "ab82cfdce99c5d62b02df3333ed642ebec9399157ba50a1e20525cd33a3e62b1"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/contact-data.json",
+      "original_sha256": "5e2475f8c117184e8b6c5896618bc9fe039eba9c5bcdff1490a92a51c681a1fe",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/contact-data.json",
+      "published_sha256": "5e2475f8c117184e8b6c5896618bc9fe039eba9c5bcdff1490a92a51c681a1fe"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/observed-beam.json",
+      "original_sha256": "d9829c3bef1c4d3128ffb38aeef3b92cb7318ef0d106f879c477c6ee83f6b372",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/observed-beam.json",
+      "published_sha256": "d9829c3bef1c4d3128ffb38aeef3b92cb7318ef0d106f879c477c6ee83f6b372"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/observed-contact.json",
+      "original_sha256": "0496f86b491c11cc7a60ac42b2b473e7646475753904e81675aa06fbfae03820",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/observed-contact.json",
+      "published_sha256": "0496f86b491c11cc7a60ac42b2b473e7646475753904e81675aa06fbfae03820"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/section-data.json",
+      "original_sha256": "5184c895f08d6e0f41da4240db301c86d64bdfde6fcebb1713aa9ee59e399743",
+      "publication": "review-history/cold-api-r01/stage-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/section-data.json",
+      "published_sha256": "5184c895f08d6e0f41da4240db301c86d64bdfde6fcebb1713aa9ee59e399743"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_changed_frd_custody_withdraws_current_before_result_partition/mixed/observed.json",
+      "original_sha256": "7374863c3a5a4b0ea17bc5a099e9d70d416c3a7292cb976b64fcd0cd1599baf9",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_changed_frd_custody_withdraws_current_before_result_partition/mixed/observed.json",
+      "published_sha256": "7374863c3a5a4b0ea17bc5a099e9d70d416c3a7292cb976b64fcd0cd1599baf9"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/comparison.json",
+      "original_sha256": "d6ac14074707b1b99ac615c289262af0a3faec9cccad95ee96c2991e5bd9ea5d",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/comparison.json",
+      "published_sha256": "d6ac14074707b1b99ac615c289262af0a3faec9cccad95ee96c2991e5bd9ea5d"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/observed.json",
+      "original_sha256": "f6614c326ac0e657e385b6e5efca070be8b0515b4c1af9780015aac14d7911f7",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/mixed/observed.json",
+      "published_sha256": "f6614c326ac0e657e385b6e5efca070be8b0515b4c1af9780015aac14d7911f7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/observed.json",
+      "original_sha256": "f6614c326ac0e657e385b6e5efca070be8b0515b4c1af9780015aac14d7911f7",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/observed.json",
+      "published_sha256": "f6614c326ac0e657e385b6e5efca070be8b0515b4c1af9780015aac14d7911f7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/observed.json",
+      "original_sha256": "460e5c7a75771565bf789dbee1d03728e8b700a1c73673c63229549cec4ed898",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_hybrid_actions_solid_patch_and_native_beam_component_control/pure/observed.json",
+      "published_sha256": "460e5c7a75771565bf789dbee1d03728e8b700a1c73673c63229549cec4ed898"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/mixed/observed.json",
+      "original_sha256": "b9a885544e8ea46110e93f09d7c067e3b28e47f12b404f151e4dadd273ca7706",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_mixed_frd_needs_its_owned_v3_source_and_matching_analysis/mixed/observed.json",
+      "published_sha256": "b9a885544e8ea46110e93f09d7c067e3b28e47f12b404f151e4dadd273ca7706"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/observed.json",
+      "original_sha256": "f331f60729385d5e4e1c7edab8d2e45496d2aeba14e69da1bd5c56987cdfbbb6",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_saved_rigid_algebraic_terms_cannot_alias_beam_rotation_helpers/mixed/observed.json",
+      "published_sha256": "f331f60729385d5e4e1c7edab8d2e45496d2aeba14e69da1bd5c56987cdfbbb6"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/observed.json",
+      "original_sha256": "5ab345e111cb2a9fb210f88ef799a7bc6e82b76970207e717f70c4fa3b505ecd",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_series_beam_ground_spring_and_restraints_share_one_owned_frame/observed.json",
+      "published_sha256": "5ab345e111cb2a9fb210f88ef799a7bc6e82b76970207e717f70c4fa3b505ecd"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history/observed.json",
+      "original_sha256": "db1a2845f88114f1671e4fd144d48afcd8cfea54015d9a867744e54af6774ba0",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_stiffness_edit_withdraws_current_actions_and_preserves_literal_history/observed.json",
+      "published_sha256": "db1a2845f88114f1671e4fd144d48afcd8cfea54015d9a867744e54af6774ba0"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/coupled/test_transverse_components_observe_nonzero_physical_rotation_reactions/observed.json",
+      "original_sha256": "ad707bde3606a78e3ba08eca57268be71a2d24d505c22fe1e1a5cb647fa75a5b",
+      "publication": "review-history/cold-api-r01/stage-cmd/coupled/test_transverse_components_observe_nonzero_physical_rotation_reactions/observed.json",
+      "published_sha256": "ad707bde3606a78e3ba08eca57268be71a2d24d505c22fe1e1a5cb647fa75a5b"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/execution.json",
+      "original_sha256": "66664bbca92a98509f9d48f8fc70cb0c63d6e5333111fb9d5a9831ce3ae58cf9",
+      "publication": "review-history/cold-api-r01/stage-cmd/execution.json",
+      "published_sha256": "66664bbca92a98509f9d48f8fc70cb0c63d6e5333111fb9d5a9831ce3ae58cf9"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/identity-observation.json",
+      "original_sha256": "7792075fc00161e22fd3452485261487aa278e27dd30e866a00434adb58c98b9",
+      "publication": "review-history/cold-api-r01/stage-cmd/identity-observation.json",
+      "published_sha256": "7792075fc00161e22fd3452485261487aa278e27dd30e866a00434adb58c98b9"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/observed.json",
+      "original_sha256": "9a351e153beb6efc138715573eef28ec7fbe4082ca880e73a6d89cf1b3bdbfed",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/observed.json",
+      "published_sha256": "9a351e153beb6efc138715573eef28ec7fbe4082ca880e73a6d89cf1b3bdbfed"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/section-data.json",
+      "original_sha256": "e4bb6ef035c71bc60157876b8bbf8c944e9d267489f2417e1e7a26ff06bbb123",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_bare_network_frd_cannot_be_imported_as_mechanical_stress/section-data.json",
+      "published_sha256": "e4bb6ef035c71bc60157876b8bbf8c944e9d267489f2417e1e7a26ff06bbb123"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/observed.json",
+      "original_sha256": "b0e13be8bafed1542e90f2564b999b875568491f945c043e1b36e47aa2ac1560",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/observed.json",
+      "published_sha256": "b0e13be8bafed1542e90f2564b999b875568491f945c043e1b36e47aa2ac1560"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/section-data.json",
+      "original_sha256": "ccf05afc50477f288b9f65e16a9d5e65d8ae320b408ce185c6334b253d2c970d",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_connected_branches_keep_two_materials_and_both_active_spring_ports/section-data.json",
+      "published_sha256": "ccf05afc50477f288b9f65e16a9d5e65d8ae320b408ce185c6334b253d2c970d"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/ccx_stdout.txt",
+      "original_sha256": "6fabc701f08fe96ff1f2afccf58146618539f8bcea9fdc44d6f623ef9e267ed5",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/ccx_stdout.txt",
+      "published_sha256": "6fabc701f08fe96ff1f2afccf58146618539f8bcea9fdc44d6f623ef9e267ed5"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/observed.json",
+      "original_sha256": "08965776d72a6c14f9daaa5f8469c5a3e3ef0196ac845460ef2e687377c3ee2d",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/observed.json",
+      "published_sha256": "08965776d72a6c14f9daaa5f8469c5a3e3ef0196ac845460ef2e687377c3ee2d"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/section-data.json",
+      "original_sha256": "34df0d24a87c970c92a624b04fc11234d660364fe4ee7800a92ba8e2c152337a",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_grounded_branch_keeps_sources_member_ends_and_physical_supports_distinct/section-data.json",
+      "published_sha256": "34df0d24a87c970c92a624b04fc11234d660364fe4ee7800a92ba8e2c152337a"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/observed.json",
+      "original_sha256": "7565dc1f87ca9473bdcacd5dbbc9e996312e0f3b3733ac0bee3231aacd8f5c38",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/observed.json",
+      "published_sha256": "7565dc1f87ca9473bdcacd5dbbc9e996312e0f3b3733ac0bee3231aacd8f5c38"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/section-data.json",
+      "original_sha256": "5ad47b3a74d89afa38dba19055c62d06fd50e0f1e4570086e315143d8fe1fe83",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_internal_spring_edit_preserves_literal_history_through_save_and_reopen/section-data.json",
+      "published_sha256": "5ad47b3a74d89afa38dba19055c62d06fd50e0f1e4570086e315143d8fe1fe83"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/observed.json",
+      "original_sha256": "7732e0411adb1d0e4223ced2ad5b90d80f931e6bdd52d609d285b8b7e5b747eb",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/observed.json",
+      "published_sha256": "7732e0411adb1d0e4223ced2ad5b90d80f931e6bdd52d609d285b8b7e5b747eb"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/section-data.json",
+      "original_sha256": "85154ec2da1a1481dfa0e1dfae47856a753afe5df0e82d5e773b96d6d15b7655",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_nonlinear_export_retires_completion_and_preserves_chosen_setting_and_history/section-data.json",
+      "published_sha256": "85154ec2da1a1481dfa0e1dfae47856a753afe5df0e82d5e773b96d6d15b7655"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/observed.json",
+      "original_sha256": "c3e35b0e2eed1dde189da01f92ba7a56e0fbb67c329580db249940fb3122e20e",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/observed.json",
+      "published_sha256": "c3e35b0e2eed1dde189da01f92ba7a56e0fbb67c329580db249940fb3122e20e"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/section-data.json",
+      "original_sha256": "a168830f6d6da92140e6733f5626eedf74bc0213e1f7052061ca1ddd7a7d04ed",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/deck/section-data.json",
+      "published_sha256": "a168830f6d6da92140e6733f5626eedf74bc0213e1f7052061ca1ddd7a7d04ed"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/observed.json",
+      "original_sha256": "1b8b6256d64c08a72763d83967d241ec478a928f2ceeb8a6f3d72f9fc8ee7d97",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/observed.json",
+      "published_sha256": "1b8b6256d64c08a72763d83967d241ec478a928f2ceeb8a6f3d72f9fc8ee7d97"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/section-data.json",
+      "original_sha256": "b8eff1ca445d3281659fc7a7c6d681741168c1c603e7917fa07724fc168734a9",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/export_metadata/section-data.json",
+      "published_sha256": "b8eff1ca445d3281659fc7a7c6d681741168c1c603e7917fa07724fc168734a9"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/observed.json",
+      "original_sha256": "b181e20cb4d5d71bc619a615fcd6ff2d199f4e565c21cea39f70d61a527d597c",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/observed.json",
+      "published_sha256": "b181e20cb4d5d71bc619a615fcd6ff2d199f4e565c21cea39f70d61a527d597c"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/section-data.json",
+      "original_sha256": "682c2fb4b9cefb3b18729561a01e754021e7a9990d5e962cd489b1032742944a",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/frd/section-data.json",
+      "published_sha256": "682c2fb4b9cefb3b18729561a01e754021e7a9990d5e962cd489b1032742944a"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/observed.json",
+      "original_sha256": "910365ae3c4f71ee8bcd73f89813b27444857801523ddb8697eef7b5d410ff8f",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/observed.json",
+      "published_sha256": "910365ae3c4f71ee8bcd73f89813b27444857801523ddb8697eef7b5d410ff8f"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/section-data.json",
+      "original_sha256": "02e067822666b20f896a0b6850448cf306042d0617b36eec661c91b26905dd75",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/output/section-data.json",
+      "published_sha256": "02e067822666b20f896a0b6850448cf306042d0617b36eec661c91b26905dd75"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/observed.json",
+      "original_sha256": "1f8f9956b10e6dc780795255ce266d29b6b65c2747d0441c911714c89c56be41",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/observed.json",
+      "published_sha256": "1f8f9956b10e6dc780795255ce266d29b6b65c2747d0441c911714c89c56be41"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/section-data.json",
+      "original_sha256": "8d382eb3cc84cbfff1197931da7476b3f97b92cee304ceaf4697a794de7a46a2",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/request/section-data.json",
+      "published_sha256": "8d382eb3cc84cbfff1197931da7476b3f97b92cee304ceaf4697a794de7a46a2"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/observed.json",
+      "original_sha256": "3db0f16abbc43cd09c84f61c7413b41b6f157b408e2b3460bc8227bfd5d394d2",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/observed.json",
+      "published_sha256": "3db0f16abbc43cd09c84f61c7413b41b6f157b408e2b3460bc8227bfd5d394d2"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/section-data.json",
+      "original_sha256": "2907bd740133ef03ce13365d93532c22703d0832e5d121f95201a9c24d613a27",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_owned_file_tampering_is_refused_and_never_resurrects_current_after_restoration/run_request/section-data.json",
+      "published_sha256": "2907bd740133ef03ce13365d93532c22703d0832e5d121f95201a9c24d613a27"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/observed.json",
+      "original_sha256": "2be35e9b4f2851b2d8387ac9b86811edd19a202e11c75322b6d0d4407943bdcc",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/observed.json",
+      "published_sha256": "2be35e9b4f2851b2d8387ac9b86811edd19a202e11c75322b6d0d4407943bdcc"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/section-data.json",
+      "original_sha256": "63c000a244c69fdb3ab2d62bd5f46988c447245f2934214f55da33021e9d61a5",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_result/section-data.json",
+      "published_sha256": "63c000a244c69fdb3ab2d62bd5f46988c447245f2934214f55da33021e9d61a5"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/observed.json",
+      "original_sha256": "784c72153bba25bb6d52157e76650a46d02749ea19118514bb9d2a1784e2eee3",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/observed.json",
+      "published_sha256": "784c72153bba25bb6d52157e76650a46d02749ea19118514bb9d2a1784e2eee3"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/section-data.json",
+      "original_sha256": "3073c194144ecfe9a2df9f0ad0e614f8c639067c6f2bf53d3c58a390abc485ac",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/detached_source/section-data.json",
+      "published_sha256": "3073c194144ecfe9a2df9f0ad0e614f8c639067c6f2bf53d3c58a390abc485ac"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/observed.json",
+      "original_sha256": "c0e24871df68f421f4f1d6b5ad9e30878d3f6bea71db9cb87085784c4e7094b8",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/observed.json",
+      "published_sha256": "c0e24871df68f421f4f1d6b5ad9e30878d3f6bea71db9cb87085784c4e7094b8"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/section-data.json",
+      "original_sha256": "4fdb1b80be52919f22013bd4c461bf4ff9cb4f2bd51267f647d8d8a74db514b5",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/material/section-data.json",
+      "published_sha256": "4fdb1b80be52919f22013bd4c461bf4ff9cb4f2bd51267f647d8d8a74db514b5"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/observed.json",
+      "original_sha256": "fb5ad925ce367f1ebd3bacad40213453f14ba0d186f0fc0537fa6907cb874952",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/observed.json",
+      "published_sha256": "fb5ad925ce367f1ebd3bacad40213453f14ba0d186f0fc0537fa6907cb874952"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/section-data.json",
+      "original_sha256": "41bd8efd5025ede5440d2f2cef01ad7569aa8210af0c63362ad41c9533ddf54c",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/physical_guide/section-data.json",
+      "published_sha256": "41bd8efd5025ede5440d2f2cef01ad7569aa8210af0c63362ad41c9533ddf54c"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/observed.json",
+      "original_sha256": "347db2069a91e284bad9b077c48c4803656f6d3e4c4709507c301ed927dd225d",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/observed.json",
+      "published_sha256": "347db2069a91e284bad9b077c48c4803656f6d3e4c4709507c301ed927dd225d"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/section-data.json",
+      "original_sha256": "4928b1f1ad4da78ee757e5a8c0080f794319d7c9f4da084729c29609cf55f4c3",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/removed_solver/section-data.json",
+      "published_sha256": "4928b1f1ad4da78ee757e5a8c0080f794319d7c9f4da084729c29609cf55f4c3"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/observed.json",
+      "original_sha256": "e2c18a1f9c1f4e0bee9f1df41bad15cf8869bab3a36e8beb99b093bf4122a6e0",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/observed.json",
+      "published_sha256": "e2c18a1f9c1f4e0bee9f1df41bad15cf8869bab3a36e8beb99b093bf4122a6e0"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/section-data.json",
+      "original_sha256": "ace898d215a7512e709d5728c3af40ec7cd87892b57387390fc0281894018e76",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/section/section-data.json",
+      "published_sha256": "ace898d215a7512e709d5728c3af40ec7cd87892b57387390fc0281894018e76"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/ccx_stdout.txt",
+      "original_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/ccx_stdout.txt",
+      "published_sha256": "f0bf7670dfcb236cf2a0c707a99c60834aeb024bd99114c622a07e076b3ba6e7"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/observed.json",
+      "original_sha256": "997287b921e470c9c73f730e191b8fb6abc55bdbd57673b4a493f0259f243aff",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/observed.json",
+      "published_sha256": "997287b921e470c9c73f730e191b8fb6abc55bdbd57673b4a493f0259f243aff"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/section-data.json",
+      "original_sha256": "a45cef39e1d281a42dd52bb7a81bb30c405c4bf74263576d37980cb08f42e613",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_physical_edits_and_detached_owners_withdraw_current_without_erasing_history/source/section-data.json",
+      "published_sha256": "a45cef39e1d281a42dd52bb7a81bb30c405c4bf74263576d37980cb08f42e613"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/ccx_stdout.txt",
+      "original_sha256": "d75c6264471d1a488c16047e311791a8dfb7eb77bcd1f1efc0908dc8ba1ce10e",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/ccx_stdout.txt",
+      "published_sha256": "d75c6264471d1a488c16047e311791a8dfb7eb77bcd1f1efc0908dc8ba1ce10e"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/observed.json",
+      "original_sha256": "5af7e324749e1bd2406d2df418ce244e4d33a3cf7735b8457ab1f15eee822aa4",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/observed.json",
+      "published_sha256": "5af7e324749e1bd2406d2df418ce244e4d33a3cf7735b8457ab1f15eee822aa4"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/section-data.json",
+      "original_sha256": "7253d1bcfd5d2fb4b6ec40a06bf321bb2965261ffdc97e592ffef6dd2158f32d",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_rehashed_history_rejects_six_source_omissions_port_loss_and_knot_role_aliases/section-data.json",
+      "published_sha256": "7253d1bcfd5d2fb4b6ec40a06bf321bb2965261ffdc97e592ffef6dd2158f32d"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/ccx_stderr.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/ccx_stderr.txt",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/ccx_stdout.txt",
+      "original_sha256": "d75c6264471d1a488c16047e311791a8dfb7eb77bcd1f1efc0908dc8ba1ce10e",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/ccx_stdout.txt",
+      "published_sha256": "d75c6264471d1a488c16047e311791a8dfb7eb77bcd1f1efc0908dc8ba1ce10e"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/observed.json",
+      "original_sha256": "d31ef33ecdd10eb8c0b3af3b14ef59b4cb5f0f50560f7426f02c8d4e5f4c2142",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/observed.json",
+      "published_sha256": "d31ef33ecdd10eb8c0b3af3b14ef59b4cb5f0f50560f7426f02c8d4e5f4c2142"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/section-data.json",
+      "original_sha256": "1a50c3313a203dd31f1bd6e903511b73abff7d16f73e5e1ac6dbc8f18eddb7a6",
+      "publication": "review-history/cold-api-r01/stage-cmd/network/test_three_branches_keep_both_child_links_and_all_native_owners/section-data.json",
+      "published_sha256": "1a50c3313a203dd31f1bd6e903511b73abff7d16f73e5e1ac6dbc8f18eddb7a6"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/regression.json",
+      "original_sha256": "6df67eee9800ac0667b8d848fb058a7dc613c88556ea1c0cda7853ff5716edbf",
+      "publication": "review-history/cold-api-r01/stage-cmd/regression.json",
+      "published_sha256": "6df67eee9800ac0667b8d848fb058a7dc613c88556ea1c0cda7853ff5716edbf"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cmd/run.log",
+      "original_sha256": "1c08511b53e2855178300c7c2dd9d1f2b416418959c3e695b596c8f80335ec63",
+      "publication": "review-history/cold-api-r01/stage-cmd/run.log",
+      "published_sha256": "1c08511b53e2855178300c7c2dd9d1f2b416418959c3e695b596c8f80335ec63"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cold/execution.json",
+      "original_sha256": "45cbc7d1cbac396b480953adc737074c6fb94b2dd68cc208f55c7cc424257eea",
+      "publication": "review-history/cold-api-r01/stage-cold/execution.json",
+      "published_sha256": "45cbc7d1cbac396b480953adc737074c6fb94b2dd68cc208f55c7cc424257eea"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cold/identity-observation.json",
+      "original_sha256": "8188702297ad1549591109bbbe2d183f0cabbb46ba89f337b3515a7ee2d9e508",
+      "publication": "review-history/cold-api-r01/stage-cold/identity-observation.json",
+      "published_sha256": "8188702297ad1549591109bbbe2d183f0cabbb46ba89f337b3515a7ee2d9e508"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cold/regression.json",
+      "original_sha256": "c99962dd92d3105541a167c006685e9e38286b012574d4883d4b31e72816aa60",
+      "publication": "review-history/cold-api-r01/stage-cold/regression.json",
+      "published_sha256": "c99962dd92d3105541a167c006685e9e38286b012574d4883d4b31e72816aa60"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-cold/run.log",
+      "original_sha256": "c3cf8c436ab11b273fe9b0ce51dfa13ff9997218a16d582529d23b4ab9aa30be",
+      "publication": "review-history/cold-api-r01/stage-cold/run.log",
+      "published_sha256": "c3cf8c436ab11b273fe9b0ce51dfa13ff9997218a16d582529d23b4ab9aa30be"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/NativeBeamSectionInspector-withdrawn.png",
+      "original_sha256": "2aa17c3278ce66f1194befe61e3bfeb544c91dd82ea7dfd87a66ef4db1e5b6a9",
+      "publication": "review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/NativeBeamSectionInspector-withdrawn.png",
+      "published_sha256": "2aa17c3278ce66f1194befe61e3bfeb544c91dd82ea7dfd87a66ef4db1e5b6a9"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/NativeContactStateInspector-withdrawn.png",
+      "original_sha256": "35e50bfd4a2cc938919aab86b091c7076b38647749b41dc0de46ab9dd67552be",
+      "publication": "review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/NativeContactStateInspector-withdrawn.png",
+      "published_sha256": "35e50bfd4a2cc938919aab86b091c7076b38647749b41dc0de46ab9dd67552be"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/beam-inspector.png",
+      "original_sha256": "36c0d6b05eddb5a04e927db114db6540c5de82001174401b71324a216984f46c",
+      "publication": "review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/beam-inspector.png",
+      "published_sha256": "36c0d6b05eddb5a04e927db114db6540c5de82001174401b71324a216984f46c"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/contact-inspector.png",
+      "original_sha256": "431a4877c23658742c3027b7063c8028aa721bf6180b1d370e0843aaa5c765cb",
+      "publication": "review-history/cold-api-r01/stage-gui/contact/test_contact_sides_and_physical_guide_withdraw_with_the_paired_observation/contact-inspector.png",
+      "published_sha256": "431a4877c23658742c3027b7063c8028aa721bf6180b1d370e0843aaa5c765cb"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/inspector.png",
+      "original_sha256": "001dbc83a9f6d6ba6b54129cebc5636fac1cdc1f9faa55bf22901a4017d18839",
+      "publication": "review-history/cold-api-r01/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/inspector.png",
+      "published_sha256": "001dbc83a9f6d6ba6b54129cebc5636fac1cdc1f9faa55bf22901a4017d18839"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/withdrawn-inspector.png",
+      "original_sha256": "133868923ebfd17bd1d038b224871113f7813f80b6a7d55c268e0c2c57ba82bd",
+      "publication": "review-history/cold-api-r01/stage-gui/coupled/test_hybrid_inspector_keeps_internal_actions_and_solid_pipeline_separate/withdrawn-inspector.png",
+      "published_sha256": "133868923ebfd17bd1d038b224871113f7813f80b6a7d55c268e0c2c57ba82bd"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/inspector.png",
+      "original_sha256": "fe36e79049cce3879a26a0edb6f3f6268866dd9ade037b394c511e9fc2476d88",
+      "publication": "review-history/cold-api-r01/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/inspector.png",
+      "published_sha256": "fe36e79049cce3879a26a0edb6f3f6268866dd9ade037b394c511e9fc2476d88"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/withdrawn-inspector.png",
+      "original_sha256": "d63592210521dba6d40cd76673ffd802643d20a44446347945ed496366019602",
+      "publication": "review-history/cold-api-r01/stage-gui/coupled/test_inspector_shows_native_coupled_actions_and_withdraws_after_stiffness_edit/withdrawn-inspector.png",
+      "published_sha256": "d63592210521dba6d40cd76673ffd802643d20a44446347945ed496366019602"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/execution.json",
+      "original_sha256": "802a69bbba418c4ef91606a6d903298e92e3723986a5cf2d053529ada5d395c4",
+      "publication": "review-history/cold-api-r01/stage-gui/execution.json",
+      "published_sha256": "802a69bbba418c4ef91606a6d903298e92e3723986a5cf2d053529ada5d395c4"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/identity-observation.json",
+      "original_sha256": "61fc05167b3a908d40db187b7bfa14c7a978c8b85ed3702dceab8d60893dfccc",
+      "publication": "review-history/cold-api-r01/stage-gui/identity-observation.json",
+      "published_sha256": "61fc05167b3a908d40db187b7bfa14c7a978c8b85ed3702dceab8d60893dfccc"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/inspector.png",
+      "original_sha256": "a834a85c74f38c2db1ed6b74eef424993ae507c41cf50bf4ab2472d69e861735",
+      "publication": "review-history/cold-api-r01/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/inspector.png",
+      "published_sha256": "a834a85c74f38c2db1ed6b74eef424993ae507c41cf50bf4ab2472d69e861735"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/withdrawn-inspector.png",
+      "original_sha256": "a76f2b520edc750c2294a20ba00fb378ecec1f130ad7e48f449640ef806f5b93",
+      "publication": "review-history/cold-api-r01/stage-gui/network/test_connected_network_inspector_preserves_two_materials_and_both_internal_spring_ends/withdrawn-inspector.png",
+      "published_sha256": "a76f2b520edc750c2294a20ba00fb378ecec1f130ad7e48f449640ef806f5b93"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/inspector.png",
+      "original_sha256": "4565b25246b4dd4b83911cb8a6f9068e43d3728b4ad8189b4fb62ad1f57d5ec0",
+      "publication": "review-history/cold-api-r01/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/inspector.png",
+      "published_sha256": "4565b25246b4dd4b83911cb8a6f9068e43d3728b4ad8189b4fb62ad1f57d5ec0"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/withdrawn-inspector.png",
+      "original_sha256": "fce6cc7b7919db4d30b8b1e80553882c22e3c3f000d7bfc0bf2db6c7837773bf",
+      "publication": "review-history/cold-api-r01/stage-gui/network/test_network_inspector_preserves_owners_and_withdraws_every_typed_table/withdrawn-inspector.png",
+      "published_sha256": "fce6cc7b7919db4d30b8b1e80553882c22e3c3f000d7bfc0bf2db6c7837773bf"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/regression.json",
+      "original_sha256": "4ed9c79edb03b5ec7eca1714f2c22da773fc35a7154508858762fad15c421b73",
+      "publication": "review-history/cold-api-r01/stage-gui/regression.json",
+      "published_sha256": "4ed9c79edb03b5ec7eca1714f2c22da773fc35a7154508858762fad15c421b73"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/run.log",
+      "original_sha256": "0bf9570239a31ae290bf59cda2406b5c8f2091bb86b641973e6a43043ca4adce",
+      "publication": "review-history/cold-api-r01/stage-gui/run.log",
+      "published_sha256": "0bf9570239a31ae290bf59cda2406b5c8f2091bb86b641973e6a43043ca4adce"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/inspector.png",
+      "original_sha256": "7397d2fc25337acbe83e702bf214e82a5adae3a304df19b3dcb51a4ebb3ffae6",
+      "publication": "review-history/cold-api-r01/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/inspector.png",
+      "published_sha256": "7397d2fc25337acbe83e702bf214e82a5adae3a304df19b3dcb51a4ebb3ffae6"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/saved-output.json",
+      "original_sha256": "923fd8e72a0105227b665b50b3223e9f78365c8b768c9ae0efd3d06e90a5922f",
+      "publication": "review-history/cold-api-r01/stage-gui/test_visible_solver_write_and_run_saves_current_native_beam_end_actions/saved-output.json",
+      "published_sha256": "923fd8e72a0105227b665b50b3223e9f78365c8b768c9ae0efd3d06e90a5922f"
+    },
+    {
+      "labelled_derivative": true,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/cold-api-r01/stage-independent-review.json",
+      "original_sha256": "a580f6398ec0df24d59498879752387b88d11c24e12b3f55dac443610dcb7b40",
+      "publication": "review-history/cold-api-r01/stage-independent-review-public.json",
+      "published_sha256": "883de28bf6f0974a27a5243220d26c17c558e1cd15ea24cf1e028e65bed9a78d"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/independent-stage-attempt-r01.json",
+      "original_sha256": "b462b90e328b4caf79239c2755d8be65c28306fd982d4b15c984c178b09a7fe1",
+      "publication": "review-history/independent-stage-attempt-r01.json",
+      "published_sha256": "b462b90e328b4caf79239c2755d8be65c28306fd982d4b15c984c178b09a7fe1"
+    },
+    {
+      "labelled_derivative": false,
+      "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/review-history/independent_stage_review.r01.py",
+      "original_sha256": "98abb76d40ecf4ceb7be76f83d9074b39d82646501bb04dcafcc9d8d0410842b",
+      "publication": "review-history/independent_stage_review.r01.py",
+      "published_sha256": "98abb76d40ecf4ceb7be76f83d9074b39d82646501bb04dcafcc9d8d0410842b"
+    }
+  ],
+  "review_history_omitted_bodies": {
+    "body_or_bulk_record_publication": false,
+    "original_private_path": "/private/tmp/freecad-bjh-install-4X8KjpF5/collection/review-history-omitted-files.json",
+    "original_sha256": "0de18a1a3ae6f1756221f5c5b519f764e50782e79b2f46aaa84dcd5a38462e71",
+    "record_count": 1098,
+    "records_canonical_sha256": "e1cdd16e8567b95021c48e50e8b708a9c38111a49f1e28b2c2249066abec9a9b"
+  },
+  "revision": "49261 +245 (Git)",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-bjh-4X8KjpF5.app",
+  "runtime_dependency": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "schema": "FreeCAD-bjh-installation-validation-v1",
+  "scope": {
+    "building": "No original project or Oomakhi model opened, changed, solved or accepted; software qualification is not building-design acceptance.",
+    "deployment": "Current fork application with the qualified V1\u2013V5 beam observation routes.",
+    "interfaces": "Ordinary geometry, constraints, loads, stock writer, real bundled solver, result import and public result getters.",
+    "lifecycle_process_instrumentation": "A shipped lifecycle test wraps Popen and calls its retained original Popen for real child execution; no claim that every test is free of mocks.",
+    "mechanics": "No substituted beam/contact mechanics, Python force/stress recovery or manual changes to geometry, loads or solver-deck physics."
+  },
+  "self_contained": false,
+  "source_commit": "f87fabb9340177691d4bcea22f6014cab692bde7",
+  "source_qualification": [
+    {
+      "path": "package/local-completion/freecad-9rc-validation.json",
+      "sha256": "599ff328c466dd5f1527afd1f1d986d1253eb4ed017ae1ba2d23058a38bf98f8"
+    },
+    {
+      "path": "package/local-completion/freecad-bjh-validation.json",
+      "sha256": "0f279ea5b84d381cf260609d6e533f72866f17048b7259603eba9b80e4ddfcdb"
+    }
+  ],
+  "timezone": "Europe/London"
+}

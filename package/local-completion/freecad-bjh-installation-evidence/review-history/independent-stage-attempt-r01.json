@@ -1,0 +1,13 @@
+{
+  "schema": "FreeCAD-bjh-nonqualifying-review-helper-attempt-v1",
+  "classification": "NONQUALIFYING_REVIEW_HELPER_ERROR",
+  "helper_sha256": "98abb76d40ecf4ceb7be76f83d9074b39d82646501bb04dcafcc9d8d0410842b",
+  "helper": "review-history/independent_stage_review.r01.py",
+  "failed_report_produced": false,
+  "reason": "The local variable before was shadowed by a Mach-O parser result, so the final guard compared unlike dictionaries instead of the saved input-pin mapping.",
+  "error": "AssertionError at independent_stage_review.py:244: assert before == {str(path):sha(path) for path in fixed}",
+  "native_or_staged_application_failure_claimed": false,
+  "native_execution": false,
+  "staged_application_or_profile_writes": false,
+  "correction": "Renamed independent snapshot to input_pins_before; identical filesystem/parser checks rerun successfully with helper217d1245ce2476dc180b8f36e8ddf3355b810f7465f63d402f2e00bcd595c8ac."
+}
