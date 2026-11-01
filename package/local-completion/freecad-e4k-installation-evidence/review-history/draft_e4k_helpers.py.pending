@@ -1,0 +1,179 @@
+"""Static authoring only; this script never imports or runs FreeCAD."""
+from pathlib import Path
+import ast
+import json
+
+ROOT = Path('/private/tmp/freecad-e4k-install-lgmq96_q')
+REPO = Path('/Users/zukomgwili/src/FreeCAD')
+OLD = Path('/private/tmp/freecad-bjh-install-4X8KjpF5')
+MODULES = [
+ ('femtest.app.test_static_step_amplitude','TestStaticStepAmplitude'),
+ ('femtest.app.test_contact_state_catalogue','TestContactStateCatalogue'),
+ ('femtest.app.test_staged_selfweight_native','TestStagedSelfweightNative'),
+]
+rows=[]
+for name,cls in MODULES:
+ tree=ast.parse((REPO/'src/Mod/Fem'/(name.replace('.','/')+'.py')).read_text())
+ klass=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name==cls)
+ methods=sorted(n.name for n in klass.body if isinstance(n,ast.FunctionDef) and n.name.startswith('test_'))
+ rows.append({'module':name,'class':cls,'methods':methods})
+assert [len(r['methods']) for r in rows]==[8,8,5]
+identity_id='AppStagedE4k.AppE4kIdentity.test_exact_application_identity_native_origins_and_default_solver'
+ids={'cmd':[identity_id]+[r['module']+'.'+r['class']+'.'+m for r in rows for m in r['methods']],
+     'gui':['GuiStagedE4k.TestE4kGui.test_visible_step_property_and_stock_solver_buttons_qualify_current_equilibrium'],
+     'cold':['ColdStagedE4k.TestColdE4k.test_exact_saved_controls_owners_units_and_history_remain_historical']}
+plan={'schema':'FreeCAD-e4k-installed-test-plan-v1','counts':{'cmd':22,'gui':1,'cold':1},'expected_ids':{k:sorted(v) for k,v in ids.items()},'cmd_modules':rows,'native_solve_endpoints':15,'no_skips':True,'source_or_build_import_override':False,'native_solver_override':False,'identity_before_fixtures':True,'frozen_oracles_sha256':'ba8e0b883a501d9306c4bdab77936dc4c5827c1b061d97ccb03859ebf9ff9548'}
+(ROOT/'e4k-test-plan.json').write_text(json.dumps(plan,indent=2)+'\n')
+old=(OLD/'AppBeamBjh.py').read_text();tree=ast.parse(old)
+funcs={n.name:ast.get_source_segment(old,n) for n in tree.body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
+common={
+ 'femobjects.solver_calculix':'femobjects/solver_calculix.py',
+ 'femsolver.calculix.write_step_equation':'femsolver/calculix/write_step_equation.py',
+ 'femsolver.calculix.write_amplitude':'femsolver/calculix/write_amplitude.py',
+ 'femtools.force_accounting':'femtools/force_accounting.py',
+ 'femtools.contact_state':'femtools/contact_state.py',
+ 'femtools.ccxtools':'femtools/ccxtools.py',
+ 'ObjectsFem':'ObjectsFem.py',
+ **{r['module']:r['module'].replace('.','/')+'.py' for r in rows},
+}
+header='''"""Literal bundle identity and the shipped e4k controls/protocol/native suites."""
+import sys
+sys.dont_write_bytecode = True
+import ctypes
+import hashlib
+import importlib
+import inspect
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+import unittest
+import FreeCAD as App
+
+REPO = Path('/Users/zukomgwili/src/FreeCAD')
+APP = Path(os.environ['IE4K_APP'])
+RESOURCES = APP/'Contents/Resources'
+IDENTITY_PATH = Path(os.environ['IE4K_IDENTITY'])
+IDENTITY_BYTES = IDENTITY_PATH.read_bytes()
+IDENTITY = json.loads(IDENTITY_BYTES)
+PLAN_PATH = Path(os.environ['IE4K_TEST_PLAN'])
+PLAN_BYTES = PLAN_PATH.read_bytes()
+PLAN = json.loads(PLAN_BYTES)
+MODE = os.environ['IE4K_MODE']
+WORK = Path(os.environ['E4K_RUN'])
+RESULTS = {}
+NATIVE_SHA = 'd4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959'
+'''
+header+='COMMON = '+repr(common)+'\n\n'
+functions='\n\n'.join(funcs[x] for x in ['sha','write_report','source_origins','check_identity'])
+for a,b in [('FreeCAD-bjh-install-identity-v1','FreeCAD-e4k-install-identity-v1'),('f87fabb9340177691d4bcea22f6014cab692bde7','f164295f1a4d2e154f5f53bf1ec434c8e13ad2da'),('49261 +245 (Git)','49261 +247 (Git)'),('FreeCAD-bjh-literal-application-identity-v1','FreeCAD-e4k-literal-application-identity-v1'),('BeamBjhLiteralBundleIdentity','E4kLiteralBundleIdentity'),('beam-bjh-installed-capability-','e4k-installed-capability-')]:
+ functions=functions.replace(a,b)
+functions=functions.replace('        App.closeDocument(doc.Name)\n        if previous_name', '''        App.closeDocument(doc.Name)
+        if App.GuiUp:
+            from PySide import QtCore
+            QtCore.QCoreApplication.sendPostedEvents(None, QtCore.QEvent.DeferredDelete)
+        if previous_name''')
+functions=functions.replace('    test.assertEqual(IDENTITY_PATH.read_bytes(), IDENTITY_BYTES)', '''    test.assertEqual(IDENTITY_PATH.read_bytes(), IDENTITY_BYTES)
+    test.assertEqual(PLAN_PATH.read_bytes(), PLAN_BYTES)
+    test.assertEqual(PLAN['schema'], 'FreeCAD-e4k-installed-test-plan-v1')
+    test.assertEqual(sha(Path(os.environ['IE4K_ORACLES'])), PLAN['frozen_oracles_sha256'])''')
+footer='''
+
+class AppE4kIdentity(unittest.TestCase):
+    def test_exact_application_identity_native_origins_and_default_solver(self):
+        check_identity(self)
+
+
+def flatten(suite):
+    for item in suite:
+        if isinstance(item, unittest.TestSuite):
+            yield from flatten(item)
+        else:
+            yield item
+
+
+class VerifiedSuite(unittest.TestSuite):
+    def run(self, result, debug=False):
+        ids = [test.id() for test in flatten(self)]
+        expected = PLAN['counts'][MODE]
+        assert len(ids) == len(set(ids)) == expected, ids
+        assert sorted(ids) == PLAN['expected_ids'][MODE], ids
+        if MODE == 'cmd':
+            # An identity refusal must prevent all native fixtures.
+            tests = list(self)
+            tests[0].run(result)
+            if result.wasSuccessful():
+                unittest.TestSuite(tests[1:]).run(result, debug=debug)
+        else:
+            super().run(result, debug=debug)
+        origins = source_origins()
+        passed = bool(result.wasSuccessful() and not result.skipped and result.testsRun == expected and 'identity' in RESULTS)
+        saved_case = None
+        if MODE == 'cmd' and passed:
+            cases = list(WORK.glob('staged-selfweight-*/staged-gravity.FCStd'))
+            assert len(cases) == 1, cases
+            document = cases[0]
+            literal = document.parent/'saved-literals.json'
+            assert literal.is_file() and not document.is_symlink() and not literal.is_symlink()
+            equations = list(WORK.glob('staged-selfweight-*/run-*/equilibrium.json'))
+            assert len(equations) == PLAN['native_solve_endpoints'], equations
+            saved_case = {'document':str(document),'document_sha256':sha(document),'literal':str(literal),'literal_sha256':sha(literal),'source_application':str(APP),'source_commit':IDENTITY['commit'],'native_sha256':NATIVE_SHA}
+        write_report('regression.json', {
+            'schema':'FreeCAD-e4k-installation-regression-v1',
+            'passed':passed,'mode':MODE,'application':str(APP),'gui':bool(App.GuiUp),
+            'commit':IDENTITY['commit'],'revision':IDENTITY['revision'],'native_sha256':NATIVE_SHA,
+            'identity_sha256':sha(IDENTITY_PATH),'test_plan_sha256':sha(PLAN_PATH),
+            'expected_tests':expected,'executed_tests':result.testsRun,'selected_test_ids':ids,
+            'skipped':[test.id() for test,_ in result.skipped],
+            'failures':[test.id() for test,_ in result.failures],
+            'errors':[test.id() for test,_ in result.errors],
+            'source_or_build_import_override':False,'native_solver_override':False,
+            'original_project_opened_changed_or_solved':False,
+            'module_sha256':sha(__file__),'final_module_origins':origins,
+            'identity':RESULTS.get('identity'),'saved_case':saved_case,
+        })
+        return result
+
+
+def load_tests(loader, _tests, _pattern):
+    assert MODE == 'cmd', MODE
+    suite = VerifiedSuite([AppE4kIdentity('test_exact_application_identity_native_origins_and_default_solver')])
+    for row in PLAN['cmd_modules']:
+        module = importlib.import_module(row['module'])
+        actual = Path(module.__file__).resolve(strict=True)
+        relative = row['module'].replace('.', '/')+'.py'
+        assert actual == RESOURCES/'Mod/Fem'/relative, actual
+        assert sha(actual) == IDENTITY['e4k_source_files_sha256']['src/Mod/Fem/'+relative]
+        cls = getattr(module, row['class'])
+        assert sorted(loader.getTestCaseNames(cls)) == row['methods']
+        suite.addTests(cls(name) for name in row['methods'])
+    return suite
+'''
+(ROOT/'AppStagedE4k.py').write_text(header+functions+footer)
+# Preserve the already qualified GUI control flow, replacing only fixture origin
+# and adding this process's literal bundle identity before its first fixture.
+gui=Path('/private/tmp/freecad-e4k-tsd27fAG/GuiE4k.py').read_text()
+start=gui.index('SOURCE = Path(');end=gui.index('\n\ndef sha(',start)
+gui=gui[:start]+'''from femtest.app import test_staged_selfweight_native as native_fixture
+import AppStagedE4k as app_checks
+SOURCE = Path(native_fixture.__file__).resolve(strict=True)
+assert SOURCE == app_checks.RESOURCES/'Mod/Fem/femtest/app/test_staged_selfweight_native.py'
+'''+gui[end:]
+gui=gui.replace('import importlib.util\n','')
+gui=gui.replace('    def setUp(self):\n','    def setUp(self):\n        app_checks.check_identity(self)\n',1)
+gui=gui.replace('def suite():','def _original_single_suite():',1)
+gui+='''\n\ndef load_tests(_loader, _tests, _pattern):
+    return app_checks.VerifiedSuite([TestE4kGui('test_visible_step_property_and_stock_solver_buttons_qualify_current_equilibrium')])
+'''
+(ROOT/'GuiStagedE4k.py').write_text(gui)
+cold=Path('/private/tmp/freecad-e4k-tsd27fAG/ColdE4k.py').read_text()
+cold=cold.replace('import FreeCAD as App\n','import FreeCAD as App\nimport AppStagedE4k as app_checks\n')
+cold=cold.replace('        plan = json.loads((ROOT / "cold-plan.json").read_text())','        app_checks.check_identity(self)\n        plan = json.loads(os.environ["IE4K_COLD_CASE"])')
+cold+='''\n\ndef load_tests(_loader, _tests, _pattern):
+    return app_checks.VerifiedSuite([TestColdE4k('test_exact_saved_controls_owners_units_and_history_remain_historical')])
+'''
+(ROOT/'ColdStagedE4k.py').write_text(cold)
+for name in ['AppStagedE4k.py','GuiStagedE4k.py','ColdStagedE4k.py']:
+ ast.parse((ROOT/name).read_text())
+print('DRAFTS WRITTEN', [p.name for p in ROOT.glob('*StagedE4k.py')], 'counts',plan['counts'])

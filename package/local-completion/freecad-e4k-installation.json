@@ -1,0 +1,405 @@
+{
+  "ad_hoc_signed": true,
+  "application": "/Applications/FreeCAD-27.1.0.app",
+  "application_tests": {
+    "e4k_per_location": {
+      "cmd": 22,
+      "cold": 1,
+      "gui": 1
+    },
+    "legacy_per_location": {
+      "cmd": 61,
+      "cold": 1,
+      "gui": 9
+    },
+    "locations": [
+      "stage",
+      "installed"
+    ],
+    "native_solver_override": false,
+    "phases": [
+      {
+        "execution_sha256": "f2aa651be325df90bb31a3a2b2557a7deaa6da2d9fef8f4d223fc7ade5e4a36b",
+        "kind": "legacy",
+        "label": "stage-cmd",
+        "location": "stage",
+        "log_sha256": "2be4e1ea68bb9945d69f7436634f0367756e8985909054e5c7343e7175f88167",
+        "mode": "cmd",
+        "passed": true,
+        "regression_sha256": "0549d035da3318ad7f5a58f69363d3ea823dbf7a58500b5edbb3a33c6112c699",
+        "tests": 61
+      },
+      {
+        "execution_sha256": "deae4d383df076ed5be65027593b26cf0234e405ec811b90b7d9e659b2f01cb4",
+        "kind": "legacy",
+        "label": "stage-gui",
+        "location": "stage",
+        "log_sha256": "3e6316fb04ea7b27911f9f56937a1556fd26baee6e1e55584c74820d57136368",
+        "mode": "gui",
+        "passed": true,
+        "regression_sha256": "117416afb4fde9a27844a899df118dd3e15351adac76e05cc1384df59267914a",
+        "tests": 9
+      },
+      {
+        "execution_sha256": "5507eafe03d15d540e9783fa9142a4fe97b9ea66556ff9fe87044d20eb36f3c2",
+        "kind": "legacy",
+        "label": "stage-cold",
+        "location": "stage",
+        "log_sha256": "7f52736a9222c8156d4c4b57504e9253a16a95f0e59dbcd08e6e6046c5aad634",
+        "mode": "cold",
+        "passed": true,
+        "regression_sha256": "7951036ccbb645dea08d95ff02a8f2b245443fe0603231176d67c87fdc362fdc",
+        "tests": 1
+      },
+      {
+        "execution_sha256": "d00c2d554fe1d1034290b5f638efea1b1a7ce97ddc06d5d091182f8f2ed4e12a",
+        "kind": "legacy",
+        "label": "installed-cmd",
+        "location": "installed",
+        "log_sha256": "58f799ca61101c1f84f150d7bb6319cd3f3b8db1f78d5304fa3849b6e911f3e1",
+        "mode": "cmd",
+        "passed": true,
+        "regression_sha256": "3f648dfb40b2ac4d0db092b6813304ce82c64d620ff8116d0f550610e2ede982",
+        "tests": 61
+      },
+      {
+        "execution_sha256": "304d5f256975d1d026a9c3162915c3e4382ff17407fdf6485dbb6e90fe7f2990",
+        "kind": "legacy",
+        "label": "installed-gui",
+        "location": "installed",
+        "log_sha256": "81fe4b26d4614862ef16682fd38e8cced2464bb7d1fda667f8ab631581b84051",
+        "mode": "gui",
+        "passed": true,
+        "regression_sha256": "74eccadb938dee101b2f61c6e472f43afb03b160d3d7bc58ff5e7d45cbeaef8b",
+        "tests": 9
+      },
+      {
+        "execution_sha256": "7d6fe78e2533f7c449a3295c9a7c0899a5b6e7f6bf84d147525d9a8c965ca4cf",
+        "kind": "legacy",
+        "label": "installed-cold",
+        "location": "installed",
+        "log_sha256": "531762424578e1324ba925be54d059a833ec621834807d04ab2fcab716ced919",
+        "mode": "cold",
+        "passed": true,
+        "regression_sha256": "bb589524fdb8bb2f0cd851a09af9216a6492e0fc5976e95c5fb50f49b4e67022",
+        "tests": 1
+      },
+      {
+        "execution_sha256": "f90fbfd12d4952ad3944c865949e84523190ee9bd4016ccc795184ec5c216949",
+        "kind": "e4k",
+        "label": "e4k-stage-cmd",
+        "location": "stage",
+        "log_sha256": "91d283e3ea7c99de229b8baf2aa8266ba9c7b39c79578ab3b62ec1fd9fb15d9a",
+        "mode": "cmd",
+        "passed": true,
+        "regression_sha256": "5aa9457cebec91f26e0711cf8c387b5542aefab9391018493151a635dcd80468",
+        "tests": 22
+      },
+      {
+        "execution_sha256": "56c2b061ca14ea6ff6fb99e86256251b553fd43d9ea0f9cc3049731dfc491236",
+        "kind": "e4k",
+        "label": "e4k-stage-gui",
+        "location": "stage",
+        "log_sha256": "774a260ac9b9e6415ea9cf5b8fda6a219fa66fac5d8012b0c3fb39dc6a9d53bb",
+        "mode": "gui",
+        "passed": true,
+        "regression_sha256": "929f96a706ab8ff545b0dc9ec40ea1192084102f55dcc922b86ff60f5e556ed3",
+        "tests": 1
+      },
+      {
+        "execution_sha256": "cb1ec8c8a8f6aa1b37327e8eddb573f44f40fc93909bff33f1b64253c25669d6",
+        "kind": "e4k",
+        "label": "e4k-stage-cold",
+        "location": "stage",
+        "log_sha256": "8e9c3495f0ca622ab12e05433198740c40dd95db1e67ef0694bd26754e6e4e3e",
+        "mode": "cold",
+        "passed": true,
+        "regression_sha256": "d6b3dd58992bf4477244a7eed9fce2b6d81d769c8655e8ce78ac8db7983e46f7",
+        "tests": 1
+      },
+      {
+        "execution_sha256": "3c56cf68d823b8a4da06e7b88c03e66e94fc2affbb06d299446a2f818f43df5e",
+        "kind": "e4k",
+        "label": "e4k-installed-cmd",
+        "location": "installed",
+        "log_sha256": "89d7286d7ab5d55c80620e93727c317d5731d22eee8cd02a66adbb05a6b4e63a",
+        "mode": "cmd",
+        "passed": true,
+        "regression_sha256": "c09f55c49e93f9801efb1925782b20251228a373be64bc57a6177e79af50c3ec",
+        "tests": 22
+      },
+      {
+        "execution_sha256": "07894610b1cff37bbf59201a5d5f061421a9906fb2d0dcdc773d401f4bd5af54",
+        "kind": "e4k",
+        "label": "e4k-installed-gui",
+        "location": "installed",
+        "log_sha256": "4c4133056a00b350d014a859f4e42fccde220f8341a88fcc7e7fa0dff69d10b2",
+        "mode": "gui",
+        "passed": true,
+        "regression_sha256": "812f504e7d8ffe43a66dc4f97b2be6670b6a5c1df8eebd036719eae8a34c0772",
+        "tests": 1
+      },
+      {
+        "execution_sha256": "19e17f5194ad78a70da8a38b6808c99f16647ea84cdd25f2a8d91cda2197d4c3",
+        "kind": "e4k",
+        "label": "e4k-installed-cold",
+        "location": "installed",
+        "log_sha256": "a8c831afa8914e022fdfcee441128bbf052cc214017d53f74d8529866bf291a5",
+        "mode": "cold",
+        "passed": true,
+        "regression_sha256": "c6440df170bccb8bd8ee3eedcaa29225db6ab0c21ace2a871240228d23aee82a",
+        "tests": 1
+      }
+    ],
+    "skipped": [],
+    "source_or_build_import_override": false,
+    "total_executed": 190
+  },
+  "build": {
+    "clean_from_scratch_claimed": false,
+    "full_incremental_Release": true
+  },
+  "ctest": {
+    "catalogue": 2277,
+    "disabled": 8,
+    "failed": 0,
+    "passed": 2267,
+    "skipped": 2
+  },
+  "date": "2026-11-01T17:22:16.029907+00:00",
+  "deployment_bead": "FreeCAD-vk6",
+  "evidence": {
+    "directory": "package/local-completion/freecad-e4k-installation-evidence",
+    "files_excluding_index": 1344,
+    "index_sha256": "dbc729119f4c28356cabd07d8e9175bf3ce515b5b35157bcf32801ff4ad72ace",
+    "omitted_bulk_records": 1828,
+    "private_directory": "/private/tmp/freecad-e4k-install-lgmq96_q"
+  },
+  "fix_bead": "FreeCAD-e4k",
+  "metadata_note": "Later deployment-tracking commits do not change compiled f164295f1a/+247 identity.",
+  "modified_local_time": "2026-11-01T17:15:55.817498+00:00",
+  "native_capabilities": [
+    "CCX_BEAM_SECTION_V1",
+    "CCX_BEAM_SECTION_V2",
+    "CCX_BEAM_SECTION_V3",
+    "CCX_BEAM_SECTION_V4",
+    "CCX_BEAM_SECTION_V5",
+    "CCX_CONTACT_STATE_V1",
+    "CCX_FORCE_ACCOUNTING_V3"
+  ],
+  "native_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+  "notarized": false,
+  "original_execution_history": [
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-isolated-native-gate-v1",
+      "sha256": "2897a92c57bdb8d681d0b29b933e675bb23452f444df8a5e681753d6af09020f",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/build-latest/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-isolated-native-gate-v1",
+      "sha256": "c7d236746c1e621f034e743c49b547971e17a212a3ab4fb9252c6cba6d760d6c",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/ctest-latest/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-e4k-literal-application-gate-v1",
+      "sha256": "3c56cf68d823b8a4da06e7b88c03e66e94fc2affbb06d299446a2f818f43df5e",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/e4k-installed-cmd/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-e4k-literal-application-gate-v1",
+      "sha256": "19e17f5194ad78a70da8a38b6808c99f16647ea84cdd25f2a8d91cda2197d4c3",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/e4k-installed-cold/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-e4k-literal-application-gate-v1",
+      "sha256": "07894610b1cff37bbf59201a5d5f061421a9906fb2d0dcdc773d401f4bd5af54",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/e4k-installed-gui/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-e4k-literal-application-gate-v1",
+      "sha256": "f90fbfd12d4952ad3944c865949e84523190ee9bd4016ccc795184ec5c216949",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/e4k-stage-cmd/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-e4k-literal-application-gate-v1",
+      "sha256": "cb1ec8c8a8f6aa1b37327e8eddb573f44f40fc93909bff33f1b64253c25669d6",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/e4k-stage-cold/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-e4k-literal-application-gate-v1",
+      "sha256": "56c2b061ca14ea6ff6fb99e86256251b553fd43d9ea0f9cc3049731dfc491236",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/e4k-stage-gui/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-bjh-literal-application-gate-v1",
+      "sha256": "d00c2d554fe1d1034290b5f638efea1b1a7ce97ddc06d5d091182f8f2ed4e12a",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-bjh-literal-application-gate-v1",
+      "sha256": "7d6fe78e2533f7c449a3295c9a7c0899a5b6e7f6bf84d147525d9a8c965ca4cf",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cold/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-bjh-literal-application-gate-v1",
+      "sha256": "304d5f256975d1d026a9c3162915c3e4382ff17407fdf6485dbb6e90fe7f2990",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-gui/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-bjh-literal-application-gate-v1",
+      "sha256": "f2aa651be325df90bb31a3a2b2557a7deaa6da2d9fef8f4d223fc7ade5e4a36b",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/stage-cmd/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-bjh-literal-application-gate-v1",
+      "sha256": "5507eafe03d15d540e9783fa9142a4fe97b9ea66556ff9fe87044d20eb36f3c2",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/stage-cold/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-bjh-literal-application-gate-v1",
+      "sha256": "deae4d383df076ed5be65027593b26cf0234e405ec811b90b7d9e659b2f01cb4",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/stage-gui/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "f30df7c3f445038b6b9d667ede756d0699e13a4b40a7121516155c94c07e18bb",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-audit-custody/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "a5a38fb328905c7bf6650b3be00c5cc163f31689fe846ebae1cdadbf6c625ee1",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-audit-payload/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "d9e350cd69c9027ad9227f96f7fb7951d0ef6913b82f72b1cf83543b9e8970f5",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-audit-stage/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "075d9533394d0fe55c100d15c74ccb641577fc4b3f4258d5452e3741c30385c3",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-capture-qualified/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "905c37290831aa18835228ac08f1fe1bffd1e51d1a13f5400194e0d2afcb5880",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-payload/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "b33bb180b28649cd1c9147ff2db08232fedb7e2576c2803c1d81231b4856bfa5",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-stage/execution.json"
+    },
+    {
+      "passed": true,
+      "returncode": 0,
+      "schema": "FreeCAD-8rk-install-step-v1",
+      "sha256": "c20f5e550d975c707a0086c3a447a8c268a6a13e2ba568106c669e4009936c40",
+      "source": "/private/tmp/freecad-e4k-install-lgmq96_q/step-swap/execution.json"
+    }
+  ],
+  "passed": true,
+  "payload": {
+    "exact_backup_inventory_sha256": "06d689ed5ff8c8f19533cb548d1111f9399790239713d6a1d74ee9ee073a125f",
+    "full_DESTDIR_leaf_set_audited": true,
+    "native_images": 61,
+    "sealed_stage_and_installed_inventory_sha256": "0eb97b7437528b2e0b8351471c473c83a85412835e4491b7d3b1f4c545200226",
+    "strict_signatures_QuickLook_entitlements_readonly_cachefree": true
+  },
+  "peer_reviews": {
+    "final-independent-review.json": {
+      "findings": [],
+      "original_private_path": "/private/tmp/freecad-e4k-install-lgmq96_q/final-independent-review.json",
+      "passed": true,
+      "sha256": "863be4c59df18121e3b015f62f9858b62080062ba36b4118dacdc624199d5e37"
+    },
+    "stage-independent-review.json": {
+      "findings": [],
+      "original_private_path": "/private/tmp/freecad-e4k-install-lgmq96_q/stage-independent-review.json",
+      "passed": true,
+      "sha256": "f5d3a7aaf9bc46798747b20a9de4d9a89d3aa0f4f7a10f099663421c535aa302"
+    }
+  },
+  "preservation": {
+    "external_namespace_files_unchanged": 11,
+    "profiles_unchanged": 3,
+    "selected_critical_files_unchanged": 17,
+    "whole_dependency_environment_inventory_claimed": false
+  },
+  "privacy": {
+    "bulk_app_and_profile_inventories_published": false,
+    "logs_losslessly_gzip_encoded": true,
+    "native_executables_CAD_config_profiles_or_archives_published": false,
+    "original_absolute_provenance_preserved": true,
+    "original_executed_receipts_rewritten": false
+  },
+  "qualifying_pipeline_phase_count": 21,
+  "revision": "49261 +247 (Git)",
+  "rollback_backup": "/Users/zukomgwili/Applications/FreeCAD Backups/FreeCAD-27.1.0-before-e4k-lgmq96_q.app",
+  "runtime_dependency": "/Users/zukomgwili/src/FreeCAD/.pixi/envs/default",
+  "schema": "FreeCAD-e4k-installation-validation-v1",
+  "scope": {
+    "deployment": "Latest fork with staged density-based gravity and independent same-step Q histories; prior fixes retained.",
+    "engineering_acceptance": false,
+    "lifecycle_process_instrumentation": "A shipped lifecycle test wraps Popen and invokes its retained original for actual native child execution; no blanket no-mocks claim.",
+    "original_1percent_equilibrium_and_5percent_sensitivity_limits_changed": false,
+    "original_project_opened_changed_or_solved": false
+  },
+  "self_contained": false,
+  "source_commit": "f164295f1a4d2e154f5f53bf1ec434c8e13ad2da",
+  "source_qualification": [
+    {
+      "path": "package/local-completion/freecad-9rc-validation.json",
+      "sha256": "599ff328c466dd5f1527afd1f1d986d1253eb4ed017ae1ba2d23058a38bf98f8"
+    },
+    {
+      "path": "package/local-completion/freecad-bjh-validation.json",
+      "sha256": "0f279ea5b84d381cf260609d6e533f72866f17048b7259603eba9b80e4ddfcdb"
+    },
+    {
+      "path": "package/local-completion/freecad-e4k-validation.json",
+      "sha256": "6897e92d7a3e53b11d63644b30129a1d4a64f9a5180150fe827bff1d3fa01ca0"
+    }
+  ],
+  "timezone": "Europe/London"
+}

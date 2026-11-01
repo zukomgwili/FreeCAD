@@ -1,0 +1,1334 @@
+{
+  "basis_frame": "NATIVE_MAP_FACE_BASIS",
+  "complete": true,
+  "completion_requires_successful_child": true,
+  "contact_request": "b9edf6717d4448709d575c95aa5299e0",
+  "force_action": "OUTWARD_NATIVE_ELEMENT_END_FACE",
+  "frames": [
+    {
+      "complete": true,
+      "contact_request": "b9edf6717d4448709d575c95aa5299e0",
+      "frame": 2,
+      "increment": 1,
+      "native_actions": {
+        "contact_sides": [
+          {
+            "force_global": [
+              99.99999999757112,
+              1.8844696818196352e-08,
+              -3.1896367957722137e-09
+            ],
+            "moment_origin": [
+              3.67481709895665e-07,
+              -2299.9999998940657,
+              -1700.0000003026134
+            ],
+            "owner": "BeamSolidContact",
+            "side": "SLAVE",
+            "solid_owner": "HybridPrism"
+          },
+          {
+            "force_global": [
+              -99.99999999757112,
+              -1.8844696818196352e-08,
+              3.1896367957722137e-09
+            ],
+            "moment_origin": [
+              -3.6748170988725315e-07,
+              2300.00000027611,
+              1700.0000011799611
+            ],
+            "owner": "BeamSolidContact",
+            "side": "MASTER",
+            "solid_owner": "ContactBacking"
+          }
+        ],
+        "force_action": "ON_STRUCTURAL_MODEL",
+        "moment_reference": "GLOBAL_ORIGIN",
+        "port": {
+          "algebraic_spcs": [
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 323,
+              "receiving_node": 104,
+              "role": "ALGEBRAIC",
+              "value": 33.33333331638032
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 323,
+              "receiving_node": 104,
+              "role": "ALGEBRAIC",
+              "value": 9.871220471041024e-09
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 323,
+              "receiving_node": 104,
+              "role": "ALGEBRAIC",
+              "value": 5.368721812348955e-10
+            },
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 324,
+              "receiving_node": 105,
+              "role": "ALGEBRAIC",
+              "value": 33.33333334552056
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 324,
+              "receiving_node": 105,
+              "role": "ALGEBRAIC",
+              "value": 3.7451268707199004e-09
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 324,
+              "receiving_node": 105,
+              "role": "ALGEBRAIC",
+              "value": -4.9672802054842165e-09
+            },
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 325,
+              "receiving_node": 106,
+              "role": "ALGEBRAIC",
+              "value": 33.33333333808458
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 325,
+              "receiving_node": 106,
+              "role": "ALGEBRAIC",
+              "value": 5.2283480026076495e-09
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 325,
+              "receiving_node": 106,
+              "role": "ALGEBRAIC",
+              "value": 1.2407688481098486e-09
+            }
+          ],
+          "owner": "HybridPort",
+          "receiving_action": {
+            "force_global": [
+              -99.99999999998545,
+              -1.8844695344368577e-08,
+              3.1896391761394722e-09
+            ],
+            "moment_origin": [
+              -3.674816216752387e-07,
+              2299.99999996022,
+              1700.0000003339007
+            ]
+          },
+          "receiving_nodes": [
+            104,
+            105,
+            106
+          ],
+          "reference_action": {
+            "couple_global": [
+              -1.1722505250867418e-08,
+              7.134138968467596e-08,
+              -1.4570116491086083e-07
+            ],
+            "force_global": [
+              99.99999999998545,
+              1.8844695344368577e-08,
+              -3.1896391761394722e-09
+            ],
+            "moment_origin": [
+              3.6748162167523885e-07,
+              -2299.9999999602205,
+              -1700.0000003339005
+            ]
+          },
+          "reference_node": 321,
+          "rotation_node": 322
+        },
+        "port_guide": {
+          "force_global": [
+            0,
+            -1.8844695344368577e-08,
+            3.1896391761394722e-09
+          ],
+          "moment_origin": [
+            -3.6748162167523885e-07,
+            -3.944501213413595e-08,
+            3.341481325654013e-07
+          ],
+          "owner": "HybridPort",
+          "reference_node": 321,
+          "rotation_node": 322,
+          "spcs": [
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 321,
+              "role": "TRANSLATION",
+              "value": -1.8844695344368577e-08
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 321,
+              "role": "TRANSLATION",
+              "value": 3.1896391761394722e-09
+            },
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 322,
+              "role": "ANGLE",
+              "value": 1.1722505250867435e-08
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 322,
+              "role": "ANGLE",
+              "value": -7.134140389553068e-08
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 322,
+              "role": "ANGLE",
+              "value": 1.4570117912171554e-07
+            }
+          ]
+        },
+        "position_frame": "ORIGINAL_GLOBAL",
+        "solid_support": {
+          "force_global": [
+            99.99999999998535,
+            1.884470511057263e-08,
+            -3.1896351849580153e-09
+          ],
+          "moment_origin": [
+            3.6748193856671427e-07,
+            -2300.000000342262,
+            -1700.0000012112473
+          ],
+          "nodes": [
+            301,
+            302,
+            303
+          ],
+          "owner": "HybridFixed",
+          "spcs": [
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 301,
+              "position": [
+                -50,
+                12,
+                -28
+              ],
+              "role": "TRANSLATION",
+              "value": 33.33333331250623
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 301,
+              "position": [
+                -50,
+                12,
+                -28
+              ],
+              "role": "TRANSLATION",
+              "value": -6.2976190350810694e-09
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 301,
+              "position": [
+                -50,
+                12,
+                -28
+              ],
+              "role": "TRANSLATION",
+              "value": -1.8904989334000333e-09
+            },
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 302,
+              "position": [
+                -50,
+                22,
+                -28
+              ],
+              "role": "TRANSLATION",
+              "value": 33.33333336635849
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 302,
+              "position": [
+                -50,
+                22,
+                -28
+              ],
+              "role": "TRANSLATION",
+              "value": 1.515187783480726e-08
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 302,
+              "position": [
+                -50,
+                22,
+                -28
+              ],
+              "role": "TRANSLATION",
+              "value": 6.891638722132676e-09
+            },
+            {
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 303,
+              "position": [
+                -50,
+                17,
+                -13
+              ],
+              "role": "TRANSLATION",
+              "value": 33.333333321120634
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 303,
+              "position": [
+                -50,
+                17,
+                -13
+              ],
+              "role": "TRANSLATION",
+              "value": 9.990446310846438e-09
+            },
+            {
+              "direction": 3,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 303,
+              "position": [
+                -50,
+                17,
+                -13
+              ],
+              "role": "TRANSLATION",
+              "value": -8.190774973690658e-09
+            }
+          ]
+        },
+        "source": {
+          "force_global": [
+            -100,
+            0,
+            0
+          ],
+          "kind": "POINT_FORCE",
+          "moment_origin": [
+            0,
+            2300,
+            1700
+          ],
+          "node": 5,
+          "owner": "HybridForce",
+          "position": [
+            40,
+            17,
+            -23
+          ]
+        },
+        "spring": {
+          "element": 517,
+          "ends": [
+            {
+              "displacement": [
+                -0.01027999999999765,
+                8.470329472543003e-22,
+                1.1712771594632465e-17
+              ],
+              "end": 1,
+              "force_global": [
+                99.99999999998546,
+                0,
+                0
+              ],
+              "moment_origin": [
+                0,
+                -2299.9999999996658,
+                -1699.9999999997528
+              ],
+              "native_resisting_force": [
+                -99.99999999998546,
+                0,
+                0
+              ],
+              "node": 1,
+              "position": [
+                0,
+                17,
+                -23
+              ],
+              "role": "BEAM_VERTEX"
+            },
+            {
+              "displacement": [
+                -0.0002799999999991044,
+                0,
+                0
+              ],
+              "end": 2,
+              "force_global": [
+                -99.99999999998546,
+                0,
+                0
+              ],
+              "moment_origin": [
+                0,
+                2299.9999999996658,
+                1699.9999999997528
+              ],
+              "native_resisting_force": [
+                99.99999999998546,
+                0,
+                0
+              ],
+              "node": 321,
+              "position": [
+                -10,
+                17,
+                -23
+              ],
+              "role": "RBE_REFERENCE"
+            }
+          ],
+          "owner": "HybridSpring"
+        },
+        "support": {
+          "force_global": [
+            0,
+            -2.793132521370404e-11,
+            1.0664909444649506e-11
+          ],
+          "moment_origin": [
+            -6.580501354154639e-10,
+            -4.0160243023048094e-11,
+            -2.0082963708482508e-10
+          ],
+          "node": 1,
+          "owner": "HybridStabilizer",
+          "position": [
+            0,
+            17,
+            -23
+          ],
+          "spcs": [
+            {
+              "direction": 2,
+              "native_displacement": 8.470329472543003e-22,
+              "native_prescribed_value": 0,
+              "node": 1,
+              "original_direction": 2,
+              "original_node": 1,
+              "role": "TRANSLATION",
+              "value": -2.793132521370404e-11
+            },
+            {
+              "direction": 3,
+              "native_displacement": 1.1712771594632465e-17,
+              "native_prescribed_value": 0,
+              "node": 1,
+              "original_direction": 3,
+              "original_node": 1,
+              "role": "TRANSLATION",
+              "value": 1.0664909444649506e-11
+            },
+            {
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 366,
+              "original_direction": 4,
+              "original_node": 1,
+              "role": "ANGLE",
+              "value": -1.9693311605931255e-10
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 366,
+              "original_direction": 4,
+              "original_node": 1,
+              "role": "ALGEBRAIC",
+              "value": 4.923327901482814e-11
+            },
+            {
+              "axis": [
+                0,
+                1,
+                0
+              ],
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 367,
+              "original_direction": 5,
+              "original_node": 1,
+              "role": "ANGLE",
+              "value": -4.0160243023048094e-11
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 367,
+              "original_direction": 5,
+              "original_node": 1,
+              "role": "ALGEBRAIC",
+              "value": 1.0040060755762023e-11
+            },
+            {
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "direction": 1,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 368,
+              "original_direction": 6,
+              "original_node": 1,
+              "role": "ANGLE",
+              "value": -2.0082963708482508e-10
+            },
+            {
+              "direction": 2,
+              "native_displacement": 0,
+              "native_prescribed_value": 0,
+              "node": 368,
+              "original_direction": 6,
+              "original_node": 1,
+              "role": "ALGEBRAIC",
+              "value": 5.020740927120627e-11
+            }
+          ]
+        }
+      },
+      "samples": [
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              9.540891786633835e-18,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              -9.540891786633835e-18
+            ]
+          },
+          "element": 1,
+          "end": 1,
+          "force_global": [
+            99.99783060757272,
+            -5.806466418789569e-13,
+            3.5149660959632456e-12
+          ],
+          "moment_global": [
+            1.4548172258074568e-12,
+            -2.0904167286062147e-11,
+            1.6932233393163187e-11
+          ],
+          "native_channels": {
+            "axial": -99.99783060757272,
+            "bend1": 2.0904167286062147e-11,
+            "bend2": -1.6932233393163187e-11,
+            "shear1": 5.806466418789569e-13,
+            "shear2": -3.5140120274825207e-12,
+            "torque": -1.454817225807457e-12
+          },
+          "node": 1,
+          "position": [
+            -0.010279999999997732,
+            17,
+            -23
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 1,
+          "end": 3,
+          "force_global": [
+            -99.99809319913992,
+            8.575806731414559e-12,
+            -8.062883694037737e-12
+          ],
+          "moment_global": [
+            2.268056860337749e-12,
+            2.0271784251235658e-11,
+            1.7813306385505712e-11
+          ],
+          "native_channels": {
+            "axial": -99.99809319913992,
+            "bend1": 2.0271784251235658e-11,
+            "bend2": 1.7813306385505712e-11,
+            "shear1": 8.575806731414559e-12,
+            "shear2": -8.062883694037737e-12,
+            "torque": 2.268056860337749e-12
+          },
+          "node": 3,
+          "position": [
+            19.989103735546525,
+            17,
+            -23
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              -1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              -1
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ]
+          },
+          "element": 2,
+          "end": 1,
+          "force_global": [
+            99.99809319914004,
+            -8.58202398035246e-12,
+            8.061773471013112e-12
+          ],
+          "moment_global": [
+            -2.2729921209978684e-12,
+            -2.0342838524811668e-11,
+            -1.793765136426373e-11
+          ],
+          "native_channels": {
+            "axial": -99.99809319914004,
+            "bend1": 2.0342838524811668e-11,
+            "bend2": 1.793765136426373e-11,
+            "shear1": 8.58202398035246e-12,
+            "shear2": -8.061773471013112e-12,
+            "torque": 2.2729921209978684e-12
+          },
+          "node": 3,
+          "position": [
+            19.989103735546525,
+            17,
+            -23
+          ]
+        },
+        {
+          "basis": {
+            "e1": [
+              0,
+              1,
+              0
+            ],
+            "e2": [
+              0,
+              0,
+              1
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ]
+          },
+          "element": 2,
+          "end": 3,
+          "force_global": [
+            -99.9992988057297,
+            1.2780887459484802e-12,
+            -2.184030734042608e-12
+          ],
+          "moment_global": [
+            1.59211480404479e-12,
+            5.130118552187923e-12,
+            2.263078613395919e-12
+          ],
+          "native_channels": {
+            "axial": -99.9992988057297,
+            "bend1": 5.130118552187923e-12,
+            "bend2": 2.263078613395919e-12,
+            "shear1": 1.2780887459484802e-12,
+            "shear2": -2.184030734042608e-12,
+            "torque": 1.59211480404479e-12
+          },
+          "node": 5,
+          "position": [
+            39.98843511477759,
+            17,
+            -23.000000000000004
+          ]
+        }
+      ],
+      "step": 1,
+      "time": 1
+    }
+  ],
+  "geometry_source": "CO_PLUS_NATIVE_MAP_VOLD_ARGUMENT",
+  "moment_reference": "NATIVE_SECTION_CENTROID",
+  "native_channels_method": "PROJECTED_NATIVE_FORCE_AND_MOMENT_INCREMENT_SUM",
+  "position_frame": "NATIVE_MAP_EXPANDED_SECTION",
+  "provenance": {
+    "binary": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+    "case": {
+      "analysis": "HybridAnalysis",
+      "mesh": "HybridMesh",
+      "solver": "HybridSolver"
+    },
+    "completed_owned_run": true,
+    "coupling": {
+      "anchored_solid_owner": "ContactBacking",
+      "beam_nodes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "contact": {
+        "anchored_outward_normal": [
+          1.0,
+          0.0,
+          -0.0
+        ],
+        "friction": true,
+        "friction_coefficient": 0.3,
+        "loaded_outward_normal": [
+          -1.0,
+          -0.0,
+          0.0
+        ],
+        "master_faces": [
+          [
+            303,
+            3
+          ]
+        ],
+        "master_owner": "ContactBacking",
+        "master_surface": "INDBeamSolidContact",
+        "owner": "BeamSolidContact",
+        "slave_faces": [
+          [
+            101,
+            1
+          ]
+        ],
+        "slave_owner": "HybridPrism",
+        "slave_surface": "DEPBeamSolidContact",
+        "slope_MPa_per_mm": 100000.0,
+        "stick_slope_MPa_per_mm": 10000.0
+      },
+      "contact_export": {
+        "metadata_path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.contact-state.json",
+        "metadata_sha256": "34d8fd516c3d3234c86b0baa51dff7c7292c376a6f0101dd058644a109621b1c",
+        "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.contact-state",
+        "sha256": "ef9e9f7c5de3cc06014acfadc4f4718aea9c7fbe2f9ab8ab3930ab7fa934d330",
+        "token": "a9730104af274d9b8b04f0da45e88cd8"
+      },
+      "loaded_solid_owner": "HybridPrism",
+      "nodes": [
+        {
+          "node": 1,
+          "position": [
+            0.0,
+            17.0,
+            -23.0
+          ]
+        },
+        {
+          "node": 2,
+          "position": [
+            10.0,
+            17.0,
+            -23.0
+          ]
+        },
+        {
+          "node": 3,
+          "position": [
+            20.0,
+            17.0,
+            -23.0
+          ]
+        },
+        {
+          "node": 4,
+          "position": [
+            30.0,
+            17.0,
+            -23.0
+          ]
+        },
+        {
+          "node": 5,
+          "position": [
+            40.0,
+            17.0,
+            -23.0
+          ]
+        },
+        {
+          "node": 101,
+          "position": [
+            -30.0,
+            12.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 102,
+          "position": [
+            -30.0,
+            22.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 103,
+          "position": [
+            -30.0,
+            17.0,
+            -13.0
+          ]
+        },
+        {
+          "node": 104,
+          "position": [
+            -10.0,
+            12.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 105,
+          "position": [
+            -10.0,
+            22.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 106,
+          "position": [
+            -10.0,
+            17.0,
+            -13.0
+          ]
+        },
+        {
+          "node": 301,
+          "position": [
+            -50.0,
+            12.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 302,
+          "position": [
+            -50.0,
+            22.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 303,
+          "position": [
+            -50.0,
+            17.0,
+            -13.0
+          ]
+        },
+        {
+          "node": 304,
+          "position": [
+            -30.0,
+            12.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 305,
+          "position": [
+            -30.0,
+            22.0,
+            -28.0
+          ]
+        },
+        {
+          "node": 306,
+          "position": [
+            -30.0,
+            17.0,
+            -13.0
+          ]
+        }
+      ],
+      "port": {
+        "name": "HybridPort",
+        "nodes": [
+          104,
+          105,
+          106
+        ],
+        "position": [
+          -10.0,
+          17.0,
+          -23.0
+        ],
+        "reference": 321,
+        "rotation": 322
+      },
+      "port_guide": {
+        "owner": "HybridPort",
+        "prescribed": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reference": 321,
+        "reference_directions": [
+          2,
+          3
+        ],
+        "rotation": 322,
+        "rotation_directions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "schema": "CCX_BEAM_SECTION_V4",
+      "solid_elements": [
+        {
+          "element": 101,
+          "nodes": [
+            101,
+            102,
+            103,
+            104
+          ],
+          "owner": "HybridPrism"
+        },
+        {
+          "element": 102,
+          "nodes": [
+            102,
+            103,
+            104,
+            105
+          ],
+          "owner": "HybridPrism"
+        },
+        {
+          "element": 103,
+          "nodes": [
+            103,
+            104,
+            105,
+            106
+          ],
+          "owner": "HybridPrism"
+        },
+        {
+          "element": 301,
+          "nodes": [
+            301,
+            302,
+            303,
+            304
+          ],
+          "owner": "ContactBacking"
+        },
+        {
+          "element": 302,
+          "nodes": [
+            302,
+            303,
+            304,
+            305
+          ],
+          "owner": "ContactBacking"
+        },
+        {
+          "element": 303,
+          "nodes": [
+            303,
+            304,
+            305,
+            306
+          ],
+          "owner": "ContactBacking"
+        }
+      ],
+      "solid_nodes": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        301,
+        302,
+        303,
+        304,
+        305,
+        306
+      ],
+      "solid_support": {
+        "nodes": [
+          301,
+          302,
+          303
+        ],
+        "owner": "HybridFixed"
+      },
+      "solids": [
+        {
+          "elements": [
+            {
+              "element": 101,
+              "nodes": [
+                101,
+                102,
+                103,
+                104
+              ]
+            },
+            {
+              "element": 102,
+              "nodes": [
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            {
+              "element": 103,
+              "nodes": [
+                103,
+                104,
+                105,
+                106
+              ]
+            }
+          ],
+          "nodes": [
+            101,
+            102,
+            103,
+            104,
+            105,
+            106
+          ],
+          "owner": "HybridPrism"
+        },
+        {
+          "elements": [
+            {
+              "element": 301,
+              "nodes": [
+                301,
+                302,
+                303,
+                304
+              ]
+            },
+            {
+              "element": 302,
+              "nodes": [
+                302,
+                303,
+                304,
+                305
+              ]
+            },
+            {
+              "element": 303,
+              "nodes": [
+                303,
+                304,
+                305,
+                306
+              ]
+            }
+          ],
+          "nodes": [
+            301,
+            302,
+            303,
+            304,
+            305,
+            306
+          ],
+          "owner": "ContactBacking"
+        }
+      ],
+      "source": {
+        "force_global": [
+          -100.0,
+          0.0,
+          0.0
+        ],
+        "kind": "POINT_FORCE",
+        "node": 5,
+        "owner": "HybridForce",
+        "position": [
+          40.0,
+          17.0,
+          -23.0
+        ]
+      },
+      "spring": {
+        "direction": 1,
+        "element": 517,
+        "nodes": [
+          1,
+          321
+        ],
+        "owner": "HybridSpring",
+        "stiffness_N_per_mm": 10000.0
+      },
+      "support": {
+        "directions": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "node": 1,
+        "owner": "HybridStabilizer",
+        "position": [
+          0.0,
+          17.0,
+          -23.0
+        ]
+      }
+    },
+    "deck": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.inp",
+    "deck_sha256": "ae2bd2da0448e1c10cedd59543944a51dc0cd1dc431990fbad74683ced8e89cc",
+    "elements": [
+      {
+        "dimensions_mm": [
+          4.0,
+          4.0
+        ],
+        "element": 1,
+        "elset": "M0B0RSTDD0",
+        "material": "HYBRIDMATERIAL",
+        "nodes": [
+          1,
+          2,
+          3
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "HybridBeamSection"
+      },
+      {
+        "dimensions_mm": [
+          4.0,
+          4.0
+        ],
+        "element": 2,
+        "elset": "M0B0RSTDD0",
+        "material": "HYBRIDMATERIAL",
+        "nodes": [
+          3,
+          4,
+          5
+        ],
+        "reference_n1": [
+          0.0,
+          1.0,
+          -0.0
+        ],
+        "section": "HybridBeamSection"
+      }
+    ],
+    "end_time": 1.0,
+    "frd": {
+      "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.frd",
+      "sha256": "666d5b5bb823c87a93a802a33664da93897aaf101d2d7f61be1eb2c32397794c"
+    },
+    "freecad_version": [
+      "27",
+      "1",
+      "0",
+      "49261 +247 (Git)",
+      "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut",
+      "2026/11/01 16:51:20",
+      "codex/fix-toroidal-self-cut",
+      "f164295f1a4d2e154f5f53bf1ec434c8e13ad2da"
+    ],
+    "joint": {
+      "beam": {
+        "contact_binding": {
+          "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.contact-state.run-b9edf6717d4448709d575c95aa5299e0",
+          "sha256": "3466a9c8922d5c6cacf13f3c06accdafd2b72c95657ef03478b53d523dedf01f",
+          "token": "b9edf6717d4448709d575c95aa5299e0"
+        },
+        "output": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.beam-section.run-d5db1e33697344bfb1e46ad52e5cb078.out",
+        "output_sha256": "4d7fdaeea81c6a8b683dfdb7b079f055875c17706f92322240c4d429a188d2ad",
+        "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.beam-section.run-d5db1e33697344bfb1e46ad52e5cb078",
+        "sha256": "e43314c57884ecf7abc71865f3e783f5498a1002e0d9a49ea0e3fe27fdbf9990",
+        "token": "d5db1e33697344bfb1e46ad52e5cb078"
+      },
+      "binary": {
+        "path": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/data/NativeSolvers/ccx-force-accounting",
+        "sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959"
+      },
+      "case": {
+        "analysis": "HybridAnalysis",
+        "mesh": "HybridMesh",
+        "solver": "HybridSolver"
+      },
+      "contact": {
+        "output": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.contact-state.run-b9edf6717d4448709d575c95aa5299e0.out",
+        "output_sha256": "47ff5fc3c5e34cb94df139dadb53da2e7f2a953d9bd8ea987ae765b7bf9626a6",
+        "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.contact-state.run-b9edf6717d4448709d575c95aa5299e0",
+        "sha256": "3466a9c8922d5c6cacf13f3c06accdafd2b72c95657ef03478b53d523dedf01f",
+        "token": "b9edf6717d4448709d575c95aa5299e0"
+      },
+      "deck": {
+        "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.inp",
+        "sha256": "ae2bd2da0448e1c10cedd59543944a51dc0cd1dc431990fbad74683ced8e89cc"
+      },
+      "frames": [
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "frd": {
+        "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.frd",
+        "sha256": "666d5b5bb823c87a93a802a33664da93897aaf101d2d7f61be1eb2c32397794c"
+      },
+      "model_digest": "6f1835a67ff75cfa9b7d892eea0ca0068356757eb4de4525a7ec6ba10f95d378",
+      "schema": "FREECAD_BEAM_CONTACT_RUN_V1",
+      "stdout_sha256": "333975968df0591cbc6acb3d2b083032fe0945bb55294169dfc3e8f80a13882d"
+    },
+    "model_hash": "6f1835a67ff75cfa9b7d892eea0ca0068356757eb4de4525a7ec6ba10f95d378",
+    "output": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.beam-section.run-d5db1e33697344bfb1e46ad52e5cb078.out",
+    "output_sha256": "4d7fdaeea81c6a8b683dfdb7b079f055875c17706f92322240c4d429a188d2ad",
+    "request": "331d0c852e894a0d84706f634651b40b",
+    "request_path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.beam-section",
+    "request_sha256": "3768a998b7d68a832f00ab59bff2ea217c3c0e4d029b61c37e9dcb9b8656faf7",
+    "run": {
+      "contact_binding": {
+        "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.contact-state.run-b9edf6717d4448709d575c95aa5299e0",
+        "sha256": "3466a9c8922d5c6cacf13f3c06accdafd2b72c95657ef03478b53d523dedf01f",
+        "token": "b9edf6717d4448709d575c95aa5299e0"
+      },
+      "path": "/private/tmp/freecad-e4k-install-lgmq96_q/installed-cmd/contact/test_zero_tangential_compression_reports_actual_native_stick/HybridMesh.beam-section.run-d5db1e33697344bfb1e46ad52e5cb078",
+      "sha256": "e43314c57884ecf7abc71865f3e783f5498a1002e0d9a49ea0e3fe27fdbf9990",
+      "token": "d5db1e33697344bfb1e46ad52e5cb078"
+    },
+    "schema": "CCX_BEAM_SECTION_V4",
+    "stdout_sha256": "333975968df0591cbc6acb3d2b083032fe0945bb55294169dfc3e8f80a13882d"
+  },
+  "request": "d5db1e33697344bfb1e46ad52e5cb078",
+  "sample_identity_scope": "ELEMENT_END_BEFORE_NODE_AVERAGING",
+  "schema": "CCX_BEAM_SECTION_V4",
+  "units": {
+    "force": "N",
+    "length": "mm",
+    "moment": "N*mm"
+  }
+}

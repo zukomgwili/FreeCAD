@@ -1,0 +1,187 @@
+** written by FreeCAD inp file writer for CalculiX,Abaqus meshes
+** highest dimension mesh elements only.
+
+** Nodes
+*Node, NSET=Nall
+1, 0, 17, -23
+2, 10, 17, -23
+3, 20, 17, -23
+4, 30, 17, -23
+5, 40, 17, -23
+6, 50, 17, -23
+7, 60, 17, -23
+8, 70, 17, -23
+9, 80, 17, -23
+10, 90, 17, -23
+11, 100, 17, -23
+12, 100, 27, -23
+13, 100, 37, -23
+14, 100, 47, -23
+15, 100, 57, -23
+16, 100, 7, -23
+17, 100, -3, -23
+18, 100, -13, -23
+19, 100, -23, -23
+
+
+** Edge elements
+*Element, TYPE=B32R, ELSET=Eedges
+1, 1, 2, 3
+2, 3, 4, 5
+3, 5, 6, 7
+4, 7, 8, 9
+5, 9, 10, 11
+6, 11, 12, 13
+7, 13, 14, 15
+8, 11, 16, 17
+9, 17, 18, 19
+
+** Define element set Eall
+*ELSET, ELSET=Eall
+Eedges
+
+
+
+***********************************************************
+** Element sets for materials and FEM element type (solid, shell, beam, fluid)
+*ELSET,ELSET=M0B0RstdD0
+1,
+2,
+3,
+4,
+5,
+*ELSET,ELSET=M0B0RstdD1
+6,
+7,
+*ELSET,ELSET=M0B0RstdD2
+8,
+9,
+
+***********************************************************
+** constraints displacement node sets
+** NetworkGuide
+*NSET,NSET=NetworkGuide
+1,
+
+** Physical constants for SI(mm) unit system with Kelvins
+*PHYSICAL CONSTANTS, ABSOLUTE ZERO=0, STEFAN BOLTZMANN=5.670374419e-11
+
+***********************************************************
+** Materials
+** see information about units at file end
+** FreeCAD material name: NetworkLeftLinearElastic
+** NetworkMaterial
+*MATERIAL, NAME=NetworkMaterial
+*ELASTIC
+200000,0
+*EXPANSION, ZERO=0
+0
+
+***********************************************************
+** Sections
+*BEAM SECTION, ELSET=M0B0RstdD0, MATERIAL=NetworkMaterial, SECTION=RECT
+4,8
+0, 1, -0
+*BEAM SECTION, ELSET=M0B0RstdD1, MATERIAL=NetworkMaterial, SECTION=RECT
+4,8
+-1, 0, -0
+*BEAM SECTION, ELSET=M0B0RstdD2, MATERIAL=NetworkMaterial, SECTION=RECT
+4,8
+1, 0, -0
+
+*ELEMENT, TYPE=SPRING1, ELSET=EC_NetworkGroundSpring
+10,1
+*ORIENTATION, NAME=EC_ORIENT_NetworkGroundSpring
+1,0,0,0,1,0
+*SPRING, ELSET=EC_NetworkGroundSpring, ORIENTATION=EC_ORIENT_NetworkGroundSpring
+1
+1.000000000000e+04
+*NSET, NSET=EC_END1_NetworkGroundSpring
+1
+
+***********************************************************
+** At least one step is needed to run an CalculiX analysis of FreeCAD
+*STEP, INC=2000
+*STATIC
+1.0,1.0,1e-05,1.0
+
+***********************************************************
+** Displacement constraint applied
+** NetworkGuide
+*BOUNDARY
+NetworkGuide,2,2,0
+NetworkGuide,3,3,0
+NetworkGuide,4,4,0
+NetworkGuide,5,5,0
+NetworkGuide,6,6,0
+
+
+***********************************************************
+** constraints force node loads
+** NetworkUpperForce
+*CLOAD
+** node load on shape: NetworkUpperArm:Vertex2
+15,1,1
+15,3,0.01
+
+
+** NetworkLowerForce
+*CLOAD
+** node load on shape: NetworkLowerArm:Vertex2
+19,1,4
+19,3,-0.02
+
+
+
+***********************************************************
+** Outputs --> frd file
+*NODE FILE, OUTPUT=2d
+U
+*EL FILE, OUTPUT=2D, SECTION FORCES
+S, NOE
+** outputs --> dat file
+** reaction forces for Constraint displacement constraining translation
+*NODE PRINT, NSET=NetworkGuide, TOTALS=ONLY
+RF
+
+*OUTPUT, FREQUENCY=1
+** Translational port: U is mm, RF is N (global components)
+** RF is not generally an isolated connector-action result
+
+*NODE PRINT, NSET=EC_END1_NetworkGroundSpring, GLOBAL=YES
+U,RF
+
+***********************************************************
+*END STEP
+
+***********************************************************
+** CalculiX Input file
+**   written by    --> FreeCAD 27.1.0
+**   written on    --> Sun Nov  1 17:21:20 2026
+**   file name     --> 
+**   analysis name --> NetworkAnalysis
+**
+**
+***********************************************************
+**  About units:
+**  See ccx manual, ccx does not know about any unit.
+**  Golden rule: The user must make sure that the numbers they provide have consistent units.
+**  The user is the FreeCAD calculix writer module ;-)
+**
+**  The unit system which is used at Guido Dhondt's company: mm, N, s, K
+**  Since Length and Mass are connected by Force, if Length is mm the Mass is in t to get N
+**  The following units are used to write to inp file:
+**
+**  Length: mm (this includes the mesh geometry)
+**  Mass: t
+**  TimeSpan: s
+**  Temperature: K
+**
+**  This leads to:
+**  Force: N
+**  Pressure: N/mm^2 == MPa (Young's Modulus has unit Pressure)
+**  Density: t/mm^3
+**  Gravity: mm/s^2
+**  Thermal conductivity: t*mm/K/s^3 == as W/m/K == kW/mm/K
+**  Specific Heat: mm^2/s^2/K = J/kg/K == kJ/t/K
+**

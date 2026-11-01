@@ -1,0 +1,87 @@
+{
+  "schema": "FreeCAD-e4k-installed-test-plan-v1",
+  "counts": {
+    "cmd": 22,
+    "gui": 1,
+    "cold": 1
+  },
+  "expected_ids": {
+    "cmd": [
+      "AppStagedE4k.AppE4kIdentity.test_exact_application_identity_native_origins_and_default_solver",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_each_frame_refuses_omitted_duplicate_or_wrong_owned_samples",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_each_native_frame_uses_its_own_complete_catalogue",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_empty_native_face_catalogue_does_not_invent_sample_state",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_legacy_v1_keeps_its_shared_catalogue_invariant",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_marker_partial_catalogues_and_final_alias_changes_are_refused",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_native_endpoint_roundoff_is_bounded_without_rewriting_actual_time",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_near_end_time_cannot_promote_an_incomplete_native_output",
+      "femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_reused_raw_point_labels_do_not_establish_cross_frame_identity",
+      "femtest.app.test_staged_selfweight_native.TestStagedSelfweightNative.test_default_ramp_preserves_its_distinct_native_gravity_history",
+      "femtest.app.test_staged_selfweight_native.TestStagedSelfweightNative.test_force_reversal_uses_its_independent_explicit_history",
+      "femtest.app.test_staged_selfweight_native.TestStagedSelfweightNative.test_native_master_side_attribution_preserves_the_same_physical_history",
+      "femtest.app.test_staged_selfweight_native.TestStagedSelfweightNative.test_physical_history_edits_withdraw_current_and_preserve_literals",
+      "femtest.app.test_staged_selfweight_native.TestStagedSelfweightNative.test_pressure_reversal_after_gravity_equilibrium_keeps_all_native_channels_current",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_all_enabled_histories_are_checked_before_emitting_any_definition",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_default_and_missing_legacy_control_preserve_exact_stock_writer_output",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_invalid_static_default_and_unsupported_analysis_are_refused",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_old_saved_solver_gains_ramp_default_without_changing_other_controls",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_saved_control_preserves_load_identity_units_material_ownership_and_history",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_signed_finite_fortran_histories_remain_literal_and_disabled_invalid_is_ignored",
+      "femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories"
+    ],
+    "gui": [
+      "GuiStagedE4k.TestE4kGui.test_visible_step_property_and_stock_solver_buttons_qualify_current_equilibrium"
+    ],
+    "cold": [
+      "ColdStagedE4k.TestColdE4k.test_exact_saved_controls_owners_units_and_history_remain_historical"
+    ]
+  },
+  "cmd_modules": [
+    {
+      "module": "femtest.app.test_static_step_amplitude",
+      "class": "TestStaticStepAmplitude",
+      "methods": [
+        "test_all_enabled_histories_are_checked_before_emitting_any_definition",
+        "test_default_and_missing_legacy_control_preserve_exact_stock_writer_output",
+        "test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair",
+        "test_invalid_static_default_and_unsupported_analysis_are_refused",
+        "test_old_saved_solver_gains_ramp_default_without_changing_other_controls",
+        "test_saved_control_preserves_load_identity_units_material_ownership_and_history",
+        "test_signed_finite_fortran_histories_remain_literal_and_disabled_invalid_is_ignored",
+        "test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories"
+      ]
+    },
+    {
+      "module": "femtest.app.test_contact_state_catalogue",
+      "class": "TestContactStateCatalogue",
+      "methods": [
+        "test_each_frame_refuses_omitted_duplicate_or_wrong_owned_samples",
+        "test_each_native_frame_uses_its_own_complete_catalogue",
+        "test_empty_native_face_catalogue_does_not_invent_sample_state",
+        "test_legacy_v1_keeps_its_shared_catalogue_invariant",
+        "test_marker_partial_catalogues_and_final_alias_changes_are_refused",
+        "test_native_endpoint_roundoff_is_bounded_without_rewriting_actual_time",
+        "test_near_end_time_cannot_promote_an_incomplete_native_output",
+        "test_reused_raw_point_labels_do_not_establish_cross_frame_identity"
+      ]
+    },
+    {
+      "module": "femtest.app.test_staged_selfweight_native",
+      "class": "TestStagedSelfweightNative",
+      "methods": [
+        "test_default_ramp_preserves_its_distinct_native_gravity_history",
+        "test_force_reversal_uses_its_independent_explicit_history",
+        "test_native_master_side_attribution_preserves_the_same_physical_history",
+        "test_physical_history_edits_withdraw_current_and_preserve_literals",
+        "test_pressure_reversal_after_gravity_equilibrium_keeps_all_native_channels_current"
+      ]
+    }
+  ],
+  "native_solve_endpoints": 15,
+  "no_skips": true,
+  "source_or_build_import_override": false,
+  "native_solver_override": false,
+  "identity_before_fixtures": true,
+  "frozen_oracles_sha256": "ba8e0b883a501d9306c4bdab77936dc4c5827c1b061d97ccb03859ebf9ff9548"
+}

@@ -1,0 +1,742 @@
+
+************************************************************
+
+CalculiX Version 2.23, Copyright(C) 1998-2025 Guido Dhondt
+CalculiX comes with ABSOLUTELY NO WARRANTY. This is free
+software, and you are welcome to redistribute it under
+certain conditions, see gpl.htm
+
+************************************************************
+
+You are using an executable made on Sun Nov  1 15:46:04 2026
+
+  The numbers below are estimated upper bounds
+
+  number of:
+
+   nodes:         1290
+   elements:         1180
+   one-dimensional elements:            0
+   two-dimensional elements:            0
+   integration points per element:            4
+   degrees of freedom per node:            3
+   layers per element:            1
+
+   distributed facial loads:           28
+   distributed volumetric loads:            1
+   concentrated loads:            0
+   single point constraints:          207
+   multiple point constraints:            1
+   terms in all multiple point constraints:            1
+   tie constraints:            1
+   dependent nodes tied by cyclic constraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           11
+   terms in all sets:         4525
+
+   materials:            4
+   constants per material and temperature:            8
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:            0
+   amplitudes:            4
+   data points in all amplitudes:           11
+   print requests:           12
+   transformations:            0
+   property cards:            0
+
+ *INFO reading *SURFACE BEHAVIOR: the tension
+       value at large clearances
+       (only relevant for node-to-surface contact)
+       must be strictly positive
+       the following default will be used:   2.8571428571428572     
+       the user is advised to analyze the results
+       carefully
+
+ STEP            1
+
+ Static analysis was selected
+
+ Newton-Raphson iterative procedure is active
+
+ Decascading the MPC's
+
+ Determining the structure of the matrix:
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 115191
+
+CCX_FORCE_ACCOUNTING_CAPACITY_APPLIED_V1 {"budget":65536,"counts":{"supports":1,"bodies":2,"ports":0,"angles":0,"springs":0},"total":3}
+ increment 1 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=0.000000e+00
+ actual step time=1.000000e-01
+ actual total time=1.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.006159
+ time avg. forc= 0.006159
+ largest residual force= 0.000000 in node 642 and dof 3
+ largest increment of disp= 1.763531e-06
+ largest correction to disp= 1.763531e-06 in node 17 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.627259
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.006159
+ time avg. forc= 0.006159
+ largest residual force= 0.000000 in node 443 and dof 3
+ largest increment of disp= 1.763531e-06
+ largest correction to disp= 9.057079e-15 in node 12 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 2 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=1.000000e-01
+ actual step time=2.000000e-01
+ actual total time=2.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.012318
+ time avg. forc= 0.009238
+ largest residual force= 0.000000 in node 434 and dof 3
+ largest increment of disp= 1.763531e-06
+ largest correction to disp= 1.378046e-08 in node 637 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.677534
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.012318
+ time avg. forc= 0.009238
+ largest residual force= 0.000000 in node 649 and dof 3
+ largest increment of disp= 1.763531e-06
+ largest correction to disp= 1.427884e-14 in node 5 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 3 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=2.000000e-01
+ actual step time=3.000000e-01
+ actual total time=3.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.021019
+ time avg. forc= 0.013165
+ largest residual force= 0.000000 in node 640 and dof 3
+ largest increment of disp= 1.777305e-06
+ largest correction to disp= 7.666220e-07 in node 17 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.845223
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.021019
+ time avg. forc= 0.013165
+ largest residual force= 0.000000 in node 419 and dof 3
+ largest increment of disp= 1.777305e-06
+ largest correction to disp= 1.008571e-14 in node 414 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 4 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=3.000000e-01
+ actual step time=4.000000e-01
+ actual total time=4.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.029723
+ time avg. forc= 0.017305
+ largest residual force= 0.000000 in node 419 and dof 3
+ largest increment of disp= 2.543927e-06
+ largest correction to disp= 1.314472e-08 in node 637 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.648074
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.029723
+ time avg. forc= 0.017305
+ largest residual force= 0.000000 in node 429 and dof 3
+ largest increment of disp= 2.543927e-06
+ largest correction to disp= 1.544068e-14 in node 96 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 5 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=4.000000e-01
+ actual step time=5.000000e-01
+ actual total time=5.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.033336
+ time avg. forc= 0.020511
+ largest residual force= 0.000000 in node 434 and dof 3
+ largest increment of disp= 2.557068e-06
+ largest correction to disp= 1.501502e-06 in node 17 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.620706
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.033336
+ time avg. forc= 0.020511
+ largest residual force= 0.000000 in node 652 and dof 3
+ largest increment of disp= 2.557068e-06
+ largest correction to disp= 8.748887e-15 in node 410 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 6 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=5.000000e-01
+ actual step time=6.000000e-01
+ actual total time=6.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.036954
+ time avg. forc= 0.023252
+ largest residual force= 0.000000 in node 650 and dof 3
+ largest increment of disp= 1.135198e-06
+ largest correction to disp= 6.004983e-09 in node 637 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.728620
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.036954
+ time avg. forc= 0.023252
+ largest residual force= 0.000000 in node 445 and dof 3
+ largest increment of disp= 1.135198e-06
+ largest correction to disp= 1.314468e-14 in node 50 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 7 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=6.000000e-01
+ actual step time=7.000000e-01
+ actual total time=7.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.040630
+ time avg. forc= 0.025734
+ largest residual force= 0.000000 in node 647 and dof 3
+ largest increment of disp= 1.129198e-06
+ largest correction to disp= 1.275319e-08 in node 637 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.525397
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.040630
+ time avg. forc= 0.025734
+ largest residual force= 0.000000 in node 647 and dof 3
+ largest increment of disp= 1.129198e-06
+ largest correction to disp= 1.234715e-14 in node 116 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 8 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=7.000000e-01
+ actual step time=8.000000e-01
+ actual total time=8.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.044424
+ time avg. forc= 0.028070
+ largest residual force= 0.000000 in node 424 and dof 3
+ largest increment of disp= 1.116450e-06
+ largest correction to disp= 2.400159e-08 in node 637 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.663662
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.044424
+ time avg. forc= 0.028070
+ largest residual force= 0.000000 in node 417 and dof 3
+ largest increment of disp= 1.116450e-06
+ largest correction to disp= 1.085832e-14 in node 9 and dof 3
+
+ convergence
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 9 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=8.000000e-01
+ actual step time=9.000000e-01
+ actual total time=9.000000e-01
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.052931
+ time avg. forc= 0.030833
+ largest residual force= 0.000000 in node 447 and dof 3
+ largest increment of disp= 1.463517e-06
+ largest correction to disp= 1.463517e-06 in node 20 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.622634
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.052931
+ time avg. forc= 0.030833
+ largest residual force= 0.000000 in node 650 and dof 3
+ largest increment of disp= 1.463517e-06
+ largest correction to disp= 9.934432e-15 in node 133 and dof 3
+
+ convergence
+
+ pressure ratio (smallest/largest pressure over all contact areas) =0.000000e+00
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ increment 10 attempt 1 
+ increment size= 1.000000e-01
+ sum of previous increments=9.000000e-01
+ actual step time=1.000000e+00
+ actual total time=1.000000e+00
+
+ iteration 1
+
+ Number of contact spring elements=1792
+
+ Determining the structure of the matrix:
+
+ Using up to 8 cpu(s) for setting up the structure of the matrix.
+ number of equations
+ 3663
+ number of nonzero lower triangular matrix elements
+ 122517
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.061590
+ time avg. forc= 0.033908
+ largest residual force= 0.000000 in node 669 and dof 3
+ largest increment of disp= 2.476339e-06
+ largest correction to disp= 1.140014e-07 in node 637 and dof 3
+
+ no convergence
+
+ iteration 2
+
+ Number of contact spring elements=1792
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ Using up to 8 cpu(s) for the symmetric stiffness/mass contributions.
+
+ Using up to 8 cpu(s) for the asymmetric stiffness/mass contributions.
+
+ Factoring the system of equations using the unsymmetric spooles solver
+ Using up to 8 cpu(s) for spooles.
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+line search factor=0.566378
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+ average force= 0.061590
+ time avg. forc= 0.033908
+ largest residual force= 0.000000 in node 664 and dof 3
+ largest increment of disp= 2.476339e-06
+ largest correction to disp= 9.473477e-15 in node 67 and dof 3
+
+ convergence
+
+ the increment size exceeds the remainder of the step and is decreased to 1.110223e-16
+
+ pressure ratio (smallest/largest pressure over all contact areas) =0.000000e+00
+
+ Using up to 8 cpu(s) for the stress calculation.
+
+
+ Job finished
+
