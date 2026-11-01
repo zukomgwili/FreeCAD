@@ -388,26 +388,6 @@ def _validate_output(data, metadata):
     expected_faces = {
         (name, *face) for name, row in selected.items() for face in row["slave_faces"]
     }
-    face_inventory, pair_ids = {}, {}
-    for face in data["face_inventory"]:
-        key = (face["contact"], face["slave_element"], face["slave_face"])
-        count, pair = face["expected_points"], face["native_pair"]
-        if (
-            key not in expected_faces
-            or key in face_inventory
-            or not all(positive_id(value) for value in key[1:])
-            or not positive_id(pair)
-            or type(count) is not int
-            or count < 0
-        ):
-            raise ValueError("Invalid native contact face inventory")
-        face_inventory[key] = count
-        if key[0] in pair_ids and pair_ids[key[0]] != pair:
-            raise ValueError("Native contact pair identity is ambiguous")
-        pair_ids[key[0]] = pair
-    if set(face_inventory) != expected_faces or len(set(pair_ids.values())) != len(selected):
-        raise ValueError("Native contact face inventory does not cover the selected interfaces")
-    inventory, local = {}, {key: set() for key in expected_faces}
     identity_fields = (
         "contact",
         "native_pair",
@@ -416,26 +396,108 @@ def _validate_output(data, metadata):
         "native_point",
         "local_point",
     )
-    for item in data["sample_inventory"]:
-        key = (item["contact"], item["slave_element"], item["slave_face"])
-        point = item["native_point"]
-        if (
-            key not in face_inventory
-            or not all(positive_id(item[name]) for name in identity_fields[1:])
-            or item["native_pair"] != pair_ids[key[0]]
-            or point in inventory
-            or item["local_point"] in local[key]
+
+    def catalogue(face_rows, sample_rows):
+        if not isinstance(face_rows, list) or not isinstance(sample_rows, list):
+            raise ValueError("Native contact frame inventories are missing")
+        face_inventory, pair_ids = {}, {}
+        for face in face_rows:
+            if (
+                not isinstance(face, dict)
+                or type(face.get("contact")) is not str
+                or not all(positive_id(face.get(name)) for name in ("slave_element", "slave_face"))
+            ):
+                raise ValueError("Invalid native contact face inventory")
+            key = (face["contact"], face["slave_element"], face["slave_face"])
+            count, pair = face.get("expected_points"), face.get("native_pair")
+            if (
+                key not in expected_faces
+                or key in face_inventory
+                or not positive_id(pair)
+                or type(count) is not int
+                or not 0 <= count <= 2147483647
+            ):
+                raise ValueError("Invalid native contact face inventory")
+            face_inventory[key] = count
+            if key[0] in pair_ids and pair_ids[key[0]] != pair:
+                raise ValueError("Native contact pair identity is ambiguous")
+            pair_ids[key[0]] = pair
+        if set(face_inventory) != expected_faces or len(set(pair_ids.values())) != len(selected):
+            raise ValueError("Native contact face inventory does not cover the selected interfaces")
+        inventory, local = {}, {key: set() for key in expected_faces}
+        for item in sample_rows:
+            if (
+                not isinstance(item, dict)
+                or type(item.get("contact")) is not str
+                or not all(positive_id(item.get(name)) for name in identity_fields[1:])
+            ):
+                raise ValueError("Invalid or repeated native sample inventory identity")
+            key = (item["contact"], item["slave_element"], item["slave_face"])
+            point = item["native_point"]
+            if (
+                key not in face_inventory
+                or item["native_pair"] != pair_ids[key[0]]
+                or point in inventory
+                or item["local_point"] in local[key]
+            ):
+                raise ValueError("Invalid or repeated native sample inventory identity")
+            inventory[point] = {name: item[name] for name in identity_fields}
+            local[key].add(item["local_point"])
+        if any(
+            len(local[key]) != count
+            or (count and (min(local[key]) != 1 or max(local[key]) != count))
+            for key, count in face_inventory.items()
         ):
-            raise ValueError("Invalid or repeated native sample inventory identity")
-        inventory[point] = {name: item[name] for name in identity_fields}
-        local[key].add(item["local_point"])
-    if any(
-        len(local[key]) != count or (count and (min(local[key]) != 1 or max(local[key]) != count))
-        for key, count in face_inventory.items()
-    ):
-        raise ValueError("Native contact integration-point coverage is incomplete")
+            raise ValueError("Native contact integration-point coverage is incomplete")
+        return face_inventory, pair_ids, inventory
+
+    scope = data.get("inventory_scope")
+    frame_local = scope == "PER_RETAINED_FRAME"
+    if "inventory_scope" in data and not frame_local:
+        raise ValueError("Unsupported native contact inventory scope")
+    if frame_local:
+        if any(
+            not isinstance(frame, dict)
+            or not isinstance(frame.get("face_inventory"), list)
+            or not isinstance(frame.get("sample_inventory"), list)
+            for frame in frames
+        ):
+            raise ValueError("Native contact retained-frame inventories are missing")
+        if any(
+            data.get(name) != frames[-1][name] for name in ("face_inventory", "sample_inventory")
+        ):
+            raise ValueError("Native contact final-frame inventory aliases differ")
+    else:
+        # Published earlier V1 output uses one shared catalogue. Keep its
+        # stronger invariant rather than invent frame identities for history.
+        if any(
+            not isinstance(frame, dict) or "face_inventory" in frame or "sample_inventory" in frame
+            for frame in frames
+        ):
+            raise ValueError("Native contact frame inventories require an explicit scope")
+        face_inventory, pair_ids, inventory = catalogue(
+            data.get("face_inventory"), data.get("sample_inventory")
+        )
+    first_pairs = None
+
+    def at_end(time):
+        # Match the native observer's four-neighbour binary64 representation
+        # bound. Preserve actual output time; this is no physical tolerance.
+        lower = upper = metadata["end_time"]
+        for _ in range(4):
+            lower = math.nextafter(lower, -math.inf)
+            upper = math.nextafter(upper, math.inf)
+        return lower <= time <= upper
+
     previous = (0, 0, -1.0)
     for frame in frames:
+        if frame_local:
+            face_inventory, pair_ids, inventory = catalogue(
+                frame["face_inventory"], frame["sample_inventory"]
+            )
+            if first_pairs is not None and pair_ids != first_pairs:
+                raise ValueError("Native contact pair identities changed between retained frames")
+            first_pairs = pair_ids
         step, increment, time = frame["step"], frame["increment"], frame["time"]
         if (
             type(step) is not int
@@ -451,7 +513,7 @@ def _validate_output(data, metadata):
             raise ValueError("Ambiguous native contact retained frame identity")
         if frame.get("success") is not True or type(frame.get("complete")) is not bool:
             raise ValueError("Native contact retained frame was not successful")
-        if frame["complete"] != (time == metadata["end_time"]):
+        if frame["complete"] != at_end(time):
             raise ValueError("Native contact frame completion differs from the requested end time")
         previous = (step, increment, time)
         samples = frame["samples"]
@@ -459,6 +521,8 @@ def _validate_output(data, metadata):
             raise ValueError("Native contact sample coverage is missing")
         seen, present = set(), set()
         for row in samples:
+            if not isinstance(row, dict):
+                raise ValueError("Invalid native contact sample row")
             contact = row["contact"]
             if contact not in selected:
                 raise ValueError("Unexpected native contact owner")
@@ -600,7 +664,7 @@ def _validate_output(data, metadata):
             raise ValueError("Native contact retained frame omits native integration samples")
         if present != {key[0] for key, count in face_inventory.items() if count}:
             raise ValueError("Native contact interface coverage is incomplete")
-    if frames[-1]["complete"] is not True or frames[-1]["time"] != metadata["end_time"]:
+    if frames[-1]["complete"] is not True or not at_end(frames[-1]["time"]):
         raise ValueError("Native contact output does not reach the requested end time")
     return data
 

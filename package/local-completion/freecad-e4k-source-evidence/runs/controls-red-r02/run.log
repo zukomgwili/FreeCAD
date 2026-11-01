@@ -1,0 +1,915 @@
+test_default_and_missing_legacy_control_preserve_exact_stock_writer_output (control_source.TestStaticStepAmplitude.test_default_and_missing_legacy_control_preserve_exact_stock_writer_output) ... ERROR
+test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=[]) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0']) ... FAIL
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +245 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.422 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.011 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.439 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.434 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_fa[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, nan']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, inf']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['nan, 0']) ... FAIL
+ce.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.432 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.421 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['-1, 0', '1, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0', '0, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['1, 0', '0, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0\n*STEP']) ... FAIL
+
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.432 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.427 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.427 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommo[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0', '** comment']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0, 1, 1, 2, 0, 3, -1, 4, 0']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=[]) ... FAIL
+n, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.426 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.433 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.427 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, nan']) ... FAIL
+e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+Va[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, inf']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['nan, 0']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['-1, 0', '1, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0', '0, 1']) ... FAIL
+riablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.426 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.007 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.425 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['1, 0', '0, 1']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0\n*STEP']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0', '** comment']) ... FAIL
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+  test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0, 1, 1, 2, 0, 3, -1, 4, 0']) ... FAIL
+test_invalid_static_default_and_unsupported_analysis_are_refused (control_source.TestStaticStepAmplitude.test_invalid_static_default_and_unsupported_analysis_are_refused) ... ERROR
+test_old_saved_solver_gains_ramp_default_without_changing_other_controls (control_source.TestStaticStepAmplitude.test_old_saved_solver_gains_ramp_default_without_changing_other_controls) ... ERROR
+test_saved_control_preserves_load_identity_units_material_ownership_and_history (control_source.TestStaticStepAmplitude.test_saved_control_preserves_load_identity_units_material_ownership_and_history) ... ERROR
+test_signed_finite_fortran_histories_remain_literal_and_disabled_invalid_is_ignored (control_source.TestStaticStepAmplitude.test_signed_finite_fortran_histories_remain_literal_and_disabled_invalid_is_ignored) ... Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.429 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.441 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.432 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-pdteb8zf/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Nam[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories (control_source.TestStaticStepAmplitude.test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories) ... ERROR
+
+======================================================================
+ERROR: test_default_and_missing_legacy_control_preserve_exact_stock_writer_output (control_source.TestStaticStepAmplitude.test_default_and_missing_legacy_control_preserve_exact_stock_writer_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 73, in test_default_and_missing_legacy_control_preserve_exact_stock_writer_output
+    self.assertEqual(self.solver.StaticStepAmplitude, "Ramp")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FeaturePython' object has no attribute 'StaticStepAmplitude'
+
+======================================================================
+ERROR: test_invalid_static_default_and_unsupported_analysis_are_refused (control_source.TestStaticStepAmplitude.test_invalid_static_default_and_unsupported_analysis_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 113, in test_invalid_static_default_and_unsupported_analysis_are_refused
+    self.solver.StaticStepAmplitude = ["Unknown"]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FeaturePython' object has no attribute 'StaticStepAmplitude'
+
+======================================================================
+ERROR: test_old_saved_solver_gains_ramp_default_without_changing_other_controls (control_source.TestStaticStepAmplitude.test_old_saved_solver_gains_ramp_default_without_changing_other_controls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 105, in test_old_saved_solver_gains_ramp_default_without_changing_other_controls
+    self.solver.setPropertyStatus("StaticStepAmplitude", "-LockDynamic")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: Property container has no property 'StaticStepAmplitude'
+
+======================================================================
+ERROR: test_saved_control_preserves_load_identity_units_material_ownership_and_history (control_source.TestStaticStepAmplitude.test_saved_control_preserves_load_identity_units_material_ownership_and_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 84, in test_saved_control_preserves_load_identity_units_material_ownership_and_history
+    self.solver.StaticStepAmplitude = "Step"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FeaturePython' object has no attribute 'StaticStepAmplitude'
+
+======================================================================
+ERROR: test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories (control_source.TestStaticStepAmplitude.test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 58, in test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories
+    self.solver.StaticStepAmplitude = "Step"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FeaturePython' object has no attribute 'StaticStepAmplitude'
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=[''])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, nan'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, inf'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['nan, 0'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['-1, 0', '1, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0', '0, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['1, 0', '0, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0\n*STEP'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0', '** comment'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariableForce', values=['0, 0, 1, 1, 2, 0, 3, -1, 4, 0'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=[''])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, nan'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, inf'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['nan, 0'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['-1, 0', '1, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0', '0, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['1, 0', '0, 1'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0\n*STEP'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0', '** comment'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (control_source.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) (object='VariablePressure', values=['0, 0, 1, 1, 2, 0, 3, -1, 4, 0'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py", line 135, in test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair
+    with self.assertRaisesRegex(ValueError, obj.Name + ".*amplitude"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 6.732s
+
+FAILED (failures=26, errors=5)
+e: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.429 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/dotted.parent/freecad-static-step-amplitude-89vq5iig/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.

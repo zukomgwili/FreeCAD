@@ -1,6 +1,6 @@
 --- a/ccx_2.23/src/CalculiX.h
 +++ b/ccx_2.23/src/CalculiX.h
-@@ -70,6 +70,24 @@
+@@ -70,6 +70,26 @@
  #define ITG int
  #define ITGFORMAT "d"
  #endif
@@ -10,7 +10,9 @@
 +int fa_capacity_query(void);
 +void fa_capture_mpcs(ITG,ITG,ITG*,ITG*,double*,char*,ITG);
 +void FORTRAN(fa_check_spring,(ITG*,ITG*,ITG*,ITG*,ITG*,ITG*,double*));
-+void fa_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,ITG*,char*,ITG,ITG*,ITG*,double*,ITG*,char*,ITG,ITG*,ITG*,ITG);
++void FORTRAN(fa_generated_step,(ITG*));
++void FORTRAN(fa_explicit_amplitude,(ITG*));
++void fa_prepare(ITG,ITG*,ITG,ITG,ITG,ITG,ITG,ITG,double*,ITG*,ITG*,char*,ITG,ITG*,ITG*,double*,ITG*,char*,ITG,ITG*,ITG*,ITG,ITG,ITG,char*,ITG*,double*);
 +void fa_set_mpc_capacity(ITG);
 +void fa_check_contact_domain(ITG,char*,double*,ITG);
 +int fa_active(void);
@@ -60,12 +62,13 @@
  
      if(((istep==1)||(ntrans>0)||(mpcend<0)||(nk!=nkold)||(nmpc!=nmpcold))&&(icascade==0)){
  
-@@ -1239,6 +1243,11 @@
+@@ -1239,6 +1243,12 @@
      /* nmethod=15: Crack propagation */
      /* nmethod=16: Feasible direction based on sensitivity information */
  
 +    fa_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,kon,lakon,
-+               nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
++               nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_,
++               nam,namtot,amname,namta,amta);
 +    fa_check_contact_domain(ntie,tieset,tietol,mortar);
 +    cs_prepare(nmethod,iperturb,ithermal[0],ntrans,mcs,istep,nk,ne,co,ipkon,lakon,
 +               ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
@@ -91,12 +94,13 @@
  
      if(((istep==1)||(ntrans>0)||(mpcend<0)||(*nk!=nkold)||(nmpc!=nmpcold))&&(icascade==0)) {
        //  if(icascade==0) {
-@@ -1390,6 +1391,11 @@
+@@ -1390,6 +1391,12 @@
      /* nmethod=13: Green function calculation */
      /* nmethod=14: Robustness w.r.t. to geometric tolerances */
  
 +    fa_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,kon,lakon,
-+               *nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_);
++               *nboun,nodeboun,ndirboun,xboun,nam>0?iamboun:NULL,typeboun,nmpc,ipompc,nodempc,memmpc_,
++               nam,namtot,amname,namta,amta);
 +    fa_check_contact_domain(ntie,tieset,tietol,mortar);
 +    cs_prepare(*nmethod,iperturb,ithermal[0],ntrans,mcs,istep,*nk,*ne,co,ipkon,lakon,
 +               ntie,tieset,tietol,mortar,ncmat_,ntmat_,elcon);
@@ -398,3 +402,23 @@
           else
  !     
  !     without friction t, t1 and t2 were never calculated
+--- a/ccx_2.23/src/steps.f
++++ b/ccx_2.23/src/steps.f
+@@ -132,6 +132,7 @@
+          endif
+          amta(1,namtot)=1.d20
+          amta(2,namtot)=1.d0
+          namta(2,nam)=namtot
++         call fa_generated_step(nam)
+       endif
+ !     
+--- a/ccx_2.23/src/boundarys.f
++++ b/ccx_2.23/src/boundarys.f
+@@ -197,6 +197,7 @@
+             return
+           endif
+           iamplitude=j
++          call fa_explicit_amplitude(iamplitude)
+         elseif(textpart(i)(1:10).eq.'TIMEDELAY=') THEN
+           if(idelay.ne.0) then
+             write(*,*) '*ERROR reading *BOUNDARY: the parameter TIME'

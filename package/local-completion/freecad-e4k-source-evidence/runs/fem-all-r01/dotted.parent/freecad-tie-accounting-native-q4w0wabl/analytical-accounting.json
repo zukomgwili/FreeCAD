@@ -1,0 +1,181 @@
+{
+  "analysis": "Analysis",
+  "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+  "binary_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+  "capacity": {
+    "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+    "objects": {
+      "angles": [],
+      "bodies": [
+        "RearCut",
+        "FrontCut"
+      ],
+      "ports": [
+        "BaseSupport"
+      ],
+      "springs": [],
+      "supports": [
+        "BaseSupport"
+      ]
+    },
+    "required": {
+      "angles": 0,
+      "bodies": 2,
+      "ports": 1,
+      "springs": 0,
+      "supports": 1
+    },
+    "supported": {
+      "allocation": "dynamic",
+      "counting_policy": "top-level-declarations-v1",
+      "limits": {
+        "angles": 65536,
+        "bodies": 65536,
+        "ports": 65536,
+        "springs": 65536,
+        "supports": 65536
+      },
+      "request_schema": "CCX_FORCE_ACCOUNTING_V3",
+      "schema": "CCX_FORCE_ACCOUNTING_CAPACITY_V1",
+      "total_records": 65536
+    },
+    "total": 4
+  },
+  "capacity_applied": {
+    "budget": 65536,
+    "counts": {
+      "angles": 0,
+      "bodies": 2,
+      "ports": 1,
+      "springs": 0,
+      "supports": 1
+    },
+    "total": 4
+  },
+  "deck_sha256": "31d0c98e54a84dc4ec53f7d78247bb537eb462e86338a16e500f726891b90a9d",
+  "end_time": 1.0,
+  "expected": [
+    [
+      "SUPPORT",
+      "BaseSupport"
+    ],
+    [
+      "CUT",
+      "RearCut"
+    ],
+    [
+      "CUT",
+      "FrontCut"
+    ]
+  ],
+  "frame": "Global Cartesian, original reference-state nodal application positions",
+  "limitations": "One small-displacement static step, Tet4/Tet10, selected zero-motion RBE supports or ordinary zero prescribed translations outside cut bodies; moving internal RBE ports with positive linear two-port scalar connectors; acyclic translational MPCs on body-exclusive nodes, optional face-to-face penalty contact; no per-Tie multipliers, changed reference coordinates, stress/design acceptance or mesh-accuracy guarantee",
+  "mesh": "Mesh",
+  "method": "Native support residual; separate native LOAD/CONTACT/MPC equilibrium-derived cut",
+  "model_digest": "958aa55d75a09e03930fdb2ad9290add9b7858ad618c9d5d41531a7f1bc88ee3",
+  "movement_source": {
+    "binary": "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting",
+    "binary_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+    "deck": "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/dotted.parent/freecad-tie-accounting-native-q4w0wabl/Mesh.inp",
+    "deck_sha256": "31d0c98e54a84dc4ec53f7d78247bb537eb462e86338a16e500f726891b90a9d",
+    "domain": "Fresh run-owned FRD bytes, not qualified displacement or design acceptance",
+    "model_digest": "958aa55d75a09e03930fdb2ad9290add9b7858ad618c9d5d41531a7f1bc88ee3",
+    "path": "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/dotted.parent/freecad-tie-accounting-native-q4w0wabl/Mesh.frd",
+    "request": "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/dotted.parent/freecad-tie-accounting-native-q4w0wabl/Mesh.accounting",
+    "request_sha256": "6112e017d17d5f755e0fcdff7aeb883e4eb09339335dfb7d336f9d4205bc9768",
+    "requested_end_time": 1.0,
+    "schema": "FREECAD_MOVEMENT_SOURCE_V1",
+    "sha256": "a9e83ba13b899f244d437f310d4fa1c0d634da44d8adf0e1cd356e15f2428613",
+    "status": "BOUND",
+    "time_basis": "Requested final static time; field reader must verify actual FRD state"
+  },
+  "output_sha256": "a69b1fc504ec1dfc846e6f88f25cb52034648822cf8190534a8bfcb83a4b5918",
+  "request_sha256": "6112e017d17d5f755e0fcdff7aeb883e4eb09339335dfb7d336f9d4205bc9768",
+  "schema": "CCX_FORCE_ACCOUNTING_V3",
+  "units": "N and Nmm",
+  "wrenches": {
+    "CONTACT": {
+      "FrontCut": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "RearCut": [
+        -100.00000000960593,
+        -4.4719002806337116e-15,
+        -0.07749900000011804,
+        -0.387495000173502,
+        -1498.8375151645794,
+        500.00000006423966
+      ]
+    },
+    "CUT": {
+      "FrontCut": [
+        -1.3143783737853398e-14,
+        6.914303437449708e-15,
+        100.07749899999965,
+        500.38749499999756,
+        -500.38749499999875,
+        -1.0612648577739123e-13
+      ],
+      "RearCut": [
+        1.075677857897972e-08,
+        -1.895621246778001e-13,
+        -100.07749899999948,
+        -500.3874949999933,
+        500.3874951866154,
+        -6.293799970080727e-08
+      ]
+    },
+    "LOAD": {
+      "FrontCut": [
+        1.3143783737853398e-14,
+        -6.914303437449708e-15,
+        -100.07749899999965,
+        -500.38749499999756,
+        500.38749499999875,
+        1.0612648577739123e-13
+      ],
+      "RearCut": [
+        0.0,
+        0.0,
+        -0.0774990000000007,
+        -0.38749500000000286,
+        0.38749500000000325,
+        0.0
+      ]
+    },
+    "MPC": {
+      "FrontCut": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "RearCut": [
+        99.99999999884915,
+        1.940340249584338e-13,
+        100.2324969999996,
+        501.1624850001668,
+        998.062524977964,
+        -500.00000000130166
+      ]
+    },
+    "SUPPORT": {
+      "BaseSupport": [
+        99.99999999884919,
+        1.9484414082171497e-13,
+        100.3099959999996,
+        501.5499799877432,
+        997.675029977103,
+        -499.9999999912387
+      ]
+    }
+  }
+}

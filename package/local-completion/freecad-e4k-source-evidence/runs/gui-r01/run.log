@@ -1,0 +1,52 @@
+(qt.qpa.fonts) Populating font family aliases took 149 ms. Replace uses of missing font family "Sans-serif" with one that exists to avoid this cost. 
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +246 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+Migrating Start Workbench to Start command... done.
+test_visible_step_property_and_stock_solver_buttons_qualify_current_equilibrium (GuiE4k.TestE4kGui.test_visible_step_property_and_stock_solver_buttons_qualify_current_equilibrium) ...   ElementDimension: 3
+  /private/tmp/freecad-e4k-tsd27fAG/gui-r01/staged-selfweight-wq8fx_v5/ThreeMaterials_Geometry.brep
+  /private/tmp/freecad-e4k-tsd27fAG/gui-r01/staged-selfweight-wq8fx_v5/ThreeMaterials_Mesh.vtk
+  /private/tmp/freecad-e4k-tsd27fAG/gui-r01/staged-selfweight-wq8fx_v5/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+
+Check prerequisites...
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+True
+BaseSupport:
+    Type: Fem::ConstraintFixed, Name: BaseSupport
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face5
+GravityContact:
+    Type: Fem::ConstraintContact, Name: GravityContact
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face6
+LowerCut:
+    Type: Fem::ConstraintSectionPrint, Name: LowerCut
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face12
+UpperCut:
+    Type: Fem::ConstraintSectionPrint, Name: UpperCut
+    ReferenceShape ... Type: Face, Object name: UpperCutOrientation, Object label: UpperCutOrientation, Element name: Face12
+VariableQPressure:
+    Type: Fem::ConstraintPressure, Name: VariableQPressure
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face17
+Getting mesh data time: 0.056 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/gui-r01/native-task-run/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+run CalculiX at: /Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting with: /private/tmp/freecad-e4k-tsd27fAG/gui-r01/native-task-run/Mesh.inp
+CalculiX done without error!
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-e4k-tsd27fAG/gui-r01/native-task-run/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-e4k-tsd27fAG/gui-r01/native-task-run/Mesh.dat
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 10.113s
+
+OK
+System exit

@@ -1,0 +1,46 @@
+{
+  "schema": "FreeCAD-e4k-independent-collector-review-v1",
+  "verdict": "CLEAR after addressed selection findings",
+  "scope": "Static review only of the exact collector plus current owned receipt/file shapes. Collector was not imported or executed; no native execution by reviewer. This is not a product qualification or an audit of collected output not yet produced.",
+  "collector": "/private/tmp/freecad-e4k-tsd27fAG/collect.py",
+  "collector_sha256": "31afad61c5857011512981fbbc588e9a312e4368297425ce17e357de2a4235dd",
+  "findings": [
+    {
+      "id": "STEP-full-pressure-body-selection",
+      "severity": "mustfix",
+      "problem": "Prior selector also admitted defaultRamp1s pressure control, so sorting random temporary directory paths could publish the wrong fullhistory FRD/DAT body.",
+      "resolution": "Final selector requires a successful actual-command NativeE4k gate with origins bound to the current candidate, selects latest by original receiptmtime with criterion declared in manifest, and requires exactly one pressure1s/currentbinary deck with one actual STEP card containing AMPLITUDE=STEP. Ramp control cannot qualify.",
+      "status": "addressed"
+    },
+    {
+      "id": "partial-contact-output-bulk",
+      "severity": "selection-hardening",
+      "problem": "Prior generic request-prefix branch could also copy an unpublished .out.tmp body outside rawcontact budget.",
+      "resolution": "Temporary contact outputs are always hashonly; generic owned requestfile branch now requires an exact32hex requestname.",
+      "status": "addressed"
+    },
+    {
+      "id": "repeated-positive-contact-bulk",
+      "severity": "scope-clarity",
+      "problem": "Copying every positive contactbody across native and full-FEM repeatedfixtures could exceed the frozen256MiB bytebudget.",
+      "resolution": "Raw bodies explicitly limited to selected currentcandidate dedicated NativeE4k and successful actual GuiE4k gates; repeated broad/earlier-positive bodies remain explicit size/hash/reason entries. Budget remains unchanged and refuses before creating the target.",
+      "status": "addressed"
+    }
+  ],
+  "checks": [
+    "Existing evidence target and target symlink refuse; destination is constrained beneath repository package/local-completion. Duplicate/unsafe public destinations refuse.",
+    "Original execution receipts are copied byte-for-byte without sourcepath rebasing or verdict rewriting. Historical loghashes are checked against their receipts. Explicit failed/no-test/inputchanged classifications remain negative, including native-r03.",
+    "Positive-gate selection is separate labelled collection metadata; raw recorded returncodes/pass/semantic/helper/source custody fields are retained. Collector never emits a productpass verdict.",
+    "Currentcandidate selectors bind actual command module/origins or physical receipt, nativehash and dedicated-case identity. Mechanical native pair selected only from successful MechanicalE4k/currentcandidate report with exactly two expected FRD directories.",
+    "Named product sources, current helpers, upstream GPL code context and exact hash-resolved historical code bodies are retained. Opaque blobs are used only for approved named code/helper pins. Unavailable exact historical code bodies remain explicitly unresolved, never replaced by a newer source hash.",
+    "Known environments/profiles/config/cache and nativebuild trees are pruned before traversal. CAD/geometry/mesh, binaries/objects, complete official manual bodies and profileinventory maps are excluded from public bodies. Selected generated scientific FRD/DAT/contact outputs remain explicit analytical fixture evidence.",
+    "Duplicate saved literal bodies have explicit derived summaries with original raw size/hash and per-literal size/hash; full native sourcebody selection is separately recorded.",
+    "Unselected private nativebulk has exact original path/size/hash and reason; exclusions and bodyselection policy are explicit. No blanket claim to preserve every private body is made.",
+    "All exact body/source hashes are checked before and after copying. Every written exact/generated artifact is indexed with size/hash/kind/source provenance, and index self-exclusion is explicit with external index hash returned to root.",
+    "All planning, requiredcase selection, bodybudget checks and source reads precede target creation. No application, solver, compiler or native code is executed by collector."
+  ],
+  "remaining_requirements": [
+    "Root must execute only after all serial gates finish and source inputs freeze.",
+    "Postcollection review must verify actual generated artifact index/content/exclusions and final validation claims; this static review alone does not establish collection completeness or feature completion."
+  ]
+}

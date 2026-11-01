@@ -1,0 +1,48 @@
+{
+  "schema": "FreeCAD-e4k-independent-contact-catalogue-review-v1",
+  "reviewer": "/root/e4k_controls",
+  "verdict": "CLEAR",
+  "findings": [],
+  "scope": "Static independent review of additive per-retained-frame native contact catalogue snapshots, importer and protocol tests, including existing coupled beam/contact boundary. No native executions.",
+  "inputs": {
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contactstate.c": "58725bb15c605f070c05b4e5c9ac689f9e4db94121cf466150b380746aded881",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "85690f1744ec4a2e9d0ff8483618373e3c85d7a49487c9f7a10f2265ffc6e728",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "ef85a510a2ce80dd981300af31da91dd0ec8fc1fd0c368bb71aabe3071b9cb49",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "053aeaf3ad33697a78e1ebc0722dc2b563f44e559fd35aa4aaa5650945f38eae",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/contact_state.py": "3b57674fb69c328587adc39262759498fcef76d37be5500b62765d78a38b85dc",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_contact_state_catalogue.py": "ef4c8ab6666190e634ef3adfae3e102796cb4c7073e04e9fc7ad7500c1c4ccd6",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/beam_contact_results.py": "a5cff8de9683ff743fef7aaff77969ad963e3fa570092c7d00939db175f9f39d",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/beamsection.c": "07f26b04523fc1eacb9904a0d22cb4bafbf00beb428bc21450ae66321b90b636",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/TestFemApp.py": "781fa097184dc0f94b8c2b58d05d928490bfb77154cf3a82983baac7331406e1",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/CMakeLists.txt": "96b015a5a824426a4ce5b77951d41b674cb67c6eea2941a25702fe5afed69a5d"
+  },
+  "verified": {
+    "native_declared_pairs_and_slave_face_count_order_owners_remain_invariant": true,
+    "only_native_quadrature_point_count_and_labels_may_vary_per_retained_frame": true,
+    "all_sample_and_face_fields_are_value_owned_deep_snapshots_without_mechanical_array_pointers": true,
+    "same_frame_replacement_frees_both_previous_diagnostic_snapshots": true,
+    "frame_array_growth_retains_prior_snapshot_ownership": true,
+    "new_allocations_use_existing_checked_calloc_helper": true,
+    "top_inventories_are_exact_final_frame_aliases": true,
+    "explicit_PER_RETAINED_FRAME_marker_required_for_perframe_catalogues": true,
+    "unmarked_legacy_V1_preserves_shared_catalogue_invariant": true,
+    "perframe_complete_expected_face_ownership_exact_pair_bijection_checked": true,
+    "raw_point_ID_and_local_point_unique_within_frame_contiguous_local_counts_checked": true,
+    "samples_match_own_frame_catalogue_exactly_without_omissions_or_extra_rows": true,
+    "crossframe_pair_ID_invariant_retained": true,
+    "all_existing_availability_law_geometry_finite_basis_and_master_owner_checks_retained": true,
+    "owned_child_file_hash_model_input_and_stale_lifecycle_checks_unchanged": true,
+    "native_beam_sample_handoff_remains_current_frame_only": true,
+    "coupled_beam_contact_import_still_requires_exact_one_owned_common_frame": true,
+    "six_new_protocol_tests_registered_and_AST_valid": true,
+    "native_geometry_quadrature_search_constitutive_and_ordinary_force_arrays_not_modified": true,
+    "generated_SPC_source_and_hooks_match_prior_independent_review": true,
+    "contract_matches_additive_wire_change_and_legacy_rules": true
+  },
+  "test_scope": "Six literal protocol tests exercise the real production validator: changing counts/IDs, repeated raw IDs across frames, strict legacy, missing/unknown/partial scope/aliases, omissions/duplicates/count/local/owner/pair tampering, and explicit empty catalogues. They are clearly labelled synthetic protocol fixtures and do not substitute for the root native changing-catalogue solve.",
+  "limitations": [
+    "No FreeCAD/OCC/CalculiX/compiler/GUI execution by reviewer.",
+    "Root must perform fresh native compile, actual staged endpoint/current-state tests, old contact/beam regression gates, cold restore and mechanical preservation.",
+    "No engineering limits relaxed; no Oomakhi or originating 5% sensitivity duty accepted."
+  ]
+}

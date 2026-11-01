@@ -1,0 +1,35 @@
+{
+  "schema": "FreeCAD-e4k-contact-catalogue-integration-v1",
+  "classification": "NATIVE_DIAGNOSTIC_INTEGRATION_REQUIRED_AFTER_ACTUAL_FAILURE",
+  "failed_run": {
+    "execution": "/private/tmp/freecad-e4k-tsd27fAG/native-r02/execution.json",
+    "execution_sha256": "cfb53da931b03a70485937397c806fc5061d595b08a70d0f12483387127e46fd",
+    "log": "/private/tmp/freecad-e4k-tsd27fAG/native-r02/run.log",
+    "log_sha256": "c9799f873aef45e358c89629027809eb55335a3b413c72adcfc938cb73e06941",
+    "actual_error": "selected native sample label/count inventory changed between retained frames",
+    "classification": "RETAINED_FAILED_NATIVE_CANDIDATE_NOT_QUALIFICATION"
+  },
+  "cause": "Native point quadrature regenerated between retained frames, but old contactstate.c enforced first-frame counts/identities globally despite its FRAME_LOCAL_NATIVE_CATALOGUE declaration. Fixed selected pair/slave face ownership is distinct from frame-local quadrature labels/counts.",
+  "change": [
+    "Preserve immutable selected pair/slave face owner inventory; capture current per-face counts and all current sample identities/values into each CSFrame.",
+    "Add explicit PER_RETAINED_FRAME marker and per-frame face/sample inventories; retain top-level exact final-frame aliases.",
+    "Validate every frame independently for complete selected face coverage, exact counts/unique local ranges/native IDs, sample identity and constitutive availability. Do not join sample trajectories across frames.",
+    "Keep unmarked legacy V1 shared-catalogue invariant and failclosed unknown/null/missing/partial scope, alias mismatch, changed pair IDs, missing/duplicate/wrongowner/currentframe samples.",
+    "No mechanicalarray/source/contact pairing/constitutive/convergence/engineering tolerance alteration. Existing completed-child/input/file custody is unchanged."
+  ],
+  "tests": "New TestContactStateCatalogue has6registered tests of literal public protocol fixtures, including changing pointcount/labels and native label reuse without crossframe identity. It is not a simulated contact solve. Root must execute these and actual native regenerated-catalogue fixtures.",
+  "child_native_execution": false,
+  "static_checks": [
+    "PythonAST parsed",
+    "Black100checkpass",
+    "gitdiffcheckpass"
+  ],
+  "files": {
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contactstate.c": "58725bb15c605f070c05b4e5c9ac689f9e4db94121cf466150b380746aded881",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/contact_state.py": "3b57674fb69c328587adc39262759498fcef76d37be5500b62765d78a38b85dc",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_contact_state_catalogue.py": "ef4c8ab6666190e634ef3adfae3e102796cb4c7073e04e9fc7ad7500c1c4ccd6",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "053aeaf3ad33697a78e1ebc0722dc2b563f44e559fd35aa4aaa5650945f38eae",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/CMakeLists.txt": "96b015a5a824426a4ce5b77951d41b674cb67c6eea2941a25702fe5afed69a5d",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/TestFemApp.py": "781fa097184dc0f94b8c2b58d05d928490bfb77154cf3a82983baac7331406e1"
+  }
+}

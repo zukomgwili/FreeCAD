@@ -1,0 +1,4 @@
+import sys
+sys.dont_write_bytecode=True
+from femtest.app.test_static_step_amplitude import TestStaticStepAmplitude
+from femtest.app.test_contact_state_catalogue import TestContactStateCatalogue

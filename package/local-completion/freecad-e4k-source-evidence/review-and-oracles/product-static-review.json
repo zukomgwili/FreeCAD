@@ -1,0 +1,35 @@
+{
+  "schema": "FreeCAD-e4k-independent-static-review-v1",
+  "scope": "Static product diff and native-test ownership/current-state review only; no native program executed by reviewer.",
+  "verdict": "CLEAR after identified amplitude compatibility regression was corrected",
+  "findings": [
+    {
+      "id": "amplitude-trailing-padding",
+      "original": "Global amplitude preflight rejected native-readable trailing empty comma fields, and negative pre-zero time rows.",
+      "resolution": "Current validator strips only trailing empty fields for validation, retains exact emitted literal rows, permits signed finite prehistory times, rejects malformed interior blanks. Tests cover both Ramp and Step with D exponents, padding and prehistory.",
+      "status": "addressed"
+    }
+  ],
+  "checks": [
+    "StaticStepAmplitude is an ordinary saved/locked enumeration; first Ramp choice preserves existing default. Older documents gain Ramp through existing SolverCalculiX.onDocumentRestored and writer fallback also preserves Ramp for a missing legacy control.",
+    "Only selected Step adds AMPLITUDE=STEP; invalid mode and nonstatic Step are explicitly refused. Existing default step line remains byte-identical.",
+    "Enabled amplitude tables are validated before writing any definitions; malformed, nonfinite, missing, reversed-time or repeated-time rows are refused; disabled invalid tables are unchanged/ignored. Literal valid rows are never normalized.",
+    "Native fixture binds three distinct material volumes by centroid and CAD ownership; contact mesh original IDs are disjoint while genuine upper/lower cut nodes are conformal. Selected ordinary Fixed support remains outside cut bodies and no RBE or hidden stabilization is added.",
+    "Each one-step prefix preserves complete Q history and volumetric GRAV. Tests compare actual raw STATE step/increment/time with final native contact frame and shared input/model custody, then compare owned LOAD/CONTACT/MPC/CUT/support actions with fixed analytical original-origin wrench references.",
+    "Current native accounting selection filters type and Current status; exactly one expected Current object is required, preventing accidental reuse of prior stale endpoint results. ContactState exact current getter revalidates paired input custody.",
+    "Physical edit test covers StaticStepAmplitude, endpoint, gravity magnitude, Q amplitude rows/enablement and material density; observed results must withdraw without rewriting literal history and stale exported request cannot rerun as current."
+  ],
+  "limits": [
+    "Fresh native runtime/GUI/cold tests remain root responsibility.",
+    "Accounting remains final-current-state only per separate from-zero stock run; no multiframe accounting API or intermediate-states claim.",
+    "Strict ascending time validation is intentional fail-closed native interpolation-domain admission; no validation of a new amplitude mechanics law.",
+    "No engineering/Oomakhi equilibrium or 5% sensitivity acceptance."
+  ],
+  "files": {
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femobjects/solver_calculix.py": "696a5e128f29b4c3544789558d7440f85c549a9f0381754a3c1191998cdde65d",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_step_equation.py": "2df248d0d11c5c8c07ac93fc29a8a5dcdd392c908b7f0eb865daca8ec6f6b4c8",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_amplitude.py": "96456a839b27b2e9dddebb14f09b31a459386351f336ad0a489a1413eea3a2e0",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py": "da5c4ef2e7ddb602bb7b29491f221b3d3e3d8381dff4aea10e29b4c0692748d5",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_staged_selfweight_native.py": "6e407ffe21f983344b1101e0af33ee61d56bc5028577efd25044016ef9838e2a"
+  }
+}

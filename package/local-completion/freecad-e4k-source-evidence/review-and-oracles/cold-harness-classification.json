@@ -1,0 +1,16 @@
+{
+  "schema": "FreeCAD-e4k-cold-harness-classification-v1",
+  "failed_attempt": "cold-r01",
+  "classification": "NONQUALIFYING_COLD_HARNESS_ASSUMPTION",
+  "product_failure": false,
+  "reason": "Harness incorrectly required standalone Contact.CompletedRun to reset on restore; the existing contract resets that marker for joint beam/contact observations only. The standalone saved last-run marker is retained while Historical status blocks the qualified Current getter.",
+  "exact_failed_helper": "review-history/ColdE4k.r01.py",
+  "replacement_passed": "cold-r02",
+  "passed_actual_contract": [
+    "Exact saved controls/material/cut owners/units/full Q history and observation literals",
+    "Historical/Stale availability and Current getter refusal",
+    "No solve, save, repair or rebinding",
+    "Unchanged actual saved FCStd/source literal file hashes"
+  ],
+  "completed_run_before_and_after_receipt_refinement": "ColdE4k.py subsequently adds explicit before value to its receipt; cold-r02 exact source retained at review-history/ColdE4k.r02.py. This does not change any product code or acceptance criterion."
+}

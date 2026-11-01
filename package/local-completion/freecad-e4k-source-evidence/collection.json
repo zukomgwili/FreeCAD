@@ -1,0 +1,516 @@
+{
+  "collector": "/private/tmp/freecad-e4k-tsd27fAG/collect.py",
+  "collector_sha256": "31afad61c5857011512981fbbc588e9a312e4368297425ce17e357de2a4235dd",
+  "current_native_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+  "exact_historical_named_inputs_unavailable": 15,
+  "exclusions": "No CAD, native executable, object, environment, profile/config/cache body or full manual body. Excluded profile/environment/build directories are not traversed. Protected-directory digests and original command/source pins already present in receipts stay unchanged.",
+  "execution_provenance_rebased": false,
+  "gate_records": {
+    "baseline": {
+      "classification": "INSTALLED_FEATURE_ABSENCE_REPRODUCER_EXPECTED_RED",
+      "collection_positive_gate_selection": false,
+      "command_module": "ProbeE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/baseline/execution.json",
+      "receipt_mtime_ns": 1793545174846863741,
+      "receipt_sha256": "0ab02c138bceb64efd0055e9f8a19738364cfdd4242e21ef228d76c1a0ea4bb2",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": null,
+      "recorded_returncode": 1,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": null
+    },
+    "build-r02": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/build-r02/execution.json",
+      "receipt_mtime_ns": 1793546609972071108,
+      "receipt_sha256": "55eb6f81d4708d416aac64d40a309b406c988562e4521fc6e1c6af67c4be0289",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "build-r03": {
+      "classification": "NONQUALIFYING_SOURCE_GATE_INPUT_CHANGED",
+      "collection_positive_gate_selection": false,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/build-r03/execution.json",
+      "receipt_mtime_ns": 1793547541845522546,
+      "receipt_sha256": "84fa3cff81e6c2549d037f07bbe2f27c4ef646b8995a687a57657ff33a5a34a0",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": false,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": false
+    },
+    "build-r04-frozen": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/build-r04-frozen/execution.json",
+      "receipt_mtime_ns": 1793547582070153083,
+      "receipt_sha256": "6d4c38b8d01d19670ee5f791a172b49ad7dc9a24d2fc163c7a29db9040f3690f",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "build-r05-frozen": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/build-r05-frozen/execution.json",
+      "receipt_mtime_ns": 1793548440587032248,
+      "receipt_sha256": "9be209edd5eecca531a59bdf4f16f2b426f465378f0a1c17878d27fa88c1aef4",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "cold-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": false,
+      "command_module": "ColdE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/cold-r01/execution.json",
+      "receipt_mtime_ns": 1793548827083775460,
+      "receipt_sha256": "6597672655bd0adb2f5b3e981f99a8b514cfb2877bad458c097a36d8e25afd85",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": false,
+      "recorded_returncode": 1,
+      "recorded_semantic_passed": false,
+      "recorded_source_inputs_unchanged": null
+    },
+    "cold-r02": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "ColdE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/cold-r02/execution.json",
+      "receipt_mtime_ns": 1793548996914590750,
+      "receipt_sha256": "97d13fc721ca22b8b4d96c21a7ea533f0e7b641a176673399797cde8a66d49e7",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "cold-r03": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "ColdE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/cold-r03/execution.json",
+      "receipt_mtime_ns": 1793549799401092088,
+      "receipt_sha256": "96005e0c3dfd67ab8b42c9007d4b004ee4bd5e9991f5ff71c021de5e0ecc9f71",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "cold-r04": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "ColdE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/cold-r04/execution.json",
+      "receipt_mtime_ns": 1793550867081703989,
+      "receipt_sha256": "86592938d140a6f916a641e70b18f0956f1022ee5a8a9cb69f958196e2f50c5f",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "configure-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/configure-r01/execution.json",
+      "receipt_mtime_ns": 1793546312982124084,
+      "receipt_sha256": "85f3d2d401f51a7d588445be57e1d37a2da81c18bc185f4c8b87c2ddfc250429",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "configure-r02": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/configure-r02/execution.json",
+      "receipt_mtime_ns": 1793547260284916727,
+      "receipt_sha256": "abf327cd1716b90f9dd4419a31a9bc6ef2454d09ddf1d863c36973c8442b4265",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "configure-r03": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/configure-r03/execution.json",
+      "receipt_mtime_ns": 1793548172048344237,
+      "receipt_sha256": "937c93748a8e6ea29b5efb99b0a49ad8c849370b08726968de59160528b456af",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "controls-green": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "ControlsE4k",
+      "observed_unittest_summary_counts": [
+        "8"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/controls-green/execution.json",
+      "receipt_mtime_ns": 1793545697460846381,
+      "receipt_sha256": "85a83088615d3725684e441fd1341d56f430781450de083e68d458ced56cfa37",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": null,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": null
+    },
+    "controls-red": {
+      "classification": "NONQUALIFYING_WRAPPER_ERROR_NO_TESTS_RAN",
+      "collection_positive_gate_selection": false,
+      "command_module": "ControlsE4k",
+      "observed_unittest_summary_counts": [
+        "0"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/controls-red/execution.json",
+      "receipt_mtime_ns": 1793545431011573177,
+      "receipt_sha256": "132c752f5a8120d283b9b11629fc9d23cb4e0045554bc715b27fd410a87ce201",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": null,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": null
+    },
+    "controls-red-r02": {
+      "classification": "ACTUAL_RED_MISSING_CONTROL_AND_INVALID_AMPLITUDE_ADMISSION",
+      "collection_positive_gate_selection": false,
+      "command_module": "ControlsE4k",
+      "observed_unittest_summary_counts": [
+        "7"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/controls-red-r02/execution.json",
+      "receipt_mtime_ns": 1793545467439101737,
+      "receipt_sha256": "1caccab3f30b9afe2a0c0421683154edcbfa459c6845772b1c27798afa6a32ad",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": null,
+      "recorded_returncode": 1,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": null
+    },
+    "ctest-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/ctest-r01/execution.json",
+      "receipt_mtime_ns": 1793549636838967523,
+      "receipt_sha256": "6fa22339f9d4083472370edc07eb522d2c4780ecf2be61ba566af0368867cd4c",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "fem-all-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "TestFemApp",
+      "observed_unittest_summary_counts": [
+        "481"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/execution.json",
+      "receipt_mtime_ns": 1793549335298506660,
+      "receipt_sha256": "236b43b0b9862e4e88e717489c6a45219f5adc93e82ff669c3500308e19263f5",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "guard-compile-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/guard-compile-r01/execution.json",
+      "receipt_mtime_ns": 1793546346794828241,
+      "receipt_sha256": "2d590cbc730615141ca11286156b98c54256003aaf455837965292e5fe01327f",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "guard-test-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/guard-test-r01/execution.json",
+      "receipt_mtime_ns": 1793546349108275513,
+      "receipt_sha256": "69c77bcceb7f0db3220bda0212ea2cd1633ab154595ddf2d288a3b3e8e9e2e43",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "gui-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "GuiE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/gui-r01/execution.json",
+      "receipt_mtime_ns": 1793549023537119178,
+      "receipt_sha256": "c0e8cf790b0c4219f115608094f4e40aa8a21fa180846c5685b5403efc9eeccf",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "mechanical-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "MechanicalE4k",
+      "observed_unittest_summary_counts": [
+        "1"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/execution.json",
+      "receipt_mtime_ns": 1793549005081591182,
+      "receipt_sha256": "0e2b859f31200a062698262b905e5a3b7ebeb366c12a3868be525119b4449b10",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "native-build-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-build-r01/execution.json",
+      "receipt_mtime_ns": 1793546233249974262,
+      "receipt_sha256": "9635f459e0b79776119a48d337ff48037e6c8667f81fe7b456992f9cedc2f658",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "native-build-r02": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-build-r02/execution.json",
+      "receipt_mtime_ns": 1793547214835230738,
+      "receipt_sha256": "79f2e559e49cc1e7cec488d1ee53d60d712eaef571bdebb0d0a6627573076b3c",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "native-build-r03": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-build-r03/execution.json",
+      "receipt_mtime_ns": 1793548006962488946,
+      "receipt_sha256": "8b89a1143cd4719fafdf32cd84803dea1a2e75bd15c8074e9a0aebf8dac5b12e",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "native-r01": {
+      "classification": "FAILED_NATIVE_GENERATED_STEP_ZERO_SPC_ADMISSION",
+      "collection_positive_gate_selection": false,
+      "command_module": "NativeE4k",
+      "observed_unittest_summary_counts": [
+        "3"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r01/execution.json",
+      "receipt_mtime_ns": 1793545769271675153,
+      "receipt_sha256": "75490ee2d65ee7614b746548886fb293eb6e490fa01f8af4218d7011489946a8",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": null,
+      "recorded_returncode": 1,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": null
+    },
+    "native-r02": {
+      "classification": "FAILED_NATIVE_SHARED_CONTACT_CATALOGUE_AND_SUPERSEDED_CHECKS",
+      "collection_positive_gate_selection": false,
+      "command_module": "NativeE4k",
+      "observed_unittest_summary_counts": [
+        "4"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r02/execution.json",
+      "receipt_mtime_ns": 1793546669897055081,
+      "receipt_sha256": "cfb53da931b03a70485937397c806fc5061d595b08a70d0f12483387127e46fd",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": false,
+      "recorded_returncode": 1,
+      "recorded_semantic_passed": false,
+      "recorded_source_inputs_unchanged": null
+    },
+    "native-r03": {
+      "classification": "FAILED_NATIVE_ENDPOINT_COMPLETION_REPRESENTATION",
+      "collection_positive_gate_selection": false,
+      "command_module": "NativeE4k",
+      "observed_unittest_summary_counts": [
+        "5"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r03/execution.json",
+      "receipt_mtime_ns": 1793547663046530490,
+      "receipt_sha256": "d1eca714b8d3862ef2b3ba042cee2627cc07ab2e44da26244bf110cec15a7b7b",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": false,
+      "recorded_returncode": 1,
+      "recorded_semantic_passed": false,
+      "recorded_source_inputs_unchanged": null
+    },
+    "native-r04": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "NativeE4k",
+      "observed_unittest_summary_counts": [
+        "5"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/execution.json",
+      "receipt_mtime_ns": 1793548667141640992,
+      "receipt_sha256": "1f7fe61ee18539d02edd2fb8d8c489c7ee1f3bea209735cec4671a09a38cc65f",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "native-r05": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "NativeE4k",
+      "observed_unittest_summary_counts": [
+        "5"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r05/execution.json",
+      "receipt_mtime_ns": 1793550830803680990,
+      "receipt_sha256": "9a1864c6bc01c2359cd9a98eaf8bf2cbd60a8592aa82e8eaa0297d894ee80570",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "refresh-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": null,
+      "observed_unittest_summary_counts": [],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/refresh-r01/execution.json",
+      "receipt_mtime_ns": 1793546633171630409,
+      "receipt_sha256": "63aae5be074ff629fddc27b40d2c0000e19c905ecc17d9c6c09077291331e243",
+      "recorded_helper_inputs_unchanged": null,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": null,
+      "recorded_source_inputs_unchanged": true
+    },
+    "unit-r01": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "UnitE4k",
+      "observed_unittest_summary_counts": [
+        "14"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/unit-r01/execution.json",
+      "receipt_mtime_ns": 1793547594640467358,
+      "receipt_sha256": "63c7ae5f62ed0ec6c2a9bf9702f717dec178ab27ec7425098704b0028c337adc",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    },
+    "unit-r02": {
+      "classification": "ORIGINAL_RECEIPT_RETAINED",
+      "collection_positive_gate_selection": true,
+      "command_module": "UnitE4k",
+      "observed_unittest_summary_counts": [
+        "16"
+      ],
+      "receipt": "/private/tmp/freecad-e4k-tsd27fAG/unit-r02/execution.json",
+      "receipt_mtime_ns": 1793548558871853847,
+      "receipt_sha256": "7535c13ca092dab2b1ae8acd4b871c54132eb61b073dd7b5be8778cfd8ea29db",
+      "recorded_helper_inputs_unchanged": true,
+      "recorded_passed": true,
+      "recorded_returncode": 0,
+      "recorded_semantic_passed": true,
+      "recorded_source_inputs_unchanged": null
+    }
+  },
+  "historical_receipts_rewritten": false,
+  "installation_performed": false,
+  "native_execution_by_collector": false,
+  "positive_raw_contact_byte_budget": 268435456,
+  "positive_raw_contact_bytes": 210673762,
+  "positive_raw_contact_files": 16,
+  "product_pass_verdict": "Not generated by collector; root owns the final validation report",
+  "raw_contact_body_selection": "Latest successful dedicated NativeE4k gate by original receipt mtime, with origins bound to current candidate; successful GuiE4k receipts bound to the same candidate. Repeated broad-regression contact bulk is hash-only.",
+  "root_validation_supplied": "/private/tmp/freecad-e4k-tsd27fAG/validation.json",
+  "schema": "FreeCAD-e4k-source-evidence-collection-v1",
+  "selected_dedicated_gui_gates": [
+    "gui-r01"
+  ],
+  "selected_dedicated_native_gate": "native-r05",
+  "selected_full_pressure_native_directory": "/private/tmp/freecad-e4k-tsd27fAG/native-r05/staged-selfweight-ijzjv3ez/run-4-time-1.0",
+  "selected_mechanical_gate": "mechanical-r01",
+  "selected_mechanical_native_directories": [
+    "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/candidate-default",
+    "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/previous-b6"
+  ],
+  "source_root": "/private/tmp/freecad-e4k-tsd27fAG",
+  "target": "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-e4k-source-evidence"
+}

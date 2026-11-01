@@ -1,0 +1,267 @@
+{
+  "schema": "FreeCAD-e4k-independent-final-source-review-v1",
+  "verdict": "CLEAR",
+  "root_validation": "/private/tmp/freecad-e4k-tsd27fAG/validation.json",
+  "root_validation_sha256": "a6b4f81f8e9e026a89ef2e690d559debb9eefe2b90964ab94a9ba38ceaf2efe8",
+  "scope": "Independent source/receipt/hash/retained-output audit. No FreeCAD, CalculiX, Gmsh, compiler, GUI automation or producer/collector execution by reviewer. Viewing retained GUI screenshot is read-only. This clears root to collect frozen source evidence; postcollection artifact/index audit remains required.",
+  "material_misclaims_found": [],
+  "source_freeze": {
+    "current_named_source_hashes_verified": 19,
+    "source_hash_map": {
+      "package/calculix/force-accounting/beamsection.c": "07f26b04523fc1eacb9904a0d22cb4bafbf00beb428bc21450ae66321b90b636",
+      "package/calculix/force-accounting/beamsection.patch": "1f2c2f2f5b50b7acc3c5a0b878fafa3f23a744e00e30bd4eebd9fd9968c20a71",
+      "package/calculix/force-accounting/contactstate.c": "0865934416eca80f51c74441898dfc8537d80775ba98d89482092b87c8daf471",
+      "package/calculix/force-accounting/contract.json": "a4ffa0a65ca1dfeace930b1c6be7beed7ab6c41dea79bb4935458d691bd4a395",
+      "package/calculix/force-accounting/forceaccounting.c": "85690f1744ec4a2e9d0ff8483618373e3c85d7a49487c9f7a10f2265ffc6e728",
+      "package/calculix/force-accounting/hooks.patch": "ef85a510a2ce80dd981300af31da91dd0ec8fc1fd0c368bb71aabe3071b9cb49",
+      "package/local-completion/freecad-e4k-oracles.md": "00bfefa040bdaa4400135b133e32f502e6863f1194c3cde36d2e317419912b99",
+      "package/local-completion/freecad-e4k-usage.md": "882a53267152981ce253e8c5b9e805b1c5d92cdb6611c4ba4a75d134139c41f3",
+      "src/Mod/Fem/CMakeLists.txt": "96b015a5a824426a4ce5b77951d41b674cb67c6eea2941a25702fe5afed69a5d",
+      "src/Mod/Fem/TestFemApp.py": "781fa097184dc0f94b8c2b58d05d928490bfb77154cf3a82983baac7331406e1",
+      "src/Mod/Fem/femobjects/solver_calculix.py": "696a5e128f29b4c3544789558d7440f85c549a9f0381754a3c1191998cdde65d",
+      "src/Mod/Fem/femsolver/calculix/write_amplitude.py": "96456a839b27b2e9dddebb14f09b31a459386351f336ad0a489a1413eea3a2e0",
+      "src/Mod/Fem/femsolver/calculix/write_constraint_selfweight.py": "77d0e8c950b5c86b403b7f0ecec0915cf51de91c5d9ab92b18bace93565f4af7",
+      "src/Mod/Fem/femsolver/calculix/write_step_equation.py": "2df248d0d11c5c8c07ac93fc29a8a5dcdd392c908b7f0eb865daca8ec6f6b4c8",
+      "src/Mod/Fem/femtest/app/test_contact_state_catalogue.py": "98187b186a37be98a3d8da759dc76bdd0b146d057f9fe528159103fa21203196",
+      "src/Mod/Fem/femtest/app/test_staged_selfweight_native.py": "0970f0bf6186eb9ed5cb84a241f4771729796683221b47d47b98f19e3abb69d1",
+      "src/Mod/Fem/femtest/app/test_static_step_amplitude.py": "7cc25db22075a027c7e1a73b8f18c28e6c5aeccfd34a6c1274e331eac88be27d",
+      "src/Mod/Fem/femtools/contact_state.py": "7279e9fa8132484a53f150a96b3452ad3a8ca16740b554f8621071167f3ee77b",
+      "src/Mod/Fem/femtools/force_accounting.py": "64525df0d3e1282519973038937402b185b9fd2d2ca04cafb96bb5dd06efd325"
+    },
+    "current_native_binary_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+    "bundled_build_native_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+    "native_build_receipt_matches_final_C_and_patch_inputs": true,
+    "earlier_C_guard_scope": "Actual extracted original-zero-SPC/native-default admission predicate body remains byte-identical to final product; later unrelated fixture/test edits do not change that40-check C proof. No claim that every unrelated file pin in that earlier guard receipt equals final test source."
+  },
+  "quality_gates": {
+    "build-r05-frozen": {
+      "receipt_sha256": "9be209edd5eecca531a59bdf4f16f2b426f465378f0a1c17878d27fa88c1aef4",
+      "log_sha256": "8ce4b15b9ad47bcf469b81df9ecfb152020b3532b89e357126c4c02aceeba651",
+      "recorded_test_counts": null,
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "cold-r03": {
+      "receipt_sha256": "96005e0c3dfd67ab8b42c9007d4b004ee4bd5e9991f5ff71c021de5e0ecc9f71",
+      "log_sha256": "c7dd482efa2d00a52a241b6c781e467aad2133a3f6b4d23b71b7cedfac6a57b1",
+      "recorded_test_counts": [
+        "1"
+      ],
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "configure-r03": {
+      "receipt_sha256": "937c93748a8e6ea29b5efb99b0a49ad8c849370b08726968de59160528b456af",
+      "log_sha256": "f6f601a90941b588934b4ce055cbd3a79f0b6f804a91825603fffe777ecf3aa2",
+      "recorded_test_counts": null,
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "ctest-r01": {
+      "receipt_sha256": "6fa22339f9d4083472370edc07eb522d2c4780ecf2be61ba566af0368867cd4c",
+      "log_sha256": "72233a086d693b4317d0466b7c6efe6be94b4231e63c16f4eaa25fae9f52f1bc",
+      "recorded_test_counts": null,
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "fem-all-r01": {
+      "receipt_sha256": "236b43b0b9862e4e88e717489c6a45219f5adc93e82ff669c3500308e19263f5",
+      "log_sha256": "bf795e990ab39aff8c9becd9111dfbb350df6d8391696635945ef9ae7f23d1a7",
+      "recorded_test_counts": [
+        "481"
+      ],
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "guard-compile-r01": {
+      "receipt_sha256": "2d590cbc730615141ca11286156b98c54256003aaf455837965292e5fe01327f",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "recorded_test_counts": null,
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "guard-test-r01": {
+      "receipt_sha256": "69c77bcceb7f0db3220bda0212ea2cd1633ab154595ddf2d288a3b3e8e9e2e43",
+      "log_sha256": "50351c7af3da950c58a11d49ff2a830a316dec5f184bd1e1351230d1e55008e2",
+      "recorded_test_counts": null,
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "gui-r01": {
+      "receipt_sha256": "c0e8cf790b0c4219f115608094f4e40aa8a21fa180846c5685b5403efc9eeccf",
+      "log_sha256": "470eb5b0dd68713c63864f84798ecadc4581bb0c3bece9abdb22ddc4018d3fc1",
+      "recorded_test_counts": [
+        "1"
+      ],
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "mechanical-r01": {
+      "receipt_sha256": "0e2b859f31200a062698262b905e5a3b7ebeb366c12a3868be525119b4449b10",
+      "log_sha256": "5b4f8b7d929dae4cfbbb831d57c4d4865e8116b886d10a0c0086e8f6b7b7ff39",
+      "recorded_test_counts": [
+        "1"
+      ],
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "native-build-r03": {
+      "receipt_sha256": "8b89a1143cd4719fafdf32cd84803dea1a2e75bd15c8074e9a0aebf8dac5b12e",
+      "log_sha256": "9b4aac8c6d133b1bad1c609d07612aade6d554c04f614b378d2543b9ec7b73a3",
+      "recorded_test_counts": null,
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "native-r04": {
+      "receipt_sha256": "1f7fe61ee18539d02edd2fb8d8c489c7ee1f3bea209735cec4671a09a38cc65f",
+      "log_sha256": "f9209e5e4f105465e15e65126f0616d4443194d72230b50e7ada0212ce40e786",
+      "recorded_test_counts": [
+        "5"
+      ],
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    },
+    "unit-r02": {
+      "receipt_sha256": "7535c13ca092dab2b1ae8acd4b871c54132eb61b073dd7b5be8778cfd8ea29db",
+      "log_sha256": "e4f8f0c72ff522ddcfb2888892b46df4e03c6d68a1b3d08733438e755d5aeab1",
+      "recorded_test_counts": [
+        "16"
+      ],
+      "protected_maps_equal": true,
+      "child_reaped": true,
+      "timed_out": false,
+      "source_or_helper_inputs_unchanged": true
+    }
+  },
+  "counts_verified": {
+    "SPC_exact_product_predicate_C_checks": 40,
+    "ctest_catalogue": 2277,
+    "ctest_existing_disabled": 8,
+    "ctest_existing_skipped": 2,
+    "ctest_failed": 0,
+    "ctest_passed": 2267,
+    "dedicated_GUI": 1,
+    "dedicated_cold_latest": 1,
+    "dedicated_control_and_wire_tests": 16,
+    "dedicated_native_solve_endpoints": 15,
+    "dedicated_native_test_methods": 5,
+    "dedicated_tests_overlap_registered_suite": true,
+    "ordinary_mechanical_preservation": 1,
+    "registered_FEM_passed": 481,
+    "registered_FEM_skipped": 0
+  },
+  "equilibrium_review": {
+    "review_sha256": "1804f96f78c584b720e881aaa9752660c64c3e9e8e7ba4b41a18c924583eee70",
+    "all125_input_hashes_current_and_matching": true,
+    "dedicated_solve_endpoints": 15,
+    "physical_component_checks": 810,
+    "named_closure_component_checks": 360,
+    "scope": "Each current final state is a separate stock one-step solve replaying unchanged absolute-time Q history. Early CF force magnitude separately establishes heldG in fullhistory. Originalorigin moments come from native accounting, never deformed CF moment substitutes. No new simultaneous independent base-side CONTACT/BODY measurement is claimed."
+  },
+  "cold_review": {
+    "actual_saved_file_and_literal_hashes_verified": true,
+    "standalone_CompletedRun_retains_historical_saved_marker": true,
+    "Historical_or_Stale_status_remains_before_and_after_getter_refusal": true,
+    "Current_getter_refused": true,
+    "no_solve_save_repair_rebind": true,
+    "no_false_claim_of_new_process_ownership": true
+  },
+  "mechanical_review": {
+    "actual_raw_deck_FRD_DAT_stdout_stderr_hashes_verified": true,
+    "same_one_authored_mesh_and_same_executed_deck_except_stock_footer_time": true,
+    "actual_FRD_mesh_and_all40_dataset_data_records_byte_identical": true,
+    "actual_FRD_differences": "Only generation time and native compile time metadata headers differ. Root claims parsed all-frame U/S/E exact equality, not raw-file byte identity.",
+    "both_diagnostics_off": true,
+    "baseline_native_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+    "candidate_selection": "Ordinary isolated absolute ccxBinaryPath preference; dedicated native/GUI gates separately prove actual default bundled selection.",
+    "no_tolerance_fitted_to_results": true
+  },
+  "GUI_review": {
+    "retained_property_screenshot_visually_inspected": true,
+    "visible_native_Static_Step_Amplitude_value": "Step",
+    "actual_widget_activation_and_stock_Write_Run_routes_reviewed": true,
+    "actual_deck_hash_and_native_STATE_contact_frame_match": true,
+    "actual_state": {
+      "step": 1,
+      "increment": 4,
+      "time": 0.4
+    },
+    "normal_result_import_and_current_owned_observations": true
+  },
+  "report_accuracy": [
+    "Ramp default/legacy restore and finite tabular admission accurately described, including negative prehistory/D exponents/native padding.",
+    "Generated implicit STEP zero-SPC allowance remains narrow and explicituseramp/refvalue/helper/domain refusals are retained.",
+    "Perframe catalogues do not invent crossframe material-point identities; legacysharedinventory route remains strict.",
+    "Endpoint4nextafter bound retains actual native times;5neighbor/incompleteflag/5e-13 tests refuse and completed-child/custody checks remain unchanged.",
+    "481 FEM tests have no skips; CTest2277catalogue correctly comprises2267passed,2existing skips,8existing disabled,0failures.",
+    "Original failed/no-test/sourcechanged/cold-harness candidates remain explicit nonqualification; no saved verdict is relabelled.",
+    "No installation or original Oomakhi project/design/mesh-convergence/5percent sensitivity acceptance is claimed."
+  ],
+  "inputs_sha256": {
+    "/private/tmp/freecad-e4k-tsd27fAG/validation.json": "a6b4f81f8e9e026a89ef2e690d559debb9eefe2b90964ab94a9ba38ceaf2efe8",
+    "/private/tmp/freecad-e4k-tsd27fAG/write_validation.py": "d27cdeed46a7d24ed1a27a9250f32af2b8c107dcaee2106ac26641c9792a3910",
+    "/private/tmp/freecad-e4k-tsd27fAG/collect.py": "31afad61c5857011512981fbbc588e9a312e4368297425ce17e357de2a4235dd",
+    "/private/tmp/freecad-e4k-tsd27fAG/build-r05-frozen/execution.json": "9be209edd5eecca531a59bdf4f16f2b426f465378f0a1c17878d27fa88c1aef4",
+    "/private/tmp/freecad-e4k-tsd27fAG/build-r05-frozen/run.log": "8ce4b15b9ad47bcf469b81df9ecfb152020b3532b89e357126c4c02aceeba651",
+    "/private/tmp/freecad-e4k-tsd27fAG/cold-r03/execution.json": "96005e0c3dfd67ab8b42c9007d4b004ee4bd5e9991f5ff71c021de5e0ecc9f71",
+    "/private/tmp/freecad-e4k-tsd27fAG/cold-r03/run.log": "c7dd482efa2d00a52a241b6c781e467aad2133a3f6b4d23b71b7cedfac6a57b1",
+    "/private/tmp/freecad-e4k-tsd27fAG/configure-r03/execution.json": "937c93748a8e6ea29b5efb99b0a49ad8c849370b08726968de59160528b456af",
+    "/private/tmp/freecad-e4k-tsd27fAG/configure-r03/run.log": "f6f601a90941b588934b4ce055cbd3a79f0b6f804a91825603fffe777ecf3aa2",
+    "/private/tmp/freecad-e4k-tsd27fAG/ctest-r01/execution.json": "6fa22339f9d4083472370edc07eb522d2c4780ecf2be61ba566af0368867cd4c",
+    "/private/tmp/freecad-e4k-tsd27fAG/ctest-r01/run.log": "72233a086d693b4317d0466b7c6efe6be94b4231e63c16f4eaa25fae9f52f1bc",
+    "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/execution.json": "236b43b0b9862e4e88e717489c6a45219f5adc93e82ff669c3500308e19263f5",
+    "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/run.log": "bf795e990ab39aff8c9becd9111dfbb350df6d8391696635945ef9ae7f23d1a7",
+    "/private/tmp/freecad-e4k-tsd27fAG/guard-compile-r01/execution.json": "2d590cbc730615141ca11286156b98c54256003aaf455837965292e5fe01327f",
+    "/private/tmp/freecad-e4k-tsd27fAG/guard-compile-r01/run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/private/tmp/freecad-e4k-tsd27fAG/guard-test-r01/execution.json": "69c77bcceb7f0db3220bda0212ea2cd1633ab154595ddf2d288a3b3e8e9e2e43",
+    "/private/tmp/freecad-e4k-tsd27fAG/guard-test-r01/run.log": "50351c7af3da950c58a11d49ff2a830a316dec5f184bd1e1351230d1e55008e2",
+    "/private/tmp/freecad-e4k-tsd27fAG/gui-r01/execution.json": "c0e8cf790b0c4219f115608094f4e40aa8a21fa180846c5685b5403efc9eeccf",
+    "/private/tmp/freecad-e4k-tsd27fAG/gui-r01/run.log": "470eb5b0dd68713c63864f84798ecadc4581bb0c3bece9abdb22ddc4018d3fc1",
+    "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/execution.json": "0e2b859f31200a062698262b905e5a3b7ebeb366c12a3868be525119b4449b10",
+    "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/run.log": "5b4f8b7d929dae4cfbbb831d57c4d4865e8116b886d10a0c0086e8f6b7b7ff39",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-build-r03/execution.json": "8b89a1143cd4719fafdf32cd84803dea1a2e75bd15c8074e9a0aebf8dac5b12e",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-build-r03/run.log": "9b4aac8c6d133b1bad1c609d07612aade6d554c04f614b378d2543b9ec7b73a3",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/execution.json": "1f7fe61ee18539d02edd2fb8d8c489c7ee1f3bea209735cec4671a09a38cc65f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/run.log": "f9209e5e4f105465e15e65126f0616d4443194d72230b50e7ada0212ce40e786",
+    "/private/tmp/freecad-e4k-tsd27fAG/unit-r02/execution.json": "7535c13ca092dab2b1ae8acd4b871c54132eb61b073dd7b5be8778cfd8ea29db",
+    "/private/tmp/freecad-e4k-tsd27fAG/unit-r02/run.log": "e4f8f0c72ff522ddcfb2888892b46df4e03c6d68a1b3d08733438e755d5aeab1",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-build-r03/build/build-receipt.json": "03728a6e40effb41f3d31546e169bb1c86250e408a4ed69deaec2eb467592aec",
+    "/private/tmp/freecad-e4k-tsd27fAG/equilibrium-review-native-r04.json": "1804f96f78c584b720e881aaa9752660c64c3e9e8e7ba4b41a18c924583eee70",
+    "/private/tmp/freecad-e4k-tsd27fAG/cold-r03/cold.json": "e0f902f89878b7f549e61e96b8327a015038e2b6a600a33b4e7cb64e019eec34",
+    "/private/tmp/freecad-e4k-tsd27fAG/cold-plan.json": "41b4c0c00a8cc35637777f89cf6b0c4cc551bfe4e1f82f095df5207c6412b902",
+    "/private/tmp/freecad-e4k-tsd27fAG/ColdE4k.py": "8ef5e453151fe3c26eaeccae282af1c152a0b064fd5874c12a65f29d1947bf1d",
+    "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/mechanical-preservation.json": "80fa0ec45893f31c6b7bfdad9f211e6cc3f5d411a39cc753ea4a2f1e6c0abc3c",
+    "/private/tmp/freecad-e4k-tsd27fAG/MechanicalE4k.py": "fd8e75b7bea5d300022627cf8f4e307e116a0c5427d9165a94aa65b2a527d1b2",
+    "/private/tmp/freecad-e4k-tsd27fAG/gui-r01/gui-receipt.json": "b56b29900835e5e1139da7ed60052ef1ca216d4a2f251de270fc7c0909edcaa5",
+    "/private/tmp/freecad-e4k-tsd27fAG/GuiE4k.py": "f594d981b35388645fd9d9f7e505cab00b868f970beafac568105d40e4f46e56",
+    "/private/tmp/freecad-e4k-tsd27fAG/gui-r01/solver-property-editor-step.png": "df69f7fc2d943c2996d2c9a86a107b43e96d300605dc24558a8ba57c38ff7520",
+    "/private/tmp/freecad-e4k-tsd27fAG/attempt-classifications.json": "78e20e68c68e144034187e48fa46a1efa970148d565790dfacc9d15745ca9267",
+    "/private/tmp/freecad-e4k-tsd27fAG/cold-harness-classification.json": "2de0b81c7acea6e7d97bd84181b57e07eaf47367ff8a65ed6318d252daf6e598",
+    "/private/tmp/freecad-e4k-tsd27fAG/black-check.log": "239a82ccce9e178212fc176605827942879c76562cc7c567d6a6f2e02043a620",
+    "/private/tmp/freecad-e4k-tsd27fAG/ruff-check.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "product_or_helper_modified_by_reviewer": false,
+  "remaining_work": "Root collection, postcollection index/body audit, final version-control/bead completion workflow."
+}

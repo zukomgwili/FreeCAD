@@ -1,0 +1,18 @@
+{
+  "schema": "FreeCAD-e4k-static-review-supersession-v1",
+  "classification": "STATIC_AUDIT_SUPERSEDED_BY_NATIVE_RUNTIME_DISCOVERY",
+  "prior_reports": {
+    "accounting-static-review.json": {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/accounting-static-review.json",
+      "sha256": "00080efd9ae0180e56cd44850afae2004fca328ef29143931416798a92118f66",
+      "preserved_byte_identical": true
+    },
+    "product-static-review.json": {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/product-static-review.json",
+      "sha256": "6d60556820f40bf54999d3f35d571d5de8271fbc840818d2c30f8b3d4575e7ab",
+      "preserved_byte_identical": true
+    }
+  },
+  "reason": "Native-r01 actual root-run fixture failed before all13 solves because ordinary Fixed zero SPCs acquire the automatic STEP default amplitude identity in native CalculiX input. Earlier static accounting audit missed this native default representation. Its conclusion that no accounting source change was required is superseded; the native-r01 failures remain failures. Product3file mode/writer compatibility findings remain applicable but did not cover this later native integration patch.",
+  "required_integration": "Actual steps.f generatedidentity capture plus explicit boundary parameter taint; validate exact native name/table/ownstep metadata and finitezero original SPC. No mechanicalarray writes or relaxation of explicituseramplitudes. New root fullnative build and native positives/rejections required."
+}

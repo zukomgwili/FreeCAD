@@ -52,6 +52,15 @@ def write_step_equation(f, ccxwriter):
         if ccxwriter.analysis_type in ["static", "thermomech", "electromagnetic"]:
             step += f", INC={ccxwriter.solver_obj.IncrementsMaximum}"
 
+    # Missing controls in older documents retain the native ramp default.
+    amplitude = getattr(ccxwriter.solver_obj, "StaticStepAmplitude", "Ramp")
+    if amplitude not in ("Ramp", "Step"):
+        raise ValueError("StaticStepAmplitude must be Ramp or Step.")
+    if amplitude == "Step":
+        if ccxwriter.analysis_type != "static":
+            raise ValueError("StaticStepAmplitude=Step requires a static analysis.")
+        step += ", AMPLITUDE=STEP"
+
     # write STEP line
     f.write(step + "\n")
 

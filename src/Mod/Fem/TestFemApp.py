@@ -78,6 +78,9 @@ from femtest.app.test_beam_contact_rejections import TestBeamContactRejections a
 from femtest.app.test_beam_network_native import TestBeamNetworkNative as FemTest52
 from femtest.app.test_beam_network_integrity import TestBeamNetworkIntegrity as FemTest53
 from femtest.app.test_beam_network_fork import TestBeamNetworkFork as FemTest54
+from femtest.app.test_static_step_amplitude import TestStaticStepAmplitude as FemTest55
+from femtest.app.test_staged_selfweight_native import TestStagedSelfweightNative as FemTest56
+from femtest.app.test_contact_state_catalogue import TestContactStateCatalogue as FemTest57
 from femtest.app.test_reference_groups import TestReferenceGroups as FemTest24
 from femtest.app.test_constraint_links import TestConstraintLinks as FemTest25
 from femtest.app.test_bearing_location import TestBearingLocation as FemTest26
@@ -136,3 +139,6 @@ False if FemTest51.__name__ else True
 False if FemTest52.__name__ else True
 False if FemTest53.__name__ else True
 False if FemTest54.__name__ else True
+False if FemTest55.__name__ else True
+False if FemTest56.__name__ else True
+False if FemTest57.__name__ else True

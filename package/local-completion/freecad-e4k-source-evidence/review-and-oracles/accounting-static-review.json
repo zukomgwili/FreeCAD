@@ -1,0 +1,43 @@
+{
+  "schema": "FreeCAD-e4k-accounting-static-review-v1",
+  "scope": "Static source audit only. No native program execution or source edits by this reviewer.",
+  "chosen_runtime_scope": "Separate ordinary stock runs from zero to each requested physical endpoint, with the same unmodified Q amplitude time rows and StaticStepAmplitude=Step. Every run is one supported static step. Native force accounting remains a final-state observation, not a retained multiframe API.",
+  "verdict": "No additional accounting or solver mechanics source change required for the chosen scope; runtime analytical verification remains required.",
+  "native_load_path": [
+    "nonlingeo.c calls tempload with xforcact/xloadact/xbodyact, then passes those actual current quantities to mafillsmmain.",
+    "hooks.patch resets fa.loads/fa.points on each actual RHS assembly; fa_elementload captures the already-calculated real density and pressure integration vector ff after e_c3d; fa_pointloads receives current xforcact.",
+    "fa_emit forms physical support residual fn-external and actual per-body LOAD/CONTACT/MPC channels about original reference positions. No Python force or stress recovery occurs."
+  ],
+  "state_limits": [
+    "forceaccounting.c fa_emit opens the one .accounting.out with mode w on every output: earlier states are overwritten.",
+    "force_accounting.parse_output admits only one STATE with step=1, positive increment, and actual time matching requested end_time.",
+    "The parser validates but discards the actual increment number. AccountingData retains requested end_time and output hash. Qualification must preserve raw STATE and compare against the paired final ContactData frame; no multiframe accounting claim.",
+    "Every prefix run must retain physical-time amplitude rows unchanged; renormalizing Q rows to each shorter TimePeriod would test different histories."
+  ],
+  "freshness": [
+    "_model_digest visits every physical analysis object/property, excluding outputs and documented transient worker controllers. New StaticStepAmplitude, Q EnableAmplitude and AmplitudeValues, gravity acceleration/direction and material density/references therefore participate automatically.",
+    "Native material properties are fingerprinted by typed value, including density and units.",
+    "write_inp_file invalidates prior accounting before any rewrite. ccx_run invalidates before a new attempt. run_context verifies model/deck/request custody before launch; import_result repeats it after solve and verifies actual executable hash and completed capacity receipt.",
+    "ContactState uses the same physical digest and its own owned immutable child request/output. Getter revalidates physical model and file custody. Physical edits withdraw current availability.",
+    "Accounting cold restore marks literals stale; ContactState restore marks literals historical. No promotion onto a fresh solve is implied.",
+    "movement_source binds actual completed-run FRD bytes, not reconstructed or scaled forces. Contact observation source verifies actual FRD end state against requested end_time."
+  ],
+  "recommended_runtime_checks": [
+    "For each prefix endpoint, compare raw accounting STATE step/increment/time against paired ContactState final frame and requested endpoint.",
+    "Use independent density*volume*acceleration gravity and signed Q values to test LOAD, CUT, CONTACT and SUPPORT/global balances, including nonzero original-origin moments within frozen 1% budgets.",
+    "Independently mutate StaticStepAmplitude, Q EnableAmplitude, Q AmplitudeValues, gravity direction/acceleration, material density and physical ownership after export and after a Current import. Require refusal/withdrawal with historical literals preserved.",
+    "Verify ordinary Ramp default deck unchanged, restored legacy solver selects Ramp, malformed/missing amplitude inputs cannot establish new Current data, and cold native save/restore preserves units/material ownership and literal control rows."
+  ],
+  "source_locators": [
+    "package/calculix/force-accounting/hooks.patch",
+    "package/calculix/force-accounting/forceaccounting.c:1130-1175",
+    "package/calculix/force-accounting/forceaccounting.c:1364-1547",
+    "src/Mod/Fem/femtools/force_accounting.py:532-581",
+    "src/Mod/Fem/femtools/force_accounting.py:848-1020",
+    "src/Mod/Fem/femtools/contact_state.py:274-299",
+    "src/Mod/Fem/femtools/contact_state.py:438-456",
+    "src/Mod/Fem/femtools/contact_state.py:688-762",
+    "src/Mod/Fem/femresult/contact_observation_source.py:148-212"
+  ],
+  "engineering_limits": "No Oomakhi opening, model alteration, remesh, solve, 5% sensitivity completion or engineering acceptance. Friction qualification scope follows the independently frozen analytical fixture."
+}

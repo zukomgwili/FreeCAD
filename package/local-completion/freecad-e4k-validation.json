@@ -1,0 +1,238 @@
+{
+  "evidence": {
+    "detailed_validation": {
+      "path": "package/local-completion/freecad-e4k-source-evidence/validation-input.json",
+      "sha256": "7556023e42b15ac64f9479f8b5085d662c44f640fb6496f9ba631970c5d08ade"
+    },
+    "excluded_bodies": "CAD documents, native executables, object/cache/environment/profile files and the full manual are not published. Omitted bulk output has explicit hash-only records.",
+    "failed_and_superseded_attempts": "Original receipts and verdicts retained; only the designated final gates qualify completion. See collection.json and classification records.",
+    "failed_collection_attempt_log": "collection-attempt-r01.log is retained unchanged privately and hash-only in the public collection; the public classification is retained. Its raw log body is not claimed as indexed.",
+    "historical_exact_named_input_bodies_unavailable": 15,
+    "indexed_artifacts_excluding_index": 1450,
+    "indexed_bytes_excluding_index": 268716136,
+    "sealed_artifact_index": {
+      "path": "package/local-completion/freecad-e4k-source-evidence/artifact-index.json",
+      "sha256": "d55532dd6057e10f1ec32058afc18b89fb8af6a34609cb5285b31a2c60710e23"
+    }
+  },
+  "feature": {
+    "control": "Saved solver StaticStepAmplitude = Ramp or Step, TimeIncrement property group",
+    "default": "Ramp preserves the existing stock STEP/DLOAD behavior, excluding only independently generated footer wall-clock metadata in comparisons.",
+    "legacy_restore": "Missing saved control gains Ramp; saved Step, units, materials, references and full Q history preserved.",
+    "route": "Native density-based volumetric GRAV is full from first converged increment and held; explicit existing force/pressure amplitudes independently delay and reverse Q in one supported static step.",
+    "validation": "Finite strictly increasing authored amplitude pairs; valid signed factors, negative prehistory, D exponents and trailing padding preserved; missing/malformed/nonfinite and duplicate/decreasing times refused before definitions."
+  },
+  "final_quality_gates": {
+    "build-r05-frozen": {
+      "elapsed_seconds": 263.7505835830234,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/build-r05-frozen/execution.json",
+      "execution_sha256": "9be209edd5eecca531a59bdf4f16f2b426f465378f0a1c17878d27fa88c1aef4",
+      "log_sha256": "8ce4b15b9ad47bcf469b81df9ecfb152020b3532b89e357126c4c02aceeba651",
+      "passed": true,
+      "test_counts": null
+    },
+    "cold-r04": {
+      "elapsed_seconds": 2.034810999990441,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/cold-r04/execution.json",
+      "execution_sha256": "86592938d140a6f916a641e70b18f0956f1022ee5a8a9cb69f958196e2f50c5f",
+      "log_sha256": "4674876f4bae94ee284ffe4f54fa223ef81f480d767b4d728077a714beba8f3d",
+      "passed": true,
+      "test_counts": [
+        "1"
+      ]
+    },
+    "configure-r03": {
+      "elapsed_seconds": 10.865341541939415,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/configure-r03/execution.json",
+      "execution_sha256": "937c93748a8e6ea29b5efb99b0a49ad8c849370b08726968de59160528b456af",
+      "log_sha256": "f6f601a90941b588934b4ce055cbd3a79f0b6f804a91825603fffe777ecf3aa2",
+      "passed": true,
+      "test_counts": null
+    },
+    "ctest-r01": {
+      "elapsed_seconds": 296.6124577500159,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/ctest-r01/execution.json",
+      "execution_sha256": "6fa22339f9d4083472370edc07eb522d2c4780ecf2be61ba566af0368867cd4c",
+      "log_sha256": "72233a086d693b4317d0466b7c6efe6be94b4231e63c16f4eaa25fae9f52f1bc",
+      "passed": true,
+      "test_counts": null
+    },
+    "fem-all-r01": {
+      "elapsed_seconds": 216.99980099999812,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/fem-all-r01/execution.json",
+      "execution_sha256": "236b43b0b9862e4e88e717489c6a45219f5adc93e82ff669c3500308e19263f5",
+      "log_sha256": "bf795e990ab39aff8c9becd9111dfbb350df6d8391696635945ef9ae7f23d1a7",
+      "passed": true,
+      "test_counts": [
+        "481"
+      ]
+    },
+    "guard-compile-r01": {
+      "elapsed_seconds": 0.2382634999230504,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/guard-compile-r01/execution.json",
+      "execution_sha256": "2d590cbc730615141ca11286156b98c54256003aaf455837965292e5fe01327f",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true,
+      "test_counts": null
+    },
+    "guard-test-r01": {
+      "elapsed_seconds": 0.1499660830013454,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/guard-test-r01/execution.json",
+      "execution_sha256": "69c77bcceb7f0db3220bda0212ea2cd1633ab154595ddf2d288a3b3e8e9e2e43",
+      "log_sha256": "50351c7af3da950c58a11d49ff2a830a316dec5f184bd1e1351230d1e55008e2",
+      "passed": true,
+      "test_counts": null
+    },
+    "gui-r01": {
+      "elapsed_seconds": 14.918687375029549,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/gui-r01/execution.json",
+      "execution_sha256": "c0e8cf790b0c4219f115608094f4e40aa8a21fa180846c5685b5403efc9eeccf",
+      "log_sha256": "470eb5b0dd68713c63864f84798ecadc4581bb0c3bece9abdb22ddc4018d3fc1",
+      "passed": true,
+      "test_counts": [
+        "1"
+      ]
+    },
+    "mechanical-r01": {
+      "elapsed_seconds": 5.963808833970688,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/execution.json",
+      "execution_sha256": "0e2b859f31200a062698262b905e5a3b7ebeb366c12a3868be525119b4449b10",
+      "log_sha256": "5b4f8b7d929dae4cfbbb831d57c4d4865e8116b886d10a0c0086e8f6b7b7ff39",
+      "passed": true,
+      "test_counts": [
+        "1"
+      ]
+    },
+    "native-build-r03": {
+      "elapsed_seconds": 43.23773475002963,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/native-build-r03/execution.json",
+      "execution_sha256": "8b89a1143cd4719fafdf32cd84803dea1a2e75bd15c8074e9a0aebf8dac5b12e",
+      "log_sha256": "9b4aac8c6d133b1bad1c609d07612aade6d554c04f614b378d2543b9ec7b73a3",
+      "passed": true,
+      "test_counts": null
+    },
+    "native-r05": {
+      "elapsed_seconds": 107.80279170908034,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/native-r05/execution.json",
+      "execution_sha256": "9a1864c6bc01c2359cd9a98eaf8bf2cbd60a8592aa82e8eaa0297d894ee80570",
+      "log_sha256": "e338311a90efe9f98dc0e26594e37f5db3a71b49122229bf5b0c1fda1a57a0a3",
+      "passed": true,
+      "test_counts": [
+        "5"
+      ]
+    },
+    "unit-r02": {
+      "elapsed_seconds": 10.37281041604001,
+      "execution": "/private/tmp/freecad-e4k-tsd27fAG/unit-r02/execution.json",
+      "execution_sha256": "7535c13ca092dab2b1ae8acd4b871c54132eb61b073dd7b5be8778cfd8ea29db",
+      "log_sha256": "e4f8f0c72ff522ddcfb2888892b46df4e03c6d68a1b3d08733438e755d5aeab1",
+      "passed": true,
+      "test_counts": [
+        "16"
+      ]
+    }
+  },
+  "independent_equilibrium": {
+    "actual_lower_contact_role_counts": {
+      "master": 1,
+      "slave": 14
+    },
+    "current_accounting_and_contact_share_actual_child_and_STATE": true,
+    "early_full_run_native_CF_distinguishes_Step_from_Ramp": true,
+    "maximum_nonzero_relative_error": 4.452379424244562e-08,
+    "named_closure_component_checks": 360,
+    "native_solve_receipts": 15,
+    "nonzero_relative_limit": 0.01,
+    "physical_component_checks": 810,
+    "primary_native_run": "native-r05",
+    "runtime_module_origins_explicitly_verified": true,
+    "saved_cold_reopen": "cold-r04 preserves authored controls and historical literals; Current is refused without successful child ownership. Historical standalone CompletedRun is not rewritten.",
+    "zero_force_absolute_N": 1e-06,
+    "zero_moment_absolute_Nmm": 0.0001
+  },
+  "installation_performed": false,
+  "issue": "FreeCAD-e4k",
+  "limits_and_scope": [
+    "One small-displacement static step; no multistep accounting or intermediate-frame accounting selector added.",
+    "Normal-source compression with actual native STICK; no new sliding/separation/general tangential-law qualification.",
+    "Software output qualification does not establish stress accuracy, generic mesh convergence, anchorage, strength or building acceptance.",
+    "Original Oomakhi not opened, edited, remeshed or solved; original1% equilibrium and separate5% sensitivity duties remain unchanged.",
+    "The application in /Applications is not replaced by this source task; deployment requires its own build/install step."
+  ],
+  "native_solver_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+  "ordinary_mechanics_control": {
+    "backend_selection": "Existing ordinary Ccx preference in isolated profile; separate native and GUI gates exercise actual default bundled selection.",
+    "baseline_native_sha256": "b6a356e8635a35cef2621db7bd80145566dc1f671683edb405ab927cb415b353",
+    "both_diagnostics_off": true,
+    "deck_exclusion": "Only exact stock written-on footer comment; executed raw decks remain untouched.",
+    "parsed_all_frame_U_S_E_exactly_equal": true,
+    "report": "/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/mechanical-preservation.json",
+    "report_sha256": "80fa0ec45893f31c6b7bfdad9f211e6cc3f5d411a39cc753ea4a2f1e6c0abc3c",
+    "same_one_authored_mesh": true
+  },
+  "original_oomakhi_acceptance_limits_changed": false,
+  "original_oomakhi_opened_edited_meshed_or_solved": false,
+  "originating_sensitivity_duty_discharged": false,
+  "passed": true,
+  "peer_postcollection_review": {
+    "copied_verbatim": true,
+    "path": "package/local-completion/freecad-e4k-review.json",
+    "sealed_target_unchanged": true,
+    "sha256": "0f98dba20031059c8ba09ef66c5213fec5e55be0efdcbcc31c490bf69b9783a5",
+    "status": "CLEAR"
+  },
+  "quality_gate_counts": {
+    "SPC_exact_product_predicate_C_checks": 40,
+    "ctest_catalogue": 2277,
+    "ctest_existing_disabled": 8,
+    "ctest_existing_skipped": 2,
+    "ctest_failed": 0,
+    "ctest_passed": 2267,
+    "dedicated_GUI": 1,
+    "dedicated_cold_latest": 1,
+    "dedicated_control_and_wire_tests": 16,
+    "dedicated_native_solve_endpoints": 15,
+    "dedicated_native_test_methods": 5,
+    "dedicated_tests_overlap_registered_suite": true,
+    "ordinary_mechanical_preservation": 1,
+    "registered_FEM_passed": 481,
+    "registered_FEM_skipped": 0
+  },
+  "schema": "FreeCAD-e4k-completion-summary-v1",
+  "scope": "Source/application-build software qualification; not application installation or Oomakhi design acceptance.",
+  "source_base_commit": "01660c3c0a15f30d3f9f8918ebaacac55525e82f",
+  "source_files_sha256": {
+    "package/calculix/force-accounting/beamsection.c": "07f26b04523fc1eacb9904a0d22cb4bafbf00beb428bc21450ae66321b90b636",
+    "package/calculix/force-accounting/beamsection.patch": "1f2c2f2f5b50b7acc3c5a0b878fafa3f23a744e00e30bd4eebd9fd9968c20a71",
+    "package/calculix/force-accounting/contactstate.c": "0865934416eca80f51c74441898dfc8537d80775ba98d89482092b87c8daf471",
+    "package/calculix/force-accounting/contract.json": "a4ffa0a65ca1dfeace930b1c6be7beed7ab6c41dea79bb4935458d691bd4a395",
+    "package/calculix/force-accounting/forceaccounting.c": "85690f1744ec4a2e9d0ff8483618373e3c85d7a49487c9f7a10f2265ffc6e728",
+    "package/calculix/force-accounting/hooks.patch": "ef85a510a2ce80dd981300af31da91dd0ec8fc1fd0c368bb71aabe3071b9cb49",
+    "package/local-completion/freecad-e4k-oracles.md": "00bfefa040bdaa4400135b133e32f502e6863f1194c3cde36d2e317419912b99",
+    "package/local-completion/freecad-e4k-usage.md": "882a53267152981ce253e8c5b9e805b1c5d92cdb6611c4ba4a75d134139c41f3",
+    "src/Mod/Fem/CMakeLists.txt": "96b015a5a824426a4ce5b77951d41b674cb67c6eea2941a25702fe5afed69a5d",
+    "src/Mod/Fem/TestFemApp.py": "781fa097184dc0f94b8c2b58d05d928490bfb77154cf3a82983baac7331406e1",
+    "src/Mod/Fem/femobjects/solver_calculix.py": "696a5e128f29b4c3544789558d7440f85c549a9f0381754a3c1191998cdde65d",
+    "src/Mod/Fem/femsolver/calculix/write_amplitude.py": "96456a839b27b2e9dddebb14f09b31a459386351f336ad0a489a1413eea3a2e0",
+    "src/Mod/Fem/femsolver/calculix/write_constraint_selfweight.py": "77d0e8c950b5c86b403b7f0ecec0915cf51de91c5d9ab92b18bace93565f4af7",
+    "src/Mod/Fem/femsolver/calculix/write_step_equation.py": "2df248d0d11c5c8c07ac93fc29a8a5dcdd392c908b7f0eb865daca8ec6f6b4c8",
+    "src/Mod/Fem/femtest/app/test_contact_state_catalogue.py": "98187b186a37be98a3d8da759dc76bdd0b146d057f9fe528159103fa21203196",
+    "src/Mod/Fem/femtest/app/test_staged_selfweight_native.py": "0970f0bf6186eb9ed5cb84a241f4771729796683221b47d47b98f19e3abb69d1",
+    "src/Mod/Fem/femtest/app/test_static_step_amplitude.py": "7cc25db22075a027c7e1a73b8f18c28e6c5aeccfd34a6c1274e331eac88be27d",
+    "src/Mod/Fem/femtools/contact_state.py": "7279e9fa8132484a53f150a96b3452ad3a8ca16740b554f8621071167f3ee77b",
+    "src/Mod/Fem/femtools/force_accounting.py": "64525df0d3e1282519973038937402b185b9fd2d2ca04cafb96bb5dd06efd325"
+  },
+  "static_checks": {
+    "black_26_5_1_line100": {
+      "log_sha256": "239a82ccce9e178212fc176605827942879c76562cc7c567d6a6f2e02043a620",
+      "passed": true
+    },
+    "git_diff_check": {
+      "passed": true
+    },
+    "ruff_F401_F841_E9": {
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "passed": true
+    }
+  }
+}

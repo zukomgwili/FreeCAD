@@ -676,8 +676,68 @@ static void validate_composition(void)
         }
     }
 }
+/* Diagnostic input provenance for CalculiX's own *STEP default. The source
+ * callbacks identify the table that steps.f synthesized, not a user table
+ * with a similar name. Explicitly naming that generated table on any boundary
+ * conservatively withdraws this exception. Mechanical arrays are untouched.
+ */
+static struct
+{
+    ITG generated;
+    int explicitly_selected;
+} step_default;
+void FORTRAN(fa_generated_step, (ITG * amplitude))
+{
+    if (getenv("CCX_FORCE_ACCOUNTING_REQUEST")) {
+        step_default.generated = *amplitude;
+        step_default.explicitly_selected = 0;
+    }
+}
+void FORTRAN(fa_explicit_amplitude, (ITG * amplitude))
+{
+    if (getenv("CCX_FORCE_ACCOUNTING_REQUEST") && *amplitude == step_default.generated) {
+        step_default.explicitly_selected = 1;
+    }
+}
+static ITG native_step_amplitude(
+    ITG count, ITG points, const char* names, const ITG* tables, const double* values
+)
+{
+    ITG amplitude = step_default.generated, first;
+    size_t row, index;
+    if (amplitude < 1 || amplitude > count || points < 2 || !names || !tables || !values ||
+        step_default.explicitly_selected) {
+        return 0;
+    }
+    row = (size_t)amplitude - 1;
+    if (memcmp(&names[80 * row], "STEP12357111317", 15)) {
+        return 0;
+    }
+    for (index = 15; index < 80; index++) {
+        if (names[80 * row + index] != ' ') {
+            return 0;
+        }
+    }
+    first = tables[3 * row];
+    if (first < 1 || first > points - 1 || tables[3 * row + 1] != first + 1 ||
+        tables[3 * row + 2] != amplitude) {
+        return 0;
+    }
+    index = 2 * ((size_t)first - 1);
+    if (values[index] != 0. || values[index + 1] != 1. || values[index + 2] != 1.e20 ||
+        values[index + 3] != 1.) {
+        return 0;
+    }
+    return amplitude;
+}
+static int original_zero_spc(double value, ITG amplitude, char type, ITG generated_step)
+{
+    return isfinite(value) && value == 0. && type != 'R' &&
+        (amplitude == 0 || (generated_step > 0 && amplitude == generated_step));
+}
 static void validate_spc_supports(
-    ITG nboun, ITG* nodes, ITG* directions, double* values, ITG* amplitudes, char* types
+    ITG nboun, ITG* nodes, ITG* directions, double* values, ITG* amplitudes, char* types,
+    ITG generated_step
 )
 {
     int i, j;
@@ -700,8 +760,8 @@ static void validate_spc_supports(
             *state |= SPC_REPEATED;
         }
         *state |= SPC_PRESENT;
-        if (!isfinite(values[boundary]) || values[boundary] != 0. ||
-            (amplitudes && amplitudes[boundary]) || types[boundary] == 'R') {
+        if (!original_zero_spc(values[boundary], amplitudes ? amplitudes[boundary] : 0,
+                               types[boundary], generated_step)) {
             *state |= SPC_INVALID;
         }
     }
@@ -732,7 +792,7 @@ static void validate_spc_supports(
             selected[node - 1] |= bit;
             state = &states[3 * (size_t)(node - 1) + direction - 1];
             if (*state & SPC_INVALID) {
-                fail("SPC support must be an original zero boundary without amplitude or RBE helper type");
+                fail("SPC support must be an original zero boundary without explicit amplitude or RBE helper type");
             }
             if (!(*state & SPC_PRESENT) || (*state & SPC_REPEATED)) {
                 fail("SPC support degree of freedom is missing or ambiguous in native boundaries");
@@ -791,7 +851,12 @@ void fa_prepare(
     ITG nmpc,
     ITG* ipompc,
     ITG* nodempc,
-    ITG mpc_capacity
+    ITG mpc_capacity,
+    ITG nam,
+    ITG namtot,
+    char* amname,
+    ITG* namta,
+    double* amta
 )
 {
     const char* path = getenv("CCX_FORCE_ACCOUNTING_REQUEST");
@@ -1067,7 +1132,8 @@ void fa_prepare(
     qsort(fa.faces, fa.nfaces, sizeof(Face), face_compare);
     if (fa.version == 3) {
         validate_composition();
-        validate_spc_supports(nboun, nodeboun, ndirboun, xboun, iamboun, typeboun);
+        validate_spc_supports(nboun, nodeboun, ndirboun, xboun, iamboun, typeboun,
+                              native_step_amplitude(nam, namtot, amname, namta, amta));
     }
     for (i = 0; i < fa.nb; i++) {
         Body* b = &fa.bodies[i];

@@ -1,0 +1,70 @@
+{
+  "schema": "FreeCAD-8rk-isolated-native-gate-v1",
+  "mode": "configure",
+  "command": [
+    "pixi",
+    "run",
+    "--frozen",
+    "cmake",
+    "-S",
+    "/Users/zukomgwili/src/FreeCAD",
+    "-B",
+    "/Users/zukomgwili/src/FreeCAD/build/release",
+    "-DFREECAD_NATIVE_CCX_ACCOUNTING=/Users/zukomgwili/src/FreeCAD/build/native-solvers/staged-selfweight-528866104f8b/ccx-force-accounting"
+  ],
+  "source_inputs_before": {
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/run_gate.py": "556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "/Users/zukomgwili/src/FreeCAD/pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "/Users/zukomgwili/src/FreeCAD/pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femobjects/solver_calculix.py": "696a5e128f29b4c3544789558d7440f85c549a9f0381754a3c1191998cdde65d",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_step_equation.py": "2df248d0d11c5c8c07ac93fc29a8a5dcdd392c908b7f0eb865daca8ec6f6b4c8",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_amplitude.py": "96456a839b27b2e9dddebb14f09b31a459386351f336ad0a489a1413eea3a2e0",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py": "da5c4ef2e7ddb602bb7b29491f221b3d3e3d8381dff4aea10e29b4c0692748d5",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_staged_selfweight_native.py": "e6cd96092fa8a2ecdc06062778facbb5b4c2ea597cb55747e2cd2ec4ee44e348",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "85690f1744ec4a2e9d0ff8483618373e3c85d7a49487c9f7a10f2265ffc6e728",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "ef85a510a2ce80dd981300af31da91dd0ec8fc1fd0c368bb71aabe3071b9cb49",
+    "/private/tmp/freecad-e4k-tsd27fAG/build.py": "98e3a5178ad2d58146b994b7771146a13dff19a744a21547f3dccb06869ae13d",
+    "/private/tmp/freecad-e4k-tsd27fAG/candidate-binary.json": "821e960f96ba79cd8bb4a3b5ad65299a3fd8f5e26ebd363794d5a7ee71a6debc"
+  },
+  "source_commit": "01660c3c0a15f30d3f9f8918ebaacac55525e82f",
+  "isolated_temporary_directory": "/private/tmp/freecad-e4k-tsd27fAG/configure-r01/dotted.parent",
+  "dot_free_substitution": false,
+  "installation_performed": false,
+  "returncode": 0,
+  "timed_out": false,
+  "child_reaped": true,
+  "process_group_gone": true,
+  "elapsed_seconds": 11.095992167014629,
+  "source_inputs_after": {
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-8rk-installation-evidence/run_gate.py": "556371fd97edc9a393fed04427f670e3c4fb8ddf8c632d2ec0479152a6cdee9e",
+    "/Users/zukomgwili/src/FreeCAD/package/local-completion/freecad-ywu-installation-evidence/private/stage_install.py": "cca627502a56b6c9b4aefa4a970172c51e42e2dde834000decca65fd44ab46d9",
+    "/Users/zukomgwili/src/FreeCAD/pixi.toml": "119ea10b858e6926f16a014b3245b3f301a3624500bf6b5b8c6c98010c55352b",
+    "/Users/zukomgwili/src/FreeCAD/pixi.lock": "730693309df0ef3afd2c35ea7becf1dc4cd097bfd4b287a459449ca1a1b81ad7",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femobjects/solver_calculix.py": "696a5e128f29b4c3544789558d7440f85c549a9f0381754a3c1191998cdde65d",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_step_equation.py": "2df248d0d11c5c8c07ac93fc29a8a5dcdd392c908b7f0eb865daca8ec6f6b4c8",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femsolver/calculix/write_amplitude.py": "96456a839b27b2e9dddebb14f09b31a459386351f336ad0a489a1413eea3a2e0",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_static_step_amplitude.py": "da5c4ef2e7ddb602bb7b29491f221b3d3e3d8381dff4aea10e29b4c0692748d5",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_staged_selfweight_native.py": "e6cd96092fa8a2ecdc06062778facbb5b4c2ea597cb55747e2cd2ec4ee44e348",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "85690f1744ec4a2e9d0ff8483618373e3c85d7a49487c9f7a10f2265ffc6e728",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "ef85a510a2ce80dd981300af31da91dd0ec8fc1fd0c368bb71aabe3071b9cb49",
+    "/private/tmp/freecad-e4k-tsd27fAG/build.py": "98e3a5178ad2d58146b994b7771146a13dff19a744a21547f3dccb06869ae13d",
+    "/private/tmp/freecad-e4k-tsd27fAG/candidate-binary.json": "821e960f96ba79cd8bb4a3b5ad65299a3fd8f5e26ebd363794d5a7ee71a6debc"
+  },
+  "source_and_supervisor_unchanged": true,
+  "protected_before": {
+    "/Applications/FreeCAD-27.1.0.app": "ba17d55e5bdebb701fbf68be2963dcb75e8d765f354f98c2551f44ef9054ecfb",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "0c08ebce0e22ce44e3466de94bc88c5156c9e85ea9bcc6a8f10838e9e1cf672c",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "14b69b348890b3d4adbd919eca2a2c05d11f454e4a9dec548382011b9c542637",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "protected_after": {
+    "/Applications/FreeCAD-27.1.0.app": "ba17d55e5bdebb701fbf68be2963dcb75e8d765f354f98c2551f44ef9054ecfb",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD": "0c08ebce0e22ce44e3466de94bc88c5156c9e85ea9bcc6a8f10838e9e1cf672c",
+    "/Users/zukomgwili/Library/Application Support/FreeCAD Local": "14b69b348890b3d4adbd919eca2a2c05d11f454e4a9dec548382011b9c542637",
+    "/Users/zukomgwili/Library/Preferences/FreeCAD": "56950edd3bc71ef927aee673844871093dbd12808403de2f6fa2ca183279a85f"
+  },
+  "app_and_three_profiles_unchanged": true,
+  "log_sha256": "739eb13ba3369d089cbb8559987816193cb1cb0aaa196979259746eed398a61a",
+  "passed": true
+}

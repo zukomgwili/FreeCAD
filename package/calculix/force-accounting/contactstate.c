@@ -23,16 +23,17 @@ typedef struct
 
 typedef struct
 {
-    ITG step, increment;
-    double time;
-    size_t count;
-    CSSample* samples;
-} CSFrame;
+    ITG pair, element, face, points;
+} CSFace;
 
 typedef struct
 {
-    ITG pair, element, face, points;
-} CSFace;
+    ITG step, increment;
+    double time;
+    size_t count, face_count;
+    CSSample* samples;
+    CSFace* faces;
+} CSFrame;
 
 static struct
 {
@@ -40,12 +41,11 @@ static struct
     char* path;
     char request[33];
     ITG nk, ne, ntie;
-    size_t pair_count, point_count, frame_count, inventory_count, face_count;
+    size_t pair_count, point_count, frame_count, face_count;
     double end_time;
     double* original_co;
     CSPair* pairs;
     CSSample* points;
-    CSSample* inventory;
     CSFace* faces;
     CSFrame* frames;
 } cs;
@@ -434,14 +434,17 @@ void cs_begin_results(ITG iout, ITG nk, ITG ne, ITG mt, double* co, double* v,
                 cs.faces[face_index].pair = p + 1;
                 cs.faces[face_index].element = encoded / 10;
                 cs.faces[face_index].face = encoded % 10;
-                cs.faces[face_index].points = last - first;
             }
             else if (cs.faces[face_index].pair != (ITG)p + 1 ||
                      cs.faces[face_index].element != encoded / 10 ||
-                     cs.faces[face_index].face != encoded % 10 ||
-                     cs.faces[face_index].points != last - first) {
-                cs_fail("selected native sample label/count inventory changed between retained frames");
+                     cs.faces[face_index].face != encoded % 10) {
+                cs_fail("selected native contact face ownership changed between retained frames");
             }
+            /* Native quadrature regeneration may change point counts and raw
+             * labels. They identify only this retained frame, not a history
+             * trajectory. The declared pair and slave face owners stay fixed.
+             */
+            cs.faces[face_index].points = last - first;
             face_index++;
             for (point = first; point < last; point++) {
                 sample = &cs.points[point];
@@ -635,6 +638,44 @@ static void cs_vector(FILE* f, const double* vector, int available, ITG count)
     fputc(']', f);
 }
 
+static void cs_catalogue(FILE* f, const CSFrame* frame)
+{
+    size_t i;
+    fputs("\"face_inventory\":[", f);
+    for (i = 0; i < frame->face_count; i++) {
+        const CSFace* face = &frame->faces[i];
+        fprintf(f, "%s{\"contact\":\"%s\",\"native_pair\":%d,\"slave_element\":%d,"
+                "\"slave_face\":%d,\"expected_points\":%d}", i ? "," : "",
+                cs.pairs[face->pair - 1].name, (int)cs.pairs[face->pair - 1].tie + 1,
+                (int)face->element, (int)face->face, (int)face->points);
+    }
+    fputs("],\"sample_inventory\":[", f);
+    for (i = 0; i < frame->count; i++) {
+        const CSSample* sample = &frame->samples[i];
+        fprintf(f, "%s{\"contact\":\"%s\",\"native_pair\":%d,\"slave_element\":%d,"
+                "\"slave_face\":%d,\"native_point\":%d,\"local_point\":%d}", i ? "," : "",
+                cs.pairs[sample->pair - 1].name, (int)cs.pairs[sample->pair - 1].tie + 1,
+                (int)sample->slave_element, (int)sample->slave_face,
+                (int)sample->point, (int)sample->local);
+    }
+    fputc(']', f);
+}
+
+static int cs_at_end(double time)
+{
+    double lower = cs.end_time, upper = cs.end_time;
+    int i;
+    /* Increment accumulation may finish a few binary64 neighbours from the
+     * requested endpoint. This is a representation bound, not an engineering
+     * tolerance; retain the actual native time instead of snapping it.
+     */
+    for (i = 0; i < 4; i++) {
+        lower = nextafter(lower, -INFINITY);
+        upper = nextafter(upper, INFINITY);
+    }
+    return time >= lower && time <= upper;
+}
+
 void cs_emit(ITG step, ITG increment, double time)
 {
     FILE* f;
@@ -646,7 +687,8 @@ void cs_emit(ITG step, ITG increment, double time)
         return;
     }
     cs.capturing = 0;
-    if (step != 1 || increment < 1 || !isfinite(time) || time <= 0. || time > cs.end_time) {
+    if (step != 1 || increment < 1 || !isfinite(time) || time <= 0. ||
+        (time > cs.end_time && !cs_at_end(time))) {
         cs_fail("retained output has invalid step, increment or time");
     }
     n = 0;
@@ -659,34 +701,11 @@ void cs_emit(ITG step, ITG increment, double time)
             n++;
         }
     }
-    if (!cs.frame_count) {
-        cs.inventory = cs_allocate(n, sizeof(CSSample));
-        cs.inventory_count = n;
-    }
-    else if (n != cs.inventory_count) {
-        cs_fail("native sample inventory changed between retained frames");
-    }
-    n = 0;
-    for (p = 0; p < cs.point_count; p++) {
-        CSSample* original;
-        sample = &cs.points[p];
-        if (!sample->pair) {
-            continue;
-        }
-        original = &cs.inventory[n++];
-        if (!cs.frame_count) {
-            *original = *sample;
-        }
-        else if (original->pair != sample->pair || original->point != sample->point ||
-                 original->local != sample->local || original->slave_element != sample->slave_element ||
-                 original->slave_face != sample->slave_face) {
-            cs_fail("native sample identity changed between retained frames");
-        }
-    }
     if (cs.frame_count && cs.frames[cs.frame_count - 1].increment == increment &&
         cs.frames[cs.frame_count - 1].time == time) {
         frame = &cs.frames[cs.frame_count - 1];
         free(frame->samples);
+        free(frame->faces);
     }
     else {
         CSFrame* replacement;
@@ -706,6 +725,9 @@ void cs_emit(ITG step, ITG increment, double time)
     frame->increment = increment;
     frame->time = time;
     frame->count = n;
+    frame->face_count = cs.face_count;
+    frame->faces = cs_allocate(cs.face_count, sizeof(CSFace));
+    memcpy(frame->faces, cs.faces, cs.face_count * sizeof(CSFace));
     frame->samples = cs_allocate(n, sizeof(CSSample));
     n = 0;
     for (p = 0; p < cs.point_count; p++) {
@@ -731,31 +753,22 @@ void cs_emit(ITG step, ITG increment, double time)
             "\"complete\":%s,\"units\":{\"length\":\"mm\",\"force\":\"N\",\"stress\":\"MPa\"},"
             "\"position_frame\":\"CURRENT_WITH_NATIVE_CLEARANCE_ADJUSTMENT\","
             "\"basis_frame\":\"NATIVE_MASTER_NORMAL\","
-            "\"sample_identity_scope\":\"FRAME_LOCAL_NATIVE_CATALOGUE\",\"face_inventory\":[",
-            cs.request, time == cs.end_time ? "true" : "false");
-    for (i = 0; i < cs.face_count; i++) {
-        CSFace* face = &cs.faces[i];
-        fprintf(f, "%s{\"contact\":\"%s\",\"native_pair\":%d,\"slave_element\":%d,"
-                "\"slave_face\":%d,\"expected_points\":%d}", i ? "," : "",
-                cs.pairs[face->pair - 1].name, (int)cs.pairs[face->pair - 1].tie + 1,
-                (int)face->element, (int)face->face, (int)face->points);
-    }
-    fputs("],\"sample_inventory\":[", f);
-    for (i = 0; i < cs.inventory_count; i++) {
-        sample = &cs.inventory[i];
-        fprintf(f, "%s{\"contact\":\"%s\",\"native_pair\":%d,\"slave_element\":%d,"
-                "\"slave_face\":%d,\"native_point\":%d,\"local_point\":%d}", i ? "," : "",
-                cs.pairs[sample->pair - 1].name, (int)cs.pairs[sample->pair - 1].tie + 1,
-                (int)sample->slave_element, (int)sample->slave_face,
-                (int)sample->point, (int)sample->local);
-    }
-    fputs("],\"frames\":[", f);
+            "\"sample_identity_scope\":\"FRAME_LOCAL_NATIVE_CATALOGUE\","
+            "\"inventory_scope\":\"PER_RETAINED_FRAME\",",
+            cs.request, cs_at_end(time) ? "true" : "false");
+    /* Retain the published top-level fields as exact final-frame aliases.
+     * Every frame below carries its own complete native catalogue.
+     */
+    cs_catalogue(f, &cs.frames[cs.frame_count - 1]);
+    fputs(",\"frames\":[", f);
     for (i = 0; i < cs.frame_count; i++) {
         frame = &cs.frames[i];
         fprintf(f, "%s{\"step\":%d,\"increment\":%d,\"time\":%.17g,"
-                "\"success\":true,\"complete\":%s,\"samples\":[",
+                "\"success\":true,\"complete\":%s,",
                 i ? "," : "", (int)frame->step, (int)frame->increment, frame->time,
-                frame->time == cs.end_time ? "true" : "false");
+                cs_at_end(frame->time) ? "true" : "false");
+        cs_catalogue(f, frame);
+        fputs(",\"samples\":[", f);
         for (j = 0; j < frame->count; j++) {
             const char *availability, *state, *evaluation, *engagement;
             sample = &frame->samples[j];

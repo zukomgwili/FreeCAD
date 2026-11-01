@@ -1,0 +1,123 @@
+test_previous_and_candidate_keep_ordinary_U_S_E_on_the_identical_stock_step_deck (MechanicalE4k.TestMechanicalE4k.test_previous_and_candidate_keep_ordinary_U_S_E_on_the_identical_stock_step_deck) ... FreeCAD 27.1.0, Libs: 27.1.0devR49261 +246 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+  ElementDimension: 3
+  /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/ThreeMaterials_Geometry.brep
+  /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/ThreeMaterials_Mesh.vtk
+  /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/shape2mesh.geo
+  /Users/zukomgwili/src/FreeCAD/.pixi/envs/default/bin/gmsh
+Added Group: Name: 'Vertex1' Type: 'Node' id: 72
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex2' Type: 'Node' id: 73
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex3' Type: 'Node' id: 74
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex4' Type: 'Node' id: 75
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex5' Type: 'Node' id: 76
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex6' Type: 'Node' id: 77
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex7' Type: 'Node' id: 78
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex8' Type: 'Node' id: 79
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex9' Type: 'Node' id: 80
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex10' Type: 'Node' id: 81
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex11' Type: 'Node' id: 82
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex12' Type: 'Node' id: 83
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex13' Type: 'Node' id: 84
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex14' Type: 'Node' id: 85
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex15' Type: 'Node' id: 86
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex16' Type: 'Node' id: 87
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex17' Type: 'Node' id: 88
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex18' Type: 'Node' id: 89
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex19' Type: 'Node' id: 90
+AddGroupElements: num elements: 1 sizeof: 8
+Added Group: Name: 'Vertex20' Type: 'Node' id: 91
+AddGroupElements: num elements: 1 sizeof: 8
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 5.686s
+
+OK
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+True
+BaseSupport:
+    Type: Fem::ConstraintFixed, Name: BaseSupport
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face5
+GravityContact:
+    Type: Fem::ConstraintContact, Name: GravityContact
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face6
+LowerCut:
+    Type: Fem::ConstraintSectionPrint, Name: LowerCut
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face12
+UpperCut:
+    Type: Fem::ConstraintSectionPrint, Name: UpperCut
+    ReferenceShape ... Type: Face, Object name: UpperCutOrientation, Object label: UpperCutOrientation, Element name: Face12
+VariableQPressure:
+    Type: Fem::ConstraintPressure, Name: VariableQPressure
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face17
+Getting mesh data time: 0.055 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/previous-b6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/previous-b6/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/previous-b6/Mesh.dat
+Read ccx results from frd file: /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/previous-b6/Mesh.frd
+
+Get mesh data for constraints, materials and element geometry...
+Materials
+True
+BaseSupport:
+    Type: Fem::ConstraintFixed, Name: BaseSupport
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face5
+GravityContact:
+    Type: Fem::ConstraintContact, Name: GravityContact
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face11
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face6
+LowerCut:
+    Type: Fem::ConstraintSectionPrint, Name: LowerCut
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face12
+UpperCut:
+    Type: Fem::ConstraintSectionPrint, Name: UpperCut
+    ReferenceShape ... Type: Face, Object name: UpperCutOrientation, Object label: UpperCutOrientation, Element name: Face12
+VariableQPressure:
+    Type: Fem::ConstraintPressure, Name: VariableQPressure
+    ReferenceShape ... Type: Face, Object name: ThreeMaterials, Object label: ThreeMaterials, Element name: Face17
+Getting mesh data time: 0.055 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/candidate-default/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+CalculiX solver run...
+CalculiX finished without error.
+
+CalculiX read results...
+Read ccx results from frd file: /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/candidate-default/Mesh.frd
+Read ccx results from dat file: /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/candidate-default/Mesh.dat
+Read ccx results from frd file: /private/tmp/freecad-e4k-tsd27fAG/mechanical-r01/staged-selfweight-owyznodz/candidate-default/Mesh.frd

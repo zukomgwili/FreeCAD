@@ -431,6 +431,9 @@ SET(FemTestsApp_SRCS
     femtest/app/test_beam_section_forces_safety.py
     femtest/app/test_beam_section_forces_lifecycle.py
     femtest/app/test_ccxtools.py
+    femtest/app/test_static_step_amplitude.py
+    femtest/app/test_staged_selfweight_native.py
+    femtest/app/test_contact_state_catalogue.py
     femtest/app/test_force_accounting.py
     femtest/app/test_contact_observation.py
     femtest/app/test_contact_observation_source.py

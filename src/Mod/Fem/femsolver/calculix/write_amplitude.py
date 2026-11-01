@@ -25,17 +25,45 @@ __title__ = "FreeCAD FEM calculix amplitude"
 __author__ = "Jakub Michalski"
 __url__ = "https://www.freecad.org"
 
+import math
+import re
+
+_NUMBER = re.compile(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eEdD][+-]?[0-9]+)?\Z")
+
+
+def _validate_amplitude(obj):
+    """Validate native tabular pairs without changing their saved literal form."""
+    previous = None
+    if not obj.AmplitudeValues:
+        raise ValueError(f"{obj.Name}: amplitude requires at least one time/value pair.")
+    for line in obj.AmplitudeValues:
+        tokens = [token.strip() for token in line.split(",")]
+        # Native data lines may pad the final complete pair with empty fields.
+        # Retain the literal line below; only validation ignores this padding.
+        while tokens and not tokens[-1]:
+            tokens.pop()
+        if (
+            "\n" in line
+            or "\r" in line
+            or len(tokens) not in (2, 4, 6, 8)
+            or any(not _NUMBER.fullmatch(token) for token in tokens)
+        ):
+            raise ValueError(
+                f"{obj.Name}: amplitude data must contain one to four numeric time/value "
+                "pairs per line."
+            )
+        values = [float(token.replace("D", "E").replace("d", "e")) for token in tokens]
+        if not all(math.isfinite(value) for value in values):
+            raise ValueError(f"{obj.Name}: amplitude times and values must be finite.")
+        for time in values[::2]:
+            if previous is not None and time <= previous:
+                raise ValueError(f"{obj.Name}: amplitude times must be strictly increasing.")
+            previous = time
+
 
 def write_amplitude(f, ccxwriter):
 
-    # write amplitude definitions for all analysis features that use them
-
-    def write_obj_amplitude(obj):
-        if obj.EnableAmplitude:
-            f.write(f"*AMPLITUDE, NAME={obj.Name}\n")
-            for value in obj.AmplitudeValues:
-                f.write(f"{value}\n")
-            f.write("\n")
+    # Validate every enabled table before writing any amplitude definitions.
 
     constraint_lists = [
         ccxwriter.member.cons_force,
@@ -48,6 +76,15 @@ def write_amplitude(f, ccxwriter):
         ccxwriter.member.cons_initialtemperature,
     ]
 
+    objects = []
     for constraint_list in constraint_lists:
         for entry in constraint_list:
-            write_obj_amplitude(entry["Object"])
+            obj = entry["Object"]
+            if obj.EnableAmplitude:
+                _validate_amplitude(obj)
+                objects.append(obj)
+    for obj in objects:
+        f.write(f"*AMPLITUDE, NAME={obj.Name}\n")
+        for value in obj.AmplitudeValues:
+            f.write(f"{value}\n")
+        f.write("\n")

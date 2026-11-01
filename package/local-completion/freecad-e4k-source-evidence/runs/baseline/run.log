@@ -1,0 +1,35 @@
+test_stock_route_exposes_independent_gravity_history (ProbeE4k.Probe.test_stock_route_exposes_independent_gravity_history) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+E4K_BASELINE {"version": ["27", "1", "0", "49261 +245 (Git)", "git://github.com/zukomgwili/FreeCAD.git codex/fix-toroidal-self-cut", "2026/11/01 01:29:14", "codex/fix-toroidal-self-cut", "f87fabb9340177691d4bcea22f6014cab692bde7"], "controls": {"CalculiXCcxTools": ["AnalysisType", "AutomaticIncrementation", "BeamSectionForces", "BucklingAccuracy", "BucklingFactors", "DisplaceMesh", "EigenmodeHighLimit", "EigenmodeLowLimit", "EigenmodesCount", "ExcludeBendingStiffness", "ExpressionEngine", "GeometricalNonlinearity", "IncrementsMaximum", "IterationsControlParameterCutb", "IterationsControlParameterField", "IterationsControlParameterIter", "IterationsControlParameterTimeUse", "Label", "Label2", "MaterialNonlinearity", "MatrixSolverType", "ModelSpace", "NativeAccountingSolver", "NativeAccountingSupports", "NativeContactOutputs", "NativeForceAccounting", "Output3d", "OutputFrequency", "PastixMixedPrecision", "Proxy", "ReducedIntegration", "Results", "SplitInputWriter", "ThermoMechSteadyState", "ThermoMechType", "TimeInitialIncrement", "TimeMaximumIncrement", "TimeMinimumIncrement", "TimePeriod", "Tool", "Visibility", "WorkingDir", "WorkingDirectory"], "Gravity": ["ExpressionEngine", "GravityAcceleration", "GravityDirection", "Label", "Label2", "NormalDirection", "Normals", "Points", "Proxy", "References", "Scale", "Suppressed", "Visibility"]}, "stock_keywords": ["*STEP, INC=2000", "*DLOAD", "Eall,GRAV,9806.65,0,0,-1"], "input_file": "/private/tmp/freecad-e4k-tsd27fAG/baseline/Mesh.inp", "module_origin": "/Applications/FreeCAD-27.1.0.app/Contents/Resources/Mod/Fem/femtools/ccxtools.py"}
+FAIL
+
+======================================================================
+FAIL: test_stock_route_exposes_independent_gravity_history (ProbeE4k.Probe.test_stock_route_exposes_independent_gravity_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/freecad-e4k-tsd27fAG/ProbeE4k.py", line 29, in test_stock_route_exposes_independent_gravity_history
+    self.assertTrue(route, 'Neither native self-weight amplitude nor native static-step amplitude control is exposed')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Neither native self-weight amplitude nor native static-step amplitude control is exposed
+
+----------------------------------------------------------------------
+Ran 1 test in 0.595s
+
+FAILED (failures=1)
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +245 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Getting mesh data time: 0.401 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/baseline/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.013 seconds.

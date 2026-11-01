@@ -1,0 +1,760 @@
+test_each_frame_refuses_omitted_duplicate_or_wrong_owned_samples (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_each_frame_refuses_omitted_duplicate_or_wrong_owned_samples) ... ok
+test_each_native_frame_uses_its_own_complete_catalogue (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_each_native_frame_uses_its_own_complete_catalogue) ... ok
+test_empty_native_face_catalogue_does_not_invent_sample_state (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_empty_native_face_catalogue_does_not_invent_sample_state) ... ok
+test_legacy_v1_keeps_its_shared_catalogue_invariant (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_legacy_v1_keeps_its_shared_catalogue_invariant) ... ok
+test_marker_partial_catalogues_and_final_alias_changes_are_refused (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_marker_partial_catalogues_and_final_alias_changes_are_refused) ... ok
+test_native_endpoint_roundoff_is_bounded_without_rewriting_actual_time (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_native_endpoint_roundoff_is_bounded_without_rewriting_actual_time) ... ok
+test_near_end_time_cannot_promote_an_incomplete_native_output (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_near_end_time_cannot_promote_an_incomplete_native_output) ... ok
+test_reused_raw_point_labels_do_not_establish_cross_frame_identity (femtest.app.test_contact_state_catalogue.TestContactStateCatalogue.test_reused_raw_point_labels_do_not_establish_cross_frame_identity) ... ok
+test_all_enabled_histories_are_checked_before_emitting_any_definition (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_all_enabled_histories_are_checked_before_emitting_any_definition) ... ok
+test_default_and_missing_legacy_control_preserve_exact_stock_writer_output (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_default_and_missing_legacy_control_preserve_exact_stock_writer_output) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_enabled_missing_or_invalid_load_amplitudes_are_refused_without_repair) ... Unexpected error when writing CalculiX input file: VariableForce: amplitude requires at least one time/value pair.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+FreeCAD 27.1.0, Libs: 27.1.0devR49261 +246 (Git)
+(C) 2001-2026 FreeCAD contributors
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Getting mesh data time: 0.403 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-aerdj6hx/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Getting mesh data time: 0.402 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-aerdj6hx/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.432 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFaceUnexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.45 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume elemenUnexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude times must be strictly increasing.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude times must be strictly increasing.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+t mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.427 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.435 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.433 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.432 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariableForce: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude requires at least one time/value pair.
+Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.427 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.429 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.429 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForcUnexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude times must be strictly increasing.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude times must be strictly increasing.
+e
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.433 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.462 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.437 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    TypUnexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+Unexpected error when writing CalculiX input file: VariablePressure: amplitude data must contain one to four numeric time/value pairs per line.
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_invalid_static_default_and_unsupported_analysis_are_refused (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_invalid_static_default_and_unsupported_analysis_are_refused) ... e: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.427 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.44 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.43 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-cz1_id3x/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Unexpected error when writing CalculiX input file: StaticStepAmplitude must be Ramp or Step.
+Unexpected error when writing CalculiX input file: StaticStepAmplitude=Step requires a static analysis.
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_old_saved_solver_gains_ramp_default_without_changing_other_controls (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_old_saved_solver_gains_ramp_default_without_changing_other_controls) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_saved_control_preserves_load_identity_units_material_ownership_and_history (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_saved_control_preserves_load_identity_units_material_ownership_and_history) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_signed_finite_fortran_histories_remain_literal_and_disabled_invalid_is_ignored (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_signed_finite_fortran_histories_remain_literal_and_disabled_invalid_is_ignored) ... Element name: Face1
+Getting mesh data time: 0.407 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-ps7dtavt/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Getting mesh data time: 0.401 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-ps7dtavt/Mesh.inp
+One monster input file.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+Getting mesh data time: 0.4 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-1k9jhwe5/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-xigsa9h6/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.429 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-_5z2byah/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+[{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories (femtest.app.test_static_step_amplitude.TestStaticStepAmplitude.test_step_holds_volumetric_gravity_and_keeps_explicit_force_and_pressure_histories) ... [{'ccx_elset': 'Evolumes', 'ccx_elset_name': 'FemMaterialSolid', 'mat_obj_name': 'FemMaterial', 'ccx_mat_name': 'CalculiX-Steel'}]
+ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 8.514s
+
+OK
+label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.431 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-_5z2byah/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.
+
+Get mesh data for constraints, materials and element geometry...
+FemMaterial:
+    Type: Fem::MaterialCommon, Name: FemMaterial
+    ReferenceShape ... Type: Solid, Object name: Box, Object label: Box, Element name: Solid1
+Fixed:
+    Type: Fem::ConstraintFixed, Name: Fixed
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face1
+VariableForce:
+    Type: Fem::ConstraintForce, Name: VariableForce
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face2
+  No face data in finite volume element mesh. FreeCAD uses getccxVolumesByFace() to retrieve the volume elements of the ref_face.
+VariablePressure:
+    Type: Fem::ConstraintPressure, Name: VariablePressure
+    ReferenceShape ... Type: Face, Object name: Box, Object label: Box, Element name: Face6
+Getting mesh data time: 0.428 seconds.
+
+CalculiX solver input writing...
+Input file:/private/tmp/freecad-e4k-tsd27fAG/unit-r02/dotted.parent/freecad-static-step-amplitude-mpg2o8l8/Mesh.inp
+One monster input file.
+Writing time CalculiX input file: 0.008 seconds.

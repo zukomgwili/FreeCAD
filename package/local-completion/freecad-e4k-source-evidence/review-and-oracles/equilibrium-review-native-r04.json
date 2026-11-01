@@ -1,0 +1,1662 @@
+{
+  "reviewer": "/root/e4k_acceptance",
+  "status": "PASS independent retained native-r04 equilibrium/ownership/history evidence audit",
+  "method": "Standard-library file reads, exact frozen references and arithmetic only. No FreeCAD/OCC/CalculiX/compiler/GUI invocation, no native mechanics or recovery.",
+  "oracles_sha256": "ba8e0b883a501d9306c4bdab77936dc4c5827c1b061d97ccb03859ebf9ff9548",
+  "binary_sha256": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+  "actual_tests": 5,
+  "skips": 0,
+  "equilibrium_receipts": 15,
+  "fixture_receipt_counts": [
+    1,
+    1,
+    2,
+    5,
+    6
+  ],
+  "independent_physical_component_comparisons": 810,
+  "independent_named_closure_component_comparisons": 360,
+  "maximum_nonzero_relative_component_error": {
+    "relative_error": 6.909268351815342e-08,
+    "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/equilibrium.json",
+    "action": "CUT/LowerCut",
+    "component": 4,
+    "observed": 1333.704307850784,
+    "target": 1333.7044,
+    "budget": 13.337044
+  },
+  "maximum_zero_component_fraction_of_fixed_budget": {
+    "fraction_of_budget": 5.647324261868846e-08,
+    "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/equilibrium.json",
+    "action": "CONTACT/LowerCut",
+    "component": 1,
+    "observed": 5.647324261868846e-14,
+    "budget": 1e-06
+  },
+  "maximum_closure_fraction_of_fixed_budget": {
+    "fraction_of_budget": 2.3322427751148286e-06,
+    "receipt": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/equilibrium.json",
+    "closure": "paired_cut",
+    "component": 4,
+    "observed": -9.214922761202615e-05,
+    "budget": 39.51099285
+  },
+  "native_lower_role_counts": {
+    "master": 1,
+    "slave": 14
+  },
+  "same_actual_accounting_contact_STATEs": true,
+  "every_native_frame_catalogue_validated_independently": true,
+  "cross_frame_native_points_not_joined": true,
+  "time1_actual_native_predecessor_preserved": true,
+  "early_native_CF_history": [
+    {
+      "mode": "Step",
+      "folder": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0",
+      "time": 0.1,
+      "increment": 1,
+      "native_CF_force_magnitude_N": 154.9451,
+      "independent_target_N": 154.94507,
+      "absolute_budget_N": 1.5494507,
+      "relative_error": 1.9361700252562027e-07,
+      "CF_moment_scope": "Legacy deformed-slave moments retained as source literals only; never original-origin substitutes.",
+      "same_child_active_STICK_frame": true
+    },
+    {
+      "mode": "Step",
+      "folder": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0",
+      "time": 0.2,
+      "increment": 2,
+      "native_CF_force_magnitude_N": 154.9451,
+      "independent_target_N": 154.94507,
+      "absolute_budget_N": 1.5494507,
+      "relative_error": 1.9361700252562027e-07,
+      "CF_moment_scope": "Legacy deformed-slave moments retained as source literals only; never original-origin substitutes.",
+      "same_child_active_STICK_frame": true
+    },
+    {
+      "mode": "Ramp",
+      "folder": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0",
+      "time": 0.1,
+      "increment": 1,
+      "native_CF_force_magnitude_N": 15.49451,
+      "independent_target_N": 15.494507,
+      "absolute_budget_N": 0.15494507,
+      "relative_error": 1.9361700243390482e-07,
+      "CF_moment_scope": "Legacy deformed-slave moments retained as source literals only; never original-origin substitutes.",
+      "same_child_active_STICK_frame": true
+    },
+    {
+      "mode": "Ramp",
+      "folder": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0",
+      "time": 0.2,
+      "increment": 2,
+      "native_CF_force_magnitude_N": 30.98902,
+      "independent_target_N": 30.989014,
+      "absolute_budget_N": 0.30989014,
+      "relative_error": 1.9361700243390482e-07,
+      "CF_moment_scope": "Legacy deformed-slave moments retained as source literals only; never original-origin substitutes.",
+      "same_child_active_STICK_frame": true
+    }
+  ],
+  "receipts": [
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/equilibrium.json",
+      "time_requested": 0.8,
+      "time_actual": 0.8,
+      "endpoint_predecessor_hops": 0,
+      "factor": -1,
+      "native_lower_role": "master",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 8,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2814,
+          "active": 2814,
+          "catalogue_sha256": "ee78ba10abe19e9972a4c32e25b9410192f4b5e77729dee62b2f8b2d1ff8a588"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2842,
+          "active": 2842,
+          "catalogue_sha256": "34e33f4585ac403875e8601e294188c5e4926853e4470557b0e04c4525e1e595"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2856,
+          "active": 2856,
+          "catalogue_sha256": "4d80288688a1e62379bfcf87b2ce898f5d89b8bcb5d510fbf13107643f0a8d88"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2849,
+          "active": 2849,
+          "catalogue_sha256": "4a982224fe7d6fd6730f00661731514a3fdb2561222d871274170fadd6cd0a4b"
+        },
+        {
+          "time": 0.5,
+          "increment": 5,
+          "samples": 2849,
+          "active": 2849,
+          "catalogue_sha256": "4a982224fe7d6fd6730f00661731514a3fdb2561222d871274170fadd6cd0a4b"
+        },
+        {
+          "time": 0.6000000000000001,
+          "increment": 6,
+          "samples": 2849,
+          "active": 2849,
+          "catalogue_sha256": "4a982224fe7d6fd6730f00661731514a3fdb2561222d871274170fadd6cd0a4b"
+        },
+        {
+          "time": 0.7000000000000001,
+          "increment": 7,
+          "samples": 2849,
+          "active": 2849,
+          "catalogue_sha256": "4a982224fe7d6fd6730f00661731514a3fdb2561222d871274170fadd6cd0a4b"
+        },
+        {
+          "time": 0.8,
+          "increment": 8,
+          "samples": 2856,
+          "active": 2856,
+          "catalogue_sha256": "4d80288688a1e62379bfcf87b2ce898f5d89b8bcb5d510fbf13107643f0a8d88"
+        }
+      ],
+      "distinct_frame_catalogues": 4,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.contact-state.run-5f41c2a34da54b21928bbb62867726b2",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.contact-state.run-5f41c2a34da54b21928bbb62867726b2.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/equilibrium.json",
+      "time_requested": 0.2,
+      "time_actual": 0.2,
+      "endpoint_predecessor_hops": 0,
+      "factor": 0,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 2,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2135,
+          "active": 2135,
+          "catalogue_sha256": "741879bbd3e0e4c99b8f9ac470c28e21d97a66dc3658c817e46c1a88abcf4bd9"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2191,
+          "active": 2191,
+          "catalogue_sha256": "794873a7e6b5220f57047a91edc9fdd9c34474f667fac5ca10632ea520d9ba1e"
+        }
+      ],
+      "distinct_frame_catalogues": 2,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.contact-state.run-30f6ab1a2a954120b31297a3dac981a1",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.contact-state.run-30f6ab1a2a954120b31297a3dac981a1.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2135,
+          "active": 2135,
+          "catalogue_sha256": "741879bbd3e0e4c99b8f9ac470c28e21d97a66dc3658c817e46c1a88abcf4bd9"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2191,
+          "active": 2191,
+          "catalogue_sha256": "794873a7e6b5220f57047a91edc9fdd9c34474f667fac5ca10632ea520d9ba1e"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2170,
+          "active": 2170,
+          "catalogue_sha256": "c0ea3716d7595c408e302df74c5cb2f277421437344819b0788516cbf4b19ccd"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2170,
+          "active": 2170,
+          "catalogue_sha256": "c0ea3716d7595c408e302df74c5cb2f277421437344819b0788516cbf4b19ccd"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.contact-state.run-90b497d385c94c7cbdb8121cbef45835",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.contact-state.run-90b497d385c94c7cbdb8121cbef45835.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/equilibrium.json",
+      "time_requested": 0.6,
+      "time_actual": 0.6,
+      "endpoint_predecessor_hops": 0,
+      "factor": 0,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 6,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2135,
+          "active": 2135,
+          "catalogue_sha256": "741879bbd3e0e4c99b8f9ac470c28e21d97a66dc3658c817e46c1a88abcf4bd9"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2191,
+          "active": 2191,
+          "catalogue_sha256": "794873a7e6b5220f57047a91edc9fdd9c34474f667fac5ca10632ea520d9ba1e"
+        },
+        {
+          "time": 0.3,
+          "increment": 3,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.5000000000000001,
+          "increment": 5,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.6,
+          "increment": 6,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.contact-state.run-ffff3f967e5e4a7e9fd30b8bd3406ffa",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.contact-state.run-ffff3f967e5e4a7e9fd30b8bd3406ffa.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/equilibrium.json",
+      "time_requested": 0.8,
+      "time_actual": 0.8,
+      "endpoint_predecessor_hops": 0,
+      "factor": -1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 8,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2135,
+          "active": 2135,
+          "catalogue_sha256": "741879bbd3e0e4c99b8f9ac470c28e21d97a66dc3658c817e46c1a88abcf4bd9"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2191,
+          "active": 2191,
+          "catalogue_sha256": "794873a7e6b5220f57047a91edc9fdd9c34474f667fac5ca10632ea520d9ba1e"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.5,
+          "increment": 5,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.6000000000000001,
+          "increment": 6,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.7000000000000001,
+          "increment": 7,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.8,
+          "increment": 8,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.contact-state.run-1557a82d4a374b8dad40509af26bb9ac",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.contact-state.run-1557a82d4a374b8dad40509af26bb9ac.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/equilibrium.json",
+      "time_requested": 1.0,
+      "time_actual": 0.9999999999999999,
+      "endpoint_predecessor_hops": 1,
+      "factor": 0,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 10,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2135,
+          "active": 2135,
+          "catalogue_sha256": "741879bbd3e0e4c99b8f9ac470c28e21d97a66dc3658c817e46c1a88abcf4bd9"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2191,
+          "active": 2191,
+          "catalogue_sha256": "794873a7e6b5220f57047a91edc9fdd9c34474f667fac5ca10632ea520d9ba1e"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.5,
+          "increment": 5,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.6,
+          "increment": 6,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.7,
+          "increment": 7,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.7999999999999999,
+          "increment": 8,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.8999999999999999,
+          "increment": 9,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        },
+        {
+          "time": 0.9999999999999999,
+          "increment": 10,
+          "samples": 2149,
+          "active": 2149,
+          "catalogue_sha256": "0d6da79424408bd7fea7cd6a0cc5ad2f3bbc54ae9542d5bf55d6ac68823c70a5"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.contact-state.run-c7feca0f51f04715bc915a97b37e6177",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.contact-state.run-c7feca0f51f04715bc915a97b37e6177.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Force",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        }
+      ],
+      "distinct_frame_catalogues": 1,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.contact-state.run-71e7a1741e474ba7866a262ea47c3047",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.contact-state.run-71e7a1741e474ba7866a262ea47c3047.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/equilibrium.json",
+      "time_requested": 0.8,
+      "time_actual": 0.8,
+      "endpoint_predecessor_hops": 0,
+      "factor": -1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Force",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 8,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.5,
+          "increment": 5,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.6000000000000001,
+          "increment": 6,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.7000000000000001,
+          "increment": 7,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        },
+        {
+          "time": 0.8,
+          "increment": 8,
+          "samples": 784,
+          "active": 784,
+          "catalogue_sha256": "ead5295b210ef7f171c024a636ec661d95c989728ed6e89b2bb47d4070a47ff2"
+        }
+      ],
+      "distinct_frame_catalogues": 1,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.contact-state.run-4ff2ed2ba3e14bff96333716d5233b75",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.contact-state.run-4ff2ed2ba3e14bff96333716d5233b75.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/equilibrium.json",
+      "time_requested": 1.0,
+      "time_actual": 0.9999999999999999,
+      "endpoint_predecessor_hops": 1,
+      "factor": 0,
+      "native_lower_role": "slave",
+      "mode": "Ramp",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 10,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2772,
+          "active": 2772,
+          "catalogue_sha256": "d32961c531a65e19cbb743f3c2ea5c6752e533bd2ccbcf2e17de04dfd4e7f233"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2772,
+          "active": 2772,
+          "catalogue_sha256": "d32961c531a65e19cbb743f3c2ea5c6752e533bd2ccbcf2e17de04dfd4e7f233"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2772,
+          "active": 2772,
+          "catalogue_sha256": "d32961c531a65e19cbb743f3c2ea5c6752e533bd2ccbcf2e17de04dfd4e7f233"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2800,
+          "active": 2800,
+          "catalogue_sha256": "541d66378466a8c4dfaa375b930a7a603d09c4eb9fac907eee2e5d3605f2d0ad"
+        },
+        {
+          "time": 0.5,
+          "increment": 5,
+          "samples": 2800,
+          "active": 2800,
+          "catalogue_sha256": "541d66378466a8c4dfaa375b930a7a603d09c4eb9fac907eee2e5d3605f2d0ad"
+        },
+        {
+          "time": 0.6,
+          "increment": 6,
+          "samples": 2786,
+          "active": 2786,
+          "catalogue_sha256": "0fd730f78b69930a136aecea5a82a19ba0bcc9ef2428546d1020b7e8eae0c631"
+        },
+        {
+          "time": 0.7,
+          "increment": 7,
+          "samples": 2786,
+          "active": 2786,
+          "catalogue_sha256": "0fd730f78b69930a136aecea5a82a19ba0bcc9ef2428546d1020b7e8eae0c631"
+        },
+        {
+          "time": 0.7999999999999999,
+          "increment": 8,
+          "samples": 2800,
+          "active": 2800,
+          "catalogue_sha256": "6241e6f0d40cdfe34547b2fe9d83500823a505bad11c9fd45e14f1a7b149dfcf"
+        },
+        {
+          "time": 0.8999999999999999,
+          "increment": 9,
+          "samples": 2800,
+          "active": 2800,
+          "catalogue_sha256": "6241e6f0d40cdfe34547b2fe9d83500823a505bad11c9fd45e14f1a7b149dfcf"
+        },
+        {
+          "time": 0.9999999999999999,
+          "increment": 10,
+          "samples": 2800,
+          "active": 2800,
+          "catalogue_sha256": "6241e6f0d40cdfe34547b2fe9d83500823a505bad11c9fd45e14f1a7b149dfcf"
+        }
+      ],
+      "distinct_frame_catalogues": 4,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.contact-state.run-cadffac0ae3e407183ebea3c03fd4316",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.contact-state.run-cadffac0ae3e407183ebea3c03fd4316.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2492,
+          "active": 2492,
+          "catalogue_sha256": "ac6b4d208a5029c9c4b45344f717ec5c0165921b31bea8cf6b5365f16538212c"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2520,
+          "active": 2520,
+          "catalogue_sha256": "751e6595f8f052845d6dcfa5782588e70676e2ba2dc298377269a324833af254"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.contact-state.run-57d22f3b2eaf498894611d52f45bae7b",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.contact-state.run-57d22f3b2eaf498894611d52f45bae7b.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2492,
+          "active": 2492,
+          "catalogue_sha256": "ac6b4d208a5029c9c4b45344f717ec5c0165921b31bea8cf6b5365f16538212c"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2520,
+          "active": 2520,
+          "catalogue_sha256": "751e6595f8f052845d6dcfa5782588e70676e2ba2dc298377269a324833af254"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.contact-state.run-d5eb55180d40430bbd365a7ed38a60e4",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.contact-state.run-d5eb55180d40430bbd365a7ed38a60e4.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2492,
+          "active": 2492,
+          "catalogue_sha256": "ac6b4d208a5029c9c4b45344f717ec5c0165921b31bea8cf6b5365f16538212c"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2520,
+          "active": 2520,
+          "catalogue_sha256": "751e6595f8f052845d6dcfa5782588e70676e2ba2dc298377269a324833af254"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.contact-state.run-a0ca7555039549d1bea3b4a9a434e3e3",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.contact-state.run-a0ca7555039549d1bea3b4a9a434e3e3.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2492,
+          "active": 2492,
+          "catalogue_sha256": "ac6b4d208a5029c9c4b45344f717ec5c0165921b31bea8cf6b5365f16538212c"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2520,
+          "active": 2520,
+          "catalogue_sha256": "751e6595f8f052845d6dcfa5782588e70676e2ba2dc298377269a324833af254"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.contact-state.run-515c1bc686fb4f1d8beebe09417b76bc",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.contact-state.run-515c1bc686fb4f1d8beebe09417b76bc.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2492,
+          "active": 2492,
+          "catalogue_sha256": "ac6b4d208a5029c9c4b45344f717ec5c0165921b31bea8cf6b5365f16538212c"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2520,
+          "active": 2520,
+          "catalogue_sha256": "751e6595f8f052845d6dcfa5782588e70676e2ba2dc298377269a324833af254"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.contact-state.run-f986b8175931448e8840353bd96bb506",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.contact-state.run-f986b8175931448e8840353bd96bb506.out",
+      "passed": true
+    },
+    {
+      "path": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/equilibrium.json",
+      "time_requested": 0.4,
+      "time_actual": 0.4,
+      "endpoint_predecessor_hops": 0,
+      "factor": 1,
+      "native_lower_role": "slave",
+      "mode": "Step",
+      "source": "Pressure",
+      "physical_component_checks": 54,
+      "closure_component_checks": 24,
+      "native_body_material_volume_checks": {
+        "BASEMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            50.0
+          ],
+          "native_density": 7.9e-09,
+          "native_GRAV_weight_N": 77.472535
+        },
+        "LOWERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            150.0
+          ],
+          "native_density": 7.8e-09,
+          "native_GRAV_weight_N": 76.49187
+        },
+        "UPPERMATERIAL": {
+          "element_count": 196,
+          "volume_mm3": 1000000.0,
+          "centroid_mm": [
+            17.0,
+            -23.0,
+            250.0
+          ],
+          "native_density": 8e-09,
+          "native_GRAV_weight_N": 78.4532
+        }
+      },
+      "native_frame_count": 4,
+      "contact_frame_summary": [
+        {
+          "time": 0.1,
+          "increment": 1,
+          "samples": 2492,
+          "active": 2492,
+          "catalogue_sha256": "ac6b4d208a5029c9c4b45344f717ec5c0165921b31bea8cf6b5365f16538212c"
+        },
+        {
+          "time": 0.2,
+          "increment": 2,
+          "samples": 2520,
+          "active": 2520,
+          "catalogue_sha256": "751e6595f8f052845d6dcfa5782588e70676e2ba2dc298377269a324833af254"
+        },
+        {
+          "time": 0.30000000000000004,
+          "increment": 3,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        },
+        {
+          "time": 0.4,
+          "increment": 4,
+          "samples": 2541,
+          "active": 2541,
+          "catalogue_sha256": "eeb6bb4bf4700d5a121af4be4aff487c1067769871a70ad2aa9d704542527392"
+        }
+      ],
+      "distinct_frame_catalogues": 3,
+      "same_accounting_contact_child_frame_bound": true,
+      "child_request": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.contact-state.run-e9087f6cafbd40e3b0bb53a501fe4f9e",
+      "native_contact_output": "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.contact-state.run-e9087f6cafbd40e3b0bb53a501fe4f9e.out",
+      "passed": true
+    }
+  ],
+  "selected_current_physical_input_sha256": {
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_staged_selfweight_native.py": "0970f0bf6186eb9ed5cb84a241f4771729796683221b47d47b98f19e3abb69d1",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/contact_state.py": "7279e9fa8132484a53f150a96b3452ad3a8ca16740b554f8621071167f3ee77b",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/force_accounting.py": "64525df0d3e1282519973038937402b185b9fd2d2ca04cafb96bb5dd06efd325",
+    "/Users/zukomgwili/src/FreeCAD/build/release/data/NativeSolvers/ccx-force-accounting": "d4970161eb4ec8ea4af7e222d2a1c6dc54f960df33f0f0b0aff00195f1b37959",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/beamsection.c": "07f26b04523fc1eacb9904a0d22cb4bafbf00beb428bc21450ae66321b90b636",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contactstate.c": "0865934416eca80f51c74441898dfc8537d80775ba98d89482092b87c8daf471",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/forceaccounting.c": "85690f1744ec4a2e9d0ff8483618373e3c85d7a49487c9f7a10f2265ffc6e728",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/hooks.patch": "ef85a510a2ce80dd981300af31da91dd0ec8fc1fd0c368bb71aabe3071b9cb49",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/COPYING": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/.gitattributes": "64036f86d855bf5d40e0c8128ada786347269528cad05e7e841454363cc51e0f",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/beamsection.patch": "1f2c2f2f5b50b7acc3c5a0b878fafa3f23a744e00e30bd4eebd9fd9968c20a71",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "a4ffa0a65ca1dfeace930b1c6be7beed7ab6c41dea79bb4935458d691bd4a395"
+  },
+  "input_sha256": {
+    "/private/tmp/freecad-e4k-tsd27fAG/oracles.json": "ba8e0b883a501d9306c4bdab77936dc4c5827c1b061d97ccb03859ebf9ff9548",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/execution.json": "1f7fe61ee18539d02edd2fb8d8c489c7ee1f3bea209735cec4671a09a38cc65f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/run.log": "f9209e5e4f105465e15e65126f0616d4443194d72230b50e7ada0212ce40e786",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/equilibrium.json": "98b9978c3538d593e1c7bfcede69bc9f5291086a7e095f60ff464c29443fee86",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.accounting.out": "417290405b077e7008599f04997519f47dcdae6395d0c2f738e29274b154c82d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.contact-state.json": "00942ec5b0abad2af24a01e837f1e6ecb83fd5b9b4fb2094e31128223c0bd4f4",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.accounting.json": "00fb5f8860915f81ba5a98b5f6d0395cf739853aa3e00984d95c42cd044abbdc",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.inp": "6b72a8ea0ce88038886b097186aba9bc0a955c3b645d6539ffe46e2103bb810c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.contact-state.run-5f41c2a34da54b21928bbb62867726b2.out": "8f200e13d7bf6a4feed04791de2854f20fe300dad9b7822b14336e646fd4f435",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-421reh5w/run-0-time-0.8/Mesh.contact-state.run-5f41c2a34da54b21928bbb62867726b2": "d530b9a0e2b967c5200b52a5878cb5f75af0cb5a96d94d88ea95b4c795d72411",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/equilibrium.json": "6b429477e98b549ed3a569a4b34559fa6a80dc548eba2a5057ecafeb3c17d736",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.accounting.out": "684eaaac2cab5d46b59cce8597e7ebc524316b7f144493bca2463aa96550d4af",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.contact-state.json": "2a4280ed2dc7e53a61d2c8056e027e365f821526fa1eca720215337121b9c6af",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.accounting.json": "2c0ee74d54af46281be3e997cd3f54ab75359c3056d2c0cd3d81fde3c952260d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.inp": "056ec05a6aa6a8def9f914fdbfc651101cbaf438a74a4224e4d7bda7388ab3f5",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.contact-state.run-30f6ab1a2a954120b31297a3dac981a1.out": "a805999fa83299f0946274c0fe2422200b1fc549a2d036da8df7bb0c01fd33fc",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-0-time-0.2/Mesh.contact-state.run-30f6ab1a2a954120b31297a3dac981a1": "732100b1f1609cfff529635f87052d91bddc364e5e9ae425da3e1da8ca6ae5f0",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/equilibrium.json": "c1af04ef4267ff42de13dd86727f10fd4ff13b544c09e77af19a15ac879c8fe9",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.accounting.out": "41e6857f8e3ac1cd100e7ba1c45c0e3354eb59c643a67b28a5103734e4ade5f6",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.contact-state.json": "19ba97a05583555be44be97a46d739b17dd38ff902bf80fe1cb29640f04f1bff",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.accounting.json": "77d7582c4b7ca540ba8fe8732ce9fbbf0737513e80d058a83cf0244524b0a952",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.inp": "742bd6b2862fc1bc1a277cf5b15fd48180d87a6c37d8eb8aec14c4091ae97df7",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.contact-state.run-90b497d385c94c7cbdb8121cbef45835.out": "492ce0c7ccf8e88182e99b66f4829e69a96a30e9fd4e470f29923676720eb37f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-1-time-0.4/Mesh.contact-state.run-90b497d385c94c7cbdb8121cbef45835": "ea029d756b3b29d100e96311487bfba0e63205f1fc3aed3cf8ddb3a87b3bfa56",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/equilibrium.json": "43c9f465be41af7120694def07a45d036aaaeb58130202af80b0896df4786047",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.accounting.out": "5121ac8c3c67b7a0dc559f01475cf87cc92e3b2074ed8cb1298b1a7aea75ef56",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.contact-state.json": "8bbe2a086133674c34e0d446b4d3976290d73c922b860a852e88c0c4ece2b9af",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.accounting.json": "d16ac5526b112c839112c956938a99dfc75f7d9fd10679c19d759bd37d47f583",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.inp": "ababc3fe28caa2f7160b388434d4d2e5b2247aeaeaccf56012c457609fd03668",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.contact-state.run-ffff3f967e5e4a7e9fd30b8bd3406ffa.out": "88606505276017bc5544876e161104b3a993023ff7f0c0a0873d1eb3f711453d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-2-time-0.6/Mesh.contact-state.run-ffff3f967e5e4a7e9fd30b8bd3406ffa": "55eb1b843193fb1d5081e709b8a86d249120c7f945e72892648a407a25eb7e44",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/equilibrium.json": "205eab95827598559fb06d4b2493c80c78760f9738512d1dd791b8a1ae1ccb4a",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.accounting.out": "f472ccc4282973e48f449e7beb735f55535cc9de47493f0bd5589510ee60436c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.contact-state.json": "9ffbd2a62d8d6fc06c519020c639a5240d7767282f9fe85fdb63b67ad88a4874",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.accounting.json": "07a44144178b136e5a34be6e0aa5d4d83fc00aaf3add15ef0cb0813e94bc5330",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.inp": "02ebaaa8e0fab42302e180168b8317cc4ca92d6da39831b83fcfb1b2a67d339a",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.contact-state.run-1557a82d4a374b8dad40509af26bb9ac.out": "d3993553afaf8f347a43ff0ac242be4026b74f3e39d10565d25d9cd1e3e81a75",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-3-time-0.8/Mesh.contact-state.run-1557a82d4a374b8dad40509af26bb9ac": "8c26926cfc82547580db40e7e59609ece725a46da5e42babdebe4d515799ff3e",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/equilibrium.json": "e1a8d21e0147ee7e2d61d11c6154d5b40ac29ced6d271d724a5de2bc0945e82d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.accounting.out": "872e693c038d22920ae45a0dff8ea1c072f9f140d72bceca4f20ab306a08c81c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.contact-state.json": "96a5df0d2c87ea7b51101962b1558055562817a0db402baf2b3769cd4308cf03",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.accounting.json": "bc30dcffac8ecdd9b5fedb8659eb2b25cdc771d844787909220e3472f9e4c6b0",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.inp": "b14ca95c928d43b82326fd560c900f83891babf0a419c494b1a6fb98be05fa7d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.contact-state.run-c7feca0f51f04715bc915a97b37e6177.out": "88b310a16a4d9abff581ed7bba48149c472232c941fb6ebc0316d83b13940fbc",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.contact-state.run-c7feca0f51f04715bc915a97b37e6177": "8d411744e05e6a60240436d663eb86fa6aaaca4b0064dcc6e7ecd945d81bf883",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-8_sqlfpy/run-4-time-1.0/Mesh.dat": "1443e0649d098ca49d86a2411e82cf2071816f9198451471d665e4a6ee046ed1",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/equilibrium.json": "7923e56aa7daeff5d643f5646105bd09c2cdf7af3e5f001210a12cba700218e4",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.accounting.out": "07096cc1e33164a18e6dcd8d1f9630d1f21eb954d35d754dba117e26236d590c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.contact-state.json": "2dc55b2d6ca68e3c8374fd52edff372fcc8d6dadd207df5a88cc261b8fdb366b",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.accounting.json": "a566f7cf0b2bf30bd1a9c9b56cca92e3ce223fe8467bb82e9fd8d84905d1d3da",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.inp": "38216ec39f0595f569af3de68b827205794537ec296dac138e30b2c77a967bf0",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.contact-state.run-71e7a1741e474ba7866a262ea47c3047.out": "17f206aa10d41a36f4935395e3a893fe33544ef73c1424a9380634659e072f47",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-0-time-0.4/Mesh.contact-state.run-71e7a1741e474ba7866a262ea47c3047": "8271e5515fcb137da27b1693832a85d8d79a63d4ee6df440b070404e608a7eef",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/equilibrium.json": "2ef96012b2fcc28fef6e8007e1e7c78b08e26473d4904c3462ef8c30c9627ce1",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.accounting.out": "5274bb736adebfef8b25457f95f36cf059fe51a17eef217eb96dc1b7c24d658c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.contact-state.json": "198595c1d31098c36bce9ec5ae9cde79579ac1a2ec41c11a9c61831d31cd8acc",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.accounting.json": "e9594f5708f0b487e0bbdb2d61fcb090b760bdf3c6344a4ead8d79b27e617292",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.inp": "1734d38827eb81a1ff45eee7872c74fe8ac83da89b1007be7d9e36d8f8301e70",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.contact-state.run-4ff2ed2ba3e14bff96333716d5233b75.out": "55eb53c7ae22d006d9d38c4b36954a53c52987fb44b8b5ef018785a9335b8b94",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-ht_8j__0/run-1-time-0.8/Mesh.contact-state.run-4ff2ed2ba3e14bff96333716d5233b75": "87acc2ba76bc82aafc8b7dc92ff8e68d5a7fb954ce1e7e5dd60930543e65b185",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/equilibrium.json": "81fcf7b28573ec1b9e0b65cb38770d534ca010eb57cc8b979550b01442c18781",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.accounting.out": "ae45266dda227738d11a43f362f6b74c763eb7829613eb651b69d6bee3aa8149",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.contact-state.json": "6479ae1d58c9a78850a09fceb7c10dfb55449ef84f80ef051168f0b7d00ca655",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.accounting.json": "2155b632a1dfc5cd4962c5a256c6b36e1504a356fcf66c0095faa2ed880720bc",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.inp": "11db4989928aee501a0b304cd57890f6d4e07febb88f2dbf2c6aed345ea3f015",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.contact-state.run-cadffac0ae3e407183ebea3c03fd4316.out": "feaa04b1bde8f79f50767dd8a8919b59bcc1078e49c720279593e09d3b58459a",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.contact-state.run-cadffac0ae3e407183ebea3c03fd4316": "8550c2333305570e21fc68427b7f8b95a5f85d7f99b28a2c74137c0cdbb72032",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-o80c2czp/run-0-time-1.0/Mesh.dat": "20afbc4fe9755da2f88c3efe0e5df615da18c82c8703b58379efbfe91f05770d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/equilibrium.json": "542801b7d7231d918519bf505908ec1ce44f3a89d5e983b51d89d5bbf95c81d0",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.accounting.out": "71b37b6f2b471068c117d445f58bf5f8ed7d55cbe3c31a6d70e42f2a4f1a2789",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.contact-state.json": "6ba6af49f51b266e4592a6716049b798354663423249f843f2cff16e3052472d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.accounting.json": "f5bf2bf3ebca1f6cfeb8df78e436a47e8eba7fda89a2445a2b05da758721b180",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.inp": "b2b7840cd3417e878cdfbea877edc3a467fac3b6d584f29b3688eb40a73b547a",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.contact-state.run-57d22f3b2eaf498894611d52f45bae7b.out": "df332462c5619665eb9500c1e3e68cc442b1a7ffc018a887d2775d525b7dcac3",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-0-time-0.4/Mesh.contact-state.run-57d22f3b2eaf498894611d52f45bae7b": "222f2abeef7532238bab1c7560f2ecc069f49491da8b84be9c012ca4ba6ef894",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/equilibrium.json": "3133c71c07669a5a2921ebd18cc84dfb21839f19457bd6602c079c81a19af331",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.accounting.out": "6bd1c5a81c441cbf9c93d51e1621e7a3ea466d82345314bedca4cfdbd3c0ec5c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.contact-state.json": "a2b28300e09fcd6c596389588250a788f43becb080d0c79662cb6b9cb815df0f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.accounting.json": "47e8c9066f3d4617282f44d7811f8a42cee11e41edcf862d24bd351d6ebe3562",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.inp": "15eeee78f631af6f5160d9058b6827d727ba72e8a74963cf3f2210b3621bae34",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.contact-state.run-d5eb55180d40430bbd365a7ed38a60e4.out": "94c02b2925e04bc91dde16754ba3b95e40d641ae692288417fb979e66e5e88f1",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-1-time-0.4/Mesh.contact-state.run-d5eb55180d40430bbd365a7ed38a60e4": "9da4051605a1f5bea4d57041c01e85c94e8bab5486d94e336548d494b4846875",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/equilibrium.json": "46f8fab4d8cae23737122a75574272f624d5c4b6aa9c05f2d96882377505d51e",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.accounting.out": "80ea1ee865141dda9bcb4b8e65829dc1c52581db5a7824e3d1f368a01db7c3cf",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.contact-state.json": "41de0b593933586e9428a6d328dc1761c232039347311f03562641c842759ed9",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.accounting.json": "c0823cec340a2a29d4a6028b6f5e59768c663752ed172af645727322fce393aa",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.inp": "ea9e8af558518e09fb579918aab0242d3fc76f3c142b265059fce4e41f7b3529",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.contact-state.run-a0ca7555039549d1bea3b4a9a434e3e3.out": "adaee2be3591450ca3c6724d50bd388070da7f3ffd4f634e7f7bcf342f94df9d",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-2-time-0.4/Mesh.contact-state.run-a0ca7555039549d1bea3b4a9a434e3e3": "04319e2070cb89db6d33e2ff146aacd6325a1127372dd61cf13772936d104cd3",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/equilibrium.json": "04eb8d5be6022aad2940c014c0ca0ca23be3e1fe4363397f1ec2e432097908e4",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.accounting.out": "f6f82effc6f4909f7f01e1bacdae4ce39411e9dcff9b441e4dd1518651fbe24b",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.contact-state.json": "274c4e5e22b40690bec09ec2eba8042d83bff76fb5518dbedee61acbb5097495",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.accounting.json": "d3c89eac493a258da71515d71cedc1311acdb59e421a14fd9637f723ab6293fa",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.inp": "818bc4840afe7c481905fb93819f3a0bd123eedb220b0ada39d7b57511c22e8f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.contact-state.run-515c1bc686fb4f1d8beebe09417b76bc.out": "919b2f8c5a6b44f6e386f51326b0103bebaf8c91f0b692fae9e89f7defe3832f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-3-time-0.4/Mesh.contact-state.run-515c1bc686fb4f1d8beebe09417b76bc": "57a32ca8ac89f4d3b8e16650f9e8504830beb35ca43604658dd972137d809472",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/equilibrium.json": "c17381419c19d168fa438ec8adfd2488d0da31371202e99255b2d18a39e030ab",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.accounting.out": "16fbe463c8735089624c66623c35740a37cc820b05e7a3f60e8b50b3bc96cb0c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.contact-state.json": "9b5337b3da7a706d762ff13255be8a7beb59d2567ef1f3e1d534d02e01840c65",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.accounting.json": "856e316c4bbe713c68aa0b6c8313d3db55b39dbc13ebb9cc95884cb5edd688c2",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.inp": "0dc13e97bed433a72b3facaf675a679988c05e11471b94d234f1cac0e0fced52",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.contact-state.run-f986b8175931448e8840353bd96bb506.out": "633468fa4e6c6f9fb9f4d3b8c5c7eda9a60f130018abfa7ad1f03e1c18d60bea",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-4-time-0.4/Mesh.contact-state.run-f986b8175931448e8840353bd96bb506": "9d72541c541d823253d83e85de20d1df09237cf74e6a18c2f3c2bc9d2ff64a8a",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/equilibrium.json": "f9401c82bf60f7482db754b2083fb5cffd2cc7719c82675cb61358aa8b295a65",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.accounting.out": "233779c8d80b5b784bf3126967c5ed115038655982c649a404a24fd39c5dba7e",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.contact-state.json": "556314113c11243f174a9bd1edcacb95171e86fdf2f5df26b11b407702766f4f",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.accounting.json": "c9f4607fadde3438533bf5ccdb1a3060776bc0ea42ff0adf051da0b4d1da69e1",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.inp": "f860a973ec075a0d31200bc55c026367d22157262a867c0b8caed7507e506609",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.accounting": "f64a9045fb6db18c974a97ef3ab5583b231148e105666ece07688b48b7231754",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.contact-state.run-e9087f6cafbd40e3b0bb53a501fe4f9e.out": "34e574ae4574a18139dd3a2f21f05acb784a57228264a2602f9027564859299c",
+    "/private/tmp/freecad-e4k-tsd27fAG/native-r04/staged-selfweight-vvpkwpi8/run-5-time-0.4/Mesh.contact-state.run-e9087f6cafbd40e3b0bb53a501fe4f9e": "35c4807c63189b707d5a088e4492d732822da27b1a504ab1b3cfed09591f715d"
+  },
+  "native_executed": false,
+  "source_modified": false,
+  "oracles_modified": false,
+  "limitations": "Synthetic normal-Q staged-gravity method qualification only. Original1% equilibrium/5% sensitivity engineering duties unchanged. No Oomakhi replay or acceptance; lower contact action observed as actual native slave/master, with no simultaneous independent base BODY/contact result claimed. Mechanical-equivalence, broad suites, GUI/cold and deployment remain separate gates."
+}

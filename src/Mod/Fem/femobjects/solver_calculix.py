@@ -142,6 +142,18 @@ class SolverCalculiX(base_fempythonobject.BaseFemPythonObject):
         )
         prop.append(
             _PropHelper(
+                type="App::PropertyEnumeration",
+                name="StaticStepAmplitude",
+                group="TimeIncrement",
+                doc="Default load history within a static step. Ramp preserves the CalculiX "
+                "default; Step applies unamplified loads, including volumetric self-weight, "
+                "at full value from the first increment. Explicit load amplitudes override "
+                "this default and can delay or reverse variable loads independently.",
+                value=["Ramp", "Step"],
+            )
+        )
+        prop.append(
+            _PropHelper(
                 type="App::PropertyTime",
                 name="TimeMinimumIncrement",
                 group="TimeIncrement",

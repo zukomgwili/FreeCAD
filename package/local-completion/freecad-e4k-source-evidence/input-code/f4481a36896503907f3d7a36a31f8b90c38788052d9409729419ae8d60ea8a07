@@ -1,0 +1,27 @@
+{
+  "schema": "FreeCAD-e4k-origin-hook-classification-v1",
+  "collection_attempt": {
+    "phase": "collection-result.log",
+    "qualified": false,
+    "classification": "REFUSED_BEFORE_TARGET_CREATION",
+    "reason": "Reviewed collector required actual NativeE4k origins.json; no such artifact existed inr04."
+  },
+  "supporting_native_r04": {
+    "passed_physical_tests": true,
+    "module_origin_hook_executed": false,
+    "reason": "Imported aliased TestCase retained native_source module and its hook scope. Additional wrapper setUpModule was not invoked by unittest.",
+    "exact_helper_snapshot": "review-history/NativeE4k.r04.py"
+  },
+  "replacement": {
+    "native_gate": "native-r05",
+    "local_subclass": true,
+    "explicit_setUpClass_origin_check": true,
+    "passed": true,
+    "native_tests": 5,
+    "native_solve_endpoints": 15,
+    "origins": "/private/tmp/freecad-e4k-tsd27fAG/native-r05/origins.json"
+  },
+  "product_code_changed": false,
+  "frozen_oracles_changed": false,
+  "earlier_receipts_rewritten": false
+}

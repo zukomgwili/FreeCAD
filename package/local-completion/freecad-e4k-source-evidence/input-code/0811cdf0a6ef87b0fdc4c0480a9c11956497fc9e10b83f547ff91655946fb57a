@@ -1,0 +1,94 @@
+{
+  "schema": "FreeCAD-e4k-independent-endpoint-representation-review-v1",
+  "reviewer": "/root/e4k_controls",
+  "verdict": "CLEAR",
+  "findings": [],
+  "scope": "Read-only independent review of four-binary64-neighbour completion representation bounds and preservation of actual native time, metadata and failure/child custody. No product or native execution.",
+  "inputs": {
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contactstate.c": "0865934416eca80f51c74441898dfc8537d80775ba98d89482092b87c8daf471",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/contact_state.py": "7279e9fa8132484a53f150a96b3452ad3a8ca16740b554f8621071167f3ee77b",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtest/app/test_contact_state_catalogue.py": "98187b186a37be98a3d8da759dc76bdd0b146d057f9fe528159103fa21203196",
+    "/Users/zukomgwili/src/FreeCAD/package/calculix/force-accounting/contract.json": "a4ffa0a65ca1dfeace930b1c6be7beed7ab6c41dea79bb4935458d691bd4a395",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/beam_contact_results.py": "a5cff8de9683ff743fef7aaff77969ad963e3fa570092c7d00939db175f9f39d",
+    "/Users/zukomgwili/src/FreeCAD/src/Mod/Fem/femtools/force_accounting.py": "64525df0d3e1282519973038937402b185b9fd2d2ca04cafb96bb5dd06efd325"
+  },
+  "verified": {
+    "native_requested_endpoint_finite_and_positive_validated_at_preparation": true,
+    "C_and_Python_use_exactly_four_nextafter_neighbors_each_side": true,
+    "native_emitted_time_remains_actual_value_no_snapping_or_rewriting": true,
+    "native_input_frame_positive_finite_time_and_increment_checks_remain": true,
+    "native_header_and_each_frame_completion_flags_share_same_bound": true,
+    "Python_requires_native_header_and_frame_flags_agree_with_bound": true,
+    "last_frame_must_be_explicitly_complete_and_within_same_bound": true,
+    "strict_increment_order_and_nondecreasing_actual_time_unchanged": true,
+    "owned_completed_child_and_binary_request_output_model_digest_custody_unchanged": true,
+    "unmarked_legacy_false_complete_flags_not_promoted": true,
+    "beam_contact_handoff_and_pair_frame_identity_still_use_actual_native_time": true,
+    "no_mechanical_array_or_acceptance_tolerance_modified": true,
+    "eight_protocol_tests_registered_in_existing_class_AST_valid": true,
+    "tests_cover_each_of_1through4_ULP_both_sides_and_refuse_5th_neighbor": true,
+    "tests_cover_incomplete_header_frame_and_5e_minus13_shortfall_refusal": true
+  },
+  "binary64_endpoint_one_boundary_values": {
+    "below": [
+      {
+        "neighbors": 1,
+        "actual": 0.9999999999999999,
+        "hex": "0x1.fffffffffffffp-1"
+      },
+      {
+        "neighbors": 2,
+        "actual": 0.9999999999999998,
+        "hex": "0x1.ffffffffffffep-1"
+      },
+      {
+        "neighbors": 3,
+        "actual": 0.9999999999999997,
+        "hex": "0x1.ffffffffffffdp-1"
+      },
+      {
+        "neighbors": 4,
+        "actual": 0.9999999999999996,
+        "hex": "0x1.ffffffffffffcp-1"
+      },
+      {
+        "neighbors": 5,
+        "actual": 0.9999999999999994,
+        "hex": "0x1.ffffffffffffbp-1"
+      }
+    ],
+    "above": [
+      {
+        "neighbors": 1,
+        "actual": 1.0000000000000002,
+        "hex": "0x1.0000000000001p+0"
+      },
+      {
+        "neighbors": 2,
+        "actual": 1.0000000000000004,
+        "hex": "0x1.0000000000002p+0"
+      },
+      {
+        "neighbors": 3,
+        "actual": 1.0000000000000007,
+        "hex": "0x1.0000000000003p+0"
+      },
+      {
+        "neighbors": 4,
+        "actual": 1.0000000000000009,
+        "hex": "0x1.0000000000004p+0"
+      },
+      {
+        "neighbors": 5,
+        "actual": 1.000000000000001,
+        "hex": "0x1.0000000000005p+0"
+      }
+    ]
+  },
+  "limitations": [
+    "Static source review only: no FreeCAD/OCC/CalculiX/compiler/GUI executed by reviewer.",
+    "Root must rerun actual native changing-catalogue full history with the freshly compiled endpoint candidate; prior failed native-r03 remains failed.",
+    "Protocol fixtures alone do not prove native mechanics, ownership custody or original-project engineering acceptance.",
+    "The separate original 1% equilibrium and 5% sensitivity duties remain unchanged."
+  ]
+}

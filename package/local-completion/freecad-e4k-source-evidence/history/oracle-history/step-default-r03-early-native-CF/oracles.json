@@ -1,0 +1,983 @@
+{
+  "issue": "FreeCAD-e4k",
+  "candidate_revision": "step-default-r03-early-native-CF",
+  "status": "Analytical candidate frozen before native candidate solve; not numerical qualification.",
+  "supersedes_candidate": "Unexecuted ramp-G candidate /private/tmp/freecad-e4k-oracles-848kfv2w/candidate-oracles.json SHA2567be971b0b20228c52feb1cceb3d01f8dee1103e5ae99d2ea5cd2c62c8477e1ce; retained unchanged. Selected implementation route is exposed native static-default STEP, no self-weight amplitude feature required.",
+  "derivation": "Exact Decimal free-body statics only. No FreeCAD, OCC, CalculiX or source-derived mechanics run by oracle author.",
+  "units": {
+    "length": "mm",
+    "force": "N",
+    "moment": "N mm",
+    "pressure": "MPa=N/mm^2",
+    "time": "s",
+    "density_authoring": "kg/m^3",
+    "acceleration_authoring": "m/s^2"
+  },
+  "geometry": {
+    "each_cube_side_mm": "100",
+    "all_x_bounds_mm": [
+      "-33",
+      "67"
+    ],
+    "all_y_bounds_mm": [
+      "-73",
+      "27"
+    ],
+    "all_xy_centroid_mm": [
+      "17",
+      "-23"
+    ],
+    "bottom_z_bounds_mm": [
+      "0",
+      "100"
+    ],
+    "lower_z_bounds_mm": [
+      "100",
+      "200"
+    ],
+    "upper_z_bounds_mm": [
+      "200",
+      "300"
+    ],
+    "each_real_CAD_volume_mm3": "1000000",
+    "contact_z_mm": "100",
+    "shared_cut_z_mm": "200",
+    "top_pressure_area_mm2": "10000",
+    "ownership": "Bottom/lower coincident contact faces retain separate original node and material owners; lower/upper actual conformal cut shares mesh nodes. All three real solid/material owners remain explicit."
+  },
+  "materials": {
+    "bottom": {
+      "density_kg_m3": "7900",
+      "volume_m3": "0.001",
+      "held_weight_N": "77.472535"
+    },
+    "lower": {
+      "density_kg_m3": "7800",
+      "volume_m3": "0.001",
+      "held_weight_N": "76.491870"
+    },
+    "upper": {
+      "density_kg_m3": "8000",
+      "volume_m3": "0.001",
+      "held_weight_N": "78.453200"
+    }
+  },
+  "gravity": {
+    "acceleration_m_s2": "9.80665",
+    "actual_native_acceleration_mm_s2": "9806.65",
+    "direction": [
+      "0",
+      "0",
+      "-1"
+    ],
+    "native_route": "Exposed static default AMPLITUDE=STEP; native density-based volumetric DLOAD GRAV reaches full G at first positive-time converged increment and remains held. No guessed face/nodal substitute and no hand deck edit.",
+    "per_selfweight_amplitude": "Not required or claimed."
+  },
+  "Q": {
+    "native_source": "Stock top-face pressure, reference0.001MPa on10000mm2 =10N downward",
+    "amplitude_time_s_factor": [
+      [
+        "0",
+        "0"
+      ],
+      [
+        "0.2",
+        "0"
+      ],
+      [
+        "0.4",
+        "1"
+      ],
+      [
+        "0.6",
+        "0"
+      ],
+      [
+        "0.8",
+        "-1"
+      ],
+      [
+        "1",
+        "0"
+      ]
+    ],
+    "history": "The identical complete absolute-time native Q amplitude remains authored in all five independent stock runs, even when the chosen static period ends before later points. STEP-default gravity must not change the explicitly amplitude-controlled Q history.",
+    "independent_source_variants": "Equivalent stock force amplitude may additionally be tested; do not assume force/pressure parity without execution."
+  },
+  "observation_plan": "Five fresh native runs from time0 ending at0.2,0.4,0.6,0.8,1s respectively. Each is one unsplit small-displacement static step with the full same Q amplitude. The final current observation of each run is checked independently. No multi-frame API, fabricated intermediate accounting frame or multistep contract is claimed. Retain actual converged native increments and case/time identities.",
+  "contact": {
+    "candidate_friction_coefficient": "0.3",
+    "source_domain": "Normal-only Q with nonzero friction. Local tangential state must be native, not inferred from zero displacement. Full sliding, prescribed opening and arbitrary tangential loading are not qualified by this candidate.",
+    "held_min_normal_resultant_N": "144.945070",
+    "contact_on_lower": "Upward; on bottom equal opposite. These are internal actions and cancel from whole-model external balance."
+  },
+  "support": "One explicitly selected ordinary native Fixed on the bottom exterior face z=0. NativeAccountingSupports selects this constraint. The physical support sums only its actual original-node prescribed translational residuals and original-position moments, includes actual bottom volumetric gravity, and is counted once. No RBE, RBE transfer, prescribed guide or hidden stabilization is used.",
+  "cuts": {
+    "lower": "Cut reference face z200; AccountingBody selects real lower solid only. Its LOAD is -Wlower, CONTACT +(Wlower+Wupper+Q), CUT -(Wupper+Q). No SPC/MPC on selected lower body.",
+    "upper": "Same real cut; AccountingBody selects upper solid only. Its LOAD is -(Wupper+Q), CONTACT zero and CUT +(Wupper+Q). No SPC/MPC on selected upper body.",
+    "overlap": "Bodies are disjoint volume selections sharing only the genuine conformal cut nodes. Do not select lower+upper as the cut body because that would internalize the measured interface.",
+    "source_binding": "Actual native names/IDs and cut/contact signs must be bound to the stock writer output and actual selected material-side body, not guessed from face ordinal."
+  },
+  "origin_moments": "All wrenches act on the named physical owner in original global axes. Every vertical action F=(0,0,Fz) has M_origin=(-23Fz,-17Fz,0) from r_c=(17,-23,z). Do not transport an already-origin moment a second time.",
+  "formulas": {
+    "held_support_Fz": "Wbottom+Wlower+Wupper+P(t)",
+    "held_contact_on_lower_Fz": "Wlower+Wupper+P(t)",
+    "held_cut_on_lower_Fz": "-(Wupper+P(t))",
+    "held_cut_on_upper_Fz": "Wupper+P(t)",
+    "all_gravity_material_LOADs": "Native volumetric consistent external RHS for the actual owned elements; not rho times guessed point loads in the test harness."
+  },
+  "frozen_acceptance": {
+    "individual_nonzero_component_relative_error_max": "0.01",
+    "component_rule": "For each independently nonzero target force/moment component, abs(observed-target)<=0.01*abs(target), evaluated for every physical action at every current endpoint. No averaging owners, frames or signs.",
+    "expected_zero_component_absolute_budgets": {
+      "force_N": "0.000001",
+      "moment_Nmm": "0.0001"
+    },
+    "closure_rule": "Every named physical material/pair/global balance must separately pass the listed per-component absolute closure budget. Z force and XY origin moments use1% of independently expected maximum action/support at that state; all expected-zero X/Y forces and Z moments use explicit zero budgets. Individual action comparisons remain mandatory, so cancellation cannot conceal wrong actions.",
+    "state_repetition": "G-only endpoint.2 and unload endpoints.6/1 all have identical load references; numerical equality within the same declared budgets does not assert identical local friction/displacement history.",
+    "no_fit": "Do not change any frozen geometry, source, density, gravity, amplitude or limit from a solved discrepancy. A rejected candidate/harness issue remains explicitly nonqualifying and needs a recorded independent amendment before execution."
+  },
+  "frames": [
+    {
+      "static_period_s": "0.2",
+      "gravity_factor": "1",
+      "pressure_amplitude_factor": "0",
+      "Q_downward_N": "0",
+      "expected_wrenches_N_Nmm": {
+        "SUPPORT/bottom_physical_support": [
+          "0",
+          "0",
+          "232.417605",
+          "-5345.604915",
+          "-3951.099285",
+          "0"
+        ],
+        "LOAD/bottom": [
+          "0",
+          "0",
+          "-77.472535",
+          "1781.868305",
+          "1317.033095",
+          "0"
+        ],
+        "CONTACT/bottom": [
+          "0",
+          "0",
+          "-154.945070",
+          "3563.736610",
+          "2634.066190",
+          "0"
+        ],
+        "LOAD/lower": [
+          "0",
+          "0",
+          "-76.491870",
+          "1759.313010",
+          "1300.361790",
+          "0"
+        ],
+        "CONTACT/lower": [
+          "0",
+          "0",
+          "154.945070",
+          "-3563.736610",
+          "-2634.066190",
+          "0"
+        ],
+        "CUT/lower": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "LOAD/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "CONTACT/upper": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "CUT/upper": [
+          "0",
+          "0",
+          "78.453200",
+          "-1804.423600",
+          "-1333.704400",
+          "0"
+        ],
+        "GRAVITY/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "Q/upper_top": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "GLOBAL/applied": [
+          "0",
+          "0",
+          "-232.417605",
+          "5345.604915",
+          "3951.099285",
+          "0"
+        ],
+        "GLOBAL/support": [
+          "0",
+          "0",
+          "232.417605",
+          "-5345.604915",
+          "-3951.099285",
+          "0"
+        ],
+        "GLOBAL/external_closure": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ]
+      },
+      "exact_zero_sum_channels": {
+        "bottom": [
+          "SUPPORT/bottom_physical_support",
+          "LOAD/bottom",
+          "CONTACT/bottom"
+        ],
+        "lower": [
+          "LOAD/lower",
+          "CONTACT/lower",
+          "CUT/lower"
+        ],
+        "upper": [
+          "LOAD/upper",
+          "CONTACT/upper",
+          "CUT/upper"
+        ],
+        "global_external": [
+          "GLOBAL/applied",
+          "GLOBAL/support"
+        ],
+        "paired_contact": [
+          "CONTACT/bottom",
+          "CONTACT/lower"
+        ],
+        "paired_cut": [
+          "CUT/lower",
+          "CUT/upper"
+        ]
+      },
+      "closure_absolute_budgets_per_component_N_Nmm": [
+        "0.000001",
+        "0.000001",
+        "2.32417605",
+        "53.45604915",
+        "39.51099285",
+        "0.0001"
+      ]
+    },
+    {
+      "static_period_s": "0.4",
+      "gravity_factor": "1",
+      "pressure_amplitude_factor": "1",
+      "Q_downward_N": "10",
+      "expected_wrenches_N_Nmm": {
+        "SUPPORT/bottom_physical_support": [
+          "0",
+          "0",
+          "242.417605",
+          "-5575.604915",
+          "-4121.099285",
+          "0"
+        ],
+        "LOAD/bottom": [
+          "0",
+          "0",
+          "-77.472535",
+          "1781.868305",
+          "1317.033095",
+          "0"
+        ],
+        "CONTACT/bottom": [
+          "0",
+          "0",
+          "-164.945070",
+          "3793.736610",
+          "2804.066190",
+          "0"
+        ],
+        "LOAD/lower": [
+          "0",
+          "0",
+          "-76.491870",
+          "1759.313010",
+          "1300.361790",
+          "0"
+        ],
+        "CONTACT/lower": [
+          "0",
+          "0",
+          "164.945070",
+          "-3793.736610",
+          "-2804.066190",
+          "0"
+        ],
+        "CUT/lower": [
+          "0",
+          "0",
+          "-88.453200",
+          "2034.423600",
+          "1503.704400",
+          "0"
+        ],
+        "LOAD/upper": [
+          "0",
+          "0",
+          "-88.453200",
+          "2034.423600",
+          "1503.704400",
+          "0"
+        ],
+        "CONTACT/upper": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "CUT/upper": [
+          "0",
+          "0",
+          "88.453200",
+          "-2034.423600",
+          "-1503.704400",
+          "0"
+        ],
+        "GRAVITY/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "Q/upper_top": [
+          "0",
+          "0",
+          "-10",
+          "230",
+          "170",
+          "0"
+        ],
+        "GLOBAL/applied": [
+          "0",
+          "0",
+          "-242.417605",
+          "5575.604915",
+          "4121.099285",
+          "0"
+        ],
+        "GLOBAL/support": [
+          "0",
+          "0",
+          "242.417605",
+          "-5575.604915",
+          "-4121.099285",
+          "0"
+        ],
+        "GLOBAL/external_closure": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ]
+      },
+      "exact_zero_sum_channels": {
+        "bottom": [
+          "SUPPORT/bottom_physical_support",
+          "LOAD/bottom",
+          "CONTACT/bottom"
+        ],
+        "lower": [
+          "LOAD/lower",
+          "CONTACT/lower",
+          "CUT/lower"
+        ],
+        "upper": [
+          "LOAD/upper",
+          "CONTACT/upper",
+          "CUT/upper"
+        ],
+        "global_external": [
+          "GLOBAL/applied",
+          "GLOBAL/support"
+        ],
+        "paired_contact": [
+          "CONTACT/bottom",
+          "CONTACT/lower"
+        ],
+        "paired_cut": [
+          "CUT/lower",
+          "CUT/upper"
+        ]
+      },
+      "closure_absolute_budgets_per_component_N_Nmm": [
+        "0.000001",
+        "0.000001",
+        "2.42417605",
+        "55.75604915",
+        "41.21099285",
+        "0.0001"
+      ]
+    },
+    {
+      "static_period_s": "0.6",
+      "gravity_factor": "1",
+      "pressure_amplitude_factor": "0",
+      "Q_downward_N": "0",
+      "expected_wrenches_N_Nmm": {
+        "SUPPORT/bottom_physical_support": [
+          "0",
+          "0",
+          "232.417605",
+          "-5345.604915",
+          "-3951.099285",
+          "0"
+        ],
+        "LOAD/bottom": [
+          "0",
+          "0",
+          "-77.472535",
+          "1781.868305",
+          "1317.033095",
+          "0"
+        ],
+        "CONTACT/bottom": [
+          "0",
+          "0",
+          "-154.945070",
+          "3563.736610",
+          "2634.066190",
+          "0"
+        ],
+        "LOAD/lower": [
+          "0",
+          "0",
+          "-76.491870",
+          "1759.313010",
+          "1300.361790",
+          "0"
+        ],
+        "CONTACT/lower": [
+          "0",
+          "0",
+          "154.945070",
+          "-3563.736610",
+          "-2634.066190",
+          "0"
+        ],
+        "CUT/lower": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "LOAD/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "CONTACT/upper": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "CUT/upper": [
+          "0",
+          "0",
+          "78.453200",
+          "-1804.423600",
+          "-1333.704400",
+          "0"
+        ],
+        "GRAVITY/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "Q/upper_top": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "GLOBAL/applied": [
+          "0",
+          "0",
+          "-232.417605",
+          "5345.604915",
+          "3951.099285",
+          "0"
+        ],
+        "GLOBAL/support": [
+          "0",
+          "0",
+          "232.417605",
+          "-5345.604915",
+          "-3951.099285",
+          "0"
+        ],
+        "GLOBAL/external_closure": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ]
+      },
+      "exact_zero_sum_channels": {
+        "bottom": [
+          "SUPPORT/bottom_physical_support",
+          "LOAD/bottom",
+          "CONTACT/bottom"
+        ],
+        "lower": [
+          "LOAD/lower",
+          "CONTACT/lower",
+          "CUT/lower"
+        ],
+        "upper": [
+          "LOAD/upper",
+          "CONTACT/upper",
+          "CUT/upper"
+        ],
+        "global_external": [
+          "GLOBAL/applied",
+          "GLOBAL/support"
+        ],
+        "paired_contact": [
+          "CONTACT/bottom",
+          "CONTACT/lower"
+        ],
+        "paired_cut": [
+          "CUT/lower",
+          "CUT/upper"
+        ]
+      },
+      "closure_absolute_budgets_per_component_N_Nmm": [
+        "0.000001",
+        "0.000001",
+        "2.32417605",
+        "53.45604915",
+        "39.51099285",
+        "0.0001"
+      ]
+    },
+    {
+      "static_period_s": "0.8",
+      "gravity_factor": "1",
+      "pressure_amplitude_factor": "-1",
+      "Q_downward_N": "-10",
+      "expected_wrenches_N_Nmm": {
+        "SUPPORT/bottom_physical_support": [
+          "0",
+          "0",
+          "222.417605",
+          "-5115.604915",
+          "-3781.099285",
+          "0"
+        ],
+        "LOAD/bottom": [
+          "0",
+          "0",
+          "-77.472535",
+          "1781.868305",
+          "1317.033095",
+          "0"
+        ],
+        "CONTACT/bottom": [
+          "0",
+          "0",
+          "-144.945070",
+          "3333.736610",
+          "2464.066190",
+          "0"
+        ],
+        "LOAD/lower": [
+          "0",
+          "0",
+          "-76.491870",
+          "1759.313010",
+          "1300.361790",
+          "0"
+        ],
+        "CONTACT/lower": [
+          "0",
+          "0",
+          "144.945070",
+          "-3333.736610",
+          "-2464.066190",
+          "0"
+        ],
+        "CUT/lower": [
+          "0",
+          "0",
+          "-68.453200",
+          "1574.423600",
+          "1163.704400",
+          "0"
+        ],
+        "LOAD/upper": [
+          "0",
+          "0",
+          "-68.453200",
+          "1574.423600",
+          "1163.704400",
+          "0"
+        ],
+        "CONTACT/upper": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "CUT/upper": [
+          "0",
+          "0",
+          "68.453200",
+          "-1574.423600",
+          "-1163.704400",
+          "0"
+        ],
+        "GRAVITY/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "Q/upper_top": [
+          "0",
+          "0",
+          "10",
+          "-230",
+          "-170",
+          "0"
+        ],
+        "GLOBAL/applied": [
+          "0",
+          "0",
+          "-222.417605",
+          "5115.604915",
+          "3781.099285",
+          "0"
+        ],
+        "GLOBAL/support": [
+          "0",
+          "0",
+          "222.417605",
+          "-5115.604915",
+          "-3781.099285",
+          "0"
+        ],
+        "GLOBAL/external_closure": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ]
+      },
+      "exact_zero_sum_channels": {
+        "bottom": [
+          "SUPPORT/bottom_physical_support",
+          "LOAD/bottom",
+          "CONTACT/bottom"
+        ],
+        "lower": [
+          "LOAD/lower",
+          "CONTACT/lower",
+          "CUT/lower"
+        ],
+        "upper": [
+          "LOAD/upper",
+          "CONTACT/upper",
+          "CUT/upper"
+        ],
+        "global_external": [
+          "GLOBAL/applied",
+          "GLOBAL/support"
+        ],
+        "paired_contact": [
+          "CONTACT/bottom",
+          "CONTACT/lower"
+        ],
+        "paired_cut": [
+          "CUT/lower",
+          "CUT/upper"
+        ]
+      },
+      "closure_absolute_budgets_per_component_N_Nmm": [
+        "0.000001",
+        "0.000001",
+        "2.22417605",
+        "51.15604915",
+        "37.81099285",
+        "0.0001"
+      ]
+    },
+    {
+      "static_period_s": "1.0",
+      "gravity_factor": "1",
+      "pressure_amplitude_factor": "0",
+      "Q_downward_N": "0",
+      "expected_wrenches_N_Nmm": {
+        "SUPPORT/bottom_physical_support": [
+          "0",
+          "0",
+          "232.417605",
+          "-5345.604915",
+          "-3951.099285",
+          "0"
+        ],
+        "LOAD/bottom": [
+          "0",
+          "0",
+          "-77.472535",
+          "1781.868305",
+          "1317.033095",
+          "0"
+        ],
+        "CONTACT/bottom": [
+          "0",
+          "0",
+          "-154.945070",
+          "3563.736610",
+          "2634.066190",
+          "0"
+        ],
+        "LOAD/lower": [
+          "0",
+          "0",
+          "-76.491870",
+          "1759.313010",
+          "1300.361790",
+          "0"
+        ],
+        "CONTACT/lower": [
+          "0",
+          "0",
+          "154.945070",
+          "-3563.736610",
+          "-2634.066190",
+          "0"
+        ],
+        "CUT/lower": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "LOAD/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "CONTACT/upper": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "CUT/upper": [
+          "0",
+          "0",
+          "78.453200",
+          "-1804.423600",
+          "-1333.704400",
+          "0"
+        ],
+        "GRAVITY/upper": [
+          "0",
+          "0",
+          "-78.453200",
+          "1804.423600",
+          "1333.704400",
+          "0"
+        ],
+        "Q/upper_top": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ],
+        "GLOBAL/applied": [
+          "0",
+          "0",
+          "-232.417605",
+          "5345.604915",
+          "3951.099285",
+          "0"
+        ],
+        "GLOBAL/support": [
+          "0",
+          "0",
+          "232.417605",
+          "-5345.604915",
+          "-3951.099285",
+          "0"
+        ],
+        "GLOBAL/external_closure": [
+          "0",
+          "0",
+          "0",
+          "-0",
+          "-0",
+          "0"
+        ]
+      },
+      "exact_zero_sum_channels": {
+        "bottom": [
+          "SUPPORT/bottom_physical_support",
+          "LOAD/bottom",
+          "CONTACT/bottom"
+        ],
+        "lower": [
+          "LOAD/lower",
+          "CONTACT/lower",
+          "CUT/lower"
+        ],
+        "upper": [
+          "LOAD/upper",
+          "CONTACT/upper",
+          "CUT/upper"
+        ],
+        "global_external": [
+          "GLOBAL/applied",
+          "GLOBAL/support"
+        ],
+        "paired_contact": [
+          "CONTACT/bottom",
+          "CONTACT/lower"
+        ],
+        "paired_cut": [
+          "CUT/lower",
+          "CUT/upper"
+        ]
+      },
+      "closure_absolute_budgets_per_component_N_Nmm": [
+        "0.000001",
+        "0.000001",
+        "2.32417605",
+        "53.45604915",
+        "39.51099285",
+        "0.0001"
+      ]
+    }
+  ],
+  "history_and_negatives": [
+    "Default unamplified old behavior remains RAMP unless user selects Step; native default deck and final gravity behavior are compared.",
+    "Unsupported or missing requested amplitude, malformed/non-finite data or invalid native history must fail closed before publishing Current; an unset amplitude remains valid default behavior.",
+    "Static period/amplitude times must retain absolute native history, not be silently rescaled to each target endpoint. Preserve input time units, densities, material owners and gravity units.",
+    "Edits to density/gravity, static-default mode/period, amplitude source/history, loads, contact, cut or support withdraw Current. Restoring old values does not revive an old observation.",
+    "Missing/modified native inputs/request/output/executable, failed/cancelled/superseded runs withdraw Current while preserving saved literals.",
+    "Separate-process cold reopen preserves exact saved controls, material ownership, amplitude identity/history and observation data/hashes. It must remain Historical/Stale, without auto-solving, source repair, rebinding or Current promotion.",
+    "Retain actual stock writer deck (single static STEP, DENSITY and actual GRAV on actual elements, default Step and explicit Q amplitude); never manually edit the executed deck."
+  ],
+  "scope": "Synthetic software/output method only. No Oomakhi model opened, remeshed, solved or changed; original1% equilibrium and5% sensitivity duties unchanged and not claimed complete.",
+  "amendment_history": [
+    "Before any candidate solve, use the ordinary native Fixed bottom exterior z0 face rather than an all-zero RBE. V3 explicitly supports selected zero ordinary translational supports outside cut bodies. Geometry, sources, densities, gravity, amplitudes, signs, physical reference wrenches and all numerical limits unchanged. Prior r01 archived byte-identically under oracle-history/step-default-r01-rbe.",
+    "Before a native candidate solve, independently freeze ancillary early native integrated CF evidence in the full1s history to distinguish held STEP gravity from default RAMP. The preceding candidate attempt failed in generated-SPC amplitude validation before solver launch and provided no numerical result. Actual static-default feature admission is handled separately. No geometry, load, material, source/amplitude history, current accounting reference, equilibrium1% or project sensitivity5% limit changes."
+  ],
+  "early_native_contact_history": {
+    "purpose": "Discriminate actual held full G before Q in the longer1s run; final-only truncated endpoint runs by themselves cannot distinguish default RAMP because each reaches full G at its own endpoint.",
+    "mechanism": "Use the actual stock writer CONTACT PRINT CF pair total from the same successful owned native child DAT. The native solver already integrated these physical contact forces. No Python stress recovery, nodal-force substitute, sample-area aggregation, deck edit or new intermediate ForceAccounting API.",
+    "pair_identity": "Bind exact actual slave/master set names to the authored GravityContact stock writer. Reject missing/duplicate/ambiguous requested-time blocks rather than collapsing them in a keyed dictionary.",
+    "statics": "At Q=0 the contact normal force magnitude is aG(t)*(Wlower+Wupper). Wlower+Wupper=154.945070N. STEP has aG=1 at both.1/.2; for unchanged default RAMP in a1s first step aG=t/1s.",
+    "full_1s_STEP_expected": [
+      {
+        "time_s": "0.1",
+        "gravity_factor": "1",
+        "Q_N": "0",
+        "native_CF_force_magnitude_N": "154.945070",
+        "absolute_1percent_budget_N": "1.54945070"
+      },
+      {
+        "time_s": "0.2",
+        "gravity_factor": "1",
+        "Q_N": "0",
+        "native_CF_force_magnitude_N": "154.945070",
+        "absolute_1percent_budget_N": "1.54945070"
+      }
+    ],
+    "full_1s_default_RAMP_ancillary_expected": [
+      {
+        "time_s": "0.1",
+        "gravity_factor": "0.1",
+        "Q_N": "0",
+        "native_CF_force_magnitude_N": "15.4945070",
+        "absolute_1percent_budget_N": "0.154945070"
+      },
+      {
+        "time_s": "0.2",
+        "gravity_factor": "0.2",
+        "Q_N": "0",
+        "native_CF_force_magnitude_N": "30.9890140",
+        "absolute_1percent_budget_N": "0.309890140"
+      }
+    ],
+    "native_contact_state": "At each exact same retained time of the same child, require one unambiguous contact diagnostic frame and nonempty actual active native samples with positive pressure and actual STICK state. State is not inferred from force/motion. Preserve native step/increment/time and source/case provenance.",
+    "moment_scope": "Retain native CF total moment literals only as their actual legacy deformed-slave-position output. Do not compare, relabel or substitute them for the separately qualified original-reference-global-origin force-accounting moments.",
+    "acceptance": "Each scalar CF magnitude is compared to its independently declared nonzero target with <=1% relative error, without scaling to observed values. Existing current material/cut/support/global action and original-origin-moment checks and zero budgets remain mandatory and unchanged.",
+    "control_scope": "Default RAMP numerical comparison is an ancillary old-default compatibility/history control, not the proposed staged-G workflow. Its full1s final Q0/G1 state has the same final current wrench references as STEP, illustrating why early history evidence is required."
+  }
+}
